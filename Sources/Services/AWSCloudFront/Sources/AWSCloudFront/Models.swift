@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestXMLError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestXMLError
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -22163,7 +22163,7 @@ enum AssociateAliasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22181,7 +22181,7 @@ enum AssociateDistributionTenantWebACLOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22200,7 +22200,7 @@ enum AssociateDistributionWebACLOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22219,7 +22219,7 @@ enum CopyDistributionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22296,7 +22296,7 @@ enum CreateAnycastIpListOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22315,7 +22315,7 @@ enum CreateCachePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22336,7 +22336,7 @@ enum CreateCloudFrontOriginAccessIdentityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudFrontOriginAccessIdentityAlreadyExists": return try CloudFrontOriginAccessIdentityAlreadyExists.makeError(baseError: baseError)
@@ -22354,7 +22354,7 @@ enum CreateConnectionFunctionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22374,7 +22374,7 @@ enum CreateConnectionGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22393,7 +22393,7 @@ enum CreateContinuousDeploymentPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22412,7 +22412,7 @@ enum CreateDistributionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22492,7 +22492,7 @@ enum CreateDistributionTenantOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22513,7 +22513,7 @@ enum CreateDistributionWithTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22593,7 +22593,7 @@ enum CreateFieldLevelEncryptionConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FieldLevelEncryptionConfigAlreadyExists": return try FieldLevelEncryptionConfigAlreadyExists.makeError(baseError: baseError)
@@ -22614,7 +22614,7 @@ enum CreateFieldLevelEncryptionProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FieldLevelEncryptionProfileAlreadyExists": return try FieldLevelEncryptionProfileAlreadyExists.makeError(baseError: baseError)
@@ -22635,7 +22635,7 @@ enum CreateFunctionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FunctionAlreadyExists": return try FunctionAlreadyExists.makeError(baseError: baseError)
@@ -22653,7 +22653,7 @@ enum CreateInvalidationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22673,7 +22673,7 @@ enum CreateInvalidationForDistributionTenantOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22693,7 +22693,7 @@ enum CreateKeyGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
@@ -22710,7 +22710,7 @@ enum CreateKeyValueStoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22729,7 +22729,7 @@ enum CreateMonitoringSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22746,7 +22746,7 @@ enum CreateOriginAccessControlOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
@@ -22762,7 +22762,7 @@ enum CreateOriginRequestPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22783,7 +22783,7 @@ enum CreatePublicKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
@@ -22799,7 +22799,7 @@ enum CreateRealtimeLogConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22816,7 +22816,7 @@ enum CreateResponseHeadersPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22837,7 +22837,7 @@ enum CreateStreamingDistributionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22863,7 +22863,7 @@ enum CreateStreamingDistributionWithTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22890,7 +22890,7 @@ enum CreateTrustStoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22909,7 +22909,7 @@ enum CreateVpcOriginOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22929,7 +22929,7 @@ enum DeleteAnycastIpListOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22950,7 +22950,7 @@ enum DeleteCachePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22969,7 +22969,7 @@ enum DeleteCloudFrontOriginAccessIdentityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -22987,7 +22987,7 @@ enum DeleteConnectionFunctionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23007,7 +23007,7 @@ enum DeleteConnectionGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23026,7 +23026,7 @@ enum DeleteContinuousDeploymentPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23045,7 +23045,7 @@ enum DeleteDistributionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23064,7 +23064,7 @@ enum DeleteDistributionTenantOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23082,7 +23082,7 @@ enum DeleteFieldLevelEncryptionConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23100,7 +23100,7 @@ enum DeleteFieldLevelEncryptionProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23118,7 +23118,7 @@ enum DeleteFunctionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FunctionInUse": return try FunctionInUse.makeError(baseError: baseError)
@@ -23136,7 +23136,7 @@ enum DeleteKeyGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
@@ -23153,7 +23153,7 @@ enum DeleteKeyValueStoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23172,7 +23172,7 @@ enum DeleteMonitoringSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23189,7 +23189,7 @@ enum DeleteOriginAccessControlOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23207,7 +23207,7 @@ enum DeleteOriginRequestPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23226,7 +23226,7 @@ enum DeletePublicKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23244,7 +23244,7 @@ enum DeleteRealtimeLogConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23261,7 +23261,7 @@ enum DeleteResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23280,7 +23280,7 @@ enum DeleteResponseHeadersPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23299,7 +23299,7 @@ enum DeleteStreamingDistributionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23317,7 +23317,7 @@ enum DeleteTrustStoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23336,7 +23336,7 @@ enum DeleteVpcOriginOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23357,7 +23357,7 @@ enum DescribeConnectionFunctionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23374,7 +23374,7 @@ enum DescribeFunctionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchFunctionExists": return try NoSuchFunctionExists.makeError(baseError: baseError)
@@ -23389,7 +23389,7 @@ enum DescribeKeyValueStoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23406,7 +23406,7 @@ enum DisassociateDistributionTenantWebACLOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23424,7 +23424,7 @@ enum DisassociateDistributionWebACLOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23442,7 +23442,7 @@ enum GetAnycastIpListOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23459,7 +23459,7 @@ enum GetCachePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23474,7 +23474,7 @@ enum GetCachePolicyConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23489,7 +23489,7 @@ enum GetCloudFrontOriginAccessIdentityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23504,7 +23504,7 @@ enum GetCloudFrontOriginAccessIdentityConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23519,7 +23519,7 @@ enum GetConnectionFunctionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23535,7 +23535,7 @@ enum GetConnectionGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23550,7 +23550,7 @@ enum GetConnectionGroupByRoutingEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23565,7 +23565,7 @@ enum GetContinuousDeploymentPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23580,7 +23580,7 @@ enum GetContinuousDeploymentPolicyConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23595,7 +23595,7 @@ enum GetDistributionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23610,7 +23610,7 @@ enum GetDistributionConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23625,7 +23625,7 @@ enum GetDistributionTenantOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23640,7 +23640,7 @@ enum GetDistributionTenantByDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23655,7 +23655,7 @@ enum GetFieldLevelEncryptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23670,7 +23670,7 @@ enum GetFieldLevelEncryptionConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23685,7 +23685,7 @@ enum GetFieldLevelEncryptionProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23700,7 +23700,7 @@ enum GetFieldLevelEncryptionProfileConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23715,7 +23715,7 @@ enum GetFunctionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchFunctionExists": return try NoSuchFunctionExists.makeError(baseError: baseError)
@@ -23730,7 +23730,7 @@ enum GetInvalidationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23746,7 +23746,7 @@ enum GetInvalidationForDistributionTenantOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23762,7 +23762,7 @@ enum GetKeyGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchResource": return try NoSuchResource.makeError(baseError: baseError)
@@ -23776,7 +23776,7 @@ enum GetKeyGroupConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchResource": return try NoSuchResource.makeError(baseError: baseError)
@@ -23790,7 +23790,7 @@ enum GetManagedCertificateDetailsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23805,7 +23805,7 @@ enum GetMonitoringSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23822,7 +23822,7 @@ enum GetOriginAccessControlOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23837,7 +23837,7 @@ enum GetOriginAccessControlConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23852,7 +23852,7 @@ enum GetOriginRequestPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23867,7 +23867,7 @@ enum GetOriginRequestPolicyConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23882,7 +23882,7 @@ enum GetPublicKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23897,7 +23897,7 @@ enum GetPublicKeyConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23912,7 +23912,7 @@ enum GetRealtimeLogConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23928,7 +23928,7 @@ enum GetResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23945,7 +23945,7 @@ enum GetResponseHeadersPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23960,7 +23960,7 @@ enum GetResponseHeadersPolicyConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23975,7 +23975,7 @@ enum GetStreamingDistributionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -23990,7 +23990,7 @@ enum GetStreamingDistributionConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24005,7 +24005,7 @@ enum GetTrustStoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24021,7 +24021,7 @@ enum GetVpcOriginOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24038,7 +24038,7 @@ enum ListAnycastIpListsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24055,7 +24055,7 @@ enum ListCachePoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24071,7 +24071,7 @@ enum ListCloudFrontOriginAccessIdentitiesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
@@ -24085,7 +24085,7 @@ enum ListConflictingAliasesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
@@ -24100,7 +24100,7 @@ enum ListConnectionFunctionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24116,7 +24116,7 @@ enum ListConnectionGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24132,7 +24132,7 @@ enum ListContinuousDeploymentPoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24148,7 +24148,7 @@ enum ListDistributionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
@@ -24162,7 +24162,7 @@ enum ListDistributionsByAnycastIpListIdOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24179,7 +24179,7 @@ enum ListDistributionsByCachePolicyIdOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24195,7 +24195,7 @@ enum ListDistributionsByConnectionFunctionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24211,7 +24211,7 @@ enum ListDistributionsByConnectionModeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24226,7 +24226,7 @@ enum ListDistributionsByKeyGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
@@ -24241,7 +24241,7 @@ enum ListDistributionsByOriginRequestPolicyIdOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24257,7 +24257,7 @@ enum ListDistributionsByOwnedResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24274,7 +24274,7 @@ enum ListDistributionsByRealtimeLogConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
@@ -24288,7 +24288,7 @@ enum ListDistributionsByResponseHeadersPolicyIdOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24304,7 +24304,7 @@ enum ListDistributionsByTrustStoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24320,7 +24320,7 @@ enum ListDistributionsByVpcOriginIdOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24337,7 +24337,7 @@ enum ListDistributionsByWebACLIdOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
@@ -24352,7 +24352,7 @@ enum ListDistributionTenantsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24368,7 +24368,7 @@ enum ListDistributionTenantsByCustomizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24384,7 +24384,7 @@ enum ListDomainConflictsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24400,7 +24400,7 @@ enum ListFieldLevelEncryptionConfigsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
@@ -24414,7 +24414,7 @@ enum ListFieldLevelEncryptionProfilesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
@@ -24428,7 +24428,7 @@ enum ListFunctionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
@@ -24443,7 +24443,7 @@ enum ListInvalidationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24459,7 +24459,7 @@ enum ListInvalidationsForDistributionTenantOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24475,7 +24475,7 @@ enum ListKeyGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
@@ -24489,7 +24489,7 @@ enum ListKeyValueStoresOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24505,7 +24505,7 @@ enum ListOriginAccessControlsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
@@ -24519,7 +24519,7 @@ enum ListOriginRequestPoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24535,7 +24535,7 @@ enum ListPublicKeysOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
@@ -24549,7 +24549,7 @@ enum ListRealtimeLogConfigsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24565,7 +24565,7 @@ enum ListResponseHeadersPoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24581,7 +24581,7 @@ enum ListStreamingDistributionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
@@ -24595,7 +24595,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24612,7 +24612,7 @@ enum ListTrustStoresOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24628,7 +24628,7 @@ enum ListVpcOriginsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24645,7 +24645,7 @@ enum PublishConnectionFunctionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24664,7 +24664,7 @@ enum PublishFunctionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
@@ -24682,7 +24682,7 @@ enum PutResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24701,7 +24701,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24718,7 +24718,7 @@ enum TestConnectionFunctionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
@@ -24737,7 +24737,7 @@ enum TestFunctionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
@@ -24755,7 +24755,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24772,7 +24772,7 @@ enum UpdateAnycastIpListOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24791,7 +24791,7 @@ enum UpdateCachePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24815,7 +24815,7 @@ enum UpdateCloudFrontOriginAccessIdentityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24836,7 +24836,7 @@ enum UpdateConnectionFunctionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24856,7 +24856,7 @@ enum UpdateConnectionGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24877,7 +24877,7 @@ enum UpdateContinuousDeploymentPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24897,7 +24897,7 @@ enum UpdateDistributionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24977,7 +24977,7 @@ enum UpdateDistributionTenantOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -24999,7 +24999,7 @@ enum UpdateDistributionWithStagingConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -25075,7 +25075,7 @@ enum UpdateDomainAssociationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -25094,7 +25094,7 @@ enum UpdateFieldLevelEncryptionConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -25118,7 +25118,7 @@ enum UpdateFieldLevelEncryptionProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -25143,7 +25143,7 @@ enum UpdateFunctionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FunctionSizeLimitExceeded": return try FunctionSizeLimitExceeded.makeError(baseError: baseError)
@@ -25162,7 +25162,7 @@ enum UpdateKeyGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
@@ -25181,7 +25181,7 @@ enum UpdateKeyValueStoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -25200,7 +25200,7 @@ enum UpdateOriginAccessControlOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -25220,7 +25220,7 @@ enum UpdateOriginRequestPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -25244,7 +25244,7 @@ enum UpdatePublicKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -25264,7 +25264,7 @@ enum UpdateRealtimeLogConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -25280,7 +25280,7 @@ enum UpdateResponseHeadersPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -25304,7 +25304,7 @@ enum UpdateStreamingDistributionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -25331,7 +25331,7 @@ enum UpdateTrustStoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -25349,7 +25349,7 @@ enum UpdateVpcOriginOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -25373,7 +25373,7 @@ enum VerifyDnsConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
@@ -25386,7 +25386,7 @@ enum VerifyDnsConfigurationOutputError {
 
 extension AccessDenied {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> AccessDenied {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> AccessDenied {
         let reader = baseError.errorBodyReader
         var value = AccessDenied()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25399,7 +25399,7 @@ extension AccessDenied {
 
 extension IllegalUpdate {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> IllegalUpdate {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> IllegalUpdate {
         let reader = baseError.errorBodyReader
         var value = IllegalUpdate()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25412,7 +25412,7 @@ extension IllegalUpdate {
 
 extension InvalidArgument {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidArgument {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidArgument {
         let reader = baseError.errorBodyReader
         var value = InvalidArgument()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25425,7 +25425,7 @@ extension InvalidArgument {
 
 extension NoSuchDistribution {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchDistribution {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchDistribution {
         let reader = baseError.errorBodyReader
         var value = NoSuchDistribution()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25438,7 +25438,7 @@ extension NoSuchDistribution {
 
 extension TooManyDistributionCNAMEs {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionCNAMEs {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyDistributionCNAMEs {
         let reader = baseError.errorBodyReader
         var value = TooManyDistributionCNAMEs()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25451,7 +25451,7 @@ extension TooManyDistributionCNAMEs {
 
 extension EntityLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityLimitExceeded {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> EntityLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = EntityLimitExceeded()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25464,7 +25464,7 @@ extension EntityLimitExceeded {
 
 extension EntityNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityNotFound {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> EntityNotFound {
         let reader = baseError.errorBodyReader
         var value = EntityNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25477,7 +25477,7 @@ extension EntityNotFound {
 
 extension InvalidIfMatchVersion {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidIfMatchVersion {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidIfMatchVersion {
         let reader = baseError.errorBodyReader
         var value = InvalidIfMatchVersion()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25490,7 +25490,7 @@ extension InvalidIfMatchVersion {
 
 extension PreconditionFailed {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> PreconditionFailed {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> PreconditionFailed {
         let reader = baseError.errorBodyReader
         var value = PreconditionFailed()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25503,7 +25503,7 @@ extension PreconditionFailed {
 
 extension CNAMEAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CNAMEAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> CNAMEAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = CNAMEAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25516,7 +25516,7 @@ extension CNAMEAlreadyExists {
 
 extension DistributionAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DistributionAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> DistributionAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = DistributionAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25529,7 +25529,7 @@ extension DistributionAlreadyExists {
 
 extension IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior {
         let reader = baseError.errorBodyReader
         var value = IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25542,7 +25542,7 @@ extension IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior {
 
 extension InconsistentQuantities {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InconsistentQuantities {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InconsistentQuantities {
         let reader = baseError.errorBodyReader
         var value = InconsistentQuantities()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25555,7 +25555,7 @@ extension InconsistentQuantities {
 
 extension InvalidDefaultRootObject {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidDefaultRootObject {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidDefaultRootObject {
         let reader = baseError.errorBodyReader
         var value = InvalidDefaultRootObject()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25568,7 +25568,7 @@ extension InvalidDefaultRootObject {
 
 extension InvalidErrorCode {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidErrorCode {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidErrorCode {
         let reader = baseError.errorBodyReader
         var value = InvalidErrorCode()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25581,7 +25581,7 @@ extension InvalidErrorCode {
 
 extension InvalidForwardCookies {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidForwardCookies {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidForwardCookies {
         let reader = baseError.errorBodyReader
         var value = InvalidForwardCookies()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25594,7 +25594,7 @@ extension InvalidForwardCookies {
 
 extension InvalidFunctionAssociation {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidFunctionAssociation {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidFunctionAssociation {
         let reader = baseError.errorBodyReader
         var value = InvalidFunctionAssociation()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25607,7 +25607,7 @@ extension InvalidFunctionAssociation {
 
 extension InvalidGeoRestrictionParameter {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidGeoRestrictionParameter {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidGeoRestrictionParameter {
         let reader = baseError.errorBodyReader
         var value = InvalidGeoRestrictionParameter()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25620,7 +25620,7 @@ extension InvalidGeoRestrictionParameter {
 
 extension InvalidHeadersForS3Origin {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidHeadersForS3Origin {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidHeadersForS3Origin {
         let reader = baseError.errorBodyReader
         var value = InvalidHeadersForS3Origin()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25633,7 +25633,7 @@ extension InvalidHeadersForS3Origin {
 
 extension InvalidLambdaFunctionAssociation {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidLambdaFunctionAssociation {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidLambdaFunctionAssociation {
         let reader = baseError.errorBodyReader
         var value = InvalidLambdaFunctionAssociation()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25646,7 +25646,7 @@ extension InvalidLambdaFunctionAssociation {
 
 extension InvalidLocationCode {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidLocationCode {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidLocationCode {
         let reader = baseError.errorBodyReader
         var value = InvalidLocationCode()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25659,7 +25659,7 @@ extension InvalidLocationCode {
 
 extension InvalidMinimumProtocolVersion {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidMinimumProtocolVersion {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidMinimumProtocolVersion {
         let reader = baseError.errorBodyReader
         var value = InvalidMinimumProtocolVersion()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25672,7 +25672,7 @@ extension InvalidMinimumProtocolVersion {
 
 extension InvalidOrigin {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOrigin {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidOrigin {
         let reader = baseError.errorBodyReader
         var value = InvalidOrigin()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25685,7 +25685,7 @@ extension InvalidOrigin {
 
 extension InvalidOriginAccessControl {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginAccessControl {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidOriginAccessControl {
         let reader = baseError.errorBodyReader
         var value = InvalidOriginAccessControl()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25698,7 +25698,7 @@ extension InvalidOriginAccessControl {
 
 extension InvalidOriginAccessIdentity {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginAccessIdentity {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidOriginAccessIdentity {
         let reader = baseError.errorBodyReader
         var value = InvalidOriginAccessIdentity()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25711,7 +25711,7 @@ extension InvalidOriginAccessIdentity {
 
 extension InvalidOriginKeepaliveTimeout {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginKeepaliveTimeout {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidOriginKeepaliveTimeout {
         let reader = baseError.errorBodyReader
         var value = InvalidOriginKeepaliveTimeout()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25724,7 +25724,7 @@ extension InvalidOriginKeepaliveTimeout {
 
 extension InvalidOriginReadTimeout {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginReadTimeout {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidOriginReadTimeout {
         let reader = baseError.errorBodyReader
         var value = InvalidOriginReadTimeout()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25737,7 +25737,7 @@ extension InvalidOriginReadTimeout {
 
 extension InvalidProtocolSettings {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidProtocolSettings {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidProtocolSettings {
         let reader = baseError.errorBodyReader
         var value = InvalidProtocolSettings()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25750,7 +25750,7 @@ extension InvalidProtocolSettings {
 
 extension InvalidQueryStringParameters {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidQueryStringParameters {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidQueryStringParameters {
         let reader = baseError.errorBodyReader
         var value = InvalidQueryStringParameters()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25763,7 +25763,7 @@ extension InvalidQueryStringParameters {
 
 extension InvalidRelativePath {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRelativePath {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidRelativePath {
         let reader = baseError.errorBodyReader
         var value = InvalidRelativePath()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25776,7 +25776,7 @@ extension InvalidRelativePath {
 
 extension InvalidRequiredProtocol {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRequiredProtocol {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidRequiredProtocol {
         let reader = baseError.errorBodyReader
         var value = InvalidRequiredProtocol()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25789,7 +25789,7 @@ extension InvalidRequiredProtocol {
 
 extension InvalidResponseCode {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidResponseCode {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidResponseCode {
         let reader = baseError.errorBodyReader
         var value = InvalidResponseCode()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25802,7 +25802,7 @@ extension InvalidResponseCode {
 
 extension InvalidTTLOrder {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidTTLOrder {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidTTLOrder {
         let reader = baseError.errorBodyReader
         var value = InvalidTTLOrder()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25815,7 +25815,7 @@ extension InvalidTTLOrder {
 
 extension InvalidViewerCertificate {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidViewerCertificate {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidViewerCertificate {
         let reader = baseError.errorBodyReader
         var value = InvalidViewerCertificate()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25828,7 +25828,7 @@ extension InvalidViewerCertificate {
 
 extension InvalidWebACLId {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidWebACLId {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidWebACLId {
         let reader = baseError.errorBodyReader
         var value = InvalidWebACLId()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25841,7 +25841,7 @@ extension InvalidWebACLId {
 
 extension MissingBody {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> MissingBody {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> MissingBody {
         let reader = baseError.errorBodyReader
         var value = MissingBody()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25854,7 +25854,7 @@ extension MissingBody {
 
 extension NoSuchCachePolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchCachePolicy {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchCachePolicy {
         let reader = baseError.errorBodyReader
         var value = NoSuchCachePolicy()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25867,7 +25867,7 @@ extension NoSuchCachePolicy {
 
 extension NoSuchFieldLevelEncryptionConfig {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchFieldLevelEncryptionConfig {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchFieldLevelEncryptionConfig {
         let reader = baseError.errorBodyReader
         var value = NoSuchFieldLevelEncryptionConfig()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25880,7 +25880,7 @@ extension NoSuchFieldLevelEncryptionConfig {
 
 extension NoSuchOrigin {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchOrigin {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchOrigin {
         let reader = baseError.errorBodyReader
         var value = NoSuchOrigin()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25893,7 +25893,7 @@ extension NoSuchOrigin {
 
 extension NoSuchOriginRequestPolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchOriginRequestPolicy {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchOriginRequestPolicy {
         let reader = baseError.errorBodyReader
         var value = NoSuchOriginRequestPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25906,7 +25906,7 @@ extension NoSuchOriginRequestPolicy {
 
 extension NoSuchRealtimeLogConfig {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchRealtimeLogConfig {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchRealtimeLogConfig {
         let reader = baseError.errorBodyReader
         var value = NoSuchRealtimeLogConfig()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25919,7 +25919,7 @@ extension NoSuchRealtimeLogConfig {
 
 extension NoSuchResponseHeadersPolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchResponseHeadersPolicy {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchResponseHeadersPolicy {
         let reader = baseError.errorBodyReader
         var value = NoSuchResponseHeadersPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25932,7 +25932,7 @@ extension NoSuchResponseHeadersPolicy {
 
 extension RealtimeLogConfigOwnerMismatch {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> RealtimeLogConfigOwnerMismatch {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> RealtimeLogConfigOwnerMismatch {
         let reader = baseError.errorBodyReader
         var value = RealtimeLogConfigOwnerMismatch()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25945,7 +25945,7 @@ extension RealtimeLogConfigOwnerMismatch {
 
 extension TooManyCacheBehaviors {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCacheBehaviors {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyCacheBehaviors {
         let reader = baseError.errorBodyReader
         var value = TooManyCacheBehaviors()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25958,7 +25958,7 @@ extension TooManyCacheBehaviors {
 
 extension TooManyCertificates {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCertificates {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyCertificates {
         let reader = baseError.errorBodyReader
         var value = TooManyCertificates()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25971,7 +25971,7 @@ extension TooManyCertificates {
 
 extension TooManyCookieNamesInWhiteList {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCookieNamesInWhiteList {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyCookieNamesInWhiteList {
         let reader = baseError.errorBodyReader
         var value = TooManyCookieNamesInWhiteList()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25984,7 +25984,7 @@ extension TooManyCookieNamesInWhiteList {
 
 extension TooManyDistributions {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributions {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyDistributions {
         let reader = baseError.errorBodyReader
         var value = TooManyDistributions()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -25997,7 +25997,7 @@ extension TooManyDistributions {
 
 extension TooManyDistributionsAssociatedToCachePolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToCachePolicy {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToCachePolicy {
         let reader = baseError.errorBodyReader
         var value = TooManyDistributionsAssociatedToCachePolicy()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26010,7 +26010,7 @@ extension TooManyDistributionsAssociatedToCachePolicy {
 
 extension TooManyDistributionsAssociatedToFieldLevelEncryptionConfig {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToFieldLevelEncryptionConfig {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToFieldLevelEncryptionConfig {
         let reader = baseError.errorBodyReader
         var value = TooManyDistributionsAssociatedToFieldLevelEncryptionConfig()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26023,7 +26023,7 @@ extension TooManyDistributionsAssociatedToFieldLevelEncryptionConfig {
 
 extension TooManyDistributionsAssociatedToKeyGroup {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToKeyGroup {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToKeyGroup {
         let reader = baseError.errorBodyReader
         var value = TooManyDistributionsAssociatedToKeyGroup()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26036,7 +26036,7 @@ extension TooManyDistributionsAssociatedToKeyGroup {
 
 extension TooManyDistributionsAssociatedToOriginAccessControl {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToOriginAccessControl {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToOriginAccessControl {
         let reader = baseError.errorBodyReader
         var value = TooManyDistributionsAssociatedToOriginAccessControl()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26049,7 +26049,7 @@ extension TooManyDistributionsAssociatedToOriginAccessControl {
 
 extension TooManyDistributionsAssociatedToOriginRequestPolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToOriginRequestPolicy {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToOriginRequestPolicy {
         let reader = baseError.errorBodyReader
         var value = TooManyDistributionsAssociatedToOriginRequestPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26062,7 +26062,7 @@ extension TooManyDistributionsAssociatedToOriginRequestPolicy {
 
 extension TooManyDistributionsAssociatedToResponseHeadersPolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToResponseHeadersPolicy {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToResponseHeadersPolicy {
         let reader = baseError.errorBodyReader
         var value = TooManyDistributionsAssociatedToResponseHeadersPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26075,7 +26075,7 @@ extension TooManyDistributionsAssociatedToResponseHeadersPolicy {
 
 extension TooManyDistributionsWithFunctionAssociations {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsWithFunctionAssociations {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyDistributionsWithFunctionAssociations {
         let reader = baseError.errorBodyReader
         var value = TooManyDistributionsWithFunctionAssociations()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26088,7 +26088,7 @@ extension TooManyDistributionsWithFunctionAssociations {
 
 extension TooManyDistributionsWithLambdaAssociations {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsWithLambdaAssociations {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyDistributionsWithLambdaAssociations {
         let reader = baseError.errorBodyReader
         var value = TooManyDistributionsWithLambdaAssociations()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26101,7 +26101,7 @@ extension TooManyDistributionsWithLambdaAssociations {
 
 extension TooManyDistributionsWithSingleFunctionARN {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsWithSingleFunctionARN {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyDistributionsWithSingleFunctionARN {
         let reader = baseError.errorBodyReader
         var value = TooManyDistributionsWithSingleFunctionARN()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26114,7 +26114,7 @@ extension TooManyDistributionsWithSingleFunctionARN {
 
 extension TooManyFunctionAssociations {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFunctionAssociations {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyFunctionAssociations {
         let reader = baseError.errorBodyReader
         var value = TooManyFunctionAssociations()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26127,7 +26127,7 @@ extension TooManyFunctionAssociations {
 
 extension TooManyHeadersInForwardedValues {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyHeadersInForwardedValues {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyHeadersInForwardedValues {
         let reader = baseError.errorBodyReader
         var value = TooManyHeadersInForwardedValues()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26140,7 +26140,7 @@ extension TooManyHeadersInForwardedValues {
 
 extension TooManyKeyGroupsAssociatedToDistribution {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyKeyGroupsAssociatedToDistribution {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyKeyGroupsAssociatedToDistribution {
         let reader = baseError.errorBodyReader
         var value = TooManyKeyGroupsAssociatedToDistribution()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26153,7 +26153,7 @@ extension TooManyKeyGroupsAssociatedToDistribution {
 
 extension TooManyLambdaFunctionAssociations {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyLambdaFunctionAssociations {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyLambdaFunctionAssociations {
         let reader = baseError.errorBodyReader
         var value = TooManyLambdaFunctionAssociations()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26166,7 +26166,7 @@ extension TooManyLambdaFunctionAssociations {
 
 extension TooManyOriginCustomHeaders {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOriginCustomHeaders {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyOriginCustomHeaders {
         let reader = baseError.errorBodyReader
         var value = TooManyOriginCustomHeaders()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26179,7 +26179,7 @@ extension TooManyOriginCustomHeaders {
 
 extension TooManyOriginGroupsPerDistribution {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOriginGroupsPerDistribution {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyOriginGroupsPerDistribution {
         let reader = baseError.errorBodyReader
         var value = TooManyOriginGroupsPerDistribution()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26192,7 +26192,7 @@ extension TooManyOriginGroupsPerDistribution {
 
 extension TooManyOrigins {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOrigins {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyOrigins {
         let reader = baseError.errorBodyReader
         var value = TooManyOrigins()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26205,7 +26205,7 @@ extension TooManyOrigins {
 
 extension TooManyQueryStringParameters {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyQueryStringParameters {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyQueryStringParameters {
         let reader = baseError.errorBodyReader
         var value = TooManyQueryStringParameters()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26218,7 +26218,7 @@ extension TooManyQueryStringParameters {
 
 extension TooManyTrustedSigners {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyTrustedSigners {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyTrustedSigners {
         let reader = baseError.errorBodyReader
         var value = TooManyTrustedSigners()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26231,7 +26231,7 @@ extension TooManyTrustedSigners {
 
 extension TrustedKeyGroupDoesNotExist {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TrustedKeyGroupDoesNotExist {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TrustedKeyGroupDoesNotExist {
         let reader = baseError.errorBodyReader
         var value = TrustedKeyGroupDoesNotExist()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26244,7 +26244,7 @@ extension TrustedKeyGroupDoesNotExist {
 
 extension TrustedSignerDoesNotExist {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TrustedSignerDoesNotExist {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TrustedSignerDoesNotExist {
         let reader = baseError.errorBodyReader
         var value = TrustedSignerDoesNotExist()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26257,7 +26257,7 @@ extension TrustedSignerDoesNotExist {
 
 extension EntityAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> EntityAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = EntityAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26270,7 +26270,7 @@ extension EntityAlreadyExists {
 
 extension InvalidTagging {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidTagging {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidTagging {
         let reader = baseError.errorBodyReader
         var value = InvalidTagging()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26283,7 +26283,7 @@ extension InvalidTagging {
 
 extension UnsupportedOperation {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> UnsupportedOperation {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> UnsupportedOperation {
         let reader = baseError.errorBodyReader
         var value = UnsupportedOperation()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26296,7 +26296,7 @@ extension UnsupportedOperation {
 
 extension CachePolicyAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CachePolicyAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> CachePolicyAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = CachePolicyAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26309,7 +26309,7 @@ extension CachePolicyAlreadyExists {
 
 extension TooManyCachePolicies {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCachePolicies {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyCachePolicies {
         let reader = baseError.errorBodyReader
         var value = TooManyCachePolicies()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26322,7 +26322,7 @@ extension TooManyCachePolicies {
 
 extension TooManyCookiesInCachePolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCookiesInCachePolicy {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyCookiesInCachePolicy {
         let reader = baseError.errorBodyReader
         var value = TooManyCookiesInCachePolicy()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26335,7 +26335,7 @@ extension TooManyCookiesInCachePolicy {
 
 extension TooManyHeadersInCachePolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyHeadersInCachePolicy {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyHeadersInCachePolicy {
         let reader = baseError.errorBodyReader
         var value = TooManyHeadersInCachePolicy()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26348,7 +26348,7 @@ extension TooManyHeadersInCachePolicy {
 
 extension TooManyQueryStringsInCachePolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyQueryStringsInCachePolicy {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyQueryStringsInCachePolicy {
         let reader = baseError.errorBodyReader
         var value = TooManyQueryStringsInCachePolicy()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26361,7 +26361,7 @@ extension TooManyQueryStringsInCachePolicy {
 
 extension CloudFrontOriginAccessIdentityAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CloudFrontOriginAccessIdentityAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> CloudFrontOriginAccessIdentityAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = CloudFrontOriginAccessIdentityAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26374,7 +26374,7 @@ extension CloudFrontOriginAccessIdentityAlreadyExists {
 
 extension TooManyCloudFrontOriginAccessIdentities {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCloudFrontOriginAccessIdentities {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyCloudFrontOriginAccessIdentities {
         let reader = baseError.errorBodyReader
         var value = TooManyCloudFrontOriginAccessIdentities()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26387,7 +26387,7 @@ extension TooManyCloudFrontOriginAccessIdentities {
 
 extension EntitySizeLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntitySizeLimitExceeded {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> EntitySizeLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = EntitySizeLimitExceeded()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26400,7 +26400,7 @@ extension EntitySizeLimitExceeded {
 
 extension ContinuousDeploymentPolicyAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ContinuousDeploymentPolicyAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> ContinuousDeploymentPolicyAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = ContinuousDeploymentPolicyAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26413,7 +26413,7 @@ extension ContinuousDeploymentPolicyAlreadyExists {
 
 extension StagingDistributionInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> StagingDistributionInUse {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> StagingDistributionInUse {
         let reader = baseError.errorBodyReader
         var value = StagingDistributionInUse()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26426,7 +26426,7 @@ extension StagingDistributionInUse {
 
 extension TooManyContinuousDeploymentPolicies {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyContinuousDeploymentPolicies {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyContinuousDeploymentPolicies {
         let reader = baseError.errorBodyReader
         var value = TooManyContinuousDeploymentPolicies()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26439,7 +26439,7 @@ extension TooManyContinuousDeploymentPolicies {
 
 extension ContinuousDeploymentPolicyInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ContinuousDeploymentPolicyInUse {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> ContinuousDeploymentPolicyInUse {
         let reader = baseError.errorBodyReader
         var value = ContinuousDeploymentPolicyInUse()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26452,7 +26452,7 @@ extension ContinuousDeploymentPolicyInUse {
 
 extension IllegalOriginAccessConfiguration {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> IllegalOriginAccessConfiguration {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> IllegalOriginAccessConfiguration {
         let reader = baseError.errorBodyReader
         var value = IllegalOriginAccessConfiguration()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26465,7 +26465,7 @@ extension IllegalOriginAccessConfiguration {
 
 extension InvalidDomainNameForOriginAccessControl {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidDomainNameForOriginAccessControl {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidDomainNameForOriginAccessControl {
         let reader = baseError.errorBodyReader
         var value = InvalidDomainNameForOriginAccessControl()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26478,7 +26478,7 @@ extension InvalidDomainNameForOriginAccessControl {
 
 extension NoSuchContinuousDeploymentPolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchContinuousDeploymentPolicy {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchContinuousDeploymentPolicy {
         let reader = baseError.errorBodyReader
         var value = NoSuchContinuousDeploymentPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26491,7 +26491,7 @@ extension NoSuchContinuousDeploymentPolicy {
 
 extension InvalidAssociation {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidAssociation {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidAssociation {
         let reader = baseError.errorBodyReader
         var value = InvalidAssociation()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26504,7 +26504,7 @@ extension InvalidAssociation {
 
 extension FieldLevelEncryptionConfigAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> FieldLevelEncryptionConfigAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> FieldLevelEncryptionConfigAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = FieldLevelEncryptionConfigAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26517,7 +26517,7 @@ extension FieldLevelEncryptionConfigAlreadyExists {
 
 extension NoSuchFieldLevelEncryptionProfile {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchFieldLevelEncryptionProfile {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchFieldLevelEncryptionProfile {
         let reader = baseError.errorBodyReader
         var value = NoSuchFieldLevelEncryptionProfile()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26530,7 +26530,7 @@ extension NoSuchFieldLevelEncryptionProfile {
 
 extension QueryArgProfileEmpty {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> QueryArgProfileEmpty {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> QueryArgProfileEmpty {
         let reader = baseError.errorBodyReader
         var value = QueryArgProfileEmpty()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26543,7 +26543,7 @@ extension QueryArgProfileEmpty {
 
 extension TooManyFieldLevelEncryptionConfigs {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionConfigs {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionConfigs {
         let reader = baseError.errorBodyReader
         var value = TooManyFieldLevelEncryptionConfigs()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26556,7 +26556,7 @@ extension TooManyFieldLevelEncryptionConfigs {
 
 extension TooManyFieldLevelEncryptionContentTypeProfiles {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionContentTypeProfiles {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionContentTypeProfiles {
         let reader = baseError.errorBodyReader
         var value = TooManyFieldLevelEncryptionContentTypeProfiles()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26569,7 +26569,7 @@ extension TooManyFieldLevelEncryptionContentTypeProfiles {
 
 extension TooManyFieldLevelEncryptionQueryArgProfiles {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionQueryArgProfiles {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionQueryArgProfiles {
         let reader = baseError.errorBodyReader
         var value = TooManyFieldLevelEncryptionQueryArgProfiles()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26582,7 +26582,7 @@ extension TooManyFieldLevelEncryptionQueryArgProfiles {
 
 extension FieldLevelEncryptionProfileAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> FieldLevelEncryptionProfileAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> FieldLevelEncryptionProfileAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = FieldLevelEncryptionProfileAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26595,7 +26595,7 @@ extension FieldLevelEncryptionProfileAlreadyExists {
 
 extension FieldLevelEncryptionProfileSizeExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> FieldLevelEncryptionProfileSizeExceeded {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> FieldLevelEncryptionProfileSizeExceeded {
         let reader = baseError.errorBodyReader
         var value = FieldLevelEncryptionProfileSizeExceeded()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26608,7 +26608,7 @@ extension FieldLevelEncryptionProfileSizeExceeded {
 
 extension NoSuchPublicKey {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchPublicKey {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchPublicKey {
         let reader = baseError.errorBodyReader
         var value = NoSuchPublicKey()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26621,7 +26621,7 @@ extension NoSuchPublicKey {
 
 extension TooManyFieldLevelEncryptionEncryptionEntities {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionEncryptionEntities {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionEncryptionEntities {
         let reader = baseError.errorBodyReader
         var value = TooManyFieldLevelEncryptionEncryptionEntities()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26634,7 +26634,7 @@ extension TooManyFieldLevelEncryptionEncryptionEntities {
 
 extension TooManyFieldLevelEncryptionFieldPatterns {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionFieldPatterns {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionFieldPatterns {
         let reader = baseError.errorBodyReader
         var value = TooManyFieldLevelEncryptionFieldPatterns()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26647,7 +26647,7 @@ extension TooManyFieldLevelEncryptionFieldPatterns {
 
 extension TooManyFieldLevelEncryptionProfiles {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionProfiles {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionProfiles {
         let reader = baseError.errorBodyReader
         var value = TooManyFieldLevelEncryptionProfiles()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26660,7 +26660,7 @@ extension TooManyFieldLevelEncryptionProfiles {
 
 extension FunctionAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> FunctionAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> FunctionAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = FunctionAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26673,7 +26673,7 @@ extension FunctionAlreadyExists {
 
 extension FunctionSizeLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> FunctionSizeLimitExceeded {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> FunctionSizeLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = FunctionSizeLimitExceeded()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26686,7 +26686,7 @@ extension FunctionSizeLimitExceeded {
 
 extension TooManyFunctions {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFunctions {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyFunctions {
         let reader = baseError.errorBodyReader
         var value = TooManyFunctions()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26699,7 +26699,7 @@ extension TooManyFunctions {
 
 extension BatchTooLarge {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BatchTooLarge {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> BatchTooLarge {
         let reader = baseError.errorBodyReader
         var value = BatchTooLarge()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26712,7 +26712,7 @@ extension BatchTooLarge {
 
 extension TooManyInvalidationsInProgress {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyInvalidationsInProgress {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyInvalidationsInProgress {
         let reader = baseError.errorBodyReader
         var value = TooManyInvalidationsInProgress()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26725,7 +26725,7 @@ extension TooManyInvalidationsInProgress {
 
 extension KeyGroupAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> KeyGroupAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> KeyGroupAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = KeyGroupAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26738,7 +26738,7 @@ extension KeyGroupAlreadyExists {
 
 extension TooManyKeyGroups {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyKeyGroups {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyKeyGroups {
         let reader = baseError.errorBodyReader
         var value = TooManyKeyGroups()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26751,7 +26751,7 @@ extension TooManyKeyGroups {
 
 extension TooManyPublicKeysInKeyGroup {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyPublicKeysInKeyGroup {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyPublicKeysInKeyGroup {
         let reader = baseError.errorBodyReader
         var value = TooManyPublicKeysInKeyGroup()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26764,7 +26764,7 @@ extension TooManyPublicKeysInKeyGroup {
 
 extension MonitoringSubscriptionAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> MonitoringSubscriptionAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> MonitoringSubscriptionAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = MonitoringSubscriptionAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26777,7 +26777,7 @@ extension MonitoringSubscriptionAlreadyExists {
 
 extension OriginAccessControlAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> OriginAccessControlAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> OriginAccessControlAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = OriginAccessControlAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26790,7 +26790,7 @@ extension OriginAccessControlAlreadyExists {
 
 extension TooManyOriginAccessControls {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOriginAccessControls {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyOriginAccessControls {
         let reader = baseError.errorBodyReader
         var value = TooManyOriginAccessControls()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26803,7 +26803,7 @@ extension TooManyOriginAccessControls {
 
 extension OriginRequestPolicyAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> OriginRequestPolicyAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> OriginRequestPolicyAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = OriginRequestPolicyAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26816,7 +26816,7 @@ extension OriginRequestPolicyAlreadyExists {
 
 extension TooManyCookiesInOriginRequestPolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCookiesInOriginRequestPolicy {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyCookiesInOriginRequestPolicy {
         let reader = baseError.errorBodyReader
         var value = TooManyCookiesInOriginRequestPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26829,7 +26829,7 @@ extension TooManyCookiesInOriginRequestPolicy {
 
 extension TooManyHeadersInOriginRequestPolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyHeadersInOriginRequestPolicy {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyHeadersInOriginRequestPolicy {
         let reader = baseError.errorBodyReader
         var value = TooManyHeadersInOriginRequestPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26842,7 +26842,7 @@ extension TooManyHeadersInOriginRequestPolicy {
 
 extension TooManyOriginRequestPolicies {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOriginRequestPolicies {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyOriginRequestPolicies {
         let reader = baseError.errorBodyReader
         var value = TooManyOriginRequestPolicies()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26855,7 +26855,7 @@ extension TooManyOriginRequestPolicies {
 
 extension TooManyQueryStringsInOriginRequestPolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyQueryStringsInOriginRequestPolicy {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyQueryStringsInOriginRequestPolicy {
         let reader = baseError.errorBodyReader
         var value = TooManyQueryStringsInOriginRequestPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26868,7 +26868,7 @@ extension TooManyQueryStringsInOriginRequestPolicy {
 
 extension PublicKeyAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> PublicKeyAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> PublicKeyAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = PublicKeyAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26881,7 +26881,7 @@ extension PublicKeyAlreadyExists {
 
 extension TooManyPublicKeys {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyPublicKeys {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyPublicKeys {
         let reader = baseError.errorBodyReader
         var value = TooManyPublicKeys()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26894,7 +26894,7 @@ extension TooManyPublicKeys {
 
 extension RealtimeLogConfigAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> RealtimeLogConfigAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> RealtimeLogConfigAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = RealtimeLogConfigAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26907,7 +26907,7 @@ extension RealtimeLogConfigAlreadyExists {
 
 extension TooManyRealtimeLogConfigs {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyRealtimeLogConfigs {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyRealtimeLogConfigs {
         let reader = baseError.errorBodyReader
         var value = TooManyRealtimeLogConfigs()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26920,7 +26920,7 @@ extension TooManyRealtimeLogConfigs {
 
 extension ResponseHeadersPolicyAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ResponseHeadersPolicyAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> ResponseHeadersPolicyAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = ResponseHeadersPolicyAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26933,7 +26933,7 @@ extension ResponseHeadersPolicyAlreadyExists {
 
 extension TooLongCSPInResponseHeadersPolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooLongCSPInResponseHeadersPolicy {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooLongCSPInResponseHeadersPolicy {
         let reader = baseError.errorBodyReader
         var value = TooLongCSPInResponseHeadersPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26946,7 +26946,7 @@ extension TooLongCSPInResponseHeadersPolicy {
 
 extension TooManyCustomHeadersInResponseHeadersPolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCustomHeadersInResponseHeadersPolicy {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyCustomHeadersInResponseHeadersPolicy {
         let reader = baseError.errorBodyReader
         var value = TooManyCustomHeadersInResponseHeadersPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26959,7 +26959,7 @@ extension TooManyCustomHeadersInResponseHeadersPolicy {
 
 extension TooManyRemoveHeadersInResponseHeadersPolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyRemoveHeadersInResponseHeadersPolicy {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyRemoveHeadersInResponseHeadersPolicy {
         let reader = baseError.errorBodyReader
         var value = TooManyRemoveHeadersInResponseHeadersPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26972,7 +26972,7 @@ extension TooManyRemoveHeadersInResponseHeadersPolicy {
 
 extension TooManyResponseHeadersPolicies {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyResponseHeadersPolicies {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyResponseHeadersPolicies {
         let reader = baseError.errorBodyReader
         var value = TooManyResponseHeadersPolicies()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26985,7 +26985,7 @@ extension TooManyResponseHeadersPolicies {
 
 extension StreamingDistributionAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> StreamingDistributionAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> StreamingDistributionAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = StreamingDistributionAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -26998,7 +26998,7 @@ extension StreamingDistributionAlreadyExists {
 
 extension TooManyStreamingDistributionCNAMEs {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyStreamingDistributionCNAMEs {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyStreamingDistributionCNAMEs {
         let reader = baseError.errorBodyReader
         var value = TooManyStreamingDistributionCNAMEs()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27011,7 +27011,7 @@ extension TooManyStreamingDistributionCNAMEs {
 
 extension TooManyStreamingDistributions {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyStreamingDistributions {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyStreamingDistributions {
         let reader = baseError.errorBodyReader
         var value = TooManyStreamingDistributions()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27024,7 +27024,7 @@ extension TooManyStreamingDistributions {
 
 extension CannotDeleteEntityWhileInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CannotDeleteEntityWhileInUse {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> CannotDeleteEntityWhileInUse {
         let reader = baseError.errorBodyReader
         var value = CannotDeleteEntityWhileInUse()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27037,7 +27037,7 @@ extension CannotDeleteEntityWhileInUse {
 
 extension IllegalDelete {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> IllegalDelete {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> IllegalDelete {
         let reader = baseError.errorBodyReader
         var value = IllegalDelete()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27050,7 +27050,7 @@ extension IllegalDelete {
 
 extension CachePolicyInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CachePolicyInUse {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> CachePolicyInUse {
         let reader = baseError.errorBodyReader
         var value = CachePolicyInUse()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27063,7 +27063,7 @@ extension CachePolicyInUse {
 
 extension CloudFrontOriginAccessIdentityInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CloudFrontOriginAccessIdentityInUse {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> CloudFrontOriginAccessIdentityInUse {
         let reader = baseError.errorBodyReader
         var value = CloudFrontOriginAccessIdentityInUse()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27076,7 +27076,7 @@ extension CloudFrontOriginAccessIdentityInUse {
 
 extension NoSuchCloudFrontOriginAccessIdentity {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchCloudFrontOriginAccessIdentity {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchCloudFrontOriginAccessIdentity {
         let reader = baseError.errorBodyReader
         var value = NoSuchCloudFrontOriginAccessIdentity()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27089,7 +27089,7 @@ extension NoSuchCloudFrontOriginAccessIdentity {
 
 extension ResourceNotDisabled {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ResourceNotDisabled {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> ResourceNotDisabled {
         let reader = baseError.errorBodyReader
         var value = ResourceNotDisabled()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27102,7 +27102,7 @@ extension ResourceNotDisabled {
 
 extension DistributionNotDisabled {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DistributionNotDisabled {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> DistributionNotDisabled {
         let reader = baseError.errorBodyReader
         var value = DistributionNotDisabled()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27115,7 +27115,7 @@ extension DistributionNotDisabled {
 
 extension ResourceInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ResourceInUse {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> ResourceInUse {
         let reader = baseError.errorBodyReader
         var value = ResourceInUse()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27128,7 +27128,7 @@ extension ResourceInUse {
 
 extension FieldLevelEncryptionConfigInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> FieldLevelEncryptionConfigInUse {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> FieldLevelEncryptionConfigInUse {
         let reader = baseError.errorBodyReader
         var value = FieldLevelEncryptionConfigInUse()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27141,7 +27141,7 @@ extension FieldLevelEncryptionConfigInUse {
 
 extension FieldLevelEncryptionProfileInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> FieldLevelEncryptionProfileInUse {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> FieldLevelEncryptionProfileInUse {
         let reader = baseError.errorBodyReader
         var value = FieldLevelEncryptionProfileInUse()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27154,7 +27154,7 @@ extension FieldLevelEncryptionProfileInUse {
 
 extension FunctionInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> FunctionInUse {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> FunctionInUse {
         let reader = baseError.errorBodyReader
         var value = FunctionInUse()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27167,7 +27167,7 @@ extension FunctionInUse {
 
 extension NoSuchFunctionExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchFunctionExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchFunctionExists {
         let reader = baseError.errorBodyReader
         var value = NoSuchFunctionExists()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27180,7 +27180,7 @@ extension NoSuchFunctionExists {
 
 extension NoSuchResource {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchResource {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchResource {
         let reader = baseError.errorBodyReader
         var value = NoSuchResource()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27193,7 +27193,7 @@ extension NoSuchResource {
 
 extension NoSuchMonitoringSubscription {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchMonitoringSubscription {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchMonitoringSubscription {
         let reader = baseError.errorBodyReader
         var value = NoSuchMonitoringSubscription()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27206,7 +27206,7 @@ extension NoSuchMonitoringSubscription {
 
 extension NoSuchOriginAccessControl {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchOriginAccessControl {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchOriginAccessControl {
         let reader = baseError.errorBodyReader
         var value = NoSuchOriginAccessControl()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27219,7 +27219,7 @@ extension NoSuchOriginAccessControl {
 
 extension OriginAccessControlInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> OriginAccessControlInUse {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> OriginAccessControlInUse {
         let reader = baseError.errorBodyReader
         var value = OriginAccessControlInUse()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27232,7 +27232,7 @@ extension OriginAccessControlInUse {
 
 extension OriginRequestPolicyInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> OriginRequestPolicyInUse {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> OriginRequestPolicyInUse {
         let reader = baseError.errorBodyReader
         var value = OriginRequestPolicyInUse()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27245,7 +27245,7 @@ extension OriginRequestPolicyInUse {
 
 extension PublicKeyInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> PublicKeyInUse {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> PublicKeyInUse {
         let reader = baseError.errorBodyReader
         var value = PublicKeyInUse()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27258,7 +27258,7 @@ extension PublicKeyInUse {
 
 extension RealtimeLogConfigInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> RealtimeLogConfigInUse {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> RealtimeLogConfigInUse {
         let reader = baseError.errorBodyReader
         var value = RealtimeLogConfigInUse()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27271,7 +27271,7 @@ extension RealtimeLogConfigInUse {
 
 extension ResponseHeadersPolicyInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ResponseHeadersPolicyInUse {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> ResponseHeadersPolicyInUse {
         let reader = baseError.errorBodyReader
         var value = ResponseHeadersPolicyInUse()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27284,7 +27284,7 @@ extension ResponseHeadersPolicyInUse {
 
 extension NoSuchStreamingDistribution {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchStreamingDistribution {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchStreamingDistribution {
         let reader = baseError.errorBodyReader
         var value = NoSuchStreamingDistribution()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27297,7 +27297,7 @@ extension NoSuchStreamingDistribution {
 
 extension StreamingDistributionNotDisabled {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> StreamingDistributionNotDisabled {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> StreamingDistributionNotDisabled {
         let reader = baseError.errorBodyReader
         var value = StreamingDistributionNotDisabled()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27310,7 +27310,7 @@ extension StreamingDistributionNotDisabled {
 
 extension NoSuchInvalidation {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchInvalidation {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchInvalidation {
         let reader = baseError.errorBodyReader
         var value = NoSuchInvalidation()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27323,7 +27323,7 @@ extension NoSuchInvalidation {
 
 extension TestFunctionFailed {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TestFunctionFailed {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TestFunctionFailed {
         let reader = baseError.errorBodyReader
         var value = TestFunctionFailed()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27336,7 +27336,7 @@ extension TestFunctionFailed {
 
 extension CannotChangeImmutablePublicKeyFields {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CannotChangeImmutablePublicKeyFields {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> CannotChangeImmutablePublicKeyFields {
         let reader = baseError.errorBodyReader
         var value = CannotChangeImmutablePublicKeyFields()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -27349,13 +27349,878 @@ extension CannotChangeImmutablePublicKeyFields {
 
 extension CannotUpdateEntityWhileInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CannotUpdateEntityWhileInUse {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> CannotUpdateEntityWhileInUse {
         let reader = baseError.errorBodyReader
         var value = CannotUpdateEntityWhileInUse()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ActiveTrustedKeyGroups {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ActiveTrustedKeyGroups {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ActiveTrustedKeyGroups()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.KGKeyPairIds.read(from:), memberNodeInfo: "KeyGroup", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ActiveTrustedSigners {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ActiveTrustedSigners {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ActiveTrustedSigners()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.Signer.read(from:), memberNodeInfo: "Signer", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.Aliases {
+
+    static func write(value: CloudFrontClientTypes.Aliases?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "CNAME", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Aliases {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.Aliases()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "CNAME", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.AliasICPRecordal {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.AliasICPRecordal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.AliasICPRecordal()
+        value.cname = try reader["CNAME"].readIfPresent()
+        value.icpRecordalStatus = try reader["ICPRecordalStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.AllowedMethods {
+
+    static func write(value: CloudFrontClientTypes.AllowedMethods?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CachedMethods"].write(value.cachedMethods, with: CloudFrontClientTypes.CachedMethods.write(value:to:))
+        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CloudFrontClientTypes.Method>().write(value:to:), memberNodeInfo: "Method", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.AllowedMethods {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.AllowedMethods()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudFrontClientTypes.Method>().read(from:), memberNodeInfo: "Method", isFlattened: false) ?? []
+        value.cachedMethods = try reader["CachedMethods"].readIfPresent(with: CloudFrontClientTypes.CachedMethods.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.AnycastIpList {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.AnycastIpList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.AnycastIpList()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
+        value.ipamConfig = try reader["IpamConfig"].readIfPresent(with: CloudFrontClientTypes.IpamConfig.read(from:))
+        value.anycastIps = try reader["AnycastIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AnycastIp", isFlattened: false) ?? []
+        value.ipCount = try reader["IpCount"].readIfPresent() ?? 0
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.AnycastIpListCollection {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.AnycastIpListCollection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.AnycastIpListCollection()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.AnycastIpListSummary.read(from:), memberNodeInfo: "AnycastIpListSummary", isFlattened: false)
+        value.marker = try reader["Marker"].readIfPresent() ?? ""
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.AnycastIpListSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.AnycastIpListSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.AnycastIpListSummary()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.ipCount = try reader["IpCount"].readIfPresent() ?? 0
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
+        value.eTag = try reader["ETag"].readIfPresent()
+        value.ipamConfig = try reader["IpamConfig"].readIfPresent(with: CloudFrontClientTypes.IpamConfig.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.CaCertificatesBundleS3Location {
+
+    static func write(value: CloudFrontClientTypes.CaCertificatesBundleS3Location?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["Key"].write(value.key)
+        try writer["Region"].write(value.region)
+        try writer["Version"].write(value.version)
+    }
+}
+
+extension CloudFrontClientTypes.CaCertificatesBundleSource {
+
+    static func write(value: CloudFrontClientTypes.CaCertificatesBundleSource?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .cacertificatesbundles3location(cacertificatesbundles3location):
+                try writer["CaCertificatesBundleS3Location"].write(cacertificatesbundles3location, with: CloudFrontClientTypes.CaCertificatesBundleS3Location.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension CloudFrontClientTypes.CacheBehavior {
+
+    static func write(value: CloudFrontClientTypes.CacheBehavior?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedMethods"].write(value.allowedMethods, with: CloudFrontClientTypes.AllowedMethods.write(value:to:))
+        try writer["CachePolicyId"].write(value.cachePolicyId)
+        try writer["Compress"].write(value.compress)
+        try writer["DefaultTTL"].write(value.defaultTTL)
+        try writer["FieldLevelEncryptionId"].write(value.fieldLevelEncryptionId)
+        try writer["ForwardedValues"].write(value.forwardedValues, with: CloudFrontClientTypes.ForwardedValues.write(value:to:))
+        try writer["FunctionAssociations"].write(value.functionAssociations, with: CloudFrontClientTypes.FunctionAssociations.write(value:to:))
+        try writer["GrpcConfig"].write(value.grpcConfig, with: CloudFrontClientTypes.GrpcConfig.write(value:to:))
+        try writer["LambdaFunctionAssociations"].write(value.lambdaFunctionAssociations, with: CloudFrontClientTypes.LambdaFunctionAssociations.write(value:to:))
+        try writer["MaxTTL"].write(value.maxTTL)
+        try writer["MinTTL"].write(value.minTTL)
+        try writer["OriginRequestPolicyId"].write(value.originRequestPolicyId)
+        try writer["PathPattern"].write(value.pathPattern)
+        try writer["RealtimeLogConfigArn"].write(value.realtimeLogConfigArn)
+        try writer["ResponseHeadersPolicyId"].write(value.responseHeadersPolicyId)
+        try writer["SmoothStreaming"].write(value.smoothStreaming)
+        try writer["TargetOriginId"].write(value.targetOriginId)
+        try writer["TrustedKeyGroups"].write(value.trustedKeyGroups, with: CloudFrontClientTypes.TrustedKeyGroups.write(value:to:))
+        try writer["TrustedSigners"].write(value.trustedSigners, with: CloudFrontClientTypes.TrustedSigners.write(value:to:))
+        try writer["ViewerProtocolPolicy"].write(value.viewerProtocolPolicy)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CacheBehavior {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.CacheBehavior()
+        value.pathPattern = try reader["PathPattern"].readIfPresent() ?? ""
+        value.targetOriginId = try reader["TargetOriginId"].readIfPresent() ?? ""
+        value.trustedSigners = try reader["TrustedSigners"].readIfPresent(with: CloudFrontClientTypes.TrustedSigners.read(from:))
+        value.trustedKeyGroups = try reader["TrustedKeyGroups"].readIfPresent(with: CloudFrontClientTypes.TrustedKeyGroups.read(from:))
+        value.viewerProtocolPolicy = try reader["ViewerProtocolPolicy"].readIfPresent() ?? .sdkUnknown("")
+        value.allowedMethods = try reader["AllowedMethods"].readIfPresent(with: CloudFrontClientTypes.AllowedMethods.read(from:))
+        value.smoothStreaming = try reader["SmoothStreaming"].readIfPresent()
+        value.compress = try reader["Compress"].readIfPresent()
+        value.lambdaFunctionAssociations = try reader["LambdaFunctionAssociations"].readIfPresent(with: CloudFrontClientTypes.LambdaFunctionAssociations.read(from:))
+        value.functionAssociations = try reader["FunctionAssociations"].readIfPresent(with: CloudFrontClientTypes.FunctionAssociations.read(from:))
+        value.fieldLevelEncryptionId = try reader["FieldLevelEncryptionId"].readIfPresent()
+        value.realtimeLogConfigArn = try reader["RealtimeLogConfigArn"].readIfPresent()
+        value.cachePolicyId = try reader["CachePolicyId"].readIfPresent()
+        value.originRequestPolicyId = try reader["OriginRequestPolicyId"].readIfPresent()
+        value.responseHeadersPolicyId = try reader["ResponseHeadersPolicyId"].readIfPresent()
+        value.grpcConfig = try reader["GrpcConfig"].readIfPresent(with: CloudFrontClientTypes.GrpcConfig.read(from:))
+        value.forwardedValues = try reader["ForwardedValues"].readIfPresent(with: CloudFrontClientTypes.ForwardedValues.read(from:))
+        value.minTTL = try reader["MinTTL"].readIfPresent()
+        value.defaultTTL = try reader["DefaultTTL"].readIfPresent()
+        value.maxTTL = try reader["MaxTTL"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.CacheBehaviors {
+
+    static func write(value: CloudFrontClientTypes.CacheBehaviors?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.CacheBehavior.write(value:to:), memberNodeInfo: "CacheBehavior", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CacheBehaviors {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.CacheBehaviors()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.CacheBehavior.read(from:), memberNodeInfo: "CacheBehavior", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.CachedMethods {
+
+    static func write(value: CloudFrontClientTypes.CachedMethods?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CloudFrontClientTypes.Method>().write(value:to:), memberNodeInfo: "Method", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CachedMethods {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.CachedMethods()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudFrontClientTypes.Method>().read(from:), memberNodeInfo: "Method", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.CachePolicy {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CachePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.CachePolicy()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.cachePolicyConfig = try reader["CachePolicyConfig"].readIfPresent(with: CloudFrontClientTypes.CachePolicyConfig.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.CachePolicyConfig {
+
+    static func write(value: CloudFrontClientTypes.CachePolicyConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Comment"].write(value.comment)
+        try writer["DefaultTTL"].write(value.defaultTTL)
+        try writer["MaxTTL"].write(value.maxTTL)
+        try writer["MinTTL"].write(value.minTTL)
+        try writer["Name"].write(value.name)
+        try writer["ParametersInCacheKeyAndForwardedToOrigin"].write(value.parametersInCacheKeyAndForwardedToOrigin, with: CloudFrontClientTypes.ParametersInCacheKeyAndForwardedToOrigin.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CachePolicyConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.CachePolicyConfig()
+        value.comment = try reader["Comment"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.defaultTTL = try reader["DefaultTTL"].readIfPresent()
+        value.maxTTL = try reader["MaxTTL"].readIfPresent()
+        value.minTTL = try reader["MinTTL"].readIfPresent() ?? 0
+        value.parametersInCacheKeyAndForwardedToOrigin = try reader["ParametersInCacheKeyAndForwardedToOrigin"].readIfPresent(with: CloudFrontClientTypes.ParametersInCacheKeyAndForwardedToOrigin.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.CachePolicyCookiesConfig {
+
+    static func write(value: CloudFrontClientTypes.CachePolicyCookiesConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CookieBehavior"].write(value.cookieBehavior)
+        try writer["Cookies"].write(value.cookies, with: CloudFrontClientTypes.CookieNames.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CachePolicyCookiesConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.CachePolicyCookiesConfig()
+        value.cookieBehavior = try reader["CookieBehavior"].readIfPresent() ?? .sdkUnknown("")
+        value.cookies = try reader["Cookies"].readIfPresent(with: CloudFrontClientTypes.CookieNames.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.CachePolicyHeadersConfig {
+
+    static func write(value: CloudFrontClientTypes.CachePolicyHeadersConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["HeaderBehavior"].write(value.headerBehavior)
+        try writer["Headers"].write(value.headers, with: CloudFrontClientTypes.Headers.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CachePolicyHeadersConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.CachePolicyHeadersConfig()
+        value.headerBehavior = try reader["HeaderBehavior"].readIfPresent() ?? .sdkUnknown("")
+        value.headers = try reader["Headers"].readIfPresent(with: CloudFrontClientTypes.Headers.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.CachePolicyList {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CachePolicyList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.CachePolicyList()
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.CachePolicySummary.read(from:), memberNodeInfo: "CachePolicySummary", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.CachePolicyQueryStringsConfig {
+
+    static func write(value: CloudFrontClientTypes.CachePolicyQueryStringsConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["QueryStringBehavior"].write(value.queryStringBehavior)
+        try writer["QueryStrings"].write(value.queryStrings, with: CloudFrontClientTypes.QueryStringNames.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CachePolicyQueryStringsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.CachePolicyQueryStringsConfig()
+        value.queryStringBehavior = try reader["QueryStringBehavior"].readIfPresent() ?? .sdkUnknown("")
+        value.queryStrings = try reader["QueryStrings"].readIfPresent(with: CloudFrontClientTypes.QueryStringNames.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.CachePolicySummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CachePolicySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.CachePolicySummary()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.cachePolicy = try reader["CachePolicy"].readIfPresent(with: CloudFrontClientTypes.CachePolicy.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.Certificate {
+
+    static func write(value: CloudFrontClientTypes.Certificate?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Certificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.Certificate()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.CloudFrontOriginAccessIdentity {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CloudFrontOriginAccessIdentity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.CloudFrontOriginAccessIdentity()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.s3CanonicalUserId = try reader["S3CanonicalUserId"].readIfPresent() ?? ""
+        value.cloudFrontOriginAccessIdentityConfig = try reader["CloudFrontOriginAccessIdentityConfig"].readIfPresent(with: CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig {
+
+    static func write(value: CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CallerReference"].write(value.callerReference)
+        try writer["Comment"].write(value.comment)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig()
+        value.callerReference = try reader["CallerReference"].readIfPresent() ?? ""
+        value.comment = try reader["Comment"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.CloudFrontOriginAccessIdentityList {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CloudFrontOriginAccessIdentityList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.CloudFrontOriginAccessIdentityList()
+        value.marker = try reader["Marker"].readIfPresent() ?? ""
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.CloudFrontOriginAccessIdentitySummary.read(from:), memberNodeInfo: "CloudFrontOriginAccessIdentitySummary", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.CloudFrontOriginAccessIdentitySummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CloudFrontOriginAccessIdentitySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.CloudFrontOriginAccessIdentitySummary()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.s3CanonicalUserId = try reader["S3CanonicalUserId"].readIfPresent() ?? ""
+        value.comment = try reader["Comment"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ConflictingAlias {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ConflictingAlias {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ConflictingAlias()
+        value.alias = try reader["Alias"].readIfPresent()
+        value.distributionId = try reader["DistributionId"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ConflictingAliasesList {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ConflictingAliasesList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ConflictingAliasesList()
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent()
+        value.quantity = try reader["Quantity"].readIfPresent()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.ConflictingAlias.read(from:), memberNodeInfo: "ConflictingAlias", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ConnectionFunctionAssociation {
+
+    static func write(value: CloudFrontClientTypes.ConnectionFunctionAssociation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ConnectionFunctionAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ConnectionFunctionAssociation()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ConnectionFunctionSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ConnectionFunctionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ConnectionFunctionSummary()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.connectionFunctionConfig = try reader["ConnectionFunctionConfig"].readIfPresent(with: CloudFrontClientTypes.FunctionConfig.read(from:))
+        value.connectionFunctionArn = try reader["ConnectionFunctionArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        value.stage = try reader["Stage"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ConnectionFunctionTestResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ConnectionFunctionTestResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ConnectionFunctionTestResult()
+        value.connectionFunctionSummary = try reader["ConnectionFunctionSummary"].readIfPresent(with: CloudFrontClientTypes.ConnectionFunctionSummary.read(from:))
+        value.computeUtilization = try reader["ComputeUtilization"].readIfPresent()
+        value.connectionFunctionExecutionLogs = try reader["ConnectionFunctionExecutionLogs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectionFunctionErrorMessage = try reader["ConnectionFunctionErrorMessage"].readIfPresent()
+        value.connectionFunctionOutput = try reader["ConnectionFunctionOutput"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ConnectionGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ConnectionGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ConnectionGroup()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.tags = try reader["Tags"].readIfPresent(with: CloudFrontClientTypes.Tags.read(from:))
+        value.ipv6Enabled = try reader["Ipv6Enabled"].readIfPresent()
+        value.routingEndpoint = try reader["RoutingEndpoint"].readIfPresent()
+        value.anycastIpListId = try reader["AnycastIpListId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.isDefault = try reader["IsDefault"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ConnectionGroupAssociationFilter {
+
+    static func write(value: CloudFrontClientTypes.ConnectionGroupAssociationFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AnycastIpListId"].write(value.anycastIpListId)
+    }
+}
+
+extension CloudFrontClientTypes.ConnectionGroupSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ConnectionGroupSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ConnectionGroupSummary()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.routingEndpoint = try reader["RoutingEndpoint"].readIfPresent() ?? ""
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.eTag = try reader["ETag"].readIfPresent() ?? ""
+        value.anycastIpListId = try reader["AnycastIpListId"].readIfPresent()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.isDefault = try reader["IsDefault"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ContentTypeProfile {
+
+    static func write(value: CloudFrontClientTypes.ContentTypeProfile?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ContentType"].write(value.contentType)
+        try writer["Format"].write(value.format)
+        try writer["ProfileId"].write(value.profileId)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContentTypeProfile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ContentTypeProfile()
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        value.profileId = try reader["ProfileId"].readIfPresent()
+        value.contentType = try reader["ContentType"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ContentTypeProfileConfig {
+
+    static func write(value: CloudFrontClientTypes.ContentTypeProfileConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ContentTypeProfiles"].write(value.contentTypeProfiles, with: CloudFrontClientTypes.ContentTypeProfiles.write(value:to:))
+        try writer["ForwardWhenContentTypeIsUnknown"].write(value.forwardWhenContentTypeIsUnknown)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContentTypeProfileConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ContentTypeProfileConfig()
+        value.forwardWhenContentTypeIsUnknown = try reader["ForwardWhenContentTypeIsUnknown"].readIfPresent() ?? false
+        value.contentTypeProfiles = try reader["ContentTypeProfiles"].readIfPresent(with: CloudFrontClientTypes.ContentTypeProfiles.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ContentTypeProfiles {
+
+    static func write(value: CloudFrontClientTypes.ContentTypeProfiles?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.ContentTypeProfile.write(value:to:), memberNodeInfo: "ContentTypeProfile", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContentTypeProfiles {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ContentTypeProfiles()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.ContentTypeProfile.read(from:), memberNodeInfo: "ContentTypeProfile", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ContinuousDeploymentPolicy {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContinuousDeploymentPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ContinuousDeploymentPolicy()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.continuousDeploymentPolicyConfig = try reader["ContinuousDeploymentPolicyConfig"].readIfPresent(with: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ContinuousDeploymentPolicyConfig {
+
+    static func write(value: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["StagingDistributionDnsNames"].write(value.stagingDistributionDnsNames, with: CloudFrontClientTypes.StagingDistributionDnsNames.write(value:to:))
+        try writer["TrafficConfig"].write(value.trafficConfig, with: CloudFrontClientTypes.TrafficConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContinuousDeploymentPolicyConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ContinuousDeploymentPolicyConfig()
+        value.stagingDistributionDnsNames = try reader["StagingDistributionDnsNames"].readIfPresent(with: CloudFrontClientTypes.StagingDistributionDnsNames.read(from:))
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.trafficConfig = try reader["TrafficConfig"].readIfPresent(with: CloudFrontClientTypes.TrafficConfig.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ContinuousDeploymentPolicyList {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContinuousDeploymentPolicyList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ContinuousDeploymentPolicyList()
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.ContinuousDeploymentPolicySummary.read(from:), memberNodeInfo: "ContinuousDeploymentPolicySummary", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ContinuousDeploymentPolicySummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContinuousDeploymentPolicySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ContinuousDeploymentPolicySummary()
+        value.continuousDeploymentPolicy = try reader["ContinuousDeploymentPolicy"].readIfPresent(with: CloudFrontClientTypes.ContinuousDeploymentPolicy.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ContinuousDeploymentSingleHeaderConfig {
+
+    static func write(value: CloudFrontClientTypes.ContinuousDeploymentSingleHeaderConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Header"].write(value.header)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContinuousDeploymentSingleHeaderConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ContinuousDeploymentSingleHeaderConfig()
+        value.header = try reader["Header"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ContinuousDeploymentSingleWeightConfig {
+
+    static func write(value: CloudFrontClientTypes.ContinuousDeploymentSingleWeightConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["SessionStickinessConfig"].write(value.sessionStickinessConfig, with: CloudFrontClientTypes.SessionStickinessConfig.write(value:to:))
+        try writer["Weight"].write(value.weight)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContinuousDeploymentSingleWeightConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ContinuousDeploymentSingleWeightConfig()
+        value.weight = try reader["Weight"].readIfPresent() ?? 0.0
+        value.sessionStickinessConfig = try reader["SessionStickinessConfig"].readIfPresent(with: CloudFrontClientTypes.SessionStickinessConfig.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.CookieNames {
+
+    static func write(value: CloudFrontClientTypes.CookieNames?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Name", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CookieNames {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.CookieNames()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Name", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.CookiePreference {
+
+    static func write(value: CloudFrontClientTypes.CookiePreference?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Forward"].write(value.forward)
+        try writer["WhitelistedNames"].write(value.whitelistedNames, with: CloudFrontClientTypes.CookieNames.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CookiePreference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.CookiePreference()
+        value.forward = try reader["Forward"].readIfPresent() ?? .sdkUnknown("")
+        value.whitelistedNames = try reader["WhitelistedNames"].readIfPresent(with: CloudFrontClientTypes.CookieNames.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.CustomErrorResponse {
+
+    static func write(value: CloudFrontClientTypes.CustomErrorResponse?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ErrorCachingMinTTL"].write(value.errorCachingMinTTL)
+        try writer["ErrorCode"].write(value.errorCode)
+        try writer["ResponseCode"].write(value.responseCode)
+        try writer["ResponsePagePath"].write(value.responsePagePath)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CustomErrorResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.CustomErrorResponse()
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? 0
+        value.responsePagePath = try reader["ResponsePagePath"].readIfPresent()
+        value.responseCode = try reader["ResponseCode"].readIfPresent()
+        value.errorCachingMinTTL = try reader["ErrorCachingMinTTL"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.CustomErrorResponses {
+
+    static func write(value: CloudFrontClientTypes.CustomErrorResponses?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.CustomErrorResponse.write(value:to:), memberNodeInfo: "CustomErrorResponse", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CustomErrorResponses {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.CustomErrorResponses()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.CustomErrorResponse.read(from:), memberNodeInfo: "CustomErrorResponse", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.CustomHeaders {
+
+    static func write(value: CloudFrontClientTypes.CustomHeaders?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.OriginCustomHeader.write(value:to:), memberNodeInfo: "OriginCustomHeader", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CustomHeaders {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.CustomHeaders()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.OriginCustomHeader.read(from:), memberNodeInfo: "OriginCustomHeader", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.Customizations {
+
+    static func write(value: CloudFrontClientTypes.Customizations?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Certificate"].write(value.certificate, with: CloudFrontClientTypes.Certificate.write(value:to:))
+        try writer["GeoRestrictions"].write(value.geoRestrictions, with: CloudFrontClientTypes.GeoRestrictionCustomization.write(value:to:))
+        try writer["WebAcl"].write(value.webAcl, with: CloudFrontClientTypes.WebAclCustomization.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Customizations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.Customizations()
+        value.webAcl = try reader["WebAcl"].readIfPresent(with: CloudFrontClientTypes.WebAclCustomization.read(from:))
+        value.certificate = try reader["Certificate"].readIfPresent(with: CloudFrontClientTypes.Certificate.read(from:))
+        value.geoRestrictions = try reader["GeoRestrictions"].readIfPresent(with: CloudFrontClientTypes.GeoRestrictionCustomization.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.CustomOriginConfig {
+
+    static func write(value: CloudFrontClientTypes.CustomOriginConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["HTTPPort"].write(value.httpPort)
+        try writer["HTTPSPort"].write(value.httpsPort)
+        try writer["IpAddressType"].write(value.ipAddressType)
+        try writer["OriginKeepaliveTimeout"].write(value.originKeepaliveTimeout)
+        try writer["OriginMtlsConfig"].write(value.originMtlsConfig, with: CloudFrontClientTypes.OriginMtlsConfig.write(value:to:))
+        try writer["OriginProtocolPolicy"].write(value.originProtocolPolicy)
+        try writer["OriginReadTimeout"].write(value.originReadTimeout)
+        try writer["OriginSslProtocols"].write(value.originSslProtocols, with: CloudFrontClientTypes.OriginSslProtocols.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CustomOriginConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.CustomOriginConfig()
+        value.httpPort = try reader["HTTPPort"].readIfPresent() ?? 0
+        value.httpsPort = try reader["HTTPSPort"].readIfPresent() ?? 0
+        value.originProtocolPolicy = try reader["OriginProtocolPolicy"].readIfPresent() ?? .sdkUnknown("")
+        value.originSslProtocols = try reader["OriginSslProtocols"].readIfPresent(with: CloudFrontClientTypes.OriginSslProtocols.read(from:))
+        value.originReadTimeout = try reader["OriginReadTimeout"].readIfPresent()
+        value.originKeepaliveTimeout = try reader["OriginKeepaliveTimeout"].readIfPresent()
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
+        value.originMtlsConfig = try reader["OriginMtlsConfig"].readIfPresent(with: CloudFrontClientTypes.OriginMtlsConfig.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.DefaultCacheBehavior {
+
+    static func write(value: CloudFrontClientTypes.DefaultCacheBehavior?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedMethods"].write(value.allowedMethods, with: CloudFrontClientTypes.AllowedMethods.write(value:to:))
+        try writer["CachePolicyId"].write(value.cachePolicyId)
+        try writer["Compress"].write(value.compress)
+        try writer["DefaultTTL"].write(value.defaultTTL)
+        try writer["FieldLevelEncryptionId"].write(value.fieldLevelEncryptionId)
+        try writer["ForwardedValues"].write(value.forwardedValues, with: CloudFrontClientTypes.ForwardedValues.write(value:to:))
+        try writer["FunctionAssociations"].write(value.functionAssociations, with: CloudFrontClientTypes.FunctionAssociations.write(value:to:))
+        try writer["GrpcConfig"].write(value.grpcConfig, with: CloudFrontClientTypes.GrpcConfig.write(value:to:))
+        try writer["LambdaFunctionAssociations"].write(value.lambdaFunctionAssociations, with: CloudFrontClientTypes.LambdaFunctionAssociations.write(value:to:))
+        try writer["MaxTTL"].write(value.maxTTL)
+        try writer["MinTTL"].write(value.minTTL)
+        try writer["OriginRequestPolicyId"].write(value.originRequestPolicyId)
+        try writer["RealtimeLogConfigArn"].write(value.realtimeLogConfigArn)
+        try writer["ResponseHeadersPolicyId"].write(value.responseHeadersPolicyId)
+        try writer["SmoothStreaming"].write(value.smoothStreaming)
+        try writer["TargetOriginId"].write(value.targetOriginId)
+        try writer["TrustedKeyGroups"].write(value.trustedKeyGroups, with: CloudFrontClientTypes.TrustedKeyGroups.write(value:to:))
+        try writer["TrustedSigners"].write(value.trustedSigners, with: CloudFrontClientTypes.TrustedSigners.write(value:to:))
+        try writer["ViewerProtocolPolicy"].write(value.viewerProtocolPolicy)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DefaultCacheBehavior {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.DefaultCacheBehavior()
+        value.targetOriginId = try reader["TargetOriginId"].readIfPresent() ?? ""
+        value.trustedSigners = try reader["TrustedSigners"].readIfPresent(with: CloudFrontClientTypes.TrustedSigners.read(from:))
+        value.trustedKeyGroups = try reader["TrustedKeyGroups"].readIfPresent(with: CloudFrontClientTypes.TrustedKeyGroups.read(from:))
+        value.viewerProtocolPolicy = try reader["ViewerProtocolPolicy"].readIfPresent() ?? .sdkUnknown("")
+        value.allowedMethods = try reader["AllowedMethods"].readIfPresent(with: CloudFrontClientTypes.AllowedMethods.read(from:))
+        value.smoothStreaming = try reader["SmoothStreaming"].readIfPresent()
+        value.compress = try reader["Compress"].readIfPresent()
+        value.lambdaFunctionAssociations = try reader["LambdaFunctionAssociations"].readIfPresent(with: CloudFrontClientTypes.LambdaFunctionAssociations.read(from:))
+        value.functionAssociations = try reader["FunctionAssociations"].readIfPresent(with: CloudFrontClientTypes.FunctionAssociations.read(from:))
+        value.fieldLevelEncryptionId = try reader["FieldLevelEncryptionId"].readIfPresent()
+        value.realtimeLogConfigArn = try reader["RealtimeLogConfigArn"].readIfPresent()
+        value.cachePolicyId = try reader["CachePolicyId"].readIfPresent()
+        value.originRequestPolicyId = try reader["OriginRequestPolicyId"].readIfPresent()
+        value.responseHeadersPolicyId = try reader["ResponseHeadersPolicyId"].readIfPresent()
+        value.grpcConfig = try reader["GrpcConfig"].readIfPresent(with: CloudFrontClientTypes.GrpcConfig.read(from:))
+        value.forwardedValues = try reader["ForwardedValues"].readIfPresent(with: CloudFrontClientTypes.ForwardedValues.read(from:))
+        value.minTTL = try reader["MinTTL"].readIfPresent()
+        value.defaultTTL = try reader["DefaultTTL"].readIfPresent()
+        value.maxTTL = try reader["MaxTTL"].readIfPresent()
         return value
     }
 }
@@ -27375,17 +28240,6 @@ extension CloudFrontClientTypes.Distribution {
         value.activeTrustedKeyGroups = try reader["ActiveTrustedKeyGroups"].readIfPresent(with: CloudFrontClientTypes.ActiveTrustedKeyGroups.read(from:))
         value.distributionConfig = try reader["DistributionConfig"].readIfPresent(with: CloudFrontClientTypes.DistributionConfig.read(from:))
         value.aliasICPRecordals = try reader["AliasICPRecordals"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.AliasICPRecordal.read(from:), memberNodeInfo: "AliasICPRecordal", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.AliasICPRecordal {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.AliasICPRecordal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.AliasICPRecordal()
-        value.cname = try reader["CNAME"].readIfPresent()
-        value.icpRecordalStatus = try reader["ICPRecordalStatus"].readIfPresent()
         return value
     }
 }
@@ -27451,309 +28305,397 @@ extension CloudFrontClientTypes.DistributionConfig {
     }
 }
 
-extension CloudFrontClientTypes.ConnectionFunctionAssociation {
+extension CloudFrontClientTypes.DistributionConfigWithTags {
 
-    static func write(value: CloudFrontClientTypes.ConnectionFunctionAssociation?, to writer: SmithyXML.Writer) throws {
+    static func write(value: CloudFrontClientTypes.DistributionConfigWithTags?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        try writer["Id"].write(value.id)
+        try writer["DistributionConfig"].write(value.distributionConfig, with: CloudFrontClientTypes.DistributionConfig.write(value:to:))
+        try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
     }
+}
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ConnectionFunctionAssociation {
+extension CloudFrontClientTypes.DistributionIdList {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionIdList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ConnectionFunctionAssociation()
+        var value = CloudFrontClientTypes.DistributionIdList()
+        value.marker = try reader["Marker"].readIfPresent() ?? ""
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "DistributionId", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.DistributionIdOwner {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionIdOwner {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.DistributionIdOwner()
+        value.distributionId = try reader["DistributionId"].readIfPresent() ?? ""
+        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.DistributionIdOwnerList {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionIdOwnerList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.DistributionIdOwnerList()
+        value.marker = try reader["Marker"].readIfPresent() ?? ""
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.DistributionIdOwner.read(from:), memberNodeInfo: "DistributionIdOwner", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.DistributionList {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.DistributionList()
+        value.marker = try reader["Marker"].readIfPresent() ?? ""
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.DistributionSummary.read(from:), memberNodeInfo: "DistributionSummary", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.DistributionResourceId {
+
+    static func write(value: CloudFrontClientTypes.DistributionResourceId?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["DistributionId"].write(value.distributionId)
+        try writer["DistributionTenantId"].write(value.distributionTenantId)
+    }
+}
+
+extension CloudFrontClientTypes.DistributionSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.DistributionSummary()
         value.id = try reader["Id"].readIfPresent() ?? ""
+        value.arn = try reader["ARN"].readIfPresent() ?? ""
+        value.eTag = try reader["ETag"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
+        value.aliases = try reader["Aliases"].readIfPresent(with: CloudFrontClientTypes.Aliases.read(from:))
+        value.origins = try reader["Origins"].readIfPresent(with: CloudFrontClientTypes.Origins.read(from:))
+        value.originGroups = try reader["OriginGroups"].readIfPresent(with: CloudFrontClientTypes.OriginGroups.read(from:))
+        value.defaultCacheBehavior = try reader["DefaultCacheBehavior"].readIfPresent(with: CloudFrontClientTypes.DefaultCacheBehavior.read(from:))
+        value.cacheBehaviors = try reader["CacheBehaviors"].readIfPresent(with: CloudFrontClientTypes.CacheBehaviors.read(from:))
+        value.customErrorResponses = try reader["CustomErrorResponses"].readIfPresent(with: CloudFrontClientTypes.CustomErrorResponses.read(from:))
+        value.comment = try reader["Comment"].readIfPresent() ?? ""
+        value.priceClass = try reader["PriceClass"].readIfPresent() ?? .sdkUnknown("")
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.viewerCertificate = try reader["ViewerCertificate"].readIfPresent(with: CloudFrontClientTypes.ViewerCertificate.read(from:))
+        value.restrictions = try reader["Restrictions"].readIfPresent(with: CloudFrontClientTypes.Restrictions.read(from:))
+        value.webACLId = try reader["WebACLId"].readIfPresent() ?? ""
+        value.httpVersion = try reader["HttpVersion"].readIfPresent() ?? .sdkUnknown("")
+        value.isIPV6Enabled = try reader["IsIPV6Enabled"].readIfPresent() ?? false
+        value.aliasICPRecordals = try reader["AliasICPRecordals"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.AliasICPRecordal.read(from:), memberNodeInfo: "AliasICPRecordal", isFlattened: false)
+        value.staging = try reader["Staging"].readIfPresent() ?? false
+        value.connectionMode = try reader["ConnectionMode"].readIfPresent()
+        value.anycastIpListId = try reader["AnycastIpListId"].readIfPresent()
+        value.viewerMtlsConfig = try reader["ViewerMtlsConfig"].readIfPresent(with: CloudFrontClientTypes.ViewerMtlsConfig.read(from:))
+        value.connectionFunctionAssociation = try reader["ConnectionFunctionAssociation"].readIfPresent(with: CloudFrontClientTypes.ConnectionFunctionAssociation.read(from:))
         return value
     }
 }
 
-extension CloudFrontClientTypes.ViewerMtlsConfig {
+extension CloudFrontClientTypes.DistributionTenant {
 
-    static func write(value: CloudFrontClientTypes.ViewerMtlsConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Mode"].write(value.mode)
-        try writer["TrustStoreConfig"].write(value.trustStoreConfig, with: CloudFrontClientTypes.TrustStoreConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ViewerMtlsConfig {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionTenant {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ViewerMtlsConfig()
-        value.mode = try reader["Mode"].readIfPresent() ?? CloudFrontClientTypes.ViewerMtlsMode.`required`
-        value.trustStoreConfig = try reader["TrustStoreConfig"].readIfPresent(with: CloudFrontClientTypes.TrustStoreConfig.read(from:))
+        var value = CloudFrontClientTypes.DistributionTenant()
+        value.id = try reader["Id"].readIfPresent()
+        value.distributionId = try reader["DistributionId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.domains = try reader["Domains"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.DomainResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readIfPresent(with: CloudFrontClientTypes.Tags.read(from:))
+        value.customizations = try reader["Customizations"].readIfPresent(with: CloudFrontClientTypes.Customizations.read(from:))
+        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.Parameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectionGroupId = try reader["ConnectionGroupId"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
 
-extension CloudFrontClientTypes.TrustStoreConfig {
+extension CloudFrontClientTypes.DistributionTenantAssociationFilter {
 
-    static func write(value: CloudFrontClientTypes.TrustStoreConfig?, to writer: SmithyXML.Writer) throws {
+    static func write(value: CloudFrontClientTypes.DistributionTenantAssociationFilter?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        try writer["AdvertiseTrustStoreCaNames"].write(value.advertiseTrustStoreCaNames)
-        try writer["IgnoreCertificateExpiry"].write(value.ignoreCertificateExpiry)
-        try writer["TrustStoreId"].write(value.trustStoreId)
+        try writer["ConnectionGroupId"].write(value.connectionGroupId)
+        try writer["DistributionId"].write(value.distributionId)
     }
+}
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.TrustStoreConfig {
+extension CloudFrontClientTypes.DistributionTenantSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionTenantSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.TrustStoreConfig()
-        value.trustStoreId = try reader["TrustStoreId"].readIfPresent() ?? ""
-        value.advertiseTrustStoreCaNames = try reader["AdvertiseTrustStoreCaNames"].readIfPresent()
-        value.ignoreCertificateExpiry = try reader["IgnoreCertificateExpiry"].readIfPresent()
+        var value = CloudFrontClientTypes.DistributionTenantSummary()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.distributionId = try reader["DistributionId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.domains = try reader["Domains"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.DomainResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.connectionGroupId = try reader["ConnectionGroupId"].readIfPresent()
+        value.customizations = try reader["Customizations"].readIfPresent(with: CloudFrontClientTypes.Customizations.read(from:))
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.eTag = try reader["ETag"].readIfPresent() ?? ""
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
 
-extension CloudFrontClientTypes.TenantConfig {
+extension CloudFrontClientTypes.DnsConfiguration {
 
-    static func write(value: CloudFrontClientTypes.TenantConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ParameterDefinitions"].writeList(value.parameterDefinitions, memberWritingClosure: CloudFrontClientTypes.ParameterDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.TenantConfig {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DnsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.TenantConfig()
-        value.parameterDefinitions = try reader["ParameterDefinitions"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.ParameterDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = CloudFrontClientTypes.DnsConfiguration()
+        value.domain = try reader["Domain"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.reason = try reader["Reason"].readIfPresent()
         return value
     }
 }
 
-extension CloudFrontClientTypes.ParameterDefinition {
+extension CloudFrontClientTypes.DomainConflict {
 
-    static func write(value: CloudFrontClientTypes.ParameterDefinition?, to writer: SmithyXML.Writer) throws {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DomainConflict {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.DomainConflict()
+        value.domain = try reader["Domain"].readIfPresent() ?? ""
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.DomainItem {
+
+    static func write(value: CloudFrontClientTypes.DomainItem?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        try writer["Definition"].write(value.definition, with: CloudFrontClientTypes.ParameterDefinitionSchema.write(value:to:))
+        try writer["Domain"].write(value.domain)
+    }
+}
+
+extension CloudFrontClientTypes.DomainResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DomainResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.DomainResult()
+        value.domain = try reader["Domain"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.EncryptionEntities {
+
+    static func write(value: CloudFrontClientTypes.EncryptionEntities?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.EncryptionEntity.write(value:to:), memberNodeInfo: "EncryptionEntity", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.EncryptionEntities {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.EncryptionEntities()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.EncryptionEntity.read(from:), memberNodeInfo: "EncryptionEntity", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.EncryptionEntity {
+
+    static func write(value: CloudFrontClientTypes.EncryptionEntity?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["FieldPatterns"].write(value.fieldPatterns, with: CloudFrontClientTypes.FieldPatterns.write(value:to:))
+        try writer["ProviderId"].write(value.providerId)
+        try writer["PublicKeyId"].write(value.publicKeyId)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.EncryptionEntity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.EncryptionEntity()
+        value.publicKeyId = try reader["PublicKeyId"].readIfPresent() ?? ""
+        value.providerId = try reader["ProviderId"].readIfPresent() ?? ""
+        value.fieldPatterns = try reader["FieldPatterns"].readIfPresent(with: CloudFrontClientTypes.FieldPatterns.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.EndPoint {
+
+    static func write(value: CloudFrontClientTypes.EndPoint?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["KinesisStreamConfig"].write(value.kinesisStreamConfig, with: CloudFrontClientTypes.KinesisStreamConfig.write(value:to:))
+        try writer["StreamType"].write(value.streamType)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.EndPoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.EndPoint()
+        value.streamType = try reader["StreamType"].readIfPresent() ?? ""
+        value.kinesisStreamConfig = try reader["KinesisStreamConfig"].readIfPresent(with: CloudFrontClientTypes.KinesisStreamConfig.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.FieldLevelEncryption {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.FieldLevelEncryption()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.fieldLevelEncryptionConfig = try reader["FieldLevelEncryptionConfig"].readIfPresent(with: CloudFrontClientTypes.FieldLevelEncryptionConfig.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.FieldLevelEncryptionConfig {
+
+    static func write(value: CloudFrontClientTypes.FieldLevelEncryptionConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CallerReference"].write(value.callerReference)
+        try writer["Comment"].write(value.comment)
+        try writer["ContentTypeProfileConfig"].write(value.contentTypeProfileConfig, with: CloudFrontClientTypes.ContentTypeProfileConfig.write(value:to:))
+        try writer["QueryArgProfileConfig"].write(value.queryArgProfileConfig, with: CloudFrontClientTypes.QueryArgProfileConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryptionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.FieldLevelEncryptionConfig()
+        value.callerReference = try reader["CallerReference"].readIfPresent() ?? ""
+        value.comment = try reader["Comment"].readIfPresent()
+        value.queryArgProfileConfig = try reader["QueryArgProfileConfig"].readIfPresent(with: CloudFrontClientTypes.QueryArgProfileConfig.read(from:))
+        value.contentTypeProfileConfig = try reader["ContentTypeProfileConfig"].readIfPresent(with: CloudFrontClientTypes.ContentTypeProfileConfig.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.FieldLevelEncryptionList {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryptionList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.FieldLevelEncryptionList()
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.FieldLevelEncryptionSummary.read(from:), memberNodeInfo: "FieldLevelEncryptionSummary", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.FieldLevelEncryptionProfile {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryptionProfile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.FieldLevelEncryptionProfile()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.fieldLevelEncryptionProfileConfig = try reader["FieldLevelEncryptionProfileConfig"].readIfPresent(with: CloudFrontClientTypes.FieldLevelEncryptionProfileConfig.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.FieldLevelEncryptionProfileConfig {
+
+    static func write(value: CloudFrontClientTypes.FieldLevelEncryptionProfileConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CallerReference"].write(value.callerReference)
+        try writer["Comment"].write(value.comment)
+        try writer["EncryptionEntities"].write(value.encryptionEntities, with: CloudFrontClientTypes.EncryptionEntities.write(value:to:))
         try writer["Name"].write(value.name)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ParameterDefinition {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryptionProfileConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ParameterDefinition()
+        var value = CloudFrontClientTypes.FieldLevelEncryptionProfileConfig()
         value.name = try reader["Name"].readIfPresent() ?? ""
-        value.definition = try reader["Definition"].readIfPresent(with: CloudFrontClientTypes.ParameterDefinitionSchema.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ParameterDefinitionSchema {
-
-    static func write(value: CloudFrontClientTypes.ParameterDefinitionSchema?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["StringSchema"].write(value.stringSchema, with: CloudFrontClientTypes.StringSchemaConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ParameterDefinitionSchema {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ParameterDefinitionSchema()
-        value.stringSchema = try reader["StringSchema"].readIfPresent(with: CloudFrontClientTypes.StringSchemaConfig.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.StringSchemaConfig {
-
-    static func write(value: CloudFrontClientTypes.StringSchemaConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Comment"].write(value.comment)
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["Required"].write(value.`required`)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.StringSchemaConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.StringSchemaConfig()
+        value.callerReference = try reader["CallerReference"].readIfPresent() ?? ""
         value.comment = try reader["Comment"].readIfPresent()
-        value.defaultValue = try reader["DefaultValue"].readIfPresent()
-        value.`required` = try reader["Required"].readIfPresent() ?? false
+        value.encryptionEntities = try reader["EncryptionEntities"].readIfPresent(with: CloudFrontClientTypes.EncryptionEntities.read(from:))
         return value
     }
 }
 
-extension CloudFrontClientTypes.Restrictions {
+extension CloudFrontClientTypes.FieldLevelEncryptionProfileList {
 
-    static func write(value: CloudFrontClientTypes.Restrictions?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["GeoRestriction"].write(value.geoRestriction, with: CloudFrontClientTypes.GeoRestriction.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Restrictions {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryptionProfileList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.Restrictions()
-        value.geoRestriction = try reader["GeoRestriction"].readIfPresent(with: CloudFrontClientTypes.GeoRestriction.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.GeoRestriction {
-
-    static func write(value: CloudFrontClientTypes.GeoRestriction?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Location", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-        try writer["RestrictionType"].write(value.restrictionType)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.GeoRestriction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.GeoRestriction()
-        value.restrictionType = try reader["RestrictionType"].readIfPresent() ?? .sdkUnknown("")
+        var value = CloudFrontClientTypes.FieldLevelEncryptionProfileList()
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
         value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Location", isFlattened: false)
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.FieldLevelEncryptionProfileSummary.read(from:), memberNodeInfo: "FieldLevelEncryptionProfileSummary", isFlattened: false)
         return value
     }
 }
 
-extension CloudFrontClientTypes.ViewerCertificate {
+extension CloudFrontClientTypes.FieldLevelEncryptionProfileSummary {
 
-    static func write(value: CloudFrontClientTypes.ViewerCertificate?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ACMCertificateArn"].write(value.acmCertificateArn)
-        try writer["Certificate"].write(value.certificate)
-        try writer["CertificateSource"].write(value.certificateSource)
-        try writer["CloudFrontDefaultCertificate"].write(value.cloudFrontDefaultCertificate)
-        try writer["IAMCertificateId"].write(value.iamCertificateId)
-        try writer["MinimumProtocolVersion"].write(value.minimumProtocolVersion)
-        try writer["SSLSupportMethod"].write(value.sslSupportMethod)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ViewerCertificate {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryptionProfileSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ViewerCertificate()
-        value.cloudFrontDefaultCertificate = try reader["CloudFrontDefaultCertificate"].readIfPresent()
-        value.iamCertificateId = try reader["IAMCertificateId"].readIfPresent()
-        value.acmCertificateArn = try reader["ACMCertificateArn"].readIfPresent()
-        value.sslSupportMethod = try reader["SSLSupportMethod"].readIfPresent()
-        value.minimumProtocolVersion = try reader["MinimumProtocolVersion"].readIfPresent()
-        value.certificate = try reader["Certificate"].readIfPresent()
-        value.certificateSource = try reader["CertificateSource"].readIfPresent()
+        var value = CloudFrontClientTypes.FieldLevelEncryptionProfileSummary()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.encryptionEntities = try reader["EncryptionEntities"].readIfPresent(with: CloudFrontClientTypes.EncryptionEntities.read(from:))
+        value.comment = try reader["Comment"].readIfPresent()
         return value
     }
 }
 
-extension CloudFrontClientTypes.LoggingConfig {
+extension CloudFrontClientTypes.FieldLevelEncryptionSummary {
 
-    static func write(value: CloudFrontClientTypes.LoggingConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["Enabled"].write(value.enabled)
-        try writer["IncludeCookies"].write(value.includeCookies)
-        try writer["Prefix"].write(value.`prefix`)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.LoggingConfig {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryptionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.LoggingConfig()
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        value.includeCookies = try reader["IncludeCookies"].readIfPresent() ?? false
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
-        value.`prefix` = try reader["Prefix"].readIfPresent() ?? ""
+        var value = CloudFrontClientTypes.FieldLevelEncryptionSummary()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.comment = try reader["Comment"].readIfPresent()
+        value.queryArgProfileConfig = try reader["QueryArgProfileConfig"].readIfPresent(with: CloudFrontClientTypes.QueryArgProfileConfig.read(from:))
+        value.contentTypeProfileConfig = try reader["ContentTypeProfileConfig"].readIfPresent(with: CloudFrontClientTypes.ContentTypeProfileConfig.read(from:))
         return value
     }
 }
 
-extension CloudFrontClientTypes.CustomErrorResponses {
+extension CloudFrontClientTypes.FieldPatterns {
 
-    static func write(value: CloudFrontClientTypes.CustomErrorResponses?, to writer: SmithyXML.Writer) throws {
+    static func write(value: CloudFrontClientTypes.FieldPatterns?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.CustomErrorResponse.write(value:to:), memberNodeInfo: "CustomErrorResponse", isFlattened: false)
+        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "FieldPattern", isFlattened: false)
         try writer["Quantity"].write(value.quantity)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CustomErrorResponses {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldPatterns {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.CustomErrorResponses()
+        var value = CloudFrontClientTypes.FieldPatterns()
         value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.CustomErrorResponse.read(from:), memberNodeInfo: "CustomErrorResponse", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.CustomErrorResponse {
-
-    static func write(value: CloudFrontClientTypes.CustomErrorResponse?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorCachingMinTTL"].write(value.errorCachingMinTTL)
-        try writer["ErrorCode"].write(value.errorCode)
-        try writer["ResponseCode"].write(value.responseCode)
-        try writer["ResponsePagePath"].write(value.responsePagePath)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CustomErrorResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.CustomErrorResponse()
-        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? 0
-        value.responsePagePath = try reader["ResponsePagePath"].readIfPresent()
-        value.responseCode = try reader["ResponseCode"].readIfPresent()
-        value.errorCachingMinTTL = try reader["ErrorCachingMinTTL"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.CacheBehaviors {
-
-    static func write(value: CloudFrontClientTypes.CacheBehaviors?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.CacheBehavior.write(value:to:), memberNodeInfo: "CacheBehavior", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CacheBehaviors {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.CacheBehaviors()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.CacheBehavior.read(from:), memberNodeInfo: "CacheBehavior", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.CacheBehavior {
-
-    static func write(value: CloudFrontClientTypes.CacheBehavior?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedMethods"].write(value.allowedMethods, with: CloudFrontClientTypes.AllowedMethods.write(value:to:))
-        try writer["CachePolicyId"].write(value.cachePolicyId)
-        try writer["Compress"].write(value.compress)
-        try writer["DefaultTTL"].write(value.defaultTTL)
-        try writer["FieldLevelEncryptionId"].write(value.fieldLevelEncryptionId)
-        try writer["ForwardedValues"].write(value.forwardedValues, with: CloudFrontClientTypes.ForwardedValues.write(value:to:))
-        try writer["FunctionAssociations"].write(value.functionAssociations, with: CloudFrontClientTypes.FunctionAssociations.write(value:to:))
-        try writer["GrpcConfig"].write(value.grpcConfig, with: CloudFrontClientTypes.GrpcConfig.write(value:to:))
-        try writer["LambdaFunctionAssociations"].write(value.lambdaFunctionAssociations, with: CloudFrontClientTypes.LambdaFunctionAssociations.write(value:to:))
-        try writer["MaxTTL"].write(value.maxTTL)
-        try writer["MinTTL"].write(value.minTTL)
-        try writer["OriginRequestPolicyId"].write(value.originRequestPolicyId)
-        try writer["PathPattern"].write(value.pathPattern)
-        try writer["RealtimeLogConfigArn"].write(value.realtimeLogConfigArn)
-        try writer["ResponseHeadersPolicyId"].write(value.responseHeadersPolicyId)
-        try writer["SmoothStreaming"].write(value.smoothStreaming)
-        try writer["TargetOriginId"].write(value.targetOriginId)
-        try writer["TrustedKeyGroups"].write(value.trustedKeyGroups, with: CloudFrontClientTypes.TrustedKeyGroups.write(value:to:))
-        try writer["TrustedSigners"].write(value.trustedSigners, with: CloudFrontClientTypes.TrustedSigners.write(value:to:))
-        try writer["ViewerProtocolPolicy"].write(value.viewerProtocolPolicy)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CacheBehavior {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.CacheBehavior()
-        value.pathPattern = try reader["PathPattern"].readIfPresent() ?? ""
-        value.targetOriginId = try reader["TargetOriginId"].readIfPresent() ?? ""
-        value.trustedSigners = try reader["TrustedSigners"].readIfPresent(with: CloudFrontClientTypes.TrustedSigners.read(from:))
-        value.trustedKeyGroups = try reader["TrustedKeyGroups"].readIfPresent(with: CloudFrontClientTypes.TrustedKeyGroups.read(from:))
-        value.viewerProtocolPolicy = try reader["ViewerProtocolPolicy"].readIfPresent() ?? .sdkUnknown("")
-        value.allowedMethods = try reader["AllowedMethods"].readIfPresent(with: CloudFrontClientTypes.AllowedMethods.read(from:))
-        value.smoothStreaming = try reader["SmoothStreaming"].readIfPresent()
-        value.compress = try reader["Compress"].readIfPresent()
-        value.lambdaFunctionAssociations = try reader["LambdaFunctionAssociations"].readIfPresent(with: CloudFrontClientTypes.LambdaFunctionAssociations.read(from:))
-        value.functionAssociations = try reader["FunctionAssociations"].readIfPresent(with: CloudFrontClientTypes.FunctionAssociations.read(from:))
-        value.fieldLevelEncryptionId = try reader["FieldLevelEncryptionId"].readIfPresent()
-        value.realtimeLogConfigArn = try reader["RealtimeLogConfigArn"].readIfPresent()
-        value.cachePolicyId = try reader["CachePolicyId"].readIfPresent()
-        value.originRequestPolicyId = try reader["OriginRequestPolicyId"].readIfPresent()
-        value.responseHeadersPolicyId = try reader["ResponseHeadersPolicyId"].readIfPresent()
-        value.grpcConfig = try reader["GrpcConfig"].readIfPresent(with: CloudFrontClientTypes.GrpcConfig.read(from:))
-        value.forwardedValues = try reader["ForwardedValues"].readIfPresent(with: CloudFrontClientTypes.ForwardedValues.read(from:))
-        value.minTTL = try reader["MinTTL"].readIfPresent()
-        value.defaultTTL = try reader["DefaultTTL"].readIfPresent()
-        value.maxTTL = try reader["MaxTTL"].readIfPresent()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "FieldPattern", isFlattened: false)
         return value
     }
 }
@@ -27779,85 +28721,19 @@ extension CloudFrontClientTypes.ForwardedValues {
     }
 }
 
-extension CloudFrontClientTypes.QueryStringCacheKeys {
+extension CloudFrontClientTypes.FunctionAssociation {
 
-    static func write(value: CloudFrontClientTypes.QueryStringCacheKeys?, to writer: SmithyXML.Writer) throws {
+    static func write(value: CloudFrontClientTypes.FunctionAssociation?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Name", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
+        try writer["EventType"].write(value.eventType)
+        try writer["FunctionARN"].write(value.functionARN)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.QueryStringCacheKeys {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FunctionAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.QueryStringCacheKeys()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Name", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.Headers {
-
-    static func write(value: CloudFrontClientTypes.Headers?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Name", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Headers {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.Headers()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Name", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.CookiePreference {
-
-    static func write(value: CloudFrontClientTypes.CookiePreference?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Forward"].write(value.forward)
-        try writer["WhitelistedNames"].write(value.whitelistedNames, with: CloudFrontClientTypes.CookieNames.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CookiePreference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.CookiePreference()
-        value.forward = try reader["Forward"].readIfPresent() ?? .sdkUnknown("")
-        value.whitelistedNames = try reader["WhitelistedNames"].readIfPresent(with: CloudFrontClientTypes.CookieNames.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.CookieNames {
-
-    static func write(value: CloudFrontClientTypes.CookieNames?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Name", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CookieNames {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.CookieNames()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Name", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.GrpcConfig {
-
-    static func write(value: CloudFrontClientTypes.GrpcConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.GrpcConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.GrpcConfig()
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        var value = CloudFrontClientTypes.FunctionAssociation()
+        value.functionARN = try reader["FunctionARN"].readIfPresent() ?? ""
+        value.eventType = try reader["EventType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -27879,36 +28755,379 @@ extension CloudFrontClientTypes.FunctionAssociations {
     }
 }
 
-extension CloudFrontClientTypes.FunctionAssociation {
+extension CloudFrontClientTypes.FunctionConfig {
 
-    static func write(value: CloudFrontClientTypes.FunctionAssociation?, to writer: SmithyXML.Writer) throws {
+    static func write(value: CloudFrontClientTypes.FunctionConfig?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        try writer["EventType"].write(value.eventType)
-        try writer["FunctionARN"].write(value.functionARN)
+        try writer["Comment"].write(value.comment)
+        try writer["KeyValueStoreAssociations"].write(value.keyValueStoreAssociations, with: CloudFrontClientTypes.KeyValueStoreAssociations.write(value:to:))
+        try writer["Runtime"].write(value.runtime)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FunctionAssociation {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FunctionConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.FunctionAssociation()
-        value.functionARN = try reader["FunctionARN"].readIfPresent() ?? ""
-        value.eventType = try reader["EventType"].readIfPresent() ?? .sdkUnknown("")
+        var value = CloudFrontClientTypes.FunctionConfig()
+        value.comment = try reader["Comment"].readIfPresent() ?? ""
+        value.runtime = try reader["Runtime"].readIfPresent() ?? .sdkUnknown("")
+        value.keyValueStoreAssociations = try reader["KeyValueStoreAssociations"].readIfPresent(with: CloudFrontClientTypes.KeyValueStoreAssociations.read(from:))
         return value
     }
 }
 
-extension CloudFrontClientTypes.LambdaFunctionAssociations {
+extension CloudFrontClientTypes.FunctionList {
 
-    static func write(value: CloudFrontClientTypes.LambdaFunctionAssociations?, to writer: SmithyXML.Writer) throws {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FunctionList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.FunctionList()
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.FunctionSummary.read(from:), memberNodeInfo: "FunctionSummary", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.FunctionMetadata {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FunctionMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.FunctionMetadata()
+        value.functionARN = try reader["FunctionARN"].readIfPresent() ?? ""
+        value.stage = try reader["Stage"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.FunctionSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FunctionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.FunctionSummary()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent()
+        value.functionConfig = try reader["FunctionConfig"].readIfPresent(with: CloudFrontClientTypes.FunctionConfig.read(from:))
+        value.functionMetadata = try reader["FunctionMetadata"].readIfPresent(with: CloudFrontClientTypes.FunctionMetadata.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.GeoRestriction {
+
+    static func write(value: CloudFrontClientTypes.GeoRestriction?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.LambdaFunctionAssociation.write(value:to:), memberNodeInfo: "LambdaFunctionAssociation", isFlattened: false)
+        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Location", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+        try writer["RestrictionType"].write(value.restrictionType)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.GeoRestriction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.GeoRestriction()
+        value.restrictionType = try reader["RestrictionType"].readIfPresent() ?? .sdkUnknown("")
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Location", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.GeoRestrictionCustomization {
+
+    static func write(value: CloudFrontClientTypes.GeoRestrictionCustomization?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Locations"].writeList(value.locations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Location", isFlattened: false)
+        try writer["RestrictionType"].write(value.restrictionType)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.GeoRestrictionCustomization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.GeoRestrictionCustomization()
+        value.restrictionType = try reader["RestrictionType"].readIfPresent() ?? .sdkUnknown("")
+        value.locations = try reader["Locations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Location", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.GrpcConfig {
+
+    static func write(value: CloudFrontClientTypes.GrpcConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.GrpcConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.GrpcConfig()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.Headers {
+
+    static func write(value: CloudFrontClientTypes.Headers?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Name", isFlattened: false)
         try writer["Quantity"].write(value.quantity)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.LambdaFunctionAssociations {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Headers {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.LambdaFunctionAssociations()
+        var value = CloudFrontClientTypes.Headers()
         value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.LambdaFunctionAssociation.read(from:), memberNodeInfo: "LambdaFunctionAssociation", isFlattened: false)
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Name", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ImportSource {
+
+    static func write(value: CloudFrontClientTypes.ImportSource?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["SourceARN"].write(value.sourceARN)
+        try writer["SourceType"].write(value.sourceType)
+    }
+}
+
+extension CloudFrontClientTypes.Invalidation {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Invalidation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.Invalidation()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.invalidationBatch = try reader["InvalidationBatch"].readIfPresent(with: CloudFrontClientTypes.InvalidationBatch.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.InvalidationBatch {
+
+    static func write(value: CloudFrontClientTypes.InvalidationBatch?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CallerReference"].write(value.callerReference)
+        try writer["Paths"].write(value.paths, with: CloudFrontClientTypes.Paths.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.InvalidationBatch {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.InvalidationBatch()
+        value.paths = try reader["Paths"].readIfPresent(with: CloudFrontClientTypes.Paths.read(from:))
+        value.callerReference = try reader["CallerReference"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.InvalidationList {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.InvalidationList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.InvalidationList()
+        value.marker = try reader["Marker"].readIfPresent() ?? ""
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.InvalidationSummary.read(from:), memberNodeInfo: "InvalidationSummary", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.InvalidationSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.InvalidationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.InvalidationSummary()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.IpamCidrConfig {
+
+    static func write(value: CloudFrontClientTypes.IpamCidrConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AnycastIp"].write(value.anycastIp)
+        try writer["Cidr"].write(value.cidr)
+        try writer["IpamPoolArn"].write(value.ipamPoolArn)
+        try writer["Status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.IpamCidrConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.IpamCidrConfig()
+        value.cidr = try reader["Cidr"].readIfPresent() ?? ""
+        value.ipamPoolArn = try reader["IpamPoolArn"].readIfPresent() ?? ""
+        value.anycastIp = try reader["AnycastIp"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.IpamConfig {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.IpamConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.IpamConfig()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.ipamCidrConfigs = try reader["IpamCidrConfigs"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.IpamCidrConfig.read(from:), memberNodeInfo: "IpamCidrConfig", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.KeyGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.KeyGroup()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.keyGroupConfig = try reader["KeyGroupConfig"].readIfPresent(with: CloudFrontClientTypes.KeyGroupConfig.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.KeyGroupConfig {
+
+    static func write(value: CloudFrontClientTypes.KeyGroupConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Comment"].write(value.comment)
+        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "PublicKey", isFlattened: false)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyGroupConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.KeyGroupConfig()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "PublicKey", isFlattened: false) ?? []
+        value.comment = try reader["Comment"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.KeyGroupList {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyGroupList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.KeyGroupList()
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.KeyGroupSummary.read(from:), memberNodeInfo: "KeyGroupSummary", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.KeyGroupSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyGroupSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.KeyGroupSummary()
+        value.keyGroup = try reader["KeyGroup"].readIfPresent(with: CloudFrontClientTypes.KeyGroup.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.KeyPairIds {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyPairIds {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.KeyPairIds()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "KeyPairId", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.KeyValueStore {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyValueStore {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.KeyValueStore()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.comment = try reader["Comment"].readIfPresent() ?? ""
+        value.arn = try reader["ARN"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.KeyValueStoreAssociation {
+
+    static func write(value: CloudFrontClientTypes.KeyValueStoreAssociation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["KeyValueStoreARN"].write(value.keyValueStoreARN)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyValueStoreAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.KeyValueStoreAssociation()
+        value.keyValueStoreARN = try reader["KeyValueStoreARN"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.KeyValueStoreAssociations {
+
+    static func write(value: CloudFrontClientTypes.KeyValueStoreAssociations?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.KeyValueStoreAssociation.write(value:to:), memberNodeInfo: "KeyValueStoreAssociation", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyValueStoreAssociations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.KeyValueStoreAssociations()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.KeyValueStoreAssociation.read(from:), memberNodeInfo: "KeyValueStoreAssociation", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.KeyValueStoreList {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyValueStoreList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.KeyValueStoreList()
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.KeyValueStore.read(from:), memberNodeInfo: "KeyValueStore", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.KGKeyPairIds {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KGKeyPairIds {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.KGKeyPairIds()
+        value.keyGroupId = try reader["KeyGroupId"].readIfPresent()
+        value.keyPairIds = try reader["KeyPairIds"].readIfPresent(with: CloudFrontClientTypes.KeyPairIds.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.KinesisStreamConfig {
+
+    static func write(value: CloudFrontClientTypes.KinesisStreamConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["RoleARN"].write(value.roleARN)
+        try writer["StreamARN"].write(value.streamARN)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KinesisStreamConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.KinesisStreamConfig()
+        value.roleARN = try reader["RoleARN"].readIfPresent() ?? ""
+        value.streamARN = try reader["StreamARN"].readIfPresent() ?? ""
         return value
     }
 }
@@ -27932,246 +29151,78 @@ extension CloudFrontClientTypes.LambdaFunctionAssociation {
     }
 }
 
-extension CloudFrontClientTypes.AllowedMethods {
+extension CloudFrontClientTypes.LambdaFunctionAssociations {
 
-    static func write(value: CloudFrontClientTypes.AllowedMethods?, to writer: SmithyXML.Writer) throws {
+    static func write(value: CloudFrontClientTypes.LambdaFunctionAssociations?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        try writer["CachedMethods"].write(value.cachedMethods, with: CloudFrontClientTypes.CachedMethods.write(value:to:))
-        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CloudFrontClientTypes.Method>().write(value:to:), memberNodeInfo: "Method", isFlattened: false)
+        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.LambdaFunctionAssociation.write(value:to:), memberNodeInfo: "LambdaFunctionAssociation", isFlattened: false)
         try writer["Quantity"].write(value.quantity)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.AllowedMethods {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.LambdaFunctionAssociations {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.AllowedMethods()
+        var value = CloudFrontClientTypes.LambdaFunctionAssociations()
         value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudFrontClientTypes.Method>().read(from:), memberNodeInfo: "Method", isFlattened: false) ?? []
-        value.cachedMethods = try reader["CachedMethods"].readIfPresent(with: CloudFrontClientTypes.CachedMethods.read(from:))
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.LambdaFunctionAssociation.read(from:), memberNodeInfo: "LambdaFunctionAssociation", isFlattened: false)
         return value
     }
 }
 
-extension CloudFrontClientTypes.CachedMethods {
+extension CloudFrontClientTypes.LoggingConfig {
 
-    static func write(value: CloudFrontClientTypes.CachedMethods?, to writer: SmithyXML.Writer) throws {
+    static func write(value: CloudFrontClientTypes.LoggingConfig?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CloudFrontClientTypes.Method>().write(value:to:), memberNodeInfo: "Method", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CachedMethods {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.CachedMethods()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudFrontClientTypes.Method>().read(from:), memberNodeInfo: "Method", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.TrustedKeyGroups {
-
-    static func write(value: CloudFrontClientTypes.TrustedKeyGroups?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
         try writer["Enabled"].write(value.enabled)
-        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "KeyGroup", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
+        try writer["IncludeCookies"].write(value.includeCookies)
+        try writer["Prefix"].write(value.`prefix`)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.TrustedKeyGroups {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.LoggingConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.TrustedKeyGroups()
+        var value = CloudFrontClientTypes.LoggingConfig()
         value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "KeyGroup", isFlattened: false)
+        value.includeCookies = try reader["IncludeCookies"].readIfPresent() ?? false
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.`prefix` = try reader["Prefix"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension CloudFrontClientTypes.TrustedSigners {
+extension CloudFrontClientTypes.ManagedCertificateDetails {
 
-    static func write(value: CloudFrontClientTypes.TrustedSigners?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "AwsAccountNumber", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.TrustedSigners {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ManagedCertificateDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.TrustedSigners()
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AwsAccountNumber", isFlattened: false)
+        var value = CloudFrontClientTypes.ManagedCertificateDetails()
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.certificateStatus = try reader["CertificateStatus"].readIfPresent()
+        value.validationTokenHost = try reader["ValidationTokenHost"].readIfPresent()
+        value.validationTokenDetails = try reader["ValidationTokenDetails"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.ValidationTokenDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension CloudFrontClientTypes.DefaultCacheBehavior {
+extension CloudFrontClientTypes.ManagedCertificateRequest {
 
-    static func write(value: CloudFrontClientTypes.DefaultCacheBehavior?, to writer: SmithyXML.Writer) throws {
+    static func write(value: CloudFrontClientTypes.ManagedCertificateRequest?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        try writer["AllowedMethods"].write(value.allowedMethods, with: CloudFrontClientTypes.AllowedMethods.write(value:to:))
-        try writer["CachePolicyId"].write(value.cachePolicyId)
-        try writer["Compress"].write(value.compress)
-        try writer["DefaultTTL"].write(value.defaultTTL)
-        try writer["FieldLevelEncryptionId"].write(value.fieldLevelEncryptionId)
-        try writer["ForwardedValues"].write(value.forwardedValues, with: CloudFrontClientTypes.ForwardedValues.write(value:to:))
-        try writer["FunctionAssociations"].write(value.functionAssociations, with: CloudFrontClientTypes.FunctionAssociations.write(value:to:))
-        try writer["GrpcConfig"].write(value.grpcConfig, with: CloudFrontClientTypes.GrpcConfig.write(value:to:))
-        try writer["LambdaFunctionAssociations"].write(value.lambdaFunctionAssociations, with: CloudFrontClientTypes.LambdaFunctionAssociations.write(value:to:))
-        try writer["MaxTTL"].write(value.maxTTL)
-        try writer["MinTTL"].write(value.minTTL)
-        try writer["OriginRequestPolicyId"].write(value.originRequestPolicyId)
-        try writer["RealtimeLogConfigArn"].write(value.realtimeLogConfigArn)
-        try writer["ResponseHeadersPolicyId"].write(value.responseHeadersPolicyId)
-        try writer["SmoothStreaming"].write(value.smoothStreaming)
-        try writer["TargetOriginId"].write(value.targetOriginId)
-        try writer["TrustedKeyGroups"].write(value.trustedKeyGroups, with: CloudFrontClientTypes.TrustedKeyGroups.write(value:to:))
-        try writer["TrustedSigners"].write(value.trustedSigners, with: CloudFrontClientTypes.TrustedSigners.write(value:to:))
-        try writer["ViewerProtocolPolicy"].write(value.viewerProtocolPolicy)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DefaultCacheBehavior {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.DefaultCacheBehavior()
-        value.targetOriginId = try reader["TargetOriginId"].readIfPresent() ?? ""
-        value.trustedSigners = try reader["TrustedSigners"].readIfPresent(with: CloudFrontClientTypes.TrustedSigners.read(from:))
-        value.trustedKeyGroups = try reader["TrustedKeyGroups"].readIfPresent(with: CloudFrontClientTypes.TrustedKeyGroups.read(from:))
-        value.viewerProtocolPolicy = try reader["ViewerProtocolPolicy"].readIfPresent() ?? .sdkUnknown("")
-        value.allowedMethods = try reader["AllowedMethods"].readIfPresent(with: CloudFrontClientTypes.AllowedMethods.read(from:))
-        value.smoothStreaming = try reader["SmoothStreaming"].readIfPresent()
-        value.compress = try reader["Compress"].readIfPresent()
-        value.lambdaFunctionAssociations = try reader["LambdaFunctionAssociations"].readIfPresent(with: CloudFrontClientTypes.LambdaFunctionAssociations.read(from:))
-        value.functionAssociations = try reader["FunctionAssociations"].readIfPresent(with: CloudFrontClientTypes.FunctionAssociations.read(from:))
-        value.fieldLevelEncryptionId = try reader["FieldLevelEncryptionId"].readIfPresent()
-        value.realtimeLogConfigArn = try reader["RealtimeLogConfigArn"].readIfPresent()
-        value.cachePolicyId = try reader["CachePolicyId"].readIfPresent()
-        value.originRequestPolicyId = try reader["OriginRequestPolicyId"].readIfPresent()
-        value.responseHeadersPolicyId = try reader["ResponseHeadersPolicyId"].readIfPresent()
-        value.grpcConfig = try reader["GrpcConfig"].readIfPresent(with: CloudFrontClientTypes.GrpcConfig.read(from:))
-        value.forwardedValues = try reader["ForwardedValues"].readIfPresent(with: CloudFrontClientTypes.ForwardedValues.read(from:))
-        value.minTTL = try reader["MinTTL"].readIfPresent()
-        value.defaultTTL = try reader["DefaultTTL"].readIfPresent()
-        value.maxTTL = try reader["MaxTTL"].readIfPresent()
-        return value
+        try writer["CertificateTransparencyLoggingPreference"].write(value.certificateTransparencyLoggingPreference)
+        try writer["PrimaryDomainName"].write(value.primaryDomainName)
+        try writer["ValidationTokenHost"].write(value.validationTokenHost)
     }
 }
 
-extension CloudFrontClientTypes.OriginGroups {
+extension CloudFrontClientTypes.MonitoringSubscription {
 
-    static func write(value: CloudFrontClientTypes.OriginGroups?, to writer: SmithyXML.Writer) throws {
+    static func write(value: CloudFrontClientTypes.MonitoringSubscription?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.OriginGroup.write(value:to:), memberNodeInfo: "OriginGroup", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
+        try writer["RealtimeMetricsSubscriptionConfig"].write(value.realtimeMetricsSubscriptionConfig, with: CloudFrontClientTypes.RealtimeMetricsSubscriptionConfig.write(value:to:))
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginGroups {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.MonitoringSubscription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.OriginGroups()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.OriginGroup.read(from:), memberNodeInfo: "OriginGroup", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.OriginGroup {
-
-    static func write(value: CloudFrontClientTypes.OriginGroup?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["FailoverCriteria"].write(value.failoverCriteria, with: CloudFrontClientTypes.OriginGroupFailoverCriteria.write(value:to:))
-        try writer["Id"].write(value.id)
-        try writer["Members"].write(value.members, with: CloudFrontClientTypes.OriginGroupMembers.write(value:to:))
-        try writer["SelectionCriteria"].write(value.selectionCriteria)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.OriginGroup()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.failoverCriteria = try reader["FailoverCriteria"].readIfPresent(with: CloudFrontClientTypes.OriginGroupFailoverCriteria.read(from:))
-        value.members = try reader["Members"].readIfPresent(with: CloudFrontClientTypes.OriginGroupMembers.read(from:))
-        value.selectionCriteria = try reader["SelectionCriteria"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.OriginGroupMembers {
-
-    static func write(value: CloudFrontClientTypes.OriginGroupMembers?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.OriginGroupMember.write(value:to:), memberNodeInfo: "OriginGroupMember", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginGroupMembers {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.OriginGroupMembers()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.OriginGroupMember.read(from:), memberNodeInfo: "OriginGroupMember", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.OriginGroupMember {
-
-    static func write(value: CloudFrontClientTypes.OriginGroupMember?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["OriginId"].write(value.originId)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginGroupMember {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.OriginGroupMember()
-        value.originId = try reader["OriginId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.OriginGroupFailoverCriteria {
-
-    static func write(value: CloudFrontClientTypes.OriginGroupFailoverCriteria?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["StatusCodes"].write(value.statusCodes, with: CloudFrontClientTypes.StatusCodes.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginGroupFailoverCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.OriginGroupFailoverCriteria()
-        value.statusCodes = try reader["StatusCodes"].readIfPresent(with: CloudFrontClientTypes.StatusCodes.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.StatusCodes {
-
-    static func write(value: CloudFrontClientTypes.StatusCodes?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "StatusCode", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.StatusCodes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.StatusCodes()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "StatusCode", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.Origins {
-
-    static func write(value: CloudFrontClientTypes.Origins?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.Origin.write(value:to:), memberNodeInfo: "Origin", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Origins {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.Origins()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.Origin.read(from:), memberNodeInfo: "Origin", isFlattened: false) ?? []
+        var value = CloudFrontClientTypes.MonitoringSubscription()
+        value.realtimeMetricsSubscriptionConfig = try reader["RealtimeMetricsSubscriptionConfig"].readIfPresent(with: CloudFrontClientTypes.RealtimeMetricsSubscriptionConfig.read(from:))
         return value
     }
 }
@@ -28213,1166 +29264,6 @@ extension CloudFrontClientTypes.Origin {
     }
 }
 
-extension CloudFrontClientTypes.OriginShield {
-
-    static func write(value: CloudFrontClientTypes.OriginShield?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-        try writer["OriginShieldRegion"].write(value.originShieldRegion)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginShield {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.OriginShield()
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        value.originShieldRegion = try reader["OriginShieldRegion"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.VpcOriginConfig {
-
-    static func write(value: CloudFrontClientTypes.VpcOriginConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["OriginKeepaliveTimeout"].write(value.originKeepaliveTimeout)
-        try writer["OriginReadTimeout"].write(value.originReadTimeout)
-        try writer["OwnerAccountId"].write(value.ownerAccountId)
-        try writer["VpcOriginId"].write(value.vpcOriginId)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.VpcOriginConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.VpcOriginConfig()
-        value.vpcOriginId = try reader["VpcOriginId"].readIfPresent() ?? ""
-        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent()
-        value.originReadTimeout = try reader["OriginReadTimeout"].readIfPresent()
-        value.originKeepaliveTimeout = try reader["OriginKeepaliveTimeout"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.CustomOriginConfig {
-
-    static func write(value: CloudFrontClientTypes.CustomOriginConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["HTTPPort"].write(value.httpPort)
-        try writer["HTTPSPort"].write(value.httpsPort)
-        try writer["IpAddressType"].write(value.ipAddressType)
-        try writer["OriginKeepaliveTimeout"].write(value.originKeepaliveTimeout)
-        try writer["OriginMtlsConfig"].write(value.originMtlsConfig, with: CloudFrontClientTypes.OriginMtlsConfig.write(value:to:))
-        try writer["OriginProtocolPolicy"].write(value.originProtocolPolicy)
-        try writer["OriginReadTimeout"].write(value.originReadTimeout)
-        try writer["OriginSslProtocols"].write(value.originSslProtocols, with: CloudFrontClientTypes.OriginSslProtocols.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CustomOriginConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.CustomOriginConfig()
-        value.httpPort = try reader["HTTPPort"].readIfPresent() ?? 0
-        value.httpsPort = try reader["HTTPSPort"].readIfPresent() ?? 0
-        value.originProtocolPolicy = try reader["OriginProtocolPolicy"].readIfPresent() ?? .sdkUnknown("")
-        value.originSslProtocols = try reader["OriginSslProtocols"].readIfPresent(with: CloudFrontClientTypes.OriginSslProtocols.read(from:))
-        value.originReadTimeout = try reader["OriginReadTimeout"].readIfPresent()
-        value.originKeepaliveTimeout = try reader["OriginKeepaliveTimeout"].readIfPresent()
-        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
-        value.originMtlsConfig = try reader["OriginMtlsConfig"].readIfPresent(with: CloudFrontClientTypes.OriginMtlsConfig.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.OriginMtlsConfig {
-
-    static func write(value: CloudFrontClientTypes.OriginMtlsConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ClientCertificateArn"].write(value.clientCertificateArn)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginMtlsConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.OriginMtlsConfig()
-        value.clientCertificateArn = try reader["ClientCertificateArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.OriginSslProtocols {
-
-    static func write(value: CloudFrontClientTypes.OriginSslProtocols?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CloudFrontClientTypes.SslProtocol>().write(value:to:), memberNodeInfo: "SslProtocol", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginSslProtocols {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.OriginSslProtocols()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudFrontClientTypes.SslProtocol>().read(from:), memberNodeInfo: "SslProtocol", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.S3OriginConfig {
-
-    static func write(value: CloudFrontClientTypes.S3OriginConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["OriginAccessIdentity"].write(value.originAccessIdentity)
-        try writer["OriginReadTimeout"].write(value.originReadTimeout)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.S3OriginConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.S3OriginConfig()
-        value.originAccessIdentity = try reader["OriginAccessIdentity"].readIfPresent() ?? ""
-        value.originReadTimeout = try reader["OriginReadTimeout"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.CustomHeaders {
-
-    static func write(value: CloudFrontClientTypes.CustomHeaders?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.OriginCustomHeader.write(value:to:), memberNodeInfo: "OriginCustomHeader", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CustomHeaders {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.CustomHeaders()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.OriginCustomHeader.read(from:), memberNodeInfo: "OriginCustomHeader", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.OriginCustomHeader {
-
-    static func write(value: CloudFrontClientTypes.OriginCustomHeader?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["HeaderName"].write(value.headerName)
-        try writer["HeaderValue"].write(value.headerValue)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginCustomHeader {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.OriginCustomHeader()
-        value.headerName = try reader["HeaderName"].readIfPresent() ?? ""
-        value.headerValue = try reader["HeaderValue"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.Aliases {
-
-    static func write(value: CloudFrontClientTypes.Aliases?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "CNAME", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Aliases {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.Aliases()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "CNAME", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ActiveTrustedKeyGroups {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ActiveTrustedKeyGroups {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ActiveTrustedKeyGroups()
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.KGKeyPairIds.read(from:), memberNodeInfo: "KeyGroup", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.KGKeyPairIds {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KGKeyPairIds {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.KGKeyPairIds()
-        value.keyGroupId = try reader["KeyGroupId"].readIfPresent()
-        value.keyPairIds = try reader["KeyPairIds"].readIfPresent(with: CloudFrontClientTypes.KeyPairIds.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.KeyPairIds {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyPairIds {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.KeyPairIds()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "KeyPairId", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ActiveTrustedSigners {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ActiveTrustedSigners {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ActiveTrustedSigners()
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.Signer.read(from:), memberNodeInfo: "Signer", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.Signer {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Signer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.Signer()
-        value.awsAccountNumber = try reader["AwsAccountNumber"].readIfPresent()
-        value.keyPairIds = try reader["KeyPairIds"].readIfPresent(with: CloudFrontClientTypes.KeyPairIds.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.AnycastIpList {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.AnycastIpList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.AnycastIpList()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent() ?? ""
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
-        value.ipamConfig = try reader["IpamConfig"].readIfPresent(with: CloudFrontClientTypes.IpamConfig.read(from:))
-        value.anycastIps = try reader["AnycastIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AnycastIp", isFlattened: false) ?? []
-        value.ipCount = try reader["IpCount"].readIfPresent() ?? 0
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.IpamConfig {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.IpamConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.IpamConfig()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.ipamCidrConfigs = try reader["IpamCidrConfigs"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.IpamCidrConfig.read(from:), memberNodeInfo: "IpamCidrConfig", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.IpamCidrConfig {
-
-    static func write(value: CloudFrontClientTypes.IpamCidrConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["AnycastIp"].write(value.anycastIp)
-        try writer["Cidr"].write(value.cidr)
-        try writer["IpamPoolArn"].write(value.ipamPoolArn)
-        try writer["Status"].write(value.status)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.IpamCidrConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.IpamCidrConfig()
-        value.cidr = try reader["Cidr"].readIfPresent() ?? ""
-        value.ipamPoolArn = try reader["IpamPoolArn"].readIfPresent() ?? ""
-        value.anycastIp = try reader["AnycastIp"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.CachePolicy {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CachePolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.CachePolicy()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.cachePolicyConfig = try reader["CachePolicyConfig"].readIfPresent(with: CloudFrontClientTypes.CachePolicyConfig.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.CachePolicyConfig {
-
-    static func write(value: CloudFrontClientTypes.CachePolicyConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Comment"].write(value.comment)
-        try writer["DefaultTTL"].write(value.defaultTTL)
-        try writer["MaxTTL"].write(value.maxTTL)
-        try writer["MinTTL"].write(value.minTTL)
-        try writer["Name"].write(value.name)
-        try writer["ParametersInCacheKeyAndForwardedToOrigin"].write(value.parametersInCacheKeyAndForwardedToOrigin, with: CloudFrontClientTypes.ParametersInCacheKeyAndForwardedToOrigin.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CachePolicyConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.CachePolicyConfig()
-        value.comment = try reader["Comment"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.defaultTTL = try reader["DefaultTTL"].readIfPresent()
-        value.maxTTL = try reader["MaxTTL"].readIfPresent()
-        value.minTTL = try reader["MinTTL"].readIfPresent() ?? 0
-        value.parametersInCacheKeyAndForwardedToOrigin = try reader["ParametersInCacheKeyAndForwardedToOrigin"].readIfPresent(with: CloudFrontClientTypes.ParametersInCacheKeyAndForwardedToOrigin.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ParametersInCacheKeyAndForwardedToOrigin {
-
-    static func write(value: CloudFrontClientTypes.ParametersInCacheKeyAndForwardedToOrigin?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CookiesConfig"].write(value.cookiesConfig, with: CloudFrontClientTypes.CachePolicyCookiesConfig.write(value:to:))
-        try writer["EnableAcceptEncodingBrotli"].write(value.enableAcceptEncodingBrotli)
-        try writer["EnableAcceptEncodingGzip"].write(value.enableAcceptEncodingGzip)
-        try writer["HeadersConfig"].write(value.headersConfig, with: CloudFrontClientTypes.CachePolicyHeadersConfig.write(value:to:))
-        try writer["QueryStringsConfig"].write(value.queryStringsConfig, with: CloudFrontClientTypes.CachePolicyQueryStringsConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ParametersInCacheKeyAndForwardedToOrigin {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ParametersInCacheKeyAndForwardedToOrigin()
-        value.enableAcceptEncodingGzip = try reader["EnableAcceptEncodingGzip"].readIfPresent() ?? false
-        value.enableAcceptEncodingBrotli = try reader["EnableAcceptEncodingBrotli"].readIfPresent()
-        value.headersConfig = try reader["HeadersConfig"].readIfPresent(with: CloudFrontClientTypes.CachePolicyHeadersConfig.read(from:))
-        value.cookiesConfig = try reader["CookiesConfig"].readIfPresent(with: CloudFrontClientTypes.CachePolicyCookiesConfig.read(from:))
-        value.queryStringsConfig = try reader["QueryStringsConfig"].readIfPresent(with: CloudFrontClientTypes.CachePolicyQueryStringsConfig.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.CachePolicyQueryStringsConfig {
-
-    static func write(value: CloudFrontClientTypes.CachePolicyQueryStringsConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["QueryStringBehavior"].write(value.queryStringBehavior)
-        try writer["QueryStrings"].write(value.queryStrings, with: CloudFrontClientTypes.QueryStringNames.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CachePolicyQueryStringsConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.CachePolicyQueryStringsConfig()
-        value.queryStringBehavior = try reader["QueryStringBehavior"].readIfPresent() ?? .sdkUnknown("")
-        value.queryStrings = try reader["QueryStrings"].readIfPresent(with: CloudFrontClientTypes.QueryStringNames.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.QueryStringNames {
-
-    static func write(value: CloudFrontClientTypes.QueryStringNames?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Name", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.QueryStringNames {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.QueryStringNames()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Name", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.CachePolicyCookiesConfig {
-
-    static func write(value: CloudFrontClientTypes.CachePolicyCookiesConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CookieBehavior"].write(value.cookieBehavior)
-        try writer["Cookies"].write(value.cookies, with: CloudFrontClientTypes.CookieNames.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CachePolicyCookiesConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.CachePolicyCookiesConfig()
-        value.cookieBehavior = try reader["CookieBehavior"].readIfPresent() ?? .sdkUnknown("")
-        value.cookies = try reader["Cookies"].readIfPresent(with: CloudFrontClientTypes.CookieNames.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.CachePolicyHeadersConfig {
-
-    static func write(value: CloudFrontClientTypes.CachePolicyHeadersConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["HeaderBehavior"].write(value.headerBehavior)
-        try writer["Headers"].write(value.headers, with: CloudFrontClientTypes.Headers.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CachePolicyHeadersConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.CachePolicyHeadersConfig()
-        value.headerBehavior = try reader["HeaderBehavior"].readIfPresent() ?? .sdkUnknown("")
-        value.headers = try reader["Headers"].readIfPresent(with: CloudFrontClientTypes.Headers.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.CloudFrontOriginAccessIdentity {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CloudFrontOriginAccessIdentity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.CloudFrontOriginAccessIdentity()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.s3CanonicalUserId = try reader["S3CanonicalUserId"].readIfPresent() ?? ""
-        value.cloudFrontOriginAccessIdentityConfig = try reader["CloudFrontOriginAccessIdentityConfig"].readIfPresent(with: CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig {
-
-    static func write(value: CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CallerReference"].write(value.callerReference)
-        try writer["Comment"].write(value.comment)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig()
-        value.callerReference = try reader["CallerReference"].readIfPresent() ?? ""
-        value.comment = try reader["Comment"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ConnectionFunctionSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ConnectionFunctionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ConnectionFunctionSummary()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.connectionFunctionConfig = try reader["ConnectionFunctionConfig"].readIfPresent(with: CloudFrontClientTypes.FunctionConfig.read(from:))
-        value.connectionFunctionArn = try reader["ConnectionFunctionArn"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent() ?? ""
-        value.stage = try reader["Stage"].readIfPresent() ?? .sdkUnknown("")
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.FunctionConfig {
-
-    static func write(value: CloudFrontClientTypes.FunctionConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Comment"].write(value.comment)
-        try writer["KeyValueStoreAssociations"].write(value.keyValueStoreAssociations, with: CloudFrontClientTypes.KeyValueStoreAssociations.write(value:to:))
-        try writer["Runtime"].write(value.runtime)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FunctionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.FunctionConfig()
-        value.comment = try reader["Comment"].readIfPresent() ?? ""
-        value.runtime = try reader["Runtime"].readIfPresent() ?? .sdkUnknown("")
-        value.keyValueStoreAssociations = try reader["KeyValueStoreAssociations"].readIfPresent(with: CloudFrontClientTypes.KeyValueStoreAssociations.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.KeyValueStoreAssociations {
-
-    static func write(value: CloudFrontClientTypes.KeyValueStoreAssociations?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.KeyValueStoreAssociation.write(value:to:), memberNodeInfo: "KeyValueStoreAssociation", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyValueStoreAssociations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.KeyValueStoreAssociations()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.KeyValueStoreAssociation.read(from:), memberNodeInfo: "KeyValueStoreAssociation", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.KeyValueStoreAssociation {
-
-    static func write(value: CloudFrontClientTypes.KeyValueStoreAssociation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["KeyValueStoreARN"].write(value.keyValueStoreARN)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyValueStoreAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.KeyValueStoreAssociation()
-        value.keyValueStoreARN = try reader["KeyValueStoreARN"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ConnectionGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ConnectionGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ConnectionGroup()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.tags = try reader["Tags"].readIfPresent(with: CloudFrontClientTypes.Tags.read(from:))
-        value.ipv6Enabled = try reader["Ipv6Enabled"].readIfPresent()
-        value.routingEndpoint = try reader["RoutingEndpoint"].readIfPresent()
-        value.anycastIpListId = try reader["AnycastIpListId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.isDefault = try reader["IsDefault"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.Tags {
-
-    static func write(value: CloudFrontClientTypes.Tags?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Tags {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.Tags()
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.Tag {
-
-    static func write(value: CloudFrontClientTypes.Tag?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ContinuousDeploymentPolicy {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContinuousDeploymentPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ContinuousDeploymentPolicy()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.continuousDeploymentPolicyConfig = try reader["ContinuousDeploymentPolicyConfig"].readIfPresent(with: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ContinuousDeploymentPolicyConfig {
-
-    static func write(value: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-        try writer["StagingDistributionDnsNames"].write(value.stagingDistributionDnsNames, with: CloudFrontClientTypes.StagingDistributionDnsNames.write(value:to:))
-        try writer["TrafficConfig"].write(value.trafficConfig, with: CloudFrontClientTypes.TrafficConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContinuousDeploymentPolicyConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ContinuousDeploymentPolicyConfig()
-        value.stagingDistributionDnsNames = try reader["StagingDistributionDnsNames"].readIfPresent(with: CloudFrontClientTypes.StagingDistributionDnsNames.read(from:))
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        value.trafficConfig = try reader["TrafficConfig"].readIfPresent(with: CloudFrontClientTypes.TrafficConfig.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.TrafficConfig {
-
-    static func write(value: CloudFrontClientTypes.TrafficConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["SingleHeaderConfig"].write(value.singleHeaderConfig, with: CloudFrontClientTypes.ContinuousDeploymentSingleHeaderConfig.write(value:to:))
-        try writer["SingleWeightConfig"].write(value.singleWeightConfig, with: CloudFrontClientTypes.ContinuousDeploymentSingleWeightConfig.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.TrafficConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.TrafficConfig()
-        value.singleWeightConfig = try reader["SingleWeightConfig"].readIfPresent(with: CloudFrontClientTypes.ContinuousDeploymentSingleWeightConfig.read(from:))
-        value.singleHeaderConfig = try reader["SingleHeaderConfig"].readIfPresent(with: CloudFrontClientTypes.ContinuousDeploymentSingleHeaderConfig.read(from:))
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ContinuousDeploymentSingleHeaderConfig {
-
-    static func write(value: CloudFrontClientTypes.ContinuousDeploymentSingleHeaderConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Header"].write(value.header)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContinuousDeploymentSingleHeaderConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ContinuousDeploymentSingleHeaderConfig()
-        value.header = try reader["Header"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ContinuousDeploymentSingleWeightConfig {
-
-    static func write(value: CloudFrontClientTypes.ContinuousDeploymentSingleWeightConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["SessionStickinessConfig"].write(value.sessionStickinessConfig, with: CloudFrontClientTypes.SessionStickinessConfig.write(value:to:))
-        try writer["Weight"].write(value.weight)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContinuousDeploymentSingleWeightConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ContinuousDeploymentSingleWeightConfig()
-        value.weight = try reader["Weight"].readIfPresent() ?? 0.0
-        value.sessionStickinessConfig = try reader["SessionStickinessConfig"].readIfPresent(with: CloudFrontClientTypes.SessionStickinessConfig.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.SessionStickinessConfig {
-
-    static func write(value: CloudFrontClientTypes.SessionStickinessConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["IdleTTL"].write(value.idleTTL)
-        try writer["MaximumTTL"].write(value.maximumTTL)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.SessionStickinessConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.SessionStickinessConfig()
-        value.idleTTL = try reader["IdleTTL"].readIfPresent() ?? 0
-        value.maximumTTL = try reader["MaximumTTL"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.StagingDistributionDnsNames {
-
-    static func write(value: CloudFrontClientTypes.StagingDistributionDnsNames?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "DnsName", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.StagingDistributionDnsNames {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.StagingDistributionDnsNames()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "DnsName", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.DistributionTenant {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionTenant {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.DistributionTenant()
-        value.id = try reader["Id"].readIfPresent()
-        value.distributionId = try reader["DistributionId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.domains = try reader["Domains"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.DomainResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["Tags"].readIfPresent(with: CloudFrontClientTypes.Tags.read(from:))
-        value.customizations = try reader["Customizations"].readIfPresent(with: CloudFrontClientTypes.Customizations.read(from:))
-        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.Parameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.connectionGroupId = try reader["ConnectionGroupId"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.Parameter {
-
-    static func write(value: CloudFrontClientTypes.Parameter?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Parameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.Parameter()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.Customizations {
-
-    static func write(value: CloudFrontClientTypes.Customizations?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Certificate"].write(value.certificate, with: CloudFrontClientTypes.Certificate.write(value:to:))
-        try writer["GeoRestrictions"].write(value.geoRestrictions, with: CloudFrontClientTypes.GeoRestrictionCustomization.write(value:to:))
-        try writer["WebAcl"].write(value.webAcl, with: CloudFrontClientTypes.WebAclCustomization.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Customizations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.Customizations()
-        value.webAcl = try reader["WebAcl"].readIfPresent(with: CloudFrontClientTypes.WebAclCustomization.read(from:))
-        value.certificate = try reader["Certificate"].readIfPresent(with: CloudFrontClientTypes.Certificate.read(from:))
-        value.geoRestrictions = try reader["GeoRestrictions"].readIfPresent(with: CloudFrontClientTypes.GeoRestrictionCustomization.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.GeoRestrictionCustomization {
-
-    static func write(value: CloudFrontClientTypes.GeoRestrictionCustomization?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Locations"].writeList(value.locations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Location", isFlattened: false)
-        try writer["RestrictionType"].write(value.restrictionType)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.GeoRestrictionCustomization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.GeoRestrictionCustomization()
-        value.restrictionType = try reader["RestrictionType"].readIfPresent() ?? .sdkUnknown("")
-        value.locations = try reader["Locations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Location", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.Certificate {
-
-    static func write(value: CloudFrontClientTypes.Certificate?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Certificate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.Certificate()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.WebAclCustomization {
-
-    static func write(value: CloudFrontClientTypes.WebAclCustomization?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["Arn"].write(value.arn)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.WebAclCustomization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.WebAclCustomization()
-        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.DomainResult {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DomainResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.DomainResult()
-        value.domain = try reader["Domain"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.FieldLevelEncryption {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.FieldLevelEncryption()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.fieldLevelEncryptionConfig = try reader["FieldLevelEncryptionConfig"].readIfPresent(with: CloudFrontClientTypes.FieldLevelEncryptionConfig.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.FieldLevelEncryptionConfig {
-
-    static func write(value: CloudFrontClientTypes.FieldLevelEncryptionConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CallerReference"].write(value.callerReference)
-        try writer["Comment"].write(value.comment)
-        try writer["ContentTypeProfileConfig"].write(value.contentTypeProfileConfig, with: CloudFrontClientTypes.ContentTypeProfileConfig.write(value:to:))
-        try writer["QueryArgProfileConfig"].write(value.queryArgProfileConfig, with: CloudFrontClientTypes.QueryArgProfileConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryptionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.FieldLevelEncryptionConfig()
-        value.callerReference = try reader["CallerReference"].readIfPresent() ?? ""
-        value.comment = try reader["Comment"].readIfPresent()
-        value.queryArgProfileConfig = try reader["QueryArgProfileConfig"].readIfPresent(with: CloudFrontClientTypes.QueryArgProfileConfig.read(from:))
-        value.contentTypeProfileConfig = try reader["ContentTypeProfileConfig"].readIfPresent(with: CloudFrontClientTypes.ContentTypeProfileConfig.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ContentTypeProfileConfig {
-
-    static func write(value: CloudFrontClientTypes.ContentTypeProfileConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ContentTypeProfiles"].write(value.contentTypeProfiles, with: CloudFrontClientTypes.ContentTypeProfiles.write(value:to:))
-        try writer["ForwardWhenContentTypeIsUnknown"].write(value.forwardWhenContentTypeIsUnknown)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContentTypeProfileConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ContentTypeProfileConfig()
-        value.forwardWhenContentTypeIsUnknown = try reader["ForwardWhenContentTypeIsUnknown"].readIfPresent() ?? false
-        value.contentTypeProfiles = try reader["ContentTypeProfiles"].readIfPresent(with: CloudFrontClientTypes.ContentTypeProfiles.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ContentTypeProfiles {
-
-    static func write(value: CloudFrontClientTypes.ContentTypeProfiles?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.ContentTypeProfile.write(value:to:), memberNodeInfo: "ContentTypeProfile", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContentTypeProfiles {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ContentTypeProfiles()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.ContentTypeProfile.read(from:), memberNodeInfo: "ContentTypeProfile", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ContentTypeProfile {
-
-    static func write(value: CloudFrontClientTypes.ContentTypeProfile?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ContentType"].write(value.contentType)
-        try writer["Format"].write(value.format)
-        try writer["ProfileId"].write(value.profileId)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContentTypeProfile {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ContentTypeProfile()
-        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
-        value.profileId = try reader["ProfileId"].readIfPresent()
-        value.contentType = try reader["ContentType"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.QueryArgProfileConfig {
-
-    static func write(value: CloudFrontClientTypes.QueryArgProfileConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ForwardWhenQueryArgProfileIsUnknown"].write(value.forwardWhenQueryArgProfileIsUnknown)
-        try writer["QueryArgProfiles"].write(value.queryArgProfiles, with: CloudFrontClientTypes.QueryArgProfiles.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.QueryArgProfileConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.QueryArgProfileConfig()
-        value.forwardWhenQueryArgProfileIsUnknown = try reader["ForwardWhenQueryArgProfileIsUnknown"].readIfPresent() ?? false
-        value.queryArgProfiles = try reader["QueryArgProfiles"].readIfPresent(with: CloudFrontClientTypes.QueryArgProfiles.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.QueryArgProfiles {
-
-    static func write(value: CloudFrontClientTypes.QueryArgProfiles?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.QueryArgProfile.write(value:to:), memberNodeInfo: "QueryArgProfile", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.QueryArgProfiles {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.QueryArgProfiles()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.QueryArgProfile.read(from:), memberNodeInfo: "QueryArgProfile", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.QueryArgProfile {
-
-    static func write(value: CloudFrontClientTypes.QueryArgProfile?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ProfileId"].write(value.profileId)
-        try writer["QueryArg"].write(value.queryArg)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.QueryArgProfile {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.QueryArgProfile()
-        value.queryArg = try reader["QueryArg"].readIfPresent() ?? ""
-        value.profileId = try reader["ProfileId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.FieldLevelEncryptionProfile {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryptionProfile {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.FieldLevelEncryptionProfile()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.fieldLevelEncryptionProfileConfig = try reader["FieldLevelEncryptionProfileConfig"].readIfPresent(with: CloudFrontClientTypes.FieldLevelEncryptionProfileConfig.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.FieldLevelEncryptionProfileConfig {
-
-    static func write(value: CloudFrontClientTypes.FieldLevelEncryptionProfileConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CallerReference"].write(value.callerReference)
-        try writer["Comment"].write(value.comment)
-        try writer["EncryptionEntities"].write(value.encryptionEntities, with: CloudFrontClientTypes.EncryptionEntities.write(value:to:))
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryptionProfileConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.FieldLevelEncryptionProfileConfig()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.callerReference = try reader["CallerReference"].readIfPresent() ?? ""
-        value.comment = try reader["Comment"].readIfPresent()
-        value.encryptionEntities = try reader["EncryptionEntities"].readIfPresent(with: CloudFrontClientTypes.EncryptionEntities.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.EncryptionEntities {
-
-    static func write(value: CloudFrontClientTypes.EncryptionEntities?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.EncryptionEntity.write(value:to:), memberNodeInfo: "EncryptionEntity", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.EncryptionEntities {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.EncryptionEntities()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.EncryptionEntity.read(from:), memberNodeInfo: "EncryptionEntity", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.EncryptionEntity {
-
-    static func write(value: CloudFrontClientTypes.EncryptionEntity?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["FieldPatterns"].write(value.fieldPatterns, with: CloudFrontClientTypes.FieldPatterns.write(value:to:))
-        try writer["ProviderId"].write(value.providerId)
-        try writer["PublicKeyId"].write(value.publicKeyId)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.EncryptionEntity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.EncryptionEntity()
-        value.publicKeyId = try reader["PublicKeyId"].readIfPresent() ?? ""
-        value.providerId = try reader["ProviderId"].readIfPresent() ?? ""
-        value.fieldPatterns = try reader["FieldPatterns"].readIfPresent(with: CloudFrontClientTypes.FieldPatterns.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.FieldPatterns {
-
-    static func write(value: CloudFrontClientTypes.FieldPatterns?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "FieldPattern", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldPatterns {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.FieldPatterns()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "FieldPattern", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.FunctionSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FunctionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.FunctionSummary()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent()
-        value.functionConfig = try reader["FunctionConfig"].readIfPresent(with: CloudFrontClientTypes.FunctionConfig.read(from:))
-        value.functionMetadata = try reader["FunctionMetadata"].readIfPresent(with: CloudFrontClientTypes.FunctionMetadata.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.FunctionMetadata {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FunctionMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.FunctionMetadata()
-        value.functionARN = try reader["FunctionARN"].readIfPresent() ?? ""
-        value.stage = try reader["Stage"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.Invalidation {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Invalidation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.Invalidation()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent() ?? ""
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.invalidationBatch = try reader["InvalidationBatch"].readIfPresent(with: CloudFrontClientTypes.InvalidationBatch.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.InvalidationBatch {
-
-    static func write(value: CloudFrontClientTypes.InvalidationBatch?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CallerReference"].write(value.callerReference)
-        try writer["Paths"].write(value.paths, with: CloudFrontClientTypes.Paths.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.InvalidationBatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.InvalidationBatch()
-        value.paths = try reader["Paths"].readIfPresent(with: CloudFrontClientTypes.Paths.read(from:))
-        value.callerReference = try reader["CallerReference"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.Paths {
-
-    static func write(value: CloudFrontClientTypes.Paths?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Path", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Paths {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.Paths()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Path", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.KeyGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.KeyGroup()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.keyGroupConfig = try reader["KeyGroupConfig"].readIfPresent(with: CloudFrontClientTypes.KeyGroupConfig.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.KeyGroupConfig {
-
-    static func write(value: CloudFrontClientTypes.KeyGroupConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Comment"].write(value.comment)
-        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "PublicKey", isFlattened: false)
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyGroupConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.KeyGroupConfig()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "PublicKey", isFlattened: false) ?? []
-        value.comment = try reader["Comment"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.KeyValueStore {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyValueStore {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.KeyValueStore()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.comment = try reader["Comment"].readIfPresent() ?? ""
-        value.arn = try reader["ARN"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.MonitoringSubscription {
-
-    static func write(value: CloudFrontClientTypes.MonitoringSubscription?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["RealtimeMetricsSubscriptionConfig"].write(value.realtimeMetricsSubscriptionConfig, with: CloudFrontClientTypes.RealtimeMetricsSubscriptionConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.MonitoringSubscription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.MonitoringSubscription()
-        value.realtimeMetricsSubscriptionConfig = try reader["RealtimeMetricsSubscriptionConfig"].readIfPresent(with: CloudFrontClientTypes.RealtimeMetricsSubscriptionConfig.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.RealtimeMetricsSubscriptionConfig {
-
-    static func write(value: CloudFrontClientTypes.RealtimeMetricsSubscriptionConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["RealtimeMetricsSubscriptionStatus"].write(value.realtimeMetricsSubscriptionStatus)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.RealtimeMetricsSubscriptionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.RealtimeMetricsSubscriptionConfig()
-        value.realtimeMetricsSubscriptionStatus = try reader["RealtimeMetricsSubscriptionStatus"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
 extension CloudFrontClientTypes.OriginAccessControl {
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginAccessControl {
@@ -29403,6 +29294,153 @@ extension CloudFrontClientTypes.OriginAccessControlConfig {
         value.signingProtocol = try reader["SigningProtocol"].readIfPresent() ?? .sdkUnknown("")
         value.signingBehavior = try reader["SigningBehavior"].readIfPresent() ?? .sdkUnknown("")
         value.originAccessControlOriginType = try reader["OriginAccessControlOriginType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.OriginAccessControlList {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginAccessControlList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.OriginAccessControlList()
+        value.marker = try reader["Marker"].readIfPresent() ?? ""
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.OriginAccessControlSummary.read(from:), memberNodeInfo: "OriginAccessControlSummary", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.OriginAccessControlSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginAccessControlSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.OriginAccessControlSummary()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.signingProtocol = try reader["SigningProtocol"].readIfPresent() ?? .sdkUnknown("")
+        value.signingBehavior = try reader["SigningBehavior"].readIfPresent() ?? .sdkUnknown("")
+        value.originAccessControlOriginType = try reader["OriginAccessControlOriginType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.OriginCustomHeader {
+
+    static func write(value: CloudFrontClientTypes.OriginCustomHeader?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["HeaderName"].write(value.headerName)
+        try writer["HeaderValue"].write(value.headerValue)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginCustomHeader {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.OriginCustomHeader()
+        value.headerName = try reader["HeaderName"].readIfPresent() ?? ""
+        value.headerValue = try reader["HeaderValue"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.OriginGroup {
+
+    static func write(value: CloudFrontClientTypes.OriginGroup?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["FailoverCriteria"].write(value.failoverCriteria, with: CloudFrontClientTypes.OriginGroupFailoverCriteria.write(value:to:))
+        try writer["Id"].write(value.id)
+        try writer["Members"].write(value.members, with: CloudFrontClientTypes.OriginGroupMembers.write(value:to:))
+        try writer["SelectionCriteria"].write(value.selectionCriteria)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.OriginGroup()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.failoverCriteria = try reader["FailoverCriteria"].readIfPresent(with: CloudFrontClientTypes.OriginGroupFailoverCriteria.read(from:))
+        value.members = try reader["Members"].readIfPresent(with: CloudFrontClientTypes.OriginGroupMembers.read(from:))
+        value.selectionCriteria = try reader["SelectionCriteria"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.OriginGroupFailoverCriteria {
+
+    static func write(value: CloudFrontClientTypes.OriginGroupFailoverCriteria?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["StatusCodes"].write(value.statusCodes, with: CloudFrontClientTypes.StatusCodes.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginGroupFailoverCriteria {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.OriginGroupFailoverCriteria()
+        value.statusCodes = try reader["StatusCodes"].readIfPresent(with: CloudFrontClientTypes.StatusCodes.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.OriginGroupMember {
+
+    static func write(value: CloudFrontClientTypes.OriginGroupMember?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["OriginId"].write(value.originId)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginGroupMember {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.OriginGroupMember()
+        value.originId = try reader["OriginId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.OriginGroupMembers {
+
+    static func write(value: CloudFrontClientTypes.OriginGroupMembers?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.OriginGroupMember.write(value:to:), memberNodeInfo: "OriginGroupMember", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginGroupMembers {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.OriginGroupMembers()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.OriginGroupMember.read(from:), memberNodeInfo: "OriginGroupMember", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.OriginGroups {
+
+    static func write(value: CloudFrontClientTypes.OriginGroups?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.OriginGroup.write(value:to:), memberNodeInfo: "OriginGroup", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginGroups {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.OriginGroups()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.OriginGroup.read(from:), memberNodeInfo: "OriginGroup", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.OriginMtlsConfig {
+
+    static func write(value: CloudFrontClientTypes.OriginMtlsConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ClientCertificateArn"].write(value.clientCertificateArn)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginMtlsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.OriginMtlsConfig()
+        value.clientCertificateArn = try reader["ClientCertificateArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -29442,23 +29480,6 @@ extension CloudFrontClientTypes.OriginRequestPolicyConfig {
     }
 }
 
-extension CloudFrontClientTypes.OriginRequestPolicyQueryStringsConfig {
-
-    static func write(value: CloudFrontClientTypes.OriginRequestPolicyQueryStringsConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["QueryStringBehavior"].write(value.queryStringBehavior)
-        try writer["QueryStrings"].write(value.queryStrings, with: CloudFrontClientTypes.QueryStringNames.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginRequestPolicyQueryStringsConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.OriginRequestPolicyQueryStringsConfig()
-        value.queryStringBehavior = try reader["QueryStringBehavior"].readIfPresent() ?? .sdkUnknown("")
-        value.queryStrings = try reader["QueryStrings"].readIfPresent(with: CloudFrontClientTypes.QueryStringNames.read(from:))
-        return value
-    }
-}
-
 extension CloudFrontClientTypes.OriginRequestPolicyCookiesConfig {
 
     static func write(value: CloudFrontClientTypes.OriginRequestPolicyCookiesConfig?, to writer: SmithyXML.Writer) throws {
@@ -29489,6 +29510,187 @@ extension CloudFrontClientTypes.OriginRequestPolicyHeadersConfig {
         var value = CloudFrontClientTypes.OriginRequestPolicyHeadersConfig()
         value.headerBehavior = try reader["HeaderBehavior"].readIfPresent() ?? .sdkUnknown("")
         value.headers = try reader["Headers"].readIfPresent(with: CloudFrontClientTypes.Headers.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.OriginRequestPolicyList {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginRequestPolicyList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.OriginRequestPolicyList()
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.OriginRequestPolicySummary.read(from:), memberNodeInfo: "OriginRequestPolicySummary", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.OriginRequestPolicyQueryStringsConfig {
+
+    static func write(value: CloudFrontClientTypes.OriginRequestPolicyQueryStringsConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["QueryStringBehavior"].write(value.queryStringBehavior)
+        try writer["QueryStrings"].write(value.queryStrings, with: CloudFrontClientTypes.QueryStringNames.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginRequestPolicyQueryStringsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.OriginRequestPolicyQueryStringsConfig()
+        value.queryStringBehavior = try reader["QueryStringBehavior"].readIfPresent() ?? .sdkUnknown("")
+        value.queryStrings = try reader["QueryStrings"].readIfPresent(with: CloudFrontClientTypes.QueryStringNames.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.OriginRequestPolicySummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginRequestPolicySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.OriginRequestPolicySummary()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.originRequestPolicy = try reader["OriginRequestPolicy"].readIfPresent(with: CloudFrontClientTypes.OriginRequestPolicy.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.Origins {
+
+    static func write(value: CloudFrontClientTypes.Origins?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.Origin.write(value:to:), memberNodeInfo: "Origin", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Origins {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.Origins()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.Origin.read(from:), memberNodeInfo: "Origin", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.OriginShield {
+
+    static func write(value: CloudFrontClientTypes.OriginShield?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["OriginShieldRegion"].write(value.originShieldRegion)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginShield {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.OriginShield()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.originShieldRegion = try reader["OriginShieldRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.OriginSslProtocols {
+
+    static func write(value: CloudFrontClientTypes.OriginSslProtocols?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CloudFrontClientTypes.SslProtocol>().write(value:to:), memberNodeInfo: "SslProtocol", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginSslProtocols {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.OriginSslProtocols()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudFrontClientTypes.SslProtocol>().read(from:), memberNodeInfo: "SslProtocol", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.Parameter {
+
+    static func write(value: CloudFrontClientTypes.Parameter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Parameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.Parameter()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ParameterDefinition {
+
+    static func write(value: CloudFrontClientTypes.ParameterDefinition?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Definition"].write(value.definition, with: CloudFrontClientTypes.ParameterDefinitionSchema.write(value:to:))
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ParameterDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ParameterDefinition()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.definition = try reader["Definition"].readIfPresent(with: CloudFrontClientTypes.ParameterDefinitionSchema.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ParameterDefinitionSchema {
+
+    static func write(value: CloudFrontClientTypes.ParameterDefinitionSchema?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["StringSchema"].write(value.stringSchema, with: CloudFrontClientTypes.StringSchemaConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ParameterDefinitionSchema {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ParameterDefinitionSchema()
+        value.stringSchema = try reader["StringSchema"].readIfPresent(with: CloudFrontClientTypes.StringSchemaConfig.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ParametersInCacheKeyAndForwardedToOrigin {
+
+    static func write(value: CloudFrontClientTypes.ParametersInCacheKeyAndForwardedToOrigin?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CookiesConfig"].write(value.cookiesConfig, with: CloudFrontClientTypes.CachePolicyCookiesConfig.write(value:to:))
+        try writer["EnableAcceptEncodingBrotli"].write(value.enableAcceptEncodingBrotli)
+        try writer["EnableAcceptEncodingGzip"].write(value.enableAcceptEncodingGzip)
+        try writer["HeadersConfig"].write(value.headersConfig, with: CloudFrontClientTypes.CachePolicyHeadersConfig.write(value:to:))
+        try writer["QueryStringsConfig"].write(value.queryStringsConfig, with: CloudFrontClientTypes.CachePolicyQueryStringsConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ParametersInCacheKeyAndForwardedToOrigin {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ParametersInCacheKeyAndForwardedToOrigin()
+        value.enableAcceptEncodingGzip = try reader["EnableAcceptEncodingGzip"].readIfPresent() ?? false
+        value.enableAcceptEncodingBrotli = try reader["EnableAcceptEncodingBrotli"].readIfPresent()
+        value.headersConfig = try reader["HeadersConfig"].readIfPresent(with: CloudFrontClientTypes.CachePolicyHeadersConfig.read(from:))
+        value.cookiesConfig = try reader["CookiesConfig"].readIfPresent(with: CloudFrontClientTypes.CachePolicyCookiesConfig.read(from:))
+        value.queryStringsConfig = try reader["QueryStringsConfig"].readIfPresent(with: CloudFrontClientTypes.CachePolicyQueryStringsConfig.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.Paths {
+
+    static func write(value: CloudFrontClientTypes.Paths?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Path", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Paths {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.Paths()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Path", isFlattened: false)
         return value
     }
 }
@@ -29526,6 +29728,118 @@ extension CloudFrontClientTypes.PublicKeyConfig {
     }
 }
 
+extension CloudFrontClientTypes.PublicKeyList {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.PublicKeyList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.PublicKeyList()
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.PublicKeySummary.read(from:), memberNodeInfo: "PublicKeySummary", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.PublicKeySummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.PublicKeySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.PublicKeySummary()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.encodedKey = try reader["EncodedKey"].readIfPresent() ?? ""
+        value.comment = try reader["Comment"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.QueryArgProfile {
+
+    static func write(value: CloudFrontClientTypes.QueryArgProfile?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ProfileId"].write(value.profileId)
+        try writer["QueryArg"].write(value.queryArg)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.QueryArgProfile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.QueryArgProfile()
+        value.queryArg = try reader["QueryArg"].readIfPresent() ?? ""
+        value.profileId = try reader["ProfileId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.QueryArgProfileConfig {
+
+    static func write(value: CloudFrontClientTypes.QueryArgProfileConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ForwardWhenQueryArgProfileIsUnknown"].write(value.forwardWhenQueryArgProfileIsUnknown)
+        try writer["QueryArgProfiles"].write(value.queryArgProfiles, with: CloudFrontClientTypes.QueryArgProfiles.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.QueryArgProfileConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.QueryArgProfileConfig()
+        value.forwardWhenQueryArgProfileIsUnknown = try reader["ForwardWhenQueryArgProfileIsUnknown"].readIfPresent() ?? false
+        value.queryArgProfiles = try reader["QueryArgProfiles"].readIfPresent(with: CloudFrontClientTypes.QueryArgProfiles.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.QueryArgProfiles {
+
+    static func write(value: CloudFrontClientTypes.QueryArgProfiles?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.QueryArgProfile.write(value:to:), memberNodeInfo: "QueryArgProfile", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.QueryArgProfiles {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.QueryArgProfiles()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.QueryArgProfile.read(from:), memberNodeInfo: "QueryArgProfile", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.QueryStringCacheKeys {
+
+    static func write(value: CloudFrontClientTypes.QueryStringCacheKeys?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Name", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.QueryStringCacheKeys {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.QueryStringCacheKeys()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Name", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.QueryStringNames {
+
+    static func write(value: CloudFrontClientTypes.QueryStringNames?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Name", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.QueryStringNames {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.QueryStringNames()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Name", isFlattened: false)
+        return value
+    }
+}
+
 extension CloudFrontClientTypes.RealtimeLogConfig {
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.RealtimeLogConfig {
@@ -29540,36 +29854,31 @@ extension CloudFrontClientTypes.RealtimeLogConfig {
     }
 }
 
-extension CloudFrontClientTypes.EndPoint {
+extension CloudFrontClientTypes.RealtimeLogConfigs {
 
-    static func write(value: CloudFrontClientTypes.EndPoint?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["KinesisStreamConfig"].write(value.kinesisStreamConfig, with: CloudFrontClientTypes.KinesisStreamConfig.write(value:to:))
-        try writer["StreamType"].write(value.streamType)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.EndPoint {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.RealtimeLogConfigs {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.EndPoint()
-        value.streamType = try reader["StreamType"].readIfPresent() ?? ""
-        value.kinesisStreamConfig = try reader["KinesisStreamConfig"].readIfPresent(with: CloudFrontClientTypes.KinesisStreamConfig.read(from:))
+        var value = CloudFrontClientTypes.RealtimeLogConfigs()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.RealtimeLogConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.marker = try reader["Marker"].readIfPresent() ?? ""
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
         return value
     }
 }
 
-extension CloudFrontClientTypes.KinesisStreamConfig {
+extension CloudFrontClientTypes.RealtimeMetricsSubscriptionConfig {
 
-    static func write(value: CloudFrontClientTypes.KinesisStreamConfig?, to writer: SmithyXML.Writer) throws {
+    static func write(value: CloudFrontClientTypes.RealtimeMetricsSubscriptionConfig?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        try writer["RoleARN"].write(value.roleARN)
-        try writer["StreamARN"].write(value.streamARN)
+        try writer["RealtimeMetricsSubscriptionStatus"].write(value.realtimeMetricsSubscriptionStatus)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KinesisStreamConfig {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.RealtimeMetricsSubscriptionConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.KinesisStreamConfig()
-        value.roleARN = try reader["RoleARN"].readIfPresent() ?? ""
-        value.streamARN = try reader["StreamARN"].readIfPresent() ?? ""
+        var value = CloudFrontClientTypes.RealtimeMetricsSubscriptionConfig()
+        value.realtimeMetricsSubscriptionStatus = try reader["RealtimeMetricsSubscriptionStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -29582,6 +29891,74 @@ extension CloudFrontClientTypes.ResponseHeadersPolicy {
         value.id = try reader["Id"].readIfPresent() ?? ""
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.responseHeadersPolicyConfig = try reader["ResponseHeadersPolicyConfig"].readIfPresent(with: CloudFrontClientTypes.ResponseHeadersPolicyConfig.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowHeaders {
+
+    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowHeaders?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Header", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowHeaders {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowHeaders()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Header", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowMethods {
+
+    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowMethods?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowMethodsValues>().write(value:to:), memberNodeInfo: "Method", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowMethods {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowMethods()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowMethodsValues>().read(from:), memberNodeInfo: "Method", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowOrigins {
+
+    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowOrigins?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Origin", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowOrigins {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowOrigins()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Origin", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ResponseHeadersPolicyAccessControlExposeHeaders {
+
+    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyAccessControlExposeHeaders?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Header", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyAccessControlExposeHeaders {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ResponseHeadersPolicyAccessControlExposeHeaders()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Header", isFlattened: false)
         return value
     }
 }
@@ -29613,152 +29990,6 @@ extension CloudFrontClientTypes.ResponseHeadersPolicyConfig {
     }
 }
 
-extension CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeadersConfig {
-
-    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeadersConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeader.write(value:to:), memberNodeInfo: "ResponseHeadersPolicyRemoveHeader", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeadersConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeadersConfig()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeader.read(from:), memberNodeInfo: "ResponseHeadersPolicyRemoveHeader", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeader {
-
-    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeader?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Header"].write(value.header)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeader {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeader()
-        value.header = try reader["Header"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ResponseHeadersPolicyCustomHeadersConfig {
-
-    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyCustomHeadersConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.ResponseHeadersPolicyCustomHeader.write(value:to:), memberNodeInfo: "ResponseHeadersPolicyCustomHeader", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyCustomHeadersConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ResponseHeadersPolicyCustomHeadersConfig()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.ResponseHeadersPolicyCustomHeader.read(from:), memberNodeInfo: "ResponseHeadersPolicyCustomHeader", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ResponseHeadersPolicyCustomHeader {
-
-    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyCustomHeader?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Header"].write(value.header)
-        try writer["Override"].write(value.`override`)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyCustomHeader {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ResponseHeadersPolicyCustomHeader()
-        value.header = try reader["Header"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        value.`override` = try reader["Override"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ResponseHeadersPolicyServerTimingHeadersConfig {
-
-    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyServerTimingHeadersConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-        try writer["SamplingRate"].write(value.samplingRate)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyServerTimingHeadersConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ResponseHeadersPolicyServerTimingHeadersConfig()
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        value.samplingRate = try reader["SamplingRate"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ResponseHeadersPolicySecurityHeadersConfig {
-
-    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicySecurityHeadersConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ContentSecurityPolicy"].write(value.contentSecurityPolicy, with: CloudFrontClientTypes.ResponseHeadersPolicyContentSecurityPolicy.write(value:to:))
-        try writer["ContentTypeOptions"].write(value.contentTypeOptions, with: CloudFrontClientTypes.ResponseHeadersPolicyContentTypeOptions.write(value:to:))
-        try writer["FrameOptions"].write(value.frameOptions, with: CloudFrontClientTypes.ResponseHeadersPolicyFrameOptions.write(value:to:))
-        try writer["ReferrerPolicy"].write(value.referrerPolicy, with: CloudFrontClientTypes.ResponseHeadersPolicyReferrerPolicy.write(value:to:))
-        try writer["StrictTransportSecurity"].write(value.strictTransportSecurity, with: CloudFrontClientTypes.ResponseHeadersPolicyStrictTransportSecurity.write(value:to:))
-        try writer["XSSProtection"].write(value.xssProtection, with: CloudFrontClientTypes.ResponseHeadersPolicyXSSProtection.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicySecurityHeadersConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ResponseHeadersPolicySecurityHeadersConfig()
-        value.xssProtection = try reader["XSSProtection"].readIfPresent(with: CloudFrontClientTypes.ResponseHeadersPolicyXSSProtection.read(from:))
-        value.frameOptions = try reader["FrameOptions"].readIfPresent(with: CloudFrontClientTypes.ResponseHeadersPolicyFrameOptions.read(from:))
-        value.referrerPolicy = try reader["ReferrerPolicy"].readIfPresent(with: CloudFrontClientTypes.ResponseHeadersPolicyReferrerPolicy.read(from:))
-        value.contentSecurityPolicy = try reader["ContentSecurityPolicy"].readIfPresent(with: CloudFrontClientTypes.ResponseHeadersPolicyContentSecurityPolicy.read(from:))
-        value.contentTypeOptions = try reader["ContentTypeOptions"].readIfPresent(with: CloudFrontClientTypes.ResponseHeadersPolicyContentTypeOptions.read(from:))
-        value.strictTransportSecurity = try reader["StrictTransportSecurity"].readIfPresent(with: CloudFrontClientTypes.ResponseHeadersPolicyStrictTransportSecurity.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ResponseHeadersPolicyStrictTransportSecurity {
-
-    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyStrictTransportSecurity?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["AccessControlMaxAgeSec"].write(value.accessControlMaxAgeSec)
-        try writer["IncludeSubdomains"].write(value.includeSubdomains)
-        try writer["Override"].write(value.`override`)
-        try writer["Preload"].write(value.preload)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyStrictTransportSecurity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ResponseHeadersPolicyStrictTransportSecurity()
-        value.`override` = try reader["Override"].readIfPresent() ?? false
-        value.includeSubdomains = try reader["IncludeSubdomains"].readIfPresent()
-        value.preload = try reader["Preload"].readIfPresent()
-        value.accessControlMaxAgeSec = try reader["AccessControlMaxAgeSec"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ResponseHeadersPolicyContentTypeOptions {
-
-    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyContentTypeOptions?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Override"].write(value.`override`)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyContentTypeOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ResponseHeadersPolicyContentTypeOptions()
-        value.`override` = try reader["Override"].readIfPresent() ?? false
-        return value
-    }
-}
-
 extension CloudFrontClientTypes.ResponseHeadersPolicyContentSecurityPolicy {
 
     static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyContentSecurityPolicy?, to writer: SmithyXML.Writer) throws {
@@ -29776,57 +30007,17 @@ extension CloudFrontClientTypes.ResponseHeadersPolicyContentSecurityPolicy {
     }
 }
 
-extension CloudFrontClientTypes.ResponseHeadersPolicyReferrerPolicy {
+extension CloudFrontClientTypes.ResponseHeadersPolicyContentTypeOptions {
 
-    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyReferrerPolicy?, to writer: SmithyXML.Writer) throws {
+    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyContentTypeOptions?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["Override"].write(value.`override`)
-        try writer["ReferrerPolicy"].write(value.referrerPolicy)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyReferrerPolicy {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyContentTypeOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ResponseHeadersPolicyReferrerPolicy()
+        var value = CloudFrontClientTypes.ResponseHeadersPolicyContentTypeOptions()
         value.`override` = try reader["Override"].readIfPresent() ?? false
-        value.referrerPolicy = try reader["ReferrerPolicy"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ResponseHeadersPolicyFrameOptions {
-
-    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyFrameOptions?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["FrameOption"].write(value.frameOption)
-        try writer["Override"].write(value.`override`)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyFrameOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ResponseHeadersPolicyFrameOptions()
-        value.`override` = try reader["Override"].readIfPresent() ?? false
-        value.frameOption = try reader["FrameOption"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ResponseHeadersPolicyXSSProtection {
-
-    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyXSSProtection?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ModeBlock"].write(value.modeBlock)
-        try writer["Override"].write(value.`override`)
-        try writer["Protection"].write(value.protection)
-        try writer["ReportUri"].write(value.reportUri)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyXSSProtection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ResponseHeadersPolicyXSSProtection()
-        value.`override` = try reader["Override"].readIfPresent() ?? false
-        value.protection = try reader["Protection"].readIfPresent() ?? false
-        value.modeBlock = try reader["ModeBlock"].readIfPresent()
-        value.reportUri = try reader["ReportUri"].readIfPresent()
         return value
     }
 }
@@ -29858,70 +30049,323 @@ extension CloudFrontClientTypes.ResponseHeadersPolicyCorsConfig {
     }
 }
 
-extension CloudFrontClientTypes.ResponseHeadersPolicyAccessControlExposeHeaders {
+extension CloudFrontClientTypes.ResponseHeadersPolicyCustomHeader {
 
-    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyAccessControlExposeHeaders?, to writer: SmithyXML.Writer) throws {
+    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyCustomHeader?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Header", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
+        try writer["Header"].write(value.header)
+        try writer["Override"].write(value.`override`)
+        try writer["Value"].write(value.value)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyAccessControlExposeHeaders {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyCustomHeader {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ResponseHeadersPolicyAccessControlExposeHeaders()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Header", isFlattened: false)
+        var value = CloudFrontClientTypes.ResponseHeadersPolicyCustomHeader()
+        value.header = try reader["Header"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        value.`override` = try reader["Override"].readIfPresent() ?? false
         return value
     }
 }
 
-extension CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowMethods {
+extension CloudFrontClientTypes.ResponseHeadersPolicyCustomHeadersConfig {
 
-    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowMethods?, to writer: SmithyXML.Writer) throws {
+    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyCustomHeadersConfig?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowMethodsValues>().write(value:to:), memberNodeInfo: "Method", isFlattened: false)
+        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.ResponseHeadersPolicyCustomHeader.write(value:to:), memberNodeInfo: "ResponseHeadersPolicyCustomHeader", isFlattened: false)
         try writer["Quantity"].write(value.quantity)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowMethods {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyCustomHeadersConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowMethods()
+        var value = CloudFrontClientTypes.ResponseHeadersPolicyCustomHeadersConfig()
         value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowMethodsValues>().read(from:), memberNodeInfo: "Method", isFlattened: false) ?? []
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.ResponseHeadersPolicyCustomHeader.read(from:), memberNodeInfo: "ResponseHeadersPolicyCustomHeader", isFlattened: false)
         return value
     }
 }
 
-extension CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowHeaders {
+extension CloudFrontClientTypes.ResponseHeadersPolicyFrameOptions {
 
-    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowHeaders?, to writer: SmithyXML.Writer) throws {
+    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyFrameOptions?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Header", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
+        try writer["FrameOption"].write(value.frameOption)
+        try writer["Override"].write(value.`override`)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowHeaders {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyFrameOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowHeaders()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Header", isFlattened: false) ?? []
+        var value = CloudFrontClientTypes.ResponseHeadersPolicyFrameOptions()
+        value.`override` = try reader["Override"].readIfPresent() ?? false
+        value.frameOption = try reader["FrameOption"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowOrigins {
+extension CloudFrontClientTypes.ResponseHeadersPolicyList {
 
-    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowOrigins?, to writer: SmithyXML.Writer) throws {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ResponseHeadersPolicyList()
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.ResponseHeadersPolicySummary.read(from:), memberNodeInfo: "ResponseHeadersPolicySummary", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ResponseHeadersPolicyReferrerPolicy {
+
+    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyReferrerPolicy?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Origin", isFlattened: false)
+        try writer["Override"].write(value.`override`)
+        try writer["ReferrerPolicy"].write(value.referrerPolicy)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyReferrerPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ResponseHeadersPolicyReferrerPolicy()
+        value.`override` = try reader["Override"].readIfPresent() ?? false
+        value.referrerPolicy = try reader["ReferrerPolicy"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeader {
+
+    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeader?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Header"].write(value.header)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeader {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeader()
+        value.header = try reader["Header"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeadersConfig {
+
+    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeadersConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeader.write(value:to:), memberNodeInfo: "ResponseHeadersPolicyRemoveHeader", isFlattened: false)
         try writer["Quantity"].write(value.quantity)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowOrigins {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeadersConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowOrigins()
+        var value = CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeadersConfig()
         value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Origin", isFlattened: false) ?? []
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeader.read(from:), memberNodeInfo: "ResponseHeadersPolicyRemoveHeader", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ResponseHeadersPolicySecurityHeadersConfig {
+
+    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicySecurityHeadersConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ContentSecurityPolicy"].write(value.contentSecurityPolicy, with: CloudFrontClientTypes.ResponseHeadersPolicyContentSecurityPolicy.write(value:to:))
+        try writer["ContentTypeOptions"].write(value.contentTypeOptions, with: CloudFrontClientTypes.ResponseHeadersPolicyContentTypeOptions.write(value:to:))
+        try writer["FrameOptions"].write(value.frameOptions, with: CloudFrontClientTypes.ResponseHeadersPolicyFrameOptions.write(value:to:))
+        try writer["ReferrerPolicy"].write(value.referrerPolicy, with: CloudFrontClientTypes.ResponseHeadersPolicyReferrerPolicy.write(value:to:))
+        try writer["StrictTransportSecurity"].write(value.strictTransportSecurity, with: CloudFrontClientTypes.ResponseHeadersPolicyStrictTransportSecurity.write(value:to:))
+        try writer["XSSProtection"].write(value.xssProtection, with: CloudFrontClientTypes.ResponseHeadersPolicyXSSProtection.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicySecurityHeadersConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ResponseHeadersPolicySecurityHeadersConfig()
+        value.xssProtection = try reader["XSSProtection"].readIfPresent(with: CloudFrontClientTypes.ResponseHeadersPolicyXSSProtection.read(from:))
+        value.frameOptions = try reader["FrameOptions"].readIfPresent(with: CloudFrontClientTypes.ResponseHeadersPolicyFrameOptions.read(from:))
+        value.referrerPolicy = try reader["ReferrerPolicy"].readIfPresent(with: CloudFrontClientTypes.ResponseHeadersPolicyReferrerPolicy.read(from:))
+        value.contentSecurityPolicy = try reader["ContentSecurityPolicy"].readIfPresent(with: CloudFrontClientTypes.ResponseHeadersPolicyContentSecurityPolicy.read(from:))
+        value.contentTypeOptions = try reader["ContentTypeOptions"].readIfPresent(with: CloudFrontClientTypes.ResponseHeadersPolicyContentTypeOptions.read(from:))
+        value.strictTransportSecurity = try reader["StrictTransportSecurity"].readIfPresent(with: CloudFrontClientTypes.ResponseHeadersPolicyStrictTransportSecurity.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ResponseHeadersPolicyServerTimingHeadersConfig {
+
+    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyServerTimingHeadersConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["SamplingRate"].write(value.samplingRate)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyServerTimingHeadersConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ResponseHeadersPolicyServerTimingHeadersConfig()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.samplingRate = try reader["SamplingRate"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ResponseHeadersPolicyStrictTransportSecurity {
+
+    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyStrictTransportSecurity?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AccessControlMaxAgeSec"].write(value.accessControlMaxAgeSec)
+        try writer["IncludeSubdomains"].write(value.includeSubdomains)
+        try writer["Override"].write(value.`override`)
+        try writer["Preload"].write(value.preload)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyStrictTransportSecurity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ResponseHeadersPolicyStrictTransportSecurity()
+        value.`override` = try reader["Override"].readIfPresent() ?? false
+        value.includeSubdomains = try reader["IncludeSubdomains"].readIfPresent()
+        value.preload = try reader["Preload"].readIfPresent()
+        value.accessControlMaxAgeSec = try reader["AccessControlMaxAgeSec"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ResponseHeadersPolicySummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ResponseHeadersPolicySummary()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.responseHeadersPolicy = try reader["ResponseHeadersPolicy"].readIfPresent(with: CloudFrontClientTypes.ResponseHeadersPolicy.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ResponseHeadersPolicyXSSProtection {
+
+    static func write(value: CloudFrontClientTypes.ResponseHeadersPolicyXSSProtection?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ModeBlock"].write(value.modeBlock)
+        try writer["Override"].write(value.`override`)
+        try writer["Protection"].write(value.protection)
+        try writer["ReportUri"].write(value.reportUri)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyXSSProtection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ResponseHeadersPolicyXSSProtection()
+        value.`override` = try reader["Override"].readIfPresent() ?? false
+        value.protection = try reader["Protection"].readIfPresent() ?? false
+        value.modeBlock = try reader["ModeBlock"].readIfPresent()
+        value.reportUri = try reader["ReportUri"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.Restrictions {
+
+    static func write(value: CloudFrontClientTypes.Restrictions?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["GeoRestriction"].write(value.geoRestriction, with: CloudFrontClientTypes.GeoRestriction.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Restrictions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.Restrictions()
+        value.geoRestriction = try reader["GeoRestriction"].readIfPresent(with: CloudFrontClientTypes.GeoRestriction.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.S3Origin {
+
+    static func write(value: CloudFrontClientTypes.S3Origin?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["DomainName"].write(value.domainName)
+        try writer["OriginAccessIdentity"].write(value.originAccessIdentity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.S3Origin {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.S3Origin()
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
+        value.originAccessIdentity = try reader["OriginAccessIdentity"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.S3OriginConfig {
+
+    static func write(value: CloudFrontClientTypes.S3OriginConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["OriginAccessIdentity"].write(value.originAccessIdentity)
+        try writer["OriginReadTimeout"].write(value.originReadTimeout)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.S3OriginConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.S3OriginConfig()
+        value.originAccessIdentity = try reader["OriginAccessIdentity"].readIfPresent() ?? ""
+        value.originReadTimeout = try reader["OriginReadTimeout"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.SessionStickinessConfig {
+
+    static func write(value: CloudFrontClientTypes.SessionStickinessConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["IdleTTL"].write(value.idleTTL)
+        try writer["MaximumTTL"].write(value.maximumTTL)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.SessionStickinessConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.SessionStickinessConfig()
+        value.idleTTL = try reader["IdleTTL"].readIfPresent() ?? 0
+        value.maximumTTL = try reader["MaximumTTL"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.Signer {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Signer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.Signer()
+        value.awsAccountNumber = try reader["AwsAccountNumber"].readIfPresent()
+        value.keyPairIds = try reader["KeyPairIds"].readIfPresent(with: CloudFrontClientTypes.KeyPairIds.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.StagingDistributionDnsNames {
+
+    static func write(value: CloudFrontClientTypes.StagingDistributionDnsNames?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "DnsName", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.StagingDistributionDnsNames {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.StagingDistributionDnsNames()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "DnsName", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.StatusCodes {
+
+    static func write(value: CloudFrontClientTypes.StatusCodes?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "StatusCode", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.StatusCodes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.StatusCodes()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "StatusCode", isFlattened: false) ?? []
         return value
     }
 }
@@ -29971,647 +30415,12 @@ extension CloudFrontClientTypes.StreamingDistributionConfig {
     }
 }
 
-extension CloudFrontClientTypes.StreamingLoggingConfig {
+extension CloudFrontClientTypes.StreamingDistributionConfigWithTags {
 
-    static func write(value: CloudFrontClientTypes.StreamingLoggingConfig?, to writer: SmithyXML.Writer) throws {
+    static func write(value: CloudFrontClientTypes.StreamingDistributionConfigWithTags?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["Enabled"].write(value.enabled)
-        try writer["Prefix"].write(value.`prefix`)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.StreamingLoggingConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.StreamingLoggingConfig()
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
-        value.`prefix` = try reader["Prefix"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.S3Origin {
-
-    static func write(value: CloudFrontClientTypes.S3Origin?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["DomainName"].write(value.domainName)
-        try writer["OriginAccessIdentity"].write(value.originAccessIdentity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.S3Origin {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.S3Origin()
-        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
-        value.originAccessIdentity = try reader["OriginAccessIdentity"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.TrustStore {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.TrustStore {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.TrustStore()
-        value.id = try reader["Id"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.numberOfCaCertificates = try reader["NumberOfCaCertificates"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.reason = try reader["Reason"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.VpcOrigin {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.VpcOrigin {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.VpcOrigin()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent() ?? ""
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.vpcOriginEndpointConfig = try reader["VpcOriginEndpointConfig"].readIfPresent(with: CloudFrontClientTypes.VpcOriginEndpointConfig.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.VpcOriginEndpointConfig {
-
-    static func write(value: CloudFrontClientTypes.VpcOriginEndpointConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["HTTPPort"].write(value.httpPort)
-        try writer["HTTPSPort"].write(value.httpsPort)
-        try writer["Name"].write(value.name)
-        try writer["OriginProtocolPolicy"].write(value.originProtocolPolicy)
-        try writer["OriginSslProtocols"].write(value.originSslProtocols, with: CloudFrontClientTypes.OriginSslProtocols.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.VpcOriginEndpointConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.VpcOriginEndpointConfig()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.httpPort = try reader["HTTPPort"].readIfPresent() ?? 0
-        value.httpsPort = try reader["HTTPSPort"].readIfPresent() ?? 0
-        value.originProtocolPolicy = try reader["OriginProtocolPolicy"].readIfPresent() ?? .sdkUnknown("")
-        value.originSslProtocols = try reader["OriginSslProtocols"].readIfPresent(with: CloudFrontClientTypes.OriginSslProtocols.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ManagedCertificateDetails {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ManagedCertificateDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ManagedCertificateDetails()
-        value.certificateArn = try reader["CertificateArn"].readIfPresent()
-        value.certificateStatus = try reader["CertificateStatus"].readIfPresent()
-        value.validationTokenHost = try reader["ValidationTokenHost"].readIfPresent()
-        value.validationTokenDetails = try reader["ValidationTokenDetails"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.ValidationTokenDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ValidationTokenDetail {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ValidationTokenDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ValidationTokenDetail()
-        value.domain = try reader["Domain"].readIfPresent() ?? ""
-        value.redirectTo = try reader["RedirectTo"].readIfPresent()
-        value.redirectFrom = try reader["RedirectFrom"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.AnycastIpListCollection {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.AnycastIpListCollection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.AnycastIpListCollection()
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.AnycastIpListSummary.read(from:), memberNodeInfo: "AnycastIpListSummary", isFlattened: false)
-        value.marker = try reader["Marker"].readIfPresent() ?? ""
-        value.nextMarker = try reader["NextMarker"].readIfPresent()
-        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
-        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.AnycastIpListSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.AnycastIpListSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.AnycastIpListSummary()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent() ?? ""
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.ipCount = try reader["IpCount"].readIfPresent() ?? 0
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
-        value.eTag = try reader["ETag"].readIfPresent()
-        value.ipamConfig = try reader["IpamConfig"].readIfPresent(with: CloudFrontClientTypes.IpamConfig.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.CachePolicyList {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CachePolicyList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.CachePolicyList()
-        value.nextMarker = try reader["NextMarker"].readIfPresent()
-        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.CachePolicySummary.read(from:), memberNodeInfo: "CachePolicySummary", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.CachePolicySummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CachePolicySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.CachePolicySummary()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.cachePolicy = try reader["CachePolicy"].readIfPresent(with: CloudFrontClientTypes.CachePolicy.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.CloudFrontOriginAccessIdentityList {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CloudFrontOriginAccessIdentityList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.CloudFrontOriginAccessIdentityList()
-        value.marker = try reader["Marker"].readIfPresent() ?? ""
-        value.nextMarker = try reader["NextMarker"].readIfPresent()
-        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
-        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.CloudFrontOriginAccessIdentitySummary.read(from:), memberNodeInfo: "CloudFrontOriginAccessIdentitySummary", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.CloudFrontOriginAccessIdentitySummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CloudFrontOriginAccessIdentitySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.CloudFrontOriginAccessIdentitySummary()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.s3CanonicalUserId = try reader["S3CanonicalUserId"].readIfPresent() ?? ""
-        value.comment = try reader["Comment"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ConflictingAliasesList {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ConflictingAliasesList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ConflictingAliasesList()
-        value.nextMarker = try reader["NextMarker"].readIfPresent()
-        value.maxItems = try reader["MaxItems"].readIfPresent()
-        value.quantity = try reader["Quantity"].readIfPresent()
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.ConflictingAlias.read(from:), memberNodeInfo: "ConflictingAlias", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ConflictingAlias {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ConflictingAlias {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ConflictingAlias()
-        value.alias = try reader["Alias"].readIfPresent()
-        value.distributionId = try reader["DistributionId"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ConnectionGroupSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ConnectionGroupSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ConnectionGroupSummary()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.routingEndpoint = try reader["RoutingEndpoint"].readIfPresent() ?? ""
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.eTag = try reader["ETag"].readIfPresent() ?? ""
-        value.anycastIpListId = try reader["AnycastIpListId"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.isDefault = try reader["IsDefault"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ContinuousDeploymentPolicyList {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContinuousDeploymentPolicyList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ContinuousDeploymentPolicyList()
-        value.nextMarker = try reader["NextMarker"].readIfPresent()
-        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.ContinuousDeploymentPolicySummary.read(from:), memberNodeInfo: "ContinuousDeploymentPolicySummary", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ContinuousDeploymentPolicySummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContinuousDeploymentPolicySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ContinuousDeploymentPolicySummary()
-        value.continuousDeploymentPolicy = try reader["ContinuousDeploymentPolicy"].readIfPresent(with: CloudFrontClientTypes.ContinuousDeploymentPolicy.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.DistributionList {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.DistributionList()
-        value.marker = try reader["Marker"].readIfPresent() ?? ""
-        value.nextMarker = try reader["NextMarker"].readIfPresent()
-        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
-        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.DistributionSummary.read(from:), memberNodeInfo: "DistributionSummary", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.DistributionSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.DistributionSummary()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.arn = try reader["ARN"].readIfPresent() ?? ""
-        value.eTag = try reader["ETag"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent() ?? ""
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
-        value.aliases = try reader["Aliases"].readIfPresent(with: CloudFrontClientTypes.Aliases.read(from:))
-        value.origins = try reader["Origins"].readIfPresent(with: CloudFrontClientTypes.Origins.read(from:))
-        value.originGroups = try reader["OriginGroups"].readIfPresent(with: CloudFrontClientTypes.OriginGroups.read(from:))
-        value.defaultCacheBehavior = try reader["DefaultCacheBehavior"].readIfPresent(with: CloudFrontClientTypes.DefaultCacheBehavior.read(from:))
-        value.cacheBehaviors = try reader["CacheBehaviors"].readIfPresent(with: CloudFrontClientTypes.CacheBehaviors.read(from:))
-        value.customErrorResponses = try reader["CustomErrorResponses"].readIfPresent(with: CloudFrontClientTypes.CustomErrorResponses.read(from:))
-        value.comment = try reader["Comment"].readIfPresent() ?? ""
-        value.priceClass = try reader["PriceClass"].readIfPresent() ?? .sdkUnknown("")
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        value.viewerCertificate = try reader["ViewerCertificate"].readIfPresent(with: CloudFrontClientTypes.ViewerCertificate.read(from:))
-        value.restrictions = try reader["Restrictions"].readIfPresent(with: CloudFrontClientTypes.Restrictions.read(from:))
-        value.webACLId = try reader["WebACLId"].readIfPresent() ?? ""
-        value.httpVersion = try reader["HttpVersion"].readIfPresent() ?? .sdkUnknown("")
-        value.isIPV6Enabled = try reader["IsIPV6Enabled"].readIfPresent() ?? false
-        value.aliasICPRecordals = try reader["AliasICPRecordals"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.AliasICPRecordal.read(from:), memberNodeInfo: "AliasICPRecordal", isFlattened: false)
-        value.staging = try reader["Staging"].readIfPresent() ?? false
-        value.connectionMode = try reader["ConnectionMode"].readIfPresent()
-        value.anycastIpListId = try reader["AnycastIpListId"].readIfPresent()
-        value.viewerMtlsConfig = try reader["ViewerMtlsConfig"].readIfPresent(with: CloudFrontClientTypes.ViewerMtlsConfig.read(from:))
-        value.connectionFunctionAssociation = try reader["ConnectionFunctionAssociation"].readIfPresent(with: CloudFrontClientTypes.ConnectionFunctionAssociation.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.DistributionIdList {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionIdList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.DistributionIdList()
-        value.marker = try reader["Marker"].readIfPresent() ?? ""
-        value.nextMarker = try reader["NextMarker"].readIfPresent()
-        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
-        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "DistributionId", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.DistributionIdOwnerList {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionIdOwnerList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.DistributionIdOwnerList()
-        value.marker = try reader["Marker"].readIfPresent() ?? ""
-        value.nextMarker = try reader["NextMarker"].readIfPresent()
-        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
-        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.DistributionIdOwner.read(from:), memberNodeInfo: "DistributionIdOwner", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.DistributionIdOwner {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionIdOwner {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.DistributionIdOwner()
-        value.distributionId = try reader["DistributionId"].readIfPresent() ?? ""
-        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.DistributionTenantSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionTenantSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.DistributionTenantSummary()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.distributionId = try reader["DistributionId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.domains = try reader["Domains"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.DomainResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.connectionGroupId = try reader["ConnectionGroupId"].readIfPresent()
-        value.customizations = try reader["Customizations"].readIfPresent(with: CloudFrontClientTypes.Customizations.read(from:))
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.eTag = try reader["ETag"].readIfPresent() ?? ""
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.DomainConflict {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DomainConflict {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.DomainConflict()
-        value.domain = try reader["Domain"].readIfPresent() ?? ""
-        value.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
-        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
-        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.FieldLevelEncryptionList {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryptionList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.FieldLevelEncryptionList()
-        value.nextMarker = try reader["NextMarker"].readIfPresent()
-        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.FieldLevelEncryptionSummary.read(from:), memberNodeInfo: "FieldLevelEncryptionSummary", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.FieldLevelEncryptionSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryptionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.FieldLevelEncryptionSummary()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.comment = try reader["Comment"].readIfPresent()
-        value.queryArgProfileConfig = try reader["QueryArgProfileConfig"].readIfPresent(with: CloudFrontClientTypes.QueryArgProfileConfig.read(from:))
-        value.contentTypeProfileConfig = try reader["ContentTypeProfileConfig"].readIfPresent(with: CloudFrontClientTypes.ContentTypeProfileConfig.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.FieldLevelEncryptionProfileList {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryptionProfileList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.FieldLevelEncryptionProfileList()
-        value.nextMarker = try reader["NextMarker"].readIfPresent()
-        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.FieldLevelEncryptionProfileSummary.read(from:), memberNodeInfo: "FieldLevelEncryptionProfileSummary", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.FieldLevelEncryptionProfileSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FieldLevelEncryptionProfileSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.FieldLevelEncryptionProfileSummary()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.encryptionEntities = try reader["EncryptionEntities"].readIfPresent(with: CloudFrontClientTypes.EncryptionEntities.read(from:))
-        value.comment = try reader["Comment"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.FunctionList {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FunctionList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.FunctionList()
-        value.nextMarker = try reader["NextMarker"].readIfPresent()
-        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.FunctionSummary.read(from:), memberNodeInfo: "FunctionSummary", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.InvalidationList {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.InvalidationList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.InvalidationList()
-        value.marker = try reader["Marker"].readIfPresent() ?? ""
-        value.nextMarker = try reader["NextMarker"].readIfPresent()
-        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
-        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.InvalidationSummary.read(from:), memberNodeInfo: "InvalidationSummary", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.InvalidationSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.InvalidationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.InvalidationSummary()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.status = try reader["Status"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.KeyGroupList {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyGroupList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.KeyGroupList()
-        value.nextMarker = try reader["NextMarker"].readIfPresent()
-        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.KeyGroupSummary.read(from:), memberNodeInfo: "KeyGroupSummary", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.KeyGroupSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyGroupSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.KeyGroupSummary()
-        value.keyGroup = try reader["KeyGroup"].readIfPresent(with: CloudFrontClientTypes.KeyGroup.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.KeyValueStoreList {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyValueStoreList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.KeyValueStoreList()
-        value.nextMarker = try reader["NextMarker"].readIfPresent()
-        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.KeyValueStore.read(from:), memberNodeInfo: "KeyValueStore", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.OriginAccessControlList {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginAccessControlList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.OriginAccessControlList()
-        value.marker = try reader["Marker"].readIfPresent() ?? ""
-        value.nextMarker = try reader["NextMarker"].readIfPresent()
-        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
-        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.OriginAccessControlSummary.read(from:), memberNodeInfo: "OriginAccessControlSummary", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.OriginAccessControlSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginAccessControlSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.OriginAccessControlSummary()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.description = try reader["Description"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.signingProtocol = try reader["SigningProtocol"].readIfPresent() ?? .sdkUnknown("")
-        value.signingBehavior = try reader["SigningBehavior"].readIfPresent() ?? .sdkUnknown("")
-        value.originAccessControlOriginType = try reader["OriginAccessControlOriginType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.OriginRequestPolicyList {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginRequestPolicyList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.OriginRequestPolicyList()
-        value.nextMarker = try reader["NextMarker"].readIfPresent()
-        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.OriginRequestPolicySummary.read(from:), memberNodeInfo: "OriginRequestPolicySummary", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.OriginRequestPolicySummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginRequestPolicySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.OriginRequestPolicySummary()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.originRequestPolicy = try reader["OriginRequestPolicy"].readIfPresent(with: CloudFrontClientTypes.OriginRequestPolicy.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.PublicKeyList {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.PublicKeyList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.PublicKeyList()
-        value.nextMarker = try reader["NextMarker"].readIfPresent()
-        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.PublicKeySummary.read(from:), memberNodeInfo: "PublicKeySummary", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.PublicKeySummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.PublicKeySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.PublicKeySummary()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.encodedKey = try reader["EncodedKey"].readIfPresent() ?? ""
-        value.comment = try reader["Comment"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.RealtimeLogConfigs {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.RealtimeLogConfigs {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.RealtimeLogConfigs()
-        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.RealtimeLogConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-        value.marker = try reader["Marker"].readIfPresent() ?? ""
-        value.nextMarker = try reader["NextMarker"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ResponseHeadersPolicyList {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicyList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ResponseHeadersPolicyList()
-        value.nextMarker = try reader["NextMarker"].readIfPresent()
-        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.ResponseHeadersPolicySummary.read(from:), memberNodeInfo: "ResponseHeadersPolicySummary", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.ResponseHeadersPolicySummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ResponseHeadersPolicySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ResponseHeadersPolicySummary()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.responseHeadersPolicy = try reader["ResponseHeadersPolicy"].readIfPresent(with: CloudFrontClientTypes.ResponseHeadersPolicy.read(from:))
-        return value
+        try writer["StreamingDistributionConfig"].write(value.streamingDistributionConfig, with: CloudFrontClientTypes.StreamingDistributionConfig.write(value:to:))
+        try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
     }
 }
 
@@ -30650,6 +30459,205 @@ extension CloudFrontClientTypes.StreamingDistributionSummary {
     }
 }
 
+extension CloudFrontClientTypes.StreamingLoggingConfig {
+
+    static func write(value: CloudFrontClientTypes.StreamingLoggingConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["Enabled"].write(value.enabled)
+        try writer["Prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.StreamingLoggingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.StreamingLoggingConfig()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.`prefix` = try reader["Prefix"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.StringSchemaConfig {
+
+    static func write(value: CloudFrontClientTypes.StringSchemaConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Comment"].write(value.comment)
+        try writer["DefaultValue"].write(value.defaultValue)
+        try writer["Required"].write(value.`required`)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.StringSchemaConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.StringSchemaConfig()
+        value.comment = try reader["Comment"].readIfPresent()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.`required` = try reader["Required"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.Tag {
+
+    static func write(value: CloudFrontClientTypes.Tag?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.TagKeys {
+
+    static func write(value: CloudFrontClientTypes.TagKeys?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Key", isFlattened: false)
+    }
+}
+
+extension CloudFrontClientTypes.Tags {
+
+    static func write(value: CloudFrontClientTypes.Tags?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Tags {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.Tags()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.TenantConfig {
+
+    static func write(value: CloudFrontClientTypes.TenantConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ParameterDefinitions"].writeList(value.parameterDefinitions, memberWritingClosure: CloudFrontClientTypes.ParameterDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.TenantConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.TenantConfig()
+        value.parameterDefinitions = try reader["ParameterDefinitions"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.ParameterDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.TestResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.TestResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.TestResult()
+        value.functionSummary = try reader["FunctionSummary"].readIfPresent(with: CloudFrontClientTypes.FunctionSummary.read(from:))
+        value.computeUtilization = try reader["ComputeUtilization"].readIfPresent()
+        value.functionExecutionLogs = try reader["FunctionExecutionLogs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.functionErrorMessage = try reader["FunctionErrorMessage"].readIfPresent()
+        value.functionOutput = try reader["FunctionOutput"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.TrafficConfig {
+
+    static func write(value: CloudFrontClientTypes.TrafficConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["SingleHeaderConfig"].write(value.singleHeaderConfig, with: CloudFrontClientTypes.ContinuousDeploymentSingleHeaderConfig.write(value:to:))
+        try writer["SingleWeightConfig"].write(value.singleWeightConfig, with: CloudFrontClientTypes.ContinuousDeploymentSingleWeightConfig.write(value:to:))
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.TrafficConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.TrafficConfig()
+        value.singleWeightConfig = try reader["SingleWeightConfig"].readIfPresent(with: CloudFrontClientTypes.ContinuousDeploymentSingleWeightConfig.read(from:))
+        value.singleHeaderConfig = try reader["SingleHeaderConfig"].readIfPresent(with: CloudFrontClientTypes.ContinuousDeploymentSingleHeaderConfig.read(from:))
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.TrustedKeyGroups {
+
+    static func write(value: CloudFrontClientTypes.TrustedKeyGroups?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "KeyGroup", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.TrustedKeyGroups {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.TrustedKeyGroups()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "KeyGroup", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.TrustedSigners {
+
+    static func write(value: CloudFrontClientTypes.TrustedSigners?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "AwsAccountNumber", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.TrustedSigners {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.TrustedSigners()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AwsAccountNumber", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.TrustStore {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.TrustStore {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.TrustStore()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.numberOfCaCertificates = try reader["NumberOfCaCertificates"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.reason = try reader["Reason"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.TrustStoreConfig {
+
+    static func write(value: CloudFrontClientTypes.TrustStoreConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AdvertiseTrustStoreCaNames"].write(value.advertiseTrustStoreCaNames)
+        try writer["IgnoreCertificateExpiry"].write(value.ignoreCertificateExpiry)
+        try writer["TrustStoreId"].write(value.trustStoreId)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.TrustStoreConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.TrustStoreConfig()
+        value.trustStoreId = try reader["TrustStoreId"].readIfPresent() ?? ""
+        value.advertiseTrustStoreCaNames = try reader["AdvertiseTrustStoreCaNames"].readIfPresent()
+        value.ignoreCertificateExpiry = try reader["IgnoreCertificateExpiry"].readIfPresent()
+        return value
+    }
+}
+
 extension CloudFrontClientTypes.TrustStoreSummary {
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.TrustStoreSummary {
@@ -30663,6 +30671,124 @@ extension CloudFrontClientTypes.TrustStoreSummary {
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.reason = try reader["Reason"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ValidationTokenDetail {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ValidationTokenDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ValidationTokenDetail()
+        value.domain = try reader["Domain"].readIfPresent() ?? ""
+        value.redirectTo = try reader["RedirectTo"].readIfPresent()
+        value.redirectFrom = try reader["RedirectFrom"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ViewerCertificate {
+
+    static func write(value: CloudFrontClientTypes.ViewerCertificate?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ACMCertificateArn"].write(value.acmCertificateArn)
+        try writer["Certificate"].write(value.certificate)
+        try writer["CertificateSource"].write(value.certificateSource)
+        try writer["CloudFrontDefaultCertificate"].write(value.cloudFrontDefaultCertificate)
+        try writer["IAMCertificateId"].write(value.iamCertificateId)
+        try writer["MinimumProtocolVersion"].write(value.minimumProtocolVersion)
+        try writer["SSLSupportMethod"].write(value.sslSupportMethod)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ViewerCertificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ViewerCertificate()
+        value.cloudFrontDefaultCertificate = try reader["CloudFrontDefaultCertificate"].readIfPresent()
+        value.iamCertificateId = try reader["IAMCertificateId"].readIfPresent()
+        value.acmCertificateArn = try reader["ACMCertificateArn"].readIfPresent()
+        value.sslSupportMethod = try reader["SSLSupportMethod"].readIfPresent()
+        value.minimumProtocolVersion = try reader["MinimumProtocolVersion"].readIfPresent()
+        value.certificate = try reader["Certificate"].readIfPresent()
+        value.certificateSource = try reader["CertificateSource"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ViewerMtlsConfig {
+
+    static func write(value: CloudFrontClientTypes.ViewerMtlsConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Mode"].write(value.mode)
+        try writer["TrustStoreConfig"].write(value.trustStoreConfig, with: CloudFrontClientTypes.TrustStoreConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ViewerMtlsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ViewerMtlsConfig()
+        value.mode = try reader["Mode"].readIfPresent() ?? CloudFrontClientTypes.ViewerMtlsMode.`required`
+        value.trustStoreConfig = try reader["TrustStoreConfig"].readIfPresent(with: CloudFrontClientTypes.TrustStoreConfig.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.VpcOrigin {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.VpcOrigin {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.VpcOrigin()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.vpcOriginEndpointConfig = try reader["VpcOriginEndpointConfig"].readIfPresent(with: CloudFrontClientTypes.VpcOriginEndpointConfig.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.VpcOriginConfig {
+
+    static func write(value: CloudFrontClientTypes.VpcOriginConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["OriginKeepaliveTimeout"].write(value.originKeepaliveTimeout)
+        try writer["OriginReadTimeout"].write(value.originReadTimeout)
+        try writer["OwnerAccountId"].write(value.ownerAccountId)
+        try writer["VpcOriginId"].write(value.vpcOriginId)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.VpcOriginConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.VpcOriginConfig()
+        value.vpcOriginId = try reader["VpcOriginId"].readIfPresent() ?? ""
+        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent()
+        value.originReadTimeout = try reader["OriginReadTimeout"].readIfPresent()
+        value.originKeepaliveTimeout = try reader["OriginKeepaliveTimeout"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.VpcOriginEndpointConfig {
+
+    static func write(value: CloudFrontClientTypes.VpcOriginEndpointConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+        try writer["HTTPPort"].write(value.httpPort)
+        try writer["HTTPSPort"].write(value.httpsPort)
+        try writer["Name"].write(value.name)
+        try writer["OriginProtocolPolicy"].write(value.originProtocolPolicy)
+        try writer["OriginSslProtocols"].write(value.originSslProtocols, with: CloudFrontClientTypes.OriginSslProtocols.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.VpcOriginEndpointConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.VpcOriginEndpointConfig()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.httpPort = try reader["HTTPPort"].readIfPresent() ?? 0
+        value.httpsPort = try reader["HTTPSPort"].readIfPresent() ?? 0
+        value.originProtocolPolicy = try reader["OriginProtocolPolicy"].readIfPresent() ?? .sdkUnknown("")
+        value.originSslProtocols = try reader["OriginSslProtocols"].readIfPresent(with: CloudFrontClientTypes.OriginSslProtocols.read(from:))
         return value
     }
 }
@@ -30699,146 +30825,20 @@ extension CloudFrontClientTypes.VpcOriginSummary {
     }
 }
 
-extension CloudFrontClientTypes.ConnectionFunctionTestResult {
+extension CloudFrontClientTypes.WebAclCustomization {
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ConnectionFunctionTestResult {
+    static func write(value: CloudFrontClientTypes.WebAclCustomization?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["Arn"].write(value.arn)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.WebAclCustomization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.ConnectionFunctionTestResult()
-        value.connectionFunctionSummary = try reader["ConnectionFunctionSummary"].readIfPresent(with: CloudFrontClientTypes.ConnectionFunctionSummary.read(from:))
-        value.computeUtilization = try reader["ComputeUtilization"].readIfPresent()
-        value.connectionFunctionExecutionLogs = try reader["ConnectionFunctionExecutionLogs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.connectionFunctionErrorMessage = try reader["ConnectionFunctionErrorMessage"].readIfPresent()
-        value.connectionFunctionOutput = try reader["ConnectionFunctionOutput"].readIfPresent()
+        var value = CloudFrontClientTypes.WebAclCustomization()
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        value.arn = try reader["Arn"].readIfPresent()
         return value
-    }
-}
-
-extension CloudFrontClientTypes.TestResult {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.TestResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.TestResult()
-        value.functionSummary = try reader["FunctionSummary"].readIfPresent(with: CloudFrontClientTypes.FunctionSummary.read(from:))
-        value.computeUtilization = try reader["ComputeUtilization"].readIfPresent()
-        value.functionExecutionLogs = try reader["FunctionExecutionLogs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.functionErrorMessage = try reader["FunctionErrorMessage"].readIfPresent()
-        value.functionOutput = try reader["FunctionOutput"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.DnsConfiguration {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DnsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.DnsConfiguration()
-        value.domain = try reader["Domain"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.reason = try reader["Reason"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.DomainItem {
-
-    static func write(value: CloudFrontClientTypes.DomainItem?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Domain"].write(value.domain)
-    }
-}
-
-extension CloudFrontClientTypes.ManagedCertificateRequest {
-
-    static func write(value: CloudFrontClientTypes.ManagedCertificateRequest?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateTransparencyLoggingPreference"].write(value.certificateTransparencyLoggingPreference)
-        try writer["PrimaryDomainName"].write(value.primaryDomainName)
-        try writer["ValidationTokenHost"].write(value.validationTokenHost)
-    }
-}
-
-extension CloudFrontClientTypes.DistributionConfigWithTags {
-
-    static func write(value: CloudFrontClientTypes.DistributionConfigWithTags?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["DistributionConfig"].write(value.distributionConfig, with: CloudFrontClientTypes.DistributionConfig.write(value:to:))
-        try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
-    }
-}
-
-extension CloudFrontClientTypes.ImportSource {
-
-    static func write(value: CloudFrontClientTypes.ImportSource?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["SourceARN"].write(value.sourceARN)
-        try writer["SourceType"].write(value.sourceType)
-    }
-}
-
-extension CloudFrontClientTypes.StreamingDistributionConfigWithTags {
-
-    static func write(value: CloudFrontClientTypes.StreamingDistributionConfigWithTags?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["StreamingDistributionConfig"].write(value.streamingDistributionConfig, with: CloudFrontClientTypes.StreamingDistributionConfig.write(value:to:))
-        try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
-    }
-}
-
-extension CloudFrontClientTypes.CaCertificatesBundleSource {
-
-    static func write(value: CloudFrontClientTypes.CaCertificatesBundleSource?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .cacertificatesbundles3location(cacertificatesbundles3location):
-                try writer["CaCertificatesBundleS3Location"].write(cacertificatesbundles3location, with: CloudFrontClientTypes.CaCertificatesBundleS3Location.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension CloudFrontClientTypes.CaCertificatesBundleS3Location {
-
-    static func write(value: CloudFrontClientTypes.CaCertificatesBundleS3Location?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["Key"].write(value.key)
-        try writer["Region"].write(value.region)
-        try writer["Version"].write(value.version)
-    }
-}
-
-extension CloudFrontClientTypes.ConnectionGroupAssociationFilter {
-
-    static func write(value: CloudFrontClientTypes.ConnectionGroupAssociationFilter?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["AnycastIpListId"].write(value.anycastIpListId)
-    }
-}
-
-extension CloudFrontClientTypes.DistributionTenantAssociationFilter {
-
-    static func write(value: CloudFrontClientTypes.DistributionTenantAssociationFilter?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionGroupId"].write(value.connectionGroupId)
-        try writer["DistributionId"].write(value.distributionId)
-    }
-}
-
-extension CloudFrontClientTypes.DistributionResourceId {
-
-    static func write(value: CloudFrontClientTypes.DistributionResourceId?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["DistributionId"].write(value.distributionId)
-        try writer["DistributionTenantId"].write(value.distributionTenantId)
-    }
-}
-
-extension CloudFrontClientTypes.TagKeys {
-
-    static func write(value: CloudFrontClientTypes.TagKeys?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Key", isFlattened: false)
     }
 }
 

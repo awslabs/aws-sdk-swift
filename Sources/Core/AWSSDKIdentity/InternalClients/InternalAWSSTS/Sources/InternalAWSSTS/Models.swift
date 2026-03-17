@@ -21,8 +21,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSQueryError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSQueryError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 extension STSClientTypes {
@@ -547,7 +547,7 @@ enum AssumeRoleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExpiredTokenException": return try ExpiredTokenException.makeError(baseError: baseError)
@@ -564,7 +564,7 @@ enum AssumeRoleWithWebIdentityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExpiredTokenException": return try ExpiredTokenException.makeError(baseError: baseError)
@@ -581,7 +581,7 @@ enum AssumeRoleWithWebIdentityOutputError {
 
 extension ExpiredTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ExpiredTokenException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ExpiredTokenException {
         let reader = baseError.errorBodyReader
         var value = ExpiredTokenException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -594,7 +594,7 @@ extension ExpiredTokenException {
 
 extension MalformedPolicyDocumentException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> MalformedPolicyDocumentException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> MalformedPolicyDocumentException {
         let reader = baseError.errorBodyReader
         var value = MalformedPolicyDocumentException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -607,7 +607,7 @@ extension MalformedPolicyDocumentException {
 
 extension PackedPolicyTooLargeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PackedPolicyTooLargeException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> PackedPolicyTooLargeException {
         let reader = baseError.errorBodyReader
         var value = PackedPolicyTooLargeException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -620,7 +620,7 @@ extension PackedPolicyTooLargeException {
 
 extension RegionDisabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RegionDisabledException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> RegionDisabledException {
         let reader = baseError.errorBodyReader
         var value = RegionDisabledException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -633,7 +633,7 @@ extension RegionDisabledException {
 
 extension IDPCommunicationErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IDPCommunicationErrorException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> IDPCommunicationErrorException {
         let reader = baseError.errorBodyReader
         var value = IDPCommunicationErrorException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -646,7 +646,7 @@ extension IDPCommunicationErrorException {
 
 extension IDPRejectedClaimException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IDPRejectedClaimException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> IDPRejectedClaimException {
         let reader = baseError.errorBodyReader
         var value = IDPRejectedClaimException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -659,13 +659,24 @@ extension IDPRejectedClaimException {
 
 extension InvalidIdentityTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidIdentityTokenException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidIdentityTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidIdentityTokenException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension STSClientTypes.AssumedRoleUser {
+
+    static func read(from reader: SmithyXML.Reader) throws -> STSClientTypes.AssumedRoleUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = STSClientTypes.AssumedRoleUser()
+        value.assumedRoleId = try reader["AssumedRoleId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -683,31 +694,11 @@ extension STSClientTypes.Credentials {
     }
 }
 
-extension STSClientTypes.AssumedRoleUser {
-
-    static func read(from reader: SmithyXML.Reader) throws -> STSClientTypes.AssumedRoleUser {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = STSClientTypes.AssumedRoleUser()
-        value.assumedRoleId = try reader["AssumedRoleId"].readIfPresent() ?? ""
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension STSClientTypes.PolicyDescriptorType {
 
     static func write(value: STSClientTypes.PolicyDescriptorType?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["arn"].write(value.arn)
-    }
-}
-
-extension STSClientTypes.Tag {
-
-    static func write(value: STSClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
     }
 }
 
@@ -717,6 +708,15 @@ extension STSClientTypes.ProvidedContext {
         guard let value else { return }
         try writer["ContextAssertion"].write(value.contextAssertion)
         try writer["ProviderArn"].write(value.providerArn)
+    }
+}
+
+extension STSClientTypes.Tag {
+
+    static func write(value: STSClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
     }
 }
 

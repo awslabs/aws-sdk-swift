@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -58,6 +57,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -664,7 +664,7 @@ extension InvoicingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetInvoiceProfileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetInvoiceProfileInput, BatchGetInvoiceProfileOutput>(xAmzTarget: "Invoicing.BatchGetInvoiceProfile"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetInvoiceProfileInput, BatchGetInvoiceProfileOutput>(overrides: ["X-Amz-Target": "Invoicing.BatchGetInvoiceProfile"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchGetInvoiceProfileInput, BatchGetInvoiceProfileOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetInvoiceProfileInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetInvoiceProfileInput, BatchGetInvoiceProfileOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetInvoiceProfileOutput>())
@@ -736,7 +736,7 @@ extension InvoicingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateInvoiceUnitOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateInvoiceUnitInput, CreateInvoiceUnitOutput>(xAmzTarget: "Invoicing.CreateInvoiceUnit"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateInvoiceUnitInput, CreateInvoiceUnitOutput>(overrides: ["X-Amz-Target": "Invoicing.CreateInvoiceUnit"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateInvoiceUnitInput, CreateInvoiceUnitOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateInvoiceUnitInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateInvoiceUnitInput, CreateInvoiceUnitOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateInvoiceUnitOutput>())
@@ -811,7 +811,7 @@ extension InvoicingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProcurementPortalPreferenceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateProcurementPortalPreferenceInput, CreateProcurementPortalPreferenceOutput>(xAmzTarget: "Invoicing.CreateProcurementPortalPreference"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProcurementPortalPreferenceInput, CreateProcurementPortalPreferenceOutput>(overrides: ["X-Amz-Target": "Invoicing.CreateProcurementPortalPreference"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateProcurementPortalPreferenceInput, CreateProcurementPortalPreferenceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProcurementPortalPreferenceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProcurementPortalPreferenceInput, CreateProcurementPortalPreferenceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProcurementPortalPreferenceOutput>())
@@ -884,7 +884,7 @@ extension InvoicingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteInvoiceUnitOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteInvoiceUnitInput, DeleteInvoiceUnitOutput>(xAmzTarget: "Invoicing.DeleteInvoiceUnit"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteInvoiceUnitInput, DeleteInvoiceUnitOutput>(overrides: ["X-Amz-Target": "Invoicing.DeleteInvoiceUnit"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteInvoiceUnitInput, DeleteInvoiceUnitOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteInvoiceUnitInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteInvoiceUnitInput, DeleteInvoiceUnitOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteInvoiceUnitOutput>())
@@ -958,7 +958,7 @@ extension InvoicingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProcurementPortalPreferenceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput>(xAmzTarget: "Invoicing.DeleteProcurementPortalPreference"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput>(overrides: ["X-Amz-Target": "Invoicing.DeleteProcurementPortalPreference"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProcurementPortalPreferenceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProcurementPortalPreferenceOutput>())
@@ -1031,7 +1031,7 @@ extension InvoicingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetInvoicePDFOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetInvoicePDFInput, GetInvoicePDFOutput>(xAmzTarget: "Invoicing.GetInvoicePDF"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetInvoicePDFInput, GetInvoicePDFOutput>(overrides: ["X-Amz-Target": "Invoicing.GetInvoicePDF"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetInvoicePDFInput, GetInvoicePDFOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetInvoicePDFInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetInvoicePDFInput, GetInvoicePDFOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInvoicePDFOutput>())
@@ -1104,7 +1104,7 @@ extension InvoicingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetInvoiceUnitOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetInvoiceUnitInput, GetInvoiceUnitOutput>(xAmzTarget: "Invoicing.GetInvoiceUnit"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetInvoiceUnitInput, GetInvoiceUnitOutput>(overrides: ["X-Amz-Target": "Invoicing.GetInvoiceUnit"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetInvoiceUnitInput, GetInvoiceUnitOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetInvoiceUnitInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetInvoiceUnitInput, GetInvoiceUnitOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInvoiceUnitOutput>())
@@ -1179,7 +1179,7 @@ extension InvoicingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetProcurementPortalPreferenceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetProcurementPortalPreferenceInput, GetProcurementPortalPreferenceOutput>(xAmzTarget: "Invoicing.GetProcurementPortalPreference"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetProcurementPortalPreferenceInput, GetProcurementPortalPreferenceOutput>(overrides: ["X-Amz-Target": "Invoicing.GetProcurementPortalPreference"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetProcurementPortalPreferenceInput, GetProcurementPortalPreferenceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetProcurementPortalPreferenceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetProcurementPortalPreferenceInput, GetProcurementPortalPreferenceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetProcurementPortalPreferenceOutput>())
@@ -1252,7 +1252,7 @@ extension InvoicingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListInvoiceSummariesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListInvoiceSummariesInput, ListInvoiceSummariesOutput>(xAmzTarget: "Invoicing.ListInvoiceSummaries"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListInvoiceSummariesInput, ListInvoiceSummariesOutput>(overrides: ["X-Amz-Target": "Invoicing.ListInvoiceSummaries"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListInvoiceSummariesInput, ListInvoiceSummariesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListInvoiceSummariesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListInvoiceSummariesInput, ListInvoiceSummariesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInvoiceSummariesOutput>())
@@ -1324,7 +1324,7 @@ extension InvoicingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListInvoiceUnitsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListInvoiceUnitsInput, ListInvoiceUnitsOutput>(xAmzTarget: "Invoicing.ListInvoiceUnits"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListInvoiceUnitsInput, ListInvoiceUnitsOutput>(overrides: ["X-Amz-Target": "Invoicing.ListInvoiceUnits"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListInvoiceUnitsInput, ListInvoiceUnitsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListInvoiceUnitsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListInvoiceUnitsInput, ListInvoiceUnitsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInvoiceUnitsOutput>())
@@ -1398,7 +1398,7 @@ extension InvoicingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProcurementPortalPreferencesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput>(xAmzTarget: "Invoicing.ListProcurementPortalPreferences"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput>(overrides: ["X-Amz-Target": "Invoicing.ListProcurementPortalPreferences"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProcurementPortalPreferencesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProcurementPortalPreferencesOutput>())
@@ -1471,7 +1471,7 @@ extension InvoicingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "Invoicing.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "Invoicing.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -1546,7 +1546,7 @@ extension InvoicingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutProcurementPortalPreferenceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput>(xAmzTarget: "Invoicing.PutProcurementPortalPreference"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput>(overrides: ["X-Amz-Target": "Invoicing.PutProcurementPortalPreference"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutProcurementPortalPreferenceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutProcurementPortalPreferenceOutput>())
@@ -1620,7 +1620,7 @@ extension InvoicingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "Invoicing.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "Invoicing.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -1693,7 +1693,7 @@ extension InvoicingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "Invoicing.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "Invoicing.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -1766,7 +1766,7 @@ extension InvoicingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateInvoiceUnitOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateInvoiceUnitInput, UpdateInvoiceUnitOutput>(xAmzTarget: "Invoicing.UpdateInvoiceUnit"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateInvoiceUnitInput, UpdateInvoiceUnitOutput>(overrides: ["X-Amz-Target": "Invoicing.UpdateInvoiceUnit"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateInvoiceUnitInput, UpdateInvoiceUnitOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateInvoiceUnitInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateInvoiceUnitInput, UpdateInvoiceUnitOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateInvoiceUnitOutput>())
@@ -1841,7 +1841,7 @@ extension InvoicingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProcurementPortalPreferenceStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput>(xAmzTarget: "Invoicing.UpdateProcurementPortalPreferenceStatus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput>(overrides: ["X-Amz-Target": "Invoicing.UpdateProcurementPortalPreferenceStatus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProcurementPortalPreferenceStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProcurementPortalPreferenceStatusOutput>())

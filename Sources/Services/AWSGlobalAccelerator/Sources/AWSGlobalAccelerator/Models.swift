@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -4878,7 +4878,7 @@ enum AddCustomRoutingEndpointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4898,7 +4898,7 @@ enum AddEndpointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4917,7 +4917,7 @@ enum AdvertiseByoipCidrOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4935,7 +4935,7 @@ enum AllowCustomRoutingTrafficOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EndpointGroupNotFoundException": return try EndpointGroupNotFoundException.makeError(baseError: baseError)
@@ -4951,7 +4951,7 @@ enum CreateAcceleratorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4969,7 +4969,7 @@ enum CreateCrossAccountAttachmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4987,7 +4987,7 @@ enum CreateCustomRoutingAcceleratorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5005,7 +5005,7 @@ enum CreateCustomRoutingEndpointGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
@@ -5026,7 +5026,7 @@ enum CreateCustomRoutingListenerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
@@ -5044,7 +5044,7 @@ enum CreateEndpointGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
@@ -5064,7 +5064,7 @@ enum CreateListenerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
@@ -5082,7 +5082,7 @@ enum DeleteAcceleratorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotDisabledException": return try AcceleratorNotDisabledException.makeError(baseError: baseError)
@@ -5101,7 +5101,7 @@ enum DeleteCrossAccountAttachmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5119,7 +5119,7 @@ enum DeleteCustomRoutingAcceleratorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotDisabledException": return try AcceleratorNotDisabledException.makeError(baseError: baseError)
@@ -5138,7 +5138,7 @@ enum DeleteCustomRoutingEndpointGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EndpointGroupNotFoundException": return try EndpointGroupNotFoundException.makeError(baseError: baseError)
@@ -5154,7 +5154,7 @@ enum DeleteCustomRoutingListenerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AssociatedEndpointGroupFoundException": return try AssociatedEndpointGroupFoundException.makeError(baseError: baseError)
@@ -5171,7 +5171,7 @@ enum DeleteEndpointGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EndpointGroupNotFoundException": return try EndpointGroupNotFoundException.makeError(baseError: baseError)
@@ -5187,7 +5187,7 @@ enum DeleteListenerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AssociatedEndpointGroupFoundException": return try AssociatedEndpointGroupFoundException.makeError(baseError: baseError)
@@ -5204,7 +5204,7 @@ enum DenyCustomRoutingTrafficOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EndpointGroupNotFoundException": return try EndpointGroupNotFoundException.makeError(baseError: baseError)
@@ -5220,7 +5220,7 @@ enum DeprovisionByoipCidrOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5238,7 +5238,7 @@ enum DescribeAcceleratorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
@@ -5254,7 +5254,7 @@ enum DescribeAcceleratorAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
@@ -5270,7 +5270,7 @@ enum DescribeCrossAccountAttachmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5287,7 +5287,7 @@ enum DescribeCustomRoutingAcceleratorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
@@ -5303,7 +5303,7 @@ enum DescribeCustomRoutingAcceleratorAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
@@ -5319,7 +5319,7 @@ enum DescribeCustomRoutingEndpointGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EndpointGroupNotFoundException": return try EndpointGroupNotFoundException.makeError(baseError: baseError)
@@ -5335,7 +5335,7 @@ enum DescribeCustomRoutingListenerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
@@ -5351,7 +5351,7 @@ enum DescribeEndpointGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EndpointGroupNotFoundException": return try EndpointGroupNotFoundException.makeError(baseError: baseError)
@@ -5367,7 +5367,7 @@ enum DescribeListenerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
@@ -5383,7 +5383,7 @@ enum ListAcceleratorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
@@ -5399,7 +5399,7 @@ enum ListByoipCidrsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5416,7 +5416,7 @@ enum ListCrossAccountAttachmentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5433,7 +5433,7 @@ enum ListCrossAccountResourceAccountsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5448,7 +5448,7 @@ enum ListCrossAccountResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
@@ -5466,7 +5466,7 @@ enum ListCustomRoutingAcceleratorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
@@ -5482,7 +5482,7 @@ enum ListCustomRoutingEndpointGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
@@ -5499,7 +5499,7 @@ enum ListCustomRoutingListenersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
@@ -5516,7 +5516,7 @@ enum ListCustomRoutingPortMappingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
@@ -5534,7 +5534,7 @@ enum ListCustomRoutingPortMappingsByDestinationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EndpointNotFoundException": return try EndpointNotFoundException.makeError(baseError: baseError)
@@ -5551,7 +5551,7 @@ enum ListEndpointGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
@@ -5568,7 +5568,7 @@ enum ListListenersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
@@ -5585,7 +5585,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
@@ -5604,7 +5604,7 @@ enum ProvisionByoipCidrOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5622,7 +5622,7 @@ enum RemoveCustomRoutingEndpointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5641,7 +5641,7 @@ enum RemoveEndpointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5659,7 +5659,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
@@ -5675,7 +5675,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
@@ -5691,7 +5691,7 @@ enum UpdateAcceleratorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
@@ -5710,7 +5710,7 @@ enum UpdateAcceleratorAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
@@ -5728,7 +5728,7 @@ enum UpdateCrossAccountAttachmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5747,7 +5747,7 @@ enum UpdateCustomRoutingAcceleratorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
@@ -5765,7 +5765,7 @@ enum UpdateCustomRoutingAcceleratorAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
@@ -5783,7 +5783,7 @@ enum UpdateCustomRoutingListenerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
@@ -5801,7 +5801,7 @@ enum UpdateEndpointGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5819,7 +5819,7 @@ enum UpdateListenerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
@@ -5837,7 +5837,7 @@ enum WithdrawByoipCidrOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5852,7 +5852,7 @@ enum WithdrawByoipCidrOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -5865,7 +5865,7 @@ extension AccessDeniedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -5878,7 +5878,7 @@ extension ConflictException {
 
 extension EndpointAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EndpointAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> EndpointAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = EndpointAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -5891,7 +5891,7 @@ extension EndpointAlreadyExistsException {
 
 extension EndpointGroupNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EndpointGroupNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> EndpointGroupNotFoundException {
         let reader = baseError.errorBodyReader
         var value = EndpointGroupNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -5904,7 +5904,7 @@ extension EndpointGroupNotFoundException {
 
 extension InternalServiceErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceErrorException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServiceErrorException {
         let reader = baseError.errorBodyReader
         var value = InternalServiceErrorException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -5917,7 +5917,7 @@ extension InternalServiceErrorException {
 
 extension InvalidArgumentException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArgumentException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidArgumentException {
         let reader = baseError.errorBodyReader
         var value = InvalidArgumentException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -5930,7 +5930,7 @@ extension InvalidArgumentException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -5943,7 +5943,7 @@ extension LimitExceededException {
 
 extension TransactionInProgressException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TransactionInProgressException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TransactionInProgressException {
         let reader = baseError.errorBodyReader
         var value = TransactionInProgressException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -5956,7 +5956,7 @@ extension TransactionInProgressException {
 
 extension ByoipCidrNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ByoipCidrNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ByoipCidrNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ByoipCidrNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -5969,7 +5969,7 @@ extension ByoipCidrNotFoundException {
 
 extension IncorrectCidrStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IncorrectCidrStateException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> IncorrectCidrStateException {
         let reader = baseError.errorBodyReader
         var value = IncorrectCidrStateException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -5982,7 +5982,7 @@ extension IncorrectCidrStateException {
 
 extension AcceleratorNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AcceleratorNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AcceleratorNotFoundException {
         let reader = baseError.errorBodyReader
         var value = AcceleratorNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -5995,7 +5995,7 @@ extension AcceleratorNotFoundException {
 
 extension EndpointGroupAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EndpointGroupAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> EndpointGroupAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = EndpointGroupAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6008,7 +6008,7 @@ extension EndpointGroupAlreadyExistsException {
 
 extension InvalidPortRangeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPortRangeException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidPortRangeException {
         let reader = baseError.errorBodyReader
         var value = InvalidPortRangeException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6021,7 +6021,7 @@ extension InvalidPortRangeException {
 
 extension ListenerNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ListenerNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ListenerNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ListenerNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6034,7 +6034,7 @@ extension ListenerNotFoundException {
 
 extension AcceleratorNotDisabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AcceleratorNotDisabledException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AcceleratorNotDisabledException {
         let reader = baseError.errorBodyReader
         var value = AcceleratorNotDisabledException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6047,7 +6047,7 @@ extension AcceleratorNotDisabledException {
 
 extension AssociatedListenerFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AssociatedListenerFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AssociatedListenerFoundException {
         let reader = baseError.errorBodyReader
         var value = AssociatedListenerFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6060,7 +6060,7 @@ extension AssociatedListenerFoundException {
 
 extension AttachmentNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AttachmentNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AttachmentNotFoundException {
         let reader = baseError.errorBodyReader
         var value = AttachmentNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6073,7 +6073,7 @@ extension AttachmentNotFoundException {
 
 extension AssociatedEndpointGroupFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AssociatedEndpointGroupFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AssociatedEndpointGroupFoundException {
         let reader = baseError.errorBodyReader
         var value = AssociatedEndpointGroupFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6086,7 +6086,7 @@ extension AssociatedEndpointGroupFoundException {
 
 extension InvalidNextTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidNextTokenException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6099,7 +6099,7 @@ extension InvalidNextTokenException {
 
 extension EndpointNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EndpointNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> EndpointNotFoundException {
         let reader = baseError.errorBodyReader
         var value = EndpointNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6110,26 +6110,60 @@ extension EndpointNotFoundException {
     }
 }
 
-extension GlobalAcceleratorClientTypes.CustomRoutingEndpointDescription {
+extension GlobalAcceleratorClientTypes.Accelerator {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.CustomRoutingEndpointDescription {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.Accelerator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlobalAcceleratorClientTypes.CustomRoutingEndpointDescription()
-        value.endpointId = try reader["EndpointId"].readIfPresent()
+        var value = GlobalAcceleratorClientTypes.Accelerator()
+        value.acceleratorArn = try reader["AcceleratorArn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.ipSets = try reader["IpSets"].readListIfPresent(memberReadingClosure: GlobalAcceleratorClientTypes.IpSet.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dnsName = try reader["DnsName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.dualStackDnsName = try reader["DualStackDnsName"].readIfPresent()
+        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: GlobalAcceleratorClientTypes.AcceleratorEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GlobalAcceleratorClientTypes.EndpointDescription {
+extension GlobalAcceleratorClientTypes.AcceleratorAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.EndpointDescription {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.AcceleratorAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlobalAcceleratorClientTypes.EndpointDescription()
-        value.endpointId = try reader["EndpointId"].readIfPresent()
-        value.weight = try reader["Weight"].readIfPresent()
-        value.healthState = try reader["HealthState"].readIfPresent()
-        value.healthReason = try reader["HealthReason"].readIfPresent()
-        value.clientIPPreservationEnabled = try reader["ClientIPPreservationEnabled"].readIfPresent()
+        var value = GlobalAcceleratorClientTypes.AcceleratorAttributes()
+        value.flowLogsEnabled = try reader["FlowLogsEnabled"].readIfPresent()
+        value.flowLogsS3Bucket = try reader["FlowLogsS3Bucket"].readIfPresent()
+        value.flowLogsS3Prefix = try reader["FlowLogsS3Prefix"].readIfPresent()
+        return value
+    }
+}
+
+extension GlobalAcceleratorClientTypes.AcceleratorEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.AcceleratorEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlobalAcceleratorClientTypes.AcceleratorEvent()
+        value.message = try reader["Message"].readIfPresent()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GlobalAcceleratorClientTypes.Attachment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.Attachment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlobalAcceleratorClientTypes.Attachment()
+        value.attachmentArn = try reader["AttachmentArn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.principals = try reader["Principals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: GlobalAcceleratorClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -6157,79 +6191,23 @@ extension GlobalAcceleratorClientTypes.ByoipCidrEvent {
     }
 }
 
-extension GlobalAcceleratorClientTypes.Accelerator {
+extension GlobalAcceleratorClientTypes.CidrAuthorizationContext {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.Accelerator {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlobalAcceleratorClientTypes.Accelerator()
-        value.acceleratorArn = try reader["AcceleratorArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.ipSets = try reader["IpSets"].readListIfPresent(memberReadingClosure: GlobalAcceleratorClientTypes.IpSet.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dnsName = try reader["DnsName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.dualStackDnsName = try reader["DualStackDnsName"].readIfPresent()
-        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: GlobalAcceleratorClientTypes.AcceleratorEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlobalAcceleratorClientTypes.AcceleratorEvent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.AcceleratorEvent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlobalAcceleratorClientTypes.AcceleratorEvent()
-        value.message = try reader["Message"].readIfPresent()
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension GlobalAcceleratorClientTypes.IpSet {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.IpSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlobalAcceleratorClientTypes.IpSet()
-        value.ipFamily = try reader["IpFamily"].readIfPresent()
-        value.ipAddresses = try reader["IpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ipAddressFamily = try reader["IpAddressFamily"].readIfPresent()
-        return value
-    }
-}
-
-extension GlobalAcceleratorClientTypes.Attachment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.Attachment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlobalAcceleratorClientTypes.Attachment()
-        value.attachmentArn = try reader["AttachmentArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.principals = try reader["Principals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: GlobalAcceleratorClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension GlobalAcceleratorClientTypes.Resource {
-
-    static func write(value: GlobalAcceleratorClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlobalAcceleratorClientTypes.CidrAuthorizationContext?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Cidr"].write(value.cidr)
-        try writer["EndpointId"].write(value.endpointId)
-        try writer["Region"].write(value.region)
+        try writer["Message"].write(value.message)
+        try writer["Signature"].write(value.signature)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.Resource {
+extension GlobalAcceleratorClientTypes.CrossAccountResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.CrossAccountResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlobalAcceleratorClientTypes.Resource()
-        value.endpointId = try reader["EndpointId"].readIfPresent() ?? ""
+        var value = GlobalAcceleratorClientTypes.CrossAccountResource()
+        value.endpointId = try reader["EndpointId"].readIfPresent()
         value.cidr = try reader["Cidr"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
+        value.attachmentArn = try reader["AttachmentArn"].readIfPresent()
         return value
     }
 }
@@ -6252,16 +6230,25 @@ extension GlobalAcceleratorClientTypes.CustomRoutingAccelerator {
     }
 }
 
-extension GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup {
+extension GlobalAcceleratorClientTypes.CustomRoutingAcceleratorAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.CustomRoutingAcceleratorAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup()
-        value.endpointGroupArn = try reader["EndpointGroupArn"].readIfPresent()
-        value.endpointGroupRegion = try reader["EndpointGroupRegion"].readIfPresent()
-        value.destinationDescriptions = try reader["DestinationDescriptions"].readListIfPresent(memberReadingClosure: GlobalAcceleratorClientTypes.CustomRoutingDestinationDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.endpointDescriptions = try reader["EndpointDescriptions"].readListIfPresent(memberReadingClosure: GlobalAcceleratorClientTypes.CustomRoutingEndpointDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GlobalAcceleratorClientTypes.CustomRoutingAcceleratorAttributes()
+        value.flowLogsEnabled = try reader["FlowLogsEnabled"].readIfPresent()
+        value.flowLogsS3Bucket = try reader["FlowLogsS3Bucket"].readIfPresent()
+        value.flowLogsS3Prefix = try reader["FlowLogsS3Prefix"].readIfPresent()
         return value
+    }
+}
+
+extension GlobalAcceleratorClientTypes.CustomRoutingDestinationConfiguration {
+
+    static func write(value: GlobalAcceleratorClientTypes.CustomRoutingDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FromPort"].write(value.fromPort)
+        try writer["Protocols"].writeList(value.protocols, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GlobalAcceleratorClientTypes.CustomRoutingProtocol>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ToPort"].write(value.toPort)
     }
 }
 
@@ -6277,6 +6264,38 @@ extension GlobalAcceleratorClientTypes.CustomRoutingDestinationDescription {
     }
 }
 
+extension GlobalAcceleratorClientTypes.CustomRoutingEndpointConfiguration {
+
+    static func write(value: GlobalAcceleratorClientTypes.CustomRoutingEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttachmentArn"].write(value.attachmentArn)
+        try writer["EndpointId"].write(value.endpointId)
+    }
+}
+
+extension GlobalAcceleratorClientTypes.CustomRoutingEndpointDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.CustomRoutingEndpointDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlobalAcceleratorClientTypes.CustomRoutingEndpointDescription()
+        value.endpointId = try reader["EndpointId"].readIfPresent()
+        return value
+    }
+}
+
+extension GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup()
+        value.endpointGroupArn = try reader["EndpointGroupArn"].readIfPresent()
+        value.endpointGroupRegion = try reader["EndpointGroupRegion"].readIfPresent()
+        value.destinationDescriptions = try reader["DestinationDescriptions"].readListIfPresent(memberReadingClosure: GlobalAcceleratorClientTypes.CustomRoutingDestinationDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.endpointDescriptions = try reader["EndpointDescriptions"].readListIfPresent(memberReadingClosure: GlobalAcceleratorClientTypes.CustomRoutingEndpointDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension GlobalAcceleratorClientTypes.CustomRoutingListener {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.CustomRoutingListener {
@@ -6288,19 +6307,44 @@ extension GlobalAcceleratorClientTypes.CustomRoutingListener {
     }
 }
 
-extension GlobalAcceleratorClientTypes.PortRange {
+extension GlobalAcceleratorClientTypes.DestinationPortMapping {
 
-    static func write(value: GlobalAcceleratorClientTypes.PortRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FromPort"].write(value.fromPort)
-        try writer["ToPort"].write(value.toPort)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.PortRange {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.DestinationPortMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlobalAcceleratorClientTypes.PortRange()
-        value.fromPort = try reader["FromPort"].readIfPresent()
-        value.toPort = try reader["ToPort"].readIfPresent()
+        var value = GlobalAcceleratorClientTypes.DestinationPortMapping()
+        value.acceleratorArn = try reader["AcceleratorArn"].readIfPresent()
+        value.acceleratorSocketAddresses = try reader["AcceleratorSocketAddresses"].readListIfPresent(memberReadingClosure: GlobalAcceleratorClientTypes.SocketAddress.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.endpointGroupArn = try reader["EndpointGroupArn"].readIfPresent()
+        value.endpointId = try reader["EndpointId"].readIfPresent()
+        value.endpointGroupRegion = try reader["EndpointGroupRegion"].readIfPresent()
+        value.destinationSocketAddress = try reader["DestinationSocketAddress"].readIfPresent(with: GlobalAcceleratorClientTypes.SocketAddress.read(from:))
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
+        value.destinationTrafficState = try reader["DestinationTrafficState"].readIfPresent()
+        return value
+    }
+}
+
+extension GlobalAcceleratorClientTypes.EndpointConfiguration {
+
+    static func write(value: GlobalAcceleratorClientTypes.EndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttachmentArn"].write(value.attachmentArn)
+        try writer["ClientIPPreservationEnabled"].write(value.clientIPPreservationEnabled)
+        try writer["EndpointId"].write(value.endpointId)
+        try writer["Weight"].write(value.weight)
+    }
+}
+
+extension GlobalAcceleratorClientTypes.EndpointDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.EndpointDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlobalAcceleratorClientTypes.EndpointDescription()
+        value.endpointId = try reader["EndpointId"].readIfPresent()
+        value.weight = try reader["Weight"].readIfPresent()
+        value.healthState = try reader["HealthState"].readIfPresent()
+        value.healthReason = try reader["HealthReason"].readIfPresent()
+        value.clientIPPreservationEnabled = try reader["ClientIPPreservationEnabled"].readIfPresent()
         return value
     }
 }
@@ -6324,19 +6368,23 @@ extension GlobalAcceleratorClientTypes.EndpointGroup {
     }
 }
 
-extension GlobalAcceleratorClientTypes.PortOverride {
+extension GlobalAcceleratorClientTypes.EndpointIdentifier {
 
-    static func write(value: GlobalAcceleratorClientTypes.PortOverride?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlobalAcceleratorClientTypes.EndpointIdentifier?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EndpointPort"].write(value.endpointPort)
-        try writer["ListenerPort"].write(value.listenerPort)
+        try writer["ClientIPPreservationEnabled"].write(value.clientIPPreservationEnabled)
+        try writer["EndpointId"].write(value.endpointId)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.PortOverride {
+extension GlobalAcceleratorClientTypes.IpSet {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.IpSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlobalAcceleratorClientTypes.PortOverride()
-        value.listenerPort = try reader["ListenerPort"].readIfPresent()
-        value.endpointPort = try reader["EndpointPort"].readIfPresent()
+        var value = GlobalAcceleratorClientTypes.IpSet()
+        value.ipFamily = try reader["IpFamily"].readIfPresent()
+        value.ipAddresses = try reader["IpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressFamily = try reader["IpAddressFamily"].readIfPresent()
         return value
     }
 }
@@ -6350,42 +6398,6 @@ extension GlobalAcceleratorClientTypes.Listener {
         value.portRanges = try reader["PortRanges"].readListIfPresent(memberReadingClosure: GlobalAcceleratorClientTypes.PortRange.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.`protocol` = try reader["Protocol"].readIfPresent()
         value.clientAffinity = try reader["ClientAffinity"].readIfPresent()
-        return value
-    }
-}
-
-extension GlobalAcceleratorClientTypes.AcceleratorAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.AcceleratorAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlobalAcceleratorClientTypes.AcceleratorAttributes()
-        value.flowLogsEnabled = try reader["FlowLogsEnabled"].readIfPresent()
-        value.flowLogsS3Bucket = try reader["FlowLogsS3Bucket"].readIfPresent()
-        value.flowLogsS3Prefix = try reader["FlowLogsS3Prefix"].readIfPresent()
-        return value
-    }
-}
-
-extension GlobalAcceleratorClientTypes.CustomRoutingAcceleratorAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.CustomRoutingAcceleratorAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlobalAcceleratorClientTypes.CustomRoutingAcceleratorAttributes()
-        value.flowLogsEnabled = try reader["FlowLogsEnabled"].readIfPresent()
-        value.flowLogsS3Bucket = try reader["FlowLogsS3Bucket"].readIfPresent()
-        value.flowLogsS3Prefix = try reader["FlowLogsS3Prefix"].readIfPresent()
-        return value
-    }
-}
-
-extension GlobalAcceleratorClientTypes.CrossAccountResource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.CrossAccountResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlobalAcceleratorClientTypes.CrossAccountResource()
-        value.endpointId = try reader["EndpointId"].readIfPresent()
-        value.cidr = try reader["Cidr"].readIfPresent()
-        value.attachmentArn = try reader["AttachmentArn"].readIfPresent()
         return value
     }
 }
@@ -6405,6 +6417,59 @@ extension GlobalAcceleratorClientTypes.PortMapping {
     }
 }
 
+extension GlobalAcceleratorClientTypes.PortOverride {
+
+    static func write(value: GlobalAcceleratorClientTypes.PortOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndpointPort"].write(value.endpointPort)
+        try writer["ListenerPort"].write(value.listenerPort)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.PortOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlobalAcceleratorClientTypes.PortOverride()
+        value.listenerPort = try reader["ListenerPort"].readIfPresent()
+        value.endpointPort = try reader["EndpointPort"].readIfPresent()
+        return value
+    }
+}
+
+extension GlobalAcceleratorClientTypes.PortRange {
+
+    static func write(value: GlobalAcceleratorClientTypes.PortRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FromPort"].write(value.fromPort)
+        try writer["ToPort"].write(value.toPort)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.PortRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlobalAcceleratorClientTypes.PortRange()
+        value.fromPort = try reader["FromPort"].readIfPresent()
+        value.toPort = try reader["ToPort"].readIfPresent()
+        return value
+    }
+}
+
+extension GlobalAcceleratorClientTypes.Resource {
+
+    static func write(value: GlobalAcceleratorClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Cidr"].write(value.cidr)
+        try writer["EndpointId"].write(value.endpointId)
+        try writer["Region"].write(value.region)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.Resource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlobalAcceleratorClientTypes.Resource()
+        value.endpointId = try reader["EndpointId"].readIfPresent() ?? ""
+        value.cidr = try reader["Cidr"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        return value
+    }
+}
+
 extension GlobalAcceleratorClientTypes.SocketAddress {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.SocketAddress {
@@ -6412,23 +6477,6 @@ extension GlobalAcceleratorClientTypes.SocketAddress {
         var value = GlobalAcceleratorClientTypes.SocketAddress()
         value.ipAddress = try reader["IpAddress"].readIfPresent()
         value.port = try reader["Port"].readIfPresent()
-        return value
-    }
-}
-
-extension GlobalAcceleratorClientTypes.DestinationPortMapping {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.DestinationPortMapping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlobalAcceleratorClientTypes.DestinationPortMapping()
-        value.acceleratorArn = try reader["AcceleratorArn"].readIfPresent()
-        value.acceleratorSocketAddresses = try reader["AcceleratorSocketAddresses"].readListIfPresent(memberReadingClosure: GlobalAcceleratorClientTypes.SocketAddress.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.endpointGroupArn = try reader["EndpointGroupArn"].readIfPresent()
-        value.endpointId = try reader["EndpointId"].readIfPresent()
-        value.endpointGroupRegion = try reader["EndpointGroupRegion"].readIfPresent()
-        value.destinationSocketAddress = try reader["DestinationSocketAddress"].readIfPresent(with: GlobalAcceleratorClientTypes.SocketAddress.read(from:))
-        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
-        value.destinationTrafficState = try reader["DestinationTrafficState"].readIfPresent()
         return value
     }
 }
@@ -6447,54 +6495,6 @@ extension GlobalAcceleratorClientTypes.Tag {
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension GlobalAcceleratorClientTypes.CustomRoutingEndpointConfiguration {
-
-    static func write(value: GlobalAcceleratorClientTypes.CustomRoutingEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttachmentArn"].write(value.attachmentArn)
-        try writer["EndpointId"].write(value.endpointId)
-    }
-}
-
-extension GlobalAcceleratorClientTypes.EndpointConfiguration {
-
-    static func write(value: GlobalAcceleratorClientTypes.EndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttachmentArn"].write(value.attachmentArn)
-        try writer["ClientIPPreservationEnabled"].write(value.clientIPPreservationEnabled)
-        try writer["EndpointId"].write(value.endpointId)
-        try writer["Weight"].write(value.weight)
-    }
-}
-
-extension GlobalAcceleratorClientTypes.CustomRoutingDestinationConfiguration {
-
-    static func write(value: GlobalAcceleratorClientTypes.CustomRoutingDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FromPort"].write(value.fromPort)
-        try writer["Protocols"].writeList(value.protocols, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GlobalAcceleratorClientTypes.CustomRoutingProtocol>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ToPort"].write(value.toPort)
-    }
-}
-
-extension GlobalAcceleratorClientTypes.CidrAuthorizationContext {
-
-    static func write(value: GlobalAcceleratorClientTypes.CidrAuthorizationContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Signature"].write(value.signature)
-    }
-}
-
-extension GlobalAcceleratorClientTypes.EndpointIdentifier {
-
-    static func write(value: GlobalAcceleratorClientTypes.EndpointIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClientIPPreservationEnabled"].write(value.clientIPPreservationEnabled)
-        try writer["EndpointId"].write(value.endpointId)
     }
 }
 

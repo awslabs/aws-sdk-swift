@@ -21,8 +21,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -703,7 +703,7 @@ enum BatchGetRecordOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessForbidden": return try AccessForbidden.makeError(baseError: baseError)
@@ -720,7 +720,7 @@ enum DeleteRecordOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessForbidden": return try AccessForbidden.makeError(baseError: baseError)
@@ -737,7 +737,7 @@ enum GetRecordOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessForbidden": return try AccessForbidden.makeError(baseError: baseError)
@@ -755,7 +755,7 @@ enum PutRecordOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessForbidden": return try AccessForbidden.makeError(baseError: baseError)
@@ -769,7 +769,7 @@ enum PutRecordOutputError {
 
 extension AccessForbidden {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessForbidden {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessForbidden {
         let reader = baseError.errorBodyReader
         var value = AccessForbidden()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -782,7 +782,7 @@ extension AccessForbidden {
 
 extension InternalFailure {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailure {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalFailure {
         let reader = baseError.errorBodyReader
         var value = InternalFailure()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -795,7 +795,7 @@ extension InternalFailure {
 
 extension ServiceUnavailable {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailable {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailable {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailable()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -808,7 +808,7 @@ extension ServiceUnavailable {
 
 extension ValidationError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationError {
         let reader = baseError.errorBodyReader
         var value = ValidationError()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -821,45 +821,13 @@ extension ValidationError {
 
 extension ResourceNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFound {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFound {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail()
-        value.featureGroupName = try reader["FeatureGroupName"].readIfPresent() ?? ""
-        value.recordIdentifierValueAsString = try reader["RecordIdentifierValueAsString"].readIfPresent() ?? ""
-        value.record = try reader["Record"].readListIfPresent(memberReadingClosure: SageMakerFeatureStoreRuntimeClientTypes.FeatureValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.expiresAt = try reader["ExpiresAt"].readIfPresent()
-        return value
-    }
-}
-
-extension SageMakerFeatureStoreRuntimeClientTypes.FeatureValue {
-
-    static func write(value: SageMakerFeatureStoreRuntimeClientTypes.FeatureValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FeatureName"].write(value.featureName)
-        try writer["ValueAsString"].write(value.valueAsString)
-        try writer["ValueAsStringList"].writeList(value.valueAsStringList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerFeatureStoreRuntimeClientTypes.FeatureValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerFeatureStoreRuntimeClientTypes.FeatureValue()
-        value.featureName = try reader["FeatureName"].readIfPresent() ?? ""
-        value.valueAsString = try reader["ValueAsString"].readIfPresent()
-        value.valueAsStringList = try reader["ValueAsStringList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -892,6 +860,38 @@ extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordIdentifier {
         value.featureGroupName = try reader["FeatureGroupName"].readIfPresent() ?? ""
         value.recordIdentifiersValueAsString = try reader["RecordIdentifiersValueAsString"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.featureNames = try reader["FeatureNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail()
+        value.featureGroupName = try reader["FeatureGroupName"].readIfPresent() ?? ""
+        value.recordIdentifierValueAsString = try reader["RecordIdentifierValueAsString"].readIfPresent() ?? ""
+        value.record = try reader["Record"].readListIfPresent(memberReadingClosure: SageMakerFeatureStoreRuntimeClientTypes.FeatureValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.expiresAt = try reader["ExpiresAt"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerFeatureStoreRuntimeClientTypes.FeatureValue {
+
+    static func write(value: SageMakerFeatureStoreRuntimeClientTypes.FeatureValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FeatureName"].write(value.featureName)
+        try writer["ValueAsString"].write(value.valueAsString)
+        try writer["ValueAsStringList"].writeList(value.valueAsStringList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerFeatureStoreRuntimeClientTypes.FeatureValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerFeatureStoreRuntimeClientTypes.FeatureValue()
+        value.featureName = try reader["FeatureName"].readIfPresent() ?? ""
+        value.valueAsString = try reader["ValueAsString"].readIfPresent()
+        value.valueAsStringList = try reader["ValueAsStringList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

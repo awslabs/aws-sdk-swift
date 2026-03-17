@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
@@ -7074,7 +7074,7 @@ enum CountClosedWorkflowExecutionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7089,7 +7089,7 @@ enum CountOpenWorkflowExecutionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7104,7 +7104,7 @@ enum CountPendingActivityTasksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7119,7 +7119,7 @@ enum CountPendingDecisionTasksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7134,7 +7134,7 @@ enum DeleteActivityTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7150,7 +7150,7 @@ enum DeleteWorkflowTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7166,7 +7166,7 @@ enum DeprecateActivityTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7182,7 +7182,7 @@ enum DeprecateDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DomainDeprecatedFault": return try DomainDeprecatedFault.makeError(baseError: baseError)
@@ -7198,7 +7198,7 @@ enum DeprecateWorkflowTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7214,7 +7214,7 @@ enum DescribeActivityTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7229,7 +7229,7 @@ enum DescribeDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7244,7 +7244,7 @@ enum DescribeWorkflowExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7259,7 +7259,7 @@ enum DescribeWorkflowTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7274,7 +7274,7 @@ enum GetWorkflowExecutionHistoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7289,7 +7289,7 @@ enum ListActivityTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7304,7 +7304,7 @@ enum ListClosedWorkflowExecutionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7319,7 +7319,7 @@ enum ListDomainsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7333,7 +7333,7 @@ enum ListOpenWorkflowExecutionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7348,7 +7348,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceededFault": return try LimitExceededFault.makeError(baseError: baseError)
@@ -7364,7 +7364,7 @@ enum ListWorkflowTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7379,7 +7379,7 @@ enum PollForActivityTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceededFault": return try LimitExceededFault.makeError(baseError: baseError)
@@ -7395,7 +7395,7 @@ enum PollForDecisionTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceededFault": return try LimitExceededFault.makeError(baseError: baseError)
@@ -7411,7 +7411,7 @@ enum RecordActivityTaskHeartbeatOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7426,7 +7426,7 @@ enum RegisterActivityTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceededFault": return try LimitExceededFault.makeError(baseError: baseError)
@@ -7443,7 +7443,7 @@ enum RegisterDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DomainAlreadyExistsFault": return try DomainAlreadyExistsFault.makeError(baseError: baseError)
@@ -7460,7 +7460,7 @@ enum RegisterWorkflowTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceededFault": return try LimitExceededFault.makeError(baseError: baseError)
@@ -7477,7 +7477,7 @@ enum RequestCancelWorkflowExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7492,7 +7492,7 @@ enum RespondActivityTaskCanceledOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7507,7 +7507,7 @@ enum RespondActivityTaskCompletedOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7522,7 +7522,7 @@ enum RespondActivityTaskFailedOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7537,7 +7537,7 @@ enum RespondDecisionTaskCompletedOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7552,7 +7552,7 @@ enum SignalWorkflowExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7567,7 +7567,7 @@ enum StartWorkflowExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DefaultUndefinedFault": return try DefaultUndefinedFault.makeError(baseError: baseError)
@@ -7586,7 +7586,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceededFault": return try LimitExceededFault.makeError(baseError: baseError)
@@ -7603,7 +7603,7 @@ enum TerminateWorkflowExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7618,7 +7618,7 @@ enum UndeprecateActivityTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7634,7 +7634,7 @@ enum UndeprecateDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DomainAlreadyExistsFault": return try DomainAlreadyExistsFault.makeError(baseError: baseError)
@@ -7650,7 +7650,7 @@ enum UndeprecateWorkflowTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
@@ -7666,7 +7666,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceededFault": return try LimitExceededFault.makeError(baseError: baseError)
@@ -7679,7 +7679,7 @@ enum UntagResourceOutputError {
 
 extension OperationNotPermittedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationNotPermittedFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> OperationNotPermittedFault {
         let reader = baseError.errorBodyReader
         var value = OperationNotPermittedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7692,7 +7692,7 @@ extension OperationNotPermittedFault {
 
 extension UnknownResourceFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnknownResourceFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UnknownResourceFault {
         let reader = baseError.errorBodyReader
         var value = UnknownResourceFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7705,7 +7705,7 @@ extension UnknownResourceFault {
 
 extension TypeNotDeprecatedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TypeNotDeprecatedFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TypeNotDeprecatedFault {
         let reader = baseError.errorBodyReader
         var value = TypeNotDeprecatedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7718,7 +7718,7 @@ extension TypeNotDeprecatedFault {
 
 extension TypeDeprecatedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TypeDeprecatedFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TypeDeprecatedFault {
         let reader = baseError.errorBodyReader
         var value = TypeDeprecatedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7731,7 +7731,7 @@ extension TypeDeprecatedFault {
 
 extension DomainDeprecatedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DomainDeprecatedFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DomainDeprecatedFault {
         let reader = baseError.errorBodyReader
         var value = DomainDeprecatedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7744,7 +7744,7 @@ extension DomainDeprecatedFault {
 
 extension LimitExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> LimitExceededFault {
         let reader = baseError.errorBodyReader
         var value = LimitExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7757,7 +7757,7 @@ extension LimitExceededFault {
 
 extension TypeAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TypeAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TypeAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = TypeAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7770,7 +7770,7 @@ extension TypeAlreadyExistsFault {
 
 extension DomainAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DomainAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DomainAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DomainAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7783,7 +7783,7 @@ extension DomainAlreadyExistsFault {
 
 extension TooManyTagsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TooManyTagsFault {
         let reader = baseError.errorBodyReader
         var value = TooManyTagsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7796,7 +7796,7 @@ extension TooManyTagsFault {
 
 extension DefaultUndefinedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DefaultUndefinedFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DefaultUndefinedFault {
         let reader = baseError.errorBodyReader
         var value = DefaultUndefinedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7809,7 +7809,7 @@ extension DefaultUndefinedFault {
 
 extension WorkflowExecutionAlreadyStartedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WorkflowExecutionAlreadyStartedFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> WorkflowExecutionAlreadyStartedFault {
         let reader = baseError.errorBodyReader
         var value = WorkflowExecutionAlreadyStartedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7820,16 +7820,95 @@ extension WorkflowExecutionAlreadyStartedFault {
     }
 }
 
-extension SWFClientTypes.ActivityTypeInfo {
+extension SWFClientTypes.ActivityTaskCanceledEventAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ActivityTypeInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ActivityTaskCanceledEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.ActivityTypeInfo()
+        var value = SWFClientTypes.ActivityTaskCanceledEventAttributes()
+        value.details = try reader["details"].readIfPresent()
+        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
+        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
+        value.latestCancelRequestedEventId = try reader["latestCancelRequestedEventId"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.ActivityTaskCancelRequestedEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ActivityTaskCancelRequestedEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.ActivityTaskCancelRequestedEventAttributes()
+        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
+        value.activityId = try reader["activityId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SWFClientTypes.ActivityTaskCompletedEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ActivityTaskCompletedEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.ActivityTaskCompletedEventAttributes()
+        value.result = try reader["result"].readIfPresent()
+        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
+        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.ActivityTaskFailedEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ActivityTaskFailedEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.ActivityTaskFailedEventAttributes()
+        value.reason = try reader["reason"].readIfPresent()
+        value.details = try reader["details"].readIfPresent()
+        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
+        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.ActivityTaskScheduledEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ActivityTaskScheduledEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.ActivityTaskScheduledEventAttributes()
         value.activityType = try reader["activityType"].readIfPresent(with: SWFClientTypes.ActivityType.read(from:))
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.description = try reader["description"].readIfPresent()
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.deprecationDate = try reader["deprecationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.activityId = try reader["activityId"].readIfPresent() ?? ""
+        value.input = try reader["input"].readIfPresent()
+        value.control = try reader["control"].readIfPresent()
+        value.scheduleToStartTimeout = try reader["scheduleToStartTimeout"].readIfPresent()
+        value.scheduleToCloseTimeout = try reader["scheduleToCloseTimeout"].readIfPresent()
+        value.startToCloseTimeout = try reader["startToCloseTimeout"].readIfPresent()
+        value.taskList = try reader["taskList"].readIfPresent(with: SWFClientTypes.TaskList.read(from:))
+        value.taskPriority = try reader["taskPriority"].readIfPresent()
+        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
+        value.heartbeatTimeout = try reader["heartbeatTimeout"].readIfPresent()
+        return value
+    }
+}
+
+extension SWFClientTypes.ActivityTaskStartedEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ActivityTaskStartedEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.ActivityTaskStartedEventAttributes()
+        value.identity = try reader["identity"].readIfPresent()
+        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.ActivityTaskTimedOutEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ActivityTaskTimedOutEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.ActivityTaskTimedOutEventAttributes()
+        value.timeoutType = try reader["timeoutType"].readIfPresent() ?? .sdkUnknown("")
+        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
+        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
+        value.details = try reader["details"].readIfPresent()
         return value
     }
 }
@@ -7866,17 +7945,272 @@ extension SWFClientTypes.ActivityTypeConfiguration {
     }
 }
 
-extension SWFClientTypes.TaskList {
+extension SWFClientTypes.ActivityTypeInfo {
 
-    static func write(value: SWFClientTypes.TaskList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.TaskList {
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ActivityTypeInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.TaskList()
-        value.name = try reader["name"].readIfPresent() ?? ""
+        var value = SWFClientTypes.ActivityTypeInfo()
+        value.activityType = try reader["activityType"].readIfPresent(with: SWFClientTypes.ActivityType.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["description"].readIfPresent()
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.deprecationDate = try reader["deprecationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension SWFClientTypes.CancelTimerDecisionAttributes {
+
+    static func write(value: SWFClientTypes.CancelTimerDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["timerId"].write(value.timerId)
+    }
+}
+
+extension SWFClientTypes.CancelTimerFailedEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.CancelTimerFailedEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.CancelTimerFailedEventAttributes()
+        value.timerId = try reader["timerId"].readIfPresent() ?? ""
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
+        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.CancelWorkflowExecutionDecisionAttributes {
+
+    static func write(value: SWFClientTypes.CancelWorkflowExecutionDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["details"].write(value.details)
+    }
+}
+
+extension SWFClientTypes.CancelWorkflowExecutionFailedEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.CancelWorkflowExecutionFailedEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.CancelWorkflowExecutionFailedEventAttributes()
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
+        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.ChildWorkflowExecutionCanceledEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ChildWorkflowExecutionCanceledEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.ChildWorkflowExecutionCanceledEventAttributes()
+        value.workflowExecution = try reader["workflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
+        value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
+        value.details = try reader["details"].readIfPresent()
+        value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
+        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.ChildWorkflowExecutionCompletedEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ChildWorkflowExecutionCompletedEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.ChildWorkflowExecutionCompletedEventAttributes()
+        value.workflowExecution = try reader["workflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
+        value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
+        value.result = try reader["result"].readIfPresent()
+        value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
+        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.ChildWorkflowExecutionFailedEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ChildWorkflowExecutionFailedEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.ChildWorkflowExecutionFailedEventAttributes()
+        value.workflowExecution = try reader["workflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
+        value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
+        value.reason = try reader["reason"].readIfPresent()
+        value.details = try reader["details"].readIfPresent()
+        value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
+        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.ChildWorkflowExecutionStartedEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ChildWorkflowExecutionStartedEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.ChildWorkflowExecutionStartedEventAttributes()
+        value.workflowExecution = try reader["workflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
+        value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
+        value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.ChildWorkflowExecutionTerminatedEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ChildWorkflowExecutionTerminatedEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.ChildWorkflowExecutionTerminatedEventAttributes()
+        value.workflowExecution = try reader["workflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
+        value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
+        value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
+        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.ChildWorkflowExecutionTimedOutEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ChildWorkflowExecutionTimedOutEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.ChildWorkflowExecutionTimedOutEventAttributes()
+        value.workflowExecution = try reader["workflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
+        value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
+        value.timeoutType = try reader["timeoutType"].readIfPresent() ?? .sdkUnknown("")
+        value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
+        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.CloseStatusFilter {
+
+    static func write(value: SWFClientTypes.CloseStatusFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["status"].write(value.status)
+    }
+}
+
+extension SWFClientTypes.CompleteWorkflowExecutionDecisionAttributes {
+
+    static func write(value: SWFClientTypes.CompleteWorkflowExecutionDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["result"].write(value.result)
+    }
+}
+
+extension SWFClientTypes.CompleteWorkflowExecutionFailedEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.CompleteWorkflowExecutionFailedEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.CompleteWorkflowExecutionFailedEventAttributes()
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
+        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.ContinueAsNewWorkflowExecutionDecisionAttributes {
+
+    static func write(value: SWFClientTypes.ContinueAsNewWorkflowExecutionDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["childPolicy"].write(value.childPolicy)
+        try writer["executionStartToCloseTimeout"].write(value.executionStartToCloseTimeout)
+        try writer["input"].write(value.input)
+        try writer["lambdaRole"].write(value.lambdaRole)
+        try writer["tagList"].writeList(value.tagList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["taskList"].write(value.taskList, with: SWFClientTypes.TaskList.write(value:to:))
+        try writer["taskPriority"].write(value.taskPriority)
+        try writer["taskStartToCloseTimeout"].write(value.taskStartToCloseTimeout)
+        try writer["workflowTypeVersion"].write(value.workflowTypeVersion)
+    }
+}
+
+extension SWFClientTypes.ContinueAsNewWorkflowExecutionFailedEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ContinueAsNewWorkflowExecutionFailedEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.ContinueAsNewWorkflowExecutionFailedEventAttributes()
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
+        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.Decision {
+
+    static func write(value: SWFClientTypes.Decision?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cancelTimerDecisionAttributes"].write(value.cancelTimerDecisionAttributes, with: SWFClientTypes.CancelTimerDecisionAttributes.write(value:to:))
+        try writer["cancelWorkflowExecutionDecisionAttributes"].write(value.cancelWorkflowExecutionDecisionAttributes, with: SWFClientTypes.CancelWorkflowExecutionDecisionAttributes.write(value:to:))
+        try writer["completeWorkflowExecutionDecisionAttributes"].write(value.completeWorkflowExecutionDecisionAttributes, with: SWFClientTypes.CompleteWorkflowExecutionDecisionAttributes.write(value:to:))
+        try writer["continueAsNewWorkflowExecutionDecisionAttributes"].write(value.continueAsNewWorkflowExecutionDecisionAttributes, with: SWFClientTypes.ContinueAsNewWorkflowExecutionDecisionAttributes.write(value:to:))
+        try writer["decisionType"].write(value.decisionType)
+        try writer["failWorkflowExecutionDecisionAttributes"].write(value.failWorkflowExecutionDecisionAttributes, with: SWFClientTypes.FailWorkflowExecutionDecisionAttributes.write(value:to:))
+        try writer["recordMarkerDecisionAttributes"].write(value.recordMarkerDecisionAttributes, with: SWFClientTypes.RecordMarkerDecisionAttributes.write(value:to:))
+        try writer["requestCancelActivityTaskDecisionAttributes"].write(value.requestCancelActivityTaskDecisionAttributes, with: SWFClientTypes.RequestCancelActivityTaskDecisionAttributes.write(value:to:))
+        try writer["requestCancelExternalWorkflowExecutionDecisionAttributes"].write(value.requestCancelExternalWorkflowExecutionDecisionAttributes, with: SWFClientTypes.RequestCancelExternalWorkflowExecutionDecisionAttributes.write(value:to:))
+        try writer["scheduleActivityTaskDecisionAttributes"].write(value.scheduleActivityTaskDecisionAttributes, with: SWFClientTypes.ScheduleActivityTaskDecisionAttributes.write(value:to:))
+        try writer["scheduleLambdaFunctionDecisionAttributes"].write(value.scheduleLambdaFunctionDecisionAttributes, with: SWFClientTypes.ScheduleLambdaFunctionDecisionAttributes.write(value:to:))
+        try writer["signalExternalWorkflowExecutionDecisionAttributes"].write(value.signalExternalWorkflowExecutionDecisionAttributes, with: SWFClientTypes.SignalExternalWorkflowExecutionDecisionAttributes.write(value:to:))
+        try writer["startChildWorkflowExecutionDecisionAttributes"].write(value.startChildWorkflowExecutionDecisionAttributes, with: SWFClientTypes.StartChildWorkflowExecutionDecisionAttributes.write(value:to:))
+        try writer["startTimerDecisionAttributes"].write(value.startTimerDecisionAttributes, with: SWFClientTypes.StartTimerDecisionAttributes.write(value:to:))
+    }
+}
+
+extension SWFClientTypes.DecisionTaskCompletedEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.DecisionTaskCompletedEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.DecisionTaskCompletedEventAttributes()
+        value.executionContext = try reader["executionContext"].readIfPresent()
+        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
+        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
+        value.taskList = try reader["taskList"].readIfPresent(with: SWFClientTypes.TaskList.read(from:))
+        value.taskListScheduleToStartTimeout = try reader["taskListScheduleToStartTimeout"].readIfPresent()
+        return value
+    }
+}
+
+extension SWFClientTypes.DecisionTaskScheduledEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.DecisionTaskScheduledEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.DecisionTaskScheduledEventAttributes()
+        value.taskList = try reader["taskList"].readIfPresent(with: SWFClientTypes.TaskList.read(from:))
+        value.taskPriority = try reader["taskPriority"].readIfPresent()
+        value.startToCloseTimeout = try reader["startToCloseTimeout"].readIfPresent()
+        value.scheduleToStartTimeout = try reader["scheduleToStartTimeout"].readIfPresent()
+        return value
+    }
+}
+
+extension SWFClientTypes.DecisionTaskStartedEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.DecisionTaskStartedEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.DecisionTaskStartedEventAttributes()
+        value.identity = try reader["identity"].readIfPresent()
+        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.DecisionTaskTimedOutEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.DecisionTaskTimedOutEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.DecisionTaskTimedOutEventAttributes()
+        value.timeoutType = try reader["timeoutType"].readIfPresent() ?? .sdkUnknown("")
+        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
+        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.DomainConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.DomainConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.DomainConfiguration()
+        value.workflowExecutionRetentionPeriodInDays = try reader["workflowExecutionRetentionPeriodInDays"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7894,122 +8228,53 @@ extension SWFClientTypes.DomainInfo {
     }
 }
 
-extension SWFClientTypes.DomainConfiguration {
+extension SWFClientTypes.ExecutionTimeFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.DomainConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.DomainConfiguration()
-        value.workflowExecutionRetentionPeriodInDays = try reader["workflowExecutionRetentionPeriodInDays"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension SWFClientTypes.WorkflowExecutionInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecutionInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.WorkflowExecutionInfo()
-        value.execution = try reader["execution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
-        value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
-        value.startTimestamp = try reader["startTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.closeTimestamp = try reader["closeTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.executionStatus = try reader["executionStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.closeStatus = try reader["closeStatus"].readIfPresent()
-        value.parent = try reader["parent"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
-        value.tagList = try reader["tagList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.cancelRequested = try reader["cancelRequested"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension SWFClientTypes.WorkflowExecution {
-
-    static func write(value: SWFClientTypes.WorkflowExecution?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SWFClientTypes.ExecutionTimeFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["runId"].write(value.runId)
-        try writer["workflowId"].write(value.workflowId)
+        try writer["latestDate"].writeTimestamp(value.latestDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["oldestDate"].writeTimestamp(value.oldestDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecution {
+extension SWFClientTypes.ExternalWorkflowExecutionCancelRequestedEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ExternalWorkflowExecutionCancelRequestedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.WorkflowExecution()
-        value.workflowId = try reader["workflowId"].readIfPresent() ?? ""
-        value.runId = try reader["runId"].readIfPresent() ?? ""
+        var value = SWFClientTypes.ExternalWorkflowExecutionCancelRequestedEventAttributes()
+        value.workflowExecution = try reader["workflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
+        value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension SWFClientTypes.WorkflowType {
+extension SWFClientTypes.ExternalWorkflowExecutionSignaledEventAttributes {
 
-    static func write(value: SWFClientTypes.WorkflowType?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ExternalWorkflowExecutionSignaledEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.ExternalWorkflowExecutionSignaledEventAttributes()
+        value.workflowExecution = try reader["workflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
+        value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.FailWorkflowExecutionDecisionAttributes {
+
+    static func write(value: SWFClientTypes.FailWorkflowExecutionDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["version"].write(value.version)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.WorkflowType()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.version = try reader["version"].readIfPresent() ?? ""
-        return value
+        try writer["details"].write(value.details)
+        try writer["reason"].write(value.reason)
     }
 }
 
-extension SWFClientTypes.WorkflowExecutionConfiguration {
+extension SWFClientTypes.FailWorkflowExecutionFailedEventAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecutionConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.FailWorkflowExecutionFailedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.WorkflowExecutionConfiguration()
-        value.taskStartToCloseTimeout = try reader["taskStartToCloseTimeout"].readIfPresent() ?? ""
-        value.executionStartToCloseTimeout = try reader["executionStartToCloseTimeout"].readIfPresent() ?? ""
-        value.taskList = try reader["taskList"].readIfPresent(with: SWFClientTypes.TaskList.read(from:))
-        value.taskPriority = try reader["taskPriority"].readIfPresent()
-        value.childPolicy = try reader["childPolicy"].readIfPresent() ?? .sdkUnknown("")
-        value.lambdaRole = try reader["lambdaRole"].readIfPresent()
-        return value
-    }
-}
-
-extension SWFClientTypes.WorkflowExecutionOpenCounts {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecutionOpenCounts {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.WorkflowExecutionOpenCounts()
-        value.openActivityTasks = try reader["openActivityTasks"].readIfPresent() ?? 0
-        value.openDecisionTasks = try reader["openDecisionTasks"].readIfPresent() ?? 0
-        value.openTimers = try reader["openTimers"].readIfPresent() ?? 0
-        value.openChildWorkflowExecutions = try reader["openChildWorkflowExecutions"].readIfPresent() ?? 0
-        value.openLambdaFunctions = try reader["openLambdaFunctions"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SWFClientTypes.WorkflowTypeInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowTypeInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.WorkflowTypeInfo()
-        value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.description = try reader["description"].readIfPresent()
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.deprecationDate = try reader["deprecationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension SWFClientTypes.WorkflowTypeConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowTypeConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.WorkflowTypeConfiguration()
-        value.defaultTaskStartToCloseTimeout = try reader["defaultTaskStartToCloseTimeout"].readIfPresent()
-        value.defaultExecutionStartToCloseTimeout = try reader["defaultExecutionStartToCloseTimeout"].readIfPresent()
-        value.defaultTaskList = try reader["defaultTaskList"].readIfPresent(with: SWFClientTypes.TaskList.read(from:))
-        value.defaultTaskPriority = try reader["defaultTaskPriority"].readIfPresent()
-        value.defaultChildPolicy = try reader["defaultChildPolicy"].readIfPresent()
-        value.defaultLambdaRole = try reader["defaultLambdaRole"].readIfPresent()
+        var value = SWFClientTypes.FailWorkflowExecutionFailedEventAttributes()
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
+        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         return value
     }
 }
@@ -8080,39 +8345,14 @@ extension SWFClientTypes.HistoryEvent {
     }
 }
 
-extension SWFClientTypes.StartLambdaFunctionFailedEventAttributes {
+extension SWFClientTypes.LambdaFunctionCompletedEventAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.StartLambdaFunctionFailedEventAttributes {
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.LambdaFunctionCompletedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.StartLambdaFunctionFailedEventAttributes()
-        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
-        value.cause = try reader["cause"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension SWFClientTypes.ScheduleLambdaFunctionFailedEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ScheduleLambdaFunctionFailedEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.ScheduleLambdaFunctionFailedEventAttributes()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
-        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SWFClientTypes.LambdaFunctionTimedOutEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.LambdaFunctionTimedOutEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.LambdaFunctionTimedOutEventAttributes()
+        var value = SWFClientTypes.LambdaFunctionCompletedEventAttributes()
         value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
         value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
-        value.timeoutType = try reader["timeoutType"].readIfPresent()
+        value.result = try reader["result"].readIfPresent()
         return value
     }
 }
@@ -8126,28 +8366,6 @@ extension SWFClientTypes.LambdaFunctionFailedEventAttributes {
         value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
         value.reason = try reader["reason"].readIfPresent()
         value.details = try reader["details"].readIfPresent()
-        return value
-    }
-}
-
-extension SWFClientTypes.LambdaFunctionCompletedEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.LambdaFunctionCompletedEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.LambdaFunctionCompletedEventAttributes()
-        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
-        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
-        value.result = try reader["result"].readIfPresent()
-        return value
-    }
-}
-
-extension SWFClientTypes.LambdaFunctionStartedEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.LambdaFunctionStartedEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.LambdaFunctionStartedEventAttributes()
-        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
         return value
     }
 }
@@ -8167,42 +8385,66 @@ extension SWFClientTypes.LambdaFunctionScheduledEventAttributes {
     }
 }
 
-extension SWFClientTypes.StartChildWorkflowExecutionFailedEventAttributes {
+extension SWFClientTypes.LambdaFunctionStartedEventAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.StartChildWorkflowExecutionFailedEventAttributes {
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.LambdaFunctionStartedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.StartChildWorkflowExecutionFailedEventAttributes()
-        value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
-        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
-        value.workflowId = try reader["workflowId"].readIfPresent() ?? ""
-        value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
-        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
-        value.control = try reader["control"].readIfPresent()
+        var value = SWFClientTypes.LambdaFunctionStartedEventAttributes()
+        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension SWFClientTypes.CancelTimerFailedEventAttributes {
+extension SWFClientTypes.LambdaFunctionTimedOutEventAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.CancelTimerFailedEventAttributes {
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.LambdaFunctionTimedOutEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.CancelTimerFailedEventAttributes()
-        value.timerId = try reader["timerId"].readIfPresent() ?? ""
+        var value = SWFClientTypes.LambdaFunctionTimedOutEventAttributes()
+        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
+        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
+        value.timeoutType = try reader["timeoutType"].readIfPresent()
+        return value
+    }
+}
+
+extension SWFClientTypes.MarkerRecordedEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.MarkerRecordedEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.MarkerRecordedEventAttributes()
+        value.markerName = try reader["markerName"].readIfPresent() ?? ""
+        value.details = try reader["details"].readIfPresent()
+        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.RecordMarkerDecisionAttributes {
+
+    static func write(value: SWFClientTypes.RecordMarkerDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["details"].write(value.details)
+        try writer["markerName"].write(value.markerName)
+    }
+}
+
+extension SWFClientTypes.RecordMarkerFailedEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.RecordMarkerFailedEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.RecordMarkerFailedEventAttributes()
+        value.markerName = try reader["markerName"].readIfPresent() ?? ""
         value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension SWFClientTypes.StartTimerFailedEventAttributes {
+extension SWFClientTypes.RequestCancelActivityTaskDecisionAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.StartTimerFailedEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.StartTimerFailedEventAttributes()
-        value.timerId = try reader["timerId"].readIfPresent() ?? ""
-        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
-        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
-        return value
+    static func write(value: SWFClientTypes.RequestCancelActivityTaskDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["activityId"].write(value.activityId)
     }
 }
 
@@ -8218,16 +8460,13 @@ extension SWFClientTypes.RequestCancelActivityTaskFailedEventAttributes {
     }
 }
 
-extension SWFClientTypes.ScheduleActivityTaskFailedEventAttributes {
+extension SWFClientTypes.RequestCancelExternalWorkflowExecutionDecisionAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ScheduleActivityTaskFailedEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.ScheduleActivityTaskFailedEventAttributes()
-        value.activityType = try reader["activityType"].readIfPresent(with: SWFClientTypes.ActivityType.read(from:))
-        value.activityId = try reader["activityId"].readIfPresent() ?? ""
-        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
-        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
-        return value
+    static func write(value: SWFClientTypes.RequestCancelExternalWorkflowExecutionDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["control"].write(value.control)
+        try writer["runId"].write(value.runId)
+        try writer["workflowId"].write(value.workflowId)
     }
 }
 
@@ -8259,14 +8498,87 @@ extension SWFClientTypes.RequestCancelExternalWorkflowExecutionInitiatedEventAtt
     }
 }
 
-extension SWFClientTypes.ExternalWorkflowExecutionCancelRequestedEventAttributes {
+extension SWFClientTypes.ResourceTag {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ExternalWorkflowExecutionCancelRequestedEventAttributes {
+    static func write(value: SWFClientTypes.ResourceTag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ResourceTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.ExternalWorkflowExecutionCancelRequestedEventAttributes()
-        value.workflowExecution = try reader["workflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
-        value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
+        var value = SWFClientTypes.ResourceTag()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent()
         return value
+    }
+}
+
+extension SWFClientTypes.ScheduleActivityTaskDecisionAttributes {
+
+    static func write(value: SWFClientTypes.ScheduleActivityTaskDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["activityId"].write(value.activityId)
+        try writer["activityType"].write(value.activityType, with: SWFClientTypes.ActivityType.write(value:to:))
+        try writer["control"].write(value.control)
+        try writer["heartbeatTimeout"].write(value.heartbeatTimeout)
+        try writer["input"].write(value.input)
+        try writer["scheduleToCloseTimeout"].write(value.scheduleToCloseTimeout)
+        try writer["scheduleToStartTimeout"].write(value.scheduleToStartTimeout)
+        try writer["startToCloseTimeout"].write(value.startToCloseTimeout)
+        try writer["taskList"].write(value.taskList, with: SWFClientTypes.TaskList.write(value:to:))
+        try writer["taskPriority"].write(value.taskPriority)
+    }
+}
+
+extension SWFClientTypes.ScheduleActivityTaskFailedEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ScheduleActivityTaskFailedEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.ScheduleActivityTaskFailedEventAttributes()
+        value.activityType = try reader["activityType"].readIfPresent(with: SWFClientTypes.ActivityType.read(from:))
+        value.activityId = try reader["activityId"].readIfPresent() ?? ""
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
+        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.ScheduleLambdaFunctionDecisionAttributes {
+
+    static func write(value: SWFClientTypes.ScheduleLambdaFunctionDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["control"].write(value.control)
+        try writer["id"].write(value.id)
+        try writer["input"].write(value.input)
+        try writer["name"].write(value.name)
+        try writer["startToCloseTimeout"].write(value.startToCloseTimeout)
+    }
+}
+
+extension SWFClientTypes.ScheduleLambdaFunctionFailedEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ScheduleLambdaFunctionFailedEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.ScheduleLambdaFunctionFailedEventAttributes()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
+        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.SignalExternalWorkflowExecutionDecisionAttributes {
+
+    static func write(value: SWFClientTypes.SignalExternalWorkflowExecutionDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["control"].write(value.control)
+        try writer["input"].write(value.input)
+        try writer["runId"].write(value.runId)
+        try writer["signalName"].write(value.signalName)
+        try writer["workflowId"].write(value.workflowId)
     }
 }
 
@@ -8281,17 +8593,6 @@ extension SWFClientTypes.SignalExternalWorkflowExecutionFailedEventAttributes {
         value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         value.control = try reader["control"].readIfPresent()
-        return value
-    }
-}
-
-extension SWFClientTypes.ExternalWorkflowExecutionSignaledEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ExternalWorkflowExecutionSignaledEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.ExternalWorkflowExecutionSignaledEventAttributes()
-        value.workflowExecution = try reader["workflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
-        value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
         return value
     }
 }
@@ -8311,84 +8612,35 @@ extension SWFClientTypes.SignalExternalWorkflowExecutionInitiatedEventAttributes
     }
 }
 
-extension SWFClientTypes.ChildWorkflowExecutionTerminatedEventAttributes {
+extension SWFClientTypes.StartChildWorkflowExecutionDecisionAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ChildWorkflowExecutionTerminatedEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.ChildWorkflowExecutionTerminatedEventAttributes()
-        value.workflowExecution = try reader["workflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
-        value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
-        value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
-        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
-        return value
+    static func write(value: SWFClientTypes.StartChildWorkflowExecutionDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["childPolicy"].write(value.childPolicy)
+        try writer["control"].write(value.control)
+        try writer["executionStartToCloseTimeout"].write(value.executionStartToCloseTimeout)
+        try writer["input"].write(value.input)
+        try writer["lambdaRole"].write(value.lambdaRole)
+        try writer["tagList"].writeList(value.tagList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["taskList"].write(value.taskList, with: SWFClientTypes.TaskList.write(value:to:))
+        try writer["taskPriority"].write(value.taskPriority)
+        try writer["taskStartToCloseTimeout"].write(value.taskStartToCloseTimeout)
+        try writer["workflowId"].write(value.workflowId)
+        try writer["workflowType"].write(value.workflowType, with: SWFClientTypes.WorkflowType.write(value:to:))
     }
 }
 
-extension SWFClientTypes.ChildWorkflowExecutionCanceledEventAttributes {
+extension SWFClientTypes.StartChildWorkflowExecutionFailedEventAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ChildWorkflowExecutionCanceledEventAttributes {
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.StartChildWorkflowExecutionFailedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.ChildWorkflowExecutionCanceledEventAttributes()
-        value.workflowExecution = try reader["workflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
+        var value = SWFClientTypes.StartChildWorkflowExecutionFailedEventAttributes()
         value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
-        value.details = try reader["details"].readIfPresent()
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
+        value.workflowId = try reader["workflowId"].readIfPresent() ?? ""
         value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
-        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SWFClientTypes.ChildWorkflowExecutionTimedOutEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ChildWorkflowExecutionTimedOutEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.ChildWorkflowExecutionTimedOutEventAttributes()
-        value.workflowExecution = try reader["workflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
-        value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
-        value.timeoutType = try reader["timeoutType"].readIfPresent() ?? .sdkUnknown("")
-        value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
-        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SWFClientTypes.ChildWorkflowExecutionFailedEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ChildWorkflowExecutionFailedEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.ChildWorkflowExecutionFailedEventAttributes()
-        value.workflowExecution = try reader["workflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
-        value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
-        value.reason = try reader["reason"].readIfPresent()
-        value.details = try reader["details"].readIfPresent()
-        value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
-        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SWFClientTypes.ChildWorkflowExecutionCompletedEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ChildWorkflowExecutionCompletedEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.ChildWorkflowExecutionCompletedEventAttributes()
-        value.workflowExecution = try reader["workflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
-        value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
-        value.result = try reader["result"].readIfPresent()
-        value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
-        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SWFClientTypes.ChildWorkflowExecutionStartedEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ChildWorkflowExecutionStartedEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.ChildWorkflowExecutionStartedEventAttributes()
-        value.workflowExecution = try reader["workflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
-        value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
-        value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
+        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
+        value.control = try reader["control"].readIfPresent()
         return value
     }
 }
@@ -8410,6 +8662,63 @@ extension SWFClientTypes.StartChildWorkflowExecutionInitiatedEventAttributes {
         value.taskStartToCloseTimeout = try reader["taskStartToCloseTimeout"].readIfPresent()
         value.tagList = try reader["tagList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.lambdaRole = try reader["lambdaRole"].readIfPresent()
+        return value
+    }
+}
+
+extension SWFClientTypes.StartLambdaFunctionFailedEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.StartLambdaFunctionFailedEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.StartLambdaFunctionFailedEventAttributes()
+        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
+        value.cause = try reader["cause"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension SWFClientTypes.StartTimerDecisionAttributes {
+
+    static func write(value: SWFClientTypes.StartTimerDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["control"].write(value.control)
+        try writer["startToFireTimeout"].write(value.startToFireTimeout)
+        try writer["timerId"].write(value.timerId)
+    }
+}
+
+extension SWFClientTypes.StartTimerFailedEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.StartTimerFailedEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.StartTimerFailedEventAttributes()
+        value.timerId = try reader["timerId"].readIfPresent() ?? ""
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
+        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.TagFilter {
+
+    static func write(value: SWFClientTypes.TagFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tag"].write(value.tag)
+    }
+}
+
+extension SWFClientTypes.TaskList {
+
+    static func write(value: SWFClientTypes.TaskList?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.TaskList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.TaskList()
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8450,182 +8759,30 @@ extension SWFClientTypes.TimerStartedEventAttributes {
     }
 }
 
-extension SWFClientTypes.RecordMarkerFailedEventAttributes {
+extension SWFClientTypes.WorkflowExecution {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.RecordMarkerFailedEventAttributes {
+    static func write(value: SWFClientTypes.WorkflowExecution?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["runId"].write(value.runId)
+        try writer["workflowId"].write(value.workflowId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.RecordMarkerFailedEventAttributes()
-        value.markerName = try reader["markerName"].readIfPresent() ?? ""
-        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
-        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
+        var value = SWFClientTypes.WorkflowExecution()
+        value.workflowId = try reader["workflowId"].readIfPresent() ?? ""
+        value.runId = try reader["runId"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension SWFClientTypes.MarkerRecordedEventAttributes {
+extension SWFClientTypes.WorkflowExecutionCanceledEventAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.MarkerRecordedEventAttributes {
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecutionCanceledEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.MarkerRecordedEventAttributes()
-        value.markerName = try reader["markerName"].readIfPresent() ?? ""
+        var value = SWFClientTypes.WorkflowExecutionCanceledEventAttributes()
         value.details = try reader["details"].readIfPresent()
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SWFClientTypes.WorkflowExecutionSignaledEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecutionSignaledEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.WorkflowExecutionSignaledEventAttributes()
-        value.signalName = try reader["signalName"].readIfPresent() ?? ""
-        value.input = try reader["input"].readIfPresent()
-        value.externalWorkflowExecution = try reader["externalWorkflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
-        value.externalInitiatedEventId = try reader["externalInitiatedEventId"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SWFClientTypes.ActivityTaskCancelRequestedEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ActivityTaskCancelRequestedEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.ActivityTaskCancelRequestedEventAttributes()
-        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
-        value.activityId = try reader["activityId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension SWFClientTypes.ActivityTaskCanceledEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ActivityTaskCanceledEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.ActivityTaskCanceledEventAttributes()
-        value.details = try reader["details"].readIfPresent()
-        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
-        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
-        value.latestCancelRequestedEventId = try reader["latestCancelRequestedEventId"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SWFClientTypes.ActivityTaskTimedOutEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ActivityTaskTimedOutEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.ActivityTaskTimedOutEventAttributes()
-        value.timeoutType = try reader["timeoutType"].readIfPresent() ?? .sdkUnknown("")
-        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
-        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
-        value.details = try reader["details"].readIfPresent()
-        return value
-    }
-}
-
-extension SWFClientTypes.ActivityTaskFailedEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ActivityTaskFailedEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.ActivityTaskFailedEventAttributes()
-        value.reason = try reader["reason"].readIfPresent()
-        value.details = try reader["details"].readIfPresent()
-        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
-        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SWFClientTypes.ActivityTaskCompletedEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ActivityTaskCompletedEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.ActivityTaskCompletedEventAttributes()
-        value.result = try reader["result"].readIfPresent()
-        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
-        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SWFClientTypes.ActivityTaskStartedEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ActivityTaskStartedEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.ActivityTaskStartedEventAttributes()
-        value.identity = try reader["identity"].readIfPresent()
-        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SWFClientTypes.ActivityTaskScheduledEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ActivityTaskScheduledEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.ActivityTaskScheduledEventAttributes()
-        value.activityType = try reader["activityType"].readIfPresent(with: SWFClientTypes.ActivityType.read(from:))
-        value.activityId = try reader["activityId"].readIfPresent() ?? ""
-        value.input = try reader["input"].readIfPresent()
-        value.control = try reader["control"].readIfPresent()
-        value.scheduleToStartTimeout = try reader["scheduleToStartTimeout"].readIfPresent()
-        value.scheduleToCloseTimeout = try reader["scheduleToCloseTimeout"].readIfPresent()
-        value.startToCloseTimeout = try reader["startToCloseTimeout"].readIfPresent()
-        value.taskList = try reader["taskList"].readIfPresent(with: SWFClientTypes.TaskList.read(from:))
-        value.taskPriority = try reader["taskPriority"].readIfPresent()
-        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
-        value.heartbeatTimeout = try reader["heartbeatTimeout"].readIfPresent()
-        return value
-    }
-}
-
-extension SWFClientTypes.DecisionTaskTimedOutEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.DecisionTaskTimedOutEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.DecisionTaskTimedOutEventAttributes()
-        value.timeoutType = try reader["timeoutType"].readIfPresent() ?? .sdkUnknown("")
-        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
-        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SWFClientTypes.DecisionTaskCompletedEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.DecisionTaskCompletedEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.DecisionTaskCompletedEventAttributes()
-        value.executionContext = try reader["executionContext"].readIfPresent()
-        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
-        value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
-        value.taskList = try reader["taskList"].readIfPresent(with: SWFClientTypes.TaskList.read(from:))
-        value.taskListScheduleToStartTimeout = try reader["taskListScheduleToStartTimeout"].readIfPresent()
-        return value
-    }
-}
-
-extension SWFClientTypes.DecisionTaskStartedEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.DecisionTaskStartedEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.DecisionTaskStartedEventAttributes()
-        value.identity = try reader["identity"].readIfPresent()
-        value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SWFClientTypes.DecisionTaskScheduledEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.DecisionTaskScheduledEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.DecisionTaskScheduledEventAttributes()
-        value.taskList = try reader["taskList"].readIfPresent(with: SWFClientTypes.TaskList.read(from:))
-        value.taskPriority = try reader["taskPriority"].readIfPresent()
-        value.startToCloseTimeout = try reader["startToCloseTimeout"].readIfPresent()
-        value.scheduleToStartTimeout = try reader["scheduleToStartTimeout"].readIfPresent()
         return value
     }
 }
@@ -8642,26 +8799,28 @@ extension SWFClientTypes.WorkflowExecutionCancelRequestedEventAttributes {
     }
 }
 
-extension SWFClientTypes.WorkflowExecutionTerminatedEventAttributes {
+extension SWFClientTypes.WorkflowExecutionCompletedEventAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecutionTerminatedEventAttributes {
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecutionCompletedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.WorkflowExecutionTerminatedEventAttributes()
-        value.reason = try reader["reason"].readIfPresent()
-        value.details = try reader["details"].readIfPresent()
-        value.childPolicy = try reader["childPolicy"].readIfPresent() ?? .sdkUnknown("")
-        value.cause = try reader["cause"].readIfPresent()
+        var value = SWFClientTypes.WorkflowExecutionCompletedEventAttributes()
+        value.result = try reader["result"].readIfPresent()
+        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension SWFClientTypes.ContinueAsNewWorkflowExecutionFailedEventAttributes {
+extension SWFClientTypes.WorkflowExecutionConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ContinueAsNewWorkflowExecutionFailedEventAttributes {
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecutionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.ContinueAsNewWorkflowExecutionFailedEventAttributes()
-        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
-        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
+        var value = SWFClientTypes.WorkflowExecutionConfiguration()
+        value.taskStartToCloseTimeout = try reader["taskStartToCloseTimeout"].readIfPresent() ?? ""
+        value.executionStartToCloseTimeout = try reader["executionStartToCloseTimeout"].readIfPresent() ?? ""
+        value.taskList = try reader["taskList"].readIfPresent(with: SWFClientTypes.TaskList.read(from:))
+        value.taskPriority = try reader["taskPriority"].readIfPresent()
+        value.childPolicy = try reader["childPolicy"].readIfPresent() ?? .sdkUnknown("")
+        value.lambdaRole = try reader["lambdaRole"].readIfPresent()
         return value
     }
 }
@@ -8686,50 +8845,6 @@ extension SWFClientTypes.WorkflowExecutionContinuedAsNewEventAttributes {
     }
 }
 
-extension SWFClientTypes.CancelWorkflowExecutionFailedEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.CancelWorkflowExecutionFailedEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.CancelWorkflowExecutionFailedEventAttributes()
-        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
-        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SWFClientTypes.WorkflowExecutionCanceledEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecutionCanceledEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.WorkflowExecutionCanceledEventAttributes()
-        value.details = try reader["details"].readIfPresent()
-        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SWFClientTypes.WorkflowExecutionTimedOutEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecutionTimedOutEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.WorkflowExecutionTimedOutEventAttributes()
-        value.timeoutType = try reader["timeoutType"].readIfPresent() ?? .sdkUnknown("")
-        value.childPolicy = try reader["childPolicy"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension SWFClientTypes.FailWorkflowExecutionFailedEventAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.FailWorkflowExecutionFailedEventAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.FailWorkflowExecutionFailedEventAttributes()
-        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
-        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
-        return value
-    }
-}
-
 extension SWFClientTypes.WorkflowExecutionFailedEventAttributes {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecutionFailedEventAttributes {
@@ -8742,24 +8857,55 @@ extension SWFClientTypes.WorkflowExecutionFailedEventAttributes {
     }
 }
 
-extension SWFClientTypes.CompleteWorkflowExecutionFailedEventAttributes {
+extension SWFClientTypes.WorkflowExecutionFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.CompleteWorkflowExecutionFailedEventAttributes {
+    static func write(value: SWFClientTypes.WorkflowExecutionFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["workflowId"].write(value.workflowId)
+    }
+}
+
+extension SWFClientTypes.WorkflowExecutionInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecutionInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.CompleteWorkflowExecutionFailedEventAttributes()
-        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
-        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
+        var value = SWFClientTypes.WorkflowExecutionInfo()
+        value.execution = try reader["execution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
+        value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
+        value.startTimestamp = try reader["startTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.closeTimestamp = try reader["closeTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.executionStatus = try reader["executionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.closeStatus = try reader["closeStatus"].readIfPresent()
+        value.parent = try reader["parent"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
+        value.tagList = try reader["tagList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cancelRequested = try reader["cancelRequested"].readIfPresent() ?? false
         return value
     }
 }
 
-extension SWFClientTypes.WorkflowExecutionCompletedEventAttributes {
+extension SWFClientTypes.WorkflowExecutionOpenCounts {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecutionCompletedEventAttributes {
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecutionOpenCounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.WorkflowExecutionCompletedEventAttributes()
-        value.result = try reader["result"].readIfPresent()
-        value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
+        var value = SWFClientTypes.WorkflowExecutionOpenCounts()
+        value.openActivityTasks = try reader["openActivityTasks"].readIfPresent() ?? 0
+        value.openDecisionTasks = try reader["openDecisionTasks"].readIfPresent() ?? 0
+        value.openTimers = try reader["openTimers"].readIfPresent() ?? 0
+        value.openChildWorkflowExecutions = try reader["openChildWorkflowExecutions"].readIfPresent() ?? 0
+        value.openLambdaFunctions = try reader["openLambdaFunctions"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SWFClientTypes.WorkflowExecutionSignaledEventAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecutionSignaledEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.WorkflowExecutionSignaledEventAttributes()
+        value.signalName = try reader["signalName"].readIfPresent() ?? ""
+        value.input = try reader["input"].readIfPresent()
+        value.externalWorkflowExecution = try reader["externalWorkflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
+        value.externalInitiatedEventId = try reader["externalInitiatedEventId"].readIfPresent() ?? 0
         return value
     }
 }
@@ -8785,37 +8931,59 @@ extension SWFClientTypes.WorkflowExecutionStartedEventAttributes {
     }
 }
 
-extension SWFClientTypes.ResourceTag {
+extension SWFClientTypes.WorkflowExecutionTerminatedEventAttributes {
 
-    static func write(value: SWFClientTypes.ResourceTag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ResourceTag {
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecutionTerminatedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SWFClientTypes.ResourceTag()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent()
+        var value = SWFClientTypes.WorkflowExecutionTerminatedEventAttributes()
+        value.reason = try reader["reason"].readIfPresent()
+        value.details = try reader["details"].readIfPresent()
+        value.childPolicy = try reader["childPolicy"].readIfPresent() ?? .sdkUnknown("")
+        value.cause = try reader["cause"].readIfPresent()
         return value
     }
 }
 
-extension SWFClientTypes.ExecutionTimeFilter {
+extension SWFClientTypes.WorkflowExecutionTimedOutEventAttributes {
 
-    static func write(value: SWFClientTypes.ExecutionTimeFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["latestDate"].writeTimestamp(value.latestDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["oldestDate"].writeTimestamp(value.oldestDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecutionTimedOutEventAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.WorkflowExecutionTimedOutEventAttributes()
+        value.timeoutType = try reader["timeoutType"].readIfPresent() ?? .sdkUnknown("")
+        value.childPolicy = try reader["childPolicy"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
-extension SWFClientTypes.WorkflowExecutionFilter {
+extension SWFClientTypes.WorkflowType {
 
-    static func write(value: SWFClientTypes.WorkflowExecutionFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SWFClientTypes.WorkflowType?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["workflowId"].write(value.workflowId)
+        try writer["name"].write(value.name)
+        try writer["version"].write(value.version)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.WorkflowType()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SWFClientTypes.WorkflowTypeConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowTypeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.WorkflowTypeConfiguration()
+        value.defaultTaskStartToCloseTimeout = try reader["defaultTaskStartToCloseTimeout"].readIfPresent()
+        value.defaultExecutionStartToCloseTimeout = try reader["defaultExecutionStartToCloseTimeout"].readIfPresent()
+        value.defaultTaskList = try reader["defaultTaskList"].readIfPresent(with: SWFClientTypes.TaskList.read(from:))
+        value.defaultTaskPriority = try reader["defaultTaskPriority"].readIfPresent()
+        value.defaultChildPolicy = try reader["defaultChildPolicy"].readIfPresent()
+        value.defaultLambdaRole = try reader["defaultLambdaRole"].readIfPresent()
+        return value
     }
 }
 
@@ -8828,185 +8996,17 @@ extension SWFClientTypes.WorkflowTypeFilter {
     }
 }
 
-extension SWFClientTypes.TagFilter {
+extension SWFClientTypes.WorkflowTypeInfo {
 
-    static func write(value: SWFClientTypes.TagFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["tag"].write(value.tag)
-    }
-}
-
-extension SWFClientTypes.CloseStatusFilter {
-
-    static func write(value: SWFClientTypes.CloseStatusFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
-}
-
-extension SWFClientTypes.Decision {
-
-    static func write(value: SWFClientTypes.Decision?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cancelTimerDecisionAttributes"].write(value.cancelTimerDecisionAttributes, with: SWFClientTypes.CancelTimerDecisionAttributes.write(value:to:))
-        try writer["cancelWorkflowExecutionDecisionAttributes"].write(value.cancelWorkflowExecutionDecisionAttributes, with: SWFClientTypes.CancelWorkflowExecutionDecisionAttributes.write(value:to:))
-        try writer["completeWorkflowExecutionDecisionAttributes"].write(value.completeWorkflowExecutionDecisionAttributes, with: SWFClientTypes.CompleteWorkflowExecutionDecisionAttributes.write(value:to:))
-        try writer["continueAsNewWorkflowExecutionDecisionAttributes"].write(value.continueAsNewWorkflowExecutionDecisionAttributes, with: SWFClientTypes.ContinueAsNewWorkflowExecutionDecisionAttributes.write(value:to:))
-        try writer["decisionType"].write(value.decisionType)
-        try writer["failWorkflowExecutionDecisionAttributes"].write(value.failWorkflowExecutionDecisionAttributes, with: SWFClientTypes.FailWorkflowExecutionDecisionAttributes.write(value:to:))
-        try writer["recordMarkerDecisionAttributes"].write(value.recordMarkerDecisionAttributes, with: SWFClientTypes.RecordMarkerDecisionAttributes.write(value:to:))
-        try writer["requestCancelActivityTaskDecisionAttributes"].write(value.requestCancelActivityTaskDecisionAttributes, with: SWFClientTypes.RequestCancelActivityTaskDecisionAttributes.write(value:to:))
-        try writer["requestCancelExternalWorkflowExecutionDecisionAttributes"].write(value.requestCancelExternalWorkflowExecutionDecisionAttributes, with: SWFClientTypes.RequestCancelExternalWorkflowExecutionDecisionAttributes.write(value:to:))
-        try writer["scheduleActivityTaskDecisionAttributes"].write(value.scheduleActivityTaskDecisionAttributes, with: SWFClientTypes.ScheduleActivityTaskDecisionAttributes.write(value:to:))
-        try writer["scheduleLambdaFunctionDecisionAttributes"].write(value.scheduleLambdaFunctionDecisionAttributes, with: SWFClientTypes.ScheduleLambdaFunctionDecisionAttributes.write(value:to:))
-        try writer["signalExternalWorkflowExecutionDecisionAttributes"].write(value.signalExternalWorkflowExecutionDecisionAttributes, with: SWFClientTypes.SignalExternalWorkflowExecutionDecisionAttributes.write(value:to:))
-        try writer["startChildWorkflowExecutionDecisionAttributes"].write(value.startChildWorkflowExecutionDecisionAttributes, with: SWFClientTypes.StartChildWorkflowExecutionDecisionAttributes.write(value:to:))
-        try writer["startTimerDecisionAttributes"].write(value.startTimerDecisionAttributes, with: SWFClientTypes.StartTimerDecisionAttributes.write(value:to:))
-    }
-}
-
-extension SWFClientTypes.ScheduleLambdaFunctionDecisionAttributes {
-
-    static func write(value: SWFClientTypes.ScheduleLambdaFunctionDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["control"].write(value.control)
-        try writer["id"].write(value.id)
-        try writer["input"].write(value.input)
-        try writer["name"].write(value.name)
-        try writer["startToCloseTimeout"].write(value.startToCloseTimeout)
-    }
-}
-
-extension SWFClientTypes.StartChildWorkflowExecutionDecisionAttributes {
-
-    static func write(value: SWFClientTypes.StartChildWorkflowExecutionDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["childPolicy"].write(value.childPolicy)
-        try writer["control"].write(value.control)
-        try writer["executionStartToCloseTimeout"].write(value.executionStartToCloseTimeout)
-        try writer["input"].write(value.input)
-        try writer["lambdaRole"].write(value.lambdaRole)
-        try writer["tagList"].writeList(value.tagList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["taskList"].write(value.taskList, with: SWFClientTypes.TaskList.write(value:to:))
-        try writer["taskPriority"].write(value.taskPriority)
-        try writer["taskStartToCloseTimeout"].write(value.taskStartToCloseTimeout)
-        try writer["workflowId"].write(value.workflowId)
-        try writer["workflowType"].write(value.workflowType, with: SWFClientTypes.WorkflowType.write(value:to:))
-    }
-}
-
-extension SWFClientTypes.RequestCancelExternalWorkflowExecutionDecisionAttributes {
-
-    static func write(value: SWFClientTypes.RequestCancelExternalWorkflowExecutionDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["control"].write(value.control)
-        try writer["runId"].write(value.runId)
-        try writer["workflowId"].write(value.workflowId)
-    }
-}
-
-extension SWFClientTypes.SignalExternalWorkflowExecutionDecisionAttributes {
-
-    static func write(value: SWFClientTypes.SignalExternalWorkflowExecutionDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["control"].write(value.control)
-        try writer["input"].write(value.input)
-        try writer["runId"].write(value.runId)
-        try writer["signalName"].write(value.signalName)
-        try writer["workflowId"].write(value.workflowId)
-    }
-}
-
-extension SWFClientTypes.CancelTimerDecisionAttributes {
-
-    static func write(value: SWFClientTypes.CancelTimerDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["timerId"].write(value.timerId)
-    }
-}
-
-extension SWFClientTypes.StartTimerDecisionAttributes {
-
-    static func write(value: SWFClientTypes.StartTimerDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["control"].write(value.control)
-        try writer["startToFireTimeout"].write(value.startToFireTimeout)
-        try writer["timerId"].write(value.timerId)
-    }
-}
-
-extension SWFClientTypes.RecordMarkerDecisionAttributes {
-
-    static func write(value: SWFClientTypes.RecordMarkerDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["details"].write(value.details)
-        try writer["markerName"].write(value.markerName)
-    }
-}
-
-extension SWFClientTypes.ContinueAsNewWorkflowExecutionDecisionAttributes {
-
-    static func write(value: SWFClientTypes.ContinueAsNewWorkflowExecutionDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["childPolicy"].write(value.childPolicy)
-        try writer["executionStartToCloseTimeout"].write(value.executionStartToCloseTimeout)
-        try writer["input"].write(value.input)
-        try writer["lambdaRole"].write(value.lambdaRole)
-        try writer["tagList"].writeList(value.tagList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["taskList"].write(value.taskList, with: SWFClientTypes.TaskList.write(value:to:))
-        try writer["taskPriority"].write(value.taskPriority)
-        try writer["taskStartToCloseTimeout"].write(value.taskStartToCloseTimeout)
-        try writer["workflowTypeVersion"].write(value.workflowTypeVersion)
-    }
-}
-
-extension SWFClientTypes.CancelWorkflowExecutionDecisionAttributes {
-
-    static func write(value: SWFClientTypes.CancelWorkflowExecutionDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["details"].write(value.details)
-    }
-}
-
-extension SWFClientTypes.FailWorkflowExecutionDecisionAttributes {
-
-    static func write(value: SWFClientTypes.FailWorkflowExecutionDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["details"].write(value.details)
-        try writer["reason"].write(value.reason)
-    }
-}
-
-extension SWFClientTypes.CompleteWorkflowExecutionDecisionAttributes {
-
-    static func write(value: SWFClientTypes.CompleteWorkflowExecutionDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["result"].write(value.result)
-    }
-}
-
-extension SWFClientTypes.RequestCancelActivityTaskDecisionAttributes {
-
-    static func write(value: SWFClientTypes.RequestCancelActivityTaskDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activityId"].write(value.activityId)
-    }
-}
-
-extension SWFClientTypes.ScheduleActivityTaskDecisionAttributes {
-
-    static func write(value: SWFClientTypes.ScheduleActivityTaskDecisionAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activityId"].write(value.activityId)
-        try writer["activityType"].write(value.activityType, with: SWFClientTypes.ActivityType.write(value:to:))
-        try writer["control"].write(value.control)
-        try writer["heartbeatTimeout"].write(value.heartbeatTimeout)
-        try writer["input"].write(value.input)
-        try writer["scheduleToCloseTimeout"].write(value.scheduleToCloseTimeout)
-        try writer["scheduleToStartTimeout"].write(value.scheduleToStartTimeout)
-        try writer["startToCloseTimeout"].write(value.startToCloseTimeout)
-        try writer["taskList"].write(value.taskList, with: SWFClientTypes.TaskList.write(value:to:))
-        try writer["taskPriority"].write(value.taskPriority)
+    static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowTypeInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SWFClientTypes.WorkflowTypeInfo()
+        value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["description"].readIfPresent()
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.deprecationDate = try reader["deprecationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
     }
 }
 

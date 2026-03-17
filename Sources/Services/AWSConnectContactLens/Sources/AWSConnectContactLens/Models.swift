@@ -19,8 +19,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 
 /// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -523,7 +523,7 @@ enum ListRealtimeContactAnalysisSegmentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -538,7 +538,7 @@ enum ListRealtimeContactAnalysisSegmentsOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -551,7 +551,7 @@ extension AccessDeniedException {
 
 extension InternalServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServiceException {
         let reader = baseError.errorBodyReader
         var value = InternalServiceException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -564,7 +564,7 @@ extension InternalServiceException {
 
 extension InvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
         var value = InvalidRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -577,7 +577,7 @@ extension InvalidRequestException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -590,37 +590,13 @@ extension ResourceNotFoundException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension ConnectContactLensClientTypes.RealtimeContactAnalysisSegment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.RealtimeContactAnalysisSegment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectContactLensClientTypes.RealtimeContactAnalysisSegment()
-        value.transcript = try reader["Transcript"].readIfPresent(with: ConnectContactLensClientTypes.Transcript.read(from:))
-        value.categories = try reader["Categories"].readIfPresent(with: ConnectContactLensClientTypes.Categories.read(from:))
-        value.postContactSummary = try reader["PostContactSummary"].readIfPresent(with: ConnectContactLensClientTypes.PostContactSummary.read(from:))
-        return value
-    }
-}
-
-extension ConnectContactLensClientTypes.PostContactSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.PostContactSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectContactLensClientTypes.PostContactSummary()
-        value.content = try reader["Content"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.failureCode = try reader["FailureCode"].readIfPresent()
         return value
     }
 }
@@ -646,6 +622,27 @@ extension ConnectContactLensClientTypes.CategoryDetails {
     }
 }
 
+extension ConnectContactLensClientTypes.CharacterOffsets {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.CharacterOffsets {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectContactLensClientTypes.CharacterOffsets()
+        value.beginOffsetChar = try reader["BeginOffsetChar"].readIfPresent() ?? 0
+        value.endOffsetChar = try reader["EndOffsetChar"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ConnectContactLensClientTypes.IssueDetected {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.IssueDetected {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectContactLensClientTypes.IssueDetected()
+        value.characterOffsets = try reader["CharacterOffsets"].readIfPresent(with: ConnectContactLensClientTypes.CharacterOffsets.read(from:))
+        return value
+    }
+}
+
 extension ConnectContactLensClientTypes.PointOfInterest {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.PointOfInterest {
@@ -653,6 +650,30 @@ extension ConnectContactLensClientTypes.PointOfInterest {
         var value = ConnectContactLensClientTypes.PointOfInterest()
         value.beginOffsetMillis = try reader["BeginOffsetMillis"].readIfPresent() ?? 0
         value.endOffsetMillis = try reader["EndOffsetMillis"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ConnectContactLensClientTypes.PostContactSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.PostContactSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectContactLensClientTypes.PostContactSummary()
+        value.content = try reader["Content"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.failureCode = try reader["FailureCode"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectContactLensClientTypes.RealtimeContactAnalysisSegment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.RealtimeContactAnalysisSegment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectContactLensClientTypes.RealtimeContactAnalysisSegment()
+        value.transcript = try reader["Transcript"].readIfPresent(with: ConnectContactLensClientTypes.Transcript.read(from:))
+        value.categories = try reader["Categories"].readIfPresent(with: ConnectContactLensClientTypes.Categories.read(from:))
+        value.postContactSummary = try reader["PostContactSummary"].readIfPresent(with: ConnectContactLensClientTypes.PostContactSummary.read(from:))
         return value
     }
 }
@@ -670,27 +691,6 @@ extension ConnectContactLensClientTypes.Transcript {
         value.endOffsetMillis = try reader["EndOffsetMillis"].readIfPresent() ?? 0
         value.sentiment = try reader["Sentiment"].readIfPresent()
         value.issuesDetected = try reader["IssuesDetected"].readListIfPresent(memberReadingClosure: ConnectContactLensClientTypes.IssueDetected.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ConnectContactLensClientTypes.IssueDetected {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.IssueDetected {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectContactLensClientTypes.IssueDetected()
-        value.characterOffsets = try reader["CharacterOffsets"].readIfPresent(with: ConnectContactLensClientTypes.CharacterOffsets.read(from:))
-        return value
-    }
-}
-
-extension ConnectContactLensClientTypes.CharacterOffsets {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.CharacterOffsets {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectContactLensClientTypes.CharacterOffsets()
-        value.beginOffsetChar = try reader["BeginOffsetChar"].readIfPresent() ?? 0
-        value.endOffsetChar = try reader["EndOffsetChar"].readIfPresent() ?? 0
         return value
     }
 }

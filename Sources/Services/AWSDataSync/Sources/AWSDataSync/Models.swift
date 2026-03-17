@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 
 extension DataSyncClientTypes {
 
@@ -423,12 +423,12 @@ public struct CreateLocationAzureBlobInput: Swift.Sendable {
     public var authenticationType: DataSyncClientTypes.AzureBlobAuthenticationType?
     /// Specifies the type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the [Azure Blob Storage documentation](https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs).
     public var blobType: DataSyncClientTypes.AzureBlobType?
-    /// Specifies configuration information for a DataSync-managed secret, which includes the authentication token that DataSync uses to access a specific AzureBlob storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationAzureBlob request, you provide only the KMS key ARN. DataSync uses this KMS key together with the authentication token you specify for SasConfiguration to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
+    /// Specifies configuration information for a DataSync-managed secret, which includes the authentication token that DataSync uses to access a specific AzureBlob storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationAzureBlob request, you provide only the KMS key ARN. DataSync uses this KMS key together with the authentication token you specify for SasConfiguration to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. For more information, see [ Using a service-managed secret encrypted with a custom KMS key](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#service-secret-custom-key). You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
     public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
     /// Specifies the URL of the Azure Blob Storage container involved in your transfer.
     /// This member is required.
     public var containerUrl: Swift.String?
-    /// Specifies configuration information for a customer-managed Secrets Manager secret where the authentication token for an AzureBlob storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
+    /// Specifies configuration information for a customer-managed Secrets Manager secret where the authentication token for an AzureBlob storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see [ Using a secret that you manage](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#custom-secret-custom-key). You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
     public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
     /// Specifies the SAS configuration that allows DataSync to access your Azure Blob Storage. If you provide an authentication token using SasConfiguration, but do not provide secret configuration details using CmkSecretConfig or CustomSecretConfig, then DataSync stores the token using your Amazon Web Services account's secrets manager secret.
     public var sasConfiguration: DataSyncClientTypes.AzureBlobSasConfiguration?
@@ -694,6 +694,21 @@ extension DataSyncClientTypes {
 
 extension DataSyncClientTypes {
 
+    /// Specifies configuration information for a DataSync-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location. DataSync uses the default Amazon Web Services-managed KMS key to encrypt this secret in Secrets Manager.
+    public struct ManagedSecretConfig: Swift.Sendable {
+        /// Specifies the ARN for an Secrets Manager secret.
+        public var secretArn: Swift.String?
+
+        public init(
+            secretArn: Swift.String? = nil
+        ) {
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension DataSyncClientTypes {
+
     public enum SmbVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case automatic
         case smb1
@@ -759,24 +774,35 @@ extension DataSyncClientTypes {
 
     /// Specifies the Server Message Block (SMB) protocol configuration that DataSync uses to access your Amazon FSx for NetApp ONTAP file system's storage virtual machine (SVM). For more information, see [Providing DataSync access to FSx for ONTAP file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-access).
     public struct FsxProtocolSmb: Swift.Sendable {
+        /// Specifies configuration information for a DataSync-managed secret, which includes the password that DataSync uses to access a specific FSx for ONTAP storage location (using SMB), with a customer-managed KMS key. When you include this parameter as part of a CreateLocationFsxOntap request, you provide only the KMS key ARN. DataSync uses this KMS key together with the Password you specify for to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. For more information, see [ Using a service-managed secret encrypted with a custom KMS key](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#service-secret-custom-key). You can use either CmkSecretConfig (with Password) or CustomSecretConfig (without Password) to provide credentials for a CreateLocationFsxOntap request. Do not provide both parameters for the same request.
+        public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
+        /// Specifies configuration information for a customer-managed Secrets Manager secret where the password for an FSx for ONTAP storage location (using SMB) is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see [ Using a secret that you manage](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#custom-secret-custom-key). You can use either CmkSecretConfig (with Password) or CustomSecretConfig (without Password) to provide credentials for a CreateLocationFsxOntap request. Do not provide both parameters for the same request.
+        public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
         /// Specifies the name of the Windows domain that your storage virtual machine (SVM) belongs to. If you have multiple domains in your environment, configuring this setting makes sure that DataSync connects to the right SVM. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right SVM.
         public var domain: Swift.String?
+        /// Describes configuration information for a DataSync-managed secret, such as a Password that DataSync uses to access a specific storage location. DataSync uses the default Amazon Web Services-managed KMS key to encrypt this secret in Secrets Manager. Do not provide this for a CreateLocation request. ManagedSecretConfig is a ReadOnly property and is only be populated in the DescribeLocation response.
+        public var managedSecretConfig: DataSyncClientTypes.ManagedSecretConfig?
         /// Specifies the version of the Server Message Block (SMB) protocol that DataSync uses to access an SMB file server.
         public var mountOptions: DataSyncClientTypes.SmbMountOptions?
         /// Specifies the password of a user who has permission to access your SVM.
-        /// This member is required.
         public var password: Swift.String?
         /// Specifies a user that can mount and access the files, folders, and metadata in your SVM. For information about choosing a user with the right level of access for your transfer, see [Using the SMB protocol](https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-smb).
         /// This member is required.
         public var user: Swift.String?
 
         public init(
+            cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig? = nil,
+            customSecretConfig: DataSyncClientTypes.CustomSecretConfig? = nil,
             domain: Swift.String? = nil,
+            managedSecretConfig: DataSyncClientTypes.ManagedSecretConfig? = nil,
             mountOptions: DataSyncClientTypes.SmbMountOptions? = nil,
-            password: Swift.String? = nil,
+            password: Swift.String? = "",
             user: Swift.String? = nil
         ) {
+            self.cmkSecretConfig = cmkSecretConfig
+            self.customSecretConfig = customSecretConfig
             self.domain = domain
+            self.managedSecretConfig = managedSecretConfig
             self.mountOptions = mountOptions
             self.password = password
             self.user = user
@@ -786,7 +812,7 @@ extension DataSyncClientTypes {
 
 extension DataSyncClientTypes.FsxProtocolSmb: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "FsxProtocolSmb(domain: \(Swift.String(describing: domain)), mountOptions: \(Swift.String(describing: mountOptions)), user: \(Swift.String(describing: user)), password: \"CONTENT_REDACTED\")"}
+        "FsxProtocolSmb(cmkSecretConfig: \(Swift.String(describing: cmkSecretConfig)), customSecretConfig: \(Swift.String(describing: customSecretConfig)), domain: \(Swift.String(describing: domain)), managedSecretConfig: \(Swift.String(describing: managedSecretConfig)), mountOptions: \(Swift.String(describing: mountOptions)), user: \(Swift.String(describing: user)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension DataSyncClientTypes {
@@ -898,13 +924,16 @@ public struct CreateLocationFsxOpenZfsOutput: Swift.Sendable {
 }
 
 public struct CreateLocationFsxWindowsInput: Swift.Sendable {
+    /// Specifies configuration information for a DataSync-managed secret, which includes the password that DataSync uses to access a specific FSx Windows storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationFsxWindows request, you provide only the KMS key ARN. DataSync uses this KMS key together with the Password you specify for to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. For more information, see [ Using a service-managed secret encrypted with a custom KMS key](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#service-secret-custom-key). You can use either CmkSecretConfig (with Password) or CustomSecretConfig (without Password) to provide credentials for a CreateLocationFsxWindows request. Do not provide both parameters for the same request.
+    public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
+    /// Specifies configuration information for a customer-managed Secrets Manager secret where the password for an FSx for Windows File Server storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see [ Using a secret that you manage](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#custom-secret-custom-key). You can use either CmkSecretConfig (with Password) or CustomSecretConfig (without Password) to provide credentials for a CreateLocationFsxWindows request. Do not provide both parameters for the same request.
+    public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
     /// Specifies the name of the Windows domain that the FSx for Windows File Server file system belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file system.
     public var domain: Swift.String?
     /// Specifies the Amazon Resource Name (ARN) for the FSx for Windows File Server file system.
     /// This member is required.
     public var fsxFilesystemArn: Swift.String?
     /// Specifies the password of the user with the permissions to mount and access the files, folders, and file metadata in your FSx for Windows File Server file system.
-    /// This member is required.
     public var password: Swift.String?
     /// Specifies the ARNs of the Amazon EC2 security groups that provide access to your file system's preferred subnet. The security groups that you specify must be able to communicate with your file system's security groups. For information about configuring security groups for file system access, see the [ Amazon FSx for Windows File Server User Guide ](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/limit-access-security-groups.html). If you choose a security group that doesn't allow connections from within itself, do one of the following:
     ///
@@ -922,6 +951,8 @@ public struct CreateLocationFsxWindowsInput: Swift.Sendable {
     public var user: Swift.String?
 
     public init(
+        cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig? = nil,
+        customSecretConfig: DataSyncClientTypes.CustomSecretConfig? = nil,
         domain: Swift.String? = nil,
         fsxFilesystemArn: Swift.String? = nil,
         password: Swift.String? = nil,
@@ -930,6 +961,8 @@ public struct CreateLocationFsxWindowsInput: Swift.Sendable {
         tags: [DataSyncClientTypes.TagListEntry]? = nil,
         user: Swift.String? = nil
     ) {
+        self.cmkSecretConfig = cmkSecretConfig
+        self.customSecretConfig = customSecretConfig
         self.domain = domain
         self.fsxFilesystemArn = fsxFilesystemArn
         self.password = password
@@ -942,7 +975,7 @@ public struct CreateLocationFsxWindowsInput: Swift.Sendable {
 
 extension CreateLocationFsxWindowsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateLocationFsxWindowsInput(domain: \(Swift.String(describing: domain)), fsxFilesystemArn: \(Swift.String(describing: fsxFilesystemArn)), securityGroupArns: \(Swift.String(describing: securityGroupArns)), subdirectory: \(Swift.String(describing: subdirectory)), tags: \(Swift.String(describing: tags)), user: \(Swift.String(describing: user)), password: \"CONTENT_REDACTED\")"}
+        "CreateLocationFsxWindowsInput(cmkSecretConfig: \(Swift.String(describing: cmkSecretConfig)), customSecretConfig: \(Swift.String(describing: customSecretConfig)), domain: \(Swift.String(describing: domain)), fsxFilesystemArn: \(Swift.String(describing: fsxFilesystemArn)), securityGroupArns: \(Swift.String(describing: securityGroupArns)), subdirectory: \(Swift.String(describing: subdirectory)), tags: \(Swift.String(describing: tags)), user: \(Swift.String(describing: user)), password: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateLocationFsxWindowsOutput: Swift.Sendable {
@@ -1104,6 +1137,10 @@ public struct CreateLocationHdfsInput: Swift.Sendable {
     public var authenticationType: DataSyncClientTypes.HdfsAuthenticationType?
     /// The size of data blocks to write into the HDFS cluster. The block size must be a multiple of 512 bytes. The default block size is 128 mebibytes (MiB).
     public var blockSize: Swift.Int?
+    /// Specifies configuration information for a DataSync-managed secret, which includes the Kerberos keytab that DataSync uses to access a specific Hadoop Distributed File System (HDFS) storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationHdfs request, you provide only the KMS key ARN. DataSync uses this KMS key together with the KerberosKeytab you specify for to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. For more information, see [ Using a service-managed secret encrypted with a custom KMS key](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#service-secret-custom-key). You can use either CmkSecretConfig (with KerberosKeytab) or CustomSecretConfig (without KerberosKeytab) to provide credentials for a CreateLocationHdfs request. Do not provide both parameters for the same request.
+    public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
+    /// Specifies configuration information for a customer-managed Secrets Manager secret where the Kerberos keytab for the HDFS storage location is stored in binary, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see [ Using a secret that you manage](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#custom-secret-custom-key). You can use either CmkSecretConfig (with KerberosKeytab) or CustomSecretConfig (without KerberosKeytab) to provide credentials for a CreateLocationHdfs request. Do not provide both parameters for the same request.
+    public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
     /// The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address. If KERBEROS is specified for AuthenticationType, this parameter is required.
     public var kerberosKeytab: Foundation.Data?
     /// The krb5.conf file that contains the Kerberos configuration information. You can load the krb5.conf file by providing the file's address. If you're using the CLI, it performs the base64 encoding for you. Otherwise, provide the base64-encoded text. If KERBEROS is specified for AuthenticationType, this parameter is required.
@@ -1130,6 +1167,8 @@ public struct CreateLocationHdfsInput: Swift.Sendable {
         agentArns: [Swift.String]? = nil,
         authenticationType: DataSyncClientTypes.HdfsAuthenticationType? = nil,
         blockSize: Swift.Int? = nil,
+        cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig? = nil,
+        customSecretConfig: DataSyncClientTypes.CustomSecretConfig? = nil,
         kerberosKeytab: Foundation.Data? = nil,
         kerberosKrb5Conf: Foundation.Data? = nil,
         kerberosPrincipal: Swift.String? = nil,
@@ -1144,6 +1183,8 @@ public struct CreateLocationHdfsInput: Swift.Sendable {
         self.agentArns = agentArns
         self.authenticationType = authenticationType
         self.blockSize = blockSize
+        self.cmkSecretConfig = cmkSecretConfig
+        self.customSecretConfig = customSecretConfig
         self.kerberosKeytab = kerberosKeytab
         self.kerberosKrb5Conf = kerberosKrb5Conf
         self.kerberosPrincipal = kerberosPrincipal
@@ -1265,9 +1306,9 @@ public struct CreateLocationObjectStorageInput: Swift.Sendable {
     /// Specifies the name of the object storage bucket involved in the transfer.
     /// This member is required.
     public var bucketName: Swift.String?
-    /// Specifies configuration information for a DataSync-managed secret, which includes the SecretKey that DataSync uses to access a specific object storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationObjectStorage request, you provide only the KMS key ARN. DataSync uses this KMS key together with the value you specify for the SecretKey parameter to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
+    /// Specifies configuration information for a DataSync-managed secret, which includes the SecretKey that DataSync uses to access a specific object storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationObjectStorage request, you provide only the KMS key ARN. DataSync uses this KMS key together with the value you specify for the SecretKey parameter to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. For more information, see [ Using a service-managed secret encrypted with a custom KMS key](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#service-secret-custom-key). You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
     public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
-    /// Specifies configuration information for a customer-managed Secrets Manager secret where the secret key for a specific object storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
+    /// Specifies configuration information for a customer-managed Secrets Manager secret where the secret key for a specific object storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see [ Using a secret that you manage](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#custom-secret-custom-key). You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
     public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
     /// Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server. If you provide a secret using SecretKey, but do not provide secret configuration details using CmkSecretConfig or CustomSecretConfig, then DataSync stores the token using your Amazon Web Services account's Secrets Manager secret.
     public var secretKey: Swift.String?
@@ -1493,9 +1534,9 @@ public struct CreateLocationSmbInput: Swift.Sendable {
     public var agentArns: [Swift.String]?
     /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication. For more information, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
     public var authenticationType: DataSyncClientTypes.SmbAuthenticationType?
-    /// Specifies configuration information for a DataSync-managed secret, either a Password or KerberosKeytab (for NTLM (default) and KERBEROS authentication types, respectively) that DataSync uses to access a specific SMB storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationSmbRequest request, you provide only the KMS key ARN. DataSync uses this KMS key together with either the Password or KerberosKeytab you specify to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. You can use either CmkSecretConfig (with either Password or KerberosKeytab) or CustomSecretConfig (without any Password and KerberosKeytab) to provide credentials for a CreateLocationSmbRequest request. Do not provide both CmkSecretConfig and CustomSecretConfig parameters for the same request.
+    /// Specifies configuration information for a DataSync-managed secret, either a Password or KerberosKeytab (for NTLM (default) and KERBEROS authentication types, respectively) that DataSync uses to access a specific SMB storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationSmbRequest request, you provide only the KMS key ARN. DataSync uses this KMS key together with either the Password or KerberosKeytab you specify to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. For more information, see [ Using a service-managed secret encrypted with a custom KMS key](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#service-secret-custom-key). You can use either CmkSecretConfig (with either Password or KerberosKeytab) or CustomSecretConfig (without any Password and KerberosKeytab) to provide credentials for a CreateLocationSmbRequest request. Do not provide both CmkSecretConfig and CustomSecretConfig parameters for the same request.
     public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
-    /// Specifies configuration information for a customer-managed Secrets Manager secret where the SMB storage location credentials is stored in Secrets Manager as plain text (for Password) or binary (for KerberosKeytab). This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationSmbRequest request. Do not provide both parameters for the same request.
+    /// Specifies configuration information for a customer-managed Secrets Manager secret where the SMB storage location credentials is stored in Secrets Manager as plain text (for Password) or binary (for KerberosKeytab). This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see [ Using a secret that you manage](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#custom-secret-custom-key). You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationSmbRequest request. Do not provide both parameters for the same request.
     public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
     /// Specifies the IPv4 or IPv6 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
     public var dnsIpAddresses: [Swift.String]?
@@ -2845,21 +2886,6 @@ public struct DescribeLocationAzureBlobInput: Swift.Sendable {
     }
 }
 
-extension DataSyncClientTypes {
-
-    /// Specifies configuration information for a DataSync-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location. DataSync uses the default Amazon Web Services-managed KMS key to encrypt this secret in Secrets Manager.
-    public struct ManagedSecretConfig: Swift.Sendable {
-        /// Specifies the ARN for an Secrets Manager secret.
-        public var secretArn: Swift.String?
-
-        public init(
-            secretArn: Swift.String? = nil
-        ) {
-            self.secretArn = secretArn
-        }
-    }
-}
-
 public struct DescribeLocationAzureBlobOutput: Swift.Sendable {
     /// The access tier that you want your objects or files transferred into. This only applies when using the location as a transfer destination. For more information, see [Access tiers](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers).
     public var accessTier: DataSyncClientTypes.AzureAccessTier?
@@ -2873,7 +2899,7 @@ public struct DescribeLocationAzureBlobOutput: Swift.Sendable {
     public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
     /// The time that your Azure Blob Storage transfer location was created.
     public var creationTime: Foundation.Date?
-    /// Describes configuration information for a customer-managed secret, such as an authentication token that DataSync uses to access a specific storage location, with a customer-managed KMS key.
+    /// Describes configuration information for a customer-managed secret, such as an authentication token that DataSync uses to access a specific storage location, with a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
     public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
     /// The ARN of your Azure Blob Storage transfer location.
     public var locationArn: Swift.String?
@@ -3090,31 +3116,43 @@ public struct DescribeLocationFsxWindowsInput: Swift.Sendable {
 }
 
 public struct DescribeLocationFsxWindowsOutput: Swift.Sendable {
+    /// Describes configuration information for a DataSync-managed secret, such as a Password that DataSync uses to access a specific storage location, with a customer-managed KMS key.
+    public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
     /// The time that the FSx for Windows File Server location was created.
     public var creationTime: Foundation.Date?
+    /// Describes configuration information for a customer-managed secret, such as a Password that DataSync uses to access a specific storage location, with a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
+    public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
     /// The name of the Microsoft Active Directory domain that the FSx for Windows File Server file system belongs to.
     public var domain: Swift.String?
     /// The ARN of the FSx for Windows File Server location.
     public var locationArn: Swift.String?
     /// The uniform resource identifier (URI) of the FSx for Windows File Server location.
     public var locationUri: Swift.String?
+    /// Describes configuration information for a DataSync-managed secret, such as a Password that DataSync uses to access a specific storage location. DataSync uses the default Amazon Web Services-managed KMS key to encrypt this secret in Secrets Manager.
+    public var managedSecretConfig: DataSyncClientTypes.ManagedSecretConfig?
     /// The ARNs of the Amazon EC2 security groups that provide access to your file system's preferred subnet. For information about configuring security groups for file system access, see the [ Amazon FSx for Windows File Server User Guide ](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/limit-access-security-groups.html).
     public var securityGroupArns: [Swift.String]?
     /// The user with the permissions to mount and access the FSx for Windows File Server file system.
     public var user: Swift.String?
 
     public init(
+        cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig? = nil,
         creationTime: Foundation.Date? = nil,
+        customSecretConfig: DataSyncClientTypes.CustomSecretConfig? = nil,
         domain: Swift.String? = nil,
         locationArn: Swift.String? = nil,
         locationUri: Swift.String? = nil,
+        managedSecretConfig: DataSyncClientTypes.ManagedSecretConfig? = nil,
         securityGroupArns: [Swift.String]? = nil,
         user: Swift.String? = nil
     ) {
+        self.cmkSecretConfig = cmkSecretConfig
         self.creationTime = creationTime
+        self.customSecretConfig = customSecretConfig
         self.domain = domain
         self.locationArn = locationArn
         self.locationUri = locationUri
+        self.managedSecretConfig = managedSecretConfig
         self.securityGroupArns = securityGroupArns
         self.user = user
     }
@@ -3139,8 +3177,12 @@ public struct DescribeLocationHdfsOutput: Swift.Sendable {
     public var authenticationType: DataSyncClientTypes.HdfsAuthenticationType?
     /// The size of the data blocks to write into the HDFS cluster.
     public var blockSize: Swift.Int?
+    /// Describes configuration information for a DataSync-managed secret, such as a KerberosKeytab that DataSync uses to access a specific storage location, with a customer-managed KMS key.
+    public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
     /// The time that the HDFS location was created.
     public var creationTime: Foundation.Date?
+    /// Describes configuration information for a customer-managed secret, such as a KerberosKeytab that DataSync uses to access a specific storage location, with a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
+    public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
     /// The Kerberos principal with access to the files and folders on the HDFS cluster. This parameter is used if the AuthenticationType is defined as KERBEROS.
     public var kerberosPrincipal: Swift.String?
     /// The URI of the HDFS cluster's Key Management Server (KMS).
@@ -3149,6 +3191,8 @@ public struct DescribeLocationHdfsOutput: Swift.Sendable {
     public var locationArn: Swift.String?
     /// The URI of the HDFS location.
     public var locationUri: Swift.String?
+    /// Describes configuration information for a DataSync-managed secret, such as a KerberosKeytab that DataSync uses to access a specific storage location. DataSync uses the default Amazon Web Services-managed KMS key to encrypt this secret in Secrets Manager.
+    public var managedSecretConfig: DataSyncClientTypes.ManagedSecretConfig?
     /// The NameNode that manages the HDFS namespace.
     public var nameNodes: [DataSyncClientTypes.HdfsNameNode]?
     /// The Quality of Protection (QOP) configuration, which specifies the Remote Procedure Call (RPC) and data transfer protection settings configured on the HDFS cluster.
@@ -3162,11 +3206,14 @@ public struct DescribeLocationHdfsOutput: Swift.Sendable {
         agentArns: [Swift.String]? = nil,
         authenticationType: DataSyncClientTypes.HdfsAuthenticationType? = nil,
         blockSize: Swift.Int? = nil,
+        cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig? = nil,
         creationTime: Foundation.Date? = nil,
+        customSecretConfig: DataSyncClientTypes.CustomSecretConfig? = nil,
         kerberosPrincipal: Swift.String? = nil,
         kmsKeyProviderUri: Swift.String? = nil,
         locationArn: Swift.String? = nil,
         locationUri: Swift.String? = nil,
+        managedSecretConfig: DataSyncClientTypes.ManagedSecretConfig? = nil,
         nameNodes: [DataSyncClientTypes.HdfsNameNode]? = nil,
         qopConfiguration: DataSyncClientTypes.QopConfiguration? = nil,
         replicationFactor: Swift.Int? = nil,
@@ -3175,11 +3222,14 @@ public struct DescribeLocationHdfsOutput: Swift.Sendable {
         self.agentArns = agentArns
         self.authenticationType = authenticationType
         self.blockSize = blockSize
+        self.cmkSecretConfig = cmkSecretConfig
         self.creationTime = creationTime
+        self.customSecretConfig = customSecretConfig
         self.kerberosPrincipal = kerberosPrincipal
         self.kmsKeyProviderUri = kmsKeyProviderUri
         self.locationArn = locationArn
         self.locationUri = locationUri
+        self.managedSecretConfig = managedSecretConfig
         self.nameNodes = nameNodes
         self.qopConfiguration = qopConfiguration
         self.replicationFactor = replicationFactor
@@ -3251,7 +3301,7 @@ public struct DescribeLocationObjectStorageOutput: Swift.Sendable {
     public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
     /// The time that the location was created.
     public var creationTime: Foundation.Date?
-    /// Describes configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+    /// Describes configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
     public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
     /// The ARN of the object storage system location.
     public var locationArn: Swift.String?
@@ -3361,7 +3411,7 @@ public struct DescribeLocationSmbOutput: Swift.Sendable {
     public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
     /// The time that the SMB location was created.
     public var creationTime: Foundation.Date?
-    /// Describes configuration information for a customer-managed secret, such as a Password or KerberosKeytab that DataSync uses to access a specific storage location, with a customer-managed KMS key.
+    /// Describes configuration information for a customer-managed secret, such as a Password or KerberosKeytab that DataSync uses to access a specific storage location, with a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
     public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
     /// The IPv4 or IPv6 addresses for the DNS servers that your SMB file server belongs to. This element applies only if AuthenticationType is set to KERBEROS.
     public var dnsIpAddresses: [Swift.String]?
@@ -4594,7 +4644,7 @@ public struct UpdateLocationAzureBlobInput: Swift.Sendable {
     public var blobType: DataSyncClientTypes.AzureBlobType?
     /// Specifies configuration information for a DataSync-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
     public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
-    /// Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+    /// Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
     public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
     /// Specifies the ARN of the Azure Blob Storage transfer location that you're updating.
     /// This member is required.
@@ -4690,6 +4740,10 @@ extension DataSyncClientTypes {
 
     /// Specifies the Server Message Block (SMB) protocol configuration that DataSync uses to access your Amazon FSx for NetApp ONTAP file system's storage virtual machine (SVM). For more information, see [Providing DataSync access to FSx for ONTAP file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-access).
     public struct FsxUpdateProtocolSmb: Swift.Sendable {
+        /// Specifies configuration information for a DataSync-managed secret, such as a Password or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+        public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
+        /// Specifies configuration information for a customer-managed secret, such as a Password or set of credentials that DataSync uses to access a specific transfer location. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret.
+        public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
         /// Specifies the name of the Windows domain that your storage virtual machine (SVM) belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right SVM.
         public var domain: Swift.String?
         /// Specifies the version of the Server Message Block (SMB) protocol that DataSync uses to access an SMB file server.
@@ -4700,11 +4754,15 @@ extension DataSyncClientTypes {
         public var user: Swift.String?
 
         public init(
+            cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig? = nil,
+            customSecretConfig: DataSyncClientTypes.CustomSecretConfig? = nil,
             domain: Swift.String? = nil,
             mountOptions: DataSyncClientTypes.SmbMountOptions? = nil,
             password: Swift.String? = nil,
             user: Swift.String? = nil
         ) {
+            self.cmkSecretConfig = cmkSecretConfig
+            self.customSecretConfig = customSecretConfig
             self.domain = domain
             self.mountOptions = mountOptions
             self.password = password
@@ -4715,7 +4773,7 @@ extension DataSyncClientTypes {
 
 extension DataSyncClientTypes.FsxUpdateProtocolSmb: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "FsxUpdateProtocolSmb(domain: \(Swift.String(describing: domain)), mountOptions: \(Swift.String(describing: mountOptions)), user: \(Swift.String(describing: user)), password: \"CONTENT_REDACTED\")"}
+        "FsxUpdateProtocolSmb(cmkSecretConfig: \(Swift.String(describing: cmkSecretConfig)), customSecretConfig: \(Swift.String(describing: customSecretConfig)), domain: \(Swift.String(describing: domain)), mountOptions: \(Swift.String(describing: mountOptions)), user: \(Swift.String(describing: user)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension DataSyncClientTypes {
@@ -4788,6 +4846,10 @@ public struct UpdateLocationFsxOpenZfsOutput: Swift.Sendable {
 }
 
 public struct UpdateLocationFsxWindowsInput: Swift.Sendable {
+    /// Specifies configuration information for a DataSync-managed secret, such as a Password or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+    public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
+    /// Specifies configuration information for a customer-managed secret, such as a Password or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
+    public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
     /// Specifies the name of the Windows domain that your FSx for Windows File Server file system belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file system.
     public var domain: Swift.String?
     /// Specifies the ARN of the FSx for Windows File Server transfer location that you're updating.
@@ -4801,12 +4863,16 @@ public struct UpdateLocationFsxWindowsInput: Swift.Sendable {
     public var user: Swift.String?
 
     public init(
+        cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig? = nil,
+        customSecretConfig: DataSyncClientTypes.CustomSecretConfig? = nil,
         domain: Swift.String? = nil,
         locationArn: Swift.String? = nil,
         password: Swift.String? = nil,
         subdirectory: Swift.String? = nil,
         user: Swift.String? = nil
     ) {
+        self.cmkSecretConfig = cmkSecretConfig
+        self.customSecretConfig = customSecretConfig
         self.domain = domain
         self.locationArn = locationArn
         self.password = password
@@ -4817,7 +4883,7 @@ public struct UpdateLocationFsxWindowsInput: Swift.Sendable {
 
 extension UpdateLocationFsxWindowsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateLocationFsxWindowsInput(domain: \(Swift.String(describing: domain)), locationArn: \(Swift.String(describing: locationArn)), subdirectory: \(Swift.String(describing: subdirectory)), user: \(Swift.String(describing: user)), password: \"CONTENT_REDACTED\")"}
+        "UpdateLocationFsxWindowsInput(cmkSecretConfig: \(Swift.String(describing: cmkSecretConfig)), customSecretConfig: \(Swift.String(describing: customSecretConfig)), domain: \(Swift.String(describing: domain)), locationArn: \(Swift.String(describing: locationArn)), subdirectory: \(Swift.String(describing: subdirectory)), user: \(Swift.String(describing: user)), password: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateLocationFsxWindowsOutput: Swift.Sendable {
@@ -4832,6 +4898,10 @@ public struct UpdateLocationHdfsInput: Swift.Sendable {
     public var authenticationType: DataSyncClientTypes.HdfsAuthenticationType?
     /// The size of the data blocks to write into the HDFS cluster.
     public var blockSize: Swift.Int?
+    /// Specifies configuration information for a DataSync-managed secret, such as a KerberosKeytab or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+    public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
+    /// Specifies configuration information for a customer-managed secret, such as a KerberosKeytab or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
+    public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
     /// The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address.
     public var kerberosKeytab: Foundation.Data?
     /// The krb5.conf file that contains the Kerberos configuration information. You can load the krb5.conf file by providing the file's address. If you're using the CLI, it performs the base64 encoding for you. Otherwise, provide the base64-encoded text.
@@ -4858,6 +4928,8 @@ public struct UpdateLocationHdfsInput: Swift.Sendable {
         agentArns: [Swift.String]? = nil,
         authenticationType: DataSyncClientTypes.HdfsAuthenticationType? = nil,
         blockSize: Swift.Int? = nil,
+        cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig? = nil,
+        customSecretConfig: DataSyncClientTypes.CustomSecretConfig? = nil,
         kerberosKeytab: Foundation.Data? = nil,
         kerberosKrb5Conf: Foundation.Data? = nil,
         kerberosPrincipal: Swift.String? = nil,
@@ -4872,6 +4944,8 @@ public struct UpdateLocationHdfsInput: Swift.Sendable {
         self.agentArns = agentArns
         self.authenticationType = authenticationType
         self.blockSize = blockSize
+        self.cmkSecretConfig = cmkSecretConfig
+        self.customSecretConfig = customSecretConfig
         self.kerberosKeytab = kerberosKeytab
         self.kerberosKrb5Conf = kerberosKrb5Conf
         self.kerberosPrincipal = kerberosPrincipal
@@ -4930,7 +5004,7 @@ public struct UpdateLocationObjectStorageInput: Swift.Sendable {
     public var agentArns: [Swift.String]?
     /// Specifies configuration information for a DataSync-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
     public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
-    /// Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+    /// Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
     public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
     /// Specifies the ARN of the object storage system location that you're updating.
     /// This member is required.
@@ -5038,7 +5112,7 @@ public struct UpdateLocationSmbInput: Swift.Sendable {
     public var authenticationType: DataSyncClientTypes.SmbAuthenticationType?
     /// Specifies configuration information for a DataSync-managed secret, such as a Password or KerberosKeytab or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
     public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
-    /// Specifies configuration information for a customer-managed secret, such as a Password or KerberosKeytab or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+    /// Specifies configuration information for a customer-managed secret, such as a Password or KerberosKeytab or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
     public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
     /// Specifies the IP addresses (IPv4 or IPv6) for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
     public var dnsIpAddresses: [Swift.String]?
@@ -5643,6 +5717,8 @@ extension CreateLocationFsxWindowsInput {
 
     static func write(value: CreateLocationFsxWindowsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CmkSecretConfig"].write(value.cmkSecretConfig, with: DataSyncClientTypes.CmkSecretConfig.write(value:to:))
+        try writer["CustomSecretConfig"].write(value.customSecretConfig, with: DataSyncClientTypes.CustomSecretConfig.write(value:to:))
         try writer["Domain"].write(value.domain)
         try writer["FsxFilesystemArn"].write(value.fsxFilesystemArn)
         try writer["Password"].write(value.password)
@@ -5660,6 +5736,8 @@ extension CreateLocationHdfsInput {
         try writer["AgentArns"].writeList(value.agentArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AuthenticationType"].write(value.authenticationType)
         try writer["BlockSize"].write(value.blockSize)
+        try writer["CmkSecretConfig"].write(value.cmkSecretConfig, with: DataSyncClientTypes.CmkSecretConfig.write(value:to:))
+        try writer["CustomSecretConfig"].write(value.customSecretConfig, with: DataSyncClientTypes.CustomSecretConfig.write(value:to:))
         try writer["KerberosKeytab"].write(value.kerberosKeytab)
         try writer["KerberosKrb5Conf"].write(value.kerberosKrb5Conf)
         try writer["KerberosPrincipal"].write(value.kerberosPrincipal)
@@ -6045,6 +6123,8 @@ extension UpdateLocationFsxWindowsInput {
 
     static func write(value: UpdateLocationFsxWindowsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CmkSecretConfig"].write(value.cmkSecretConfig, with: DataSyncClientTypes.CmkSecretConfig.write(value:to:))
+        try writer["CustomSecretConfig"].write(value.customSecretConfig, with: DataSyncClientTypes.CustomSecretConfig.write(value:to:))
         try writer["Domain"].write(value.domain)
         try writer["LocationArn"].write(value.locationArn)
         try writer["Password"].write(value.password)
@@ -6060,6 +6140,8 @@ extension UpdateLocationHdfsInput {
         try writer["AgentArns"].writeList(value.agentArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AuthenticationType"].write(value.authenticationType)
         try writer["BlockSize"].write(value.blockSize)
+        try writer["CmkSecretConfig"].write(value.cmkSecretConfig, with: DataSyncClientTypes.CmkSecretConfig.write(value:to:))
+        try writer["CustomSecretConfig"].write(value.customSecretConfig, with: DataSyncClientTypes.CustomSecretConfig.write(value:to:))
         try writer["KerberosKeytab"].write(value.kerberosKeytab)
         try writer["KerberosKrb5Conf"].write(value.kerberosKrb5Conf)
         try writer["KerberosPrincipal"].write(value.kerberosPrincipal)
@@ -6459,10 +6541,13 @@ extension DescribeLocationFsxWindowsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeLocationFsxWindowsOutput()
+        value.cmkSecretConfig = try reader["CmkSecretConfig"].readIfPresent(with: DataSyncClientTypes.CmkSecretConfig.read(from:))
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.customSecretConfig = try reader["CustomSecretConfig"].readIfPresent(with: DataSyncClientTypes.CustomSecretConfig.read(from:))
         value.domain = try reader["Domain"].readIfPresent()
         value.locationArn = try reader["LocationArn"].readIfPresent()
         value.locationUri = try reader["LocationUri"].readIfPresent()
+        value.managedSecretConfig = try reader["ManagedSecretConfig"].readIfPresent(with: DataSyncClientTypes.ManagedSecretConfig.read(from:))
         value.securityGroupArns = try reader["SecurityGroupArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.user = try reader["User"].readIfPresent()
         return value
@@ -6479,11 +6564,14 @@ extension DescribeLocationHdfsOutput {
         value.agentArns = try reader["AgentArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.authenticationType = try reader["AuthenticationType"].readIfPresent()
         value.blockSize = try reader["BlockSize"].readIfPresent()
+        value.cmkSecretConfig = try reader["CmkSecretConfig"].readIfPresent(with: DataSyncClientTypes.CmkSecretConfig.read(from:))
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.customSecretConfig = try reader["CustomSecretConfig"].readIfPresent(with: DataSyncClientTypes.CustomSecretConfig.read(from:))
         value.kerberosPrincipal = try reader["KerberosPrincipal"].readIfPresent()
         value.kmsKeyProviderUri = try reader["KmsKeyProviderUri"].readIfPresent()
         value.locationArn = try reader["LocationArn"].readIfPresent()
         value.locationUri = try reader["LocationUri"].readIfPresent()
+        value.managedSecretConfig = try reader["ManagedSecretConfig"].readIfPresent(with: DataSyncClientTypes.ManagedSecretConfig.read(from:))
         value.nameNodes = try reader["NameNodes"].readListIfPresent(memberReadingClosure: DataSyncClientTypes.HdfsNameNode.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.qopConfiguration = try reader["QopConfiguration"].readIfPresent(with: DataSyncClientTypes.QopConfiguration.read(from:))
         value.replicationFactor = try reader["ReplicationFactor"].readIfPresent()
@@ -6842,7 +6930,7 @@ enum CancelTaskExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6857,7 +6945,7 @@ enum CreateAgentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6872,7 +6960,7 @@ enum CreateLocationAzureBlobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6887,7 +6975,7 @@ enum CreateLocationEfsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6902,7 +6990,7 @@ enum CreateLocationFsxLustreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6917,7 +7005,7 @@ enum CreateLocationFsxOntapOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6932,7 +7020,7 @@ enum CreateLocationFsxOpenZfsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6947,7 +7035,7 @@ enum CreateLocationFsxWindowsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6962,7 +7050,7 @@ enum CreateLocationHdfsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6977,7 +7065,7 @@ enum CreateLocationNfsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -6992,7 +7080,7 @@ enum CreateLocationObjectStorageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7007,7 +7095,7 @@ enum CreateLocationS3OutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7022,7 +7110,7 @@ enum CreateLocationSmbOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7037,7 +7125,7 @@ enum CreateTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7052,7 +7140,7 @@ enum DeleteAgentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7067,7 +7155,7 @@ enum DeleteLocationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7082,7 +7170,7 @@ enum DeleteTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7097,7 +7185,7 @@ enum DescribeAgentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7112,7 +7200,7 @@ enum DescribeLocationAzureBlobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7127,7 +7215,7 @@ enum DescribeLocationEfsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7142,7 +7230,7 @@ enum DescribeLocationFsxLustreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7157,7 +7245,7 @@ enum DescribeLocationFsxOntapOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7172,7 +7260,7 @@ enum DescribeLocationFsxOpenZfsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7187,7 +7275,7 @@ enum DescribeLocationFsxWindowsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7202,7 +7290,7 @@ enum DescribeLocationHdfsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7217,7 +7305,7 @@ enum DescribeLocationNfsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7232,7 +7320,7 @@ enum DescribeLocationObjectStorageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7247,7 +7335,7 @@ enum DescribeLocationS3OutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7262,7 +7350,7 @@ enum DescribeLocationSmbOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7277,7 +7365,7 @@ enum DescribeTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7292,7 +7380,7 @@ enum DescribeTaskExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7307,7 +7395,7 @@ enum ListAgentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7322,7 +7410,7 @@ enum ListLocationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7337,7 +7425,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7352,7 +7440,7 @@ enum ListTaskExecutionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7367,7 +7455,7 @@ enum ListTasksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7382,7 +7470,7 @@ enum StartTaskExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7397,7 +7485,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7412,7 +7500,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7427,7 +7515,7 @@ enum UpdateAgentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7442,7 +7530,7 @@ enum UpdateLocationAzureBlobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7457,7 +7545,7 @@ enum UpdateLocationEfsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7472,7 +7560,7 @@ enum UpdateLocationFsxLustreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7487,7 +7575,7 @@ enum UpdateLocationFsxOntapOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7502,7 +7590,7 @@ enum UpdateLocationFsxOpenZfsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7517,7 +7605,7 @@ enum UpdateLocationFsxWindowsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7532,7 +7620,7 @@ enum UpdateLocationHdfsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7547,7 +7635,7 @@ enum UpdateLocationNfsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7562,7 +7650,7 @@ enum UpdateLocationObjectStorageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7577,7 +7665,7 @@ enum UpdateLocationS3OutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7592,7 +7680,7 @@ enum UpdateLocationSmbOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7607,7 +7695,7 @@ enum UpdateTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7622,7 +7710,7 @@ enum UpdateTaskExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -7634,7 +7722,7 @@ enum UpdateTaskExecutionOutputError {
 
 extension InternalException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalException {
         let reader = baseError.errorBodyReader
         var value = InternalException()
         value.properties.errorCode = try reader["errorCode"].readIfPresent()
@@ -7648,7 +7736,7 @@ extension InternalException {
 
 extension InvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRequestException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
         var value = InvalidRequestException()
         value.properties.datasyncErrorCode = try reader["datasyncErrorCode"].readIfPresent()
@@ -7661,36 +7749,24 @@ extension InvalidRequestException {
     }
 }
 
-extension DataSyncClientTypes.PrivateLinkConfig {
+extension DataSyncClientTypes.AgentListEntry {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.PrivateLinkConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.AgentListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.PrivateLinkConfig()
-        value.vpcEndpointId = try reader["VpcEndpointId"].readIfPresent()
-        value.privateLinkEndpoint = try reader["PrivateLinkEndpoint"].readIfPresent()
-        value.subnetArns = try reader["SubnetArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupArns = try reader["SecurityGroupArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = DataSyncClientTypes.AgentListEntry()
+        value.agentArn = try reader["AgentArn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.platform = try reader["Platform"].readIfPresent(with: DataSyncClientTypes.Platform.read(from:))
         return value
     }
 }
 
-extension DataSyncClientTypes.Platform {
+extension DataSyncClientTypes.AzureBlobSasConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.Platform {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.Platform()
-        value.version = try reader["Version"].readIfPresent()
-        return value
-    }
-}
-
-extension DataSyncClientTypes.ManagedSecretConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.ManagedSecretConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.ManagedSecretConfig()
-        value.secretArn = try reader["SecretArn"].readIfPresent()
-        return value
+    static func write(value: DataSyncClientTypes.AzureBlobSasConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Token"].write(value.token)
     }
 }
 
@@ -7745,6 +7821,23 @@ extension DataSyncClientTypes.Ec2Config {
     }
 }
 
+extension DataSyncClientTypes.FilterRule {
+
+    static func write(value: DataSyncClientTypes.FilterRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FilterType"].write(value.filterType)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.FilterRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataSyncClientTypes.FilterRule()
+        value.filterType = try reader["FilterType"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
 extension DataSyncClientTypes.FsxProtocol {
 
     static func write(value: DataSyncClientTypes.FsxProtocol?, to writer: SmithyJSON.Writer) throws {
@@ -7758,42 +7851,6 @@ extension DataSyncClientTypes.FsxProtocol {
         var value = DataSyncClientTypes.FsxProtocol()
         value.nfs = try reader["NFS"].readIfPresent(with: DataSyncClientTypes.FsxProtocolNfs.read(from:))
         value.smb = try reader["SMB"].readIfPresent(with: DataSyncClientTypes.FsxProtocolSmb.read(from:))
-        return value
-    }
-}
-
-extension DataSyncClientTypes.FsxProtocolSmb {
-
-    static func write(value: DataSyncClientTypes.FsxProtocolSmb?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Domain"].write(value.domain)
-        try writer["MountOptions"].write(value.mountOptions, with: DataSyncClientTypes.SmbMountOptions.write(value:to:))
-        try writer["Password"].write(value.password)
-        try writer["User"].write(value.user)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.FsxProtocolSmb {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.FsxProtocolSmb()
-        value.domain = try reader["Domain"].readIfPresent()
-        value.mountOptions = try reader["MountOptions"].readIfPresent(with: DataSyncClientTypes.SmbMountOptions.read(from:))
-        value.password = try reader["Password"].readIfPresent() ?? ""
-        value.user = try reader["User"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataSyncClientTypes.SmbMountOptions {
-
-    static func write(value: DataSyncClientTypes.SmbMountOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Version"].write(value.version)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.SmbMountOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.SmbMountOptions()
-        value.version = try reader["Version"].readIfPresent()
         return value
     }
 }
@@ -7813,18 +7870,52 @@ extension DataSyncClientTypes.FsxProtocolNfs {
     }
 }
 
-extension DataSyncClientTypes.NfsMountOptions {
+extension DataSyncClientTypes.FsxProtocolSmb {
 
-    static func write(value: DataSyncClientTypes.NfsMountOptions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataSyncClientTypes.FsxProtocolSmb?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Version"].write(value.version)
+        try writer["CmkSecretConfig"].write(value.cmkSecretConfig, with: DataSyncClientTypes.CmkSecretConfig.write(value:to:))
+        try writer["CustomSecretConfig"].write(value.customSecretConfig, with: DataSyncClientTypes.CustomSecretConfig.write(value:to:))
+        try writer["Domain"].write(value.domain)
+        try writer["ManagedSecretConfig"].write(value.managedSecretConfig, with: DataSyncClientTypes.ManagedSecretConfig.write(value:to:))
+        try writer["MountOptions"].write(value.mountOptions, with: DataSyncClientTypes.SmbMountOptions.write(value:to:))
+        try writer["Password"].write(value.password)
+        try writer["User"].write(value.user)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.NfsMountOptions {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.FsxProtocolSmb {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.NfsMountOptions()
-        value.version = try reader["Version"].readIfPresent()
+        var value = DataSyncClientTypes.FsxProtocolSmb()
+        value.domain = try reader["Domain"].readIfPresent()
+        value.mountOptions = try reader["MountOptions"].readIfPresent(with: DataSyncClientTypes.SmbMountOptions.read(from:))
+        value.password = try reader["Password"].readIfPresent() ?? ""
+        value.user = try reader["User"].readIfPresent() ?? ""
+        value.managedSecretConfig = try reader["ManagedSecretConfig"].readIfPresent(with: DataSyncClientTypes.ManagedSecretConfig.read(from:))
+        value.cmkSecretConfig = try reader["CmkSecretConfig"].readIfPresent(with: DataSyncClientTypes.CmkSecretConfig.read(from:))
+        value.customSecretConfig = try reader["CustomSecretConfig"].readIfPresent(with: DataSyncClientTypes.CustomSecretConfig.read(from:))
         return value
+    }
+}
+
+extension DataSyncClientTypes.FsxUpdateProtocol {
+
+    static func write(value: DataSyncClientTypes.FsxUpdateProtocol?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NFS"].write(value.nfs, with: DataSyncClientTypes.FsxProtocolNfs.write(value:to:))
+        try writer["SMB"].write(value.smb, with: DataSyncClientTypes.FsxUpdateProtocolSmb.write(value:to:))
+    }
+}
+
+extension DataSyncClientTypes.FsxUpdateProtocolSmb {
+
+    static func write(value: DataSyncClientTypes.FsxUpdateProtocolSmb?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CmkSecretConfig"].write(value.cmkSecretConfig, with: DataSyncClientTypes.CmkSecretConfig.write(value:to:))
+        try writer["CustomSecretConfig"].write(value.customSecretConfig, with: DataSyncClientTypes.CustomSecretConfig.write(value:to:))
+        try writer["Domain"].write(value.domain)
+        try writer["MountOptions"].write(value.mountOptions, with: DataSyncClientTypes.SmbMountOptions.write(value:to:))
+        try writer["Password"].write(value.password)
+        try writer["User"].write(value.user)
     }
 }
 
@@ -7845,19 +7936,72 @@ extension DataSyncClientTypes.HdfsNameNode {
     }
 }
 
-extension DataSyncClientTypes.QopConfiguration {
+extension DataSyncClientTypes.LocationFilter {
 
-    static func write(value: DataSyncClientTypes.QopConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataSyncClientTypes.LocationFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DataTransferProtection"].write(value.dataTransferProtection)
-        try writer["RpcProtection"].write(value.rpcProtection)
+        try writer["Name"].write(value.name)
+        try writer["Operator"].write(value.`operator`)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DataSyncClientTypes.LocationListEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.LocationListEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataSyncClientTypes.LocationListEntry()
+        value.locationArn = try reader["LocationArn"].readIfPresent()
+        value.locationUri = try reader["LocationUri"].readIfPresent()
+        return value
+    }
+}
+
+extension DataSyncClientTypes.ManagedSecretConfig {
+
+    static func write(value: DataSyncClientTypes.ManagedSecretConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SecretArn"].write(value.secretArn)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.QopConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.ManagedSecretConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.QopConfiguration()
-        value.rpcProtection = try reader["RpcProtection"].readIfPresent()
-        value.dataTransferProtection = try reader["DataTransferProtection"].readIfPresent()
+        var value = DataSyncClientTypes.ManagedSecretConfig()
+        value.secretArn = try reader["SecretArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DataSyncClientTypes.ManifestConfig {
+
+    static func write(value: DataSyncClientTypes.ManifestConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["Format"].write(value.format)
+        try writer["Source"].write(value.source, with: DataSyncClientTypes.SourceManifestConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.ManifestConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataSyncClientTypes.ManifestConfig()
+        value.action = try reader["Action"].readIfPresent()
+        value.format = try reader["Format"].readIfPresent()
+        value.source = try reader["Source"].readIfPresent(with: DataSyncClientTypes.SourceManifestConfig.read(from:))
+        return value
+    }
+}
+
+extension DataSyncClientTypes.NfsMountOptions {
+
+    static func write(value: DataSyncClientTypes.NfsMountOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Version"].write(value.version)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.NfsMountOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataSyncClientTypes.NfsMountOptions()
+        value.version = try reader["Version"].readIfPresent()
         return value
     }
 }
@@ -7873,21 +8017,6 @@ extension DataSyncClientTypes.OnPremConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.OnPremConfig()
         value.agentArns = try reader["AgentArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension DataSyncClientTypes.S3Config {
-
-    static func write(value: DataSyncClientTypes.S3Config?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BucketAccessRoleArn"].write(value.bucketAccessRoleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.S3Config {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.S3Config()
-        value.bucketAccessRoleArn = try reader["BucketAccessRoleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7935,150 +8064,42 @@ extension DataSyncClientTypes.Options {
     }
 }
 
-extension DataSyncClientTypes.FilterRule {
+extension DataSyncClientTypes.Platform {
 
-    static func write(value: DataSyncClientTypes.FilterRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FilterType"].write(value.filterType)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.FilterRule {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.Platform {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.FilterRule()
-        value.filterType = try reader["FilterType"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        var value = DataSyncClientTypes.Platform()
+        value.version = try reader["Version"].readIfPresent()
         return value
     }
 }
 
-extension DataSyncClientTypes.TaskSchedule {
+extension DataSyncClientTypes.PrivateLinkConfig {
 
-    static func write(value: DataSyncClientTypes.TaskSchedule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ScheduleExpression"].write(value.scheduleExpression)
-        try writer["Status"].write(value.status)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskSchedule {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.PrivateLinkConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.TaskSchedule()
-        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent()
+        var value = DataSyncClientTypes.PrivateLinkConfig()
+        value.vpcEndpointId = try reader["VpcEndpointId"].readIfPresent()
+        value.privateLinkEndpoint = try reader["PrivateLinkEndpoint"].readIfPresent()
+        value.subnetArns = try reader["SubnetArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupArns = try reader["SecurityGroupArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension DataSyncClientTypes.ManifestConfig {
+extension DataSyncClientTypes.QopConfiguration {
 
-    static func write(value: DataSyncClientTypes.ManifestConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataSyncClientTypes.QopConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["Format"].write(value.format)
-        try writer["Source"].write(value.source, with: DataSyncClientTypes.SourceManifestConfig.write(value:to:))
+        try writer["DataTransferProtection"].write(value.dataTransferProtection)
+        try writer["RpcProtection"].write(value.rpcProtection)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.ManifestConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.QopConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.ManifestConfig()
-        value.action = try reader["Action"].readIfPresent()
-        value.format = try reader["Format"].readIfPresent()
-        value.source = try reader["Source"].readIfPresent(with: DataSyncClientTypes.SourceManifestConfig.read(from:))
-        return value
-    }
-}
-
-extension DataSyncClientTypes.SourceManifestConfig {
-
-    static func write(value: DataSyncClientTypes.SourceManifestConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3"].write(value.s3, with: DataSyncClientTypes.S3ManifestConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.SourceManifestConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.SourceManifestConfig()
-        value.s3 = try reader["S3"].readIfPresent(with: DataSyncClientTypes.S3ManifestConfig.read(from:))
-        return value
-    }
-}
-
-extension DataSyncClientTypes.S3ManifestConfig {
-
-    static func write(value: DataSyncClientTypes.S3ManifestConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BucketAccessRoleArn"].write(value.bucketAccessRoleArn)
-        try writer["ManifestObjectPath"].write(value.manifestObjectPath)
-        try writer["ManifestObjectVersionId"].write(value.manifestObjectVersionId)
-        try writer["S3BucketArn"].write(value.s3BucketArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.S3ManifestConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.S3ManifestConfig()
-        value.manifestObjectPath = try reader["ManifestObjectPath"].readIfPresent() ?? ""
-        value.bucketAccessRoleArn = try reader["BucketAccessRoleArn"].readIfPresent() ?? ""
-        value.s3BucketArn = try reader["S3BucketArn"].readIfPresent() ?? ""
-        value.manifestObjectVersionId = try reader["ManifestObjectVersionId"].readIfPresent()
-        return value
-    }
-}
-
-extension DataSyncClientTypes.TaskReportConfig {
-
-    static func write(value: DataSyncClientTypes.TaskReportConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Destination"].write(value.destination, with: DataSyncClientTypes.ReportDestination.write(value:to:))
-        try writer["ObjectVersionIds"].write(value.objectVersionIds)
-        try writer["OutputType"].write(value.outputType)
-        try writer["Overrides"].write(value.overrides, with: DataSyncClientTypes.ReportOverrides.write(value:to:))
-        try writer["ReportLevel"].write(value.reportLevel)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskReportConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.TaskReportConfig()
-        value.destination = try reader["Destination"].readIfPresent(with: DataSyncClientTypes.ReportDestination.read(from:))
-        value.outputType = try reader["OutputType"].readIfPresent()
-        value.reportLevel = try reader["ReportLevel"].readIfPresent()
-        value.objectVersionIds = try reader["ObjectVersionIds"].readIfPresent()
-        value.overrides = try reader["Overrides"].readIfPresent(with: DataSyncClientTypes.ReportOverrides.read(from:))
-        return value
-    }
-}
-
-extension DataSyncClientTypes.ReportOverrides {
-
-    static func write(value: DataSyncClientTypes.ReportOverrides?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Deleted"].write(value.deleted, with: DataSyncClientTypes.ReportOverride.write(value:to:))
-        try writer["Skipped"].write(value.skipped, with: DataSyncClientTypes.ReportOverride.write(value:to:))
-        try writer["Transferred"].write(value.transferred, with: DataSyncClientTypes.ReportOverride.write(value:to:))
-        try writer["Verified"].write(value.verified, with: DataSyncClientTypes.ReportOverride.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.ReportOverrides {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.ReportOverrides()
-        value.transferred = try reader["Transferred"].readIfPresent(with: DataSyncClientTypes.ReportOverride.read(from:))
-        value.verified = try reader["Verified"].readIfPresent(with: DataSyncClientTypes.ReportOverride.read(from:))
-        value.deleted = try reader["Deleted"].readIfPresent(with: DataSyncClientTypes.ReportOverride.read(from:))
-        value.skipped = try reader["Skipped"].readIfPresent(with: DataSyncClientTypes.ReportOverride.read(from:))
-        return value
-    }
-}
-
-extension DataSyncClientTypes.ReportOverride {
-
-    static func write(value: DataSyncClientTypes.ReportOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ReportLevel"].write(value.reportLevel)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.ReportOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.ReportOverride()
-        value.reportLevel = try reader["ReportLevel"].readIfPresent()
+        var value = DataSyncClientTypes.QopConfiguration()
+        value.rpcProtection = try reader["RpcProtection"].readIfPresent()
+        value.dataTransferProtection = try reader["DataTransferProtection"].readIfPresent()
         return value
     }
 }
@@ -8117,14 +8138,194 @@ extension DataSyncClientTypes.ReportDestinationS3 {
     }
 }
 
-extension DataSyncClientTypes.TaskScheduleDetails {
+extension DataSyncClientTypes.ReportOverride {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskScheduleDetails {
+    static func write(value: DataSyncClientTypes.ReportOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ReportLevel"].write(value.reportLevel)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.ReportOverride {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.TaskScheduleDetails()
-        value.statusUpdateTime = try reader["StatusUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.disabledReason = try reader["DisabledReason"].readIfPresent()
-        value.disabledBy = try reader["DisabledBy"].readIfPresent()
+        var value = DataSyncClientTypes.ReportOverride()
+        value.reportLevel = try reader["ReportLevel"].readIfPresent()
+        return value
+    }
+}
+
+extension DataSyncClientTypes.ReportOverrides {
+
+    static func write(value: DataSyncClientTypes.ReportOverrides?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Deleted"].write(value.deleted, with: DataSyncClientTypes.ReportOverride.write(value:to:))
+        try writer["Skipped"].write(value.skipped, with: DataSyncClientTypes.ReportOverride.write(value:to:))
+        try writer["Transferred"].write(value.transferred, with: DataSyncClientTypes.ReportOverride.write(value:to:))
+        try writer["Verified"].write(value.verified, with: DataSyncClientTypes.ReportOverride.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.ReportOverrides {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataSyncClientTypes.ReportOverrides()
+        value.transferred = try reader["Transferred"].readIfPresent(with: DataSyncClientTypes.ReportOverride.read(from:))
+        value.verified = try reader["Verified"].readIfPresent(with: DataSyncClientTypes.ReportOverride.read(from:))
+        value.deleted = try reader["Deleted"].readIfPresent(with: DataSyncClientTypes.ReportOverride.read(from:))
+        value.skipped = try reader["Skipped"].readIfPresent(with: DataSyncClientTypes.ReportOverride.read(from:))
+        return value
+    }
+}
+
+extension DataSyncClientTypes.ReportResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.ReportResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataSyncClientTypes.ReportResult()
+        value.status = try reader["Status"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorDetail = try reader["ErrorDetail"].readIfPresent()
+        return value
+    }
+}
+
+extension DataSyncClientTypes.S3Config {
+
+    static func write(value: DataSyncClientTypes.S3Config?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BucketAccessRoleArn"].write(value.bucketAccessRoleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.S3Config {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataSyncClientTypes.S3Config()
+        value.bucketAccessRoleArn = try reader["BucketAccessRoleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataSyncClientTypes.S3ManifestConfig {
+
+    static func write(value: DataSyncClientTypes.S3ManifestConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BucketAccessRoleArn"].write(value.bucketAccessRoleArn)
+        try writer["ManifestObjectPath"].write(value.manifestObjectPath)
+        try writer["ManifestObjectVersionId"].write(value.manifestObjectVersionId)
+        try writer["S3BucketArn"].write(value.s3BucketArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.S3ManifestConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataSyncClientTypes.S3ManifestConfig()
+        value.manifestObjectPath = try reader["ManifestObjectPath"].readIfPresent() ?? ""
+        value.bucketAccessRoleArn = try reader["BucketAccessRoleArn"].readIfPresent() ?? ""
+        value.s3BucketArn = try reader["S3BucketArn"].readIfPresent() ?? ""
+        value.manifestObjectVersionId = try reader["ManifestObjectVersionId"].readIfPresent()
+        return value
+    }
+}
+
+extension DataSyncClientTypes.SmbMountOptions {
+
+    static func write(value: DataSyncClientTypes.SmbMountOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Version"].write(value.version)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.SmbMountOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataSyncClientTypes.SmbMountOptions()
+        value.version = try reader["Version"].readIfPresent()
+        return value
+    }
+}
+
+extension DataSyncClientTypes.SourceManifestConfig {
+
+    static func write(value: DataSyncClientTypes.SourceManifestConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3"].write(value.s3, with: DataSyncClientTypes.S3ManifestConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.SourceManifestConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataSyncClientTypes.SourceManifestConfig()
+        value.s3 = try reader["S3"].readIfPresent(with: DataSyncClientTypes.S3ManifestConfig.read(from:))
+        return value
+    }
+}
+
+extension DataSyncClientTypes.TagListEntry {
+
+    static func write(value: DataSyncClientTypes.TagListEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TagListEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataSyncClientTypes.TagListEntry()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension DataSyncClientTypes.TaskExecutionFilesFailedDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskExecutionFilesFailedDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataSyncClientTypes.TaskExecutionFilesFailedDetail()
+        value.prepare = try reader["Prepare"].readIfPresent() ?? 0
+        value.transfer = try reader["Transfer"].readIfPresent() ?? 0
+        value.verify = try reader["Verify"].readIfPresent() ?? 0
+        value.delete = try reader["Delete"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension DataSyncClientTypes.TaskExecutionFilesListedDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskExecutionFilesListedDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataSyncClientTypes.TaskExecutionFilesListedDetail()
+        value.atSource = try reader["AtSource"].readIfPresent() ?? 0
+        value.atDestinationForDelete = try reader["AtDestinationForDelete"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension DataSyncClientTypes.TaskExecutionFoldersFailedDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskExecutionFoldersFailedDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataSyncClientTypes.TaskExecutionFoldersFailedDetail()
+        value.list = try reader["List"].readIfPresent() ?? 0
+        value.prepare = try reader["Prepare"].readIfPresent() ?? 0
+        value.transfer = try reader["Transfer"].readIfPresent() ?? 0
+        value.verify = try reader["Verify"].readIfPresent() ?? 0
+        value.delete = try reader["Delete"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension DataSyncClientTypes.TaskExecutionFoldersListedDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskExecutionFoldersListedDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataSyncClientTypes.TaskExecutionFoldersListedDetail()
+        value.atSource = try reader["AtSource"].readIfPresent() ?? 0
+        value.atDestinationForDelete = try reader["AtDestinationForDelete"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension DataSyncClientTypes.TaskExecutionListEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskExecutionListEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataSyncClientTypes.TaskExecutionListEntry()
+        value.taskExecutionArn = try reader["TaskExecutionArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.taskMode = try reader["TaskMode"].readIfPresent()
         return value
     }
 }
@@ -8147,117 +8348,13 @@ extension DataSyncClientTypes.TaskExecutionResultDetail {
     }
 }
 
-extension DataSyncClientTypes.ReportResult {
+extension DataSyncClientTypes.TaskFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.ReportResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.ReportResult()
-        value.status = try reader["Status"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorDetail = try reader["ErrorDetail"].readIfPresent()
-        return value
-    }
-}
-
-extension DataSyncClientTypes.TaskExecutionFilesListedDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskExecutionFilesListedDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.TaskExecutionFilesListedDetail()
-        value.atSource = try reader["AtSource"].readIfPresent() ?? 0
-        value.atDestinationForDelete = try reader["AtDestinationForDelete"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension DataSyncClientTypes.TaskExecutionFilesFailedDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskExecutionFilesFailedDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.TaskExecutionFilesFailedDetail()
-        value.prepare = try reader["Prepare"].readIfPresent() ?? 0
-        value.transfer = try reader["Transfer"].readIfPresent() ?? 0
-        value.verify = try reader["Verify"].readIfPresent() ?? 0
-        value.delete = try reader["Delete"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension DataSyncClientTypes.TaskExecutionFoldersListedDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskExecutionFoldersListedDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.TaskExecutionFoldersListedDetail()
-        value.atSource = try reader["AtSource"].readIfPresent() ?? 0
-        value.atDestinationForDelete = try reader["AtDestinationForDelete"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension DataSyncClientTypes.TaskExecutionFoldersFailedDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskExecutionFoldersFailedDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.TaskExecutionFoldersFailedDetail()
-        value.list = try reader["List"].readIfPresent() ?? 0
-        value.prepare = try reader["Prepare"].readIfPresent() ?? 0
-        value.transfer = try reader["Transfer"].readIfPresent() ?? 0
-        value.verify = try reader["Verify"].readIfPresent() ?? 0
-        value.delete = try reader["Delete"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension DataSyncClientTypes.AgentListEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.AgentListEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.AgentListEntry()
-        value.agentArn = try reader["AgentArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.platform = try reader["Platform"].readIfPresent(with: DataSyncClientTypes.Platform.read(from:))
-        return value
-    }
-}
-
-extension DataSyncClientTypes.LocationListEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.LocationListEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.LocationListEntry()
-        value.locationArn = try reader["LocationArn"].readIfPresent()
-        value.locationUri = try reader["LocationUri"].readIfPresent()
-        return value
-    }
-}
-
-extension DataSyncClientTypes.TagListEntry {
-
-    static func write(value: DataSyncClientTypes.TagListEntry?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataSyncClientTypes.TaskFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TagListEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.TagListEntry()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension DataSyncClientTypes.TaskExecutionListEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskExecutionListEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.TaskExecutionListEntry()
-        value.taskExecutionArn = try reader["TaskExecutionArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.taskMode = try reader["TaskMode"].readIfPresent()
-        return value
+        try writer["Name"].write(value.name)
+        try writer["Operator"].write(value.`operator`)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -8274,51 +8371,55 @@ extension DataSyncClientTypes.TaskListEntry {
     }
 }
 
-extension DataSyncClientTypes.AzureBlobSasConfiguration {
+extension DataSyncClientTypes.TaskReportConfig {
 
-    static func write(value: DataSyncClientTypes.AzureBlobSasConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataSyncClientTypes.TaskReportConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Token"].write(value.token)
+        try writer["Destination"].write(value.destination, with: DataSyncClientTypes.ReportDestination.write(value:to:))
+        try writer["ObjectVersionIds"].write(value.objectVersionIds)
+        try writer["OutputType"].write(value.outputType)
+        try writer["Overrides"].write(value.overrides, with: DataSyncClientTypes.ReportOverrides.write(value:to:))
+        try writer["ReportLevel"].write(value.reportLevel)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskReportConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataSyncClientTypes.TaskReportConfig()
+        value.destination = try reader["Destination"].readIfPresent(with: DataSyncClientTypes.ReportDestination.read(from:))
+        value.outputType = try reader["OutputType"].readIfPresent()
+        value.reportLevel = try reader["ReportLevel"].readIfPresent()
+        value.objectVersionIds = try reader["ObjectVersionIds"].readIfPresent()
+        value.overrides = try reader["Overrides"].readIfPresent(with: DataSyncClientTypes.ReportOverrides.read(from:))
+        return value
     }
 }
 
-extension DataSyncClientTypes.LocationFilter {
+extension DataSyncClientTypes.TaskSchedule {
 
-    static func write(value: DataSyncClientTypes.LocationFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataSyncClientTypes.TaskSchedule?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Operator"].write(value.`operator`)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ScheduleExpression"].write(value.scheduleExpression)
+        try writer["Status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskSchedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataSyncClientTypes.TaskSchedule()
+        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
-extension DataSyncClientTypes.TaskFilter {
+extension DataSyncClientTypes.TaskScheduleDetails {
 
-    static func write(value: DataSyncClientTypes.TaskFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Operator"].write(value.`operator`)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension DataSyncClientTypes.FsxUpdateProtocol {
-
-    static func write(value: DataSyncClientTypes.FsxUpdateProtocol?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NFS"].write(value.nfs, with: DataSyncClientTypes.FsxProtocolNfs.write(value:to:))
-        try writer["SMB"].write(value.smb, with: DataSyncClientTypes.FsxUpdateProtocolSmb.write(value:to:))
-    }
-}
-
-extension DataSyncClientTypes.FsxUpdateProtocolSmb {
-
-    static func write(value: DataSyncClientTypes.FsxUpdateProtocolSmb?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Domain"].write(value.domain)
-        try writer["MountOptions"].write(value.mountOptions, with: DataSyncClientTypes.SmbMountOptions.write(value:to:))
-        try writer["Password"].write(value.password)
-        try writer["User"].write(value.user)
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskScheduleDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataSyncClientTypes.TaskScheduleDetails()
+        value.statusUpdateTime = try reader["StatusUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.disabledReason = try reader["DisabledReason"].readIfPresent()
+        value.disabledBy = try reader["DisabledBy"].readIfPresent()
+        return value
     }
 }
 

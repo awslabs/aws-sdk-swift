@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSQueryError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSQueryError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
@@ -2135,7 +2135,7 @@ public struct ServiceNotSupportedException: ClientRuntime.ModeledError, AWSClien
 }
 
 public struct CreateServiceSpecificCredentialInput: Swift.Sendable {
-    /// The number of days until the service specific credential expires. This field is only valid for Bedrock API keys and must be a positive integer. When not specified, the credential will not expire.
+    /// The number of days until the service specific credential expires. This field is only valid for Bedrock and CloudWatch Logs API keys and must be a positive integer. When not specified, the credential will not expire.
     public var credentialAgeDays: Swift.Int?
     /// The name of the Amazon Web Services service that is to be associated with the credentials. The service you specify here is the only service that can be accessed using these credentials.
     /// This member is required.
@@ -2162,11 +2162,11 @@ extension IAMClientTypes {
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the service-specific credential were created.
         /// This member is required.
         public var createDate: Foundation.Date?
-        /// The date and time when the service specific credential expires. This field is only present for Bedrock API keys that were created with an expiration period.
+        /// The date and time when the service specific credential expires. This field is only present for Bedrock API keys and CloudWatch Logs API keys that were created with an expiration period.
         public var expirationDate: Foundation.Date?
-        /// For Bedrock API keys, this is the public portion of the credential that includes the IAM user name and a suffix containing version and creation information.
+        /// For Bedrock API keys and CloudWatch Logs API keys, this is the public portion of the credential that includes the IAM user name and a suffix containing version and creation information.
         public var serviceCredentialAlias: Swift.String?
-        /// For Bedrock API keys, this is the secret portion of the credential that should be used to authenticate API calls. This value is returned only when the credential is created.
+        /// For Bedrock API keys and CloudWatch Logs API keys, this is the secret portion of the credential that should be used to authenticate API calls. This value is returned only when the credential is created.
         public var serviceCredentialSecret: Swift.String?
         /// The name of the service associated with the service-specific credential.
         /// This member is required.
@@ -4029,7 +4029,7 @@ extension IAMClientTypes {
         public var delegationRequestId: Swift.String?
         /// Description of the delegation request. This is a message that is provided by the Amazon Web Services partner that filed the delegation request.
         public var description: Swift.String?
-        /// The expiry time of this delegation request See the [Understanding the Request Lifecycle] for details on the life time of a delegation request at each state.
+        /// The expiry time of this delegation request See the [Understanding the Request Lifecycle](https://docs.aws.amazon.com/IAM/latest/UserGuide/temporary-delegation-building-integration.html#temporary-delegation-request-lifecycle) for details on the life time of a delegation request at each state.
         public var expirationTime: Foundation.Date?
         /// Notes added to this delegation request, if this request was updated via the [UpdateDelegationRequest](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateDelegationRequest.html) API.
         public var notes: Swift.String?
@@ -4053,11 +4053,11 @@ extension IAMClientTypes {
         public var requestorId: Swift.String?
         /// A friendly name of the requestor.
         public var requestorName: Swift.String?
-        /// If the PermissionPolicy includes role creation permissions, this element will include the list of permissions boundary policies associated with the role creation. See [Permissions boundaries for IAM entities] for more details about IAM permission boundaries.
+        /// If the PermissionPolicy includes role creation permissions, this element will include the list of permissions boundary policies associated with the role creation. See [Permissions boundaries for IAM entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) for more details about IAM permission boundaries.
         public var rolePermissionRestrictionArns: [Swift.String]?
         /// The life-time of the requested session credential.
         public var sessionDuration: Swift.Int?
-        /// The state of this delegation request. See the [Understanding the Request Lifecycle] for an explanation of how these states are transitioned.
+        /// The state of this delegation request. See the [Understanding the Request Lifecycle](https://docs.aws.amazon.com/IAM/latest/UserGuide/temporary-delegation-building-integration.html#temporary-delegation-request-lifecycle) for an explanation of how these states are transitioned.
         public var state: IAMClientTypes.StateType?
         /// Last updated timestamp of the request.
         public var updatedTime: Foundation.Date?
@@ -6945,9 +6945,9 @@ extension IAMClientTypes {
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the service-specific credential were created.
         /// This member is required.
         public var createDate: Foundation.Date?
-        /// The date and time when the service specific credential expires. This field is only present for Bedrock API keys that were created with an expiration period.
+        /// The date and time when the service specific credential expires. This field is only present for Bedrock API keys and CloudWatch Logs API keys that were created with an expiration period.
         public var expirationDate: Foundation.Date?
-        /// For Bedrock API keys, this is the public portion of the credential that includes the IAM user name and a suffix containing version and creation information.
+        /// For Bedrock API keys and CloudWatch Logs API keys, this is the public portion of the credential that includes the IAM user name and a suffix containing version and creation information.
         public var serviceCredentialAlias: Swift.String?
         /// The name of the service associated with the service-specific credential.
         /// This member is required.
@@ -14206,7 +14206,7 @@ enum AcceptDelegationRequestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -14222,7 +14222,7 @@ enum AddClientIDToOpenIDConnectProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -14240,7 +14240,7 @@ enum AddRoleToInstanceProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityAlreadyExists": return try EntityAlreadyExistsException.makeError(baseError: baseError)
@@ -14258,7 +14258,7 @@ enum AddUserToGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
@@ -14274,7 +14274,7 @@ enum AssociateDelegationRequestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -14291,7 +14291,7 @@ enum AttachGroupPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -14309,7 +14309,7 @@ enum AttachRolePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -14328,7 +14328,7 @@ enum AttachUserPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -14346,7 +14346,7 @@ enum ChangePasswordOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityTemporarilyUnmodifiable": return try EntityTemporarilyUnmodifiableException.makeError(baseError: baseError)
@@ -14365,7 +14365,7 @@ enum CreateAccessKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
@@ -14381,7 +14381,7 @@ enum CreateAccountAliasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -14398,7 +14398,7 @@ enum CreateDelegationRequestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -14416,7 +14416,7 @@ enum CreateGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityAlreadyExists": return try EntityAlreadyExistsException.makeError(baseError: baseError)
@@ -14433,7 +14433,7 @@ enum CreateInstanceProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -14451,7 +14451,7 @@ enum CreateLoginProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityAlreadyExists": return try EntityAlreadyExistsException.makeError(baseError: baseError)
@@ -14469,7 +14469,7 @@ enum CreateOpenIDConnectProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -14488,7 +14488,7 @@ enum CreatePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -14507,7 +14507,7 @@ enum CreatePolicyVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -14525,7 +14525,7 @@ enum CreateRoleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -14544,7 +14544,7 @@ enum CreateSAMLProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -14562,7 +14562,7 @@ enum CreateServiceLinkedRoleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -14579,7 +14579,7 @@ enum CreateServiceSpecificCredentialOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
@@ -14595,7 +14595,7 @@ enum CreateUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -14614,7 +14614,7 @@ enum CreateVirtualMFADeviceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -14632,7 +14632,7 @@ enum DeactivateMFADeviceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -14650,7 +14650,7 @@ enum DeleteAccessKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
@@ -14666,7 +14666,7 @@ enum DeleteAccountAliasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -14683,7 +14683,7 @@ enum DeleteAccountPasswordPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
@@ -14699,7 +14699,7 @@ enum DeleteGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeleteConflict": return try DeleteConflictException.makeError(baseError: baseError)
@@ -14716,7 +14716,7 @@ enum DeleteGroupPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
@@ -14732,7 +14732,7 @@ enum DeleteInstanceProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeleteConflict": return try DeleteConflictException.makeError(baseError: baseError)
@@ -14749,7 +14749,7 @@ enum DeleteLoginProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityTemporarilyUnmodifiable": return try EntityTemporarilyUnmodifiableException.makeError(baseError: baseError)
@@ -14766,7 +14766,7 @@ enum DeleteOpenIDConnectProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -14782,7 +14782,7 @@ enum DeletePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeleteConflict": return try DeleteConflictException.makeError(baseError: baseError)
@@ -14800,7 +14800,7 @@ enum DeletePolicyVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeleteConflict": return try DeleteConflictException.makeError(baseError: baseError)
@@ -14818,7 +14818,7 @@ enum DeleteRoleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -14837,7 +14837,7 @@ enum DeleteRolePermissionsBoundaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -14853,7 +14853,7 @@ enum DeleteRolePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
@@ -14870,7 +14870,7 @@ enum DeleteSAMLProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -14887,7 +14887,7 @@ enum DeleteServerCertificateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeleteConflict": return try DeleteConflictException.makeError(baseError: baseError)
@@ -14904,7 +14904,7 @@ enum DeleteServiceLinkedRoleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
@@ -14920,7 +14920,7 @@ enum DeleteServiceSpecificCredentialOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -14934,7 +14934,7 @@ enum DeleteSigningCertificateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -14951,7 +14951,7 @@ enum DeleteSSHPublicKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -14965,7 +14965,7 @@ enum DeleteUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -14983,7 +14983,7 @@ enum DeleteUserPermissionsBoundaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -14998,7 +14998,7 @@ enum DeleteUserPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
@@ -15014,7 +15014,7 @@ enum DeleteVirtualMFADeviceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -15032,7 +15032,7 @@ enum DetachGroupPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15049,7 +15049,7 @@ enum DetachRolePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15067,7 +15067,7 @@ enum DetachUserPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15084,7 +15084,7 @@ enum DisableOrganizationsRootCredentialsManagementOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccountNotManagementOrDelegatedAdministratorException": return try AccountNotManagementOrDelegatedAdministratorException.makeError(baseError: baseError)
@@ -15101,7 +15101,7 @@ enum DisableOrganizationsRootSessionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccountNotManagementOrDelegatedAdministratorException": return try AccountNotManagementOrDelegatedAdministratorException.makeError(baseError: baseError)
@@ -15118,7 +15118,7 @@ enum DisableOutboundWebIdentityFederationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FeatureDisabled": return try FeatureDisabledException.makeError(baseError: baseError)
@@ -15132,7 +15132,7 @@ enum EnableMFADeviceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -15152,7 +15152,7 @@ enum EnableOrganizationsRootCredentialsManagementOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccountNotManagementOrDelegatedAdministratorException": return try AccountNotManagementOrDelegatedAdministratorException.makeError(baseError: baseError)
@@ -15170,7 +15170,7 @@ enum EnableOrganizationsRootSessionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccountNotManagementOrDelegatedAdministratorException": return try AccountNotManagementOrDelegatedAdministratorException.makeError(baseError: baseError)
@@ -15188,7 +15188,7 @@ enum EnableOutboundWebIdentityFederationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FeatureEnabled": return try FeatureEnabledException.makeError(baseError: baseError)
@@ -15202,7 +15202,7 @@ enum GenerateCredentialReportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
@@ -15217,7 +15217,7 @@ enum GenerateOrganizationsAccessReportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ReportGenerationLimitExceeded": return try ReportGenerationLimitExceededException.makeError(baseError: baseError)
@@ -15231,7 +15231,7 @@ enum GenerateServiceLastAccessedDetailsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15246,7 +15246,7 @@ enum GetAccessKeyLastUsedOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -15259,7 +15259,7 @@ enum GetAccountAuthorizationDetailsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
@@ -15273,7 +15273,7 @@ enum GetAccountPasswordPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15288,7 +15288,7 @@ enum GetAccountSummaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
@@ -15302,7 +15302,7 @@ enum GetContextKeysForCustomPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15316,7 +15316,7 @@ enum GetContextKeysForPrincipalPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15331,7 +15331,7 @@ enum GetCredentialReportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ReportExpired": return try CredentialReportExpiredException.makeError(baseError: baseError)
@@ -15348,7 +15348,7 @@ enum GetDelegationRequestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15363,7 +15363,7 @@ enum GetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15378,7 +15378,7 @@ enum GetGroupPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15393,7 +15393,7 @@ enum GetHumanReadableSummaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15409,7 +15409,7 @@ enum GetInstanceProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15424,7 +15424,7 @@ enum GetLoginProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15439,7 +15439,7 @@ enum GetMFADeviceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15454,7 +15454,7 @@ enum GetOpenIDConnectProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15470,7 +15470,7 @@ enum GetOrganizationsAccessReportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15484,7 +15484,7 @@ enum GetOutboundWebIdentityFederationInfoOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "FeatureDisabled": return try FeatureDisabledException.makeError(baseError: baseError)
@@ -15498,7 +15498,7 @@ enum GetPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15514,7 +15514,7 @@ enum GetPolicyVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15530,7 +15530,7 @@ enum GetRoleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15545,7 +15545,7 @@ enum GetRolePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15560,7 +15560,7 @@ enum GetSAMLProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15576,7 +15576,7 @@ enum GetServerCertificateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15591,7 +15591,7 @@ enum GetServiceLastAccessedDetailsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15606,7 +15606,7 @@ enum GetServiceLastAccessedDetailsWithEntitiesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15621,7 +15621,7 @@ enum GetServiceLinkedRoleDeletionStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15637,7 +15637,7 @@ enum GetSSHPublicKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15652,7 +15652,7 @@ enum GetUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15667,7 +15667,7 @@ enum GetUserPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15682,7 +15682,7 @@ enum ListAccessKeysOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15697,7 +15697,7 @@ enum ListAccountAliasesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
@@ -15711,7 +15711,7 @@ enum ListAttachedGroupPoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15727,7 +15727,7 @@ enum ListAttachedRolePoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15743,7 +15743,7 @@ enum ListAttachedUserPoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15759,7 +15759,7 @@ enum ListDelegationRequestsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15775,7 +15775,7 @@ enum ListEntitiesForPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15791,7 +15791,7 @@ enum ListGroupPoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15806,7 +15806,7 @@ enum ListGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
@@ -15820,7 +15820,7 @@ enum ListGroupsForUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15835,7 +15835,7 @@ enum ListInstanceProfilesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
@@ -15849,7 +15849,7 @@ enum ListInstanceProfilesForRoleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15864,7 +15864,7 @@ enum ListInstanceProfileTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15879,7 +15879,7 @@ enum ListMFADevicesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15894,7 +15894,7 @@ enum ListMFADeviceTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15910,7 +15910,7 @@ enum ListOpenIDConnectProvidersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
@@ -15924,7 +15924,7 @@ enum ListOpenIDConnectProviderTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15940,7 +15940,7 @@ enum ListOrganizationsFeaturesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccountNotManagementOrDelegatedAdministratorException": return try AccountNotManagementOrDelegatedAdministratorException.makeError(baseError: baseError)
@@ -15957,7 +15957,7 @@ enum ListPoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
@@ -15971,7 +15971,7 @@ enum ListPoliciesGrantingServiceAccessOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -15986,7 +15986,7 @@ enum ListPolicyTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -16002,7 +16002,7 @@ enum ListPolicyVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -16018,7 +16018,7 @@ enum ListRolePoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -16033,7 +16033,7 @@ enum ListRolesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
@@ -16047,7 +16047,7 @@ enum ListRoleTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -16062,7 +16062,7 @@ enum ListSAMLProvidersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
@@ -16076,7 +16076,7 @@ enum ListSAMLProviderTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -16092,7 +16092,7 @@ enum ListServerCertificatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
@@ -16106,7 +16106,7 @@ enum ListServerCertificateTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -16121,7 +16121,7 @@ enum ListServiceSpecificCredentialsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -16136,7 +16136,7 @@ enum ListSigningCertificatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -16151,7 +16151,7 @@ enum ListSSHPublicKeysOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -16165,7 +16165,7 @@ enum ListUserPoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -16180,7 +16180,7 @@ enum ListUsersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
@@ -16194,7 +16194,7 @@ enum ListUserTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -16209,7 +16209,7 @@ enum ListVirtualMFADevicesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16222,7 +16222,7 @@ enum PutGroupPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
@@ -16239,7 +16239,7 @@ enum PutRolePermissionsBoundaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -16257,7 +16257,7 @@ enum PutRolePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
@@ -16275,7 +16275,7 @@ enum PutUserPermissionsBoundaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -16292,7 +16292,7 @@ enum PutUserPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
@@ -16309,7 +16309,7 @@ enum RejectDelegationRequestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16326,7 +16326,7 @@ enum RemoveClientIDFromOpenIDConnectProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16343,7 +16343,7 @@ enum RemoveRoleFromInstanceProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
@@ -16360,7 +16360,7 @@ enum RemoveUserFromGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
@@ -16376,7 +16376,7 @@ enum ResetServiceSpecificCredentialOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -16390,7 +16390,7 @@ enum ResyncMFADeviceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16408,7 +16408,7 @@ enum SendDelegationTokenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16425,7 +16425,7 @@ enum SetDefaultPolicyVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -16442,7 +16442,7 @@ enum SetSecurityTokenServicePreferencesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
@@ -16456,7 +16456,7 @@ enum SimulateCustomPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -16471,7 +16471,7 @@ enum SimulatePrincipalPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -16487,7 +16487,7 @@ enum TagInstanceProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16505,7 +16505,7 @@ enum TagMFADeviceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16523,7 +16523,7 @@ enum TagOpenIDConnectProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16541,7 +16541,7 @@ enum TagPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16559,7 +16559,7 @@ enum TagRoleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16577,7 +16577,7 @@ enum TagSAMLProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16595,7 +16595,7 @@ enum TagServerCertificateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16613,7 +16613,7 @@ enum TagUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16631,7 +16631,7 @@ enum UntagInstanceProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16648,7 +16648,7 @@ enum UntagMFADeviceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16665,7 +16665,7 @@ enum UntagOpenIDConnectProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16682,7 +16682,7 @@ enum UntagPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16699,7 +16699,7 @@ enum UntagRoleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16715,7 +16715,7 @@ enum UntagSAMLProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16732,7 +16732,7 @@ enum UntagServerCertificateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16749,7 +16749,7 @@ enum UntagUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16765,7 +16765,7 @@ enum UpdateAccessKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -16782,7 +16782,7 @@ enum UpdateAccountPasswordPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
@@ -16799,7 +16799,7 @@ enum UpdateAssumeRolePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
@@ -16817,7 +16817,7 @@ enum UpdateDelegationRequestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16834,7 +16834,7 @@ enum UpdateGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityAlreadyExists": return try EntityAlreadyExistsException.makeError(baseError: baseError)
@@ -16851,7 +16851,7 @@ enum UpdateLoginProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityTemporarilyUnmodifiable": return try EntityTemporarilyUnmodifiableException.makeError(baseError: baseError)
@@ -16869,7 +16869,7 @@ enum UpdateOpenIDConnectProviderThumbprintOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16886,7 +16886,7 @@ enum UpdateRoleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -16902,7 +16902,7 @@ enum UpdateRoleDescriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -16918,7 +16918,7 @@ enum UpdateSAMLProviderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -16936,7 +16936,7 @@ enum UpdateServerCertificateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityAlreadyExists": return try EntityAlreadyExistsException.makeError(baseError: baseError)
@@ -16953,7 +16953,7 @@ enum UpdateServiceSpecificCredentialOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -16967,7 +16967,7 @@ enum UpdateSigningCertificateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -16984,7 +16984,7 @@ enum UpdateSSHPublicKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
@@ -16999,7 +16999,7 @@ enum UpdateUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -17018,7 +17018,7 @@ enum UploadServerCertificateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -17038,7 +17038,7 @@ enum UploadSigningCertificateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -17059,7 +17059,7 @@ enum UploadSSHPublicKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DuplicateSSHPublicKey": return try DuplicateSSHPublicKeyException.makeError(baseError: baseError)
@@ -17074,7 +17074,7 @@ enum UploadSSHPublicKeyOutputError {
 
 extension ConcurrentModificationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ConcurrentModificationException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ConcurrentModificationException {
         let reader = baseError.errorBodyReader
         var value = ConcurrentModificationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17087,7 +17087,7 @@ extension ConcurrentModificationException {
 
 extension NoSuchEntityException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NoSuchEntityException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> NoSuchEntityException {
         let reader = baseError.errorBodyReader
         var value = NoSuchEntityException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17100,7 +17100,7 @@ extension NoSuchEntityException {
 
 extension ServiceFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServiceFailureException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServiceFailureException {
         let reader = baseError.errorBodyReader
         var value = ServiceFailureException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17113,7 +17113,7 @@ extension ServiceFailureException {
 
 extension InvalidInputException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidInputException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidInputException {
         let reader = baseError.errorBodyReader
         var value = InvalidInputException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17126,7 +17126,7 @@ extension InvalidInputException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17139,7 +17139,7 @@ extension LimitExceededException {
 
 extension EntityAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EntityAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> EntityAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = EntityAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17152,7 +17152,7 @@ extension EntityAlreadyExistsException {
 
 extension UnmodifiableEntityException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UnmodifiableEntityException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> UnmodifiableEntityException {
         let reader = baseError.errorBodyReader
         var value = UnmodifiableEntityException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17165,7 +17165,7 @@ extension UnmodifiableEntityException {
 
 extension PolicyNotAttachableException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PolicyNotAttachableException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> PolicyNotAttachableException {
         let reader = baseError.errorBodyReader
         var value = PolicyNotAttachableException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17178,7 +17178,7 @@ extension PolicyNotAttachableException {
 
 extension EntityTemporarilyUnmodifiableException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EntityTemporarilyUnmodifiableException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> EntityTemporarilyUnmodifiableException {
         let reader = baseError.errorBodyReader
         var value = EntityTemporarilyUnmodifiableException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17191,7 +17191,7 @@ extension EntityTemporarilyUnmodifiableException {
 
 extension InvalidUserTypeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidUserTypeException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidUserTypeException {
         let reader = baseError.errorBodyReader
         var value = InvalidUserTypeException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17204,7 +17204,7 @@ extension InvalidUserTypeException {
 
 extension PasswordPolicyViolationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PasswordPolicyViolationException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> PasswordPolicyViolationException {
         let reader = baseError.errorBodyReader
         var value = PasswordPolicyViolationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17217,7 +17217,7 @@ extension PasswordPolicyViolationException {
 
 extension OpenIdIdpCommunicationErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OpenIdIdpCommunicationErrorException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> OpenIdIdpCommunicationErrorException {
         let reader = baseError.errorBodyReader
         var value = OpenIdIdpCommunicationErrorException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17230,7 +17230,7 @@ extension OpenIdIdpCommunicationErrorException {
 
 extension MalformedPolicyDocumentException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> MalformedPolicyDocumentException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> MalformedPolicyDocumentException {
         let reader = baseError.errorBodyReader
         var value = MalformedPolicyDocumentException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17243,7 +17243,7 @@ extension MalformedPolicyDocumentException {
 
 extension ServiceNotSupportedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServiceNotSupportedException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServiceNotSupportedException {
         let reader = baseError.errorBodyReader
         var value = ServiceNotSupportedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17256,7 +17256,7 @@ extension ServiceNotSupportedException {
 
 extension DeleteConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DeleteConflictException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DeleteConflictException {
         let reader = baseError.errorBodyReader
         var value = DeleteConflictException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17269,7 +17269,7 @@ extension DeleteConflictException {
 
 extension AccountNotManagementOrDelegatedAdministratorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AccountNotManagementOrDelegatedAdministratorException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> AccountNotManagementOrDelegatedAdministratorException {
         let reader = baseError.errorBodyReader
         var value = AccountNotManagementOrDelegatedAdministratorException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17282,7 +17282,7 @@ extension AccountNotManagementOrDelegatedAdministratorException {
 
 extension OrganizationNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OrganizationNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> OrganizationNotFoundException {
         let reader = baseError.errorBodyReader
         var value = OrganizationNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17295,7 +17295,7 @@ extension OrganizationNotFoundException {
 
 extension OrganizationNotInAllFeaturesModeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OrganizationNotInAllFeaturesModeException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> OrganizationNotInAllFeaturesModeException {
         let reader = baseError.errorBodyReader
         var value = OrganizationNotInAllFeaturesModeException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17308,7 +17308,7 @@ extension OrganizationNotInAllFeaturesModeException {
 
 extension ServiceAccessNotEnabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServiceAccessNotEnabledException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServiceAccessNotEnabledException {
         let reader = baseError.errorBodyReader
         var value = ServiceAccessNotEnabledException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17321,7 +17321,7 @@ extension ServiceAccessNotEnabledException {
 
 extension FeatureDisabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> FeatureDisabledException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> FeatureDisabledException {
         let reader = baseError.errorBodyReader
         var value = FeatureDisabledException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17334,7 +17334,7 @@ extension FeatureDisabledException {
 
 extension InvalidAuthenticationCodeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidAuthenticationCodeException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidAuthenticationCodeException {
         let reader = baseError.errorBodyReader
         var value = InvalidAuthenticationCodeException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17347,7 +17347,7 @@ extension InvalidAuthenticationCodeException {
 
 extension CallerIsNotManagementAccountException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CallerIsNotManagementAccountException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CallerIsNotManagementAccountException {
         let reader = baseError.errorBodyReader
         var value = CallerIsNotManagementAccountException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17360,7 +17360,7 @@ extension CallerIsNotManagementAccountException {
 
 extension FeatureEnabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> FeatureEnabledException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> FeatureEnabledException {
         let reader = baseError.errorBodyReader
         var value = FeatureEnabledException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17373,7 +17373,7 @@ extension FeatureEnabledException {
 
 extension ReportGenerationLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReportGenerationLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReportGenerationLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ReportGenerationLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17386,7 +17386,7 @@ extension ReportGenerationLimitExceededException {
 
 extension CredentialReportExpiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CredentialReportExpiredException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CredentialReportExpiredException {
         let reader = baseError.errorBodyReader
         var value = CredentialReportExpiredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17399,7 +17399,7 @@ extension CredentialReportExpiredException {
 
 extension CredentialReportNotPresentException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CredentialReportNotPresentException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CredentialReportNotPresentException {
         let reader = baseError.errorBodyReader
         var value = CredentialReportNotPresentException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17412,7 +17412,7 @@ extension CredentialReportNotPresentException {
 
 extension CredentialReportNotReadyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CredentialReportNotReadyException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CredentialReportNotReadyException {
         let reader = baseError.errorBodyReader
         var value = CredentialReportNotReadyException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17425,7 +17425,7 @@ extension CredentialReportNotReadyException {
 
 extension UnrecognizedPublicKeyEncodingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UnrecognizedPublicKeyEncodingException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> UnrecognizedPublicKeyEncodingException {
         let reader = baseError.errorBodyReader
         var value = UnrecognizedPublicKeyEncodingException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17438,7 +17438,7 @@ extension UnrecognizedPublicKeyEncodingException {
 
 extension PolicyEvaluationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PolicyEvaluationException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> PolicyEvaluationException {
         let reader = baseError.errorBodyReader
         var value = PolicyEvaluationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17451,7 +17451,7 @@ extension PolicyEvaluationException {
 
 extension KeyPairMismatchException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> KeyPairMismatchException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> KeyPairMismatchException {
         let reader = baseError.errorBodyReader
         var value = KeyPairMismatchException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17464,7 +17464,7 @@ extension KeyPairMismatchException {
 
 extension MalformedCertificateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> MalformedCertificateException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> MalformedCertificateException {
         let reader = baseError.errorBodyReader
         var value = MalformedCertificateException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17477,7 +17477,7 @@ extension MalformedCertificateException {
 
 extension DuplicateCertificateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateCertificateException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DuplicateCertificateException {
         let reader = baseError.errorBodyReader
         var value = DuplicateCertificateException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17490,7 +17490,7 @@ extension DuplicateCertificateException {
 
 extension InvalidCertificateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCertificateException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidCertificateException {
         let reader = baseError.errorBodyReader
         var value = InvalidCertificateException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17503,7 +17503,7 @@ extension InvalidCertificateException {
 
 extension DuplicateSSHPublicKeyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateSSHPublicKeyException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DuplicateSSHPublicKeyException {
         let reader = baseError.errorBodyReader
         var value = DuplicateSSHPublicKeyException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -17516,13 +17516,28 @@ extension DuplicateSSHPublicKeyException {
 
 extension InvalidPublicKeyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidPublicKeyException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidPublicKeyException {
         let reader = baseError.errorBodyReader
         var value = InvalidPublicKeyException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension IAMClientTypes.AccessDetail {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.AccessDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.AccessDetail()
+        value.serviceName = try reader["ServiceName"].readIfPresent() ?? ""
+        value.serviceNamespace = try reader["ServiceNamespace"].readIfPresent() ?? ""
+        value.region = try reader["Region"].readIfPresent()
+        value.entityPath = try reader["EntityPath"].readIfPresent()
+        value.lastAuthenticatedTime = try reader["LastAuthenticatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.totalAuthenticatedEntities = try reader["TotalAuthenticatedEntities"].readIfPresent()
         return value
     }
 }
@@ -17541,80 +17556,27 @@ extension IAMClientTypes.AccessKey {
     }
 }
 
-extension IAMClientTypes.Group {
+extension IAMClientTypes.AccessKeyLastUsed {
 
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.Group {
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.AccessKeyLastUsed {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.Group()
-        value.path = try reader["Path"].readIfPresent() ?? ""
-        value.groupName = try reader["GroupName"].readIfPresent() ?? ""
-        value.groupId = try reader["GroupId"].readIfPresent() ?? ""
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension IAMClientTypes.InstanceProfile {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.InstanceProfile {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.InstanceProfile()
-        value.path = try reader["Path"].readIfPresent() ?? ""
-        value.instanceProfileName = try reader["InstanceProfileName"].readIfPresent() ?? ""
-        value.instanceProfileId = try reader["InstanceProfileId"].readIfPresent() ?? ""
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.roles = try reader["Roles"].readListIfPresent(memberReadingClosure: IAMClientTypes.Role.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IAMClientTypes.Tag {
-
-    static func write(value: IAMClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IAMClientTypes.Role {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.Role {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.Role()
-        value.path = try reader["Path"].readIfPresent() ?? ""
-        value.roleName = try reader["RoleName"].readIfPresent() ?? ""
-        value.roleId = try reader["RoleId"].readIfPresent() ?? ""
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.assumeRolePolicyDocument = try reader["AssumeRolePolicyDocument"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.maxSessionDuration = try reader["MaxSessionDuration"].readIfPresent()
-        value.permissionsBoundary = try reader["PermissionsBoundary"].readIfPresent(with: IAMClientTypes.AttachedPermissionsBoundary.read(from:))
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.roleLastUsed = try reader["RoleLastUsed"].readIfPresent(with: IAMClientTypes.RoleLastUsed.read(from:))
-        return value
-    }
-}
-
-extension IAMClientTypes.RoleLastUsed {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.RoleLastUsed {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.RoleLastUsed()
+        var value = IAMClientTypes.AccessKeyLastUsed()
         value.lastUsedDate = try reader["LastUsedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.region = try reader["Region"].readIfPresent()
+        value.serviceName = try reader["ServiceName"].readIfPresent() ?? ""
+        value.region = try reader["Region"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IAMClientTypes.AccessKeyMetadata {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.AccessKeyMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.AccessKeyMetadata()
+        value.userName = try reader["UserName"].readIfPresent()
+        value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -17630,134 +17592,6 @@ extension IAMClientTypes.AttachedPermissionsBoundary {
     }
 }
 
-extension IAMClientTypes.LoginProfile {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.LoginProfile {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.LoginProfile()
-        value.userName = try reader["UserName"].readIfPresent() ?? ""
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.passwordResetRequired = try reader["PasswordResetRequired"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension IAMClientTypes.Policy {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.Policy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.Policy()
-        value.policyName = try reader["PolicyName"].readIfPresent()
-        value.policyId = try reader["PolicyId"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.path = try reader["Path"].readIfPresent()
-        value.defaultVersionId = try reader["DefaultVersionId"].readIfPresent()
-        value.attachmentCount = try reader["AttachmentCount"].readIfPresent()
-        value.permissionsBoundaryUsageCount = try reader["PermissionsBoundaryUsageCount"].readIfPresent()
-        value.isAttachable = try reader["IsAttachable"].readIfPresent() ?? false
-        value.description = try reader["Description"].readIfPresent()
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updateDate = try reader["UpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IAMClientTypes.PolicyVersion {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PolicyVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.PolicyVersion()
-        value.document = try reader["Document"].readIfPresent()
-        value.versionId = try reader["VersionId"].readIfPresent()
-        value.isDefaultVersion = try reader["IsDefaultVersion"].readIfPresent() ?? false
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension IAMClientTypes.ServiceSpecificCredential {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ServiceSpecificCredential {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.ServiceSpecificCredential()
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.expirationDate = try reader["ExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.serviceName = try reader["ServiceName"].readIfPresent() ?? ""
-        value.serviceUserName = try reader["ServiceUserName"].readIfPresent() ?? ""
-        value.servicePassword = try reader["ServicePassword"].readIfPresent() ?? ""
-        value.serviceCredentialAlias = try reader["ServiceCredentialAlias"].readIfPresent()
-        value.serviceCredentialSecret = try reader["ServiceCredentialSecret"].readIfPresent()
-        value.serviceSpecificCredentialId = try reader["ServiceSpecificCredentialId"].readIfPresent() ?? ""
-        value.userName = try reader["UserName"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension IAMClientTypes.User {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.User {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.User()
-        value.path = try reader["Path"].readIfPresent() ?? ""
-        value.userName = try reader["UserName"].readIfPresent() ?? ""
-        value.userId = try reader["UserId"].readIfPresent() ?? ""
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.passwordLastUsed = try reader["PasswordLastUsed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.permissionsBoundary = try reader["PermissionsBoundary"].readIfPresent(with: IAMClientTypes.AttachedPermissionsBoundary.read(from:))
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IAMClientTypes.VirtualMFADevice {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.VirtualMFADevice {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.VirtualMFADevice()
-        value.serialNumber = try reader["SerialNumber"].readIfPresent() ?? ""
-        value.base32StringSeed = try reader["Base32StringSeed"].readIfPresent()
-        value.qrCodePNG = try reader["QRCodePNG"].readIfPresent()
-        value.user = try reader["User"].readIfPresent(with: IAMClientTypes.User.read(from:))
-        value.enableDate = try reader["EnableDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IAMClientTypes.AccessKeyLastUsed {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.AccessKeyLastUsed {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.AccessKeyLastUsed()
-        value.lastUsedDate = try reader["LastUsedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.serviceName = try reader["ServiceName"].readIfPresent() ?? ""
-        value.region = try reader["Region"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IAMClientTypes.UserDetail {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.UserDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.UserDetail()
-        value.path = try reader["Path"].readIfPresent()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.userId = try reader["UserId"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.userPolicyList = try reader["UserPolicyList"].readListIfPresent(memberReadingClosure: IAMClientTypes.PolicyDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.groupList = try reader["GroupList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.attachedManagedPolicies = try reader["AttachedManagedPolicies"].readListIfPresent(memberReadingClosure: IAMClientTypes.AttachedPolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.permissionsBoundary = try reader["PermissionsBoundary"].readIfPresent(with: IAMClientTypes.AttachedPermissionsBoundary.read(from:))
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension IAMClientTypes.AttachedPolicy {
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.AttachedPolicy {
@@ -17769,90 +17603,29 @@ extension IAMClientTypes.AttachedPolicy {
     }
 }
 
-extension IAMClientTypes.PolicyDetail {
+extension IAMClientTypes.ContextEntry {
 
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PolicyDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.PolicyDetail()
-        value.policyName = try reader["PolicyName"].readIfPresent()
-        value.policyDocument = try reader["PolicyDocument"].readIfPresent()
-        return value
+    static func write(value: IAMClientTypes.ContextEntry?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ContextKeyName"].write(value.contextKeyName)
+        try writer["ContextKeyType"].write(value.contextKeyType)
+        try writer["ContextKeyValues"].writeList(value.contextKeyValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension IAMClientTypes.GroupDetail {
+extension IAMClientTypes.DelegationPermission {
 
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.GroupDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.GroupDetail()
-        value.path = try reader["Path"].readIfPresent()
-        value.groupName = try reader["GroupName"].readIfPresent()
-        value.groupId = try reader["GroupId"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.groupPolicyList = try reader["GroupPolicyList"].readListIfPresent(memberReadingClosure: IAMClientTypes.PolicyDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.attachedManagedPolicies = try reader["AttachedManagedPolicies"].readListIfPresent(memberReadingClosure: IAMClientTypes.AttachedPolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
+    static func write(value: IAMClientTypes.DelegationPermission?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Parameters"].writeList(value.parameters, memberWritingClosure: IAMClientTypes.PolicyParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PolicyTemplateArn"].write(value.policyTemplateArn)
     }
-}
 
-extension IAMClientTypes.RoleDetail {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.RoleDetail {
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.DelegationPermission {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.RoleDetail()
-        value.path = try reader["Path"].readIfPresent()
-        value.roleName = try reader["RoleName"].readIfPresent()
-        value.roleId = try reader["RoleId"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.assumeRolePolicyDocument = try reader["AssumeRolePolicyDocument"].readIfPresent()
-        value.instanceProfileList = try reader["InstanceProfileList"].readListIfPresent(memberReadingClosure: IAMClientTypes.InstanceProfile.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.rolePolicyList = try reader["RolePolicyList"].readListIfPresent(memberReadingClosure: IAMClientTypes.PolicyDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.attachedManagedPolicies = try reader["AttachedManagedPolicies"].readListIfPresent(memberReadingClosure: IAMClientTypes.AttachedPolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.permissionsBoundary = try reader["PermissionsBoundary"].readIfPresent(with: IAMClientTypes.AttachedPermissionsBoundary.read(from:))
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.roleLastUsed = try reader["RoleLastUsed"].readIfPresent(with: IAMClientTypes.RoleLastUsed.read(from:))
-        return value
-    }
-}
-
-extension IAMClientTypes.ManagedPolicyDetail {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ManagedPolicyDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.ManagedPolicyDetail()
-        value.policyName = try reader["PolicyName"].readIfPresent()
-        value.policyId = try reader["PolicyId"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.path = try reader["Path"].readIfPresent()
-        value.defaultVersionId = try reader["DefaultVersionId"].readIfPresent()
-        value.attachmentCount = try reader["AttachmentCount"].readIfPresent()
-        value.permissionsBoundaryUsageCount = try reader["PermissionsBoundaryUsageCount"].readIfPresent()
-        value.isAttachable = try reader["IsAttachable"].readIfPresent() ?? false
-        value.description = try reader["Description"].readIfPresent()
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updateDate = try reader["UpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.policyVersionList = try reader["PolicyVersionList"].readListIfPresent(memberReadingClosure: IAMClientTypes.PolicyVersion.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IAMClientTypes.PasswordPolicy {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PasswordPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.PasswordPolicy()
-        value.minimumPasswordLength = try reader["MinimumPasswordLength"].readIfPresent()
-        value.requireSymbols = try reader["RequireSymbols"].readIfPresent() ?? false
-        value.requireNumbers = try reader["RequireNumbers"].readIfPresent() ?? false
-        value.requireUppercaseCharacters = try reader["RequireUppercaseCharacters"].readIfPresent() ?? false
-        value.requireLowercaseCharacters = try reader["RequireLowercaseCharacters"].readIfPresent() ?? false
-        value.allowUsersToChangePassword = try reader["AllowUsersToChangePassword"].readIfPresent() ?? false
-        value.expirePasswords = try reader["ExpirePasswords"].readIfPresent() ?? false
-        value.maxPasswordAge = try reader["MaxPasswordAge"].readIfPresent()
-        value.passwordReusePrevention = try reader["PasswordReusePrevention"].readIfPresent()
-        value.hardExpiry = try reader["HardExpiry"].readIfPresent()
+        var value = IAMClientTypes.DelegationPermission()
+        value.policyTemplateArn = try reader["PolicyTemplateArn"].readIfPresent()
+        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: IAMClientTypes.PolicyParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -17886,19 +17659,275 @@ extension IAMClientTypes.DelegationRequest {
     }
 }
 
-extension IAMClientTypes.DelegationPermission {
+extension IAMClientTypes.DeletionTaskFailureReasonType {
 
-    static func write(value: IAMClientTypes.DelegationPermission?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Parameters"].writeList(value.parameters, memberWritingClosure: IAMClientTypes.PolicyParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PolicyTemplateArn"].write(value.policyTemplateArn)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.DelegationPermission {
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.DeletionTaskFailureReasonType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.DelegationPermission()
-        value.policyTemplateArn = try reader["PolicyTemplateArn"].readIfPresent()
-        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: IAMClientTypes.PolicyParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = IAMClientTypes.DeletionTaskFailureReasonType()
+        value.reason = try reader["Reason"].readIfPresent()
+        value.roleUsageList = try reader["RoleUsageList"].readListIfPresent(memberReadingClosure: IAMClientTypes.RoleUsageType.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IAMClientTypes.EntityDetails {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.EntityDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.EntityDetails()
+        value.entityInfo = try reader["EntityInfo"].readIfPresent(with: IAMClientTypes.EntityInfo.read(from:))
+        value.lastAuthenticated = try reader["LastAuthenticated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension IAMClientTypes.EntityInfo {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.EntityInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.EntityInfo()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.path = try reader["Path"].readIfPresent()
+        return value
+    }
+}
+
+extension IAMClientTypes.ErrorDetails {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.ErrorDetails()
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        value.code = try reader["Code"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IAMClientTypes.EvaluationResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.EvaluationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.EvaluationResult()
+        value.evalActionName = try reader["EvalActionName"].readIfPresent() ?? ""
+        value.evalResourceName = try reader["EvalResourceName"].readIfPresent()
+        value.evalDecision = try reader["EvalDecision"].readIfPresent() ?? .sdkUnknown("")
+        value.matchedStatements = try reader["MatchedStatements"].readListIfPresent(memberReadingClosure: IAMClientTypes.Statement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.missingContextValues = try reader["MissingContextValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.organizationsDecisionDetail = try reader["OrganizationsDecisionDetail"].readIfPresent(with: IAMClientTypes.OrganizationsDecisionDetail.read(from:))
+        value.permissionsBoundaryDecisionDetail = try reader["PermissionsBoundaryDecisionDetail"].readIfPresent(with: IAMClientTypes.PermissionsBoundaryDecisionDetail.read(from:))
+        value.evalDecisionDetails = try reader["EvalDecisionDetails"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosureBox<IAMClientTypes.PolicyEvaluationDecisionType>().read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.resourceSpecificResults = try reader["ResourceSpecificResults"].readListIfPresent(memberReadingClosure: IAMClientTypes.ResourceSpecificResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IAMClientTypes.Group {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.Group {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.Group()
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.groupName = try reader["GroupName"].readIfPresent() ?? ""
+        value.groupId = try reader["GroupId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension IAMClientTypes.GroupDetail {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.GroupDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.GroupDetail()
+        value.path = try reader["Path"].readIfPresent()
+        value.groupName = try reader["GroupName"].readIfPresent()
+        value.groupId = try reader["GroupId"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.groupPolicyList = try reader["GroupPolicyList"].readListIfPresent(memberReadingClosure: IAMClientTypes.PolicyDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attachedManagedPolicies = try reader["AttachedManagedPolicies"].readListIfPresent(memberReadingClosure: IAMClientTypes.AttachedPolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IAMClientTypes.InstanceProfile {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.InstanceProfile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.InstanceProfile()
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.instanceProfileName = try reader["InstanceProfileName"].readIfPresent() ?? ""
+        value.instanceProfileId = try reader["InstanceProfileId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.roles = try reader["Roles"].readListIfPresent(memberReadingClosure: IAMClientTypes.Role.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IAMClientTypes.ListPoliciesGrantingServiceAccessEntry {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ListPoliciesGrantingServiceAccessEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.ListPoliciesGrantingServiceAccessEntry()
+        value.serviceNamespace = try reader["ServiceNamespace"].readIfPresent()
+        value.policies = try reader["Policies"].readListIfPresent(memberReadingClosure: IAMClientTypes.PolicyGrantingServiceAccess.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IAMClientTypes.LoginProfile {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.LoginProfile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.LoginProfile()
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.passwordResetRequired = try reader["PasswordResetRequired"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension IAMClientTypes.ManagedPolicyDetail {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ManagedPolicyDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.ManagedPolicyDetail()
+        value.policyName = try reader["PolicyName"].readIfPresent()
+        value.policyId = try reader["PolicyId"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.path = try reader["Path"].readIfPresent()
+        value.defaultVersionId = try reader["DefaultVersionId"].readIfPresent()
+        value.attachmentCount = try reader["AttachmentCount"].readIfPresent()
+        value.permissionsBoundaryUsageCount = try reader["PermissionsBoundaryUsageCount"].readIfPresent()
+        value.isAttachable = try reader["IsAttachable"].readIfPresent() ?? false
+        value.description = try reader["Description"].readIfPresent()
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updateDate = try reader["UpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.policyVersionList = try reader["PolicyVersionList"].readListIfPresent(memberReadingClosure: IAMClientTypes.PolicyVersion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IAMClientTypes.MFADevice {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.MFADevice {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.MFADevice()
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
+        value.serialNumber = try reader["SerialNumber"].readIfPresent() ?? ""
+        value.enableDate = try reader["EnableDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension IAMClientTypes.OpenIDConnectProviderListEntry {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.OpenIDConnectProviderListEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.OpenIDConnectProviderListEntry()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension IAMClientTypes.OrganizationsDecisionDetail {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.OrganizationsDecisionDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.OrganizationsDecisionDetail()
+        value.allowedByOrganizations = try reader["AllowedByOrganizations"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension IAMClientTypes.PasswordPolicy {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PasswordPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.PasswordPolicy()
+        value.minimumPasswordLength = try reader["MinimumPasswordLength"].readIfPresent()
+        value.requireSymbols = try reader["RequireSymbols"].readIfPresent() ?? false
+        value.requireNumbers = try reader["RequireNumbers"].readIfPresent() ?? false
+        value.requireUppercaseCharacters = try reader["RequireUppercaseCharacters"].readIfPresent() ?? false
+        value.requireLowercaseCharacters = try reader["RequireLowercaseCharacters"].readIfPresent() ?? false
+        value.allowUsersToChangePassword = try reader["AllowUsersToChangePassword"].readIfPresent() ?? false
+        value.expirePasswords = try reader["ExpirePasswords"].readIfPresent() ?? false
+        value.maxPasswordAge = try reader["MaxPasswordAge"].readIfPresent()
+        value.passwordReusePrevention = try reader["PasswordReusePrevention"].readIfPresent()
+        value.hardExpiry = try reader["HardExpiry"].readIfPresent()
+        return value
+    }
+}
+
+extension IAMClientTypes.PermissionsBoundaryDecisionDetail {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PermissionsBoundaryDecisionDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.PermissionsBoundaryDecisionDetail()
+        value.allowedByPermissionsBoundary = try reader["AllowedByPermissionsBoundary"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension IAMClientTypes.Policy {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.Policy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.Policy()
+        value.policyName = try reader["PolicyName"].readIfPresent()
+        value.policyId = try reader["PolicyId"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.path = try reader["Path"].readIfPresent()
+        value.defaultVersionId = try reader["DefaultVersionId"].readIfPresent()
+        value.attachmentCount = try reader["AttachmentCount"].readIfPresent()
+        value.permissionsBoundaryUsageCount = try reader["PermissionsBoundaryUsageCount"].readIfPresent()
+        value.isAttachable = try reader["IsAttachable"].readIfPresent() ?? false
+        value.description = try reader["Description"].readIfPresent()
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updateDate = try reader["UpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IAMClientTypes.PolicyDetail {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PolicyDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.PolicyDetail()
+        value.policyName = try reader["PolicyName"].readIfPresent()
+        value.policyDocument = try reader["PolicyDocument"].readIfPresent()
+        return value
+    }
+}
+
+extension IAMClientTypes.PolicyGrantingServiceAccess {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PolicyGrantingServiceAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.PolicyGrantingServiceAccess()
+        value.policyName = try reader["PolicyName"].readIfPresent() ?? ""
+        value.policyType = try reader["PolicyType"].readIfPresent() ?? .sdkUnknown("")
+        value.policyArn = try reader["PolicyArn"].readIfPresent()
+        value.entityType = try reader["EntityType"].readIfPresent()
+        value.entityName = try reader["EntityName"].readIfPresent()
+        return value
+    }
+}
+
+extension IAMClientTypes.PolicyGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PolicyGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.PolicyGroup()
+        value.groupName = try reader["GroupName"].readIfPresent()
+        value.groupId = try reader["GroupId"].readIfPresent()
         return value
     }
 }
@@ -17922,28 +17951,126 @@ extension IAMClientTypes.PolicyParameter {
     }
 }
 
-extension IAMClientTypes.AccessDetail {
+extension IAMClientTypes.PolicyRole {
 
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.AccessDetail {
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PolicyRole {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.AccessDetail()
-        value.serviceName = try reader["ServiceName"].readIfPresent() ?? ""
-        value.serviceNamespace = try reader["ServiceNamespace"].readIfPresent() ?? ""
-        value.region = try reader["Region"].readIfPresent()
-        value.entityPath = try reader["EntityPath"].readIfPresent()
-        value.lastAuthenticatedTime = try reader["LastAuthenticatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.totalAuthenticatedEntities = try reader["TotalAuthenticatedEntities"].readIfPresent()
+        var value = IAMClientTypes.PolicyRole()
+        value.roleName = try reader["RoleName"].readIfPresent()
+        value.roleId = try reader["RoleId"].readIfPresent()
         return value
     }
 }
 
-extension IAMClientTypes.ErrorDetails {
+extension IAMClientTypes.PolicyUser {
 
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ErrorDetails {
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PolicyUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.ErrorDetails()
-        value.message = try reader["Message"].readIfPresent() ?? ""
-        value.code = try reader["Code"].readIfPresent() ?? ""
+        var value = IAMClientTypes.PolicyUser()
+        value.userName = try reader["UserName"].readIfPresent()
+        value.userId = try reader["UserId"].readIfPresent()
+        return value
+    }
+}
+
+extension IAMClientTypes.PolicyVersion {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PolicyVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.PolicyVersion()
+        value.document = try reader["Document"].readIfPresent()
+        value.versionId = try reader["VersionId"].readIfPresent()
+        value.isDefaultVersion = try reader["IsDefaultVersion"].readIfPresent() ?? false
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension IAMClientTypes.Position {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.Position {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.Position()
+        value.line = try reader["Line"].readIfPresent() ?? 0
+        value.column = try reader["Column"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension IAMClientTypes.ResourceSpecificResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ResourceSpecificResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.ResourceSpecificResult()
+        value.evalResourceName = try reader["EvalResourceName"].readIfPresent() ?? ""
+        value.evalResourceDecision = try reader["EvalResourceDecision"].readIfPresent() ?? .sdkUnknown("")
+        value.matchedStatements = try reader["MatchedStatements"].readListIfPresent(memberReadingClosure: IAMClientTypes.Statement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.missingContextValues = try reader["MissingContextValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.evalDecisionDetails = try reader["EvalDecisionDetails"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosureBox<IAMClientTypes.PolicyEvaluationDecisionType>().read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.permissionsBoundaryDecisionDetail = try reader["PermissionsBoundaryDecisionDetail"].readIfPresent(with: IAMClientTypes.PermissionsBoundaryDecisionDetail.read(from:))
+        return value
+    }
+}
+
+extension IAMClientTypes.Role {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.Role {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.Role()
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.roleName = try reader["RoleName"].readIfPresent() ?? ""
+        value.roleId = try reader["RoleId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.assumeRolePolicyDocument = try reader["AssumeRolePolicyDocument"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.maxSessionDuration = try reader["MaxSessionDuration"].readIfPresent()
+        value.permissionsBoundary = try reader["PermissionsBoundary"].readIfPresent(with: IAMClientTypes.AttachedPermissionsBoundary.read(from:))
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.roleLastUsed = try reader["RoleLastUsed"].readIfPresent(with: IAMClientTypes.RoleLastUsed.read(from:))
+        return value
+    }
+}
+
+extension IAMClientTypes.RoleDetail {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.RoleDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.RoleDetail()
+        value.path = try reader["Path"].readIfPresent()
+        value.roleName = try reader["RoleName"].readIfPresent()
+        value.roleId = try reader["RoleId"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.assumeRolePolicyDocument = try reader["AssumeRolePolicyDocument"].readIfPresent()
+        value.instanceProfileList = try reader["InstanceProfileList"].readListIfPresent(memberReadingClosure: IAMClientTypes.InstanceProfile.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rolePolicyList = try reader["RolePolicyList"].readListIfPresent(memberReadingClosure: IAMClientTypes.PolicyDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attachedManagedPolicies = try reader["AttachedManagedPolicies"].readListIfPresent(memberReadingClosure: IAMClientTypes.AttachedPolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.permissionsBoundary = try reader["PermissionsBoundary"].readIfPresent(with: IAMClientTypes.AttachedPermissionsBoundary.read(from:))
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.roleLastUsed = try reader["RoleLastUsed"].readIfPresent(with: IAMClientTypes.RoleLastUsed.read(from:))
+        return value
+    }
+}
+
+extension IAMClientTypes.RoleLastUsed {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.RoleLastUsed {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.RoleLastUsed()
+        value.lastUsedDate = try reader["LastUsedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.region = try reader["Region"].readIfPresent()
+        return value
+    }
+}
+
+extension IAMClientTypes.RoleUsageType {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.RoleUsageType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.RoleUsageType()
+        value.region = try reader["Region"].readIfPresent()
+        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -17955,6 +18082,18 @@ extension IAMClientTypes.SAMLPrivateKey {
         var value = IAMClientTypes.SAMLPrivateKey()
         value.keyId = try reader["KeyId"].readIfPresent()
         value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension IAMClientTypes.SAMLProviderListEntry {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.SAMLProviderListEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.SAMLProviderListEntry()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.validUntil = try reader["ValidUntil"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -18003,182 +18142,21 @@ extension IAMClientTypes.ServiceLastAccessed {
     }
 }
 
-extension IAMClientTypes.TrackedActionLastAccessed {
+extension IAMClientTypes.ServiceSpecificCredential {
 
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.TrackedActionLastAccessed {
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ServiceSpecificCredential {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.TrackedActionLastAccessed()
-        value.actionName = try reader["ActionName"].readIfPresent()
-        value.lastAccessedEntity = try reader["LastAccessedEntity"].readIfPresent()
-        value.lastAccessedTime = try reader["LastAccessedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastAccessedRegion = try reader["LastAccessedRegion"].readIfPresent()
-        return value
-    }
-}
-
-extension IAMClientTypes.EntityDetails {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.EntityDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.EntityDetails()
-        value.entityInfo = try reader["EntityInfo"].readIfPresent(with: IAMClientTypes.EntityInfo.read(from:))
-        value.lastAuthenticated = try reader["LastAuthenticated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension IAMClientTypes.EntityInfo {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.EntityInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.EntityInfo()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.path = try reader["Path"].readIfPresent()
-        return value
-    }
-}
-
-extension IAMClientTypes.DeletionTaskFailureReasonType {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.DeletionTaskFailureReasonType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.DeletionTaskFailureReasonType()
-        value.reason = try reader["Reason"].readIfPresent()
-        value.roleUsageList = try reader["RoleUsageList"].readListIfPresent(memberReadingClosure: IAMClientTypes.RoleUsageType.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IAMClientTypes.RoleUsageType {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.RoleUsageType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.RoleUsageType()
-        value.region = try reader["Region"].readIfPresent()
-        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IAMClientTypes.SSHPublicKey {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.SSHPublicKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.SSHPublicKey()
+        var value = IAMClientTypes.ServiceSpecificCredential()
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.expirationDate = try reader["ExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.serviceName = try reader["ServiceName"].readIfPresent() ?? ""
+        value.serviceUserName = try reader["ServiceUserName"].readIfPresent() ?? ""
+        value.servicePassword = try reader["ServicePassword"].readIfPresent() ?? ""
+        value.serviceCredentialAlias = try reader["ServiceCredentialAlias"].readIfPresent()
+        value.serviceCredentialSecret = try reader["ServiceCredentialSecret"].readIfPresent()
+        value.serviceSpecificCredentialId = try reader["ServiceSpecificCredentialId"].readIfPresent() ?? ""
         value.userName = try reader["UserName"].readIfPresent() ?? ""
-        value.sshPublicKeyId = try reader["SSHPublicKeyId"].readIfPresent() ?? ""
-        value.fingerprint = try reader["Fingerprint"].readIfPresent() ?? ""
-        value.sshPublicKeyBody = try reader["SSHPublicKeyBody"].readIfPresent() ?? ""
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.uploadDate = try reader["UploadDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension IAMClientTypes.AccessKeyMetadata {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.AccessKeyMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.AccessKeyMetadata()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension IAMClientTypes.PolicyGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PolicyGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.PolicyGroup()
-        value.groupName = try reader["GroupName"].readIfPresent()
-        value.groupId = try reader["GroupId"].readIfPresent()
-        return value
-    }
-}
-
-extension IAMClientTypes.PolicyUser {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PolicyUser {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.PolicyUser()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.userId = try reader["UserId"].readIfPresent()
-        return value
-    }
-}
-
-extension IAMClientTypes.PolicyRole {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PolicyRole {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.PolicyRole()
-        value.roleName = try reader["RoleName"].readIfPresent()
-        value.roleId = try reader["RoleId"].readIfPresent()
-        return value
-    }
-}
-
-extension IAMClientTypes.MFADevice {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.MFADevice {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.MFADevice()
-        value.userName = try reader["UserName"].readIfPresent() ?? ""
-        value.serialNumber = try reader["SerialNumber"].readIfPresent() ?? ""
-        value.enableDate = try reader["EnableDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension IAMClientTypes.OpenIDConnectProviderListEntry {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.OpenIDConnectProviderListEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.OpenIDConnectProviderListEntry()
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
-    }
-}
-
-extension IAMClientTypes.ListPoliciesGrantingServiceAccessEntry {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ListPoliciesGrantingServiceAccessEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.ListPoliciesGrantingServiceAccessEntry()
-        value.serviceNamespace = try reader["ServiceNamespace"].readIfPresent()
-        value.policies = try reader["Policies"].readListIfPresent(memberReadingClosure: IAMClientTypes.PolicyGrantingServiceAccess.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IAMClientTypes.PolicyGrantingServiceAccess {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PolicyGrantingServiceAccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.PolicyGrantingServiceAccess()
-        value.policyName = try reader["PolicyName"].readIfPresent() ?? ""
-        value.policyType = try reader["PolicyType"].readIfPresent() ?? .sdkUnknown("")
-        value.policyArn = try reader["PolicyArn"].readIfPresent()
-        value.entityType = try reader["EntityType"].readIfPresent()
-        value.entityName = try reader["EntityName"].readIfPresent()
-        return value
-    }
-}
-
-extension IAMClientTypes.SAMLProviderListEntry {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.SAMLProviderListEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.SAMLProviderListEntry()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.validUntil = try reader["ValidUntil"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -18214,6 +18192,21 @@ extension IAMClientTypes.SigningCertificate {
     }
 }
 
+extension IAMClientTypes.SSHPublicKey {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.SSHPublicKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.SSHPublicKey()
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
+        value.sshPublicKeyId = try reader["SSHPublicKeyId"].readIfPresent() ?? ""
+        value.fingerprint = try reader["Fingerprint"].readIfPresent() ?? ""
+        value.sshPublicKeyBody = try reader["SSHPublicKeyBody"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.uploadDate = try reader["UploadDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension IAMClientTypes.SSHPublicKeyMetadata {
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.SSHPublicKeyMetadata {
@@ -18223,49 +18216,6 @@ extension IAMClientTypes.SSHPublicKeyMetadata {
         value.sshPublicKeyId = try reader["SSHPublicKeyId"].readIfPresent() ?? ""
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.uploadDate = try reader["UploadDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension IAMClientTypes.EvaluationResult {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.EvaluationResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.EvaluationResult()
-        value.evalActionName = try reader["EvalActionName"].readIfPresent() ?? ""
-        value.evalResourceName = try reader["EvalResourceName"].readIfPresent()
-        value.evalDecision = try reader["EvalDecision"].readIfPresent() ?? .sdkUnknown("")
-        value.matchedStatements = try reader["MatchedStatements"].readListIfPresent(memberReadingClosure: IAMClientTypes.Statement.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.missingContextValues = try reader["MissingContextValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.organizationsDecisionDetail = try reader["OrganizationsDecisionDetail"].readIfPresent(with: IAMClientTypes.OrganizationsDecisionDetail.read(from:))
-        value.permissionsBoundaryDecisionDetail = try reader["PermissionsBoundaryDecisionDetail"].readIfPresent(with: IAMClientTypes.PermissionsBoundaryDecisionDetail.read(from:))
-        value.evalDecisionDetails = try reader["EvalDecisionDetails"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosureBox<IAMClientTypes.PolicyEvaluationDecisionType>().read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.resourceSpecificResults = try reader["ResourceSpecificResults"].readListIfPresent(memberReadingClosure: IAMClientTypes.ResourceSpecificResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IAMClientTypes.ResourceSpecificResult {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ResourceSpecificResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.ResourceSpecificResult()
-        value.evalResourceName = try reader["EvalResourceName"].readIfPresent() ?? ""
-        value.evalResourceDecision = try reader["EvalResourceDecision"].readIfPresent() ?? .sdkUnknown("")
-        value.matchedStatements = try reader["MatchedStatements"].readListIfPresent(memberReadingClosure: IAMClientTypes.Statement.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.missingContextValues = try reader["MissingContextValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.evalDecisionDetails = try reader["EvalDecisionDetails"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosureBox<IAMClientTypes.PolicyEvaluationDecisionType>().read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.permissionsBoundaryDecisionDetail = try reader["PermissionsBoundaryDecisionDetail"].readIfPresent(with: IAMClientTypes.PermissionsBoundaryDecisionDetail.read(from:))
-        return value
-    }
-}
-
-extension IAMClientTypes.PermissionsBoundaryDecisionDetail {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PermissionsBoundaryDecisionDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.PermissionsBoundaryDecisionDetail()
-        value.allowedByPermissionsBoundary = try reader["AllowedByPermissionsBoundary"].readIfPresent() ?? false
         return value
     }
 }
@@ -18283,34 +18233,84 @@ extension IAMClientTypes.Statement {
     }
 }
 
-extension IAMClientTypes.Position {
+extension IAMClientTypes.Tag {
 
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.Position {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.Position()
-        value.line = try reader["Line"].readIfPresent() ?? 0
-        value.column = try reader["Column"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension IAMClientTypes.OrganizationsDecisionDetail {
-
-    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.OrganizationsDecisionDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IAMClientTypes.OrganizationsDecisionDetail()
-        value.allowedByOrganizations = try reader["AllowedByOrganizations"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension IAMClientTypes.ContextEntry {
-
-    static func write(value: IAMClientTypes.ContextEntry?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: IAMClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["ContextKeyName"].write(value.contextKeyName)
-        try writer["ContextKeyType"].write(value.contextKeyType)
-        try writer["ContextKeyValues"].writeList(value.contextKeyValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IAMClientTypes.TrackedActionLastAccessed {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.TrackedActionLastAccessed {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.TrackedActionLastAccessed()
+        value.actionName = try reader["ActionName"].readIfPresent()
+        value.lastAccessedEntity = try reader["LastAccessedEntity"].readIfPresent()
+        value.lastAccessedTime = try reader["LastAccessedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastAccessedRegion = try reader["LastAccessedRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension IAMClientTypes.User {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.User {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.User()
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
+        value.userId = try reader["UserId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.passwordLastUsed = try reader["PasswordLastUsed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.permissionsBoundary = try reader["PermissionsBoundary"].readIfPresent(with: IAMClientTypes.AttachedPermissionsBoundary.read(from:))
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IAMClientTypes.UserDetail {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.UserDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.UserDetail()
+        value.path = try reader["Path"].readIfPresent()
+        value.userName = try reader["UserName"].readIfPresent()
+        value.userId = try reader["UserId"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.userPolicyList = try reader["UserPolicyList"].readListIfPresent(memberReadingClosure: IAMClientTypes.PolicyDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groupList = try reader["GroupList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attachedManagedPolicies = try reader["AttachedManagedPolicies"].readListIfPresent(memberReadingClosure: IAMClientTypes.AttachedPolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.permissionsBoundary = try reader["PermissionsBoundary"].readIfPresent(with: IAMClientTypes.AttachedPermissionsBoundary.read(from:))
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IAMClientTypes.VirtualMFADevice {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.VirtualMFADevice {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.VirtualMFADevice()
+        value.serialNumber = try reader["SerialNumber"].readIfPresent() ?? ""
+        value.base32StringSeed = try reader["Base32StringSeed"].readIfPresent()
+        value.qrCodePNG = try reader["QRCodePNG"].readIfPresent()
+        value.user = try reader["User"].readIfPresent(with: IAMClientTypes.User.read(from:))
+        value.enableDate = try reader["EnableDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 

@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 
@@ -7185,7 +7185,7 @@ enum AcceptHandshakeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7211,7 +7211,7 @@ enum AttachPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7237,7 +7237,7 @@ enum CancelHandshakeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7258,7 +7258,7 @@ enum CloseAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7282,7 +7282,7 @@ enum CreateAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7304,7 +7304,7 @@ enum CreateGovCloudAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7326,7 +7326,7 @@ enum CreateOrganizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7347,7 +7347,7 @@ enum CreateOrganizationalUnitOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7369,7 +7369,7 @@ enum CreatePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7393,7 +7393,7 @@ enum DeclineHandshakeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7414,7 +7414,7 @@ enum DeleteOrganizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7435,7 +7435,7 @@ enum DeleteOrganizationalUnitOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7456,7 +7456,7 @@ enum DeletePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7478,7 +7478,7 @@ enum DeleteResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7499,7 +7499,7 @@ enum DeregisterDelegatedAdministratorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7522,7 +7522,7 @@ enum DescribeAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7541,7 +7541,7 @@ enum DescribeCreateAccountStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7561,7 +7561,7 @@ enum DescribeEffectivePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7583,7 +7583,7 @@ enum DescribeHandshakeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7602,7 +7602,7 @@ enum DescribeOrganizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7620,7 +7620,7 @@ enum DescribeOrganizationalUnitOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7639,7 +7639,7 @@ enum DescribePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7659,7 +7659,7 @@ enum DescribeResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7679,7 +7679,7 @@ enum DescribeResponsibilityTransferOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7699,7 +7699,7 @@ enum DetachPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7724,7 +7724,7 @@ enum DisableAWSServiceAccessOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7745,7 +7745,7 @@ enum DisablePolicyTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7769,7 +7769,7 @@ enum EnableAllFeaturesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7790,7 +7790,7 @@ enum EnableAWSServiceAccessOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7811,7 +7811,7 @@ enum EnablePolicyTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7836,7 +7836,7 @@ enum InviteAccountToOrganizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7860,7 +7860,7 @@ enum InviteOrganizationToTransferResponsibilityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7883,7 +7883,7 @@ enum LeaveOrganizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7905,7 +7905,7 @@ enum ListAccountsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7923,7 +7923,7 @@ enum ListAccountsForParentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7942,7 +7942,7 @@ enum ListAccountsWithInvalidEffectivePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7963,7 +7963,7 @@ enum ListAWSServiceAccessForOrganizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7983,7 +7983,7 @@ enum ListChildrenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8002,7 +8002,7 @@ enum ListCreateAccountStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8021,7 +8021,7 @@ enum ListDelegatedAdministratorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8041,7 +8041,7 @@ enum ListDelegatedServicesForAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8063,7 +8063,7 @@ enum ListEffectivePolicyValidationErrorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8085,7 +8085,7 @@ enum ListHandshakesForAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8103,7 +8103,7 @@ enum ListHandshakesForOrganizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8122,7 +8122,7 @@ enum ListInboundResponsibilityTransfersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8143,7 +8143,7 @@ enum ListOrganizationalUnitsForParentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8162,7 +8162,7 @@ enum ListOutboundResponsibilityTransfersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8182,7 +8182,7 @@ enum ListParentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8201,7 +8201,7 @@ enum ListPoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8220,7 +8220,7 @@ enum ListPoliciesForTargetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8240,7 +8240,7 @@ enum ListRootsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8258,7 +8258,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8277,7 +8277,7 @@ enum ListTargetsForPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8297,7 +8297,7 @@ enum MoveAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8320,7 +8320,7 @@ enum PutResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8341,7 +8341,7 @@ enum RegisterDelegatedAdministratorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8364,7 +8364,7 @@ enum RemoveAccountFromOrganizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8386,7 +8386,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8407,7 +8407,7 @@ enum TerminateResponsibilityTransferOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8431,7 +8431,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8452,7 +8452,7 @@ enum UpdateOrganizationalUnitOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8473,7 +8473,7 @@ enum UpdatePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8498,7 +8498,7 @@ enum UpdateResponsibilityTransferOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8516,7 +8516,7 @@ enum UpdateResponsibilityTransferOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8529,7 +8529,7 @@ extension AccessDeniedException {
 
 extension AccessDeniedForDependencyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedForDependencyException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedForDependencyException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedForDependencyException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8543,7 +8543,7 @@ extension AccessDeniedForDependencyException {
 
 extension AWSOrganizationsNotInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AWSOrganizationsNotInUseException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AWSOrganizationsNotInUseException {
         let reader = baseError.errorBodyReader
         var value = AWSOrganizationsNotInUseException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8556,7 +8556,7 @@ extension AWSOrganizationsNotInUseException {
 
 extension ConcurrentModificationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
         let reader = baseError.errorBodyReader
         var value = ConcurrentModificationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8569,7 +8569,7 @@ extension ConcurrentModificationException {
 
 extension ConstraintViolationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConstraintViolationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConstraintViolationException {
         let reader = baseError.errorBodyReader
         var value = ConstraintViolationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8583,7 +8583,7 @@ extension ConstraintViolationException {
 
 extension HandshakeAlreadyInStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> HandshakeAlreadyInStateException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> HandshakeAlreadyInStateException {
         let reader = baseError.errorBodyReader
         var value = HandshakeAlreadyInStateException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8596,7 +8596,7 @@ extension HandshakeAlreadyInStateException {
 
 extension HandshakeConstraintViolationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> HandshakeConstraintViolationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> HandshakeConstraintViolationException {
         let reader = baseError.errorBodyReader
         var value = HandshakeConstraintViolationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8610,7 +8610,7 @@ extension HandshakeConstraintViolationException {
 
 extension HandshakeNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> HandshakeNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> HandshakeNotFoundException {
         let reader = baseError.errorBodyReader
         var value = HandshakeNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8623,7 +8623,7 @@ extension HandshakeNotFoundException {
 
 extension InvalidHandshakeTransitionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidHandshakeTransitionException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidHandshakeTransitionException {
         let reader = baseError.errorBodyReader
         var value = InvalidHandshakeTransitionException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8636,7 +8636,7 @@ extension InvalidHandshakeTransitionException {
 
 extension InvalidInputException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInputException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidInputException {
         let reader = baseError.errorBodyReader
         var value = InvalidInputException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8650,7 +8650,7 @@ extension InvalidInputException {
 
 extension MasterCannotLeaveOrganizationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MasterCannotLeaveOrganizationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MasterCannotLeaveOrganizationException {
         let reader = baseError.errorBodyReader
         var value = MasterCannotLeaveOrganizationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8663,7 +8663,7 @@ extension MasterCannotLeaveOrganizationException {
 
 extension ServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceException {
         let reader = baseError.errorBodyReader
         var value = ServiceException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8676,7 +8676,7 @@ extension ServiceException {
 
 extension TooManyRequestsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8690,7 +8690,7 @@ extension TooManyRequestsException {
 
 extension DuplicatePolicyAttachmentException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicatePolicyAttachmentException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DuplicatePolicyAttachmentException {
         let reader = baseError.errorBodyReader
         var value = DuplicatePolicyAttachmentException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8703,7 +8703,7 @@ extension DuplicatePolicyAttachmentException {
 
 extension PolicyChangesInProgressException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyChangesInProgressException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PolicyChangesInProgressException {
         let reader = baseError.errorBodyReader
         var value = PolicyChangesInProgressException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8716,7 +8716,7 @@ extension PolicyChangesInProgressException {
 
 extension PolicyNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PolicyNotFoundException {
         let reader = baseError.errorBodyReader
         var value = PolicyNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8729,7 +8729,7 @@ extension PolicyNotFoundException {
 
 extension PolicyTypeNotEnabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyTypeNotEnabledException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PolicyTypeNotEnabledException {
         let reader = baseError.errorBodyReader
         var value = PolicyTypeNotEnabledException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8742,7 +8742,7 @@ extension PolicyTypeNotEnabledException {
 
 extension TargetNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TargetNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TargetNotFoundException {
         let reader = baseError.errorBodyReader
         var value = TargetNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8755,7 +8755,7 @@ extension TargetNotFoundException {
 
 extension UnsupportedAPIEndpointException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedAPIEndpointException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UnsupportedAPIEndpointException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedAPIEndpointException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8768,7 +8768,7 @@ extension UnsupportedAPIEndpointException {
 
 extension AccountAlreadyClosedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountAlreadyClosedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccountAlreadyClosedException {
         let reader = baseError.errorBodyReader
         var value = AccountAlreadyClosedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8781,7 +8781,7 @@ extension AccountAlreadyClosedException {
 
 extension AccountNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccountNotFoundException {
         let reader = baseError.errorBodyReader
         var value = AccountNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8794,7 +8794,7 @@ extension AccountNotFoundException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8807,7 +8807,7 @@ extension ConflictException {
 
 extension FinalizingOrganizationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> FinalizingOrganizationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> FinalizingOrganizationException {
         let reader = baseError.errorBodyReader
         var value = FinalizingOrganizationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8820,7 +8820,7 @@ extension FinalizingOrganizationException {
 
 extension AlreadyInOrganizationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AlreadyInOrganizationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AlreadyInOrganizationException {
         let reader = baseError.errorBodyReader
         var value = AlreadyInOrganizationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8833,7 +8833,7 @@ extension AlreadyInOrganizationException {
 
 extension DuplicateOrganizationalUnitException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateOrganizationalUnitException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DuplicateOrganizationalUnitException {
         let reader = baseError.errorBodyReader
         var value = DuplicateOrganizationalUnitException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8846,7 +8846,7 @@ extension DuplicateOrganizationalUnitException {
 
 extension ParentNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ParentNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ParentNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ParentNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8859,7 +8859,7 @@ extension ParentNotFoundException {
 
 extension DuplicatePolicyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicatePolicyException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DuplicatePolicyException {
         let reader = baseError.errorBodyReader
         var value = DuplicatePolicyException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8872,7 +8872,7 @@ extension DuplicatePolicyException {
 
 extension MalformedPolicyDocumentException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MalformedPolicyDocumentException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MalformedPolicyDocumentException {
         let reader = baseError.errorBodyReader
         var value = MalformedPolicyDocumentException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8885,7 +8885,7 @@ extension MalformedPolicyDocumentException {
 
 extension PolicyTypeNotAvailableForOrganizationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyTypeNotAvailableForOrganizationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PolicyTypeNotAvailableForOrganizationException {
         let reader = baseError.errorBodyReader
         var value = PolicyTypeNotAvailableForOrganizationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8898,7 +8898,7 @@ extension PolicyTypeNotAvailableForOrganizationException {
 
 extension OrganizationNotEmptyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationNotEmptyException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> OrganizationNotEmptyException {
         let reader = baseError.errorBodyReader
         var value = OrganizationNotEmptyException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8911,7 +8911,7 @@ extension OrganizationNotEmptyException {
 
 extension OrganizationalUnitNotEmptyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationalUnitNotEmptyException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> OrganizationalUnitNotEmptyException {
         let reader = baseError.errorBodyReader
         var value = OrganizationalUnitNotEmptyException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8924,7 +8924,7 @@ extension OrganizationalUnitNotEmptyException {
 
 extension OrganizationalUnitNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationalUnitNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> OrganizationalUnitNotFoundException {
         let reader = baseError.errorBodyReader
         var value = OrganizationalUnitNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8937,7 +8937,7 @@ extension OrganizationalUnitNotFoundException {
 
 extension PolicyInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyInUseException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PolicyInUseException {
         let reader = baseError.errorBodyReader
         var value = PolicyInUseException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8950,7 +8950,7 @@ extension PolicyInUseException {
 
 extension ResourcePolicyNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourcePolicyNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourcePolicyNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourcePolicyNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8963,7 +8963,7 @@ extension ResourcePolicyNotFoundException {
 
 extension AccountNotRegisteredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountNotRegisteredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccountNotRegisteredException {
         let reader = baseError.errorBodyReader
         var value = AccountNotRegisteredException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8976,7 +8976,7 @@ extension AccountNotRegisteredException {
 
 extension CreateAccountStatusNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CreateAccountStatusNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CreateAccountStatusNotFoundException {
         let reader = baseError.errorBodyReader
         var value = CreateAccountStatusNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8989,7 +8989,7 @@ extension CreateAccountStatusNotFoundException {
 
 extension EffectivePolicyNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EffectivePolicyNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> EffectivePolicyNotFoundException {
         let reader = baseError.errorBodyReader
         var value = EffectivePolicyNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -9002,7 +9002,7 @@ extension EffectivePolicyNotFoundException {
 
 extension ResponsibilityTransferNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResponsibilityTransferNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResponsibilityTransferNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResponsibilityTransferNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -9015,7 +9015,7 @@ extension ResponsibilityTransferNotFoundException {
 
 extension PolicyNotAttachedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyNotAttachedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PolicyNotAttachedException {
         let reader = baseError.errorBodyReader
         var value = PolicyNotAttachedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -9028,7 +9028,7 @@ extension PolicyNotAttachedException {
 
 extension RootNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RootNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> RootNotFoundException {
         let reader = baseError.errorBodyReader
         var value = RootNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -9041,7 +9041,7 @@ extension RootNotFoundException {
 
 extension PolicyTypeAlreadyEnabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyTypeAlreadyEnabledException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PolicyTypeAlreadyEnabledException {
         let reader = baseError.errorBodyReader
         var value = PolicyTypeAlreadyEnabledException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -9054,7 +9054,7 @@ extension PolicyTypeAlreadyEnabledException {
 
 extension AccountOwnerNotVerifiedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountOwnerNotVerifiedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccountOwnerNotVerifiedException {
         let reader = baseError.errorBodyReader
         var value = AccountOwnerNotVerifiedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -9067,7 +9067,7 @@ extension AccountOwnerNotVerifiedException {
 
 extension DuplicateHandshakeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateHandshakeException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DuplicateHandshakeException {
         let reader = baseError.errorBodyReader
         var value = DuplicateHandshakeException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -9080,7 +9080,7 @@ extension DuplicateHandshakeException {
 
 extension ChildNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChildNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ChildNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ChildNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -9093,7 +9093,7 @@ extension ChildNotFoundException {
 
 extension DestinationParentNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DestinationParentNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DestinationParentNotFoundException {
         let reader = baseError.errorBodyReader
         var value = DestinationParentNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -9106,7 +9106,7 @@ extension DestinationParentNotFoundException {
 
 extension DuplicateAccountException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateAccountException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DuplicateAccountException {
         let reader = baseError.errorBodyReader
         var value = DuplicateAccountException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -9119,7 +9119,7 @@ extension DuplicateAccountException {
 
 extension SourceParentNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SourceParentNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SourceParentNotFoundException {
         let reader = baseError.errorBodyReader
         var value = SourceParentNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -9132,7 +9132,7 @@ extension SourceParentNotFoundException {
 
 extension AccountAlreadyRegisteredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountAlreadyRegisteredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccountAlreadyRegisteredException {
         let reader = baseError.errorBodyReader
         var value = AccountAlreadyRegisteredException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -9145,7 +9145,7 @@ extension AccountAlreadyRegisteredException {
 
 extension InvalidResponsibilityTransferTransitionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidResponsibilityTransferTransitionException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidResponsibilityTransferTransitionException {
         let reader = baseError.errorBodyReader
         var value = InvalidResponsibilityTransferTransitionException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -9158,7 +9158,7 @@ extension InvalidResponsibilityTransferTransitionException {
 
 extension ResponsibilityTransferAlreadyInStatusException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResponsibilityTransferAlreadyInStatusException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResponsibilityTransferAlreadyInStatusException {
         let reader = baseError.errorBodyReader
         var value = ResponsibilityTransferAlreadyInStatusException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -9169,48 +9169,30 @@ extension ResponsibilityTransferAlreadyInStatusException {
     }
 }
 
-extension OrganizationsClientTypes.Handshake {
+extension OrganizationsClientTypes.Account {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Handshake {
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Account {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.Handshake()
+        var value = OrganizationsClientTypes.Account()
         value.id = try reader["Id"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
-        value.parties = try reader["Parties"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.HandshakeParty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.email = try reader["Email"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
-        value.requestedTimestamp = try reader["RequestedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.expirationTimestamp = try reader["ExpirationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.action = try reader["Action"].readIfPresent()
-        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.HandshakeResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.joinedMethod = try reader["JoinedMethod"].readIfPresent()
+        value.joinedTimestamp = try reader["JoinedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension OrganizationsClientTypes.HandshakeResource {
+extension OrganizationsClientTypes.Child {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.HandshakeResource {
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Child {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.HandshakeResource()
-        value.value = try reader["Value"].readIfPresent()
+        var value = OrganizationsClientTypes.Child()
+        value.id = try reader["Id"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
-        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.HandshakeResource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OrganizationsClientTypes.HandshakeParty {
-
-    static func write(value: OrganizationsClientTypes.HandshakeParty?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.HandshakeParty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.HandshakeParty()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9232,6 +9214,127 @@ extension OrganizationsClientTypes.CreateAccountStatus {
     }
 }
 
+extension OrganizationsClientTypes.DelegatedAdministrator {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.DelegatedAdministrator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.DelegatedAdministrator()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.email = try reader["Email"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.joinedMethod = try reader["JoinedMethod"].readIfPresent()
+        value.joinedTimestamp = try reader["JoinedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.delegationEnabledDate = try reader["DelegationEnabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.DelegatedService {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.DelegatedService {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.DelegatedService()
+        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent()
+        value.delegationEnabledDate = try reader["DelegationEnabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.EffectivePolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EffectivePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.EffectivePolicy()
+        value.policyContent = try reader["PolicyContent"].readIfPresent()
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.targetId = try reader["TargetId"].readIfPresent()
+        value.policyType = try reader["PolicyType"].readIfPresent()
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.EffectivePolicyValidationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EffectivePolicyValidationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.EffectivePolicyValidationError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.pathToError = try reader["PathToError"].readIfPresent()
+        value.contributingPolicies = try reader["ContributingPolicies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.EnabledServicePrincipal {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EnabledServicePrincipal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.EnabledServicePrincipal()
+        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent()
+        value.dateEnabled = try reader["DateEnabled"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.Handshake {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Handshake {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.Handshake()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.parties = try reader["Parties"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.HandshakeParty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["State"].readIfPresent()
+        value.requestedTimestamp = try reader["RequestedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.expirationTimestamp = try reader["ExpirationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.action = try reader["Action"].readIfPresent()
+        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.HandshakeResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.HandshakeFilter {
+
+    static func write(value: OrganizationsClientTypes.HandshakeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionType"].write(value.actionType)
+        try writer["ParentHandshakeId"].write(value.parentHandshakeId)
+    }
+}
+
+extension OrganizationsClientTypes.HandshakeParty {
+
+    static func write(value: OrganizationsClientTypes.HandshakeParty?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.HandshakeParty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.HandshakeParty()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.HandshakeResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.HandshakeResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.HandshakeResource()
+        value.value = try reader["Value"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.HandshakeResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension OrganizationsClientTypes.Organization {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Organization {
@@ -9248,17 +9351,6 @@ extension OrganizationsClientTypes.Organization {
     }
 }
 
-extension OrganizationsClientTypes.PolicyTypeSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.PolicyTypeSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.PolicyTypeSummary()
-        value.type = try reader["Type"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
 extension OrganizationsClientTypes.OrganizationalUnit {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.OrganizationalUnit {
@@ -9267,6 +9359,17 @@ extension OrganizationsClientTypes.OrganizationalUnit {
         value.id = try reader["Id"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.Parent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Parent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.Parent()
+        value.id = try reader["Id"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
@@ -9297,32 +9400,26 @@ extension OrganizationsClientTypes.PolicySummary {
     }
 }
 
-extension OrganizationsClientTypes.Account {
+extension OrganizationsClientTypes.PolicyTargetSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Account {
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.PolicyTargetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.Account()
-        value.id = try reader["Id"].readIfPresent()
+        var value = OrganizationsClientTypes.PolicyTargetSummary()
+        value.targetId = try reader["TargetId"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
-        value.email = try reader["Email"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.joinedMethod = try reader["JoinedMethod"].readIfPresent()
-        value.joinedTimestamp = try reader["JoinedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
 
-extension OrganizationsClientTypes.EffectivePolicy {
+extension OrganizationsClientTypes.PolicyTypeSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EffectivePolicy {
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.PolicyTypeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.EffectivePolicy()
-        value.policyContent = try reader["PolicyContent"].readIfPresent()
-        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.targetId = try reader["TargetId"].readIfPresent()
-        value.policyType = try reader["PolicyType"].readIfPresent()
+        var value = OrganizationsClientTypes.PolicyTypeSummary()
+        value.type = try reader["Type"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -9368,17 +9465,6 @@ extension OrganizationsClientTypes.ResponsibilityTransfer {
     }
 }
 
-extension OrganizationsClientTypes.TransferParticipant {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.TransferParticipant {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.TransferParticipant()
-        value.managementAccountId = try reader["ManagementAccountId"].readIfPresent()
-        value.managementAccountEmail = try reader["ManagementAccountEmail"].readIfPresent()
-        return value
-    }
-}
-
 extension OrganizationsClientTypes.Root {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Root {
@@ -9388,81 +9474,6 @@ extension OrganizationsClientTypes.Root {
         value.arn = try reader["Arn"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.policyTypes = try reader["PolicyTypes"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.PolicyTypeSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OrganizationsClientTypes.EnabledServicePrincipal {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EnabledServicePrincipal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.EnabledServicePrincipal()
-        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent()
-        value.dateEnabled = try reader["DateEnabled"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension OrganizationsClientTypes.Child {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Child {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.Child()
-        value.id = try reader["Id"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension OrganizationsClientTypes.DelegatedAdministrator {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.DelegatedAdministrator {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.DelegatedAdministrator()
-        value.id = try reader["Id"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.email = try reader["Email"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.joinedMethod = try reader["JoinedMethod"].readIfPresent()
-        value.joinedTimestamp = try reader["JoinedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.delegationEnabledDate = try reader["DelegationEnabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension OrganizationsClientTypes.DelegatedService {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.DelegatedService {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.DelegatedService()
-        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent()
-        value.delegationEnabledDate = try reader["DelegationEnabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension OrganizationsClientTypes.EffectivePolicyValidationError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EffectivePolicyValidationError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.EffectivePolicyValidationError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.pathToError = try reader["PathToError"].readIfPresent()
-        value.contributingPolicies = try reader["ContributingPolicies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OrganizationsClientTypes.Parent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Parent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.Parent()
-        value.id = try reader["Id"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
@@ -9484,25 +9495,14 @@ extension OrganizationsClientTypes.Tag {
     }
 }
 
-extension OrganizationsClientTypes.PolicyTargetSummary {
+extension OrganizationsClientTypes.TransferParticipant {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.PolicyTargetSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.TransferParticipant {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.PolicyTargetSummary()
-        value.targetId = try reader["TargetId"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        var value = OrganizationsClientTypes.TransferParticipant()
+        value.managementAccountId = try reader["ManagementAccountId"].readIfPresent()
+        value.managementAccountEmail = try reader["ManagementAccountEmail"].readIfPresent()
         return value
-    }
-}
-
-extension OrganizationsClientTypes.HandshakeFilter {
-
-    static func write(value: OrganizationsClientTypes.HandshakeFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActionType"].write(value.actionType)
-        try writer["ParentHandshakeId"].write(value.parentHandshakeId)
     }
 }
 

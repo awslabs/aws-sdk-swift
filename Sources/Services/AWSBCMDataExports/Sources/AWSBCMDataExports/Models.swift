@@ -24,8 +24,32 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
+
+/// You don't have sufficient access to perform this action.
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessDeniedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
 
 /// An error on the server occurred during the processing of your request. Try again later.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -610,6 +634,209 @@ public struct DeleteExportOutput: Swift.Sendable {
     }
 }
 
+public struct GetExportInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) for this export.
+    /// This member is required.
+    public var exportArn: Swift.String?
+
+    public init(
+        exportArn: Swift.String? = nil
+    ) {
+        self.exportArn = exportArn
+    }
+}
+
+extension BCMDataExportsClientTypes {
+
+    public enum ExportStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case healthy
+        case unhealthy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExportStatusCode] {
+            return [
+                .healthy,
+                .unhealthy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .healthy: return "HEALTHY"
+            case .unhealthy: return "UNHEALTHY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BCMDataExportsClientTypes {
+
+    public enum ExecutionStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case billOwnerChanged
+        case insufficientPermission
+        case internalFailure
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExecutionStatusReason] {
+            return [
+                .billOwnerChanged,
+                .insufficientPermission,
+                .internalFailure
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .billOwnerChanged: return "BILL_OWNER_CHANGED"
+            case .insufficientPermission: return "INSUFFICIENT_PERMISSION"
+            case .internalFailure: return "INTERNAL_FAILURE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BCMDataExportsClientTypes {
+
+    /// The status of the data export.
+    public struct ExportStatus: Swift.Sendable {
+        /// The timestamp of when the export was created.
+        public var createdAt: Foundation.Date?
+        /// The timestamp of when the export was last generated.
+        public var lastRefreshedAt: Foundation.Date?
+        /// The timestamp of when the export was updated.
+        public var lastUpdatedAt: Foundation.Date?
+        /// The status code for the request.
+        public var statusCode: BCMDataExportsClientTypes.ExportStatusCode?
+        /// The description for the status code.
+        public var statusReason: BCMDataExportsClientTypes.ExecutionStatusReason?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            lastRefreshedAt: Foundation.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            statusCode: BCMDataExportsClientTypes.ExportStatusCode? = nil,
+            statusReason: BCMDataExportsClientTypes.ExecutionStatusReason? = nil
+        ) {
+            self.createdAt = createdAt
+            self.lastRefreshedAt = lastRefreshedAt
+            self.lastUpdatedAt = lastUpdatedAt
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+        }
+    }
+}
+
+public struct GetExportOutput: Swift.Sendable {
+    /// The data for this specific export.
+    public var export: BCMDataExportsClientTypes.Export?
+    /// The status of this specific export.
+    public var exportStatus: BCMDataExportsClientTypes.ExportStatus?
+
+    public init(
+        export: BCMDataExportsClientTypes.Export? = nil,
+        exportStatus: BCMDataExportsClientTypes.ExportStatus? = nil
+    ) {
+        self.export = export
+        self.exportStatus = exportStatus
+    }
+}
+
+public struct ListExportsInput: Swift.Sendable {
+    /// The maximum number of objects that are returned for the request.
+    public var maxResults: Swift.Int?
+    /// The token to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BCMDataExportsClientTypes {
+
+    /// The reference details for a given export.
+    public struct ExportReference: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) for this export.
+        /// This member is required.
+        public var exportArn: Swift.String?
+        /// The name of this specific data export.
+        /// This member is required.
+        public var exportName: Swift.String?
+        /// The status of this specific data export.
+        /// This member is required.
+        public var exportStatus: BCMDataExportsClientTypes.ExportStatus?
+
+        public init(
+            exportArn: Swift.String? = nil,
+            exportName: Swift.String? = nil,
+            exportStatus: BCMDataExportsClientTypes.ExportStatus? = nil
+        ) {
+            self.exportArn = exportArn
+            self.exportName = exportName
+            self.exportStatus = exportStatus
+        }
+    }
+}
+
+public struct ListExportsOutput: Swift.Sendable {
+    /// The details of the exports, including name and export status.
+    public var exports: [BCMDataExportsClientTypes.ExportReference]?
+    /// The token to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        exports: [BCMDataExportsClientTypes.ExportReference]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.exports = exports
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateExportInput: Swift.Sendable {
+    /// The name and query details for the export.
+    /// This member is required.
+    public var export: BCMDataExportsClientTypes.Export?
+    /// The Amazon Resource Name (ARN) for this export.
+    /// This member is required.
+    public var exportArn: Swift.String?
+
+    public init(
+        export: BCMDataExportsClientTypes.Export? = nil,
+        exportArn: Swift.String? = nil
+    ) {
+        self.export = export
+        self.exportArn = exportArn
+    }
+}
+
+public struct UpdateExportOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) for this export.
+    public var exportArn: Swift.String?
+
+    public init(
+        exportArn: Swift.String? = nil
+    ) {
+        self.exportArn = exportArn
+    }
+}
+
 public struct GetExecutionInput: Swift.Sendable {
     /// The ID for this specific execution.
     /// This member is required.
@@ -673,38 +900,6 @@ extension BCMDataExportsClientTypes {
 
 extension BCMDataExportsClientTypes {
 
-    public enum ExecutionStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case billOwnerChanged
-        case insufficientPermission
-        case internalFailure
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ExecutionStatusReason] {
-            return [
-                .billOwnerChanged,
-                .insufficientPermission,
-                .internalFailure
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .billOwnerChanged: return "BILL_OWNER_CHANGED"
-            case .insufficientPermission: return "INSUFFICIENT_PERMISSION"
-            case .internalFailure: return "INTERNAL_FAILURE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension BCMDataExportsClientTypes {
-
     /// The status of the execution.
     public struct ExecutionStatus: Swift.Sendable {
         /// The time when the execution was completed.
@@ -750,93 +945,6 @@ public struct GetExecutionOutput: Swift.Sendable {
         self.executionId = executionId
         self.executionStatus = executionStatus
         self.export = export
-    }
-}
-
-public struct GetExportInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) for this export.
-    /// This member is required.
-    public var exportArn: Swift.String?
-
-    public init(
-        exportArn: Swift.String? = nil
-    ) {
-        self.exportArn = exportArn
-    }
-}
-
-extension BCMDataExportsClientTypes {
-
-    public enum ExportStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case healthy
-        case unhealthy
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ExportStatusCode] {
-            return [
-                .healthy,
-                .unhealthy
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .healthy: return "HEALTHY"
-            case .unhealthy: return "UNHEALTHY"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension BCMDataExportsClientTypes {
-
-    /// The status of the data export.
-    public struct ExportStatus: Swift.Sendable {
-        /// The timestamp of when the export was created.
-        public var createdAt: Foundation.Date?
-        /// The timestamp of when the export was last generated.
-        public var lastRefreshedAt: Foundation.Date?
-        /// The timestamp of when the export was updated.
-        public var lastUpdatedAt: Foundation.Date?
-        /// The status code for the request.
-        public var statusCode: BCMDataExportsClientTypes.ExportStatusCode?
-        /// The description for the status code.
-        public var statusReason: BCMDataExportsClientTypes.ExecutionStatusReason?
-
-        public init(
-            createdAt: Foundation.Date? = nil,
-            lastRefreshedAt: Foundation.Date? = nil,
-            lastUpdatedAt: Foundation.Date? = nil,
-            statusCode: BCMDataExportsClientTypes.ExportStatusCode? = nil,
-            statusReason: BCMDataExportsClientTypes.ExecutionStatusReason? = nil
-        ) {
-            self.createdAt = createdAt
-            self.lastRefreshedAt = lastRefreshedAt
-            self.lastUpdatedAt = lastUpdatedAt
-            self.statusCode = statusCode
-            self.statusReason = statusReason
-        }
-    }
-}
-
-public struct GetExportOutput: Swift.Sendable {
-    /// The data for this specific export.
-    public var export: BCMDataExportsClientTypes.Export?
-    /// The status of this specific export.
-    public var exportStatus: BCMDataExportsClientTypes.ExportStatus?
-
-    public init(
-        export: BCMDataExportsClientTypes.Export? = nil,
-        exportStatus: BCMDataExportsClientTypes.ExportStatus? = nil
-    ) {
-        self.export = export
-        self.exportStatus = exportStatus
     }
 }
 
@@ -954,62 +1062,6 @@ public struct ListExecutionsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.executions = executions
-        self.nextToken = nextToken
-    }
-}
-
-public struct ListExportsInput: Swift.Sendable {
-    /// The maximum number of objects that are returned for the request.
-    public var maxResults: Swift.Int?
-    /// The token to retrieve the next set of results.
-    public var nextToken: Swift.String?
-
-    public init(
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-    }
-}
-
-extension BCMDataExportsClientTypes {
-
-    /// The reference details for a given export.
-    public struct ExportReference: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) for this export.
-        /// This member is required.
-        public var exportArn: Swift.String?
-        /// The name of this specific data export.
-        /// This member is required.
-        public var exportName: Swift.String?
-        /// The status of this specific data export.
-        /// This member is required.
-        public var exportStatus: BCMDataExportsClientTypes.ExportStatus?
-
-        public init(
-            exportArn: Swift.String? = nil,
-            exportName: Swift.String? = nil,
-            exportStatus: BCMDataExportsClientTypes.ExportStatus? = nil
-        ) {
-            self.exportArn = exportArn
-            self.exportName = exportName
-            self.exportStatus = exportStatus
-        }
-    }
-}
-
-public struct ListExportsOutput: Swift.Sendable {
-    /// The details of the exports, including name and export status.
-    public var exports: [BCMDataExportsClientTypes.ExportReference]?
-    /// The token to retrieve the next set of results.
-    public var nextToken: Swift.String?
-
-    public init(
-        exports: [BCMDataExportsClientTypes.ExportReference]? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.exports = exports
         self.nextToken = nextToken
     }
 }
@@ -1171,34 +1223,6 @@ public struct UntagResourceInput: Swift.Sendable {
 public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
-}
-
-public struct UpdateExportInput: Swift.Sendable {
-    /// The name and query details for the export.
-    /// This member is required.
-    public var export: BCMDataExportsClientTypes.Export?
-    /// The Amazon Resource Name (ARN) for this export.
-    /// This member is required.
-    public var exportArn: Swift.String?
-
-    public init(
-        export: BCMDataExportsClientTypes.Export? = nil,
-        exportArn: Swift.String? = nil
-    ) {
-        self.export = export
-        self.exportArn = exportArn
-    }
-}
-
-public struct UpdateExportOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) for this export.
-    public var exportArn: Swift.String?
-
-    public init(
-        exportArn: Swift.String? = nil
-    ) {
-        self.exportArn = exportArn
-    }
 }
 
 extension CreateExportInput {
@@ -1542,9 +1566,10 @@ enum CreateExportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -1559,7 +1584,7 @@ enum DeleteExportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1576,7 +1601,7 @@ enum GetExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1593,7 +1618,7 @@ enum GetExportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1610,7 +1635,7 @@ enum GetTableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1626,7 +1651,7 @@ enum ListExecutionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1643,7 +1668,7 @@ enum ListExportsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1659,7 +1684,7 @@ enum ListTablesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1675,9 +1700,10 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -1692,9 +1718,10 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -1709,9 +1736,10 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -1726,7 +1754,7 @@ enum UpdateExportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1738,9 +1766,22 @@ enum UpdateExportOutputError {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -1753,7 +1794,7 @@ extension InternalServerException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -1770,7 +1811,7 @@ extension ServiceQuotaExceededException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -1785,7 +1826,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: BCMDataExportsClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -1800,7 +1841,7 @@ extension ValidationException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -1809,6 +1850,75 @@ extension ResourceNotFoundException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension BCMDataExportsClientTypes.Column {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.Column {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDataExportsClientTypes.Column()
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
+extension BCMDataExportsClientTypes.DataQuery {
+
+    static func write(value: BCMDataExportsClientTypes.DataQuery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["QueryStatement"].write(value.queryStatement)
+        try writer["TableConfigurations"].writeMap(value.tableConfigurations, valueWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.DataQuery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDataExportsClientTypes.DataQuery()
+        value.queryStatement = try reader["QueryStatement"].readIfPresent() ?? ""
+        value.tableConfigurations = try reader["TableConfigurations"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension BCMDataExportsClientTypes.DestinationConfigurations {
+
+    static func write(value: BCMDataExportsClientTypes.DestinationConfigurations?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Destination"].write(value.s3Destination, with: BCMDataExportsClientTypes.S3Destination.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.DestinationConfigurations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDataExportsClientTypes.DestinationConfigurations()
+        value.s3Destination = try reader["S3Destination"].readIfPresent(with: BCMDataExportsClientTypes.S3Destination.read(from:))
+        return value
+    }
+}
+
+extension BCMDataExportsClientTypes.ExecutionReference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExecutionReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDataExportsClientTypes.ExecutionReference()
+        value.executionId = try reader["ExecutionId"].readIfPresent() ?? ""
+        value.executionStatus = try reader["ExecutionStatus"].readIfPresent(with: BCMDataExportsClientTypes.ExecutionStatus.read(from:))
+        return value
+    }
+}
+
+extension BCMDataExportsClientTypes.ExecutionStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExecutionStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDataExportsClientTypes.ExecutionStatus()
+        value.statusCode = try reader["StatusCode"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.completedAt = try reader["CompletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -1838,6 +1948,32 @@ extension BCMDataExportsClientTypes.Export {
     }
 }
 
+extension BCMDataExportsClientTypes.ExportReference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExportReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDataExportsClientTypes.ExportReference()
+        value.exportArn = try reader["ExportArn"].readIfPresent() ?? ""
+        value.exportName = try reader["ExportName"].readIfPresent() ?? ""
+        value.exportStatus = try reader["ExportStatus"].readIfPresent(with: BCMDataExportsClientTypes.ExportStatus.read(from:))
+        return value
+    }
+}
+
+extension BCMDataExportsClientTypes.ExportStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExportStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDataExportsClientTypes.ExportStatus()
+        value.statusCode = try reader["StatusCode"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastRefreshedAt = try reader["LastRefreshedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension BCMDataExportsClientTypes.RefreshCadence {
 
     static func write(value: BCMDataExportsClientTypes.RefreshCadence?, to writer: SmithyJSON.Writer) throws {
@@ -1853,17 +1989,19 @@ extension BCMDataExportsClientTypes.RefreshCadence {
     }
 }
 
-extension BCMDataExportsClientTypes.DestinationConfigurations {
+extension BCMDataExportsClientTypes.ResourceTag {
 
-    static func write(value: BCMDataExportsClientTypes.DestinationConfigurations?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BCMDataExportsClientTypes.ResourceTag?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["S3Destination"].write(value.s3Destination, with: BCMDataExportsClientTypes.S3Destination.write(value:to:))
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.DestinationConfigurations {
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ResourceTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDataExportsClientTypes.DestinationConfigurations()
-        value.s3Destination = try reader["S3Destination"].readIfPresent(with: BCMDataExportsClientTypes.S3Destination.read(from:))
+        var value = BCMDataExportsClientTypes.ResourceTag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1910,86 +2048,6 @@ extension BCMDataExportsClientTypes.S3OutputConfigurations {
     }
 }
 
-extension BCMDataExportsClientTypes.DataQuery {
-
-    static func write(value: BCMDataExportsClientTypes.DataQuery?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["QueryStatement"].write(value.queryStatement)
-        try writer["TableConfigurations"].writeMap(value.tableConfigurations, valueWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.DataQuery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDataExportsClientTypes.DataQuery()
-        value.queryStatement = try reader["QueryStatement"].readIfPresent() ?? ""
-        value.tableConfigurations = try reader["TableConfigurations"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension BCMDataExportsClientTypes.ExecutionStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExecutionStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDataExportsClientTypes.ExecutionStatus()
-        value.statusCode = try reader["StatusCode"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.completedAt = try reader["CompletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension BCMDataExportsClientTypes.ExportStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExportStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDataExportsClientTypes.ExportStatus()
-        value.statusCode = try reader["StatusCode"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastRefreshedAt = try reader["LastRefreshedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension BCMDataExportsClientTypes.Column {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.Column {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDataExportsClientTypes.Column()
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
-extension BCMDataExportsClientTypes.ExecutionReference {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExecutionReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDataExportsClientTypes.ExecutionReference()
-        value.executionId = try reader["ExecutionId"].readIfPresent() ?? ""
-        value.executionStatus = try reader["ExecutionStatus"].readIfPresent(with: BCMDataExportsClientTypes.ExecutionStatus.read(from:))
-        return value
-    }
-}
-
-extension BCMDataExportsClientTypes.ExportReference {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExportReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDataExportsClientTypes.ExportReference()
-        value.exportArn = try reader["ExportArn"].readIfPresent() ?? ""
-        value.exportName = try reader["ExportName"].readIfPresent() ?? ""
-        value.exportStatus = try reader["ExportStatus"].readIfPresent(with: BCMDataExportsClientTypes.ExportStatus.read(from:))
-        return value
-    }
-}
-
 extension BCMDataExportsClientTypes.Table {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.Table {
@@ -2011,23 +2069,6 @@ extension BCMDataExportsClientTypes.TablePropertyDescription {
         value.validValues = try reader["ValidValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.defaultValue = try reader["DefaultValue"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
-extension BCMDataExportsClientTypes.ResourceTag {
-
-    static func write(value: BCMDataExportsClientTypes.ResourceTag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ResourceTag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDataExportsClientTypes.ResourceTag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

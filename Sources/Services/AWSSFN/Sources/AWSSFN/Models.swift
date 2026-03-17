@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// Activity already exists. EncryptionConfiguration may not be updated.
@@ -6460,7 +6460,7 @@ enum CreateActivityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ActivityAlreadyExists": return try ActivityAlreadyExists.makeError(baseError: baseError)
@@ -6480,7 +6480,7 @@ enum CreateStateMachineOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -6508,7 +6508,7 @@ enum CreateStateMachineAliasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -6528,7 +6528,7 @@ enum DeleteActivityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
@@ -6542,7 +6542,7 @@ enum DeleteStateMachineOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
@@ -6557,7 +6557,7 @@ enum DeleteStateMachineAliasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -6574,7 +6574,7 @@ enum DeleteStateMachineVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -6590,7 +6590,7 @@ enum DescribeActivityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ActivityDoesNotExist": return try ActivityDoesNotExist.makeError(baseError: baseError)
@@ -6605,7 +6605,7 @@ enum DescribeExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExecutionDoesNotExist": return try ExecutionDoesNotExist.makeError(baseError: baseError)
@@ -6623,7 +6623,7 @@ enum DescribeMapRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
@@ -6638,7 +6638,7 @@ enum DescribeStateMachineOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
@@ -6656,7 +6656,7 @@ enum DescribeStateMachineAliasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
@@ -6672,7 +6672,7 @@ enum DescribeStateMachineForExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExecutionDoesNotExist": return try ExecutionDoesNotExist.makeError(baseError: baseError)
@@ -6690,7 +6690,7 @@ enum GetActivityTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ActivityDoesNotExist": return try ActivityDoesNotExist.makeError(baseError: baseError)
@@ -6709,7 +6709,7 @@ enum GetExecutionHistoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExecutionDoesNotExist": return try ExecutionDoesNotExist.makeError(baseError: baseError)
@@ -6728,7 +6728,7 @@ enum ListActivitiesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidToken": return try InvalidToken.makeError(baseError: baseError)
@@ -6742,7 +6742,7 @@ enum ListExecutionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
@@ -6761,7 +6761,7 @@ enum ListMapRunsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExecutionDoesNotExist": return try ExecutionDoesNotExist.makeError(baseError: baseError)
@@ -6777,7 +6777,7 @@ enum ListStateMachineAliasesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
@@ -6795,7 +6795,7 @@ enum ListStateMachinesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidToken": return try InvalidToken.makeError(baseError: baseError)
@@ -6809,7 +6809,7 @@ enum ListStateMachineVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
@@ -6825,7 +6825,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
@@ -6840,7 +6840,7 @@ enum PublishStateMachineVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -6859,7 +6859,7 @@ enum RedriveExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExecutionDoesNotExist": return try ExecutionDoesNotExist.makeError(baseError: baseError)
@@ -6877,7 +6877,7 @@ enum SendTaskFailureOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidToken": return try InvalidToken.makeError(baseError: baseError)
@@ -6896,7 +6896,7 @@ enum SendTaskHeartbeatOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidToken": return try InvalidToken.makeError(baseError: baseError)
@@ -6912,7 +6912,7 @@ enum SendTaskSuccessOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidOutput": return try InvalidOutput.makeError(baseError: baseError)
@@ -6932,7 +6932,7 @@ enum StartExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExecutionAlreadyExists": return try ExecutionAlreadyExists.makeError(baseError: baseError)
@@ -6956,7 +6956,7 @@ enum StartSyncExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
@@ -6978,7 +6978,7 @@ enum StopExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExecutionDoesNotExist": return try ExecutionDoesNotExist.makeError(baseError: baseError)
@@ -6997,7 +6997,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
@@ -7013,7 +7013,7 @@ enum TestStateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
@@ -7030,7 +7030,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
@@ -7045,7 +7045,7 @@ enum UpdateMapRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArn": return try InvalidArn.makeError(baseError: baseError)
@@ -7061,7 +7061,7 @@ enum UpdateStateMachineOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -7087,7 +7087,7 @@ enum UpdateStateMachineAliasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -7105,7 +7105,7 @@ enum ValidateStateMachineDefinitionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -7116,7 +7116,7 @@ enum ValidateStateMachineDefinitionOutputError {
 
 extension ActivityAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ActivityAlreadyExists {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ActivityAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = ActivityAlreadyExists()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7129,7 +7129,7 @@ extension ActivityAlreadyExists {
 
 extension ActivityLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ActivityLimitExceeded {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ActivityLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = ActivityLimitExceeded()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7142,7 +7142,7 @@ extension ActivityLimitExceeded {
 
 extension InvalidEncryptionConfiguration {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEncryptionConfiguration {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidEncryptionConfiguration {
         let reader = baseError.errorBodyReader
         var value = InvalidEncryptionConfiguration()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7155,7 +7155,7 @@ extension InvalidEncryptionConfiguration {
 
 extension InvalidName {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidName {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidName {
         let reader = baseError.errorBodyReader
         var value = InvalidName()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7168,7 +7168,7 @@ extension InvalidName {
 
 extension KmsAccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsAccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> KmsAccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = KmsAccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7181,7 +7181,7 @@ extension KmsAccessDeniedException {
 
 extension KmsThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> KmsThrottlingException {
         let reader = baseError.errorBodyReader
         var value = KmsThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7194,7 +7194,7 @@ extension KmsThrottlingException {
 
 extension TooManyTags {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTags {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TooManyTags {
         let reader = baseError.errorBodyReader
         var value = TooManyTags()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7208,7 +7208,7 @@ extension TooManyTags {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7221,7 +7221,7 @@ extension ConflictException {
 
 extension InvalidArn {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArn {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidArn {
         let reader = baseError.errorBodyReader
         var value = InvalidArn()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7234,7 +7234,7 @@ extension InvalidArn {
 
 extension InvalidDefinition {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDefinition {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidDefinition {
         let reader = baseError.errorBodyReader
         var value = InvalidDefinition()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7247,7 +7247,7 @@ extension InvalidDefinition {
 
 extension InvalidLoggingConfiguration {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLoggingConfiguration {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidLoggingConfiguration {
         let reader = baseError.errorBodyReader
         var value = InvalidLoggingConfiguration()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7260,7 +7260,7 @@ extension InvalidLoggingConfiguration {
 
 extension InvalidTracingConfiguration {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTracingConfiguration {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidTracingConfiguration {
         let reader = baseError.errorBodyReader
         var value = InvalidTracingConfiguration()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7273,7 +7273,7 @@ extension InvalidTracingConfiguration {
 
 extension StateMachineAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> StateMachineAlreadyExists {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> StateMachineAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = StateMachineAlreadyExists()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7286,7 +7286,7 @@ extension StateMachineAlreadyExists {
 
 extension StateMachineDeleting {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> StateMachineDeleting {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> StateMachineDeleting {
         let reader = baseError.errorBodyReader
         var value = StateMachineDeleting()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7299,7 +7299,7 @@ extension StateMachineDeleting {
 
 extension StateMachineLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> StateMachineLimitExceeded {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> StateMachineLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = StateMachineLimitExceeded()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7312,7 +7312,7 @@ extension StateMachineLimitExceeded {
 
 extension StateMachineTypeNotSupported {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> StateMachineTypeNotSupported {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> StateMachineTypeNotSupported {
         let reader = baseError.errorBodyReader
         var value = StateMachineTypeNotSupported()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7325,7 +7325,7 @@ extension StateMachineTypeNotSupported {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7339,7 +7339,7 @@ extension ValidationException {
 
 extension ResourceNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFound {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFound()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7353,7 +7353,7 @@ extension ResourceNotFound {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7366,7 +7366,7 @@ extension ServiceQuotaExceededException {
 
 extension ActivityDoesNotExist {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ActivityDoesNotExist {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ActivityDoesNotExist {
         let reader = baseError.errorBodyReader
         var value = ActivityDoesNotExist()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7379,7 +7379,7 @@ extension ActivityDoesNotExist {
 
 extension ExecutionDoesNotExist {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExecutionDoesNotExist {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ExecutionDoesNotExist {
         let reader = baseError.errorBodyReader
         var value = ExecutionDoesNotExist()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7392,7 +7392,7 @@ extension ExecutionDoesNotExist {
 
 extension KmsInvalidStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsInvalidStateException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> KmsInvalidStateException {
         let reader = baseError.errorBodyReader
         var value = KmsInvalidStateException()
         value.properties.kmsKeyState = try reader["kmsKeyState"].readIfPresent()
@@ -7406,7 +7406,7 @@ extension KmsInvalidStateException {
 
 extension StateMachineDoesNotExist {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> StateMachineDoesNotExist {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> StateMachineDoesNotExist {
         let reader = baseError.errorBodyReader
         var value = StateMachineDoesNotExist()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7419,7 +7419,7 @@ extension StateMachineDoesNotExist {
 
 extension ActivityWorkerLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ActivityWorkerLimitExceeded {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ActivityWorkerLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = ActivityWorkerLimitExceeded()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7432,7 +7432,7 @@ extension ActivityWorkerLimitExceeded {
 
 extension InvalidToken {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidToken {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidToken {
         let reader = baseError.errorBodyReader
         var value = InvalidToken()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7445,7 +7445,7 @@ extension InvalidToken {
 
 extension ExecutionLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExecutionLimitExceeded {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ExecutionLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = ExecutionLimitExceeded()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7458,7 +7458,7 @@ extension ExecutionLimitExceeded {
 
 extension ExecutionNotRedrivable {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExecutionNotRedrivable {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ExecutionNotRedrivable {
         let reader = baseError.errorBodyReader
         var value = ExecutionNotRedrivable()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7471,7 +7471,7 @@ extension ExecutionNotRedrivable {
 
 extension TaskDoesNotExist {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TaskDoesNotExist {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TaskDoesNotExist {
         let reader = baseError.errorBodyReader
         var value = TaskDoesNotExist()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7484,7 +7484,7 @@ extension TaskDoesNotExist {
 
 extension TaskTimedOut {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TaskTimedOut {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TaskTimedOut {
         let reader = baseError.errorBodyReader
         var value = TaskTimedOut()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7497,7 +7497,7 @@ extension TaskTimedOut {
 
 extension InvalidOutput {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidOutput {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidOutput {
         let reader = baseError.errorBodyReader
         var value = InvalidOutput()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7510,7 +7510,7 @@ extension InvalidOutput {
 
 extension ExecutionAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExecutionAlreadyExists {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ExecutionAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = ExecutionAlreadyExists()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7523,7 +7523,7 @@ extension ExecutionAlreadyExists {
 
 extension InvalidExecutionInput {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidExecutionInput {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidExecutionInput {
         let reader = baseError.errorBodyReader
         var value = InvalidExecutionInput()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7536,13 +7536,139 @@ extension InvalidExecutionInput {
 
 extension MissingRequiredParameter {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MissingRequiredParameter {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MissingRequiredParameter {
         let reader = baseError.errorBodyReader
         var value = MissingRequiredParameter()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension SFNClientTypes.ActivityFailedEventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivityFailedEventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.ActivityFailedEventDetails()
+        value.error = try reader["error"].readIfPresent()
+        value.cause = try reader["cause"].readIfPresent()
+        return value
+    }
+}
+
+extension SFNClientTypes.ActivityListItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivityListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.ActivityListItem()
+        value.activityArn = try reader["activityArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension SFNClientTypes.ActivityScheduledEventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivityScheduledEventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.ActivityScheduledEventDetails()
+        value.resource = try reader["resource"].readIfPresent() ?? ""
+        value.input = try reader["input"].readIfPresent()
+        value.inputDetails = try reader["inputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
+        value.timeoutInSeconds = try reader["timeoutInSeconds"].readIfPresent()
+        value.heartbeatInSeconds = try reader["heartbeatInSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension SFNClientTypes.ActivityScheduleFailedEventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivityScheduleFailedEventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.ActivityScheduleFailedEventDetails()
+        value.error = try reader["error"].readIfPresent()
+        value.cause = try reader["cause"].readIfPresent()
+        return value
+    }
+}
+
+extension SFNClientTypes.ActivityStartedEventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivityStartedEventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.ActivityStartedEventDetails()
+        value.workerName = try reader["workerName"].readIfPresent()
+        return value
+    }
+}
+
+extension SFNClientTypes.ActivitySucceededEventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivitySucceededEventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.ActivitySucceededEventDetails()
+        value.output = try reader["output"].readIfPresent()
+        value.outputDetails = try reader["outputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
+        return value
+    }
+}
+
+extension SFNClientTypes.ActivityTimedOutEventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivityTimedOutEventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.ActivityTimedOutEventDetails()
+        value.error = try reader["error"].readIfPresent()
+        value.cause = try reader["cause"].readIfPresent()
+        return value
+    }
+}
+
+extension SFNClientTypes.AssignedVariablesDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.AssignedVariablesDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.AssignedVariablesDetails()
+        value.truncated = try reader["truncated"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension SFNClientTypes.BillingDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.BillingDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.BillingDetails()
+        value.billedMemoryUsedInMB = try reader["billedMemoryUsedInMB"].readIfPresent() ?? 0
+        value.billedDurationInMilliseconds = try reader["billedDurationInMilliseconds"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SFNClientTypes.CloudWatchEventsExecutionDataDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.CloudWatchEventsExecutionDataDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.CloudWatchEventsExecutionDataDetails()
+        value.included = try reader["included"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension SFNClientTypes.CloudWatchLogsLogGroup {
+
+    static func write(value: SFNClientTypes.CloudWatchLogsLogGroup?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["logGroupArn"].write(value.logGroupArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.CloudWatchLogsLogGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.CloudWatchLogsLogGroup()
+        value.logGroupArn = try reader["logGroupArn"].readIfPresent()
         return value
     }
 }
@@ -7566,131 +7692,104 @@ extension SFNClientTypes.EncryptionConfiguration {
     }
 }
 
-extension SFNClientTypes.CloudWatchEventsExecutionDataDetails {
+extension SFNClientTypes.EvaluationFailedEventDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.CloudWatchEventsExecutionDataDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.EvaluationFailedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.CloudWatchEventsExecutionDataDetails()
-        value.included = try reader["included"].readIfPresent() ?? false
+        var value = SFNClientTypes.EvaluationFailedEventDetails()
+        value.error = try reader["error"].readIfPresent()
+        value.cause = try reader["cause"].readIfPresent()
+        value.location = try reader["location"].readIfPresent()
+        value.state = try reader["state"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension SFNClientTypes.MapRunItemCounts {
+extension SFNClientTypes.ExecutionAbortedEventDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.MapRunItemCounts {
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionAbortedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.MapRunItemCounts()
-        value.pending = try reader["pending"].readIfPresent() ?? 0
-        value.running = try reader["running"].readIfPresent() ?? 0
-        value.succeeded = try reader["succeeded"].readIfPresent() ?? 0
-        value.failed = try reader["failed"].readIfPresent() ?? 0
-        value.timedOut = try reader["timedOut"].readIfPresent() ?? 0
-        value.aborted = try reader["aborted"].readIfPresent() ?? 0
-        value.total = try reader["total"].readIfPresent() ?? 0
-        value.resultsWritten = try reader["resultsWritten"].readIfPresent() ?? 0
-        value.failuresNotRedrivable = try reader["failuresNotRedrivable"].readIfPresent()
-        value.pendingRedrive = try reader["pendingRedrive"].readIfPresent()
+        var value = SFNClientTypes.ExecutionAbortedEventDetails()
+        value.error = try reader["error"].readIfPresent()
+        value.cause = try reader["cause"].readIfPresent()
         return value
     }
 }
 
-extension SFNClientTypes.MapRunExecutionCounts {
+extension SFNClientTypes.ExecutionFailedEventDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.MapRunExecutionCounts {
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionFailedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.MapRunExecutionCounts()
-        value.pending = try reader["pending"].readIfPresent() ?? 0
-        value.running = try reader["running"].readIfPresent() ?? 0
-        value.succeeded = try reader["succeeded"].readIfPresent() ?? 0
-        value.failed = try reader["failed"].readIfPresent() ?? 0
-        value.timedOut = try reader["timedOut"].readIfPresent() ?? 0
-        value.aborted = try reader["aborted"].readIfPresent() ?? 0
-        value.total = try reader["total"].readIfPresent() ?? 0
-        value.resultsWritten = try reader["resultsWritten"].readIfPresent() ?? 0
-        value.failuresNotRedrivable = try reader["failuresNotRedrivable"].readIfPresent()
-        value.pendingRedrive = try reader["pendingRedrive"].readIfPresent()
+        var value = SFNClientTypes.ExecutionFailedEventDetails()
+        value.error = try reader["error"].readIfPresent()
+        value.cause = try reader["cause"].readIfPresent()
         return value
     }
 }
 
-extension SFNClientTypes.LoggingConfiguration {
+extension SFNClientTypes.ExecutionListItem {
 
-    static func write(value: SFNClientTypes.LoggingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destinations"].writeList(value.destinations, memberWritingClosure: SFNClientTypes.LogDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["includeExecutionData"].write(value.includeExecutionData)
-        try writer["level"].write(value.level)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.LoggingConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.LoggingConfiguration()
-        value.level = try reader["level"].readIfPresent()
-        value.includeExecutionData = try reader["includeExecutionData"].readIfPresent() ?? false
-        value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: SFNClientTypes.LogDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = SFNClientTypes.ExecutionListItem()
+        value.executionArn = try reader["executionArn"].readIfPresent() ?? ""
+        value.stateMachineArn = try reader["stateMachineArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.stopDate = try reader["stopDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.mapRunArn = try reader["mapRunArn"].readIfPresent()
+        value.itemCount = try reader["itemCount"].readIfPresent()
+        value.stateMachineVersionArn = try reader["stateMachineVersionArn"].readIfPresent()
+        value.stateMachineAliasArn = try reader["stateMachineAliasArn"].readIfPresent()
+        value.redriveCount = try reader["redriveCount"].readIfPresent()
+        value.redriveDate = try reader["redriveDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension SFNClientTypes.LogDestination {
+extension SFNClientTypes.ExecutionRedrivenEventDetails {
 
-    static func write(value: SFNClientTypes.LogDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cloudWatchLogsLogGroup"].write(value.cloudWatchLogsLogGroup, with: SFNClientTypes.CloudWatchLogsLogGroup.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.LogDestination {
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionRedrivenEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.LogDestination()
-        value.cloudWatchLogsLogGroup = try reader["cloudWatchLogsLogGroup"].readIfPresent(with: SFNClientTypes.CloudWatchLogsLogGroup.read(from:))
+        var value = SFNClientTypes.ExecutionRedrivenEventDetails()
+        value.redriveCount = try reader["redriveCount"].readIfPresent()
         return value
     }
 }
 
-extension SFNClientTypes.CloudWatchLogsLogGroup {
+extension SFNClientTypes.ExecutionStartedEventDetails {
 
-    static func write(value: SFNClientTypes.CloudWatchLogsLogGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["logGroupArn"].write(value.logGroupArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.CloudWatchLogsLogGroup {
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionStartedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.CloudWatchLogsLogGroup()
-        value.logGroupArn = try reader["logGroupArn"].readIfPresent()
+        var value = SFNClientTypes.ExecutionStartedEventDetails()
+        value.input = try reader["input"].readIfPresent()
+        value.inputDetails = try reader["inputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.stateMachineAliasArn = try reader["stateMachineAliasArn"].readIfPresent()
+        value.stateMachineVersionArn = try reader["stateMachineVersionArn"].readIfPresent()
         return value
     }
 }
 
-extension SFNClientTypes.TracingConfiguration {
+extension SFNClientTypes.ExecutionSucceededEventDetails {
 
-    static func write(value: SFNClientTypes.TracingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TracingConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionSucceededEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.TracingConfiguration()
-        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        var value = SFNClientTypes.ExecutionSucceededEventDetails()
+        value.output = try reader["output"].readIfPresent()
+        value.outputDetails = try reader["outputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
         return value
     }
 }
 
-extension SFNClientTypes.RoutingConfigurationListItem {
+extension SFNClientTypes.ExecutionTimedOutEventDetails {
 
-    static func write(value: SFNClientTypes.RoutingConfigurationListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["stateMachineVersionArn"].write(value.stateMachineVersionArn)
-        try writer["weight"].write(value.weight)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.RoutingConfigurationListItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionTimedOutEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.RoutingConfigurationListItem()
-        value.stateMachineVersionArn = try reader["stateMachineVersionArn"].readIfPresent() ?? ""
-        value.weight = try reader["weight"].readIfPresent() ?? 0
+        var value = SFNClientTypes.ExecutionTimedOutEventDetails()
+        value.error = try reader["error"].readIfPresent()
+        value.cause = try reader["cause"].readIfPresent()
         return value
     }
 }
@@ -7745,75 +7844,6 @@ extension SFNClientTypes.HistoryEvent {
     }
 }
 
-extension SFNClientTypes.EvaluationFailedEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.EvaluationFailedEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.EvaluationFailedEventDetails()
-        value.error = try reader["error"].readIfPresent()
-        value.cause = try reader["cause"].readIfPresent()
-        value.location = try reader["location"].readIfPresent()
-        value.state = try reader["state"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension SFNClientTypes.MapRunRedrivenEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.MapRunRedrivenEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.MapRunRedrivenEventDetails()
-        value.mapRunArn = try reader["mapRunArn"].readIfPresent()
-        value.redriveCount = try reader["redriveCount"].readIfPresent()
-        return value
-    }
-}
-
-extension SFNClientTypes.MapRunFailedEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.MapRunFailedEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.MapRunFailedEventDetails()
-        value.error = try reader["error"].readIfPresent()
-        value.cause = try reader["cause"].readIfPresent()
-        return value
-    }
-}
-
-extension SFNClientTypes.MapRunStartedEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.MapRunStartedEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.MapRunStartedEventDetails()
-        value.mapRunArn = try reader["mapRunArn"].readIfPresent()
-        return value
-    }
-}
-
-extension SFNClientTypes.StateExitedEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.StateExitedEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.StateExitedEventDetails()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.output = try reader["output"].readIfPresent()
-        value.outputDetails = try reader["outputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
-        value.assignedVariables = try reader["assignedVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.assignedVariablesDetails = try reader["assignedVariablesDetails"].readIfPresent(with: SFNClientTypes.AssignedVariablesDetails.read(from:))
-        return value
-    }
-}
-
-extension SFNClientTypes.AssignedVariablesDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.AssignedVariablesDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.AssignedVariablesDetails()
-        value.truncated = try reader["truncated"].readIfPresent() ?? false
-        return value
-    }
-}
-
 extension SFNClientTypes.HistoryEventExecutionDataDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.HistoryEventExecutionDataDetails {
@@ -7824,45 +7854,78 @@ extension SFNClientTypes.HistoryEventExecutionDataDetails {
     }
 }
 
-extension SFNClientTypes.StateEnteredEventDetails {
+extension SFNClientTypes.InspectionData {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.StateEnteredEventDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.InspectionData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.StateEnteredEventDetails()
-        value.name = try reader["name"].readIfPresent() ?? ""
+        var value = SFNClientTypes.InspectionData()
         value.input = try reader["input"].readIfPresent()
-        value.inputDetails = try reader["inputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
+        value.afterArguments = try reader["afterArguments"].readIfPresent()
+        value.afterInputPath = try reader["afterInputPath"].readIfPresent()
+        value.afterParameters = try reader["afterParameters"].readIfPresent()
+        value.result = try reader["result"].readIfPresent()
+        value.afterResultSelector = try reader["afterResultSelector"].readIfPresent()
+        value.afterResultPath = try reader["afterResultPath"].readIfPresent()
+        value.request = try reader["request"].readIfPresent(with: SFNClientTypes.InspectionDataRequest.read(from:))
+        value.response = try reader["response"].readIfPresent(with: SFNClientTypes.InspectionDataResponse.read(from:))
+        value.variables = try reader["variables"].readIfPresent()
+        value.errorDetails = try reader["errorDetails"].readIfPresent(with: SFNClientTypes.InspectionErrorDetails.read(from:))
+        value.afterItemsPath = try reader["afterItemsPath"].readIfPresent()
+        value.afterItemSelector = try reader["afterItemSelector"].readIfPresent()
+        value.afterItemBatcher = try reader["afterItemBatcher"].readIfPresent()
+        value.afterItemsPointer = try reader["afterItemsPointer"].readIfPresent()
+        value.toleratedFailureCount = try reader["toleratedFailureCount"].readIfPresent()
+        value.toleratedFailurePercentage = try reader["toleratedFailurePercentage"].readIfPresent()
+        value.maxConcurrency = try reader["maxConcurrency"].readIfPresent()
         return value
     }
 }
 
-extension SFNClientTypes.LambdaFunctionTimedOutEventDetails {
+extension SFNClientTypes.InspectionDataRequest {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.LambdaFunctionTimedOutEventDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.InspectionDataRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.LambdaFunctionTimedOutEventDetails()
-        value.error = try reader["error"].readIfPresent()
-        value.cause = try reader["cause"].readIfPresent()
+        var value = SFNClientTypes.InspectionDataRequest()
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        value.method = try reader["method"].readIfPresent()
+        value.url = try reader["url"].readIfPresent()
+        value.headers = try reader["headers"].readIfPresent()
+        value.body = try reader["body"].readIfPresent()
         return value
     }
 }
 
-extension SFNClientTypes.LambdaFunctionSucceededEventDetails {
+extension SFNClientTypes.InspectionDataResponse {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.LambdaFunctionSucceededEventDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.InspectionDataResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.LambdaFunctionSucceededEventDetails()
-        value.output = try reader["output"].readIfPresent()
-        value.outputDetails = try reader["outputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
+        var value = SFNClientTypes.InspectionDataResponse()
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        value.statusCode = try reader["statusCode"].readIfPresent()
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.headers = try reader["headers"].readIfPresent()
+        value.body = try reader["body"].readIfPresent()
         return value
     }
 }
 
-extension SFNClientTypes.LambdaFunctionStartFailedEventDetails {
+extension SFNClientTypes.InspectionErrorDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.LambdaFunctionStartFailedEventDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.InspectionErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.LambdaFunctionStartFailedEventDetails()
+        var value = SFNClientTypes.InspectionErrorDetails()
+        value.catchIndex = try reader["catchIndex"].readIfPresent()
+        value.retryIndex = try reader["retryIndex"].readIfPresent()
+        value.retryBackoffIntervalSeconds = try reader["retryBackoffIntervalSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension SFNClientTypes.LambdaFunctionFailedEventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.LambdaFunctionFailedEventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.LambdaFunctionFailedEventDetails()
         value.error = try reader["error"].readIfPresent()
         value.cause = try reader["cause"].readIfPresent()
         return value
@@ -7883,16 +7946,6 @@ extension SFNClientTypes.LambdaFunctionScheduledEventDetails {
     }
 }
 
-extension SFNClientTypes.TaskCredentials {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.TaskCredentials()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        return value
-    }
-}
-
 extension SFNClientTypes.LambdaFunctionScheduleFailedEventDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.LambdaFunctionScheduleFailedEventDetails {
@@ -7904,13 +7957,69 @@ extension SFNClientTypes.LambdaFunctionScheduleFailedEventDetails {
     }
 }
 
-extension SFNClientTypes.LambdaFunctionFailedEventDetails {
+extension SFNClientTypes.LambdaFunctionStartFailedEventDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.LambdaFunctionFailedEventDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.LambdaFunctionStartFailedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.LambdaFunctionFailedEventDetails()
+        var value = SFNClientTypes.LambdaFunctionStartFailedEventDetails()
         value.error = try reader["error"].readIfPresent()
         value.cause = try reader["cause"].readIfPresent()
+        return value
+    }
+}
+
+extension SFNClientTypes.LambdaFunctionSucceededEventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.LambdaFunctionSucceededEventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.LambdaFunctionSucceededEventDetails()
+        value.output = try reader["output"].readIfPresent()
+        value.outputDetails = try reader["outputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
+        return value
+    }
+}
+
+extension SFNClientTypes.LambdaFunctionTimedOutEventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.LambdaFunctionTimedOutEventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.LambdaFunctionTimedOutEventDetails()
+        value.error = try reader["error"].readIfPresent()
+        value.cause = try reader["cause"].readIfPresent()
+        return value
+    }
+}
+
+extension SFNClientTypes.LogDestination {
+
+    static func write(value: SFNClientTypes.LogDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cloudWatchLogsLogGroup"].write(value.cloudWatchLogsLogGroup, with: SFNClientTypes.CloudWatchLogsLogGroup.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.LogDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.LogDestination()
+        value.cloudWatchLogsLogGroup = try reader["cloudWatchLogsLogGroup"].readIfPresent(with: SFNClientTypes.CloudWatchLogsLogGroup.read(from:))
+        return value
+    }
+}
+
+extension SFNClientTypes.LoggingConfiguration {
+
+    static func write(value: SFNClientTypes.LoggingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinations"].writeList(value.destinations, memberWritingClosure: SFNClientTypes.LogDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["includeExecutionData"].write(value.includeExecutionData)
+        try writer["level"].write(value.level)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.LoggingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.LoggingConfiguration()
+        value.level = try reader["level"].readIfPresent()
+        value.includeExecutionData = try reader["includeExecutionData"].readIfPresent() ?? false
+        value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: SFNClientTypes.LogDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7926,286 +8035,51 @@ extension SFNClientTypes.MapIterationEventDetails {
     }
 }
 
-extension SFNClientTypes.MapStateStartedEventDetails {
+extension SFNClientTypes.MapRunExecutionCounts {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.MapStateStartedEventDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.MapRunExecutionCounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.MapStateStartedEventDetails()
-        value.length = try reader["length"].readIfPresent() ?? 0
+        var value = SFNClientTypes.MapRunExecutionCounts()
+        value.pending = try reader["pending"].readIfPresent() ?? 0
+        value.running = try reader["running"].readIfPresent() ?? 0
+        value.succeeded = try reader["succeeded"].readIfPresent() ?? 0
+        value.failed = try reader["failed"].readIfPresent() ?? 0
+        value.timedOut = try reader["timedOut"].readIfPresent() ?? 0
+        value.aborted = try reader["aborted"].readIfPresent() ?? 0
+        value.total = try reader["total"].readIfPresent() ?? 0
+        value.resultsWritten = try reader["resultsWritten"].readIfPresent() ?? 0
+        value.failuresNotRedrivable = try reader["failuresNotRedrivable"].readIfPresent()
+        value.pendingRedrive = try reader["pendingRedrive"].readIfPresent()
         return value
     }
 }
 
-extension SFNClientTypes.ExecutionRedrivenEventDetails {
+extension SFNClientTypes.MapRunFailedEventDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionRedrivenEventDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.MapRunFailedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.ExecutionRedrivenEventDetails()
-        value.redriveCount = try reader["redriveCount"].readIfPresent()
-        return value
-    }
-}
-
-extension SFNClientTypes.ExecutionTimedOutEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionTimedOutEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.ExecutionTimedOutEventDetails()
+        var value = SFNClientTypes.MapRunFailedEventDetails()
         value.error = try reader["error"].readIfPresent()
         value.cause = try reader["cause"].readIfPresent()
         return value
     }
 }
 
-extension SFNClientTypes.ExecutionAbortedEventDetails {
+extension SFNClientTypes.MapRunItemCounts {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionAbortedEventDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.MapRunItemCounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.ExecutionAbortedEventDetails()
-        value.error = try reader["error"].readIfPresent()
-        value.cause = try reader["cause"].readIfPresent()
-        return value
-    }
-}
-
-extension SFNClientTypes.ExecutionSucceededEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionSucceededEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.ExecutionSucceededEventDetails()
-        value.output = try reader["output"].readIfPresent()
-        value.outputDetails = try reader["outputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
-        return value
-    }
-}
-
-extension SFNClientTypes.ExecutionStartedEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionStartedEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.ExecutionStartedEventDetails()
-        value.input = try reader["input"].readIfPresent()
-        value.inputDetails = try reader["inputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.stateMachineAliasArn = try reader["stateMachineAliasArn"].readIfPresent()
-        value.stateMachineVersionArn = try reader["stateMachineVersionArn"].readIfPresent()
-        return value
-    }
-}
-
-extension SFNClientTypes.ExecutionFailedEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionFailedEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.ExecutionFailedEventDetails()
-        value.error = try reader["error"].readIfPresent()
-        value.cause = try reader["cause"].readIfPresent()
-        return value
-    }
-}
-
-extension SFNClientTypes.TaskTimedOutEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskTimedOutEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.TaskTimedOutEventDetails()
-        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.resource = try reader["resource"].readIfPresent() ?? ""
-        value.error = try reader["error"].readIfPresent()
-        value.cause = try reader["cause"].readIfPresent()
-        return value
-    }
-}
-
-extension SFNClientTypes.TaskSucceededEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskSucceededEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.TaskSucceededEventDetails()
-        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.resource = try reader["resource"].readIfPresent() ?? ""
-        value.output = try reader["output"].readIfPresent()
-        value.outputDetails = try reader["outputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
-        return value
-    }
-}
-
-extension SFNClientTypes.TaskSubmittedEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskSubmittedEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.TaskSubmittedEventDetails()
-        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.resource = try reader["resource"].readIfPresent() ?? ""
-        value.output = try reader["output"].readIfPresent()
-        value.outputDetails = try reader["outputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
-        return value
-    }
-}
-
-extension SFNClientTypes.TaskSubmitFailedEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskSubmitFailedEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.TaskSubmitFailedEventDetails()
-        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.resource = try reader["resource"].readIfPresent() ?? ""
-        value.error = try reader["error"].readIfPresent()
-        value.cause = try reader["cause"].readIfPresent()
-        return value
-    }
-}
-
-extension SFNClientTypes.TaskStartedEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskStartedEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.TaskStartedEventDetails()
-        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.resource = try reader["resource"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension SFNClientTypes.TaskStartFailedEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskStartFailedEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.TaskStartFailedEventDetails()
-        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.resource = try reader["resource"].readIfPresent() ?? ""
-        value.error = try reader["error"].readIfPresent()
-        value.cause = try reader["cause"].readIfPresent()
-        return value
-    }
-}
-
-extension SFNClientTypes.TaskScheduledEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskScheduledEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.TaskScheduledEventDetails()
-        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.resource = try reader["resource"].readIfPresent() ?? ""
-        value.region = try reader["region"].readIfPresent() ?? ""
-        value.parameters = try reader["parameters"].readIfPresent() ?? ""
-        value.timeoutInSeconds = try reader["timeoutInSeconds"].readIfPresent()
-        value.heartbeatInSeconds = try reader["heartbeatInSeconds"].readIfPresent()
-        value.taskCredentials = try reader["taskCredentials"].readIfPresent(with: SFNClientTypes.TaskCredentials.read(from:))
-        return value
-    }
-}
-
-extension SFNClientTypes.TaskFailedEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskFailedEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.TaskFailedEventDetails()
-        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.resource = try reader["resource"].readIfPresent() ?? ""
-        value.error = try reader["error"].readIfPresent()
-        value.cause = try reader["cause"].readIfPresent()
-        return value
-    }
-}
-
-extension SFNClientTypes.ActivityTimedOutEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivityTimedOutEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.ActivityTimedOutEventDetails()
-        value.error = try reader["error"].readIfPresent()
-        value.cause = try reader["cause"].readIfPresent()
-        return value
-    }
-}
-
-extension SFNClientTypes.ActivitySucceededEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivitySucceededEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.ActivitySucceededEventDetails()
-        value.output = try reader["output"].readIfPresent()
-        value.outputDetails = try reader["outputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
-        return value
-    }
-}
-
-extension SFNClientTypes.ActivityStartedEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivityStartedEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.ActivityStartedEventDetails()
-        value.workerName = try reader["workerName"].readIfPresent()
-        return value
-    }
-}
-
-extension SFNClientTypes.ActivityScheduledEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivityScheduledEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.ActivityScheduledEventDetails()
-        value.resource = try reader["resource"].readIfPresent() ?? ""
-        value.input = try reader["input"].readIfPresent()
-        value.inputDetails = try reader["inputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
-        value.timeoutInSeconds = try reader["timeoutInSeconds"].readIfPresent()
-        value.heartbeatInSeconds = try reader["heartbeatInSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension SFNClientTypes.ActivityScheduleFailedEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivityScheduleFailedEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.ActivityScheduleFailedEventDetails()
-        value.error = try reader["error"].readIfPresent()
-        value.cause = try reader["cause"].readIfPresent()
-        return value
-    }
-}
-
-extension SFNClientTypes.ActivityFailedEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivityFailedEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.ActivityFailedEventDetails()
-        value.error = try reader["error"].readIfPresent()
-        value.cause = try reader["cause"].readIfPresent()
-        return value
-    }
-}
-
-extension SFNClientTypes.ActivityListItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivityListItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.ActivityListItem()
-        value.activityArn = try reader["activityArn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension SFNClientTypes.ExecutionListItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionListItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.ExecutionListItem()
-        value.executionArn = try reader["executionArn"].readIfPresent() ?? ""
-        value.stateMachineArn = try reader["stateMachineArn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.stopDate = try reader["stopDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.mapRunArn = try reader["mapRunArn"].readIfPresent()
-        value.itemCount = try reader["itemCount"].readIfPresent()
-        value.stateMachineVersionArn = try reader["stateMachineVersionArn"].readIfPresent()
-        value.stateMachineAliasArn = try reader["stateMachineAliasArn"].readIfPresent()
-        value.redriveCount = try reader["redriveCount"].readIfPresent()
-        value.redriveDate = try reader["redriveDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = SFNClientTypes.MapRunItemCounts()
+        value.pending = try reader["pending"].readIfPresent() ?? 0
+        value.running = try reader["running"].readIfPresent() ?? 0
+        value.succeeded = try reader["succeeded"].readIfPresent() ?? 0
+        value.failed = try reader["failed"].readIfPresent() ?? 0
+        value.timedOut = try reader["timedOut"].readIfPresent() ?? 0
+        value.aborted = try reader["aborted"].readIfPresent() ?? 0
+        value.total = try reader["total"].readIfPresent() ?? 0
+        value.resultsWritten = try reader["resultsWritten"].readIfPresent() ?? 0
+        value.failuresNotRedrivable = try reader["failuresNotRedrivable"].readIfPresent()
+        value.pendingRedrive = try reader["pendingRedrive"].readIfPresent()
         return value
     }
 }
@@ -8220,6 +8094,99 @@ extension SFNClientTypes.MapRunListItem {
         value.stateMachineArn = try reader["stateMachineArn"].readIfPresent() ?? ""
         value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.stopDate = try reader["stopDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension SFNClientTypes.MapRunRedrivenEventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.MapRunRedrivenEventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.MapRunRedrivenEventDetails()
+        value.mapRunArn = try reader["mapRunArn"].readIfPresent()
+        value.redriveCount = try reader["redriveCount"].readIfPresent()
+        return value
+    }
+}
+
+extension SFNClientTypes.MapRunStartedEventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.MapRunStartedEventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.MapRunStartedEventDetails()
+        value.mapRunArn = try reader["mapRunArn"].readIfPresent()
+        return value
+    }
+}
+
+extension SFNClientTypes.MapStateStartedEventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.MapStateStartedEventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.MapStateStartedEventDetails()
+        value.length = try reader["length"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SFNClientTypes.MockErrorOutput {
+
+    static func write(value: SFNClientTypes.MockErrorOutput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cause"].write(value.cause)
+        try writer["error"].write(value.error)
+    }
+}
+
+extension SFNClientTypes.MockInput {
+
+    static func write(value: SFNClientTypes.MockInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["errorOutput"].write(value.errorOutput, with: SFNClientTypes.MockErrorOutput.write(value:to:))
+        try writer["fieldValidationMode"].write(value.fieldValidationMode)
+        try writer["result"].write(value.result)
+    }
+}
+
+extension SFNClientTypes.RoutingConfigurationListItem {
+
+    static func write(value: SFNClientTypes.RoutingConfigurationListItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["stateMachineVersionArn"].write(value.stateMachineVersionArn)
+        try writer["weight"].write(value.weight)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.RoutingConfigurationListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.RoutingConfigurationListItem()
+        value.stateMachineVersionArn = try reader["stateMachineVersionArn"].readIfPresent() ?? ""
+        value.weight = try reader["weight"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SFNClientTypes.StateEnteredEventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.StateEnteredEventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.StateEnteredEventDetails()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.input = try reader["input"].readIfPresent()
+        value.inputDetails = try reader["inputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
+        return value
+    }
+}
+
+extension SFNClientTypes.StateExitedEventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.StateExitedEventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.StateExitedEventDetails()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.output = try reader["output"].readIfPresent()
+        value.outputDetails = try reader["outputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
+        value.assignedVariables = try reader["assignedVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.assignedVariablesDetails = try reader["assignedVariablesDetails"].readIfPresent(with: SFNClientTypes.AssignedVariablesDetails.read(from:))
         return value
     }
 }
@@ -8276,80 +8243,143 @@ extension SFNClientTypes.Tag {
     }
 }
 
-extension SFNClientTypes.BillingDetails {
+extension SFNClientTypes.TaskCredentials {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.BillingDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskCredentials {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.BillingDetails()
-        value.billedMemoryUsedInMB = try reader["billedMemoryUsedInMB"].readIfPresent() ?? 0
-        value.billedDurationInMilliseconds = try reader["billedDurationInMilliseconds"].readIfPresent() ?? 0
+        var value = SFNClientTypes.TaskCredentials()
+        value.roleArn = try reader["roleArn"].readIfPresent()
         return value
     }
 }
 
-extension SFNClientTypes.InspectionData {
+extension SFNClientTypes.TaskFailedEventDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.InspectionData {
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskFailedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.InspectionData()
-        value.input = try reader["input"].readIfPresent()
-        value.afterArguments = try reader["afterArguments"].readIfPresent()
-        value.afterInputPath = try reader["afterInputPath"].readIfPresent()
-        value.afterParameters = try reader["afterParameters"].readIfPresent()
-        value.result = try reader["result"].readIfPresent()
-        value.afterResultSelector = try reader["afterResultSelector"].readIfPresent()
-        value.afterResultPath = try reader["afterResultPath"].readIfPresent()
-        value.request = try reader["request"].readIfPresent(with: SFNClientTypes.InspectionDataRequest.read(from:))
-        value.response = try reader["response"].readIfPresent(with: SFNClientTypes.InspectionDataResponse.read(from:))
-        value.variables = try reader["variables"].readIfPresent()
-        value.errorDetails = try reader["errorDetails"].readIfPresent(with: SFNClientTypes.InspectionErrorDetails.read(from:))
-        value.afterItemsPath = try reader["afterItemsPath"].readIfPresent()
-        value.afterItemSelector = try reader["afterItemSelector"].readIfPresent()
-        value.afterItemBatcher = try reader["afterItemBatcher"].readIfPresent()
-        value.afterItemsPointer = try reader["afterItemsPointer"].readIfPresent()
-        value.toleratedFailureCount = try reader["toleratedFailureCount"].readIfPresent()
-        value.toleratedFailurePercentage = try reader["toleratedFailurePercentage"].readIfPresent()
-        value.maxConcurrency = try reader["maxConcurrency"].readIfPresent()
+        var value = SFNClientTypes.TaskFailedEventDetails()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.resource = try reader["resource"].readIfPresent() ?? ""
+        value.error = try reader["error"].readIfPresent()
+        value.cause = try reader["cause"].readIfPresent()
         return value
     }
 }
 
-extension SFNClientTypes.InspectionErrorDetails {
+extension SFNClientTypes.TaskScheduledEventDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.InspectionErrorDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskScheduledEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.InspectionErrorDetails()
-        value.catchIndex = try reader["catchIndex"].readIfPresent()
-        value.retryIndex = try reader["retryIndex"].readIfPresent()
-        value.retryBackoffIntervalSeconds = try reader["retryBackoffIntervalSeconds"].readIfPresent()
+        var value = SFNClientTypes.TaskScheduledEventDetails()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.resource = try reader["resource"].readIfPresent() ?? ""
+        value.region = try reader["region"].readIfPresent() ?? ""
+        value.parameters = try reader["parameters"].readIfPresent() ?? ""
+        value.timeoutInSeconds = try reader["timeoutInSeconds"].readIfPresent()
+        value.heartbeatInSeconds = try reader["heartbeatInSeconds"].readIfPresent()
+        value.taskCredentials = try reader["taskCredentials"].readIfPresent(with: SFNClientTypes.TaskCredentials.read(from:))
         return value
     }
 }
 
-extension SFNClientTypes.InspectionDataResponse {
+extension SFNClientTypes.TaskStartedEventDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.InspectionDataResponse {
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskStartedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.InspectionDataResponse()
-        value.`protocol` = try reader["protocol"].readIfPresent()
-        value.statusCode = try reader["statusCode"].readIfPresent()
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
-        value.headers = try reader["headers"].readIfPresent()
-        value.body = try reader["body"].readIfPresent()
+        var value = SFNClientTypes.TaskStartedEventDetails()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.resource = try reader["resource"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension SFNClientTypes.InspectionDataRequest {
+extension SFNClientTypes.TaskStartFailedEventDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.InspectionDataRequest {
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskStartFailedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SFNClientTypes.InspectionDataRequest()
-        value.`protocol` = try reader["protocol"].readIfPresent()
-        value.method = try reader["method"].readIfPresent()
-        value.url = try reader["url"].readIfPresent()
-        value.headers = try reader["headers"].readIfPresent()
-        value.body = try reader["body"].readIfPresent()
+        var value = SFNClientTypes.TaskStartFailedEventDetails()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.resource = try reader["resource"].readIfPresent() ?? ""
+        value.error = try reader["error"].readIfPresent()
+        value.cause = try reader["cause"].readIfPresent()
+        return value
+    }
+}
+
+extension SFNClientTypes.TaskSubmitFailedEventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskSubmitFailedEventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.TaskSubmitFailedEventDetails()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.resource = try reader["resource"].readIfPresent() ?? ""
+        value.error = try reader["error"].readIfPresent()
+        value.cause = try reader["cause"].readIfPresent()
+        return value
+    }
+}
+
+extension SFNClientTypes.TaskSubmittedEventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskSubmittedEventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.TaskSubmittedEventDetails()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.resource = try reader["resource"].readIfPresent() ?? ""
+        value.output = try reader["output"].readIfPresent()
+        value.outputDetails = try reader["outputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
+        return value
+    }
+}
+
+extension SFNClientTypes.TaskSucceededEventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskSucceededEventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.TaskSucceededEventDetails()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.resource = try reader["resource"].readIfPresent() ?? ""
+        value.output = try reader["output"].readIfPresent()
+        value.outputDetails = try reader["outputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
+        return value
+    }
+}
+
+extension SFNClientTypes.TaskTimedOutEventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskTimedOutEventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.TaskTimedOutEventDetails()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.resource = try reader["resource"].readIfPresent() ?? ""
+        value.error = try reader["error"].readIfPresent()
+        value.cause = try reader["cause"].readIfPresent()
+        return value
+    }
+}
+
+extension SFNClientTypes.TestStateConfiguration {
+
+    static func write(value: SFNClientTypes.TestStateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["errorCausedByState"].write(value.errorCausedByState)
+        try writer["mapItemReaderData"].write(value.mapItemReaderData)
+        try writer["mapIterationFailureCount"].write(value.mapIterationFailureCount)
+        try writer["retrierRetryCount"].write(value.retrierRetryCount)
+    }
+}
+
+extension SFNClientTypes.TracingConfiguration {
+
+    static func write(value: SFNClientTypes.TracingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TracingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.TracingConfiguration()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -8364,36 +8394,6 @@ extension SFNClientTypes.ValidateStateMachineDefinitionDiagnostic {
         value.message = try reader["message"].readIfPresent() ?? ""
         value.location = try reader["location"].readIfPresent()
         return value
-    }
-}
-
-extension SFNClientTypes.MockInput {
-
-    static func write(value: SFNClientTypes.MockInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorOutput"].write(value.errorOutput, with: SFNClientTypes.MockErrorOutput.write(value:to:))
-        try writer["fieldValidationMode"].write(value.fieldValidationMode)
-        try writer["result"].write(value.result)
-    }
-}
-
-extension SFNClientTypes.MockErrorOutput {
-
-    static func write(value: SFNClientTypes.MockErrorOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cause"].write(value.cause)
-        try writer["error"].write(value.error)
-    }
-}
-
-extension SFNClientTypes.TestStateConfiguration {
-
-    static func write(value: SFNClientTypes.TestStateConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["errorCausedByState"].write(value.errorCausedByState)
-        try writer["mapItemReaderData"].write(value.mapItemReaderData)
-        try writer["mapIterationFailureCount"].write(value.mapIterationFailureCount)
-        try writer["retrierRetryCount"].write(value.retrierRetryCount)
     }
 }
 

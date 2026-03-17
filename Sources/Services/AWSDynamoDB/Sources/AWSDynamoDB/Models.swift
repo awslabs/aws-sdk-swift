@@ -26,8 +26,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
@@ -6763,6 +6763,12 @@ public struct UpdateTableInput: Swift.Sendable {
     ///
     /// You can create or delete only one global secondary index per UpdateTable operation. For more information, see [Managing Global Secondary Indexes](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.OnlineOps.html) in the Amazon DynamoDB Developer Guide.
     public var globalSecondaryIndexUpdates: [DynamoDBClientTypes.GlobalSecondaryIndexUpdate]?
+    /// Controls the settings replication mode for a global table replica. This attribute can be defined using UpdateTable operation only on a regional table with values:
+    ///
+    /// * ENABLED: Defines settings replication on a regional table to be used as a source table for creating Multi-Account Global Table.
+    ///
+    /// * DISABLED: Remove settings replication on a regional table. Settings replication needs to be defined to ENABLED again in order to create a Multi-Account Global Table using this table.
+    public var globalTableSettingsReplicationMode: DynamoDBClientTypes.GlobalTableSettingsReplicationMode?
     /// A list of witness updates for a MRSC global table. A witness provides a cost-effective alternative to a full replica in a MRSC global table by maintaining replicated change data written to global table replicas. You cannot perform read or write operations on a witness. For each witness, you can request one action:
     ///
     /// * Create - add a new witness to the global table.
@@ -6804,6 +6810,7 @@ public struct UpdateTableInput: Swift.Sendable {
         billingMode: DynamoDBClientTypes.BillingMode? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
         globalSecondaryIndexUpdates: [DynamoDBClientTypes.GlobalSecondaryIndexUpdate]? = nil,
+        globalTableSettingsReplicationMode: DynamoDBClientTypes.GlobalTableSettingsReplicationMode? = nil,
         globalTableWitnessUpdates: [DynamoDBClientTypes.GlobalTableWitnessGroupUpdate]? = nil,
         multiRegionConsistency: DynamoDBClientTypes.MultiRegionConsistency? = nil,
         onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
@@ -6819,6 +6826,7 @@ public struct UpdateTableInput: Swift.Sendable {
         self.billingMode = billingMode
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
+        self.globalTableSettingsReplicationMode = globalTableSettingsReplicationMode
         self.globalTableWitnessUpdates = globalTableWitnessUpdates
         self.multiRegionConsistency = multiRegionConsistency
         self.onDemandThroughput = onDemandThroughput
@@ -8971,9 +8979,9 @@ public struct UpdateItemInput: Swift.Sendable {
     /// * If the existing data type is a set and if Value is also a set, then Value is added to the existing set. For example, if the attribute value is the set [1,2], and the ADD action specified [3], then the final attribute value is [1,2,3]. An error occurs if an ADD action is specified for a set attribute and the attribute type specified does not match the existing set type. Both sets must have the same primitive data type. For example, if the existing data type is a set of strings, the Value must also be a set of strings.
     ///
     ///
-    /// The ADD action only supports Number and set data types. In addition, ADD can only be used on top-level attributes, not nested attributes.
+    /// The ADD action only supports Number and set data types.
     ///
-    /// * DELETE - Deletes an element from a set. If a set of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set [a,b,c] and the DELETE action specifies [a,c], then the final attribute value is [b]. Specifying an empty set is an error. The DELETE action only supports set data types. In addition, DELETE can only be used on top-level attributes, not nested attributes.
+    /// * DELETE - Deletes an element from a set. If a set of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set [a,b,c] and the DELETE action specifies [a,c], then the final attribute value is [b]. Specifying an empty set is an error. The DELETE action only supports set data types.
     ///
     ///
     /// You can have many actions in a single expression, such as the following: SET a=:value1, b=:value2 DELETE :value3, :value4, :value5 For more information on update expressions, see [Modifying Items and Attributes](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.Modifying.html) in the Amazon DynamoDB Developer Guide.
@@ -10079,6 +10087,7 @@ extension UpdateTableInput {
         try writer["BillingMode"].write(value.billingMode)
         try writer["DeletionProtectionEnabled"].write(value.deletionProtectionEnabled)
         try writer["GlobalSecondaryIndexUpdates"].writeList(value.globalSecondaryIndexUpdates, memberWritingClosure: DynamoDBClientTypes.GlobalSecondaryIndexUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["GlobalTableSettingsReplicationMode"].write(value.globalTableSettingsReplicationMode)
         try writer["GlobalTableWitnessUpdates"].writeList(value.globalTableWitnessUpdates, memberWritingClosure: DynamoDBClientTypes.GlobalTableWitnessGroupUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MultiRegionConsistency"].write(value.multiRegionConsistency)
         try writer["OnDemandThroughput"].write(value.onDemandThroughput, with: DynamoDBClientTypes.OnDemandThroughput.write(value:to:))
@@ -10849,7 +10858,7 @@ enum BatchExecuteStatementOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10865,7 +10874,7 @@ enum BatchGetItemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10884,7 +10893,7 @@ enum BatchWriteItemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10905,7 +10914,7 @@ enum CreateBackupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BackupInUseException": return try BackupInUseException.makeError(baseError: baseError)
@@ -10925,7 +10934,7 @@ enum CreateGlobalTableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalTableAlreadyExistsException": return try GlobalTableAlreadyExistsException.makeError(baseError: baseError)
@@ -10943,7 +10952,7 @@ enum CreateTableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -10960,7 +10969,7 @@ enum DeleteBackupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BackupInUseException": return try BackupInUseException.makeError(baseError: baseError)
@@ -10978,7 +10987,7 @@ enum DeleteItemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConditionalCheckFailedException": return try ConditionalCheckFailedException.makeError(baseError: baseError)
@@ -11001,7 +11010,7 @@ enum DeleteResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11020,7 +11029,7 @@ enum DeleteTableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11038,7 +11047,7 @@ enum DescribeBackupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BackupNotFoundException": return try BackupNotFoundException.makeError(baseError: baseError)
@@ -11054,7 +11063,7 @@ enum DescribeContinuousBackupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11070,7 +11079,7 @@ enum DescribeContributorInsightsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11085,7 +11094,7 @@ enum DescribeEndpointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -11098,7 +11107,7 @@ enum DescribeExportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExportNotFoundException": return try ExportNotFoundException.makeError(baseError: baseError)
@@ -11114,7 +11123,7 @@ enum DescribeGlobalTableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalTableNotFoundException": return try GlobalTableNotFoundException.makeError(baseError: baseError)
@@ -11130,7 +11139,7 @@ enum DescribeGlobalTableSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalTableNotFoundException": return try GlobalTableNotFoundException.makeError(baseError: baseError)
@@ -11146,7 +11155,7 @@ enum DescribeImportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ImportNotFoundException": return try ImportNotFoundException.makeError(baseError: baseError)
@@ -11160,7 +11169,7 @@ enum DescribeKinesisStreamingDestinationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11176,7 +11185,7 @@ enum DescribeLimitsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11191,7 +11200,7 @@ enum DescribeTableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11207,7 +11216,7 @@ enum DescribeTableReplicaAutoScalingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11222,7 +11231,7 @@ enum DescribeTimeToLiveOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11238,7 +11247,7 @@ enum DisableKinesisStreamingDestinationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11256,7 +11265,7 @@ enum EnableKinesisStreamingDestinationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11274,7 +11283,7 @@ enum ExecuteStatementOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConditionalCheckFailedException": return try ConditionalCheckFailedException.makeError(baseError: baseError)
@@ -11296,7 +11305,7 @@ enum ExecuteTransactionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IdempotentParameterMismatchException": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
@@ -11317,7 +11326,7 @@ enum ExportTableToPointInTimeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExportConflictException": return try ExportConflictException.makeError(baseError: baseError)
@@ -11336,7 +11345,7 @@ enum GetItemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11355,7 +11364,7 @@ enum GetResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11372,7 +11381,7 @@ enum ImportTableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ImportConflictException": return try ImportConflictException.makeError(baseError: baseError)
@@ -11388,7 +11397,7 @@ enum ListBackupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11403,7 +11412,7 @@ enum ListContributorInsightsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11418,7 +11427,7 @@ enum ListExportsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11433,7 +11442,7 @@ enum ListGlobalTablesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11448,7 +11457,7 @@ enum ListImportsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
@@ -11462,7 +11471,7 @@ enum ListTablesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11477,7 +11486,7 @@ enum ListTagsOfResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11493,7 +11502,7 @@ enum PutItemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConditionalCheckFailedException": return try ConditionalCheckFailedException.makeError(baseError: baseError)
@@ -11516,7 +11525,7 @@ enum PutResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11535,7 +11544,7 @@ enum QueryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11554,7 +11563,7 @@ enum RestoreTableFromBackupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BackupInUseException": return try BackupInUseException.makeError(baseError: baseError)
@@ -11574,7 +11583,7 @@ enum RestoreTableToPointInTimeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11595,7 +11604,7 @@ enum ScanOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11614,7 +11623,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11632,7 +11641,7 @@ enum TransactGetItemsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11652,7 +11661,7 @@ enum TransactWriteItemsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IdempotentParameterMismatchException": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
@@ -11674,7 +11683,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11692,7 +11701,7 @@ enum UpdateContinuousBackupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ContinuousBackupsUnavailableException": return try ContinuousBackupsUnavailableException.makeError(baseError: baseError)
@@ -11709,7 +11718,7 @@ enum UpdateContributorInsightsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11724,7 +11733,7 @@ enum UpdateGlobalTableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalTableNotFoundException": return try GlobalTableNotFoundException.makeError(baseError: baseError)
@@ -11743,7 +11752,7 @@ enum UpdateGlobalTableSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalTableNotFoundException": return try GlobalTableNotFoundException.makeError(baseError: baseError)
@@ -11763,7 +11772,7 @@ enum UpdateItemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConditionalCheckFailedException": return try ConditionalCheckFailedException.makeError(baseError: baseError)
@@ -11786,7 +11795,7 @@ enum UpdateKinesisStreamingDestinationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11804,7 +11813,7 @@ enum UpdateTableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11822,7 +11831,7 @@ enum UpdateTableReplicaAutoScalingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11839,7 +11848,7 @@ enum UpdateTimeToLiveOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -11854,7 +11863,7 @@ enum UpdateTimeToLiveOutputError {
 
 extension InternalServerError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerError {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerError {
         let reader = baseError.errorBodyReader
         var value = InternalServerError()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11867,7 +11876,7 @@ extension InternalServerError {
 
 extension RequestLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RequestLimitExceeded {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> RequestLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = RequestLimitExceeded()
         value.properties.throttlingReasons = try reader["ThrottlingReasons"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.ThrottlingReason.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -11881,7 +11890,7 @@ extension RequestLimitExceeded {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11895,7 +11904,7 @@ extension ThrottlingException {
 
 extension InvalidEndpointException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEndpointException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidEndpointException {
         let reader = baseError.errorBodyReader
         var value = InvalidEndpointException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11908,7 +11917,7 @@ extension InvalidEndpointException {
 
 extension ProvisionedThroughputExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ProvisionedThroughputExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ProvisionedThroughputExceededException {
         let reader = baseError.errorBodyReader
         var value = ProvisionedThroughputExceededException()
         value.properties.throttlingReasons = try reader["ThrottlingReasons"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.ThrottlingReason.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -11922,7 +11931,7 @@ extension ProvisionedThroughputExceededException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11935,7 +11944,7 @@ extension ResourceNotFoundException {
 
 extension ItemCollectionSizeLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ItemCollectionSizeLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ItemCollectionSizeLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ItemCollectionSizeLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11948,7 +11957,7 @@ extension ItemCollectionSizeLimitExceededException {
 
 extension ReplicatedWriteConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicatedWriteConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ReplicatedWriteConflictException {
         let reader = baseError.errorBodyReader
         var value = ReplicatedWriteConflictException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11961,7 +11970,7 @@ extension ReplicatedWriteConflictException {
 
 extension BackupInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupInUseException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> BackupInUseException {
         let reader = baseError.errorBodyReader
         var value = BackupInUseException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11974,7 +11983,7 @@ extension BackupInUseException {
 
 extension ContinuousBackupsUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ContinuousBackupsUnavailableException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ContinuousBackupsUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ContinuousBackupsUnavailableException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11987,7 +11996,7 @@ extension ContinuousBackupsUnavailableException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12000,7 +12009,7 @@ extension LimitExceededException {
 
 extension TableInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TableInUseException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TableInUseException {
         let reader = baseError.errorBodyReader
         var value = TableInUseException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12013,7 +12022,7 @@ extension TableInUseException {
 
 extension TableNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TableNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TableNotFoundException {
         let reader = baseError.errorBodyReader
         var value = TableNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12026,7 +12035,7 @@ extension TableNotFoundException {
 
 extension GlobalTableAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> GlobalTableAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> GlobalTableAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = GlobalTableAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12039,7 +12048,7 @@ extension GlobalTableAlreadyExistsException {
 
 extension ResourceInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceInUseException {
         let reader = baseError.errorBodyReader
         var value = ResourceInUseException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12052,7 +12061,7 @@ extension ResourceInUseException {
 
 extension BackupNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> BackupNotFoundException {
         let reader = baseError.errorBodyReader
         var value = BackupNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12065,7 +12074,7 @@ extension BackupNotFoundException {
 
 extension ConditionalCheckFailedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConditionalCheckFailedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConditionalCheckFailedException {
         let reader = baseError.errorBodyReader
         var value = ConditionalCheckFailedException()
         value.properties.item = try reader["Item"].readMapIfPresent(valueReadingClosure: DynamoDBClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -12079,7 +12088,7 @@ extension ConditionalCheckFailedException {
 
 extension TransactionConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TransactionConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TransactionConflictException {
         let reader = baseError.errorBodyReader
         var value = TransactionConflictException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12092,7 +12101,7 @@ extension TransactionConflictException {
 
 extension PolicyNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PolicyNotFoundException {
         let reader = baseError.errorBodyReader
         var value = PolicyNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12105,7 +12114,7 @@ extension PolicyNotFoundException {
 
 extension ExportNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExportNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ExportNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ExportNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12118,7 +12127,7 @@ extension ExportNotFoundException {
 
 extension GlobalTableNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> GlobalTableNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> GlobalTableNotFoundException {
         let reader = baseError.errorBodyReader
         var value = GlobalTableNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12131,7 +12140,7 @@ extension GlobalTableNotFoundException {
 
 extension ImportNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ImportNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ImportNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ImportNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12144,7 +12153,7 @@ extension ImportNotFoundException {
 
 extension DuplicateItemException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateItemException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DuplicateItemException {
         let reader = baseError.errorBodyReader
         var value = DuplicateItemException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12157,7 +12166,7 @@ extension DuplicateItemException {
 
 extension IdempotentParameterMismatchException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IdempotentParameterMismatchException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> IdempotentParameterMismatchException {
         let reader = baseError.errorBodyReader
         var value = IdempotentParameterMismatchException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12170,7 +12179,7 @@ extension IdempotentParameterMismatchException {
 
 extension TransactionCanceledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TransactionCanceledException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TransactionCanceledException {
         let reader = baseError.errorBodyReader
         var value = TransactionCanceledException()
         value.properties.cancellationReasons = try reader["CancellationReasons"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.CancellationReason.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -12184,7 +12193,7 @@ extension TransactionCanceledException {
 
 extension TransactionInProgressException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TransactionInProgressException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TransactionInProgressException {
         let reader = baseError.errorBodyReader
         var value = TransactionInProgressException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12197,7 +12206,7 @@ extension TransactionInProgressException {
 
 extension ExportConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExportConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ExportConflictException {
         let reader = baseError.errorBodyReader
         var value = ExportConflictException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12210,7 +12219,7 @@ extension ExportConflictException {
 
 extension InvalidExportTimeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidExportTimeException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidExportTimeException {
         let reader = baseError.errorBodyReader
         var value = InvalidExportTimeException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12223,7 +12232,7 @@ extension InvalidExportTimeException {
 
 extension PointInTimeRecoveryUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PointInTimeRecoveryUnavailableException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PointInTimeRecoveryUnavailableException {
         let reader = baseError.errorBodyReader
         var value = PointInTimeRecoveryUnavailableException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12236,7 +12245,7 @@ extension PointInTimeRecoveryUnavailableException {
 
 extension ImportConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ImportConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ImportConflictException {
         let reader = baseError.errorBodyReader
         var value = ImportConflictException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12249,7 +12258,7 @@ extension ImportConflictException {
 
 extension TableAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TableAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TableAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = TableAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12262,7 +12271,7 @@ extension TableAlreadyExistsException {
 
 extension InvalidRestoreTimeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRestoreTimeException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidRestoreTimeException {
         let reader = baseError.errorBodyReader
         var value = InvalidRestoreTimeException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12275,7 +12284,7 @@ extension InvalidRestoreTimeException {
 
 extension ReplicaAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicaAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ReplicaAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = ReplicaAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12288,7 +12297,7 @@ extension ReplicaAlreadyExistsException {
 
 extension ReplicaNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicaNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ReplicaNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ReplicaNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12301,7 +12310,7 @@ extension ReplicaNotFoundException {
 
 extension IndexNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IndexNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> IndexNotFoundException {
         let reader = baseError.errorBodyReader
         var value = IndexNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12312,14 +12321,31 @@ extension IndexNotFoundException {
     }
 }
 
-extension DynamoDBClientTypes.BatchStatementResponse {
+extension DynamoDBClientTypes.ArchivalSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.BatchStatementResponse {
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ArchivalSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.BatchStatementResponse()
-        value.error = try reader["Error"].readIfPresent(with: DynamoDBClientTypes.BatchStatementError.read(from:))
-        value.tableName = try reader["TableName"].readIfPresent()
-        value.item = try reader["Item"].readMapIfPresent(valueReadingClosure: DynamoDBClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = DynamoDBClientTypes.ArchivalSummary()
+        value.archivalDateTime = try reader["ArchivalDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.archivalReason = try reader["ArchivalReason"].readIfPresent()
+        value.archivalBackupArn = try reader["ArchivalBackupArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.AttributeDefinition {
+
+    static func write(value: DynamoDBClientTypes.AttributeDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeName"].write(value.attributeName)
+        try writer["AttributeType"].write(value.attributeType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.AttributeDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.AttributeDefinition()
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.attributeType = try reader["AttributeType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -12384,6 +12410,132 @@ extension DynamoDBClientTypes.AttributeValue {
     }
 }
 
+extension DynamoDBClientTypes.AttributeValueUpdate {
+
+    static func write(value: DynamoDBClientTypes.AttributeValueUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["Value"].write(value.value, with: DynamoDBClientTypes.AttributeValue.write(value:to:))
+    }
+}
+
+extension DynamoDBClientTypes.AutoScalingPolicyDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.AutoScalingPolicyDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.AutoScalingPolicyDescription()
+        value.policyName = try reader["PolicyName"].readIfPresent()
+        value.targetTrackingScalingPolicyConfiguration = try reader["TargetTrackingScalingPolicyConfiguration"].readIfPresent(with: DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfigurationDescription.read(from:))
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.AutoScalingPolicyUpdate {
+
+    static func write(value: DynamoDBClientTypes.AutoScalingPolicyUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PolicyName"].write(value.policyName)
+        try writer["TargetTrackingScalingPolicyConfiguration"].write(value.targetTrackingScalingPolicyConfiguration, with: DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfigurationUpdate.write(value:to:))
+    }
+}
+
+extension DynamoDBClientTypes.AutoScalingSettingsDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.AutoScalingSettingsDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.AutoScalingSettingsDescription()
+        value.minimumUnits = try reader["MinimumUnits"].readIfPresent()
+        value.maximumUnits = try reader["MaximumUnits"].readIfPresent()
+        value.autoScalingDisabled = try reader["AutoScalingDisabled"].readIfPresent()
+        value.autoScalingRoleArn = try reader["AutoScalingRoleArn"].readIfPresent()
+        value.scalingPolicies = try reader["ScalingPolicies"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.AutoScalingPolicyDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.AutoScalingSettingsUpdate {
+
+    static func write(value: DynamoDBClientTypes.AutoScalingSettingsUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AutoScalingDisabled"].write(value.autoScalingDisabled)
+        try writer["AutoScalingRoleArn"].write(value.autoScalingRoleArn)
+        try writer["MaximumUnits"].write(value.maximumUnits)
+        try writer["MinimumUnits"].write(value.minimumUnits)
+        try writer["ScalingPolicyUpdate"].write(value.scalingPolicyUpdate, with: DynamoDBClientTypes.AutoScalingPolicyUpdate.write(value:to:))
+    }
+}
+
+extension DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfigurationDescription()
+        value.disableScaleIn = try reader["DisableScaleIn"].readIfPresent()
+        value.scaleInCooldown = try reader["ScaleInCooldown"].readIfPresent()
+        value.scaleOutCooldown = try reader["ScaleOutCooldown"].readIfPresent()
+        value.targetValue = try reader["TargetValue"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfigurationUpdate {
+
+    static func write(value: DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfigurationUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DisableScaleIn"].write(value.disableScaleIn)
+        try writer["ScaleInCooldown"].write(value.scaleInCooldown)
+        try writer["ScaleOutCooldown"].write(value.scaleOutCooldown)
+        try writer["TargetValue"].write(value.targetValue)
+    }
+}
+
+extension DynamoDBClientTypes.BackupDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.BackupDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.BackupDescription()
+        value.backupDetails = try reader["BackupDetails"].readIfPresent(with: DynamoDBClientTypes.BackupDetails.read(from:))
+        value.sourceTableDetails = try reader["SourceTableDetails"].readIfPresent(with: DynamoDBClientTypes.SourceTableDetails.read(from:))
+        value.sourceTableFeatureDetails = try reader["SourceTableFeatureDetails"].readIfPresent(with: DynamoDBClientTypes.SourceTableFeatureDetails.read(from:))
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.BackupDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.BackupDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.BackupDetails()
+        value.backupArn = try reader["BackupArn"].readIfPresent() ?? ""
+        value.backupName = try reader["BackupName"].readIfPresent() ?? ""
+        value.backupSizeBytes = try reader["BackupSizeBytes"].readIfPresent()
+        value.backupStatus = try reader["BackupStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.backupType = try reader["BackupType"].readIfPresent() ?? .sdkUnknown("")
+        value.backupCreationDateTime = try reader["BackupCreationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.backupExpiryDateTime = try reader["BackupExpiryDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.BackupSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.BackupSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.BackupSummary()
+        value.tableName = try reader["TableName"].readIfPresent()
+        value.tableId = try reader["TableId"].readIfPresent()
+        value.tableArn = try reader["TableArn"].readIfPresent()
+        value.backupArn = try reader["BackupArn"].readIfPresent()
+        value.backupName = try reader["BackupName"].readIfPresent()
+        value.backupCreationDateTime = try reader["BackupCreationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.backupExpiryDateTime = try reader["BackupExpiryDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.backupStatus = try reader["BackupStatus"].readIfPresent()
+        value.backupType = try reader["BackupType"].readIfPresent()
+        value.backupSizeBytes = try reader["BackupSizeBytes"].readIfPresent()
+        return value
+    }
+}
+
 extension DynamoDBClientTypes.BatchStatementError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.BatchStatementError {
@@ -12393,6 +12545,86 @@ extension DynamoDBClientTypes.BatchStatementError {
         value.message = try reader["Message"].readIfPresent()
         value.item = try reader["Item"].readMapIfPresent(valueReadingClosure: DynamoDBClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
+    }
+}
+
+extension DynamoDBClientTypes.BatchStatementRequest {
+
+    static func write(value: DynamoDBClientTypes.BatchStatementRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConsistentRead"].write(value.consistentRead)
+        try writer["Parameters"].writeList(value.parameters, memberWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ReturnValuesOnConditionCheckFailure"].write(value.returnValuesOnConditionCheckFailure)
+        try writer["Statement"].write(value.statement)
+    }
+}
+
+extension DynamoDBClientTypes.BatchStatementResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.BatchStatementResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.BatchStatementResponse()
+        value.error = try reader["Error"].readIfPresent(with: DynamoDBClientTypes.BatchStatementError.read(from:))
+        value.tableName = try reader["TableName"].readIfPresent()
+        value.item = try reader["Item"].readMapIfPresent(valueReadingClosure: DynamoDBClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.BillingModeSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.BillingModeSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.BillingModeSummary()
+        value.billingMode = try reader["BillingMode"].readIfPresent()
+        value.lastUpdateToPayPerRequestDateTime = try reader["LastUpdateToPayPerRequestDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.CancellationReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.CancellationReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.CancellationReason()
+        value.item = try reader["Item"].readMapIfPresent(valueReadingClosure: DynamoDBClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.code = try reader["Code"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.Capacity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.Capacity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.Capacity()
+        value.readCapacityUnits = try reader["ReadCapacityUnits"].readIfPresent()
+        value.writeCapacityUnits = try reader["WriteCapacityUnits"].readIfPresent()
+        value.capacityUnits = try reader["CapacityUnits"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.Condition {
+
+    static func write(value: DynamoDBClientTypes.Condition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeValueList"].writeList(value.attributeValueList, memberWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ComparisonOperator"].write(value.comparisonOperator)
+    }
+}
+
+extension DynamoDBClientTypes.ConditionCheck {
+
+    static func write(value: DynamoDBClientTypes.ConditionCheck?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConditionExpression"].write(value.conditionExpression)
+        try writer["ExpressionAttributeNames"].writeMap(value.expressionAttributeNames, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ExpressionAttributeValues"].writeMap(value.expressionAttributeValues, valueWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Key"].writeMap(value.key, valueWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ReturnValuesOnConditionCheckFailure"].write(value.returnValuesOnConditionCheckFailure)
+        try writer["TableName"].write(value.tableName)
     }
 }
 
@@ -12412,14 +12644,491 @@ extension DynamoDBClientTypes.ConsumedCapacity {
     }
 }
 
-extension DynamoDBClientTypes.Capacity {
+extension DynamoDBClientTypes.ContinuousBackupsDescription {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.Capacity {
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ContinuousBackupsDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.Capacity()
-        value.readCapacityUnits = try reader["ReadCapacityUnits"].readIfPresent()
-        value.writeCapacityUnits = try reader["WriteCapacityUnits"].readIfPresent()
-        value.capacityUnits = try reader["CapacityUnits"].readIfPresent()
+        var value = DynamoDBClientTypes.ContinuousBackupsDescription()
+        value.continuousBackupsStatus = try reader["ContinuousBackupsStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.pointInTimeRecoveryDescription = try reader["PointInTimeRecoveryDescription"].readIfPresent(with: DynamoDBClientTypes.PointInTimeRecoveryDescription.read(from:))
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.ContributorInsightsSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ContributorInsightsSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.ContributorInsightsSummary()
+        value.tableName = try reader["TableName"].readIfPresent()
+        value.indexName = try reader["IndexName"].readIfPresent()
+        value.contributorInsightsStatus = try reader["ContributorInsightsStatus"].readIfPresent()
+        value.contributorInsightsMode = try reader["ContributorInsightsMode"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.CreateGlobalSecondaryIndexAction {
+
+    static func write(value: DynamoDBClientTypes.CreateGlobalSecondaryIndexAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IndexName"].write(value.indexName)
+        try writer["KeySchema"].writeList(value.keySchema, memberWritingClosure: DynamoDBClientTypes.KeySchemaElement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OnDemandThroughput"].write(value.onDemandThroughput, with: DynamoDBClientTypes.OnDemandThroughput.write(value:to:))
+        try writer["Projection"].write(value.projection, with: DynamoDBClientTypes.Projection.write(value:to:))
+        try writer["ProvisionedThroughput"].write(value.provisionedThroughput, with: DynamoDBClientTypes.ProvisionedThroughput.write(value:to:))
+        try writer["WarmThroughput"].write(value.warmThroughput, with: DynamoDBClientTypes.WarmThroughput.write(value:to:))
+    }
+}
+
+extension DynamoDBClientTypes.CreateGlobalTableWitnessGroupMemberAction {
+
+    static func write(value: DynamoDBClientTypes.CreateGlobalTableWitnessGroupMemberAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RegionName"].write(value.regionName)
+    }
+}
+
+extension DynamoDBClientTypes.CreateReplicaAction {
+
+    static func write(value: DynamoDBClientTypes.CreateReplicaAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RegionName"].write(value.regionName)
+    }
+}
+
+extension DynamoDBClientTypes.CreateReplicationGroupMemberAction {
+
+    static func write(value: DynamoDBClientTypes.CreateReplicationGroupMemberAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GlobalSecondaryIndexes"].writeList(value.globalSecondaryIndexes, memberWritingClosure: DynamoDBClientTypes.ReplicaGlobalSecondaryIndex.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["KMSMasterKeyId"].write(value.kmsMasterKeyId)
+        try writer["OnDemandThroughputOverride"].write(value.onDemandThroughputOverride, with: DynamoDBClientTypes.OnDemandThroughputOverride.write(value:to:))
+        try writer["ProvisionedThroughputOverride"].write(value.provisionedThroughputOverride, with: DynamoDBClientTypes.ProvisionedThroughputOverride.write(value:to:))
+        try writer["RegionName"].write(value.regionName)
+        try writer["TableClassOverride"].write(value.tableClassOverride)
+    }
+}
+
+extension DynamoDBClientTypes.CsvOptions {
+
+    static func write(value: DynamoDBClientTypes.CsvOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Delimiter"].write(value.delimiter)
+        try writer["HeaderList"].writeList(value.headerList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.CsvOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.CsvOptions()
+        value.delimiter = try reader["Delimiter"].readIfPresent()
+        value.headerList = try reader["HeaderList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.Delete {
+
+    static func write(value: DynamoDBClientTypes.Delete?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConditionExpression"].write(value.conditionExpression)
+        try writer["ExpressionAttributeNames"].writeMap(value.expressionAttributeNames, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ExpressionAttributeValues"].writeMap(value.expressionAttributeValues, valueWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Key"].writeMap(value.key, valueWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ReturnValuesOnConditionCheckFailure"].write(value.returnValuesOnConditionCheckFailure)
+        try writer["TableName"].write(value.tableName)
+    }
+}
+
+extension DynamoDBClientTypes.DeleteGlobalSecondaryIndexAction {
+
+    static func write(value: DynamoDBClientTypes.DeleteGlobalSecondaryIndexAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IndexName"].write(value.indexName)
+    }
+}
+
+extension DynamoDBClientTypes.DeleteGlobalTableWitnessGroupMemberAction {
+
+    static func write(value: DynamoDBClientTypes.DeleteGlobalTableWitnessGroupMemberAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RegionName"].write(value.regionName)
+    }
+}
+
+extension DynamoDBClientTypes.DeleteReplicaAction {
+
+    static func write(value: DynamoDBClientTypes.DeleteReplicaAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RegionName"].write(value.regionName)
+    }
+}
+
+extension DynamoDBClientTypes.DeleteReplicationGroupMemberAction {
+
+    static func write(value: DynamoDBClientTypes.DeleteReplicationGroupMemberAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RegionName"].write(value.regionName)
+    }
+}
+
+extension DynamoDBClientTypes.DeleteRequest {
+
+    static func write(value: DynamoDBClientTypes.DeleteRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].writeMap(value.key, valueWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.DeleteRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.DeleteRequest()
+        value.key = try reader["Key"].readMapIfPresent(valueReadingClosure: DynamoDBClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.EnableKinesisStreamingConfiguration {
+
+    static func write(value: DynamoDBClientTypes.EnableKinesisStreamingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApproximateCreationDateTimePrecision"].write(value.approximateCreationDateTimePrecision)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.EnableKinesisStreamingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.EnableKinesisStreamingConfiguration()
+        value.approximateCreationDateTimePrecision = try reader["ApproximateCreationDateTimePrecision"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.Endpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.Endpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.Endpoint()
+        value.address = try reader["Address"].readIfPresent() ?? ""
+        value.cachePeriodInMinutes = try reader["CachePeriodInMinutes"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.ExpectedAttributeValue {
+
+    static func write(value: DynamoDBClientTypes.ExpectedAttributeValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeValueList"].writeList(value.attributeValueList, memberWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ComparisonOperator"].write(value.comparisonOperator)
+        try writer["Exists"].write(value.exists)
+        try writer["Value"].write(value.value, with: DynamoDBClientTypes.AttributeValue.write(value:to:))
+    }
+}
+
+extension DynamoDBClientTypes.ExportDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ExportDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.ExportDescription()
+        value.exportArn = try reader["ExportArn"].readIfPresent()
+        value.exportStatus = try reader["ExportStatus"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.exportManifest = try reader["ExportManifest"].readIfPresent()
+        value.tableArn = try reader["TableArn"].readIfPresent()
+        value.tableId = try reader["TableId"].readIfPresent()
+        value.exportTime = try reader["ExportTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.clientToken = try reader["ClientToken"].readIfPresent()
+        value.s3Bucket = try reader["S3Bucket"].readIfPresent()
+        value.s3BucketOwner = try reader["S3BucketOwner"].readIfPresent()
+        value.s3Prefix = try reader["S3Prefix"].readIfPresent()
+        value.s3SseAlgorithm = try reader["S3SseAlgorithm"].readIfPresent()
+        value.s3SseKmsKeyId = try reader["S3SseKmsKeyId"].readIfPresent()
+        value.failureCode = try reader["FailureCode"].readIfPresent()
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        value.exportFormat = try reader["ExportFormat"].readIfPresent()
+        value.billedSizeBytes = try reader["BilledSizeBytes"].readIfPresent()
+        value.itemCount = try reader["ItemCount"].readIfPresent()
+        value.exportType = try reader["ExportType"].readIfPresent()
+        value.incrementalExportSpecification = try reader["IncrementalExportSpecification"].readIfPresent(with: DynamoDBClientTypes.IncrementalExportSpecification.read(from:))
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.ExportSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ExportSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.ExportSummary()
+        value.exportArn = try reader["ExportArn"].readIfPresent()
+        value.exportStatus = try reader["ExportStatus"].readIfPresent()
+        value.exportType = try reader["ExportType"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.FailureException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.FailureException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.FailureException()
+        value.exceptionName = try reader["ExceptionName"].readIfPresent()
+        value.exceptionDescription = try reader["ExceptionDescription"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.Get {
+
+    static func write(value: DynamoDBClientTypes.Get?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExpressionAttributeNames"].writeMap(value.expressionAttributeNames, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Key"].writeMap(value.key, valueWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ProjectionExpression"].write(value.projectionExpression)
+        try writer["TableName"].write(value.tableName)
+    }
+}
+
+extension DynamoDBClientTypes.GlobalSecondaryIndex {
+
+    static func write(value: DynamoDBClientTypes.GlobalSecondaryIndex?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IndexName"].write(value.indexName)
+        try writer["KeySchema"].writeList(value.keySchema, memberWritingClosure: DynamoDBClientTypes.KeySchemaElement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OnDemandThroughput"].write(value.onDemandThroughput, with: DynamoDBClientTypes.OnDemandThroughput.write(value:to:))
+        try writer["Projection"].write(value.projection, with: DynamoDBClientTypes.Projection.write(value:to:))
+        try writer["ProvisionedThroughput"].write(value.provisionedThroughput, with: DynamoDBClientTypes.ProvisionedThroughput.write(value:to:))
+        try writer["WarmThroughput"].write(value.warmThroughput, with: DynamoDBClientTypes.WarmThroughput.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.GlobalSecondaryIndex {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.GlobalSecondaryIndex()
+        value.indexName = try reader["IndexName"].readIfPresent() ?? ""
+        value.keySchema = try reader["KeySchema"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.KeySchemaElement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.projection = try reader["Projection"].readIfPresent(with: DynamoDBClientTypes.Projection.read(from:))
+        value.provisionedThroughput = try reader["ProvisionedThroughput"].readIfPresent(with: DynamoDBClientTypes.ProvisionedThroughput.read(from:))
+        value.onDemandThroughput = try reader["OnDemandThroughput"].readIfPresent(with: DynamoDBClientTypes.OnDemandThroughput.read(from:))
+        value.warmThroughput = try reader["WarmThroughput"].readIfPresent(with: DynamoDBClientTypes.WarmThroughput.read(from:))
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.GlobalSecondaryIndexAutoScalingUpdate {
+
+    static func write(value: DynamoDBClientTypes.GlobalSecondaryIndexAutoScalingUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IndexName"].write(value.indexName)
+        try writer["ProvisionedWriteCapacityAutoScalingUpdate"].write(value.provisionedWriteCapacityAutoScalingUpdate, with: DynamoDBClientTypes.AutoScalingSettingsUpdate.write(value:to:))
+    }
+}
+
+extension DynamoDBClientTypes.GlobalSecondaryIndexDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.GlobalSecondaryIndexDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.GlobalSecondaryIndexDescription()
+        value.indexName = try reader["IndexName"].readIfPresent()
+        value.keySchema = try reader["KeySchema"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.KeySchemaElement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.projection = try reader["Projection"].readIfPresent(with: DynamoDBClientTypes.Projection.read(from:))
+        value.indexStatus = try reader["IndexStatus"].readIfPresent()
+        value.backfilling = try reader["Backfilling"].readIfPresent()
+        value.provisionedThroughput = try reader["ProvisionedThroughput"].readIfPresent(with: DynamoDBClientTypes.ProvisionedThroughputDescription.read(from:))
+        value.indexSizeBytes = try reader["IndexSizeBytes"].readIfPresent()
+        value.itemCount = try reader["ItemCount"].readIfPresent()
+        value.indexArn = try reader["IndexArn"].readIfPresent()
+        value.onDemandThroughput = try reader["OnDemandThroughput"].readIfPresent(with: DynamoDBClientTypes.OnDemandThroughput.read(from:))
+        value.warmThroughput = try reader["WarmThroughput"].readIfPresent(with: DynamoDBClientTypes.GlobalSecondaryIndexWarmThroughputDescription.read(from:))
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.GlobalSecondaryIndexInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.GlobalSecondaryIndexInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.GlobalSecondaryIndexInfo()
+        value.indexName = try reader["IndexName"].readIfPresent()
+        value.keySchema = try reader["KeySchema"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.KeySchemaElement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.projection = try reader["Projection"].readIfPresent(with: DynamoDBClientTypes.Projection.read(from:))
+        value.provisionedThroughput = try reader["ProvisionedThroughput"].readIfPresent(with: DynamoDBClientTypes.ProvisionedThroughput.read(from:))
+        value.onDemandThroughput = try reader["OnDemandThroughput"].readIfPresent(with: DynamoDBClientTypes.OnDemandThroughput.read(from:))
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.GlobalSecondaryIndexUpdate {
+
+    static func write(value: DynamoDBClientTypes.GlobalSecondaryIndexUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Create"].write(value.create, with: DynamoDBClientTypes.CreateGlobalSecondaryIndexAction.write(value:to:))
+        try writer["Delete"].write(value.delete, with: DynamoDBClientTypes.DeleteGlobalSecondaryIndexAction.write(value:to:))
+        try writer["Update"].write(value.update, with: DynamoDBClientTypes.UpdateGlobalSecondaryIndexAction.write(value:to:))
+    }
+}
+
+extension DynamoDBClientTypes.GlobalSecondaryIndexWarmThroughputDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.GlobalSecondaryIndexWarmThroughputDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.GlobalSecondaryIndexWarmThroughputDescription()
+        value.readUnitsPerSecond = try reader["ReadUnitsPerSecond"].readIfPresent()
+        value.writeUnitsPerSecond = try reader["WriteUnitsPerSecond"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.GlobalTable {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.GlobalTable {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.GlobalTable()
+        value.globalTableName = try reader["GlobalTableName"].readIfPresent()
+        value.replicationGroup = try reader["ReplicationGroup"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.Replica.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.GlobalTableDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.GlobalTableDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.GlobalTableDescription()
+        value.replicationGroup = try reader["ReplicationGroup"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.ReplicaDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.globalTableArn = try reader["GlobalTableArn"].readIfPresent()
+        value.creationDateTime = try reader["CreationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.globalTableStatus = try reader["GlobalTableStatus"].readIfPresent()
+        value.globalTableName = try reader["GlobalTableName"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.GlobalTableGlobalSecondaryIndexSettingsUpdate {
+
+    static func write(value: DynamoDBClientTypes.GlobalTableGlobalSecondaryIndexSettingsUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IndexName"].write(value.indexName)
+        try writer["ProvisionedWriteCapacityAutoScalingSettingsUpdate"].write(value.provisionedWriteCapacityAutoScalingSettingsUpdate, with: DynamoDBClientTypes.AutoScalingSettingsUpdate.write(value:to:))
+        try writer["ProvisionedWriteCapacityUnits"].write(value.provisionedWriteCapacityUnits)
+    }
+}
+
+extension DynamoDBClientTypes.GlobalTableWitnessDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.GlobalTableWitnessDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.GlobalTableWitnessDescription()
+        value.regionName = try reader["RegionName"].readIfPresent()
+        value.witnessStatus = try reader["WitnessStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.GlobalTableWitnessGroupUpdate {
+
+    static func write(value: DynamoDBClientTypes.GlobalTableWitnessGroupUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Create"].write(value.create, with: DynamoDBClientTypes.CreateGlobalTableWitnessGroupMemberAction.write(value:to:))
+        try writer["Delete"].write(value.delete, with: DynamoDBClientTypes.DeleteGlobalTableWitnessGroupMemberAction.write(value:to:))
+    }
+}
+
+extension DynamoDBClientTypes.ImportSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ImportSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.ImportSummary()
+        value.importArn = try reader["ImportArn"].readIfPresent()
+        value.importStatus = try reader["ImportStatus"].readIfPresent()
+        value.tableArn = try reader["TableArn"].readIfPresent()
+        value.s3BucketSource = try reader["S3BucketSource"].readIfPresent(with: DynamoDBClientTypes.S3BucketSource.read(from:))
+        value.cloudWatchLogGroupArn = try reader["CloudWatchLogGroupArn"].readIfPresent()
+        value.inputFormat = try reader["InputFormat"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.ImportTableDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ImportTableDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.ImportTableDescription()
+        value.importArn = try reader["ImportArn"].readIfPresent()
+        value.importStatus = try reader["ImportStatus"].readIfPresent()
+        value.tableArn = try reader["TableArn"].readIfPresent()
+        value.tableId = try reader["TableId"].readIfPresent()
+        value.clientToken = try reader["ClientToken"].readIfPresent()
+        value.s3BucketSource = try reader["S3BucketSource"].readIfPresent(with: DynamoDBClientTypes.S3BucketSource.read(from:))
+        value.errorCount = try reader["ErrorCount"].readIfPresent() ?? 0
+        value.cloudWatchLogGroupArn = try reader["CloudWatchLogGroupArn"].readIfPresent()
+        value.inputFormat = try reader["InputFormat"].readIfPresent()
+        value.inputFormatOptions = try reader["InputFormatOptions"].readIfPresent(with: DynamoDBClientTypes.InputFormatOptions.read(from:))
+        value.inputCompressionType = try reader["InputCompressionType"].readIfPresent()
+        value.tableCreationParameters = try reader["TableCreationParameters"].readIfPresent(with: DynamoDBClientTypes.TableCreationParameters.read(from:))
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.processedSizeBytes = try reader["ProcessedSizeBytes"].readIfPresent()
+        value.processedItemCount = try reader["ProcessedItemCount"].readIfPresent() ?? 0
+        value.importedItemCount = try reader["ImportedItemCount"].readIfPresent() ?? 0
+        value.failureCode = try reader["FailureCode"].readIfPresent()
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.IncrementalExportSpecification {
+
+    static func write(value: DynamoDBClientTypes.IncrementalExportSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExportFromTime"].writeTimestamp(value.exportFromTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["ExportToTime"].writeTimestamp(value.exportToTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["ExportViewType"].write(value.exportViewType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.IncrementalExportSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.IncrementalExportSpecification()
+        value.exportFromTime = try reader["ExportFromTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.exportToTime = try reader["ExportToTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.exportViewType = try reader["ExportViewType"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.InputFormatOptions {
+
+    static func write(value: DynamoDBClientTypes.InputFormatOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Csv"].write(value.csv, with: DynamoDBClientTypes.CsvOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.InputFormatOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.InputFormatOptions()
+        value.csv = try reader["Csv"].readIfPresent(with: DynamoDBClientTypes.CsvOptions.read(from:))
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.ItemCollectionMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ItemCollectionMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.ItemCollectionMetrics()
+        value.itemCollectionKey = try reader["ItemCollectionKey"].readMapIfPresent(valueReadingClosure: DynamoDBClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.sizeEstimateRangeGB = try reader["SizeEstimateRangeGB"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.ItemResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ItemResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.ItemResponse()
+        value.item = try reader["Item"].readMapIfPresent(valueReadingClosure: DynamoDBClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -12447,35 +13156,210 @@ extension DynamoDBClientTypes.KeysAndAttributes {
     }
 }
 
-extension DynamoDBClientTypes.WriteRequest {
+extension DynamoDBClientTypes.KeySchemaElement {
 
-    static func write(value: DynamoDBClientTypes.WriteRequest?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DynamoDBClientTypes.KeySchemaElement?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DeleteRequest"].write(value.deleteRequest, with: DynamoDBClientTypes.DeleteRequest.write(value:to:))
-        try writer["PutRequest"].write(value.putRequest, with: DynamoDBClientTypes.PutRequest.write(value:to:))
+        try writer["AttributeName"].write(value.attributeName)
+        try writer["KeyType"].write(value.keyType)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.WriteRequest {
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.KeySchemaElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.WriteRequest()
-        value.putRequest = try reader["PutRequest"].readIfPresent(with: DynamoDBClientTypes.PutRequest.read(from:))
-        value.deleteRequest = try reader["DeleteRequest"].readIfPresent(with: DynamoDBClientTypes.DeleteRequest.read(from:))
+        var value = DynamoDBClientTypes.KeySchemaElement()
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.keyType = try reader["KeyType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension DynamoDBClientTypes.DeleteRequest {
+extension DynamoDBClientTypes.KinesisDataStreamDestination {
 
-    static func write(value: DynamoDBClientTypes.DeleteRequest?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.KinesisDataStreamDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.KinesisDataStreamDestination()
+        value.streamArn = try reader["StreamArn"].readIfPresent()
+        value.destinationStatus = try reader["DestinationStatus"].readIfPresent()
+        value.destinationStatusDescription = try reader["DestinationStatusDescription"].readIfPresent()
+        value.approximateCreationDateTimePrecision = try reader["ApproximateCreationDateTimePrecision"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.LocalSecondaryIndex {
+
+    static func write(value: DynamoDBClientTypes.LocalSecondaryIndex?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Key"].writeMap(value.key, valueWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["IndexName"].write(value.indexName)
+        try writer["KeySchema"].writeList(value.keySchema, memberWritingClosure: DynamoDBClientTypes.KeySchemaElement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Projection"].write(value.projection, with: DynamoDBClientTypes.Projection.write(value:to:))
+    }
+}
+
+extension DynamoDBClientTypes.LocalSecondaryIndexDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.LocalSecondaryIndexDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.LocalSecondaryIndexDescription()
+        value.indexName = try reader["IndexName"].readIfPresent()
+        value.keySchema = try reader["KeySchema"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.KeySchemaElement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.projection = try reader["Projection"].readIfPresent(with: DynamoDBClientTypes.Projection.read(from:))
+        value.indexSizeBytes = try reader["IndexSizeBytes"].readIfPresent()
+        value.itemCount = try reader["ItemCount"].readIfPresent()
+        value.indexArn = try reader["IndexArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.LocalSecondaryIndexInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.LocalSecondaryIndexInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.LocalSecondaryIndexInfo()
+        value.indexName = try reader["IndexName"].readIfPresent()
+        value.keySchema = try reader["KeySchema"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.KeySchemaElement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.projection = try reader["Projection"].readIfPresent(with: DynamoDBClientTypes.Projection.read(from:))
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.OnDemandThroughput {
+
+    static func write(value: DynamoDBClientTypes.OnDemandThroughput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxReadRequestUnits"].write(value.maxReadRequestUnits)
+        try writer["MaxWriteRequestUnits"].write(value.maxWriteRequestUnits)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.DeleteRequest {
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.OnDemandThroughput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.DeleteRequest()
-        value.key = try reader["Key"].readMapIfPresent(valueReadingClosure: DynamoDBClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        var value = DynamoDBClientTypes.OnDemandThroughput()
+        value.maxReadRequestUnits = try reader["MaxReadRequestUnits"].readIfPresent()
+        value.maxWriteRequestUnits = try reader["MaxWriteRequestUnits"].readIfPresent()
         return value
+    }
+}
+
+extension DynamoDBClientTypes.OnDemandThroughputOverride {
+
+    static func write(value: DynamoDBClientTypes.OnDemandThroughputOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxReadRequestUnits"].write(value.maxReadRequestUnits)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.OnDemandThroughputOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.OnDemandThroughputOverride()
+        value.maxReadRequestUnits = try reader["MaxReadRequestUnits"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.ParameterizedStatement {
+
+    static func write(value: DynamoDBClientTypes.ParameterizedStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Parameters"].writeList(value.parameters, memberWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ReturnValuesOnConditionCheckFailure"].write(value.returnValuesOnConditionCheckFailure)
+        try writer["Statement"].write(value.statement)
+    }
+}
+
+extension DynamoDBClientTypes.PointInTimeRecoveryDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.PointInTimeRecoveryDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.PointInTimeRecoveryDescription()
+        value.pointInTimeRecoveryStatus = try reader["PointInTimeRecoveryStatus"].readIfPresent()
+        value.recoveryPeriodInDays = try reader["RecoveryPeriodInDays"].readIfPresent()
+        value.earliestRestorableDateTime = try reader["EarliestRestorableDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.latestRestorableDateTime = try reader["LatestRestorableDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.PointInTimeRecoverySpecification {
+
+    static func write(value: DynamoDBClientTypes.PointInTimeRecoverySpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PointInTimeRecoveryEnabled"].write(value.pointInTimeRecoveryEnabled)
+        try writer["RecoveryPeriodInDays"].write(value.recoveryPeriodInDays)
+    }
+}
+
+extension DynamoDBClientTypes.Projection {
+
+    static func write(value: DynamoDBClientTypes.Projection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NonKeyAttributes"].writeList(value.nonKeyAttributes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ProjectionType"].write(value.projectionType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.Projection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.Projection()
+        value.projectionType = try reader["ProjectionType"].readIfPresent()
+        value.nonKeyAttributes = try reader["NonKeyAttributes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.ProvisionedThroughput {
+
+    static func write(value: DynamoDBClientTypes.ProvisionedThroughput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ReadCapacityUnits"].write(value.readCapacityUnits)
+        try writer["WriteCapacityUnits"].write(value.writeCapacityUnits)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ProvisionedThroughput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.ProvisionedThroughput()
+        value.readCapacityUnits = try reader["ReadCapacityUnits"].readIfPresent() ?? 0
+        value.writeCapacityUnits = try reader["WriteCapacityUnits"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.ProvisionedThroughputDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ProvisionedThroughputDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.ProvisionedThroughputDescription()
+        value.lastIncreaseDateTime = try reader["LastIncreaseDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastDecreaseDateTime = try reader["LastDecreaseDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.numberOfDecreasesToday = try reader["NumberOfDecreasesToday"].readIfPresent()
+        value.readCapacityUnits = try reader["ReadCapacityUnits"].readIfPresent()
+        value.writeCapacityUnits = try reader["WriteCapacityUnits"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.ProvisionedThroughputOverride {
+
+    static func write(value: DynamoDBClientTypes.ProvisionedThroughputOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ReadCapacityUnits"].write(value.readCapacityUnits)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ProvisionedThroughputOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.ProvisionedThroughputOverride()
+        value.readCapacityUnits = try reader["ReadCapacityUnits"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.Put {
+
+    static func write(value: DynamoDBClientTypes.Put?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConditionExpression"].write(value.conditionExpression)
+        try writer["ExpressionAttributeNames"].writeMap(value.expressionAttributeNames, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ExpressionAttributeValues"].writeMap(value.expressionAttributeValues, valueWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Item"].writeMap(value.item, valueWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ReturnValuesOnConditionCheckFailure"].write(value.returnValuesOnConditionCheckFailure)
+        try writer["TableName"].write(value.tableName)
     }
 }
 
@@ -12494,44 +13378,42 @@ extension DynamoDBClientTypes.PutRequest {
     }
 }
 
-extension DynamoDBClientTypes.ItemCollectionMetrics {
+extension DynamoDBClientTypes.Replica {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ItemCollectionMetrics {
+    static func write(value: DynamoDBClientTypes.Replica?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RegionName"].write(value.regionName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.Replica {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.ItemCollectionMetrics()
-        value.itemCollectionKey = try reader["ItemCollectionKey"].readMapIfPresent(valueReadingClosure: DynamoDBClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.sizeEstimateRangeGB = try reader["SizeEstimateRangeGB"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = DynamoDBClientTypes.Replica()
+        value.regionName = try reader["RegionName"].readIfPresent()
         return value
     }
 }
 
-extension DynamoDBClientTypes.BackupDetails {
+extension DynamoDBClientTypes.ReplicaAutoScalingDescription {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.BackupDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ReplicaAutoScalingDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.BackupDetails()
-        value.backupArn = try reader["BackupArn"].readIfPresent() ?? ""
-        value.backupName = try reader["BackupName"].readIfPresent() ?? ""
-        value.backupSizeBytes = try reader["BackupSizeBytes"].readIfPresent()
-        value.backupStatus = try reader["BackupStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.backupType = try reader["BackupType"].readIfPresent() ?? .sdkUnknown("")
-        value.backupCreationDateTime = try reader["BackupCreationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.backupExpiryDateTime = try reader["BackupExpiryDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = DynamoDBClientTypes.ReplicaAutoScalingDescription()
+        value.regionName = try reader["RegionName"].readIfPresent()
+        value.globalSecondaryIndexes = try reader["GlobalSecondaryIndexes"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.ReplicaGlobalSecondaryIndexAutoScalingDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.replicaProvisionedReadCapacityAutoScalingSettings = try reader["ReplicaProvisionedReadCapacityAutoScalingSettings"].readIfPresent(with: DynamoDBClientTypes.AutoScalingSettingsDescription.read(from:))
+        value.replicaProvisionedWriteCapacityAutoScalingSettings = try reader["ReplicaProvisionedWriteCapacityAutoScalingSettings"].readIfPresent(with: DynamoDBClientTypes.AutoScalingSettingsDescription.read(from:))
+        value.replicaStatus = try reader["ReplicaStatus"].readIfPresent()
         return value
     }
 }
 
-extension DynamoDBClientTypes.GlobalTableDescription {
+extension DynamoDBClientTypes.ReplicaAutoScalingUpdate {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.GlobalTableDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.GlobalTableDescription()
-        value.replicationGroup = try reader["ReplicationGroup"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.ReplicaDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.globalTableArn = try reader["GlobalTableArn"].readIfPresent()
-        value.creationDateTime = try reader["CreationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.globalTableStatus = try reader["GlobalTableStatus"].readIfPresent()
-        value.globalTableName = try reader["GlobalTableName"].readIfPresent()
-        return value
+    static func write(value: DynamoDBClientTypes.ReplicaAutoScalingUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RegionName"].write(value.regionName)
+        try writer["ReplicaGlobalSecondaryIndexUpdates"].writeList(value.replicaGlobalSecondaryIndexUpdates, memberWritingClosure: DynamoDBClientTypes.ReplicaGlobalSecondaryIndexAutoScalingUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ReplicaProvisionedReadCapacityAutoScalingUpdate"].write(value.replicaProvisionedReadCapacityAutoScalingUpdate, with: DynamoDBClientTypes.AutoScalingSettingsUpdate.write(value:to:))
     }
 }
 
@@ -12556,14 +13438,35 @@ extension DynamoDBClientTypes.ReplicaDescription {
     }
 }
 
-extension DynamoDBClientTypes.TableClassSummary {
+extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndex {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.TableClassSummary {
+    static func write(value: DynamoDBClientTypes.ReplicaGlobalSecondaryIndex?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IndexName"].write(value.indexName)
+        try writer["OnDemandThroughputOverride"].write(value.onDemandThroughputOverride, with: DynamoDBClientTypes.OnDemandThroughputOverride.write(value:to:))
+        try writer["ProvisionedThroughputOverride"].write(value.provisionedThroughputOverride, with: DynamoDBClientTypes.ProvisionedThroughputOverride.write(value:to:))
+    }
+}
+
+extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndexAutoScalingDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ReplicaGlobalSecondaryIndexAutoScalingDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.TableClassSummary()
-        value.tableClass = try reader["TableClass"].readIfPresent()
-        value.lastUpdateDateTime = try reader["LastUpdateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = DynamoDBClientTypes.ReplicaGlobalSecondaryIndexAutoScalingDescription()
+        value.indexName = try reader["IndexName"].readIfPresent()
+        value.indexStatus = try reader["IndexStatus"].readIfPresent()
+        value.provisionedReadCapacityAutoScalingSettings = try reader["ProvisionedReadCapacityAutoScalingSettings"].readIfPresent(with: DynamoDBClientTypes.AutoScalingSettingsDescription.read(from:))
+        value.provisionedWriteCapacityAutoScalingSettings = try reader["ProvisionedWriteCapacityAutoScalingSettings"].readIfPresent(with: DynamoDBClientTypes.AutoScalingSettingsDescription.read(from:))
         return value
+    }
+}
+
+extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndexAutoScalingUpdate {
+
+    static func write(value: DynamoDBClientTypes.ReplicaGlobalSecondaryIndexAutoScalingUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IndexName"].write(value.indexName)
+        try writer["ProvisionedReadCapacityAutoScalingUpdate"].write(value.provisionedReadCapacityAutoScalingUpdate, with: DynamoDBClientTypes.AutoScalingSettingsUpdate.write(value:to:))
     }
 }
 
@@ -12580,56 +13483,242 @@ extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndexDescription {
     }
 }
 
-extension DynamoDBClientTypes.GlobalSecondaryIndexWarmThroughputDescription {
+extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndexSettingsDescription {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.GlobalSecondaryIndexWarmThroughputDescription {
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ReplicaGlobalSecondaryIndexSettingsDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.GlobalSecondaryIndexWarmThroughputDescription()
-        value.readUnitsPerSecond = try reader["ReadUnitsPerSecond"].readIfPresent()
-        value.writeUnitsPerSecond = try reader["WriteUnitsPerSecond"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        var value = DynamoDBClientTypes.ReplicaGlobalSecondaryIndexSettingsDescription()
+        value.indexName = try reader["IndexName"].readIfPresent() ?? ""
+        value.indexStatus = try reader["IndexStatus"].readIfPresent()
+        value.provisionedReadCapacityUnits = try reader["ProvisionedReadCapacityUnits"].readIfPresent()
+        value.provisionedReadCapacityAutoScalingSettings = try reader["ProvisionedReadCapacityAutoScalingSettings"].readIfPresent(with: DynamoDBClientTypes.AutoScalingSettingsDescription.read(from:))
+        value.provisionedWriteCapacityUnits = try reader["ProvisionedWriteCapacityUnits"].readIfPresent()
+        value.provisionedWriteCapacityAutoScalingSettings = try reader["ProvisionedWriteCapacityAutoScalingSettings"].readIfPresent(with: DynamoDBClientTypes.AutoScalingSettingsDescription.read(from:))
         return value
     }
 }
 
-extension DynamoDBClientTypes.OnDemandThroughputOverride {
+extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndexSettingsUpdate {
 
-    static func write(value: DynamoDBClientTypes.OnDemandThroughputOverride?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DynamoDBClientTypes.ReplicaGlobalSecondaryIndexSettingsUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["MaxReadRequestUnits"].write(value.maxReadRequestUnits)
+        try writer["IndexName"].write(value.indexName)
+        try writer["ProvisionedReadCapacityAutoScalingSettingsUpdate"].write(value.provisionedReadCapacityAutoScalingSettingsUpdate, with: DynamoDBClientTypes.AutoScalingSettingsUpdate.write(value:to:))
+        try writer["ProvisionedReadCapacityUnits"].write(value.provisionedReadCapacityUnits)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.OnDemandThroughputOverride {
+extension DynamoDBClientTypes.ReplicaSettingsDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ReplicaSettingsDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.OnDemandThroughputOverride()
-        value.maxReadRequestUnits = try reader["MaxReadRequestUnits"].readIfPresent()
+        var value = DynamoDBClientTypes.ReplicaSettingsDescription()
+        value.regionName = try reader["RegionName"].readIfPresent() ?? ""
+        value.replicaStatus = try reader["ReplicaStatus"].readIfPresent()
+        value.replicaBillingModeSummary = try reader["ReplicaBillingModeSummary"].readIfPresent(with: DynamoDBClientTypes.BillingModeSummary.read(from:))
+        value.replicaProvisionedReadCapacityUnits = try reader["ReplicaProvisionedReadCapacityUnits"].readIfPresent()
+        value.replicaProvisionedReadCapacityAutoScalingSettings = try reader["ReplicaProvisionedReadCapacityAutoScalingSettings"].readIfPresent(with: DynamoDBClientTypes.AutoScalingSettingsDescription.read(from:))
+        value.replicaProvisionedWriteCapacityUnits = try reader["ReplicaProvisionedWriteCapacityUnits"].readIfPresent()
+        value.replicaProvisionedWriteCapacityAutoScalingSettings = try reader["ReplicaProvisionedWriteCapacityAutoScalingSettings"].readIfPresent(with: DynamoDBClientTypes.AutoScalingSettingsDescription.read(from:))
+        value.replicaGlobalSecondaryIndexSettings = try reader["ReplicaGlobalSecondaryIndexSettings"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.ReplicaGlobalSecondaryIndexSettingsDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.replicaTableClassSummary = try reader["ReplicaTableClassSummary"].readIfPresent(with: DynamoDBClientTypes.TableClassSummary.read(from:))
         return value
     }
 }
 
-extension DynamoDBClientTypes.ProvisionedThroughputOverride {
+extension DynamoDBClientTypes.ReplicaSettingsUpdate {
 
-    static func write(value: DynamoDBClientTypes.ProvisionedThroughputOverride?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DynamoDBClientTypes.ReplicaSettingsUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ReadCapacityUnits"].write(value.readCapacityUnits)
+        try writer["RegionName"].write(value.regionName)
+        try writer["ReplicaGlobalSecondaryIndexSettingsUpdate"].writeList(value.replicaGlobalSecondaryIndexSettingsUpdate, memberWritingClosure: DynamoDBClientTypes.ReplicaGlobalSecondaryIndexSettingsUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate"].write(value.replicaProvisionedReadCapacityAutoScalingSettingsUpdate, with: DynamoDBClientTypes.AutoScalingSettingsUpdate.write(value:to:))
+        try writer["ReplicaProvisionedReadCapacityUnits"].write(value.replicaProvisionedReadCapacityUnits)
+        try writer["ReplicaTableClass"].write(value.replicaTableClass)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ProvisionedThroughputOverride {
+extension DynamoDBClientTypes.ReplicationGroupUpdate {
+
+    static func write(value: DynamoDBClientTypes.ReplicationGroupUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Create"].write(value.create, with: DynamoDBClientTypes.CreateReplicationGroupMemberAction.write(value:to:))
+        try writer["Delete"].write(value.delete, with: DynamoDBClientTypes.DeleteReplicationGroupMemberAction.write(value:to:))
+        try writer["Update"].write(value.update, with: DynamoDBClientTypes.UpdateReplicationGroupMemberAction.write(value:to:))
+    }
+}
+
+extension DynamoDBClientTypes.ReplicaUpdate {
+
+    static func write(value: DynamoDBClientTypes.ReplicaUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Create"].write(value.create, with: DynamoDBClientTypes.CreateReplicaAction.write(value:to:))
+        try writer["Delete"].write(value.delete, with: DynamoDBClientTypes.DeleteReplicaAction.write(value:to:))
+    }
+}
+
+extension DynamoDBClientTypes.RestoreSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.RestoreSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.ProvisionedThroughputOverride()
-        value.readCapacityUnits = try reader["ReadCapacityUnits"].readIfPresent()
+        var value = DynamoDBClientTypes.RestoreSummary()
+        value.sourceBackupArn = try reader["SourceBackupArn"].readIfPresent()
+        value.sourceTableArn = try reader["SourceTableArn"].readIfPresent()
+        value.restoreDateTime = try reader["RestoreDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.restoreInProgress = try reader["RestoreInProgress"].readIfPresent() ?? false
         return value
     }
 }
 
-extension DynamoDBClientTypes.TableWarmThroughputDescription {
+extension DynamoDBClientTypes.S3BucketSource {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.TableWarmThroughputDescription {
+    static func write(value: DynamoDBClientTypes.S3BucketSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Bucket"].write(value.s3Bucket)
+        try writer["S3BucketOwner"].write(value.s3BucketOwner)
+        try writer["S3KeyPrefix"].write(value.s3KeyPrefix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.S3BucketSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.TableWarmThroughputDescription()
-        value.readUnitsPerSecond = try reader["ReadUnitsPerSecond"].readIfPresent()
-        value.writeUnitsPerSecond = try reader["WriteUnitsPerSecond"].readIfPresent()
+        var value = DynamoDBClientTypes.S3BucketSource()
+        value.s3BucketOwner = try reader["S3BucketOwner"].readIfPresent()
+        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
+        value.s3KeyPrefix = try reader["S3KeyPrefix"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.SourceTableDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.SourceTableDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.SourceTableDetails()
+        value.tableName = try reader["TableName"].readIfPresent() ?? ""
+        value.tableId = try reader["TableId"].readIfPresent() ?? ""
+        value.tableArn = try reader["TableArn"].readIfPresent()
+        value.tableSizeBytes = try reader["TableSizeBytes"].readIfPresent()
+        value.keySchema = try reader["KeySchema"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.KeySchemaElement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tableCreationDateTime = try reader["TableCreationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.provisionedThroughput = try reader["ProvisionedThroughput"].readIfPresent(with: DynamoDBClientTypes.ProvisionedThroughput.read(from:))
+        value.onDemandThroughput = try reader["OnDemandThroughput"].readIfPresent(with: DynamoDBClientTypes.OnDemandThroughput.read(from:))
+        value.itemCount = try reader["ItemCount"].readIfPresent()
+        value.billingMode = try reader["BillingMode"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.SourceTableFeatureDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.SourceTableFeatureDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.SourceTableFeatureDetails()
+        value.localSecondaryIndexes = try reader["LocalSecondaryIndexes"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.LocalSecondaryIndexInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.globalSecondaryIndexes = try reader["GlobalSecondaryIndexes"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.GlobalSecondaryIndexInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.streamDescription = try reader["StreamDescription"].readIfPresent(with: DynamoDBClientTypes.StreamSpecification.read(from:))
+        value.timeToLiveDescription = try reader["TimeToLiveDescription"].readIfPresent(with: DynamoDBClientTypes.TimeToLiveDescription.read(from:))
+        value.sseDescription = try reader["SSEDescription"].readIfPresent(with: DynamoDBClientTypes.SSEDescription.read(from:))
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.SSEDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.SSEDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.SSEDescription()
         value.status = try reader["Status"].readIfPresent()
+        value.sseType = try reader["SSEType"].readIfPresent()
+        value.kmsMasterKeyArn = try reader["KMSMasterKeyArn"].readIfPresent()
+        value.inaccessibleEncryptionDateTime = try reader["InaccessibleEncryptionDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.SSESpecification {
+
+    static func write(value: DynamoDBClientTypes.SSESpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["KMSMasterKeyId"].write(value.kmsMasterKeyId)
+        try writer["SSEType"].write(value.sseType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.SSESpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.SSESpecification()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.sseType = try reader["SSEType"].readIfPresent()
+        value.kmsMasterKeyId = try reader["KMSMasterKeyId"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.StreamSpecification {
+
+    static func write(value: DynamoDBClientTypes.StreamSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StreamEnabled"].write(value.streamEnabled)
+        try writer["StreamViewType"].write(value.streamViewType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.StreamSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.StreamSpecification()
+        value.streamEnabled = try reader["StreamEnabled"].readIfPresent() ?? false
+        value.streamViewType = try reader["StreamViewType"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.TableAutoScalingDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.TableAutoScalingDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.TableAutoScalingDescription()
+        value.tableName = try reader["TableName"].readIfPresent()
+        value.tableStatus = try reader["TableStatus"].readIfPresent()
+        value.replicas = try reader["Replicas"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.ReplicaAutoScalingDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.TableClassSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.TableClassSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.TableClassSummary()
+        value.tableClass = try reader["TableClass"].readIfPresent()
+        value.lastUpdateDateTime = try reader["LastUpdateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.TableCreationParameters {
+
+    static func write(value: DynamoDBClientTypes.TableCreationParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeDefinitions"].writeList(value.attributeDefinitions, memberWritingClosure: DynamoDBClientTypes.AttributeDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["BillingMode"].write(value.billingMode)
+        try writer["GlobalSecondaryIndexes"].writeList(value.globalSecondaryIndexes, memberWritingClosure: DynamoDBClientTypes.GlobalSecondaryIndex.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["KeySchema"].writeList(value.keySchema, memberWritingClosure: DynamoDBClientTypes.KeySchemaElement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OnDemandThroughput"].write(value.onDemandThroughput, with: DynamoDBClientTypes.OnDemandThroughput.write(value:to:))
+        try writer["ProvisionedThroughput"].write(value.provisionedThroughput, with: DynamoDBClientTypes.ProvisionedThroughput.write(value:to:))
+        try writer["SSESpecification"].write(value.sseSpecification, with: DynamoDBClientTypes.SSESpecification.write(value:to:))
+        try writer["TableName"].write(value.tableName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.TableCreationParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.TableCreationParameters()
+        value.tableName = try reader["TableName"].readIfPresent() ?? ""
+        value.attributeDefinitions = try reader["AttributeDefinitions"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.AttributeDefinition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.keySchema = try reader["KeySchema"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.KeySchemaElement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.billingMode = try reader["BillingMode"].readIfPresent()
+        value.provisionedThroughput = try reader["ProvisionedThroughput"].readIfPresent(with: DynamoDBClientTypes.ProvisionedThroughput.read(from:))
+        value.onDemandThroughput = try reader["OnDemandThroughput"].readIfPresent(with: DynamoDBClientTypes.OnDemandThroughput.read(from:))
+        value.sseSpecification = try reader["SSESpecification"].readIfPresent(with: DynamoDBClientTypes.SSESpecification.read(from:))
+        value.globalSecondaryIndexes = try reader["GlobalSecondaryIndexes"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.GlobalSecondaryIndex.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -12671,794 +13760,14 @@ extension DynamoDBClientTypes.TableDescription {
     }
 }
 
-extension DynamoDBClientTypes.OnDemandThroughput {
+extension DynamoDBClientTypes.TableWarmThroughputDescription {
 
-    static func write(value: DynamoDBClientTypes.OnDemandThroughput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxReadRequestUnits"].write(value.maxReadRequestUnits)
-        try writer["MaxWriteRequestUnits"].write(value.maxWriteRequestUnits)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.OnDemandThroughput {
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.TableWarmThroughputDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.OnDemandThroughput()
-        value.maxReadRequestUnits = try reader["MaxReadRequestUnits"].readIfPresent()
-        value.maxWriteRequestUnits = try reader["MaxWriteRequestUnits"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.ArchivalSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ArchivalSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.ArchivalSummary()
-        value.archivalDateTime = try reader["ArchivalDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.archivalReason = try reader["ArchivalReason"].readIfPresent()
-        value.archivalBackupArn = try reader["ArchivalBackupArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.SSEDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.SSEDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.SSEDescription()
-        value.status = try reader["Status"].readIfPresent()
-        value.sseType = try reader["SSEType"].readIfPresent()
-        value.kmsMasterKeyArn = try reader["KMSMasterKeyArn"].readIfPresent()
-        value.inaccessibleEncryptionDateTime = try reader["InaccessibleEncryptionDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.RestoreSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.RestoreSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.RestoreSummary()
-        value.sourceBackupArn = try reader["SourceBackupArn"].readIfPresent()
-        value.sourceTableArn = try reader["SourceTableArn"].readIfPresent()
-        value.restoreDateTime = try reader["RestoreDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.restoreInProgress = try reader["RestoreInProgress"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.GlobalTableWitnessDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.GlobalTableWitnessDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.GlobalTableWitnessDescription()
-        value.regionName = try reader["RegionName"].readIfPresent()
-        value.witnessStatus = try reader["WitnessStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.StreamSpecification {
-
-    static func write(value: DynamoDBClientTypes.StreamSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StreamEnabled"].write(value.streamEnabled)
-        try writer["StreamViewType"].write(value.streamViewType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.StreamSpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.StreamSpecification()
-        value.streamEnabled = try reader["StreamEnabled"].readIfPresent() ?? false
-        value.streamViewType = try reader["StreamViewType"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.GlobalSecondaryIndexDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.GlobalSecondaryIndexDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.GlobalSecondaryIndexDescription()
-        value.indexName = try reader["IndexName"].readIfPresent()
-        value.keySchema = try reader["KeySchema"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.KeySchemaElement.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.projection = try reader["Projection"].readIfPresent(with: DynamoDBClientTypes.Projection.read(from:))
-        value.indexStatus = try reader["IndexStatus"].readIfPresent()
-        value.backfilling = try reader["Backfilling"].readIfPresent()
-        value.provisionedThroughput = try reader["ProvisionedThroughput"].readIfPresent(with: DynamoDBClientTypes.ProvisionedThroughputDescription.read(from:))
-        value.indexSizeBytes = try reader["IndexSizeBytes"].readIfPresent()
-        value.itemCount = try reader["ItemCount"].readIfPresent()
-        value.indexArn = try reader["IndexArn"].readIfPresent()
-        value.onDemandThroughput = try reader["OnDemandThroughput"].readIfPresent(with: DynamoDBClientTypes.OnDemandThroughput.read(from:))
-        value.warmThroughput = try reader["WarmThroughput"].readIfPresent(with: DynamoDBClientTypes.GlobalSecondaryIndexWarmThroughputDescription.read(from:))
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.ProvisionedThroughputDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ProvisionedThroughputDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.ProvisionedThroughputDescription()
-        value.lastIncreaseDateTime = try reader["LastIncreaseDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastDecreaseDateTime = try reader["LastDecreaseDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.numberOfDecreasesToday = try reader["NumberOfDecreasesToday"].readIfPresent()
-        value.readCapacityUnits = try reader["ReadCapacityUnits"].readIfPresent()
-        value.writeCapacityUnits = try reader["WriteCapacityUnits"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.Projection {
-
-    static func write(value: DynamoDBClientTypes.Projection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NonKeyAttributes"].writeList(value.nonKeyAttributes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ProjectionType"].write(value.projectionType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.Projection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.Projection()
-        value.projectionType = try reader["ProjectionType"].readIfPresent()
-        value.nonKeyAttributes = try reader["NonKeyAttributes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.KeySchemaElement {
-
-    static func write(value: DynamoDBClientTypes.KeySchemaElement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeName"].write(value.attributeName)
-        try writer["KeyType"].write(value.keyType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.KeySchemaElement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.KeySchemaElement()
-        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
-        value.keyType = try reader["KeyType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.LocalSecondaryIndexDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.LocalSecondaryIndexDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.LocalSecondaryIndexDescription()
-        value.indexName = try reader["IndexName"].readIfPresent()
-        value.keySchema = try reader["KeySchema"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.KeySchemaElement.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.projection = try reader["Projection"].readIfPresent(with: DynamoDBClientTypes.Projection.read(from:))
-        value.indexSizeBytes = try reader["IndexSizeBytes"].readIfPresent()
-        value.itemCount = try reader["ItemCount"].readIfPresent()
-        value.indexArn = try reader["IndexArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.BillingModeSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.BillingModeSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.BillingModeSummary()
-        value.billingMode = try reader["BillingMode"].readIfPresent()
-        value.lastUpdateToPayPerRequestDateTime = try reader["LastUpdateToPayPerRequestDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.AttributeDefinition {
-
-    static func write(value: DynamoDBClientTypes.AttributeDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeName"].write(value.attributeName)
-        try writer["AttributeType"].write(value.attributeType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.AttributeDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.AttributeDefinition()
-        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
-        value.attributeType = try reader["AttributeType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.BackupDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.BackupDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.BackupDescription()
-        value.backupDetails = try reader["BackupDetails"].readIfPresent(with: DynamoDBClientTypes.BackupDetails.read(from:))
-        value.sourceTableDetails = try reader["SourceTableDetails"].readIfPresent(with: DynamoDBClientTypes.SourceTableDetails.read(from:))
-        value.sourceTableFeatureDetails = try reader["SourceTableFeatureDetails"].readIfPresent(with: DynamoDBClientTypes.SourceTableFeatureDetails.read(from:))
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.SourceTableFeatureDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.SourceTableFeatureDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.SourceTableFeatureDetails()
-        value.localSecondaryIndexes = try reader["LocalSecondaryIndexes"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.LocalSecondaryIndexInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.globalSecondaryIndexes = try reader["GlobalSecondaryIndexes"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.GlobalSecondaryIndexInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.streamDescription = try reader["StreamDescription"].readIfPresent(with: DynamoDBClientTypes.StreamSpecification.read(from:))
-        value.timeToLiveDescription = try reader["TimeToLiveDescription"].readIfPresent(with: DynamoDBClientTypes.TimeToLiveDescription.read(from:))
-        value.sseDescription = try reader["SSEDescription"].readIfPresent(with: DynamoDBClientTypes.SSEDescription.read(from:))
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.TimeToLiveDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.TimeToLiveDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.TimeToLiveDescription()
-        value.timeToLiveStatus = try reader["TimeToLiveStatus"].readIfPresent()
-        value.attributeName = try reader["AttributeName"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.GlobalSecondaryIndexInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.GlobalSecondaryIndexInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.GlobalSecondaryIndexInfo()
-        value.indexName = try reader["IndexName"].readIfPresent()
-        value.keySchema = try reader["KeySchema"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.KeySchemaElement.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.projection = try reader["Projection"].readIfPresent(with: DynamoDBClientTypes.Projection.read(from:))
-        value.provisionedThroughput = try reader["ProvisionedThroughput"].readIfPresent(with: DynamoDBClientTypes.ProvisionedThroughput.read(from:))
-        value.onDemandThroughput = try reader["OnDemandThroughput"].readIfPresent(with: DynamoDBClientTypes.OnDemandThroughput.read(from:))
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.ProvisionedThroughput {
-
-    static func write(value: DynamoDBClientTypes.ProvisionedThroughput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ReadCapacityUnits"].write(value.readCapacityUnits)
-        try writer["WriteCapacityUnits"].write(value.writeCapacityUnits)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ProvisionedThroughput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.ProvisionedThroughput()
-        value.readCapacityUnits = try reader["ReadCapacityUnits"].readIfPresent() ?? 0
-        value.writeCapacityUnits = try reader["WriteCapacityUnits"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.LocalSecondaryIndexInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.LocalSecondaryIndexInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.LocalSecondaryIndexInfo()
-        value.indexName = try reader["IndexName"].readIfPresent()
-        value.keySchema = try reader["KeySchema"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.KeySchemaElement.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.projection = try reader["Projection"].readIfPresent(with: DynamoDBClientTypes.Projection.read(from:))
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.SourceTableDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.SourceTableDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.SourceTableDetails()
-        value.tableName = try reader["TableName"].readIfPresent() ?? ""
-        value.tableId = try reader["TableId"].readIfPresent() ?? ""
-        value.tableArn = try reader["TableArn"].readIfPresent()
-        value.tableSizeBytes = try reader["TableSizeBytes"].readIfPresent()
-        value.keySchema = try reader["KeySchema"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.KeySchemaElement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.tableCreationDateTime = try reader["TableCreationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.provisionedThroughput = try reader["ProvisionedThroughput"].readIfPresent(with: DynamoDBClientTypes.ProvisionedThroughput.read(from:))
-        value.onDemandThroughput = try reader["OnDemandThroughput"].readIfPresent(with: DynamoDBClientTypes.OnDemandThroughput.read(from:))
-        value.itemCount = try reader["ItemCount"].readIfPresent()
-        value.billingMode = try reader["BillingMode"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.ContinuousBackupsDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ContinuousBackupsDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.ContinuousBackupsDescription()
-        value.continuousBackupsStatus = try reader["ContinuousBackupsStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.pointInTimeRecoveryDescription = try reader["PointInTimeRecoveryDescription"].readIfPresent(with: DynamoDBClientTypes.PointInTimeRecoveryDescription.read(from:))
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.PointInTimeRecoveryDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.PointInTimeRecoveryDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.PointInTimeRecoveryDescription()
-        value.pointInTimeRecoveryStatus = try reader["PointInTimeRecoveryStatus"].readIfPresent()
-        value.recoveryPeriodInDays = try reader["RecoveryPeriodInDays"].readIfPresent()
-        value.earliestRestorableDateTime = try reader["EarliestRestorableDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.latestRestorableDateTime = try reader["LatestRestorableDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.FailureException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.FailureException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.FailureException()
-        value.exceptionName = try reader["ExceptionName"].readIfPresent()
-        value.exceptionDescription = try reader["ExceptionDescription"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.Endpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.Endpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.Endpoint()
-        value.address = try reader["Address"].readIfPresent() ?? ""
-        value.cachePeriodInMinutes = try reader["CachePeriodInMinutes"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.ExportDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ExportDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.ExportDescription()
-        value.exportArn = try reader["ExportArn"].readIfPresent()
-        value.exportStatus = try reader["ExportStatus"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.exportManifest = try reader["ExportManifest"].readIfPresent()
-        value.tableArn = try reader["TableArn"].readIfPresent()
-        value.tableId = try reader["TableId"].readIfPresent()
-        value.exportTime = try reader["ExportTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.clientToken = try reader["ClientToken"].readIfPresent()
-        value.s3Bucket = try reader["S3Bucket"].readIfPresent()
-        value.s3BucketOwner = try reader["S3BucketOwner"].readIfPresent()
-        value.s3Prefix = try reader["S3Prefix"].readIfPresent()
-        value.s3SseAlgorithm = try reader["S3SseAlgorithm"].readIfPresent()
-        value.s3SseKmsKeyId = try reader["S3SseKmsKeyId"].readIfPresent()
-        value.failureCode = try reader["FailureCode"].readIfPresent()
-        value.failureMessage = try reader["FailureMessage"].readIfPresent()
-        value.exportFormat = try reader["ExportFormat"].readIfPresent()
-        value.billedSizeBytes = try reader["BilledSizeBytes"].readIfPresent()
-        value.itemCount = try reader["ItemCount"].readIfPresent()
-        value.exportType = try reader["ExportType"].readIfPresent()
-        value.incrementalExportSpecification = try reader["IncrementalExportSpecification"].readIfPresent(with: DynamoDBClientTypes.IncrementalExportSpecification.read(from:))
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.IncrementalExportSpecification {
-
-    static func write(value: DynamoDBClientTypes.IncrementalExportSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExportFromTime"].writeTimestamp(value.exportFromTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["ExportToTime"].writeTimestamp(value.exportToTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["ExportViewType"].write(value.exportViewType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.IncrementalExportSpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.IncrementalExportSpecification()
-        value.exportFromTime = try reader["ExportFromTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.exportToTime = try reader["ExportToTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.exportViewType = try reader["ExportViewType"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.ReplicaSettingsDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ReplicaSettingsDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.ReplicaSettingsDescription()
-        value.regionName = try reader["RegionName"].readIfPresent() ?? ""
-        value.replicaStatus = try reader["ReplicaStatus"].readIfPresent()
-        value.replicaBillingModeSummary = try reader["ReplicaBillingModeSummary"].readIfPresent(with: DynamoDBClientTypes.BillingModeSummary.read(from:))
-        value.replicaProvisionedReadCapacityUnits = try reader["ReplicaProvisionedReadCapacityUnits"].readIfPresent()
-        value.replicaProvisionedReadCapacityAutoScalingSettings = try reader["ReplicaProvisionedReadCapacityAutoScalingSettings"].readIfPresent(with: DynamoDBClientTypes.AutoScalingSettingsDescription.read(from:))
-        value.replicaProvisionedWriteCapacityUnits = try reader["ReplicaProvisionedWriteCapacityUnits"].readIfPresent()
-        value.replicaProvisionedWriteCapacityAutoScalingSettings = try reader["ReplicaProvisionedWriteCapacityAutoScalingSettings"].readIfPresent(with: DynamoDBClientTypes.AutoScalingSettingsDescription.read(from:))
-        value.replicaGlobalSecondaryIndexSettings = try reader["ReplicaGlobalSecondaryIndexSettings"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.ReplicaGlobalSecondaryIndexSettingsDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.replicaTableClassSummary = try reader["ReplicaTableClassSummary"].readIfPresent(with: DynamoDBClientTypes.TableClassSummary.read(from:))
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndexSettingsDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ReplicaGlobalSecondaryIndexSettingsDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.ReplicaGlobalSecondaryIndexSettingsDescription()
-        value.indexName = try reader["IndexName"].readIfPresent() ?? ""
-        value.indexStatus = try reader["IndexStatus"].readIfPresent()
-        value.provisionedReadCapacityUnits = try reader["ProvisionedReadCapacityUnits"].readIfPresent()
-        value.provisionedReadCapacityAutoScalingSettings = try reader["ProvisionedReadCapacityAutoScalingSettings"].readIfPresent(with: DynamoDBClientTypes.AutoScalingSettingsDescription.read(from:))
-        value.provisionedWriteCapacityUnits = try reader["ProvisionedWriteCapacityUnits"].readIfPresent()
-        value.provisionedWriteCapacityAutoScalingSettings = try reader["ProvisionedWriteCapacityAutoScalingSettings"].readIfPresent(with: DynamoDBClientTypes.AutoScalingSettingsDescription.read(from:))
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.AutoScalingSettingsDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.AutoScalingSettingsDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.AutoScalingSettingsDescription()
-        value.minimumUnits = try reader["MinimumUnits"].readIfPresent()
-        value.maximumUnits = try reader["MaximumUnits"].readIfPresent()
-        value.autoScalingDisabled = try reader["AutoScalingDisabled"].readIfPresent()
-        value.autoScalingRoleArn = try reader["AutoScalingRoleArn"].readIfPresent()
-        value.scalingPolicies = try reader["ScalingPolicies"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.AutoScalingPolicyDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.AutoScalingPolicyDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.AutoScalingPolicyDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.AutoScalingPolicyDescription()
-        value.policyName = try reader["PolicyName"].readIfPresent()
-        value.targetTrackingScalingPolicyConfiguration = try reader["TargetTrackingScalingPolicyConfiguration"].readIfPresent(with: DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfigurationDescription.read(from:))
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfigurationDescription()
-        value.disableScaleIn = try reader["DisableScaleIn"].readIfPresent()
-        value.scaleInCooldown = try reader["ScaleInCooldown"].readIfPresent()
-        value.scaleOutCooldown = try reader["ScaleOutCooldown"].readIfPresent()
-        value.targetValue = try reader["TargetValue"].readIfPresent() ?? 0.0
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.ImportTableDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ImportTableDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.ImportTableDescription()
-        value.importArn = try reader["ImportArn"].readIfPresent()
-        value.importStatus = try reader["ImportStatus"].readIfPresent()
-        value.tableArn = try reader["TableArn"].readIfPresent()
-        value.tableId = try reader["TableId"].readIfPresent()
-        value.clientToken = try reader["ClientToken"].readIfPresent()
-        value.s3BucketSource = try reader["S3BucketSource"].readIfPresent(with: DynamoDBClientTypes.S3BucketSource.read(from:))
-        value.errorCount = try reader["ErrorCount"].readIfPresent() ?? 0
-        value.cloudWatchLogGroupArn = try reader["CloudWatchLogGroupArn"].readIfPresent()
-        value.inputFormat = try reader["InputFormat"].readIfPresent()
-        value.inputFormatOptions = try reader["InputFormatOptions"].readIfPresent(with: DynamoDBClientTypes.InputFormatOptions.read(from:))
-        value.inputCompressionType = try reader["InputCompressionType"].readIfPresent()
-        value.tableCreationParameters = try reader["TableCreationParameters"].readIfPresent(with: DynamoDBClientTypes.TableCreationParameters.read(from:))
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.processedSizeBytes = try reader["ProcessedSizeBytes"].readIfPresent()
-        value.processedItemCount = try reader["ProcessedItemCount"].readIfPresent() ?? 0
-        value.importedItemCount = try reader["ImportedItemCount"].readIfPresent() ?? 0
-        value.failureCode = try reader["FailureCode"].readIfPresent()
-        value.failureMessage = try reader["FailureMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.TableCreationParameters {
-
-    static func write(value: DynamoDBClientTypes.TableCreationParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeDefinitions"].writeList(value.attributeDefinitions, memberWritingClosure: DynamoDBClientTypes.AttributeDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["BillingMode"].write(value.billingMode)
-        try writer["GlobalSecondaryIndexes"].writeList(value.globalSecondaryIndexes, memberWritingClosure: DynamoDBClientTypes.GlobalSecondaryIndex.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["KeySchema"].writeList(value.keySchema, memberWritingClosure: DynamoDBClientTypes.KeySchemaElement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OnDemandThroughput"].write(value.onDemandThroughput, with: DynamoDBClientTypes.OnDemandThroughput.write(value:to:))
-        try writer["ProvisionedThroughput"].write(value.provisionedThroughput, with: DynamoDBClientTypes.ProvisionedThroughput.write(value:to:))
-        try writer["SSESpecification"].write(value.sseSpecification, with: DynamoDBClientTypes.SSESpecification.write(value:to:))
-        try writer["TableName"].write(value.tableName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.TableCreationParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.TableCreationParameters()
-        value.tableName = try reader["TableName"].readIfPresent() ?? ""
-        value.attributeDefinitions = try reader["AttributeDefinitions"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.AttributeDefinition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.keySchema = try reader["KeySchema"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.KeySchemaElement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.billingMode = try reader["BillingMode"].readIfPresent()
-        value.provisionedThroughput = try reader["ProvisionedThroughput"].readIfPresent(with: DynamoDBClientTypes.ProvisionedThroughput.read(from:))
-        value.onDemandThroughput = try reader["OnDemandThroughput"].readIfPresent(with: DynamoDBClientTypes.OnDemandThroughput.read(from:))
-        value.sseSpecification = try reader["SSESpecification"].readIfPresent(with: DynamoDBClientTypes.SSESpecification.read(from:))
-        value.globalSecondaryIndexes = try reader["GlobalSecondaryIndexes"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.GlobalSecondaryIndex.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.GlobalSecondaryIndex {
-
-    static func write(value: DynamoDBClientTypes.GlobalSecondaryIndex?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IndexName"].write(value.indexName)
-        try writer["KeySchema"].writeList(value.keySchema, memberWritingClosure: DynamoDBClientTypes.KeySchemaElement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OnDemandThroughput"].write(value.onDemandThroughput, with: DynamoDBClientTypes.OnDemandThroughput.write(value:to:))
-        try writer["Projection"].write(value.projection, with: DynamoDBClientTypes.Projection.write(value:to:))
-        try writer["ProvisionedThroughput"].write(value.provisionedThroughput, with: DynamoDBClientTypes.ProvisionedThroughput.write(value:to:))
-        try writer["WarmThroughput"].write(value.warmThroughput, with: DynamoDBClientTypes.WarmThroughput.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.GlobalSecondaryIndex {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.GlobalSecondaryIndex()
-        value.indexName = try reader["IndexName"].readIfPresent() ?? ""
-        value.keySchema = try reader["KeySchema"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.KeySchemaElement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.projection = try reader["Projection"].readIfPresent(with: DynamoDBClientTypes.Projection.read(from:))
-        value.provisionedThroughput = try reader["ProvisionedThroughput"].readIfPresent(with: DynamoDBClientTypes.ProvisionedThroughput.read(from:))
-        value.onDemandThroughput = try reader["OnDemandThroughput"].readIfPresent(with: DynamoDBClientTypes.OnDemandThroughput.read(from:))
-        value.warmThroughput = try reader["WarmThroughput"].readIfPresent(with: DynamoDBClientTypes.WarmThroughput.read(from:))
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.WarmThroughput {
-
-    static func write(value: DynamoDBClientTypes.WarmThroughput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ReadUnitsPerSecond"].write(value.readUnitsPerSecond)
-        try writer["WriteUnitsPerSecond"].write(value.writeUnitsPerSecond)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.WarmThroughput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.WarmThroughput()
+        var value = DynamoDBClientTypes.TableWarmThroughputDescription()
         value.readUnitsPerSecond = try reader["ReadUnitsPerSecond"].readIfPresent()
         value.writeUnitsPerSecond = try reader["WriteUnitsPerSecond"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.SSESpecification {
-
-    static func write(value: DynamoDBClientTypes.SSESpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-        try writer["KMSMasterKeyId"].write(value.kmsMasterKeyId)
-        try writer["SSEType"].write(value.sseType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.SSESpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.SSESpecification()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.sseType = try reader["SSEType"].readIfPresent()
-        value.kmsMasterKeyId = try reader["KMSMasterKeyId"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.InputFormatOptions {
-
-    static func write(value: DynamoDBClientTypes.InputFormatOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Csv"].write(value.csv, with: DynamoDBClientTypes.CsvOptions.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.InputFormatOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.InputFormatOptions()
-        value.csv = try reader["Csv"].readIfPresent(with: DynamoDBClientTypes.CsvOptions.read(from:))
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.CsvOptions {
-
-    static func write(value: DynamoDBClientTypes.CsvOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Delimiter"].write(value.delimiter)
-        try writer["HeaderList"].writeList(value.headerList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.CsvOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.CsvOptions()
-        value.delimiter = try reader["Delimiter"].readIfPresent()
-        value.headerList = try reader["HeaderList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.S3BucketSource {
-
-    static func write(value: DynamoDBClientTypes.S3BucketSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Bucket"].write(value.s3Bucket)
-        try writer["S3BucketOwner"].write(value.s3BucketOwner)
-        try writer["S3KeyPrefix"].write(value.s3KeyPrefix)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.S3BucketSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.S3BucketSource()
-        value.s3BucketOwner = try reader["S3BucketOwner"].readIfPresent()
-        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
-        value.s3KeyPrefix = try reader["S3KeyPrefix"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.KinesisDataStreamDestination {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.KinesisDataStreamDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.KinesisDataStreamDestination()
-        value.streamArn = try reader["StreamArn"].readIfPresent()
-        value.destinationStatus = try reader["DestinationStatus"].readIfPresent()
-        value.destinationStatusDescription = try reader["DestinationStatusDescription"].readIfPresent()
-        value.approximateCreationDateTimePrecision = try reader["ApproximateCreationDateTimePrecision"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.TableAutoScalingDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.TableAutoScalingDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.TableAutoScalingDescription()
-        value.tableName = try reader["TableName"].readIfPresent()
-        value.tableStatus = try reader["TableStatus"].readIfPresent()
-        value.replicas = try reader["Replicas"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.ReplicaAutoScalingDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.ReplicaAutoScalingDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ReplicaAutoScalingDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.ReplicaAutoScalingDescription()
-        value.regionName = try reader["RegionName"].readIfPresent()
-        value.globalSecondaryIndexes = try reader["GlobalSecondaryIndexes"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.ReplicaGlobalSecondaryIndexAutoScalingDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.replicaProvisionedReadCapacityAutoScalingSettings = try reader["ReplicaProvisionedReadCapacityAutoScalingSettings"].readIfPresent(with: DynamoDBClientTypes.AutoScalingSettingsDescription.read(from:))
-        value.replicaProvisionedWriteCapacityAutoScalingSettings = try reader["ReplicaProvisionedWriteCapacityAutoScalingSettings"].readIfPresent(with: DynamoDBClientTypes.AutoScalingSettingsDescription.read(from:))
-        value.replicaStatus = try reader["ReplicaStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndexAutoScalingDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ReplicaGlobalSecondaryIndexAutoScalingDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.ReplicaGlobalSecondaryIndexAutoScalingDescription()
-        value.indexName = try reader["IndexName"].readIfPresent()
-        value.indexStatus = try reader["IndexStatus"].readIfPresent()
-        value.provisionedReadCapacityAutoScalingSettings = try reader["ProvisionedReadCapacityAutoScalingSettings"].readIfPresent(with: DynamoDBClientTypes.AutoScalingSettingsDescription.read(from:))
-        value.provisionedWriteCapacityAutoScalingSettings = try reader["ProvisionedWriteCapacityAutoScalingSettings"].readIfPresent(with: DynamoDBClientTypes.AutoScalingSettingsDescription.read(from:))
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.EnableKinesisStreamingConfiguration {
-
-    static func write(value: DynamoDBClientTypes.EnableKinesisStreamingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApproximateCreationDateTimePrecision"].write(value.approximateCreationDateTimePrecision)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.EnableKinesisStreamingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.EnableKinesisStreamingConfiguration()
-        value.approximateCreationDateTimePrecision = try reader["ApproximateCreationDateTimePrecision"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.ItemResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ItemResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.ItemResponse()
-        value.item = try reader["Item"].readMapIfPresent(valueReadingClosure: DynamoDBClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.BackupSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.BackupSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.BackupSummary()
-        value.tableName = try reader["TableName"].readIfPresent()
-        value.tableId = try reader["TableId"].readIfPresent()
-        value.tableArn = try reader["TableArn"].readIfPresent()
-        value.backupArn = try reader["BackupArn"].readIfPresent()
-        value.backupName = try reader["BackupName"].readIfPresent()
-        value.backupCreationDateTime = try reader["BackupCreationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.backupExpiryDateTime = try reader["BackupExpiryDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.backupStatus = try reader["BackupStatus"].readIfPresent()
-        value.backupType = try reader["BackupType"].readIfPresent()
-        value.backupSizeBytes = try reader["BackupSizeBytes"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.ContributorInsightsSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ContributorInsightsSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.ContributorInsightsSummary()
-        value.tableName = try reader["TableName"].readIfPresent()
-        value.indexName = try reader["IndexName"].readIfPresent()
-        value.contributorInsightsStatus = try reader["ContributorInsightsStatus"].readIfPresent()
-        value.contributorInsightsMode = try reader["ContributorInsightsMode"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.ExportSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ExportSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.ExportSummary()
-        value.exportArn = try reader["ExportArn"].readIfPresent()
-        value.exportStatus = try reader["ExportStatus"].readIfPresent()
-        value.exportType = try reader["ExportType"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.GlobalTable {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.GlobalTable {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.GlobalTable()
-        value.globalTableName = try reader["GlobalTableName"].readIfPresent()
-        value.replicationGroup = try reader["ReplicationGroup"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.Replica.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.Replica {
-
-    static func write(value: DynamoDBClientTypes.Replica?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RegionName"].write(value.regionName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.Replica {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.Replica()
-        value.regionName = try reader["RegionName"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.ImportSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ImportSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.ImportSummary()
-        value.importArn = try reader["ImportArn"].readIfPresent()
-        value.importStatus = try reader["ImportStatus"].readIfPresent()
-        value.tableArn = try reader["TableArn"].readIfPresent()
-        value.s3BucketSource = try reader["S3BucketSource"].readIfPresent(with: DynamoDBClientTypes.S3BucketSource.read(from:))
-        value.cloudWatchLogGroupArn = try reader["CloudWatchLogGroupArn"].readIfPresent()
-        value.inputFormat = try reader["InputFormat"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -13480,17 +13789,24 @@ extension DynamoDBClientTypes.Tag {
     }
 }
 
-extension DynamoDBClientTypes.UpdateKinesisStreamingConfiguration {
+extension DynamoDBClientTypes.ThrottlingReason {
 
-    static func write(value: DynamoDBClientTypes.UpdateKinesisStreamingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApproximateCreationDateTimePrecision"].write(value.approximateCreationDateTimePrecision)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.UpdateKinesisStreamingConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ThrottlingReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.UpdateKinesisStreamingConfiguration()
-        value.approximateCreationDateTimePrecision = try reader["ApproximateCreationDateTimePrecision"].readIfPresent()
+        var value = DynamoDBClientTypes.ThrottlingReason()
+        value.reason = try reader["reason"].readIfPresent()
+        value.resource = try reader["resource"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.TimeToLiveDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.TimeToLiveDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.TimeToLiveDescription()
+        value.timeToLiveStatus = try reader["TimeToLiveStatus"].readIfPresent()
+        value.attributeName = try reader["AttributeName"].readIfPresent()
         return value
     }
 }
@@ -13512,96 +13828,11 @@ extension DynamoDBClientTypes.TimeToLiveSpecification {
     }
 }
 
-extension DynamoDBClientTypes.ThrottlingReason {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ThrottlingReason {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.ThrottlingReason()
-        value.reason = try reader["reason"].readIfPresent()
-        value.resource = try reader["resource"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.CancellationReason {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.CancellationReason {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBClientTypes.CancellationReason()
-        value.item = try reader["Item"].readMapIfPresent(valueReadingClosure: DynamoDBClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.code = try reader["Code"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBClientTypes.BatchStatementRequest {
-
-    static func write(value: DynamoDBClientTypes.BatchStatementRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConsistentRead"].write(value.consistentRead)
-        try writer["Parameters"].writeList(value.parameters, memberWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReturnValuesOnConditionCheckFailure"].write(value.returnValuesOnConditionCheckFailure)
-        try writer["Statement"].write(value.statement)
-    }
-}
-
-extension DynamoDBClientTypes.LocalSecondaryIndex {
-
-    static func write(value: DynamoDBClientTypes.LocalSecondaryIndex?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IndexName"].write(value.indexName)
-        try writer["KeySchema"].writeList(value.keySchema, memberWritingClosure: DynamoDBClientTypes.KeySchemaElement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Projection"].write(value.projection, with: DynamoDBClientTypes.Projection.write(value:to:))
-    }
-}
-
-extension DynamoDBClientTypes.ExpectedAttributeValue {
-
-    static func write(value: DynamoDBClientTypes.ExpectedAttributeValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeValueList"].writeList(value.attributeValueList, memberWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ComparisonOperator"].write(value.comparisonOperator)
-        try writer["Exists"].write(value.exists)
-        try writer["Value"].write(value.value, with: DynamoDBClientTypes.AttributeValue.write(value:to:))
-    }
-}
-
-extension DynamoDBClientTypes.ParameterizedStatement {
-
-    static func write(value: DynamoDBClientTypes.ParameterizedStatement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Parameters"].writeList(value.parameters, memberWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReturnValuesOnConditionCheckFailure"].write(value.returnValuesOnConditionCheckFailure)
-        try writer["Statement"].write(value.statement)
-    }
-}
-
-extension DynamoDBClientTypes.Condition {
-
-    static func write(value: DynamoDBClientTypes.Condition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeValueList"].writeList(value.attributeValueList, memberWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ComparisonOperator"].write(value.comparisonOperator)
-    }
-}
-
 extension DynamoDBClientTypes.TransactGetItem {
 
     static func write(value: DynamoDBClientTypes.TransactGetItem?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Get"].write(value.`get`, with: DynamoDBClientTypes.Get.write(value:to:))
-    }
-}
-
-extension DynamoDBClientTypes.Get {
-
-    static func write(value: DynamoDBClientTypes.Get?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExpressionAttributeNames"].writeMap(value.expressionAttributeNames, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Key"].writeMap(value.key, valueWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ProjectionExpression"].write(value.projectionExpression)
-        try writer["TableName"].write(value.tableName)
     }
 }
 
@@ -13630,183 +13861,6 @@ extension DynamoDBClientTypes.Update {
     }
 }
 
-extension DynamoDBClientTypes.Delete {
-
-    static func write(value: DynamoDBClientTypes.Delete?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConditionExpression"].write(value.conditionExpression)
-        try writer["ExpressionAttributeNames"].writeMap(value.expressionAttributeNames, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ExpressionAttributeValues"].writeMap(value.expressionAttributeValues, valueWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Key"].writeMap(value.key, valueWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ReturnValuesOnConditionCheckFailure"].write(value.returnValuesOnConditionCheckFailure)
-        try writer["TableName"].write(value.tableName)
-    }
-}
-
-extension DynamoDBClientTypes.Put {
-
-    static func write(value: DynamoDBClientTypes.Put?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConditionExpression"].write(value.conditionExpression)
-        try writer["ExpressionAttributeNames"].writeMap(value.expressionAttributeNames, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ExpressionAttributeValues"].writeMap(value.expressionAttributeValues, valueWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Item"].writeMap(value.item, valueWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ReturnValuesOnConditionCheckFailure"].write(value.returnValuesOnConditionCheckFailure)
-        try writer["TableName"].write(value.tableName)
-    }
-}
-
-extension DynamoDBClientTypes.ConditionCheck {
-
-    static func write(value: DynamoDBClientTypes.ConditionCheck?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConditionExpression"].write(value.conditionExpression)
-        try writer["ExpressionAttributeNames"].writeMap(value.expressionAttributeNames, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ExpressionAttributeValues"].writeMap(value.expressionAttributeValues, valueWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Key"].writeMap(value.key, valueWritingClosure: DynamoDBClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ReturnValuesOnConditionCheckFailure"].write(value.returnValuesOnConditionCheckFailure)
-        try writer["TableName"].write(value.tableName)
-    }
-}
-
-extension DynamoDBClientTypes.PointInTimeRecoverySpecification {
-
-    static func write(value: DynamoDBClientTypes.PointInTimeRecoverySpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PointInTimeRecoveryEnabled"].write(value.pointInTimeRecoveryEnabled)
-        try writer["RecoveryPeriodInDays"].write(value.recoveryPeriodInDays)
-    }
-}
-
-extension DynamoDBClientTypes.ReplicaUpdate {
-
-    static func write(value: DynamoDBClientTypes.ReplicaUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Create"].write(value.create, with: DynamoDBClientTypes.CreateReplicaAction.write(value:to:))
-        try writer["Delete"].write(value.delete, with: DynamoDBClientTypes.DeleteReplicaAction.write(value:to:))
-    }
-}
-
-extension DynamoDBClientTypes.DeleteReplicaAction {
-
-    static func write(value: DynamoDBClientTypes.DeleteReplicaAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RegionName"].write(value.regionName)
-    }
-}
-
-extension DynamoDBClientTypes.CreateReplicaAction {
-
-    static func write(value: DynamoDBClientTypes.CreateReplicaAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RegionName"].write(value.regionName)
-    }
-}
-
-extension DynamoDBClientTypes.AutoScalingSettingsUpdate {
-
-    static func write(value: DynamoDBClientTypes.AutoScalingSettingsUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoScalingDisabled"].write(value.autoScalingDisabled)
-        try writer["AutoScalingRoleArn"].write(value.autoScalingRoleArn)
-        try writer["MaximumUnits"].write(value.maximumUnits)
-        try writer["MinimumUnits"].write(value.minimumUnits)
-        try writer["ScalingPolicyUpdate"].write(value.scalingPolicyUpdate, with: DynamoDBClientTypes.AutoScalingPolicyUpdate.write(value:to:))
-    }
-}
-
-extension DynamoDBClientTypes.AutoScalingPolicyUpdate {
-
-    static func write(value: DynamoDBClientTypes.AutoScalingPolicyUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PolicyName"].write(value.policyName)
-        try writer["TargetTrackingScalingPolicyConfiguration"].write(value.targetTrackingScalingPolicyConfiguration, with: DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfigurationUpdate.write(value:to:))
-    }
-}
-
-extension DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfigurationUpdate {
-
-    static func write(value: DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfigurationUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DisableScaleIn"].write(value.disableScaleIn)
-        try writer["ScaleInCooldown"].write(value.scaleInCooldown)
-        try writer["ScaleOutCooldown"].write(value.scaleOutCooldown)
-        try writer["TargetValue"].write(value.targetValue)
-    }
-}
-
-extension DynamoDBClientTypes.GlobalTableGlobalSecondaryIndexSettingsUpdate {
-
-    static func write(value: DynamoDBClientTypes.GlobalTableGlobalSecondaryIndexSettingsUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IndexName"].write(value.indexName)
-        try writer["ProvisionedWriteCapacityAutoScalingSettingsUpdate"].write(value.provisionedWriteCapacityAutoScalingSettingsUpdate, with: DynamoDBClientTypes.AutoScalingSettingsUpdate.write(value:to:))
-        try writer["ProvisionedWriteCapacityUnits"].write(value.provisionedWriteCapacityUnits)
-    }
-}
-
-extension DynamoDBClientTypes.ReplicaSettingsUpdate {
-
-    static func write(value: DynamoDBClientTypes.ReplicaSettingsUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RegionName"].write(value.regionName)
-        try writer["ReplicaGlobalSecondaryIndexSettingsUpdate"].writeList(value.replicaGlobalSecondaryIndexSettingsUpdate, memberWritingClosure: DynamoDBClientTypes.ReplicaGlobalSecondaryIndexSettingsUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate"].write(value.replicaProvisionedReadCapacityAutoScalingSettingsUpdate, with: DynamoDBClientTypes.AutoScalingSettingsUpdate.write(value:to:))
-        try writer["ReplicaProvisionedReadCapacityUnits"].write(value.replicaProvisionedReadCapacityUnits)
-        try writer["ReplicaTableClass"].write(value.replicaTableClass)
-    }
-}
-
-extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndexSettingsUpdate {
-
-    static func write(value: DynamoDBClientTypes.ReplicaGlobalSecondaryIndexSettingsUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IndexName"].write(value.indexName)
-        try writer["ProvisionedReadCapacityAutoScalingSettingsUpdate"].write(value.provisionedReadCapacityAutoScalingSettingsUpdate, with: DynamoDBClientTypes.AutoScalingSettingsUpdate.write(value:to:))
-        try writer["ProvisionedReadCapacityUnits"].write(value.provisionedReadCapacityUnits)
-    }
-}
-
-extension DynamoDBClientTypes.AttributeValueUpdate {
-
-    static func write(value: DynamoDBClientTypes.AttributeValueUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["Value"].write(value.value, with: DynamoDBClientTypes.AttributeValue.write(value:to:))
-    }
-}
-
-extension DynamoDBClientTypes.GlobalSecondaryIndexUpdate {
-
-    static func write(value: DynamoDBClientTypes.GlobalSecondaryIndexUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Create"].write(value.create, with: DynamoDBClientTypes.CreateGlobalSecondaryIndexAction.write(value:to:))
-        try writer["Delete"].write(value.delete, with: DynamoDBClientTypes.DeleteGlobalSecondaryIndexAction.write(value:to:))
-        try writer["Update"].write(value.update, with: DynamoDBClientTypes.UpdateGlobalSecondaryIndexAction.write(value:to:))
-    }
-}
-
-extension DynamoDBClientTypes.DeleteGlobalSecondaryIndexAction {
-
-    static func write(value: DynamoDBClientTypes.DeleteGlobalSecondaryIndexAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IndexName"].write(value.indexName)
-    }
-}
-
-extension DynamoDBClientTypes.CreateGlobalSecondaryIndexAction {
-
-    static func write(value: DynamoDBClientTypes.CreateGlobalSecondaryIndexAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IndexName"].write(value.indexName)
-        try writer["KeySchema"].writeList(value.keySchema, memberWritingClosure: DynamoDBClientTypes.KeySchemaElement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OnDemandThroughput"].write(value.onDemandThroughput, with: DynamoDBClientTypes.OnDemandThroughput.write(value:to:))
-        try writer["Projection"].write(value.projection, with: DynamoDBClientTypes.Projection.write(value:to:))
-        try writer["ProvisionedThroughput"].write(value.provisionedThroughput, with: DynamoDBClientTypes.ProvisionedThroughput.write(value:to:))
-        try writer["WarmThroughput"].write(value.warmThroughput, with: DynamoDBClientTypes.WarmThroughput.write(value:to:))
-    }
-}
-
 extension DynamoDBClientTypes.UpdateGlobalSecondaryIndexAction {
 
     static func write(value: DynamoDBClientTypes.UpdateGlobalSecondaryIndexAction?, to writer: SmithyJSON.Writer) throws {
@@ -13818,21 +13872,18 @@ extension DynamoDBClientTypes.UpdateGlobalSecondaryIndexAction {
     }
 }
 
-extension DynamoDBClientTypes.ReplicationGroupUpdate {
+extension DynamoDBClientTypes.UpdateKinesisStreamingConfiguration {
 
-    static func write(value: DynamoDBClientTypes.ReplicationGroupUpdate?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DynamoDBClientTypes.UpdateKinesisStreamingConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Create"].write(value.create, with: DynamoDBClientTypes.CreateReplicationGroupMemberAction.write(value:to:))
-        try writer["Delete"].write(value.delete, with: DynamoDBClientTypes.DeleteReplicationGroupMemberAction.write(value:to:))
-        try writer["Update"].write(value.update, with: DynamoDBClientTypes.UpdateReplicationGroupMemberAction.write(value:to:))
+        try writer["ApproximateCreationDateTimePrecision"].write(value.approximateCreationDateTimePrecision)
     }
-}
 
-extension DynamoDBClientTypes.DeleteReplicationGroupMemberAction {
-
-    static func write(value: DynamoDBClientTypes.DeleteReplicationGroupMemberAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RegionName"].write(value.regionName)
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.UpdateKinesisStreamingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.UpdateKinesisStreamingConfiguration()
+        value.approximateCreationDateTimePrecision = try reader["ApproximateCreationDateTimePrecision"].readIfPresent()
+        return value
     }
 }
 
@@ -13849,79 +13900,37 @@ extension DynamoDBClientTypes.UpdateReplicationGroupMemberAction {
     }
 }
 
-extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndex {
+extension DynamoDBClientTypes.WarmThroughput {
 
-    static func write(value: DynamoDBClientTypes.ReplicaGlobalSecondaryIndex?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DynamoDBClientTypes.WarmThroughput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["IndexName"].write(value.indexName)
-        try writer["OnDemandThroughputOverride"].write(value.onDemandThroughputOverride, with: DynamoDBClientTypes.OnDemandThroughputOverride.write(value:to:))
-        try writer["ProvisionedThroughputOverride"].write(value.provisionedThroughputOverride, with: DynamoDBClientTypes.ProvisionedThroughputOverride.write(value:to:))
+        try writer["ReadUnitsPerSecond"].write(value.readUnitsPerSecond)
+        try writer["WriteUnitsPerSecond"].write(value.writeUnitsPerSecond)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.WarmThroughput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.WarmThroughput()
+        value.readUnitsPerSecond = try reader["ReadUnitsPerSecond"].readIfPresent()
+        value.writeUnitsPerSecond = try reader["WriteUnitsPerSecond"].readIfPresent()
+        return value
     }
 }
 
-extension DynamoDBClientTypes.CreateReplicationGroupMemberAction {
+extension DynamoDBClientTypes.WriteRequest {
 
-    static func write(value: DynamoDBClientTypes.CreateReplicationGroupMemberAction?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DynamoDBClientTypes.WriteRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["GlobalSecondaryIndexes"].writeList(value.globalSecondaryIndexes, memberWritingClosure: DynamoDBClientTypes.ReplicaGlobalSecondaryIndex.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["KMSMasterKeyId"].write(value.kmsMasterKeyId)
-        try writer["OnDemandThroughputOverride"].write(value.onDemandThroughputOverride, with: DynamoDBClientTypes.OnDemandThroughputOverride.write(value:to:))
-        try writer["ProvisionedThroughputOverride"].write(value.provisionedThroughputOverride, with: DynamoDBClientTypes.ProvisionedThroughputOverride.write(value:to:))
-        try writer["RegionName"].write(value.regionName)
-        try writer["TableClassOverride"].write(value.tableClassOverride)
+        try writer["DeleteRequest"].write(value.deleteRequest, with: DynamoDBClientTypes.DeleteRequest.write(value:to:))
+        try writer["PutRequest"].write(value.putRequest, with: DynamoDBClientTypes.PutRequest.write(value:to:))
     }
-}
 
-extension DynamoDBClientTypes.GlobalTableWitnessGroupUpdate {
-
-    static func write(value: DynamoDBClientTypes.GlobalTableWitnessGroupUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Create"].write(value.create, with: DynamoDBClientTypes.CreateGlobalTableWitnessGroupMemberAction.write(value:to:))
-        try writer["Delete"].write(value.delete, with: DynamoDBClientTypes.DeleteGlobalTableWitnessGroupMemberAction.write(value:to:))
-    }
-}
-
-extension DynamoDBClientTypes.DeleteGlobalTableWitnessGroupMemberAction {
-
-    static func write(value: DynamoDBClientTypes.DeleteGlobalTableWitnessGroupMemberAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RegionName"].write(value.regionName)
-    }
-}
-
-extension DynamoDBClientTypes.CreateGlobalTableWitnessGroupMemberAction {
-
-    static func write(value: DynamoDBClientTypes.CreateGlobalTableWitnessGroupMemberAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RegionName"].write(value.regionName)
-    }
-}
-
-extension DynamoDBClientTypes.GlobalSecondaryIndexAutoScalingUpdate {
-
-    static func write(value: DynamoDBClientTypes.GlobalSecondaryIndexAutoScalingUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IndexName"].write(value.indexName)
-        try writer["ProvisionedWriteCapacityAutoScalingUpdate"].write(value.provisionedWriteCapacityAutoScalingUpdate, with: DynamoDBClientTypes.AutoScalingSettingsUpdate.write(value:to:))
-    }
-}
-
-extension DynamoDBClientTypes.ReplicaAutoScalingUpdate {
-
-    static func write(value: DynamoDBClientTypes.ReplicaAutoScalingUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RegionName"].write(value.regionName)
-        try writer["ReplicaGlobalSecondaryIndexUpdates"].writeList(value.replicaGlobalSecondaryIndexUpdates, memberWritingClosure: DynamoDBClientTypes.ReplicaGlobalSecondaryIndexAutoScalingUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReplicaProvisionedReadCapacityAutoScalingUpdate"].write(value.replicaProvisionedReadCapacityAutoScalingUpdate, with: DynamoDBClientTypes.AutoScalingSettingsUpdate.write(value:to:))
-    }
-}
-
-extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndexAutoScalingUpdate {
-
-    static func write(value: DynamoDBClientTypes.ReplicaGlobalSecondaryIndexAutoScalingUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IndexName"].write(value.indexName)
-        try writer["ProvisionedReadCapacityAutoScalingUpdate"].write(value.provisionedReadCapacityAutoScalingUpdate, with: DynamoDBClientTypes.AutoScalingSettingsUpdate.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.WriteRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.WriteRequest()
+        value.putRequest = try reader["PutRequest"].readIfPresent(with: DynamoDBClientTypes.PutRequest.read(from:))
+        value.deleteRequest = try reader["DeleteRequest"].readIfPresent(with: DynamoDBClientTypes.DeleteRequest.read(from:))
+        return value
     }
 }
 

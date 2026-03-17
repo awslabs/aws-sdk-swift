@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 import struct Smithy.Document
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
@@ -2759,7 +2759,7 @@ enum AmendBenefitApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2778,7 +2778,7 @@ enum AssociateBenefitApplicationResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2797,7 +2797,7 @@ enum CancelBenefitApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2816,7 +2816,7 @@ enum CreateBenefitApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2835,7 +2835,7 @@ enum DisassociateBenefitApplicationResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2854,7 +2854,7 @@ enum GetBenefitOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2872,7 +2872,7 @@ enum GetBenefitAllocationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2890,7 +2890,7 @@ enum GetBenefitApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2909,7 +2909,7 @@ enum ListBenefitAllocationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2927,7 +2927,7 @@ enum ListBenefitApplicationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2945,7 +2945,7 @@ enum ListBenefitsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2963,7 +2963,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2981,7 +2981,7 @@ enum RecallBenefitApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3000,7 +3000,7 @@ enum SubmitBenefitApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3019,7 +3019,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3039,7 +3039,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3059,7 +3059,7 @@ enum UpdateBenefitApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3075,7 +3075,7 @@ enum UpdateBenefitApplicationOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -3088,7 +3088,7 @@ extension AccessDeniedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -3101,7 +3101,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -3114,7 +3114,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -3127,7 +3127,7 @@ extension ResourceNotFoundException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -3140,7 +3140,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["FieldList"].readListIfPresent(memberReadingClosure: PartnerCentralBenefitsClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3155,7 +3155,7 @@ extension ValidationException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -3169,26 +3169,6 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension PartnerCentralBenefitsClientTypes.FulfillmentDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralBenefitsClientTypes.FulfillmentDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "DisbursementDetails":
-                return .disbursementdetails(try reader["DisbursementDetails"].read(with: PartnerCentralBenefitsClientTypes.DisbursementDetails.read(from:)))
-            case "ConsumableDetails":
-                return .consumabledetails(try reader["ConsumableDetails"].read(with: PartnerCentralBenefitsClientTypes.ConsumableDetails.read(from:)))
-            case "CreditDetails":
-                return .creditdetails(try reader["CreditDetails"].read(with: PartnerCentralBenefitsClientTypes.CreditDetails.read(from:)))
-            case "AccessDetails":
-                return .accessdetails(try reader["AccessDetails"].read(with: PartnerCentralBenefitsClientTypes.AccessDetails.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
 extension PartnerCentralBenefitsClientTypes.AccessDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralBenefitsClientTypes.AccessDetails {
@@ -3199,117 +3179,22 @@ extension PartnerCentralBenefitsClientTypes.AccessDetails {
     }
 }
 
-extension PartnerCentralBenefitsClientTypes.CreditDetails {
+extension PartnerCentralBenefitsClientTypes.Amendment {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralBenefitsClientTypes.CreditDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralBenefitsClientTypes.CreditDetails()
-        value.allocatedAmount = try reader["AllocatedAmount"].readIfPresent(with: PartnerCentralBenefitsClientTypes.MonetaryValue.read(from:))
-        value.issuedAmount = try reader["IssuedAmount"].readIfPresent(with: PartnerCentralBenefitsClientTypes.MonetaryValue.read(from:))
-        value.codes = try reader["Codes"].readListIfPresent(memberReadingClosure: PartnerCentralBenefitsClientTypes.CreditCode.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension PartnerCentralBenefitsClientTypes.CreditCode {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralBenefitsClientTypes.CreditCode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralBenefitsClientTypes.CreditCode()
-        value.awsAccountId = try reader["AwsAccountId"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent(with: PartnerCentralBenefitsClientTypes.MonetaryValue.read(from:))
-        value.awsCreditCode = try reader["AwsCreditCode"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.issuedAt = try reader["IssuedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.expiresAt = try reader["ExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension PartnerCentralBenefitsClientTypes.MonetaryValue {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralBenefitsClientTypes.MonetaryValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralBenefitsClientTypes.MonetaryValue()
-        value.amount = try reader["Amount"].readIfPresent() ?? ""
-        value.currencyCode = try reader["CurrencyCode"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension PartnerCentralBenefitsClientTypes.ConsumableDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralBenefitsClientTypes.ConsumableDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralBenefitsClientTypes.ConsumableDetails()
-        value.allocatedAmount = try reader["AllocatedAmount"].readIfPresent(with: PartnerCentralBenefitsClientTypes.MonetaryValue.read(from:))
-        value.remainingAmount = try reader["RemainingAmount"].readIfPresent(with: PartnerCentralBenefitsClientTypes.MonetaryValue.read(from:))
-        value.utilizedAmount = try reader["UtilizedAmount"].readIfPresent(with: PartnerCentralBenefitsClientTypes.MonetaryValue.read(from:))
-        value.issuanceDetails = try reader["IssuanceDetails"].readIfPresent(with: PartnerCentralBenefitsClientTypes.IssuanceDetail.read(from:))
-        return value
-    }
-}
-
-extension PartnerCentralBenefitsClientTypes.IssuanceDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralBenefitsClientTypes.IssuanceDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralBenefitsClientTypes.IssuanceDetail()
-        value.issuanceId = try reader["IssuanceId"].readIfPresent()
-        value.issuanceAmount = try reader["IssuanceAmount"].readIfPresent(with: PartnerCentralBenefitsClientTypes.MonetaryValue.read(from:))
-        value.issuedAt = try reader["IssuedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension PartnerCentralBenefitsClientTypes.DisbursementDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralBenefitsClientTypes.DisbursementDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralBenefitsClientTypes.DisbursementDetails()
-        value.disbursedAmount = try reader["DisbursedAmount"].readIfPresent(with: PartnerCentralBenefitsClientTypes.MonetaryValue.read(from:))
-        value.issuanceDetails = try reader["IssuanceDetails"].readIfPresent(with: PartnerCentralBenefitsClientTypes.IssuanceDetail.read(from:))
-        return value
-    }
-}
-
-extension PartnerCentralBenefitsClientTypes.Contact {
-
-    static func write(value: PartnerCentralBenefitsClientTypes.Contact?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PartnerCentralBenefitsClientTypes.Amendment?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["BusinessTitle"].write(value.businessTitle)
-        try writer["Email"].write(value.email)
-        try writer["FirstName"].write(value.firstName)
-        try writer["LastName"].write(value.lastName)
-        try writer["Phone"].write(value.phone)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralBenefitsClientTypes.Contact {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralBenefitsClientTypes.Contact()
-        value.email = try reader["Email"].readIfPresent()
-        value.firstName = try reader["FirstName"].readIfPresent()
-        value.lastName = try reader["LastName"].readIfPresent()
-        value.businessTitle = try reader["BusinessTitle"].readIfPresent()
-        value.phone = try reader["Phone"].readIfPresent()
-        return value
+        try writer["FieldPath"].write(value.fieldPath)
+        try writer["NewValue"].write(value.newValue)
     }
 }
 
-extension PartnerCentralBenefitsClientTypes.FileDetail {
+extension PartnerCentralBenefitsClientTypes.AssociatedResource {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralBenefitsClientTypes.FileDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralBenefitsClientTypes.FileDetail()
-        value.fileURI = try reader["FileURI"].readIfPresent() ?? ""
-        value.businessUseCase = try reader["BusinessUseCase"].readIfPresent()
-        value.fileName = try reader["FileName"].readIfPresent()
-        value.fileStatus = try reader["FileStatus"].readIfPresent()
-        value.fileStatusReason = try reader["FileStatusReason"].readIfPresent()
-        value.fileType = try reader["FileType"].readIfPresent()
-        value.createdBy = try reader["CreatedBy"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
+    static func write(value: PartnerCentralBenefitsClientTypes.AssociatedResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+        try writer["ResourceIdentifier"].write(value.resourceIdentifier)
+        try writer["ResourceType"].write(value.resourceType)
     }
 }
 
@@ -3373,6 +3258,149 @@ extension PartnerCentralBenefitsClientTypes.BenefitSummary {
     }
 }
 
+extension PartnerCentralBenefitsClientTypes.ConsumableDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralBenefitsClientTypes.ConsumableDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralBenefitsClientTypes.ConsumableDetails()
+        value.allocatedAmount = try reader["AllocatedAmount"].readIfPresent(with: PartnerCentralBenefitsClientTypes.MonetaryValue.read(from:))
+        value.remainingAmount = try reader["RemainingAmount"].readIfPresent(with: PartnerCentralBenefitsClientTypes.MonetaryValue.read(from:))
+        value.utilizedAmount = try reader["UtilizedAmount"].readIfPresent(with: PartnerCentralBenefitsClientTypes.MonetaryValue.read(from:))
+        value.issuanceDetails = try reader["IssuanceDetails"].readIfPresent(with: PartnerCentralBenefitsClientTypes.IssuanceDetail.read(from:))
+        return value
+    }
+}
+
+extension PartnerCentralBenefitsClientTypes.Contact {
+
+    static func write(value: PartnerCentralBenefitsClientTypes.Contact?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BusinessTitle"].write(value.businessTitle)
+        try writer["Email"].write(value.email)
+        try writer["FirstName"].write(value.firstName)
+        try writer["LastName"].write(value.lastName)
+        try writer["Phone"].write(value.phone)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralBenefitsClientTypes.Contact {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralBenefitsClientTypes.Contact()
+        value.email = try reader["Email"].readIfPresent()
+        value.firstName = try reader["FirstName"].readIfPresent()
+        value.lastName = try reader["LastName"].readIfPresent()
+        value.businessTitle = try reader["BusinessTitle"].readIfPresent()
+        value.phone = try reader["Phone"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralBenefitsClientTypes.CreditCode {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralBenefitsClientTypes.CreditCode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralBenefitsClientTypes.CreditCode()
+        value.awsAccountId = try reader["AwsAccountId"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent(with: PartnerCentralBenefitsClientTypes.MonetaryValue.read(from:))
+        value.awsCreditCode = try reader["AwsCreditCode"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.issuedAt = try reader["IssuedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.expiresAt = try reader["ExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension PartnerCentralBenefitsClientTypes.CreditDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralBenefitsClientTypes.CreditDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralBenefitsClientTypes.CreditDetails()
+        value.allocatedAmount = try reader["AllocatedAmount"].readIfPresent(with: PartnerCentralBenefitsClientTypes.MonetaryValue.read(from:))
+        value.issuedAmount = try reader["IssuedAmount"].readIfPresent(with: PartnerCentralBenefitsClientTypes.MonetaryValue.read(from:))
+        value.codes = try reader["Codes"].readListIfPresent(memberReadingClosure: PartnerCentralBenefitsClientTypes.CreditCode.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension PartnerCentralBenefitsClientTypes.DisbursementDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralBenefitsClientTypes.DisbursementDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralBenefitsClientTypes.DisbursementDetails()
+        value.disbursedAmount = try reader["DisbursedAmount"].readIfPresent(with: PartnerCentralBenefitsClientTypes.MonetaryValue.read(from:))
+        value.issuanceDetails = try reader["IssuanceDetails"].readIfPresent(with: PartnerCentralBenefitsClientTypes.IssuanceDetail.read(from:))
+        return value
+    }
+}
+
+extension PartnerCentralBenefitsClientTypes.FileDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralBenefitsClientTypes.FileDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralBenefitsClientTypes.FileDetail()
+        value.fileURI = try reader["FileURI"].readIfPresent() ?? ""
+        value.businessUseCase = try reader["BusinessUseCase"].readIfPresent()
+        value.fileName = try reader["FileName"].readIfPresent()
+        value.fileStatus = try reader["FileStatus"].readIfPresent()
+        value.fileStatusReason = try reader["FileStatusReason"].readIfPresent()
+        value.fileType = try reader["FileType"].readIfPresent()
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension PartnerCentralBenefitsClientTypes.FileInput {
+
+    static func write(value: PartnerCentralBenefitsClientTypes.FileInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BusinessUseCase"].write(value.businessUseCase)
+        try writer["FileURI"].write(value.fileURI)
+    }
+}
+
+extension PartnerCentralBenefitsClientTypes.FulfillmentDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralBenefitsClientTypes.FulfillmentDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "DisbursementDetails":
+                return .disbursementdetails(try reader["DisbursementDetails"].read(with: PartnerCentralBenefitsClientTypes.DisbursementDetails.read(from:)))
+            case "ConsumableDetails":
+                return .consumabledetails(try reader["ConsumableDetails"].read(with: PartnerCentralBenefitsClientTypes.ConsumableDetails.read(from:)))
+            case "CreditDetails":
+                return .creditdetails(try reader["CreditDetails"].read(with: PartnerCentralBenefitsClientTypes.CreditDetails.read(from:)))
+            case "AccessDetails":
+                return .accessdetails(try reader["AccessDetails"].read(with: PartnerCentralBenefitsClientTypes.AccessDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension PartnerCentralBenefitsClientTypes.IssuanceDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralBenefitsClientTypes.IssuanceDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralBenefitsClientTypes.IssuanceDetail()
+        value.issuanceId = try reader["IssuanceId"].readIfPresent()
+        value.issuanceAmount = try reader["IssuanceAmount"].readIfPresent(with: PartnerCentralBenefitsClientTypes.MonetaryValue.read(from:))
+        value.issuedAt = try reader["IssuedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension PartnerCentralBenefitsClientTypes.MonetaryValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralBenefitsClientTypes.MonetaryValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralBenefitsClientTypes.MonetaryValue()
+        value.amount = try reader["Amount"].readIfPresent() ?? ""
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension PartnerCentralBenefitsClientTypes.Tag {
 
     static func write(value: PartnerCentralBenefitsClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
@@ -3399,34 +3427,6 @@ extension PartnerCentralBenefitsClientTypes.ValidationExceptionField {
         value.message = try reader["Message"].readIfPresent() ?? ""
         value.code = try reader["Code"].readIfPresent()
         return value
-    }
-}
-
-extension PartnerCentralBenefitsClientTypes.Amendment {
-
-    static func write(value: PartnerCentralBenefitsClientTypes.Amendment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FieldPath"].write(value.fieldPath)
-        try writer["NewValue"].write(value.newValue)
-    }
-}
-
-extension PartnerCentralBenefitsClientTypes.FileInput {
-
-    static func write(value: PartnerCentralBenefitsClientTypes.FileInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BusinessUseCase"].write(value.businessUseCase)
-        try writer["FileURI"].write(value.fileURI)
-    }
-}
-
-extension PartnerCentralBenefitsClientTypes.AssociatedResource {
-
-    static func write(value: PartnerCentralBenefitsClientTypes.AssociatedResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceArn"].write(value.resourceArn)
-        try writer["ResourceIdentifier"].write(value.resourceIdentifier)
-        try writer["ResourceType"].write(value.resourceType)
     }
 }
 

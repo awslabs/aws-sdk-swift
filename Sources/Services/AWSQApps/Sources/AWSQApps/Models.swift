@@ -25,8 +25,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.Document
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
@@ -4771,7 +4771,7 @@ enum AssociateLibraryItemReviewOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4792,7 +4792,7 @@ enum AssociateQAppWithUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4812,7 +4812,7 @@ enum BatchCreateCategoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4832,7 +4832,7 @@ enum BatchDeleteCategoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4852,7 +4852,7 @@ enum BatchUpdateCategoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4872,7 +4872,7 @@ enum CreateLibraryItemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4892,7 +4892,7 @@ enum CreatePresignedUrlOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4910,7 +4910,7 @@ enum CreateQAppOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4931,7 +4931,7 @@ enum DeleteLibraryItemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4951,7 +4951,7 @@ enum DeleteQAppOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4970,7 +4970,7 @@ enum DescribeQAppPermissionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4989,7 +4989,7 @@ enum DisassociateLibraryItemReviewOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5010,7 +5010,7 @@ enum DisassociateQAppFromUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5029,7 +5029,7 @@ enum ExportQAppSessionDataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5050,7 +5050,7 @@ enum GetLibraryItemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5069,7 +5069,7 @@ enum GetQAppOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5088,7 +5088,7 @@ enum GetQAppSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5108,7 +5108,7 @@ enum GetQAppSessionMetadataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5128,7 +5128,7 @@ enum ImportDocumentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5149,7 +5149,7 @@ enum ListCategoriesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5168,7 +5168,7 @@ enum ListLibraryItemsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5187,7 +5187,7 @@ enum ListQAppsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5205,7 +5205,7 @@ enum ListQAppSessionDataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5225,7 +5225,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5243,7 +5243,7 @@ enum PredictQAppOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5261,7 +5261,7 @@ enum StartQAppSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5281,7 +5281,7 @@ enum StopQAppSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5301,7 +5301,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5320,7 +5320,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5338,7 +5338,7 @@ enum UpdateLibraryItemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5358,7 +5358,7 @@ enum UpdateLibraryItemMetadataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5378,7 +5378,7 @@ enum UpdateQAppOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5398,7 +5398,7 @@ enum UpdateQAppPermissionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5417,7 +5417,7 @@ enum UpdateQAppSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5437,7 +5437,7 @@ enum UpdateQAppSessionMetadataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5454,7 +5454,7 @@ enum UpdateQAppSessionMetadataOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5467,7 +5467,7 @@ extension AccessDeniedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5482,7 +5482,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = InternalServerException()
@@ -5499,7 +5499,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5514,7 +5514,7 @@ extension ResourceNotFoundException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5531,7 +5531,7 @@ extension ServiceQuotaExceededException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = ThrottlingException()
@@ -5550,7 +5550,7 @@ extension ThrottlingException {
 
 extension UnauthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnauthorizedException {
         let reader = baseError.errorBodyReader
         var value = UnauthorizedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5563,7 +5563,7 @@ extension UnauthorizedException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5576,7 +5576,7 @@ extension ValidationException {
 
 extension ContentTooLargeException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ContentTooLargeException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ContentTooLargeException {
         let reader = baseError.errorBodyReader
         var value = ContentTooLargeException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5585,42 +5585,6 @@ extension ContentTooLargeException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension QAppsClientTypes.PermissionOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.PermissionOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QAppsClientTypes.PermissionOutput()
-        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
-        value.principal = try reader["principal"].readIfPresent(with: QAppsClientTypes.PrincipalOutput.read(from:))
-        return value
-    }
-}
-
-extension QAppsClientTypes.PrincipalOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.PrincipalOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QAppsClientTypes.PrincipalOutput()
-        value.userId = try reader["userId"].readIfPresent()
-        value.userType = try reader["userType"].readIfPresent()
-        value.email = try reader["email"].readIfPresent()
-        return value
-    }
-}
-
-extension QAppsClientTypes.Category {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.Category {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QAppsClientTypes.Category()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.title = try reader["title"].readIfPresent() ?? ""
-        value.color = try reader["color"].readIfPresent()
-        value.appCount = try reader["appCount"].readIfPresent()
         return value
     }
 }
@@ -5637,104 +5601,19 @@ extension QAppsClientTypes.AppDefinition {
     }
 }
 
-extension QAppsClientTypes.Card {
+extension QAppsClientTypes.AppDefinitionInput {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.Card {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "textInput":
-                return .textinput(try reader["textInput"].read(with: QAppsClientTypes.TextInputCard.read(from:)))
-            case "qQuery":
-                return .qquery(try reader["qQuery"].read(with: QAppsClientTypes.QQueryCard.read(from:)))
-            case "qPlugin":
-                return .qplugin(try reader["qPlugin"].read(with: QAppsClientTypes.QPluginCard.read(from:)))
-            case "fileUpload":
-                return .fileupload(try reader["fileUpload"].read(with: QAppsClientTypes.FileUploadCard.read(from:)))
-            case "formInput":
-                return .forminput(try reader["formInput"].read(with: QAppsClientTypes.FormInputCard.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension QAppsClientTypes.FormInputCard {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.FormInputCard {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QAppsClientTypes.FormInputCard()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.title = try reader["title"].readIfPresent() ?? ""
-        value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.metadata = try reader["metadata"].readIfPresent(with: QAppsClientTypes.FormInputCardMetadata.read(from:))
-        value.computeMode = try reader["computeMode"].readIfPresent()
-        return value
-    }
-}
-
-extension QAppsClientTypes.FormInputCardMetadata {
-
-    static func write(value: QAppsClientTypes.FormInputCardMetadata?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QAppsClientTypes.AppDefinitionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["schema"].write(value.schema)
+        try writer["cards"].writeList(value.cards, memberWritingClosure: QAppsClientTypes.CardInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["initialPrompt"].write(value.initialPrompt)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.FormInputCardMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.AppDefinitionInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QAppsClientTypes.FormInputCardMetadata()
-        value.schema = try reader["schema"].readIfPresent() ?? [:]
-        return value
-    }
-}
-
-extension QAppsClientTypes.FileUploadCard {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.FileUploadCard {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QAppsClientTypes.FileUploadCard()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.title = try reader["title"].readIfPresent() ?? ""
-        value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.filename = try reader["filename"].readIfPresent()
-        value.fileId = try reader["fileId"].readIfPresent()
-        value.allowOverride = try reader["allowOverride"].readIfPresent()
-        return value
-    }
-}
-
-extension QAppsClientTypes.QPluginCard {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.QPluginCard {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QAppsClientTypes.QPluginCard()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.title = try reader["title"].readIfPresent() ?? ""
-        value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.prompt = try reader["prompt"].readIfPresent() ?? ""
-        value.pluginType = try reader["pluginType"].readIfPresent() ?? .sdkUnknown("")
-        value.pluginId = try reader["pluginId"].readIfPresent() ?? ""
-        value.actionIdentifier = try reader["actionIdentifier"].readIfPresent()
-        return value
-    }
-}
-
-extension QAppsClientTypes.QQueryCard {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.QQueryCard {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QAppsClientTypes.QQueryCard()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.title = try reader["title"].readIfPresent() ?? ""
-        value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.prompt = try reader["prompt"].readIfPresent() ?? ""
-        value.outputSource = try reader["outputSource"].readIfPresent() ?? .sdkUnknown("")
-        value.attributeFilter = try reader["attributeFilter"].readIfPresent(with: QAppsClientTypes.AttributeFilter.read(from:))
-        value.memoryReferences = try reader["memoryReferences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = QAppsClientTypes.AppDefinitionInput()
+        value.cards = try reader["cards"].readListIfPresent(memberReadingClosure: QAppsClientTypes.CardInput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.initialPrompt = try reader["initialPrompt"].readIfPresent()
         return value
     }
 }
@@ -5769,6 +5648,132 @@ extension QAppsClientTypes.AttributeFilter {
         value.lessThan = try reader["lessThan"].readIfPresent(with: QAppsClientTypes.DocumentAttribute.read(from:))
         value.lessThanOrEquals = try reader["lessThanOrEquals"].readIfPresent(with: QAppsClientTypes.DocumentAttribute.read(from:))
         return value
+    }
+}
+
+extension QAppsClientTypes.BatchCreateCategoryInputCategory {
+
+    static func write(value: QAppsClientTypes.BatchCreateCategoryInputCategory?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["color"].write(value.color)
+        try writer["id"].write(value.id)
+        try writer["title"].write(value.title)
+    }
+}
+
+extension QAppsClientTypes.Card {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.Card {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "textInput":
+                return .textinput(try reader["textInput"].read(with: QAppsClientTypes.TextInputCard.read(from:)))
+            case "qQuery":
+                return .qquery(try reader["qQuery"].read(with: QAppsClientTypes.QQueryCard.read(from:)))
+            case "qPlugin":
+                return .qplugin(try reader["qPlugin"].read(with: QAppsClientTypes.QPluginCard.read(from:)))
+            case "fileUpload":
+                return .fileupload(try reader["fileUpload"].read(with: QAppsClientTypes.FileUploadCard.read(from:)))
+            case "formInput":
+                return .forminput(try reader["formInput"].read(with: QAppsClientTypes.FormInputCard.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QAppsClientTypes.CardInput {
+
+    static func write(value: QAppsClientTypes.CardInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .fileupload(fileupload):
+                try writer["fileUpload"].write(fileupload, with: QAppsClientTypes.FileUploadCardInput.write(value:to:))
+            case let .forminput(forminput):
+                try writer["formInput"].write(forminput, with: QAppsClientTypes.FormInputCardInput.write(value:to:))
+            case let .qplugin(qplugin):
+                try writer["qPlugin"].write(qplugin, with: QAppsClientTypes.QPluginCardInput.write(value:to:))
+            case let .qquery(qquery):
+                try writer["qQuery"].write(qquery, with: QAppsClientTypes.QQueryCardInput.write(value:to:))
+            case let .textinput(textinput):
+                try writer["textInput"].write(textinput, with: QAppsClientTypes.TextInputCardInput.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.CardInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "textInput":
+                return .textinput(try reader["textInput"].read(with: QAppsClientTypes.TextInputCardInput.read(from:)))
+            case "qQuery":
+                return .qquery(try reader["qQuery"].read(with: QAppsClientTypes.QQueryCardInput.read(from:)))
+            case "qPlugin":
+                return .qplugin(try reader["qPlugin"].read(with: QAppsClientTypes.QPluginCardInput.read(from:)))
+            case "fileUpload":
+                return .fileupload(try reader["fileUpload"].read(with: QAppsClientTypes.FileUploadCardInput.read(from:)))
+            case "formInput":
+                return .forminput(try reader["formInput"].read(with: QAppsClientTypes.FormInputCardInput.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QAppsClientTypes.CardStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.CardStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.CardStatus()
+        value.currentState = try reader["currentState"].readIfPresent() ?? .sdkUnknown("")
+        value.currentValue = try reader["currentValue"].readIfPresent() ?? ""
+        value.submissions = try reader["submissions"].readListIfPresent(memberReadingClosure: QAppsClientTypes.Submission.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QAppsClientTypes.CardValue {
+
+    static func write(value: QAppsClientTypes.CardValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cardId"].write(value.cardId)
+        try writer["submissionMutation"].write(value.submissionMutation, with: QAppsClientTypes.SubmissionMutation.write(value:to:))
+        try writer["value"].write(value.value)
+    }
+}
+
+extension QAppsClientTypes.Category {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.Category {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.Category()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.color = try reader["color"].readIfPresent()
+        value.appCount = try reader["appCount"].readIfPresent()
+        return value
+    }
+}
+
+extension QAppsClientTypes.CategoryInput {
+
+    static func write(value: QAppsClientTypes.CategoryInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["color"].write(value.color)
+        try writer["id"].write(value.id)
+        try writer["title"].write(value.title)
+    }
+}
+
+extension QAppsClientTypes.ConversationMessage {
+
+    static func write(value: QAppsClientTypes.ConversationMessage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["body"].write(value.body)
+        try writer["type"].write(value.type)
     }
 }
 
@@ -5825,215 +5830,18 @@ extension QAppsClientTypes.DocumentAttributeValue {
     }
 }
 
-extension QAppsClientTypes.TextInputCard {
+extension QAppsClientTypes.FileUploadCard {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.TextInputCard {
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.FileUploadCard {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QAppsClientTypes.TextInputCard()
+        var value = QAppsClientTypes.FileUploadCard()
         value.id = try reader["id"].readIfPresent() ?? ""
         value.title = try reader["title"].readIfPresent() ?? ""
         value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.placeholder = try reader["placeholder"].readIfPresent()
-        value.defaultValue = try reader["defaultValue"].readIfPresent()
-        return value
-    }
-}
-
-extension QAppsClientTypes.CardStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.CardStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QAppsClientTypes.CardStatus()
-        value.currentState = try reader["currentState"].readIfPresent() ?? .sdkUnknown("")
-        value.currentValue = try reader["currentValue"].readIfPresent() ?? ""
-        value.submissions = try reader["submissions"].readListIfPresent(memberReadingClosure: QAppsClientTypes.Submission.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension QAppsClientTypes.Submission {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.Submission {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QAppsClientTypes.Submission()
-        value.value = try reader["value"].readIfPresent()
-        value.submissionId = try reader["submissionId"].readIfPresent()
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension QAppsClientTypes.SessionSharingConfiguration {
-
-    static func write(value: QAppsClientTypes.SessionSharingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["acceptResponses"].write(value.acceptResponses)
-        try writer["enabled"].write(value.enabled)
-        try writer["revealCards"].write(value.revealCards)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.SessionSharingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QAppsClientTypes.SessionSharingConfiguration()
-        value.enabled = try reader["enabled"].readIfPresent() ?? false
-        value.acceptResponses = try reader["acceptResponses"].readIfPresent()
-        value.revealCards = try reader["revealCards"].readIfPresent()
-        return value
-    }
-}
-
-extension QAppsClientTypes.LibraryItemMember {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.LibraryItemMember {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QAppsClientTypes.LibraryItemMember()
-        value.libraryItemId = try reader["libraryItemId"].readIfPresent() ?? ""
-        value.appId = try reader["appId"].readIfPresent() ?? ""
-        value.appVersion = try reader["appVersion"].readIfPresent() ?? 0
-        value.categories = try reader["categories"].readListIfPresent(memberReadingClosure: QAppsClientTypes.Category.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.status = try reader["status"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedBy = try reader["updatedBy"].readIfPresent()
-        value.ratingCount = try reader["ratingCount"].readIfPresent() ?? 0
-        value.isRatedByUser = try reader["isRatedByUser"].readIfPresent()
-        value.userCount = try reader["userCount"].readIfPresent()
-        value.isVerified = try reader["isVerified"].readIfPresent()
-        return value
-    }
-}
-
-extension QAppsClientTypes.UserAppItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.UserAppItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QAppsClientTypes.UserAppItem()
-        value.appId = try reader["appId"].readIfPresent() ?? ""
-        value.appArn = try reader["appArn"].readIfPresent() ?? ""
-        value.title = try reader["title"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.canEdit = try reader["canEdit"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.isVerified = try reader["isVerified"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension QAppsClientTypes.QAppSessionData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.QAppSessionData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QAppsClientTypes.QAppSessionData()
-        value.cardId = try reader["cardId"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent()
-        value.user = try reader["user"].readIfPresent(with: QAppsClientTypes.User.read(from:))
-        value.submissionId = try reader["submissionId"].readIfPresent()
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension QAppsClientTypes.User {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.User {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QAppsClientTypes.User()
-        value.userId = try reader["userId"].readIfPresent()
-        return value
-    }
-}
-
-extension QAppsClientTypes.PredictAppDefinition {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.PredictAppDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QAppsClientTypes.PredictAppDefinition()
-        value.title = try reader["title"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.appDefinition = try reader["appDefinition"].readIfPresent(with: QAppsClientTypes.AppDefinitionInput.read(from:))
-        return value
-    }
-}
-
-extension QAppsClientTypes.AppDefinitionInput {
-
-    static func write(value: QAppsClientTypes.AppDefinitionInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cards"].writeList(value.cards, memberWritingClosure: QAppsClientTypes.CardInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["initialPrompt"].write(value.initialPrompt)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.AppDefinitionInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QAppsClientTypes.AppDefinitionInput()
-        value.cards = try reader["cards"].readListIfPresent(memberReadingClosure: QAppsClientTypes.CardInput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.initialPrompt = try reader["initialPrompt"].readIfPresent()
-        return value
-    }
-}
-
-extension QAppsClientTypes.CardInput {
-
-    static func write(value: QAppsClientTypes.CardInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .fileupload(fileupload):
-                try writer["fileUpload"].write(fileupload, with: QAppsClientTypes.FileUploadCardInput.write(value:to:))
-            case let .forminput(forminput):
-                try writer["formInput"].write(forminput, with: QAppsClientTypes.FormInputCardInput.write(value:to:))
-            case let .qplugin(qplugin):
-                try writer["qPlugin"].write(qplugin, with: QAppsClientTypes.QPluginCardInput.write(value:to:))
-            case let .qquery(qquery):
-                try writer["qQuery"].write(qquery, with: QAppsClientTypes.QQueryCardInput.write(value:to:))
-            case let .textinput(textinput):
-                try writer["textInput"].write(textinput, with: QAppsClientTypes.TextInputCardInput.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.CardInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "textInput":
-                return .textinput(try reader["textInput"].read(with: QAppsClientTypes.TextInputCardInput.read(from:)))
-            case "qQuery":
-                return .qquery(try reader["qQuery"].read(with: QAppsClientTypes.QQueryCardInput.read(from:)))
-            case "qPlugin":
-                return .qplugin(try reader["qPlugin"].read(with: QAppsClientTypes.QPluginCardInput.read(from:)))
-            case "fileUpload":
-                return .fileupload(try reader["fileUpload"].read(with: QAppsClientTypes.FileUploadCardInput.read(from:)))
-            case "formInput":
-                return .forminput(try reader["formInput"].read(with: QAppsClientTypes.FormInputCardInput.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension QAppsClientTypes.FormInputCardInput {
-
-    static func write(value: QAppsClientTypes.FormInputCardInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["computeMode"].write(value.computeMode)
-        try writer["id"].write(value.id)
-        try writer["metadata"].write(value.metadata, with: QAppsClientTypes.FormInputCardMetadata.write(value:to:))
-        try writer["title"].write(value.title)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.FormInputCardInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QAppsClientTypes.FormInputCardInput()
-        value.title = try reader["title"].readIfPresent() ?? ""
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? QAppsClientTypes.CardType.formInput
-        value.metadata = try reader["metadata"].readIfPresent(with: QAppsClientTypes.FormInputCardMetadata.read(from:))
-        value.computeMode = try reader["computeMode"].readIfPresent()
+        value.filename = try reader["filename"].readIfPresent()
+        value.fileId = try reader["fileId"].readIfPresent()
+        value.allowOverride = try reader["allowOverride"].readIfPresent()
         return value
     }
 }
@@ -6063,6 +5871,171 @@ extension QAppsClientTypes.FileUploadCardInput {
     }
 }
 
+extension QAppsClientTypes.FormInputCard {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.FormInputCard {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.FormInputCard()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.metadata = try reader["metadata"].readIfPresent(with: QAppsClientTypes.FormInputCardMetadata.read(from:))
+        value.computeMode = try reader["computeMode"].readIfPresent()
+        return value
+    }
+}
+
+extension QAppsClientTypes.FormInputCardInput {
+
+    static func write(value: QAppsClientTypes.FormInputCardInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["computeMode"].write(value.computeMode)
+        try writer["id"].write(value.id)
+        try writer["metadata"].write(value.metadata, with: QAppsClientTypes.FormInputCardMetadata.write(value:to:))
+        try writer["title"].write(value.title)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.FormInputCardInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.FormInputCardInput()
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? QAppsClientTypes.CardType.formInput
+        value.metadata = try reader["metadata"].readIfPresent(with: QAppsClientTypes.FormInputCardMetadata.read(from:))
+        value.computeMode = try reader["computeMode"].readIfPresent()
+        return value
+    }
+}
+
+extension QAppsClientTypes.FormInputCardMetadata {
+
+    static func write(value: QAppsClientTypes.FormInputCardMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["schema"].write(value.schema)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.FormInputCardMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.FormInputCardMetadata()
+        value.schema = try reader["schema"].readIfPresent() ?? [:]
+        return value
+    }
+}
+
+extension QAppsClientTypes.LibraryItemMember {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.LibraryItemMember {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.LibraryItemMember()
+        value.libraryItemId = try reader["libraryItemId"].readIfPresent() ?? ""
+        value.appId = try reader["appId"].readIfPresent() ?? ""
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? 0
+        value.categories = try reader["categories"].readListIfPresent(memberReadingClosure: QAppsClientTypes.Category.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["status"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.ratingCount = try reader["ratingCount"].readIfPresent() ?? 0
+        value.isRatedByUser = try reader["isRatedByUser"].readIfPresent()
+        value.userCount = try reader["userCount"].readIfPresent()
+        value.isVerified = try reader["isVerified"].readIfPresent()
+        return value
+    }
+}
+
+extension QAppsClientTypes.PermissionInput {
+
+    static func write(value: QAppsClientTypes.PermissionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["principal"].write(value.principal)
+    }
+}
+
+extension QAppsClientTypes.PermissionOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.PermissionOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.PermissionOutput()
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.principal = try reader["principal"].readIfPresent(with: QAppsClientTypes.PrincipalOutput.read(from:))
+        return value
+    }
+}
+
+extension QAppsClientTypes.PredictAppDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.PredictAppDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.PredictAppDefinition()
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.appDefinition = try reader["appDefinition"].readIfPresent(with: QAppsClientTypes.AppDefinitionInput.read(from:))
+        return value
+    }
+}
+
+extension QAppsClientTypes.PredictQAppInputOptions {
+
+    static func write(value: QAppsClientTypes.PredictQAppInputOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .conversation(conversation):
+                try writer["conversation"].writeList(conversation, memberWritingClosure: QAppsClientTypes.ConversationMessage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .problemstatement(problemstatement):
+                try writer["problemStatement"].write(problemstatement)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension QAppsClientTypes.PrincipalOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.PrincipalOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.PrincipalOutput()
+        value.userId = try reader["userId"].readIfPresent()
+        value.userType = try reader["userType"].readIfPresent()
+        value.email = try reader["email"].readIfPresent()
+        return value
+    }
+}
+
+extension QAppsClientTypes.QAppSessionData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.QAppSessionData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.QAppSessionData()
+        value.cardId = try reader["cardId"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent()
+        value.user = try reader["user"].readIfPresent(with: QAppsClientTypes.User.read(from:))
+        value.submissionId = try reader["submissionId"].readIfPresent()
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension QAppsClientTypes.QPluginCard {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.QPluginCard {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.QPluginCard()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.prompt = try reader["prompt"].readIfPresent() ?? ""
+        value.pluginType = try reader["pluginType"].readIfPresent() ?? .sdkUnknown("")
+        value.pluginId = try reader["pluginId"].readIfPresent() ?? ""
+        value.actionIdentifier = try reader["actionIdentifier"].readIfPresent()
+        return value
+    }
+}
+
 extension QAppsClientTypes.QPluginCardInput {
 
     static func write(value: QAppsClientTypes.QPluginCardInput?, to writer: SmithyJSON.Writer) throws {
@@ -6084,6 +6057,23 @@ extension QAppsClientTypes.QPluginCardInput {
         value.prompt = try reader["prompt"].readIfPresent() ?? ""
         value.pluginId = try reader["pluginId"].readIfPresent() ?? ""
         value.actionIdentifier = try reader["actionIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension QAppsClientTypes.QQueryCard {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.QQueryCard {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.QQueryCard()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.prompt = try reader["prompt"].readIfPresent() ?? ""
+        value.outputSource = try reader["outputSource"].readIfPresent() ?? .sdkUnknown("")
+        value.attributeFilter = try reader["attributeFilter"].readIfPresent(with: QAppsClientTypes.AttributeFilter.read(from:))
+        value.memoryReferences = try reader["memoryReferences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6113,6 +6103,61 @@ extension QAppsClientTypes.QQueryCardInput {
     }
 }
 
+extension QAppsClientTypes.SessionSharingConfiguration {
+
+    static func write(value: QAppsClientTypes.SessionSharingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["acceptResponses"].write(value.acceptResponses)
+        try writer["enabled"].write(value.enabled)
+        try writer["revealCards"].write(value.revealCards)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.SessionSharingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.SessionSharingConfiguration()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.acceptResponses = try reader["acceptResponses"].readIfPresent()
+        value.revealCards = try reader["revealCards"].readIfPresent()
+        return value
+    }
+}
+
+extension QAppsClientTypes.Submission {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.Submission {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.Submission()
+        value.value = try reader["value"].readIfPresent()
+        value.submissionId = try reader["submissionId"].readIfPresent()
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension QAppsClientTypes.SubmissionMutation {
+
+    static func write(value: QAppsClientTypes.SubmissionMutation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mutationType"].write(value.mutationType)
+        try writer["submissionId"].write(value.submissionId)
+    }
+}
+
+extension QAppsClientTypes.TextInputCard {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.TextInputCard {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.TextInputCard()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.placeholder = try reader["placeholder"].readIfPresent()
+        value.defaultValue = try reader["defaultValue"].readIfPresent()
+        return value
+    }
+}
+
 extension QAppsClientTypes.TextInputCardInput {
 
     static func write(value: QAppsClientTypes.TextInputCardInput?, to writer: SmithyJSON.Writer) throws {
@@ -6136,75 +6181,30 @@ extension QAppsClientTypes.TextInputCardInput {
     }
 }
 
-extension QAppsClientTypes.BatchCreateCategoryInputCategory {
+extension QAppsClientTypes.User {
 
-    static func write(value: QAppsClientTypes.BatchCreateCategoryInputCategory?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["color"].write(value.color)
-        try writer["id"].write(value.id)
-        try writer["title"].write(value.title)
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.User {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.User()
+        value.userId = try reader["userId"].readIfPresent()
+        return value
     }
 }
 
-extension QAppsClientTypes.CategoryInput {
+extension QAppsClientTypes.UserAppItem {
 
-    static func write(value: QAppsClientTypes.CategoryInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["color"].write(value.color)
-        try writer["id"].write(value.id)
-        try writer["title"].write(value.title)
-    }
-}
-
-extension QAppsClientTypes.PredictQAppInputOptions {
-
-    static func write(value: QAppsClientTypes.PredictQAppInputOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .conversation(conversation):
-                try writer["conversation"].writeList(conversation, memberWritingClosure: QAppsClientTypes.ConversationMessage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .problemstatement(problemstatement):
-                try writer["problemStatement"].write(problemstatement)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension QAppsClientTypes.ConversationMessage {
-
-    static func write(value: QAppsClientTypes.ConversationMessage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["body"].write(value.body)
-        try writer["type"].write(value.type)
-    }
-}
-
-extension QAppsClientTypes.CardValue {
-
-    static func write(value: QAppsClientTypes.CardValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cardId"].write(value.cardId)
-        try writer["submissionMutation"].write(value.submissionMutation, with: QAppsClientTypes.SubmissionMutation.write(value:to:))
-        try writer["value"].write(value.value)
-    }
-}
-
-extension QAppsClientTypes.SubmissionMutation {
-
-    static func write(value: QAppsClientTypes.SubmissionMutation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["mutationType"].write(value.mutationType)
-        try writer["submissionId"].write(value.submissionId)
-    }
-}
-
-extension QAppsClientTypes.PermissionInput {
-
-    static func write(value: QAppsClientTypes.PermissionInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["principal"].write(value.principal)
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.UserAppItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.UserAppItem()
+        value.appId = try reader["appId"].readIfPresent() ?? ""
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.canEdit = try reader["canEdit"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.isVerified = try reader["isVerified"].readIfPresent() ?? false
+        return value
     }
 }
 

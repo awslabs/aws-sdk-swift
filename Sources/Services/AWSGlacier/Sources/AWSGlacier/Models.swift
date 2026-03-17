@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -3639,7 +3639,7 @@ enum AbortMultipartUploadOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -3657,7 +3657,7 @@ enum AbortVaultLockOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -3675,7 +3675,7 @@ enum AddTagsToVaultOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -3694,7 +3694,7 @@ enum CompleteMultipartUploadOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -3712,7 +3712,7 @@ enum CompleteVaultLockOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -3730,7 +3730,7 @@ enum CreateVaultOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -3748,7 +3748,7 @@ enum DeleteArchiveOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -3766,7 +3766,7 @@ enum DeleteVaultOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -3784,7 +3784,7 @@ enum DeleteVaultAccessPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -3802,7 +3802,7 @@ enum DeleteVaultNotificationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -3820,7 +3820,7 @@ enum DescribeJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -3838,7 +3838,7 @@ enum DescribeVaultOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -3856,7 +3856,7 @@ enum GetDataRetrievalPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -3873,7 +3873,7 @@ enum GetJobOutputOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -3891,7 +3891,7 @@ enum GetVaultAccessPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -3909,7 +3909,7 @@ enum GetVaultLockOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -3927,7 +3927,7 @@ enum GetVaultNotificationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -3945,7 +3945,7 @@ enum InitiateJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientCapacityException": return try InsufficientCapacityException.makeError(baseError: baseError)
@@ -3965,7 +3965,7 @@ enum InitiateMultipartUploadOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -3983,7 +3983,7 @@ enum InitiateVaultLockOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -4001,7 +4001,7 @@ enum ListJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -4019,7 +4019,7 @@ enum ListMultipartUploadsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -4037,7 +4037,7 @@ enum ListPartsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -4055,7 +4055,7 @@ enum ListProvisionedCapacityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -4072,7 +4072,7 @@ enum ListTagsForVaultOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -4090,7 +4090,7 @@ enum ListVaultsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -4108,7 +4108,7 @@ enum PurchaseProvisionedCapacityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -4126,7 +4126,7 @@ enum RemoveTagsFromVaultOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -4144,7 +4144,7 @@ enum SetDataRetrievalPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -4161,7 +4161,7 @@ enum SetVaultAccessPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -4179,7 +4179,7 @@ enum SetVaultNotificationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -4197,7 +4197,7 @@ enum UploadArchiveOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -4216,7 +4216,7 @@ enum UploadMultipartPartOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -4232,7 +4232,7 @@ enum UploadMultipartPartOutputError {
 
 extension InvalidParameterValueException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterValueException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidParameterValueException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterValueException()
         value.properties.code = try reader["code"].readIfPresent()
@@ -4247,7 +4247,7 @@ extension InvalidParameterValueException {
 
 extension MissingParameterValueException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MissingParameterValueException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MissingParameterValueException {
         let reader = baseError.errorBodyReader
         var value = MissingParameterValueException()
         value.properties.code = try reader["code"].readIfPresent()
@@ -4262,7 +4262,7 @@ extension MissingParameterValueException {
 
 extension NoLongerSupportedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NoLongerSupportedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NoLongerSupportedException {
         let reader = baseError.errorBodyReader
         var value = NoLongerSupportedException()
         value.properties.code = try reader["code"].readIfPresent()
@@ -4277,7 +4277,7 @@ extension NoLongerSupportedException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.code = try reader["code"].readIfPresent()
@@ -4292,7 +4292,7 @@ extension ResourceNotFoundException {
 
 extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
         value.properties.code = try reader["code"].readIfPresent()
@@ -4307,7 +4307,7 @@ extension ServiceUnavailableException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.code = try reader["code"].readIfPresent()
@@ -4322,7 +4322,7 @@ extension LimitExceededException {
 
 extension InsufficientCapacityException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InsufficientCapacityException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InsufficientCapacityException {
         let reader = baseError.errorBodyReader
         var value = InsufficientCapacityException()
         value.properties.code = try reader["code"].readIfPresent()
@@ -4337,7 +4337,7 @@ extension InsufficientCapacityException {
 
 extension PolicyEnforcedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PolicyEnforcedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> PolicyEnforcedException {
         let reader = baseError.errorBodyReader
         var value = PolicyEnforcedException()
         value.properties.code = try reader["code"].readIfPresent()
@@ -4352,7 +4352,7 @@ extension PolicyEnforcedException {
 
 extension RequestTimeoutException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RequestTimeoutException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> RequestTimeoutException {
         let reader = baseError.errorBodyReader
         var value = RequestTimeoutException()
         value.properties.code = try reader["code"].readIfPresent()
@@ -4361,94 +4361,6 @@ extension RequestTimeoutException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension GlacierClientTypes.InventoryRetrievalJobDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.InventoryRetrievalJobDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.InventoryRetrievalJobDescription()
-        value.format = try reader["Format"].readIfPresent()
-        value.startDate = try reader["StartDate"].readIfPresent()
-        value.endDate = try reader["EndDate"].readIfPresent()
-        value.limit = try reader["Limit"].readIfPresent()
-        value.marker = try reader["Marker"].readIfPresent()
-        return value
-    }
-}
-
-extension GlacierClientTypes.SelectParameters {
-
-    static func write(value: GlacierClientTypes.SelectParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Expression"].write(value.expression)
-        try writer["ExpressionType"].write(value.expressionType)
-        try writer["InputSerialization"].write(value.inputSerialization, with: GlacierClientTypes.InputSerialization.write(value:to:))
-        try writer["OutputSerialization"].write(value.outputSerialization, with: GlacierClientTypes.OutputSerialization.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.SelectParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.SelectParameters()
-        value.inputSerialization = try reader["InputSerialization"].readIfPresent(with: GlacierClientTypes.InputSerialization.read(from:))
-        value.expressionType = try reader["ExpressionType"].readIfPresent()
-        value.expression = try reader["Expression"].readIfPresent()
-        value.outputSerialization = try reader["OutputSerialization"].readIfPresent(with: GlacierClientTypes.OutputSerialization.read(from:))
-        return value
-    }
-}
-
-extension GlacierClientTypes.OutputSerialization {
-
-    static func write(value: GlacierClientTypes.OutputSerialization?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["csv"].write(value.csv, with: GlacierClientTypes.CSVOutput.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.OutputSerialization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.OutputSerialization()
-        value.csv = try reader["csv"].readIfPresent(with: GlacierClientTypes.CSVOutput.read(from:))
-        return value
-    }
-}
-
-extension GlacierClientTypes.CSVOutput {
-
-    static func write(value: GlacierClientTypes.CSVOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FieldDelimiter"].write(value.fieldDelimiter)
-        try writer["QuoteCharacter"].write(value.quoteCharacter)
-        try writer["QuoteEscapeCharacter"].write(value.quoteEscapeCharacter)
-        try writer["QuoteFields"].write(value.quoteFields)
-        try writer["RecordDelimiter"].write(value.recordDelimiter)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.CSVOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.CSVOutput()
-        value.quoteFields = try reader["QuoteFields"].readIfPresent()
-        value.quoteEscapeCharacter = try reader["QuoteEscapeCharacter"].readIfPresent()
-        value.recordDelimiter = try reader["RecordDelimiter"].readIfPresent()
-        value.fieldDelimiter = try reader["FieldDelimiter"].readIfPresent()
-        value.quoteCharacter = try reader["QuoteCharacter"].readIfPresent()
-        return value
-    }
-}
-
-extension GlacierClientTypes.InputSerialization {
-
-    static func write(value: GlacierClientTypes.InputSerialization?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["csv"].write(value.csv, with: GlacierClientTypes.CSVInput.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.InputSerialization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.InputSerialization()
-        value.csv = try reader["csv"].readIfPresent(with: GlacierClientTypes.CSVInput.read(from:))
         return value
     }
 }
@@ -4478,46 +4390,121 @@ extension GlacierClientTypes.CSVInput {
     }
 }
 
-extension GlacierClientTypes.OutputLocation {
+extension GlacierClientTypes.CSVOutput {
 
-    static func write(value: GlacierClientTypes.OutputLocation?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlacierClientTypes.CSVOutput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["S3"].write(value.s3, with: GlacierClientTypes.S3Location.write(value:to:))
+        try writer["FieldDelimiter"].write(value.fieldDelimiter)
+        try writer["QuoteCharacter"].write(value.quoteCharacter)
+        try writer["QuoteEscapeCharacter"].write(value.quoteEscapeCharacter)
+        try writer["QuoteFields"].write(value.quoteFields)
+        try writer["RecordDelimiter"].write(value.recordDelimiter)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.OutputLocation {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.CSVOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.OutputLocation()
-        value.s3 = try reader["S3"].readIfPresent(with: GlacierClientTypes.S3Location.read(from:))
+        var value = GlacierClientTypes.CSVOutput()
+        value.quoteFields = try reader["QuoteFields"].readIfPresent()
+        value.quoteEscapeCharacter = try reader["QuoteEscapeCharacter"].readIfPresent()
+        value.recordDelimiter = try reader["RecordDelimiter"].readIfPresent()
+        value.fieldDelimiter = try reader["FieldDelimiter"].readIfPresent()
+        value.quoteCharacter = try reader["QuoteCharacter"].readIfPresent()
         return value
     }
 }
 
-extension GlacierClientTypes.S3Location {
+extension GlacierClientTypes.DataRetrievalPolicy {
 
-    static func write(value: GlacierClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlacierClientTypes.DataRetrievalPolicy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AccessControlList"].writeList(value.accessControlList, memberWritingClosure: GlacierClientTypes.Grant.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["BucketName"].write(value.bucketName)
-        try writer["CannedACL"].write(value.cannedACL)
-        try writer["Encryption"].write(value.encryption, with: GlacierClientTypes.Encryption.write(value:to:))
-        try writer["Prefix"].write(value.`prefix`)
-        try writer["StorageClass"].write(value.storageClass)
-        try writer["Tagging"].writeMap(value.tagging, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["UserMetadata"].writeMap(value.userMetadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Rules"].writeList(value.rules, memberWritingClosure: GlacierClientTypes.DataRetrievalRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.S3Location {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.DataRetrievalPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.S3Location()
-        value.bucketName = try reader["BucketName"].readIfPresent()
-        value.`prefix` = try reader["Prefix"].readIfPresent()
-        value.encryption = try reader["Encryption"].readIfPresent(with: GlacierClientTypes.Encryption.read(from:))
-        value.cannedACL = try reader["CannedACL"].readIfPresent()
-        value.accessControlList = try reader["AccessControlList"].readListIfPresent(memberReadingClosure: GlacierClientTypes.Grant.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tagging = try reader["Tagging"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.userMetadata = try reader["UserMetadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.storageClass = try reader["StorageClass"].readIfPresent()
+        var value = GlacierClientTypes.DataRetrievalPolicy()
+        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: GlacierClientTypes.DataRetrievalRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlacierClientTypes.DataRetrievalRule {
+
+    static func write(value: GlacierClientTypes.DataRetrievalRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BytesPerHour"].write(value.bytesPerHour)
+        try writer["Strategy"].write(value.strategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.DataRetrievalRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlacierClientTypes.DataRetrievalRule()
+        value.strategy = try reader["Strategy"].readIfPresent()
+        value.bytesPerHour = try reader["BytesPerHour"].readIfPresent()
+        return value
+    }
+}
+
+extension GlacierClientTypes.DescribeVaultOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.DescribeVaultOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlacierClientTypes.DescribeVaultOutput()
+        value.vaultARN = try reader["VaultARN"].readIfPresent()
+        value.vaultName = try reader["VaultName"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readIfPresent()
+        value.lastInventoryDate = try reader["LastInventoryDate"].readIfPresent()
+        value.numberOfArchives = try reader["NumberOfArchives"].readIfPresent() ?? 0
+        value.sizeInBytes = try reader["SizeInBytes"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GlacierClientTypes.Encryption {
+
+    static func write(value: GlacierClientTypes.Encryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EncryptionType"].write(value.encryptionType)
+        try writer["KMSContext"].write(value.kmsContext)
+        try writer["KMSKeyId"].write(value.kmsKeyId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.Encryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlacierClientTypes.Encryption()
+        value.encryptionType = try reader["EncryptionType"].readIfPresent()
+        value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
+        value.kmsContext = try reader["KMSContext"].readIfPresent()
+        return value
+    }
+}
+
+extension GlacierClientTypes.GlacierJobDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.GlacierJobDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlacierClientTypes.GlacierJobDescription()
+        value.jobId = try reader["JobId"].readIfPresent()
+        value.jobDescription = try reader["JobDescription"].readIfPresent()
+        value.action = try reader["Action"].readIfPresent()
+        value.archiveId = try reader["ArchiveId"].readIfPresent()
+        value.vaultARN = try reader["VaultARN"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readIfPresent()
+        value.completed = try reader["Completed"].readIfPresent() ?? false
+        value.statusCode = try reader["StatusCode"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.archiveSizeInBytes = try reader["ArchiveSizeInBytes"].readIfPresent()
+        value.inventorySizeInBytes = try reader["InventorySizeInBytes"].readIfPresent()
+        value.snsTopic = try reader["SNSTopic"].readIfPresent()
+        value.completionDate = try reader["CompletionDate"].readIfPresent()
+        value.sha256TreeHash = try reader["SHA256TreeHash"].readIfPresent()
+        value.archiveSHA256TreeHash = try reader["ArchiveSHA256TreeHash"].readIfPresent()
+        value.retrievalByteRange = try reader["RetrievalByteRange"].readIfPresent()
+        value.tier = try reader["Tier"].readIfPresent()
+        value.inventoryRetrievalParameters = try reader["InventoryRetrievalParameters"].readIfPresent(with: GlacierClientTypes.InventoryRetrievalJobDescription.read(from:))
+        value.jobOutputPath = try reader["JobOutputPath"].readIfPresent()
+        value.selectParameters = try reader["SelectParameters"].readIfPresent(with: GlacierClientTypes.SelectParameters.read(from:))
+        value.outputLocation = try reader["OutputLocation"].readIfPresent(with: GlacierClientTypes.OutputLocation.read(from:))
         return value
     }
 }
@@ -4562,129 +4549,89 @@ extension GlacierClientTypes.Grantee {
     }
 }
 
-extension GlacierClientTypes.Encryption {
+extension GlacierClientTypes.InputSerialization {
 
-    static func write(value: GlacierClientTypes.Encryption?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlacierClientTypes.InputSerialization?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EncryptionType"].write(value.encryptionType)
-        try writer["KMSContext"].write(value.kmsContext)
-        try writer["KMSKeyId"].write(value.kmsKeyId)
+        try writer["csv"].write(value.csv, with: GlacierClientTypes.CSVInput.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.Encryption {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.InputSerialization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.Encryption()
-        value.encryptionType = try reader["EncryptionType"].readIfPresent()
-        value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
-        value.kmsContext = try reader["KMSContext"].readIfPresent()
+        var value = GlacierClientTypes.InputSerialization()
+        value.csv = try reader["csv"].readIfPresent(with: GlacierClientTypes.CSVInput.read(from:))
         return value
     }
 }
 
-extension GlacierClientTypes.DataRetrievalPolicy {
+extension GlacierClientTypes.InventoryRetrievalJobDescription {
 
-    static func write(value: GlacierClientTypes.DataRetrievalPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Rules"].writeList(value.rules, memberWritingClosure: GlacierClientTypes.DataRetrievalRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.DataRetrievalPolicy {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.InventoryRetrievalJobDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.DataRetrievalPolicy()
-        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: GlacierClientTypes.DataRetrievalRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GlacierClientTypes.InventoryRetrievalJobDescription()
+        value.format = try reader["Format"].readIfPresent()
+        value.startDate = try reader["StartDate"].readIfPresent()
+        value.endDate = try reader["EndDate"].readIfPresent()
+        value.limit = try reader["Limit"].readIfPresent()
+        value.marker = try reader["Marker"].readIfPresent()
         return value
     }
 }
 
-extension GlacierClientTypes.DataRetrievalRule {
+extension GlacierClientTypes.InventoryRetrievalJobInput {
 
-    static func write(value: GlacierClientTypes.DataRetrievalRule?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlacierClientTypes.InventoryRetrievalJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["BytesPerHour"].write(value.bytesPerHour)
-        try writer["Strategy"].write(value.strategy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.DataRetrievalRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.DataRetrievalRule()
-        value.strategy = try reader["Strategy"].readIfPresent()
-        value.bytesPerHour = try reader["BytesPerHour"].readIfPresent()
-        return value
+        try writer["EndDate"].write(value.endDate)
+        try writer["Limit"].write(value.limit)
+        try writer["Marker"].write(value.marker)
+        try writer["StartDate"].write(value.startDate)
     }
 }
 
-extension GlacierClientTypes.VaultAccessPolicy {
+extension GlacierClientTypes.JobParameters {
 
-    static func write(value: GlacierClientTypes.VaultAccessPolicy?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlacierClientTypes.JobParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Policy"].write(value.policy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.VaultAccessPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.VaultAccessPolicy()
-        value.policy = try reader["Policy"].readIfPresent()
-        return value
-    }
-}
-
-extension GlacierClientTypes.VaultNotificationConfig {
-
-    static func write(value: GlacierClientTypes.VaultNotificationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Events"].writeList(value.events, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ArchiveId"].write(value.archiveId)
+        try writer["Description"].write(value.description)
+        try writer["Format"].write(value.format)
+        try writer["InventoryRetrievalParameters"].write(value.inventoryRetrievalParameters, with: GlacierClientTypes.InventoryRetrievalJobInput.write(value:to:))
+        try writer["OutputLocation"].write(value.outputLocation, with: GlacierClientTypes.OutputLocation.write(value:to:))
+        try writer["RetrievalByteRange"].write(value.retrievalByteRange)
         try writer["SNSTopic"].write(value.snsTopic)
+        try writer["SelectParameters"].write(value.selectParameters, with: GlacierClientTypes.SelectParameters.write(value:to:))
+        try writer["Tier"].write(value.tier)
+        try writer["Type"].write(value.type)
+    }
+}
+
+extension GlacierClientTypes.OutputLocation {
+
+    static func write(value: GlacierClientTypes.OutputLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3"].write(value.s3, with: GlacierClientTypes.S3Location.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.VaultNotificationConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.OutputLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.VaultNotificationConfig()
-        value.snsTopic = try reader["SNSTopic"].readIfPresent()
-        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GlacierClientTypes.OutputLocation()
+        value.s3 = try reader["S3"].readIfPresent(with: GlacierClientTypes.S3Location.read(from:))
         return value
     }
 }
 
-extension GlacierClientTypes.GlacierJobDescription {
+extension GlacierClientTypes.OutputSerialization {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.GlacierJobDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.GlacierJobDescription()
-        value.jobId = try reader["JobId"].readIfPresent()
-        value.jobDescription = try reader["JobDescription"].readIfPresent()
-        value.action = try reader["Action"].readIfPresent()
-        value.archiveId = try reader["ArchiveId"].readIfPresent()
-        value.vaultARN = try reader["VaultARN"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readIfPresent()
-        value.completed = try reader["Completed"].readIfPresent() ?? false
-        value.statusCode = try reader["StatusCode"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.archiveSizeInBytes = try reader["ArchiveSizeInBytes"].readIfPresent()
-        value.inventorySizeInBytes = try reader["InventorySizeInBytes"].readIfPresent()
-        value.snsTopic = try reader["SNSTopic"].readIfPresent()
-        value.completionDate = try reader["CompletionDate"].readIfPresent()
-        value.sha256TreeHash = try reader["SHA256TreeHash"].readIfPresent()
-        value.archiveSHA256TreeHash = try reader["ArchiveSHA256TreeHash"].readIfPresent()
-        value.retrievalByteRange = try reader["RetrievalByteRange"].readIfPresent()
-        value.tier = try reader["Tier"].readIfPresent()
-        value.inventoryRetrievalParameters = try reader["InventoryRetrievalParameters"].readIfPresent(with: GlacierClientTypes.InventoryRetrievalJobDescription.read(from:))
-        value.jobOutputPath = try reader["JobOutputPath"].readIfPresent()
-        value.selectParameters = try reader["SelectParameters"].readIfPresent(with: GlacierClientTypes.SelectParameters.read(from:))
-        value.outputLocation = try reader["OutputLocation"].readIfPresent(with: GlacierClientTypes.OutputLocation.read(from:))
-        return value
+    static func write(value: GlacierClientTypes.OutputSerialization?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["csv"].write(value.csv, with: GlacierClientTypes.CSVOutput.write(value:to:))
     }
-}
 
-extension GlacierClientTypes.UploadListElement {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.UploadListElement {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.OutputSerialization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.UploadListElement()
-        value.multipartUploadId = try reader["MultipartUploadId"].readIfPresent()
-        value.vaultARN = try reader["VaultARN"].readIfPresent()
-        value.archiveDescription = try reader["ArchiveDescription"].readIfPresent()
-        value.partSizeInBytes = try reader["PartSizeInBytes"].readIfPresent() ?? 0
-        value.creationDate = try reader["CreationDate"].readIfPresent()
+        var value = GlacierClientTypes.OutputSerialization()
+        value.csv = try reader["csv"].readIfPresent(with: GlacierClientTypes.CSVOutput.read(from:))
         return value
     }
 }
@@ -4712,46 +4659,82 @@ extension GlacierClientTypes.ProvisionedCapacityDescription {
     }
 }
 
-extension GlacierClientTypes.DescribeVaultOutput {
+extension GlacierClientTypes.S3Location {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.DescribeVaultOutput {
+    static func write(value: GlacierClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessControlList"].writeList(value.accessControlList, memberWritingClosure: GlacierClientTypes.Grant.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["BucketName"].write(value.bucketName)
+        try writer["CannedACL"].write(value.cannedACL)
+        try writer["Encryption"].write(value.encryption, with: GlacierClientTypes.Encryption.write(value:to:))
+        try writer["Prefix"].write(value.`prefix`)
+        try writer["StorageClass"].write(value.storageClass)
+        try writer["Tagging"].writeMap(value.tagging, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["UserMetadata"].writeMap(value.userMetadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.S3Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.DescribeVaultOutput()
-        value.vaultARN = try reader["VaultARN"].readIfPresent()
-        value.vaultName = try reader["VaultName"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readIfPresent()
-        value.lastInventoryDate = try reader["LastInventoryDate"].readIfPresent()
-        value.numberOfArchives = try reader["NumberOfArchives"].readIfPresent() ?? 0
-        value.sizeInBytes = try reader["SizeInBytes"].readIfPresent() ?? 0
+        var value = GlacierClientTypes.S3Location()
+        value.bucketName = try reader["BucketName"].readIfPresent()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.encryption = try reader["Encryption"].readIfPresent(with: GlacierClientTypes.Encryption.read(from:))
+        value.cannedACL = try reader["CannedACL"].readIfPresent()
+        value.accessControlList = try reader["AccessControlList"].readListIfPresent(memberReadingClosure: GlacierClientTypes.Grant.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tagging = try reader["Tagging"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.userMetadata = try reader["UserMetadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.storageClass = try reader["StorageClass"].readIfPresent()
         return value
     }
 }
 
-extension GlacierClientTypes.JobParameters {
+extension GlacierClientTypes.SelectParameters {
 
-    static func write(value: GlacierClientTypes.JobParameters?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlacierClientTypes.SelectParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ArchiveId"].write(value.archiveId)
-        try writer["Description"].write(value.description)
-        try writer["Format"].write(value.format)
-        try writer["InventoryRetrievalParameters"].write(value.inventoryRetrievalParameters, with: GlacierClientTypes.InventoryRetrievalJobInput.write(value:to:))
-        try writer["OutputLocation"].write(value.outputLocation, with: GlacierClientTypes.OutputLocation.write(value:to:))
-        try writer["RetrievalByteRange"].write(value.retrievalByteRange)
-        try writer["SNSTopic"].write(value.snsTopic)
-        try writer["SelectParameters"].write(value.selectParameters, with: GlacierClientTypes.SelectParameters.write(value:to:))
-        try writer["Tier"].write(value.tier)
-        try writer["Type"].write(value.type)
+        try writer["Expression"].write(value.expression)
+        try writer["ExpressionType"].write(value.expressionType)
+        try writer["InputSerialization"].write(value.inputSerialization, with: GlacierClientTypes.InputSerialization.write(value:to:))
+        try writer["OutputSerialization"].write(value.outputSerialization, with: GlacierClientTypes.OutputSerialization.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.SelectParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlacierClientTypes.SelectParameters()
+        value.inputSerialization = try reader["InputSerialization"].readIfPresent(with: GlacierClientTypes.InputSerialization.read(from:))
+        value.expressionType = try reader["ExpressionType"].readIfPresent()
+        value.expression = try reader["Expression"].readIfPresent()
+        value.outputSerialization = try reader["OutputSerialization"].readIfPresent(with: GlacierClientTypes.OutputSerialization.read(from:))
+        return value
     }
 }
 
-extension GlacierClientTypes.InventoryRetrievalJobInput {
+extension GlacierClientTypes.UploadListElement {
 
-    static func write(value: GlacierClientTypes.InventoryRetrievalJobInput?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.UploadListElement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlacierClientTypes.UploadListElement()
+        value.multipartUploadId = try reader["MultipartUploadId"].readIfPresent()
+        value.vaultARN = try reader["VaultARN"].readIfPresent()
+        value.archiveDescription = try reader["ArchiveDescription"].readIfPresent()
+        value.partSizeInBytes = try reader["PartSizeInBytes"].readIfPresent() ?? 0
+        value.creationDate = try reader["CreationDate"].readIfPresent()
+        return value
+    }
+}
+
+extension GlacierClientTypes.VaultAccessPolicy {
+
+    static func write(value: GlacierClientTypes.VaultAccessPolicy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EndDate"].write(value.endDate)
-        try writer["Limit"].write(value.limit)
-        try writer["Marker"].write(value.marker)
-        try writer["StartDate"].write(value.startDate)
+        try writer["Policy"].write(value.policy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.VaultAccessPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlacierClientTypes.VaultAccessPolicy()
+        value.policy = try reader["Policy"].readIfPresent()
+        return value
     }
 }
 
@@ -4760,6 +4743,23 @@ extension GlacierClientTypes.VaultLockPolicy {
     static func write(value: GlacierClientTypes.VaultLockPolicy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Policy"].write(value.policy)
+    }
+}
+
+extension GlacierClientTypes.VaultNotificationConfig {
+
+    static func write(value: GlacierClientTypes.VaultNotificationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Events"].writeList(value.events, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SNSTopic"].write(value.snsTopic)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.VaultNotificationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlacierClientTypes.VaultNotificationConfig()
+        value.snsTopic = try reader["SNSTopic"].readIfPresent()
+        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 

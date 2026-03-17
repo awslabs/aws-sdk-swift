@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 
 /// The Amazon Redshift Data API operation failed because the maximum number of active sessions exceeded.
 public struct ActiveSessionsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -1775,7 +1775,7 @@ enum BatchExecuteStatementOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ActiveSessionsExceededException": return try ActiveSessionsExceededException.makeError(baseError: baseError)
@@ -1794,7 +1794,7 @@ enum CancelStatementOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DatabaseConnectionException": return try DatabaseConnectionException.makeError(baseError: baseError)
@@ -1812,7 +1812,7 @@ enum DescribeStatementOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1828,7 +1828,7 @@ enum DescribeTableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DatabaseConnectionException": return try DatabaseConnectionException.makeError(baseError: baseError)
@@ -1846,7 +1846,7 @@ enum ExecuteStatementOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ActiveSessionsExceededException": return try ActiveSessionsExceededException.makeError(baseError: baseError)
@@ -1865,7 +1865,7 @@ enum GetStatementResultOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1881,7 +1881,7 @@ enum GetStatementResultV2OutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1897,7 +1897,7 @@ enum ListDatabasesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DatabaseConnectionException": return try DatabaseConnectionException.makeError(baseError: baseError)
@@ -1915,7 +1915,7 @@ enum ListSchemasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DatabaseConnectionException": return try DatabaseConnectionException.makeError(baseError: baseError)
@@ -1933,7 +1933,7 @@ enum ListStatementsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1949,7 +1949,7 @@ enum ListTablesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DatabaseConnectionException": return try DatabaseConnectionException.makeError(baseError: baseError)
@@ -1964,7 +1964,7 @@ enum ListTablesOutputError {
 
 extension ActiveSessionsExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ActiveSessionsExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ActiveSessionsExceededException {
         let reader = baseError.errorBodyReader
         var value = ActiveSessionsExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1977,7 +1977,7 @@ extension ActiveSessionsExceededException {
 
 extension ActiveStatementsExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ActiveStatementsExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ActiveStatementsExceededException {
         let reader = baseError.errorBodyReader
         var value = ActiveStatementsExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1990,7 +1990,7 @@ extension ActiveStatementsExceededException {
 
 extension BatchExecuteStatementException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BatchExecuteStatementException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> BatchExecuteStatementException {
         let reader = baseError.errorBodyReader
         var value = BatchExecuteStatementException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -2004,7 +2004,7 @@ extension BatchExecuteStatementException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -2017,7 +2017,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -2031,7 +2031,7 @@ extension ResourceNotFoundException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2044,7 +2044,7 @@ extension ValidationException {
 
 extension DatabaseConnectionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DatabaseConnectionException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DatabaseConnectionException {
         let reader = baseError.errorBodyReader
         var value = DatabaseConnectionException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -2057,7 +2057,7 @@ extension DatabaseConnectionException {
 
 extension QueryTimeoutException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> QueryTimeoutException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> QueryTimeoutException {
         let reader = baseError.errorBodyReader
         var value = QueryTimeoutException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2070,7 +2070,7 @@ extension QueryTimeoutException {
 
 extension ExecuteStatementException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExecuteStatementException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ExecuteStatementException {
         let reader = baseError.errorBodyReader
         var value = ExecuteStatementException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -2078,43 +2078,6 @@ extension ExecuteStatementException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension RedshiftDataClientTypes.SqlParameter {
-
-    static func write(value: RedshiftDataClientTypes.SqlParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftDataClientTypes.SqlParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftDataClientTypes.SqlParameter()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension RedshiftDataClientTypes.SubStatementData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftDataClientTypes.SubStatementData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftDataClientTypes.SubStatementData()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.duration = try reader["Duration"].readIfPresent() ?? 0
-        value.error = try reader["Error"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.queryString = try reader["QueryString"].readIfPresent()
-        value.resultRows = try reader["ResultRows"].readIfPresent() ?? 0
-        value.resultSize = try reader["ResultSize"].readIfPresent() ?? 0
-        value.redshiftQueryId = try reader["RedshiftQueryId"].readIfPresent() ?? 0
-        value.hasResultSet = try reader["HasResultSet"].readIfPresent()
         return value
     }
 }
@@ -2179,6 +2142,23 @@ extension RedshiftDataClientTypes.QueryRecords {
     }
 }
 
+extension RedshiftDataClientTypes.SqlParameter {
+
+    static func write(value: RedshiftDataClientTypes.SqlParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftDataClientTypes.SqlParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftDataClientTypes.SqlParameter()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension RedshiftDataClientTypes.StatementData {
 
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftDataClientTypes.StatementData {
@@ -2196,6 +2176,26 @@ extension RedshiftDataClientTypes.StatementData {
         value.isBatchStatement = try reader["IsBatchStatement"].readIfPresent()
         value.resultFormat = try reader["ResultFormat"].readIfPresent()
         value.sessionId = try reader["SessionId"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftDataClientTypes.SubStatementData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftDataClientTypes.SubStatementData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftDataClientTypes.SubStatementData()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        value.error = try reader["Error"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.queryString = try reader["QueryString"].readIfPresent()
+        value.resultRows = try reader["ResultRows"].readIfPresent() ?? 0
+        value.resultSize = try reader["ResultSize"].readIfPresent() ?? 0
+        value.redshiftQueryId = try reader["RedshiftQueryId"].readIfPresent() ?? 0
+        value.hasResultSet = try reader["HasResultSet"].readIfPresent()
         return value
     }
 }

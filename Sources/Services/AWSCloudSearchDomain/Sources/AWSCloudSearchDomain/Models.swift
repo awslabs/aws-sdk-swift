@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -780,7 +780,7 @@ enum SearchOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "SearchException": return try SearchException.makeError(baseError: baseError)
@@ -794,7 +794,7 @@ enum SuggestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "SearchException": return try SearchException.makeError(baseError: baseError)
@@ -808,7 +808,7 @@ enum UploadDocumentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DocumentServiceException": return try DocumentServiceException.makeError(baseError: baseError)
@@ -819,7 +819,7 @@ enum UploadDocumentsOutputError {
 
 extension SearchException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SearchException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SearchException {
         let reader = baseError.errorBodyReader
         var value = SearchException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -832,7 +832,7 @@ extension SearchException {
 
 extension DocumentServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DocumentServiceException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DocumentServiceException {
         let reader = baseError.errorBodyReader
         var value = DocumentServiceException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -844,39 +844,13 @@ extension DocumentServiceException {
     }
 }
 
-extension CloudSearchDomainClientTypes.SearchStatus {
+extension CloudSearchDomainClientTypes.Bucket {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.SearchStatus {
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.Bucket {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchDomainClientTypes.SearchStatus()
-        value.timems = try reader["timems"].readIfPresent() ?? 0
-        value.rid = try reader["rid"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudSearchDomainClientTypes.Hits {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.Hits {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchDomainClientTypes.Hits()
-        value.found = try reader["found"].readIfPresent() ?? 0
-        value.start = try reader["start"].readIfPresent() ?? 0
-        value.cursor = try reader["cursor"].readIfPresent()
-        value.hit = try reader["hit"].readListIfPresent(memberReadingClosure: CloudSearchDomainClientTypes.Hit.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudSearchDomainClientTypes.Hit {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.Hit {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchDomainClientTypes.Hit()
-        value.id = try reader["id"].readIfPresent()
-        value.fields = try reader["fields"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.exprs = try reader["exprs"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.highlights = try reader["highlights"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = CloudSearchDomainClientTypes.Bucket()
+        value.value = try reader["value"].readIfPresent()
+        value.count = try reader["count"].readIfPresent() ?? 0
         return value
     }
 }
@@ -891,13 +865,12 @@ extension CloudSearchDomainClientTypes.BucketInfo {
     }
 }
 
-extension CloudSearchDomainClientTypes.Bucket {
+extension CloudSearchDomainClientTypes.DocumentServiceWarning {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.Bucket {
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.DocumentServiceWarning {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchDomainClientTypes.Bucket()
-        value.value = try reader["value"].readIfPresent()
-        value.count = try reader["count"].readIfPresent() ?? 0
+        var value = CloudSearchDomainClientTypes.DocumentServiceWarning()
+        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -919,25 +892,39 @@ extension CloudSearchDomainClientTypes.FieldStats {
     }
 }
 
-extension CloudSearchDomainClientTypes.SuggestStatus {
+extension CloudSearchDomainClientTypes.Hit {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.SuggestStatus {
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.Hit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchDomainClientTypes.SuggestStatus()
-        value.timems = try reader["timems"].readIfPresent() ?? 0
-        value.rid = try reader["rid"].readIfPresent()
+        var value = CloudSearchDomainClientTypes.Hit()
+        value.id = try reader["id"].readIfPresent()
+        value.fields = try reader["fields"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.exprs = try reader["exprs"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.highlights = try reader["highlights"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension CloudSearchDomainClientTypes.SuggestModel {
+extension CloudSearchDomainClientTypes.Hits {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.SuggestModel {
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.Hits {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchDomainClientTypes.SuggestModel()
-        value.query = try reader["query"].readIfPresent()
+        var value = CloudSearchDomainClientTypes.Hits()
         value.found = try reader["found"].readIfPresent() ?? 0
-        value.suggestions = try reader["suggestions"].readListIfPresent(memberReadingClosure: CloudSearchDomainClientTypes.SuggestionMatch.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.start = try reader["start"].readIfPresent() ?? 0
+        value.cursor = try reader["cursor"].readIfPresent()
+        value.hit = try reader["hit"].readListIfPresent(memberReadingClosure: CloudSearchDomainClientTypes.Hit.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudSearchDomainClientTypes.SearchStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.SearchStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudSearchDomainClientTypes.SearchStatus()
+        value.timems = try reader["timems"].readIfPresent() ?? 0
+        value.rid = try reader["rid"].readIfPresent()
         return value
     }
 }
@@ -954,12 +941,25 @@ extension CloudSearchDomainClientTypes.SuggestionMatch {
     }
 }
 
-extension CloudSearchDomainClientTypes.DocumentServiceWarning {
+extension CloudSearchDomainClientTypes.SuggestModel {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.DocumentServiceWarning {
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.SuggestModel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchDomainClientTypes.DocumentServiceWarning()
-        value.message = try reader["message"].readIfPresent()
+        var value = CloudSearchDomainClientTypes.SuggestModel()
+        value.query = try reader["query"].readIfPresent()
+        value.found = try reader["found"].readIfPresent() ?? 0
+        value.suggestions = try reader["suggestions"].readListIfPresent(memberReadingClosure: CloudSearchDomainClientTypes.SuggestionMatch.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudSearchDomainClientTypes.SuggestStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudSearchDomainClientTypes.SuggestStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudSearchDomainClientTypes.SuggestStatus()
+        value.timems = try reader["timems"].readIfPresent() ?? 0
+        value.rid = try reader["rid"].readIfPresent()
         return value
     }
 }

@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
@@ -3011,7 +3011,7 @@ enum CancelJobRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3026,7 +3026,7 @@ enum CreateJobTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3042,7 +3042,7 @@ enum CreateManagedEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3058,7 +3058,7 @@ enum CreateSecurityConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3073,7 +3073,7 @@ enum CreateVirtualClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EKSRequestThrottledException": return try EKSRequestThrottledException.makeError(baseError: baseError)
@@ -3090,7 +3090,7 @@ enum DeleteJobTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3105,7 +3105,7 @@ enum DeleteManagedEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3120,7 +3120,7 @@ enum DeleteVirtualClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3135,7 +3135,7 @@ enum DescribeJobRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3151,7 +3151,7 @@ enum DescribeJobTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3167,7 +3167,7 @@ enum DescribeManagedEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3183,7 +3183,7 @@ enum DescribeSecurityConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3199,7 +3199,7 @@ enum DescribeVirtualClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3215,7 +3215,7 @@ enum GetManagedEndpointSessionCredentialsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3232,7 +3232,7 @@ enum ListJobRunsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3247,7 +3247,7 @@ enum ListJobTemplatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3262,7 +3262,7 @@ enum ListManagedEndpointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3277,7 +3277,7 @@ enum ListSecurityConfigurationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3292,7 +3292,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3308,7 +3308,7 @@ enum ListVirtualClustersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3323,7 +3323,7 @@ enum StartJobRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3339,7 +3339,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3355,7 +3355,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3368,7 +3368,7 @@ enum UntagResourceOutputError {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3381,7 +3381,7 @@ extension InternalServerException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3394,7 +3394,7 @@ extension ValidationException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3407,7 +3407,7 @@ extension ResourceNotFoundException {
 
 extension EKSRequestThrottledException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> EKSRequestThrottledException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> EKSRequestThrottledException {
         let reader = baseError.errorBodyReader
         var value = EKSRequestThrottledException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3420,13 +3420,259 @@ extension EKSRequestThrottledException {
 
 extension RequestThrottledException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RequestThrottledException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> RequestThrottledException {
         let reader = baseError.errorBodyReader
         var value = RequestThrottledException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension EMRcontainersClientTypes.AuthorizationConfiguration {
+
+    static func write(value: EMRcontainersClientTypes.AuthorizationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: EMRcontainersClientTypes.EncryptionConfiguration.write(value:to:))
+        try writer["lakeFormationConfiguration"].write(value.lakeFormationConfiguration, with: EMRcontainersClientTypes.LakeFormationConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.AuthorizationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.AuthorizationConfiguration()
+        value.lakeFormationConfiguration = try reader["lakeFormationConfiguration"].readIfPresent(with: EMRcontainersClientTypes.LakeFormationConfiguration.read(from:))
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: EMRcontainersClientTypes.EncryptionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension EMRcontainersClientTypes.Certificate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.Certificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.Certificate()
+        value.certificateArn = try reader["certificateArn"].readIfPresent()
+        value.certificateData = try reader["certificateData"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRcontainersClientTypes.CloudWatchMonitoringConfiguration {
+
+    static func write(value: EMRcontainersClientTypes.CloudWatchMonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["logGroupName"].write(value.logGroupName)
+        try writer["logStreamNamePrefix"].write(value.logStreamNamePrefix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.CloudWatchMonitoringConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.CloudWatchMonitoringConfiguration()
+        value.logGroupName = try reader["logGroupName"].readIfPresent() ?? ""
+        value.logStreamNamePrefix = try reader["logStreamNamePrefix"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRcontainersClientTypes.Configuration {
+
+    static func write(value: EMRcontainersClientTypes.Configuration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["classification"].write(value.classification)
+        try writer["configurations"].writeList(value.configurations, memberWritingClosure: EMRcontainersClientTypes.Configuration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.Configuration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.Configuration()
+        value.classification = try reader["classification"].readIfPresent() ?? ""
+        value.properties = try reader["properties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.configurations = try reader["configurations"].readListIfPresent(memberReadingClosure: EMRcontainersClientTypes.Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EMRcontainersClientTypes.ConfigurationOverrides {
+
+    static func write(value: EMRcontainersClientTypes.ConfigurationOverrides?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["applicationConfiguration"].writeList(value.applicationConfiguration, memberWritingClosure: EMRcontainersClientTypes.Configuration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["monitoringConfiguration"].write(value.monitoringConfiguration, with: EMRcontainersClientTypes.MonitoringConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.ConfigurationOverrides {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.ConfigurationOverrides()
+        value.applicationConfiguration = try reader["applicationConfiguration"].readListIfPresent(memberReadingClosure: EMRcontainersClientTypes.Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.monitoringConfiguration = try reader["monitoringConfiguration"].readIfPresent(with: EMRcontainersClientTypes.MonitoringConfiguration.read(from:))
+        return value
+    }
+}
+
+extension EMRcontainersClientTypes.ContainerInfo {
+
+    static func write(value: EMRcontainersClientTypes.ContainerInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .eksinfo(eksinfo):
+                try writer["eksInfo"].write(eksinfo, with: EMRcontainersClientTypes.EksInfo.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.ContainerInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "eksInfo":
+                return .eksinfo(try reader["eksInfo"].read(with: EMRcontainersClientTypes.EksInfo.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension EMRcontainersClientTypes.ContainerLogRotationConfiguration {
+
+    static func write(value: EMRcontainersClientTypes.ContainerLogRotationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxFilesToKeep"].write(value.maxFilesToKeep)
+        try writer["rotationSize"].write(value.rotationSize)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.ContainerLogRotationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.ContainerLogRotationConfiguration()
+        value.rotationSize = try reader["rotationSize"].readIfPresent() ?? ""
+        value.maxFilesToKeep = try reader["maxFilesToKeep"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension EMRcontainersClientTypes.ContainerProvider {
+
+    static func write(value: EMRcontainersClientTypes.ContainerProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["info"].write(value.info, with: EMRcontainersClientTypes.ContainerInfo.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.ContainerProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.ContainerProvider()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.info = try reader["info"].readIfPresent(with: EMRcontainersClientTypes.ContainerInfo.read(from:))
+        return value
+    }
+}
+
+extension EMRcontainersClientTypes.Credentials {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.Credentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "token":
+                return .token(try reader["token"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension EMRcontainersClientTypes.EksInfo {
+
+    static func write(value: EMRcontainersClientTypes.EksInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["namespace"].write(value.namespace)
+        try writer["nodeLabel"].write(value.nodeLabel)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.EksInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.EksInfo()
+        value.namespace = try reader["namespace"].readIfPresent()
+        value.nodeLabel = try reader["nodeLabel"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRcontainersClientTypes.EncryptionConfiguration {
+
+    static func write(value: EMRcontainersClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inTransitEncryptionConfiguration"].write(value.inTransitEncryptionConfiguration, with: EMRcontainersClientTypes.InTransitEncryptionConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.EncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.EncryptionConfiguration()
+        value.inTransitEncryptionConfiguration = try reader["inTransitEncryptionConfiguration"].readIfPresent(with: EMRcontainersClientTypes.InTransitEncryptionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension EMRcontainersClientTypes.Endpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.Endpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.Endpoint()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.virtualClusterId = try reader["virtualClusterId"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        value.releaseLabel = try reader["releaseLabel"].readIfPresent()
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
+        value.certificateArn = try reader["certificateArn"].readIfPresent()
+        value.certificateAuthority = try reader["certificateAuthority"].readIfPresent(with: EMRcontainersClientTypes.Certificate.read(from:))
+        value.configurationOverrides = try reader["configurationOverrides"].readIfPresent(with: EMRcontainersClientTypes.ConfigurationOverrides.read(from:))
+        value.serverUrl = try reader["serverUrl"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.securityGroup = try reader["securityGroup"].readIfPresent()
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stateDetails = try reader["stateDetails"].readIfPresent()
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension EMRcontainersClientTypes.InTransitEncryptionConfiguration {
+
+    static func write(value: EMRcontainersClientTypes.InTransitEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tlsCertificateConfiguration"].write(value.tlsCertificateConfiguration, with: EMRcontainersClientTypes.TLSCertificateConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.InTransitEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.InTransitEncryptionConfiguration()
+        value.tlsCertificateConfiguration = try reader["tlsCertificateConfiguration"].readIfPresent(with: EMRcontainersClientTypes.TLSCertificateConfiguration.read(from:))
+        return value
+    }
+}
+
+extension EMRcontainersClientTypes.JobDriver {
+
+    static func write(value: EMRcontainersClientTypes.JobDriver?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sparkSqlJobDriver"].write(value.sparkSqlJobDriver, with: EMRcontainersClientTypes.SparkSqlJobDriver.write(value:to:))
+        try writer["sparkSubmitJobDriver"].write(value.sparkSubmitJobDriver, with: EMRcontainersClientTypes.SparkSubmitJobDriver.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.JobDriver {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.JobDriver()
+        value.sparkSubmitJobDriver = try reader["sparkSubmitJobDriver"].readIfPresent(with: EMRcontainersClientTypes.SparkSubmitJobDriver.read(from:))
+        value.sparkSqlJobDriver = try reader["sparkSqlJobDriver"].readIfPresent(with: EMRcontainersClientTypes.SparkSqlJobDriver.read(from:))
         return value
     }
 }
@@ -3454,209 +3700,6 @@ extension EMRcontainersClientTypes.JobRun {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.retryPolicyConfiguration = try reader["retryPolicyConfiguration"].readIfPresent(with: EMRcontainersClientTypes.RetryPolicyConfiguration.read(from:))
         value.retryPolicyExecution = try reader["retryPolicyExecution"].readIfPresent(with: EMRcontainersClientTypes.RetryPolicyExecution.read(from:))
-        return value
-    }
-}
-
-extension EMRcontainersClientTypes.RetryPolicyExecution {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.RetryPolicyExecution {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.RetryPolicyExecution()
-        value.currentAttemptCount = try reader["currentAttemptCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension EMRcontainersClientTypes.RetryPolicyConfiguration {
-
-    static func write(value: EMRcontainersClientTypes.RetryPolicyConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["maxAttempts"].write(value.maxAttempts)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.RetryPolicyConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.RetryPolicyConfiguration()
-        value.maxAttempts = try reader["maxAttempts"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension EMRcontainersClientTypes.JobDriver {
-
-    static func write(value: EMRcontainersClientTypes.JobDriver?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sparkSqlJobDriver"].write(value.sparkSqlJobDriver, with: EMRcontainersClientTypes.SparkSqlJobDriver.write(value:to:))
-        try writer["sparkSubmitJobDriver"].write(value.sparkSubmitJobDriver, with: EMRcontainersClientTypes.SparkSubmitJobDriver.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.JobDriver {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.JobDriver()
-        value.sparkSubmitJobDriver = try reader["sparkSubmitJobDriver"].readIfPresent(with: EMRcontainersClientTypes.SparkSubmitJobDriver.read(from:))
-        value.sparkSqlJobDriver = try reader["sparkSqlJobDriver"].readIfPresent(with: EMRcontainersClientTypes.SparkSqlJobDriver.read(from:))
-        return value
-    }
-}
-
-extension EMRcontainersClientTypes.SparkSqlJobDriver {
-
-    static func write(value: EMRcontainersClientTypes.SparkSqlJobDriver?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["entryPoint"].write(value.entryPoint)
-        try writer["sparkSqlParameters"].write(value.sparkSqlParameters)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.SparkSqlJobDriver {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.SparkSqlJobDriver()
-        value.entryPoint = try reader["entryPoint"].readIfPresent()
-        value.sparkSqlParameters = try reader["sparkSqlParameters"].readIfPresent()
-        return value
-    }
-}
-
-extension EMRcontainersClientTypes.SparkSubmitJobDriver {
-
-    static func write(value: EMRcontainersClientTypes.SparkSubmitJobDriver?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["entryPoint"].write(value.entryPoint)
-        try writer["entryPointArguments"].writeList(value.entryPointArguments, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["sparkSubmitParameters"].write(value.sparkSubmitParameters)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.SparkSubmitJobDriver {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.SparkSubmitJobDriver()
-        value.entryPoint = try reader["entryPoint"].readIfPresent() ?? ""
-        value.entryPointArguments = try reader["entryPointArguments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sparkSubmitParameters = try reader["sparkSubmitParameters"].readIfPresent()
-        return value
-    }
-}
-
-extension EMRcontainersClientTypes.ConfigurationOverrides {
-
-    static func write(value: EMRcontainersClientTypes.ConfigurationOverrides?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationConfiguration"].writeList(value.applicationConfiguration, memberWritingClosure: EMRcontainersClientTypes.Configuration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["monitoringConfiguration"].write(value.monitoringConfiguration, with: EMRcontainersClientTypes.MonitoringConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.ConfigurationOverrides {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.ConfigurationOverrides()
-        value.applicationConfiguration = try reader["applicationConfiguration"].readListIfPresent(memberReadingClosure: EMRcontainersClientTypes.Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.monitoringConfiguration = try reader["monitoringConfiguration"].readIfPresent(with: EMRcontainersClientTypes.MonitoringConfiguration.read(from:))
-        return value
-    }
-}
-
-extension EMRcontainersClientTypes.MonitoringConfiguration {
-
-    static func write(value: EMRcontainersClientTypes.MonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cloudWatchMonitoringConfiguration"].write(value.cloudWatchMonitoringConfiguration, with: EMRcontainersClientTypes.CloudWatchMonitoringConfiguration.write(value:to:))
-        try writer["containerLogRotationConfiguration"].write(value.containerLogRotationConfiguration, with: EMRcontainersClientTypes.ContainerLogRotationConfiguration.write(value:to:))
-        try writer["managedLogs"].write(value.managedLogs, with: EMRcontainersClientTypes.ManagedLogs.write(value:to:))
-        try writer["persistentAppUI"].write(value.persistentAppUI)
-        try writer["s3MonitoringConfiguration"].write(value.s3MonitoringConfiguration, with: EMRcontainersClientTypes.S3MonitoringConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.MonitoringConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.MonitoringConfiguration()
-        value.managedLogs = try reader["managedLogs"].readIfPresent(with: EMRcontainersClientTypes.ManagedLogs.read(from:))
-        value.persistentAppUI = try reader["persistentAppUI"].readIfPresent()
-        value.cloudWatchMonitoringConfiguration = try reader["cloudWatchMonitoringConfiguration"].readIfPresent(with: EMRcontainersClientTypes.CloudWatchMonitoringConfiguration.read(from:))
-        value.s3MonitoringConfiguration = try reader["s3MonitoringConfiguration"].readIfPresent(with: EMRcontainersClientTypes.S3MonitoringConfiguration.read(from:))
-        value.containerLogRotationConfiguration = try reader["containerLogRotationConfiguration"].readIfPresent(with: EMRcontainersClientTypes.ContainerLogRotationConfiguration.read(from:))
-        return value
-    }
-}
-
-extension EMRcontainersClientTypes.ContainerLogRotationConfiguration {
-
-    static func write(value: EMRcontainersClientTypes.ContainerLogRotationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["maxFilesToKeep"].write(value.maxFilesToKeep)
-        try writer["rotationSize"].write(value.rotationSize)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.ContainerLogRotationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.ContainerLogRotationConfiguration()
-        value.rotationSize = try reader["rotationSize"].readIfPresent() ?? ""
-        value.maxFilesToKeep = try reader["maxFilesToKeep"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension EMRcontainersClientTypes.S3MonitoringConfiguration {
-
-    static func write(value: EMRcontainersClientTypes.S3MonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["logUri"].write(value.logUri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.S3MonitoringConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.S3MonitoringConfiguration()
-        value.logUri = try reader["logUri"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension EMRcontainersClientTypes.CloudWatchMonitoringConfiguration {
-
-    static func write(value: EMRcontainersClientTypes.CloudWatchMonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["logGroupName"].write(value.logGroupName)
-        try writer["logStreamNamePrefix"].write(value.logStreamNamePrefix)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.CloudWatchMonitoringConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.CloudWatchMonitoringConfiguration()
-        value.logGroupName = try reader["logGroupName"].readIfPresent() ?? ""
-        value.logStreamNamePrefix = try reader["logStreamNamePrefix"].readIfPresent()
-        return value
-    }
-}
-
-extension EMRcontainersClientTypes.ManagedLogs {
-
-    static func write(value: EMRcontainersClientTypes.ManagedLogs?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowAWSToRetainLogs"].write(value.allowAWSToRetainLogs)
-        try writer["encryptionKeyArn"].write(value.encryptionKeyArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.ManagedLogs {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.ManagedLogs()
-        value.allowAWSToRetainLogs = try reader["allowAWSToRetainLogs"].readIfPresent()
-        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
-        return value
-    }
-}
-
-extension EMRcontainersClientTypes.Configuration {
-
-    static func write(value: EMRcontainersClientTypes.Configuration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["classification"].write(value.classification)
-        try writer["configurations"].writeList(value.configurations, memberWritingClosure: EMRcontainersClientTypes.Configuration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.Configuration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.Configuration()
-        value.classification = try reader["classification"].readIfPresent() ?? ""
-        value.properties = try reader["properties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.configurations = try reader["configurations"].readListIfPresent(memberReadingClosure: EMRcontainersClientTypes.Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -3704,19 +3747,78 @@ extension EMRcontainersClientTypes.JobTemplateData {
     }
 }
 
-extension EMRcontainersClientTypes.TemplateParameterConfiguration {
+extension EMRcontainersClientTypes.LakeFormationConfiguration {
 
-    static func write(value: EMRcontainersClientTypes.TemplateParameterConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EMRcontainersClientTypes.LakeFormationConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["defaultValue"].write(value.defaultValue)
-        try writer["type"].write(value.type)
+        try writer["authorizedSessionTagValue"].write(value.authorizedSessionTagValue)
+        try writer["queryEngineRoleArn"].write(value.queryEngineRoleArn)
+        try writer["secureNamespaceInfo"].write(value.secureNamespaceInfo, with: EMRcontainersClientTypes.SecureNamespaceInfo.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.TemplateParameterConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.LakeFormationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.TemplateParameterConfiguration()
-        value.type = try reader["type"].readIfPresent()
-        value.defaultValue = try reader["defaultValue"].readIfPresent()
+        var value = EMRcontainersClientTypes.LakeFormationConfiguration()
+        value.authorizedSessionTagValue = try reader["authorizedSessionTagValue"].readIfPresent()
+        value.secureNamespaceInfo = try reader["secureNamespaceInfo"].readIfPresent(with: EMRcontainersClientTypes.SecureNamespaceInfo.read(from:))
+        value.queryEngineRoleArn = try reader["queryEngineRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRcontainersClientTypes.ManagedLogs {
+
+    static func write(value: EMRcontainersClientTypes.ManagedLogs?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowAWSToRetainLogs"].write(value.allowAWSToRetainLogs)
+        try writer["encryptionKeyArn"].write(value.encryptionKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.ManagedLogs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.ManagedLogs()
+        value.allowAWSToRetainLogs = try reader["allowAWSToRetainLogs"].readIfPresent()
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRcontainersClientTypes.MonitoringConfiguration {
+
+    static func write(value: EMRcontainersClientTypes.MonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cloudWatchMonitoringConfiguration"].write(value.cloudWatchMonitoringConfiguration, with: EMRcontainersClientTypes.CloudWatchMonitoringConfiguration.write(value:to:))
+        try writer["containerLogRotationConfiguration"].write(value.containerLogRotationConfiguration, with: EMRcontainersClientTypes.ContainerLogRotationConfiguration.write(value:to:))
+        try writer["managedLogs"].write(value.managedLogs, with: EMRcontainersClientTypes.ManagedLogs.write(value:to:))
+        try writer["persistentAppUI"].write(value.persistentAppUI)
+        try writer["s3MonitoringConfiguration"].write(value.s3MonitoringConfiguration, with: EMRcontainersClientTypes.S3MonitoringConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.MonitoringConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.MonitoringConfiguration()
+        value.managedLogs = try reader["managedLogs"].readIfPresent(with: EMRcontainersClientTypes.ManagedLogs.read(from:))
+        value.persistentAppUI = try reader["persistentAppUI"].readIfPresent()
+        value.cloudWatchMonitoringConfiguration = try reader["cloudWatchMonitoringConfiguration"].readIfPresent(with: EMRcontainersClientTypes.CloudWatchMonitoringConfiguration.read(from:))
+        value.s3MonitoringConfiguration = try reader["s3MonitoringConfiguration"].readIfPresent(with: EMRcontainersClientTypes.S3MonitoringConfiguration.read(from:))
+        value.containerLogRotationConfiguration = try reader["containerLogRotationConfiguration"].readIfPresent(with: EMRcontainersClientTypes.ContainerLogRotationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension EMRcontainersClientTypes.ParametricCloudWatchMonitoringConfiguration {
+
+    static func write(value: EMRcontainersClientTypes.ParametricCloudWatchMonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["logGroupName"].write(value.logGroupName)
+        try writer["logStreamNamePrefix"].write(value.logStreamNamePrefix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.ParametricCloudWatchMonitoringConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.ParametricCloudWatchMonitoringConfiguration()
+        value.logGroupName = try reader["logGroupName"].readIfPresent()
+        value.logStreamNamePrefix = try reader["logStreamNamePrefix"].readIfPresent()
         return value
     }
 }
@@ -3772,57 +3874,59 @@ extension EMRcontainersClientTypes.ParametricS3MonitoringConfiguration {
     }
 }
 
-extension EMRcontainersClientTypes.ParametricCloudWatchMonitoringConfiguration {
+extension EMRcontainersClientTypes.RetryPolicyConfiguration {
 
-    static func write(value: EMRcontainersClientTypes.ParametricCloudWatchMonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EMRcontainersClientTypes.RetryPolicyConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["logGroupName"].write(value.logGroupName)
-        try writer["logStreamNamePrefix"].write(value.logStreamNamePrefix)
+        try writer["maxAttempts"].write(value.maxAttempts)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.ParametricCloudWatchMonitoringConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.RetryPolicyConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.ParametricCloudWatchMonitoringConfiguration()
-        value.logGroupName = try reader["logGroupName"].readIfPresent()
-        value.logStreamNamePrefix = try reader["logStreamNamePrefix"].readIfPresent()
+        var value = EMRcontainersClientTypes.RetryPolicyConfiguration()
+        value.maxAttempts = try reader["maxAttempts"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension EMRcontainersClientTypes.Endpoint {
+extension EMRcontainersClientTypes.RetryPolicyExecution {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.Endpoint {
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.RetryPolicyExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.Endpoint()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.virtualClusterId = try reader["virtualClusterId"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
-        value.releaseLabel = try reader["releaseLabel"].readIfPresent()
-        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
-        value.certificateArn = try reader["certificateArn"].readIfPresent()
-        value.certificateAuthority = try reader["certificateAuthority"].readIfPresent(with: EMRcontainersClientTypes.Certificate.read(from:))
-        value.configurationOverrides = try reader["configurationOverrides"].readIfPresent(with: EMRcontainersClientTypes.ConfigurationOverrides.read(from:))
-        value.serverUrl = try reader["serverUrl"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.securityGroup = try reader["securityGroup"].readIfPresent()
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.stateDetails = try reader["stateDetails"].readIfPresent()
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = EMRcontainersClientTypes.RetryPolicyExecution()
+        value.currentAttemptCount = try reader["currentAttemptCount"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension EMRcontainersClientTypes.Certificate {
+extension EMRcontainersClientTypes.S3MonitoringConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.Certificate {
+    static func write(value: EMRcontainersClientTypes.S3MonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["logUri"].write(value.logUri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.S3MonitoringConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.Certificate()
-        value.certificateArn = try reader["certificateArn"].readIfPresent()
-        value.certificateData = try reader["certificateData"].readIfPresent()
+        var value = EMRcontainersClientTypes.S3MonitoringConfiguration()
+        value.logUri = try reader["logUri"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension EMRcontainersClientTypes.SecureNamespaceInfo {
+
+    static func write(value: EMRcontainersClientTypes.SecureNamespaceInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clusterId"].write(value.clusterId)
+        try writer["namespace"].write(value.namespace)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.SecureNamespaceInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.SecureNamespaceInfo()
+        value.clusterId = try reader["clusterId"].readIfPresent()
+        value.namespace = try reader["namespace"].readIfPresent()
         return value
     }
 }
@@ -3858,49 +3962,55 @@ extension EMRcontainersClientTypes.SecurityConfigurationData {
     }
 }
 
-extension EMRcontainersClientTypes.AuthorizationConfiguration {
+extension EMRcontainersClientTypes.SparkSqlJobDriver {
 
-    static func write(value: EMRcontainersClientTypes.AuthorizationConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EMRcontainersClientTypes.SparkSqlJobDriver?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: EMRcontainersClientTypes.EncryptionConfiguration.write(value:to:))
-        try writer["lakeFormationConfiguration"].write(value.lakeFormationConfiguration, with: EMRcontainersClientTypes.LakeFormationConfiguration.write(value:to:))
+        try writer["entryPoint"].write(value.entryPoint)
+        try writer["sparkSqlParameters"].write(value.sparkSqlParameters)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.AuthorizationConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.SparkSqlJobDriver {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.AuthorizationConfiguration()
-        value.lakeFormationConfiguration = try reader["lakeFormationConfiguration"].readIfPresent(with: EMRcontainersClientTypes.LakeFormationConfiguration.read(from:))
-        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: EMRcontainersClientTypes.EncryptionConfiguration.read(from:))
+        var value = EMRcontainersClientTypes.SparkSqlJobDriver()
+        value.entryPoint = try reader["entryPoint"].readIfPresent()
+        value.sparkSqlParameters = try reader["sparkSqlParameters"].readIfPresent()
         return value
     }
 }
 
-extension EMRcontainersClientTypes.EncryptionConfiguration {
+extension EMRcontainersClientTypes.SparkSubmitJobDriver {
 
-    static func write(value: EMRcontainersClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EMRcontainersClientTypes.SparkSubmitJobDriver?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["inTransitEncryptionConfiguration"].write(value.inTransitEncryptionConfiguration, with: EMRcontainersClientTypes.InTransitEncryptionConfiguration.write(value:to:))
+        try writer["entryPoint"].write(value.entryPoint)
+        try writer["entryPointArguments"].writeList(value.entryPointArguments, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sparkSubmitParameters"].write(value.sparkSubmitParameters)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.EncryptionConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.SparkSubmitJobDriver {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.EncryptionConfiguration()
-        value.inTransitEncryptionConfiguration = try reader["inTransitEncryptionConfiguration"].readIfPresent(with: EMRcontainersClientTypes.InTransitEncryptionConfiguration.read(from:))
+        var value = EMRcontainersClientTypes.SparkSubmitJobDriver()
+        value.entryPoint = try reader["entryPoint"].readIfPresent() ?? ""
+        value.entryPointArguments = try reader["entryPointArguments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sparkSubmitParameters = try reader["sparkSubmitParameters"].readIfPresent()
         return value
     }
 }
 
-extension EMRcontainersClientTypes.InTransitEncryptionConfiguration {
+extension EMRcontainersClientTypes.TemplateParameterConfiguration {
 
-    static func write(value: EMRcontainersClientTypes.InTransitEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EMRcontainersClientTypes.TemplateParameterConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["tlsCertificateConfiguration"].write(value.tlsCertificateConfiguration, with: EMRcontainersClientTypes.TLSCertificateConfiguration.write(value:to:))
+        try writer["defaultValue"].write(value.defaultValue)
+        try writer["type"].write(value.type)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.InTransitEncryptionConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.TemplateParameterConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.InTransitEncryptionConfiguration()
-        value.tlsCertificateConfiguration = try reader["tlsCertificateConfiguration"].readIfPresent(with: EMRcontainersClientTypes.TLSCertificateConfiguration.read(from:))
+        var value = EMRcontainersClientTypes.TemplateParameterConfiguration()
+        value.type = try reader["type"].readIfPresent()
+        value.defaultValue = try reader["defaultValue"].readIfPresent()
         return value
     }
 }
@@ -3924,42 +4034,6 @@ extension EMRcontainersClientTypes.TLSCertificateConfiguration {
     }
 }
 
-extension EMRcontainersClientTypes.LakeFormationConfiguration {
-
-    static func write(value: EMRcontainersClientTypes.LakeFormationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authorizedSessionTagValue"].write(value.authorizedSessionTagValue)
-        try writer["queryEngineRoleArn"].write(value.queryEngineRoleArn)
-        try writer["secureNamespaceInfo"].write(value.secureNamespaceInfo, with: EMRcontainersClientTypes.SecureNamespaceInfo.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.LakeFormationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.LakeFormationConfiguration()
-        value.authorizedSessionTagValue = try reader["authorizedSessionTagValue"].readIfPresent()
-        value.secureNamespaceInfo = try reader["secureNamespaceInfo"].readIfPresent(with: EMRcontainersClientTypes.SecureNamespaceInfo.read(from:))
-        value.queryEngineRoleArn = try reader["queryEngineRoleArn"].readIfPresent()
-        return value
-    }
-}
-
-extension EMRcontainersClientTypes.SecureNamespaceInfo {
-
-    static func write(value: EMRcontainersClientTypes.SecureNamespaceInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clusterId"].write(value.clusterId)
-        try writer["namespace"].write(value.namespace)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.SecureNamespaceInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.SecureNamespaceInfo()
-        value.clusterId = try reader["clusterId"].readIfPresent()
-        value.namespace = try reader["namespace"].readIfPresent()
-        return value
-    }
-}
-
 extension EMRcontainersClientTypes.VirtualCluster {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.VirtualCluster {
@@ -3974,80 +4048,6 @@ extension EMRcontainersClientTypes.VirtualCluster {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.securityConfigurationId = try reader["securityConfigurationId"].readIfPresent()
         return value
-    }
-}
-
-extension EMRcontainersClientTypes.ContainerProvider {
-
-    static func write(value: EMRcontainersClientTypes.ContainerProvider?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["info"].write(value.info, with: EMRcontainersClientTypes.ContainerInfo.write(value:to:))
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.ContainerProvider {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.ContainerProvider()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.info = try reader["info"].readIfPresent(with: EMRcontainersClientTypes.ContainerInfo.read(from:))
-        return value
-    }
-}
-
-extension EMRcontainersClientTypes.ContainerInfo {
-
-    static func write(value: EMRcontainersClientTypes.ContainerInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .eksinfo(eksinfo):
-                try writer["eksInfo"].write(eksinfo, with: EMRcontainersClientTypes.EksInfo.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.ContainerInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "eksInfo":
-                return .eksinfo(try reader["eksInfo"].read(with: EMRcontainersClientTypes.EksInfo.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension EMRcontainersClientTypes.EksInfo {
-
-    static func write(value: EMRcontainersClientTypes.EksInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["namespace"].write(value.namespace)
-        try writer["nodeLabel"].write(value.nodeLabel)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.EksInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRcontainersClientTypes.EksInfo()
-        value.namespace = try reader["namespace"].readIfPresent()
-        value.nodeLabel = try reader["nodeLabel"].readIfPresent()
-        return value
-    }
-}
-
-extension EMRcontainersClientTypes.Credentials {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.Credentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "token":
-                return .token(try reader["token"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
     }
 }
 

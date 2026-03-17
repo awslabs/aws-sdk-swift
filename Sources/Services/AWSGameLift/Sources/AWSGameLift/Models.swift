@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -2861,6 +2861,35 @@ extension GameLiftClientTypes.IpPermission: Swift.CustomDebugStringConvertible {
 
 extension GameLiftClientTypes {
 
+    public enum PlayerGatewayStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PlayerGatewayStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GameLiftClientTypes {
+
     public enum ContainerFleetLocationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case activating
         case active
@@ -2909,6 +2938,12 @@ extension GameLiftClientTypes {
     public struct ContainerFleetLocationAttributes: Swift.Sendable {
         /// A location identifier.
         public var location: Swift.String?
+        /// The current status of player gateway in this location for this container fleet. Note, even if a container fleet has PlayerGatewayMode configured as ENABLED, player gateway might not be available in a specific location. For more information about locations where player gateway is supported, see [Amazon GameLift Servers service locations](https://docs.aws.amazon.com/gameliftservers/latest/developerguide/gamelift-regions.html). Possible values include:
+        ///
+        /// * ENABLED -- Player gateway is available for this container fleet location.
+        ///
+        /// * DISABLED -- Player gateway is not available for this container fleet location.
+        public var playerGatewayStatus: GameLiftClientTypes.PlayerGatewayStatus?
         /// The status of fleet activity in the location.
         ///
         /// * PENDING -- A new container fleet has been requested.
@@ -2926,9 +2961,11 @@ extension GameLiftClientTypes {
 
         public init(
             location: Swift.String? = nil,
+            playerGatewayStatus: GameLiftClientTypes.PlayerGatewayStatus? = nil,
             status: GameLiftClientTypes.ContainerFleetLocationStatus? = nil
         ) {
             self.location = location
+            self.playerGatewayStatus = playerGatewayStatus
             self.status = status
         }
     }
@@ -3018,6 +3055,38 @@ extension GameLiftClientTypes {
             switch self {
             case .fullprotection: return "FullProtection"
             case .noprotection: return "NoProtection"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GameLiftClientTypes {
+
+    public enum PlayerGatewayMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PlayerGatewayMode] {
+            return [
+                .disabled,
+                .enabled,
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case .required: return "REQUIRED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3124,6 +3193,8 @@ extension GameLiftClientTypes {
         public var perInstanceContainerGroupDefinitionArn: Swift.String?
         /// The name of the fleet's per-instance container group definition.
         public var perInstanceContainerGroupDefinitionName: Swift.String?
+        /// Indicates whether player gateway is enabled for this container fleet. Player gateway provides benefits such as DDoS protection with negligible impact to latency. If ENABLED or REQUIRED, game clients can use player gateway to connect with the game server. If DISABLED, game clients cannot use player gateway. Instead, they have to directly connect to the game server.
+        public var playerGatewayMode: GameLiftClientTypes.PlayerGatewayMode?
         /// The current status of the container fleet.
         ///
         /// * PENDING -- A new container fleet has been requested.
@@ -3161,6 +3232,7 @@ extension GameLiftClientTypes {
             newGameSessionProtectionPolicy: GameLiftClientTypes.ProtectionPolicy? = nil,
             perInstanceContainerGroupDefinitionArn: Swift.String? = nil,
             perInstanceContainerGroupDefinitionName: Swift.String? = nil,
+            playerGatewayMode: GameLiftClientTypes.PlayerGatewayMode? = nil,
             status: GameLiftClientTypes.ContainerFleetStatus? = nil
         ) {
             self.billingType = billingType
@@ -3184,6 +3256,7 @@ extension GameLiftClientTypes {
             self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
             self.perInstanceContainerGroupDefinitionArn = perInstanceContainerGroupDefinitionArn
             self.perInstanceContainerGroupDefinitionName = perInstanceContainerGroupDefinitionName
+            self.playerGatewayMode = playerGatewayMode
             self.status = status
         }
     }
@@ -3897,6 +3970,14 @@ public struct CreateContainerFleetInput: Swift.Sendable {
     public var newGameSessionProtectionPolicy: GameLiftClientTypes.ProtectionPolicy?
     /// The name of a container group definition resource that describes a set of axillary software. A fleet instance has one process for executables in this container group. A per-instance container group is optional. You can update the fleet to add or remove a per-instance container group at any time. You can specify the container group definition's name to use the latest version. Alternatively, provide an ARN value with a specific version number. Create a container group definition by calling [https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html). This operation creates a [https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html) resource.
     public var perInstanceContainerGroupDefinitionName: Swift.String?
+    /// Configures player gateway for your fleet. Player gateway provides benefits such as DDoS protection by rate limiting and validating traﬃc before it reaches game servers, hiding game server IP addresses from players, and providing updated endpoints when relay endpoints become unhealthy. How it works: When enabled, game clients connect to relay endpoints instead of to your game servers. Player gateway validates player gateway tokens and routes traffic to the appropriate game server. Your game backend calls [GetPlayerConnectionDetails](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetPlayerConnectionDetails.html) to retrieve relay endpoints and player gateway tokens for your game clients. To learn more about this topic, see [DDoS protection with Amazon GameLift Servers player gateway](https://docs.aws.amazon.com/gameliftservers/latest/developerguide/ddos-protection-intro.html). Possible values include:
+    ///
+    /// * DISABLED (default) -- Game clients connect to the game server endpoint. Use this when you do not intend to integrate your game with player gateway.
+    ///
+    /// * ENABLED -- Player gateway is available in fleet locations where it is supported. Your game backend can call [GetPlayerConnectionDetails](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetPlayerConnectionDetails.html) to obtain a player gateway token and endpoints for game clients.
+    ///
+    /// * REQUIRED -- Player gateway is available in fleet locations where it is supported, and the fleet can only use locations that support this feature. Attempting to add a remote location to your fleet which does not support player gateway will result in an InvalidRequestException.
+    public var playerGatewayMode: GameLiftClientTypes.PlayerGatewayMode?
     /// A list of labels to assign to the new fleet resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     public var tags: [GameLiftClientTypes.Tag]?
 
@@ -3915,6 +3996,7 @@ public struct CreateContainerFleetInput: Swift.Sendable {
         metricGroups: [Swift.String]? = nil,
         newGameSessionProtectionPolicy: GameLiftClientTypes.ProtectionPolicy? = nil,
         perInstanceContainerGroupDefinitionName: Swift.String? = nil,
+        playerGatewayMode: GameLiftClientTypes.PlayerGatewayMode? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil
     ) {
         self.billingType = billingType
@@ -3931,6 +4013,7 @@ public struct CreateContainerFleetInput: Swift.Sendable {
         self.metricGroups = metricGroups
         self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
         self.perInstanceContainerGroupDefinitionName = perInstanceContainerGroupDefinitionName
+        self.playerGatewayMode = playerGatewayMode
         self.tags = tags
     }
 }
@@ -4192,6 +4275,50 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
+    public enum GameServerIpProtocolSupported: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualStack
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GameServerIpProtocolSupported] {
+            return [
+                .dualStack,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualStack: return "DUAL_STACK"
+            case .ipv4: return "IPv4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GameLiftClientTypes {
+
+    /// Configuration settings for player gateway. Use these settings to specify advanced options for how player gateway handles connections.
+    public struct PlayerGatewayConfiguration: Swift.Sendable {
+        /// The IP protocol that your game servers support for player connections through player gateway. If the value is set to IPv4, GameLift will install and execute a lightweight IP translation software on fleet instances to receive and transform incoming IPv6 traffic to IPv4. If the value is set to DUAL_STACK, the lightweight IP translation software will not be installed on fleet instances. DUAL_STACK provides slightly better performance than IPv4.
+        public var gameServerIpProtocolSupported: GameLiftClientTypes.GameServerIpProtocolSupported?
+
+        public init(
+            gameServerIpProtocolSupported: GameLiftClientTypes.GameServerIpProtocolSupported? = nil
+        ) {
+            self.gameServerIpProtocolSupported = gameServerIpProtocolSupported
+        }
+    }
+}
+
+extension GameLiftClientTypes {
+
     /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift Servers checks that the player (identified by CreatorId) has created fewer than game session limit in the specified time period.
     public struct ResourceCreationLimitPolicy: Swift.Sendable {
         /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift Servers checks that the player (identified by CreatorId) has created fewer than game session limit in the specified time period.
@@ -4308,6 +4435,16 @@ public struct CreateFleetInput: Swift.Sendable {
     public var peerVpcAwsAccountId: Swift.String?
     /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift Servers fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the [VPC Dashboard](https://console.aws.amazon.com/vpc/) in the Amazon Web Services Management Console. Learn more about VPC peering in [VPC Peering with Amazon GameLift Servers Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html).
     public var peerVpcId: Swift.String?
+    /// Configuration settings for player gateway. Use this to specify advanced options for how player gateway handles connections.
+    public var playerGatewayConfiguration: GameLiftClientTypes.PlayerGatewayConfiguration?
+    /// Configures player gateway for your fleet. Player gateway provides benefits such as DDoS protection by rate limiting and validating traﬃc before it reaches game servers, hiding game server IP addresses from players, and providing updated endpoints when relay endpoints become unhealthy. Note, player gateway is only available for fleets using server SDK 5.x or later game server builds. How it works: When enabled, game clients connect to relay endpoints instead of to your game servers. Player gateway validates player gateway tokens and routes traffic to the appropriate game server. Your game backend calls [GetPlayerConnectionDetails](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetPlayerConnectionDetails.html) to retrieve relay endpoints and player gateway tokens for your game clients. To learn more about this topic, see [DDoS protection with Amazon GameLift Servers player gateway](https://docs.aws.amazon.com/gameliftservers/latest/developerguide/ddos-protection-intro.html). Possible values include:
+    ///
+    /// * DISABLED (default) -- Game clients connect to the game server endpoint. Use this when you do not intend to integrate your game with player gateway.
+    ///
+    /// * ENABLED -- Player gateway is available in fleet locations where it is supported. Your game backend can call [GetPlayerConnectionDetails](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetPlayerConnectionDetails.html) to obtain a player gateway token and endpoints for game clients.
+    ///
+    /// * REQUIRED -- Player gateway is available in fleet locations where it is supported, and the fleet can only use locations that support this feature. Attempting to add a remote location to your fleet which does not support player gateway will result in an InvalidRequestException.
+    public var playerGatewayMode: GameLiftClientTypes.PlayerGatewayMode?
     /// A policy that limits the number of game sessions that an individual player can create on instances in this fleet within a specified span of time.
     public var resourceCreationLimitPolicy: GameLiftClientTypes.ResourceCreationLimitPolicy?
     /// Instructions for how to launch and run server processes on the fleet. Set runtime configuration for managed EC2 fleets. For an Anywhere fleets, set this parameter only if the fleet is running the Amazon GameLift Servers Agent. The runtime configuration defines one or more server process configurations. Each server process identifies a game executable or Realtime script file and the number of processes to run concurrently. This parameter replaces the parameters ServerLaunchPath and ServerLaunchParameters, which are still supported for backward compatibility.
@@ -4339,6 +4476,8 @@ public struct CreateFleetInput: Swift.Sendable {
         newGameSessionProtectionPolicy: GameLiftClientTypes.ProtectionPolicy? = nil,
         peerVpcAwsAccountId: Swift.String? = nil,
         peerVpcId: Swift.String? = nil,
+        playerGatewayConfiguration: GameLiftClientTypes.PlayerGatewayConfiguration? = nil,
+        playerGatewayMode: GameLiftClientTypes.PlayerGatewayMode? = nil,
         resourceCreationLimitPolicy: GameLiftClientTypes.ResourceCreationLimitPolicy? = nil,
         runtimeConfiguration: GameLiftClientTypes.RuntimeConfiguration? = nil,
         scriptId: Swift.String? = nil,
@@ -4363,6 +4502,8 @@ public struct CreateFleetInput: Swift.Sendable {
         self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
         self.peerVpcAwsAccountId = peerVpcAwsAccountId
         self.peerVpcId = peerVpcId
+        self.playerGatewayConfiguration = playerGatewayConfiguration
+        self.playerGatewayMode = playerGatewayMode
         self.resourceCreationLimitPolicy = resourceCreationLimitPolicy
         self.runtimeConfiguration = runtimeConfiguration
         self.scriptId = scriptId
@@ -4502,6 +4643,10 @@ extension GameLiftClientTypes {
         public var newGameSessionProtectionPolicy: GameLiftClientTypes.ProtectionPolicy?
         /// The operating system of the fleet's computing resources. A fleet's operating system is determined by the OS of the build or script that is deployed on this fleet. This attribute is used with fleets where ComputeType is EC2. Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more details in the [Amazon Linux 2 FAQs](http://aws.amazon.com/aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
         public var operatingSystem: GameLiftClientTypes.OperatingSystem?
+        /// Configuration settings for player gateway on this fleet.
+        public var playerGatewayConfiguration: GameLiftClientTypes.PlayerGatewayConfiguration?
+        /// Indicates whether player gateway is enabled for this fleet. Player gateway provides benefits such as DDoS protection with negligible impact to latency. If ENABLED or REQUIRED, game clients can use player gateway to connect with the game server. If DISABLED, game clients cannot use player gateway. Instead, they have to directly connect to the game server.
+        public var playerGatewayMode: GameLiftClientTypes.PlayerGatewayMode?
         /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift Servers checks that the player (identified by CreatorId) has created fewer than game session limit in the specified time period.
         public var resourceCreationLimitPolicy: GameLiftClientTypes.ResourceCreationLimitPolicy?
         /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) associated with the GameLift script resource that is deployed on instances in this fleet. In a GameLift script ARN, the resource ID matches the ScriptId value.
@@ -4552,6 +4697,8 @@ extension GameLiftClientTypes {
             name: Swift.String? = nil,
             newGameSessionProtectionPolicy: GameLiftClientTypes.ProtectionPolicy? = nil,
             operatingSystem: GameLiftClientTypes.OperatingSystem? = nil,
+            playerGatewayConfiguration: GameLiftClientTypes.PlayerGatewayConfiguration? = nil,
+            playerGatewayMode: GameLiftClientTypes.PlayerGatewayMode? = nil,
             resourceCreationLimitPolicy: GameLiftClientTypes.ResourceCreationLimitPolicy? = nil,
             scriptArn: Swift.String? = nil,
             scriptId: Swift.String? = nil,
@@ -4579,6 +4726,8 @@ extension GameLiftClientTypes {
             self.name = name
             self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
             self.operatingSystem = operatingSystem
+            self.playerGatewayConfiguration = playerGatewayConfiguration
+            self.playerGatewayMode = playerGatewayMode
             self.resourceCreationLimitPolicy = resourceCreationLimitPolicy
             self.scriptArn = scriptArn
             self.scriptId = scriptId
@@ -4611,14 +4760,22 @@ extension GameLiftClientTypes {
     public struct LocationState: Swift.Sendable {
         /// The fleet location, expressed as an Amazon Web Services Region code such as us-west-2.
         public var location: Swift.String?
+        /// The current status of player gateway in this location for this fleet. Note, even if a fleet has PlayerGatewayMode configured as ENABLED, player gateway might not be available in a specific location. For more information about locations where player gateway is supported, see [Amazon GameLift Servers service locations](https://docs.aws.amazon.com/gameliftservers/latest/developerguide/gamelift-regions.html). Possible values include:
+        ///
+        /// * ENABLED -- Player gateway is available for this fleet location.
+        ///
+        /// * DISABLED -- Player gateway is not available for this fleet location.
+        public var playerGatewayStatus: GameLiftClientTypes.PlayerGatewayStatus?
         /// The life-cycle status of a fleet location.
         public var status: GameLiftClientTypes.FleetStatus?
 
         public init(
             location: Swift.String? = nil,
+            playerGatewayStatus: GameLiftClientTypes.PlayerGatewayStatus? = nil,
             status: GameLiftClientTypes.FleetStatus? = nil
         ) {
             self.location = location
+            self.playerGatewayStatus = playerGatewayStatus
             self.status = status
         }
     }
@@ -5389,7 +5546,11 @@ extension GameLiftClientTypes {
 
     /// This key-value pair can store custom data about a game session. For example, you might use a GameProperty to track a game session's map, level of difficulty, or remaining time. The difficulty level could be specified like this: {"Key": "difficulty", "Value":"Novice"}. You can set game properties when creating a game session. You can also modify game properties of an active game session. When searching for game sessions, you can filter on game property keys and values. You can't delete game properties from a game session. For examples of working with game properties, see [Create a game session with properties](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties).
     public struct GameProperty: Swift.Sendable {
-        /// The game property identifier. Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+        /// The game property identifier.
+        ///
+        /// * Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+        ///
+        /// * If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results.
         /// This member is required.
         public var key: Swift.String?
         /// The game property value.
@@ -5413,7 +5574,11 @@ public struct CreateGameSessionInput: Swift.Sendable {
     public var creatorId: Swift.String?
     /// A unique identifier for the fleet to create a game session in. You can use either the fleet ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both.
     public var fleetId: Swift.String?
-    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. For an example, see [Create a game session with custom properties](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-create). Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. For an example, see [Create a game session with custom properties](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-create).
+    ///
+    /// * Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+    ///
+    /// * If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results.
     public var gameProperties: [GameLiftClientTypes.GameProperty]?
     /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see [Start a game session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession).
     public var gameSessionData: Swift.String?
@@ -5576,7 +5741,11 @@ extension GameLiftClientTypes {
         public var fleetArn: Swift.String?
         /// A unique identifier for the fleet that the game session is running on.
         public var fleetId: Swift.String?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.
+        ///
+        /// * Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+        ///
+        /// * If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results.
         public var gameProperties: [GameLiftClientTypes.GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see [Start a game session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession).
         public var gameSessionData: Swift.String?
@@ -5592,6 +5761,12 @@ extension GameLiftClientTypes {
         public var maximumPlayerSessionCount: Swift.Int?
         /// A descriptive label that is associated with a game session. Session names do not need to be unique.
         public var name: Swift.String?
+        /// Indicates whether player gateway is available for use for this game session. Note, even if a fleet has PlayerGatewayMode configured as ENABLED, player gateway might not be available in a specific location. For more information about locations where player gateway is supported, see [Amazon GameLift Servers service locations](https://docs.aws.amazon.com/gameliftservers/latest/developerguide/gamelift-regions.html). Possible values include:
+        ///
+        /// * ENABLED -- Player gateway is available for routing player connections for this game session.
+        ///
+        /// * DISABLED -- Player gateway is not available for this game session.
+        public var playerGatewayStatus: GameLiftClientTypes.PlayerGatewayStatus?
         /// Indicates whether the game session is accepting new players.
         public var playerSessionCreationPolicy: GameLiftClientTypes.PlayerSessionCreationPolicy?
         /// The port number for the game session. To connect to a Amazon GameLift Servers game server, an app needs both the IP address and port number.
@@ -5624,6 +5799,7 @@ extension GameLiftClientTypes {
             matchmakerData: Swift.String? = nil,
             maximumPlayerSessionCount: Swift.Int? = nil,
             name: Swift.String? = nil,
+            playerGatewayStatus: GameLiftClientTypes.PlayerGatewayStatus? = nil,
             playerSessionCreationPolicy: GameLiftClientTypes.PlayerSessionCreationPolicy? = nil,
             port: Swift.Int? = nil,
             status: GameLiftClientTypes.GameSessionStatus? = nil,
@@ -5644,6 +5820,7 @@ extension GameLiftClientTypes {
             self.matchmakerData = matchmakerData
             self.maximumPlayerSessionCount = maximumPlayerSessionCount
             self.name = name
+            self.playerGatewayStatus = playerGatewayStatus
             self.playerSessionCreationPolicy = playerSessionCreationPolicy
             self.port = port
             self.status = status
@@ -5655,7 +5832,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes.GameSession: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GameSession(creationTime: \(Swift.String(describing: creationTime)), creatorId: \(Swift.String(describing: creatorId)), currentPlayerSessionCount: \(Swift.String(describing: currentPlayerSessionCount)), dnsName: \(Swift.String(describing: dnsName)), fleetArn: \(Swift.String(describing: fleetArn)), fleetId: \(Swift.String(describing: fleetId)), gameProperties: \(Swift.String(describing: gameProperties)), gameSessionData: \(Swift.String(describing: gameSessionData)), gameSessionId: \(Swift.String(describing: gameSessionId)), location: \(Swift.String(describing: location)), matchmakerData: \(Swift.String(describing: matchmakerData)), maximumPlayerSessionCount: \(Swift.String(describing: maximumPlayerSessionCount)), name: \(Swift.String(describing: name)), playerSessionCreationPolicy: \(Swift.String(describing: playerSessionCreationPolicy)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), terminationTime: \(Swift.String(describing: terminationTime)), ipAddress: \"CONTENT_REDACTED\", port: \"CONTENT_REDACTED\")"}
+        "GameSession(creationTime: \(Swift.String(describing: creationTime)), creatorId: \(Swift.String(describing: creatorId)), currentPlayerSessionCount: \(Swift.String(describing: currentPlayerSessionCount)), dnsName: \(Swift.String(describing: dnsName)), fleetArn: \(Swift.String(describing: fleetArn)), fleetId: \(Swift.String(describing: fleetId)), gameProperties: \(Swift.String(describing: gameProperties)), gameSessionData: \(Swift.String(describing: gameSessionData)), gameSessionId: \(Swift.String(describing: gameSessionId)), location: \(Swift.String(describing: location)), matchmakerData: \(Swift.String(describing: matchmakerData)), maximumPlayerSessionCount: \(Swift.String(describing: maximumPlayerSessionCount)), name: \(Swift.String(describing: name)), playerGatewayStatus: \(Swift.String(describing: playerGatewayStatus)), playerSessionCreationPolicy: \(Swift.String(describing: playerSessionCreationPolicy)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), terminationTime: \(Swift.String(describing: terminationTime)), ipAddress: \"CONTENT_REDACTED\", port: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateGameSessionOutput: Swift.Sendable {
@@ -6019,7 +6196,11 @@ public struct CreateMatchmakingConfigurationInput: Swift.Sendable {
     ///
     /// * WITH_QUEUE - FlexMatch forms matches and uses the specified Amazon GameLift Servers queue to start a game session for the match.
     public var flexMatchMode: GameLiftClientTypes.FlexMatchMode?
-    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE. Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
+    ///
+    /// * Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+    ///
+    /// * If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results.
     public var gameProperties: [GameLiftClientTypes.GameProperty]?
     /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see [Start a game session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession). This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
     public var gameSessionData: Swift.String?
@@ -6100,7 +6281,11 @@ extension GameLiftClientTypes {
         ///
         /// * WITH_QUEUE - FlexMatch forms matches and uses the specified Amazon GameLift Servers queue to start a game session for the match.
         public var flexMatchMode: GameLiftClientTypes.FlexMatchMode?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE. Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.
+        ///
+        /// * Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+        ///
+        /// * If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results.
         public var gameProperties: [GameLiftClientTypes.GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see [Start a game session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession). This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.
         public var gameSessionData: Swift.String?
@@ -8668,7 +8853,11 @@ extension GameLiftClientTypes {
         public var dnsName: Swift.String?
         /// Time stamp indicating when this request was completed, canceled, or timed out.
         public var endTime: Foundation.Date?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.
+        ///
+        /// * Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+        ///
+        /// * If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results.
         public var gameProperties: [GameLiftClientTypes.GameProperty]?
         /// Identifier for the game session created by this placement request. This identifier is unique across all Regions. This value isn't final until placement status is FULFILLED.
         public var gameSessionArn: Swift.String?
@@ -8692,6 +8881,12 @@ extension GameLiftClientTypes {
         public var placedPlayerSessions: [GameLiftClientTypes.PlacedPlayerSession]?
         /// A unique identifier for a game session placement.
         public var placementId: Swift.String?
+        /// The current status of player gateway for the game session placement. Note, even if a fleet has PlayerGatewayMode configured as ENABLED, player gateway might not be available in a specific location. For more information about locations where player gateway is supported, see [Amazon GameLift Servers service locations](https://docs.aws.amazon.com/gameliftservers/latest/developerguide/gamelift-regions.html). Possible values include:
+        ///
+        /// * ENABLED -- Player gateway is available for this game session placement.
+        ///
+        /// * DISABLED -- Player gateway is not available for this game session placement.
+        public var playerGatewayStatus: GameLiftClientTypes.PlayerGatewayStatus?
         /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to Amazon Web Services Regions.
         public var playerLatencies: [GameLiftClientTypes.PlayerLatency]?
         /// The port number for the game session. To connect to a Amazon GameLift Servers game server, an app needs both the IP address and port number. This value isn't final until placement status is FULFILLED.
@@ -8728,6 +8923,7 @@ extension GameLiftClientTypes {
             maximumPlayerSessionCount: Swift.Int? = nil,
             placedPlayerSessions: [GameLiftClientTypes.PlacedPlayerSession]? = nil,
             placementId: Swift.String? = nil,
+            playerGatewayStatus: GameLiftClientTypes.PlayerGatewayStatus? = nil,
             playerLatencies: [GameLiftClientTypes.PlayerLatency]? = nil,
             port: Swift.Int? = nil,
             priorityConfigurationOverride: GameLiftClientTypes.PriorityConfigurationOverride? = nil,
@@ -8748,6 +8944,7 @@ extension GameLiftClientTypes {
             self.maximumPlayerSessionCount = maximumPlayerSessionCount
             self.placedPlayerSessions = placedPlayerSessions
             self.placementId = placementId
+            self.playerGatewayStatus = playerGatewayStatus
             self.playerLatencies = playerLatencies
             self.port = port
             self.priorityConfigurationOverride = priorityConfigurationOverride
@@ -8759,7 +8956,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes.GameSessionPlacement: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GameSessionPlacement(dnsName: \(Swift.String(describing: dnsName)), endTime: \(Swift.String(describing: endTime)), gameProperties: \(Swift.String(describing: gameProperties)), gameSessionArn: \(Swift.String(describing: gameSessionArn)), gameSessionData: \(Swift.String(describing: gameSessionData)), gameSessionId: \(Swift.String(describing: gameSessionId)), gameSessionName: \(Swift.String(describing: gameSessionName)), gameSessionQueueName: \(Swift.String(describing: gameSessionQueueName)), gameSessionRegion: \(Swift.String(describing: gameSessionRegion)), matchmakerData: \(Swift.String(describing: matchmakerData)), maximumPlayerSessionCount: \(Swift.String(describing: maximumPlayerSessionCount)), placedPlayerSessions: \(Swift.String(describing: placedPlayerSessions)), placementId: \(Swift.String(describing: placementId)), playerLatencies: \(Swift.String(describing: playerLatencies)), priorityConfigurationOverride: \(Swift.String(describing: priorityConfigurationOverride)), startTime: \(Swift.String(describing: startTime)), status: \(Swift.String(describing: status)), ipAddress: \"CONTENT_REDACTED\", port: \"CONTENT_REDACTED\")"}
+        "GameSessionPlacement(dnsName: \(Swift.String(describing: dnsName)), endTime: \(Swift.String(describing: endTime)), gameProperties: \(Swift.String(describing: gameProperties)), gameSessionArn: \(Swift.String(describing: gameSessionArn)), gameSessionData: \(Swift.String(describing: gameSessionData)), gameSessionId: \(Swift.String(describing: gameSessionId)), gameSessionName: \(Swift.String(describing: gameSessionName)), gameSessionQueueName: \(Swift.String(describing: gameSessionQueueName)), gameSessionRegion: \(Swift.String(describing: gameSessionRegion)), matchmakerData: \(Swift.String(describing: matchmakerData)), maximumPlayerSessionCount: \(Swift.String(describing: maximumPlayerSessionCount)), placedPlayerSessions: \(Swift.String(describing: placedPlayerSessions)), placementId: \(Swift.String(describing: placementId)), playerGatewayStatus: \(Swift.String(describing: playerGatewayStatus)), playerLatencies: \(Swift.String(describing: playerLatencies)), priorityConfigurationOverride: \(Swift.String(describing: priorityConfigurationOverride)), startTime: \(Swift.String(describing: startTime)), status: \(Swift.String(describing: status)), ipAddress: \"CONTENT_REDACTED\", port: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeGameSessionPlacementOutput: Swift.Sendable {
@@ -9056,6 +9253,12 @@ extension GameLiftClientTypes {
         public var ipAddress: Swift.String?
         /// A collection of player session IDs, one for each player ID that was included in the original matchmaking request.
         public var matchedPlayerSessions: [GameLiftClientTypes.MatchedPlayerSession]?
+        /// The current status of player gateway for the game session. Note, even if a fleet has PlayerGatewayMode configured as ENABLED, player gateway might not be available in a specific location. For more information about locations where player gateway is supported, see [supported locations](https://docs.aws.amazon.com/gameliftservers/latest/developerguide/gamelift-regions.html). Possible values include:
+        ///
+        /// * ENABLED -- Player gateway is available for this game session.
+        ///
+        /// * DISABLED -- Player gateway is not available for this game session.
+        public var playerGatewayStatus: GameLiftClientTypes.PlayerGatewayStatus?
         /// The port number for the game session. To connect to a Amazon GameLift Servers game server, an app needs both the IP address and port number.
         public var port: Swift.Int?
 
@@ -9064,12 +9267,14 @@ extension GameLiftClientTypes {
             gameSessionArn: Swift.String? = nil,
             ipAddress: Swift.String? = nil,
             matchedPlayerSessions: [GameLiftClientTypes.MatchedPlayerSession]? = nil,
+            playerGatewayStatus: GameLiftClientTypes.PlayerGatewayStatus? = nil,
             port: Swift.Int? = nil
         ) {
             self.dnsName = dnsName
             self.gameSessionArn = gameSessionArn
             self.ipAddress = ipAddress
             self.matchedPlayerSessions = matchedPlayerSessions
+            self.playerGatewayStatus = playerGatewayStatus
             self.port = port
         }
     }
@@ -9077,7 +9282,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes.GameSessionConnectionInfo: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GameSessionConnectionInfo(dnsName: \(Swift.String(describing: dnsName)), gameSessionArn: \(Swift.String(describing: gameSessionArn)), matchedPlayerSessions: \(Swift.String(describing: matchedPlayerSessions)), port: \(Swift.String(describing: port)), ipAddress: \"CONTENT_REDACTED\")"}
+        "GameSessionConnectionInfo(dnsName: \(Swift.String(describing: dnsName)), gameSessionArn: \(Swift.String(describing: gameSessionArn)), matchedPlayerSessions: \(Swift.String(describing: matchedPlayerSessions)), playerGatewayStatus: \(Swift.String(describing: playerGatewayStatus)), port: \(Swift.String(describing: port)), ipAddress: \"CONTENT_REDACTED\")"}
 }
 
 extension GameLiftClientTypes {
@@ -10105,6 +10310,99 @@ public struct GetInstanceAccessOutput: Swift.Sendable {
     }
 }
 
+public struct GetPlayerConnectionDetailsInput: Swift.Sendable {
+    /// A unique identifier for the game session for which to retrieve player connection details.
+    /// This member is required.
+    public var gameSessionId: Swift.String?
+    /// List of unique identifiers for players. Connection details are returned for each player in this list.
+    /// This member is required.
+    public var playerIds: [Swift.String]?
+
+    public init(
+        gameSessionId: Swift.String? = nil,
+        playerIds: [Swift.String]? = nil
+    ) {
+        self.gameSessionId = gameSessionId
+        self.playerIds = playerIds
+    }
+}
+
+extension GetPlayerConnectionDetailsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetPlayerConnectionDetailsInput(gameSessionId: \(Swift.String(describing: gameSessionId)), playerIds: \"CONTENT_REDACTED\")"}
+}
+
+extension GameLiftClientTypes {
+
+    /// Network address(es) and port(s) for connecting to a game session.
+    public struct PlayerConnectionEndpoint: Swift.Sendable {
+        /// IP address for connecting to the game session. When player gateway is enabled, this is a player gateway IP address. When player gateway is disabled, this is the game server IP address.
+        public var ipAddress: Swift.String?
+        /// Port number for connecting to the game session. When player gateway is enabled, this is a player gateway port. When player gateway is disabled, this is the game server port.
+        public var port: Swift.Int?
+
+        public init(
+            ipAddress: Swift.String? = nil,
+            port: Swift.Int? = nil
+        ) {
+            self.ipAddress = ipAddress
+            self.port = port
+        }
+    }
+}
+
+extension GameLiftClientTypes.PlayerConnectionEndpoint: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PlayerConnectionEndpoint(ipAddress: \"CONTENT_REDACTED\", port: \"CONTENT_REDACTED\")"}
+}
+
+extension GameLiftClientTypes {
+
+    /// Connection information for a game client to connect to a game session. This object contains the IP address(es), port(s), and authentication details your game client needs to establish a connection. With player gateway enabled: Contains relay endpoints and a player gateway token. Your game client must prepend player gateway token to each payload for validation and connection through relay endpoints. With player gateway disabled: Contains game server endpoint. Player gateway token and expiration fields are empty.
+    public struct PlayerConnectionDetail: Swift.Sendable {
+        /// List of connection endpoints for the game client. Your game client uses these IP address(es) and port(s) to connect to the game session. When player gateway is enabled, these are relay endpoints with benefits such as DDoS protection. When disabled, this is the game server endpoint.
+        public var endpoints: [GameLiftClientTypes.PlayerConnectionEndpoint]?
+        /// When player gateway is enabled, this is the timestamp indicating when player gateway token expires. Your game backend should call [GetPlayerConnectionDetails](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetPlayerConnectionDetails.html) to retrieve fresh connection information for your game clients before this time. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057"). This value is empty when player gateway is disabled.
+        public var expiration: Foundation.Date?
+        /// Access token that your game client must prepend to all traffic sent through player gateway. Player gateway verifies identity and authorizes connection based on this token. This value is empty when player gateway is disabled.
+        public var playerGatewayToken: Swift.String?
+        /// A unique identifier for a player associated with this connection.
+        public var playerId: Swift.String?
+
+        public init(
+            endpoints: [GameLiftClientTypes.PlayerConnectionEndpoint]? = nil,
+            expiration: Foundation.Date? = nil,
+            playerGatewayToken: Swift.String? = nil,
+            playerId: Swift.String? = nil
+        ) {
+            self.endpoints = endpoints
+            self.expiration = expiration
+            self.playerGatewayToken = playerGatewayToken
+            self.playerId = playerId
+        }
+    }
+}
+
+extension GameLiftClientTypes.PlayerConnectionDetail: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PlayerConnectionDetail(endpoints: \(Swift.String(describing: endpoints)), expiration: \(Swift.String(describing: expiration)), playerGatewayToken: \(Swift.String(describing: playerGatewayToken)), playerId: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetPlayerConnectionDetailsOutput: Swift.Sendable {
+    /// A unique identifier for the game session for which the player connection details were retrieved.
+    public var gameSessionId: Swift.String?
+    /// A collection of player connection detail objects, one for each requested player.
+    public var playerConnectionDetails: [GameLiftClientTypes.PlayerConnectionDetail]?
+
+    public init(
+        gameSessionId: Swift.String? = nil,
+        playerConnectionDetails: [GameLiftClientTypes.PlayerConnectionDetail]? = nil
+    ) {
+        self.gameSessionId = gameSessionId
+        self.playerConnectionDetails = playerConnectionDetails
+    }
+}
+
 public struct ListAliasesInput: Swift.Sendable {
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var limit: Swift.Int?
@@ -11040,7 +11338,11 @@ public struct StartFleetActionsOutput: Swift.Sendable {
 public struct StartGameSessionPlacementInput: Swift.Sendable {
     /// Set of information on each player to create a player session for.
     public var desiredPlayerSessions: [GameLiftClientTypes.DesiredPlayerSession]?
-    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.
+    ///
+    /// * Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+    ///
+    /// * If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results.
     public var gameProperties: [GameLiftClientTypes.GameProperty]?
     /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see [Start a game session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession).
     public var gameSessionData: Swift.String?
@@ -11824,7 +12126,11 @@ public struct UpdateGameServerGroupOutput: Swift.Sendable {
 }
 
 public struct UpdateGameSessionInput: Swift.Sendable {
-    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. You can use this parameter to modify game properties in an active game session. This action adds new properties and modifies existing properties. There is no way to delete properties. For an example, see [Update the value of a game property](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-update). Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. You can use this parameter to modify game properties in an active game session. This action adds new properties and modifies existing properties. There is no way to delete properties. For an example, see [Update the value of a game property](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-update).
+    ///
+    /// * Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+    ///
+    /// * If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results.
     public var gameProperties: [GameLiftClientTypes.GameProperty]?
     /// A unique identifier for the game session to update.
     /// This member is required.
@@ -11940,7 +12246,11 @@ public struct UpdateMatchmakingConfigurationInput: Swift.Sendable {
     ///
     /// * WITH_QUEUE - FlexMatch forms matches and uses the specified Amazon GameLift Servers queue to start a game session for the match.
     public var flexMatchMode: GameLiftClientTypes.FlexMatchMode?
-    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE. Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
+    ///
+    /// * Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+    ///
+    /// * If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results.
     public var gameProperties: [GameLiftClientTypes.GameProperty]?
     /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see [Start a game session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession). This information is added to the game session that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
     public var gameSessionData: Swift.String?
@@ -12594,6 +12904,13 @@ extension GetInstanceAccessInput {
     }
 }
 
+extension GetPlayerConnectionDetailsInput {
+
+    static func urlPathProvider(_ value: GetPlayerConnectionDetailsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListAliasesInput {
 
     static func urlPathProvider(_ value: ListAliasesInput) -> Swift.String? {
@@ -12979,6 +13296,7 @@ extension CreateContainerFleetInput {
         try writer["MetricGroups"].writeList(value.metricGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["NewGameSessionProtectionPolicy"].write(value.newGameSessionProtectionPolicy)
         try writer["PerInstanceContainerGroupDefinitionName"].write(value.perInstanceContainerGroupDefinitionName)
+        try writer["PlayerGatewayMode"].write(value.playerGatewayMode)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: GameLiftClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -13020,6 +13338,8 @@ extension CreateFleetInput {
         try writer["NewGameSessionProtectionPolicy"].write(value.newGameSessionProtectionPolicy)
         try writer["PeerVpcAwsAccountId"].write(value.peerVpcAwsAccountId)
         try writer["PeerVpcId"].write(value.peerVpcId)
+        try writer["PlayerGatewayConfiguration"].write(value.playerGatewayConfiguration, with: GameLiftClientTypes.PlayerGatewayConfiguration.write(value:to:))
+        try writer["PlayerGatewayMode"].write(value.playerGatewayMode)
         try writer["ResourceCreationLimitPolicy"].write(value.resourceCreationLimitPolicy, with: GameLiftClientTypes.ResourceCreationLimitPolicy.write(value:to:))
         try writer["RuntimeConfiguration"].write(value.runtimeConfiguration, with: GameLiftClientTypes.RuntimeConfiguration.write(value:to:))
         try writer["ScriptId"].write(value.scriptId)
@@ -13671,6 +13991,15 @@ extension GetInstanceAccessInput {
         guard let value else { return }
         try writer["FleetId"].write(value.fleetId)
         try writer["InstanceId"].write(value.instanceId)
+    }
+}
+
+extension GetPlayerConnectionDetailsInput {
+
+    static func write(value: GetPlayerConnectionDetailsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GameSessionId"].write(value.gameSessionId)
+        try writer["PlayerIds"].writeList(value.playerIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -15010,6 +15339,19 @@ extension GetInstanceAccessOutput {
     }
 }
 
+extension GetPlayerConnectionDetailsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPlayerConnectionDetailsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPlayerConnectionDetailsOutput()
+        value.gameSessionId = try reader["GameSessionId"].readIfPresent()
+        value.playerConnectionDetails = try reader["PlayerConnectionDetails"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.PlayerConnectionDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListAliasesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAliasesOutput {
@@ -15574,7 +15916,7 @@ enum AcceptMatchOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -15591,7 +15933,7 @@ enum ClaimGameServerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -15610,7 +15952,7 @@ enum CreateAliasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -15629,7 +15971,7 @@ enum CreateBuildOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -15647,7 +15989,7 @@ enum CreateContainerFleetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -15667,7 +16009,7 @@ enum CreateContainerGroupDefinitionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -15687,7 +16029,7 @@ enum CreateFleetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -15709,7 +16051,7 @@ enum CreateFleetLocationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -15731,7 +16073,7 @@ enum CreateGameServerGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -15749,7 +16091,7 @@ enum CreateGameSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -15773,7 +16115,7 @@ enum CreateGameSessionQueueOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -15792,7 +16134,7 @@ enum CreateLocationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -15811,7 +16153,7 @@ enum CreateMatchmakingConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -15830,7 +16172,7 @@ enum CreateMatchmakingRuleSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -15848,7 +16190,7 @@ enum CreatePlayerSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GameSessionFullException": return try GameSessionFullException.makeError(baseError: baseError)
@@ -15868,7 +16210,7 @@ enum CreatePlayerSessionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GameSessionFullException": return try GameSessionFullException.makeError(baseError: baseError)
@@ -15888,7 +16230,7 @@ enum CreateScriptOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -15906,7 +16248,7 @@ enum CreateVpcPeeringAuthorizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -15923,7 +16265,7 @@ enum CreateVpcPeeringConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -15940,7 +16282,7 @@ enum DeleteAliasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -15958,7 +16300,7 @@ enum DeleteBuildOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -15976,7 +16318,7 @@ enum DeleteContainerFleetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -15995,7 +16337,7 @@ enum DeleteContainerGroupDefinitionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16014,7 +16356,7 @@ enum DeleteFleetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16033,7 +16375,7 @@ enum DeleteFleetLocationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16051,7 +16393,7 @@ enum DeleteGameServerGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16068,7 +16410,7 @@ enum DeleteGameSessionQueueOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16086,7 +16428,7 @@ enum DeleteLocationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16103,7 +16445,7 @@ enum DeleteMatchmakingConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16121,7 +16463,7 @@ enum DeleteMatchmakingRuleSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16139,7 +16481,7 @@ enum DeleteScalingPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16157,7 +16499,7 @@ enum DeleteScriptOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16175,7 +16517,7 @@ enum DeleteVpcPeeringAuthorizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16192,7 +16534,7 @@ enum DeleteVpcPeeringConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16209,7 +16551,7 @@ enum DeregisterComputeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16226,7 +16568,7 @@ enum DeregisterGameServerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16243,7 +16585,7 @@ enum DescribeAliasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16260,7 +16602,7 @@ enum DescribeBuildOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16277,7 +16619,7 @@ enum DescribeComputeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16295,7 +16637,7 @@ enum DescribeContainerFleetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16313,7 +16655,7 @@ enum DescribeContainerGroupDefinitionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16331,7 +16673,7 @@ enum DescribeEC2InstanceLimitsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16348,7 +16690,7 @@ enum DescribeFleetAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16365,7 +16707,7 @@ enum DescribeFleetCapacityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16383,7 +16725,7 @@ enum DescribeFleetDeploymentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16401,7 +16743,7 @@ enum DescribeFleetEventsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16419,7 +16761,7 @@ enum DescribeFleetLocationAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16437,7 +16779,7 @@ enum DescribeFleetLocationCapacityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16455,7 +16797,7 @@ enum DescribeFleetLocationUtilizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16473,7 +16815,7 @@ enum DescribeFleetPortSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16491,7 +16833,7 @@ enum DescribeFleetUtilizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16508,7 +16850,7 @@ enum DescribeGameServerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16525,7 +16867,7 @@ enum DescribeGameServerGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16542,7 +16884,7 @@ enum DescribeGameServerInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16559,7 +16901,7 @@ enum DescribeGameSessionDetailsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16578,7 +16920,7 @@ enum DescribeGameSessionPlacementOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16595,7 +16937,7 @@ enum DescribeGameSessionQueuesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16612,7 +16954,7 @@ enum DescribeGameSessionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16631,7 +16973,7 @@ enum DescribeInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16649,7 +16991,7 @@ enum DescribeMatchmakingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16665,7 +17007,7 @@ enum DescribeMatchmakingConfigurationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16681,7 +17023,7 @@ enum DescribeMatchmakingRuleSetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16698,7 +17040,7 @@ enum DescribePlayerSessionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16715,7 +17057,7 @@ enum DescribeRuntimeConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16732,7 +17074,7 @@ enum DescribeScalingPoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16750,7 +17092,7 @@ enum DescribeScriptOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16767,7 +17109,7 @@ enum DescribeVpcPeeringAuthorizationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16783,7 +17125,7 @@ enum DescribeVpcPeeringConnectionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16800,7 +17142,7 @@ enum GetComputeAccessOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16818,7 +17160,7 @@ enum GetComputeAuthTokenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16836,7 +17178,7 @@ enum GetGameSessionLogUrlOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16853,7 +17195,7 @@ enum GetInstanceAccessOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16865,12 +17207,32 @@ enum GetInstanceAccessOutputError {
     }
 }
 
+enum GetPlayerConnectionDetailsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidGameSessionStatusException": return try InvalidGameSessionStatusException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "UnsupportedRegionException": return try UnsupportedRegionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAliasesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16886,7 +17248,7 @@ enum ListBuildsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16902,7 +17264,7 @@ enum ListComputeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16919,7 +17281,7 @@ enum ListContainerFleetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16936,7 +17298,7 @@ enum ListContainerGroupDefinitionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16953,7 +17315,7 @@ enum ListContainerGroupDefinitionVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16971,7 +17333,7 @@ enum ListFleetDeploymentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -16989,7 +17351,7 @@ enum ListFleetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17006,7 +17368,7 @@ enum ListGameServerGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17022,7 +17384,7 @@ enum ListGameServersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17038,7 +17400,7 @@ enum ListLocationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17054,7 +17416,7 @@ enum ListScriptsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17070,7 +17432,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17088,7 +17450,7 @@ enum PutScalingPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17106,7 +17468,7 @@ enum RegisterComputeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -17125,7 +17487,7 @@ enum RegisterGameServerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -17143,7 +17505,7 @@ enum RequestUploadCredentialsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17160,7 +17522,7 @@ enum ResolveAliasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17178,7 +17540,7 @@ enum ResumeGameServerGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17195,7 +17557,7 @@ enum SearchGameSessionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17214,7 +17576,7 @@ enum StartFleetActionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17232,7 +17594,7 @@ enum StartGameSessionPlacementOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17250,7 +17612,7 @@ enum StartMatchBackfillOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17267,7 +17629,7 @@ enum StartMatchmakingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17284,7 +17646,7 @@ enum StopFleetActionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17302,7 +17664,7 @@ enum StopGameSessionPlacementOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17319,7 +17681,7 @@ enum StopMatchmakingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17336,7 +17698,7 @@ enum SuspendGameServerGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17353,7 +17715,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17371,7 +17733,7 @@ enum TerminateGameSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17390,7 +17752,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17408,7 +17770,7 @@ enum UpdateAliasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17425,7 +17787,7 @@ enum UpdateBuildOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17442,7 +17804,7 @@ enum UpdateContainerFleetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17462,7 +17824,7 @@ enum UpdateContainerGroupDefinitionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17481,7 +17843,7 @@ enum UpdateFleetAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -17501,7 +17863,7 @@ enum UpdateFleetCapacityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -17522,7 +17884,7 @@ enum UpdateFleetPortSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -17542,7 +17904,7 @@ enum UpdateGameServerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17559,7 +17921,7 @@ enum UpdateGameServerGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17576,7 +17938,7 @@ enum UpdateGameSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -17596,7 +17958,7 @@ enum UpdateGameSessionQueueOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17613,7 +17975,7 @@ enum UpdateMatchmakingConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17630,7 +17992,7 @@ enum UpdateRuntimeConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17649,7 +18011,7 @@ enum UpdateScriptOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17666,7 +18028,7 @@ enum ValidateMatchmakingRuleSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -17679,7 +18041,7 @@ enum ValidateMatchmakingRuleSetOutputError {
 
 extension InternalServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServiceException {
         let reader = baseError.errorBodyReader
         var value = InternalServiceException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17692,7 +18054,7 @@ extension InternalServiceException {
 
 extension InvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRequestException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
         var value = InvalidRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17705,7 +18067,7 @@ extension InvalidRequestException {
 
 extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17718,7 +18080,7 @@ extension NotFoundException {
 
 extension UnsupportedRegionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedRegionException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UnsupportedRegionException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedRegionException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17731,7 +18093,7 @@ extension UnsupportedRegionException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17744,7 +18106,7 @@ extension ConflictException {
 
 extension OutOfCapacityException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OutOfCapacityException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> OutOfCapacityException {
         let reader = baseError.errorBodyReader
         var value = OutOfCapacityException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17757,7 +18119,7 @@ extension OutOfCapacityException {
 
 extension UnauthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnauthorizedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UnauthorizedException {
         let reader = baseError.errorBodyReader
         var value = UnauthorizedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17770,7 +18132,7 @@ extension UnauthorizedException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17783,7 +18145,7 @@ extension LimitExceededException {
 
 extension TaggingFailedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TaggingFailedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TaggingFailedException {
         let reader = baseError.errorBodyReader
         var value = TaggingFailedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17796,7 +18158,7 @@ extension TaggingFailedException {
 
 extension NotReadyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotReadyException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NotReadyException {
         let reader = baseError.errorBodyReader
         var value = NotReadyException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17809,7 +18171,7 @@ extension NotReadyException {
 
 extension InvalidFleetStatusException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidFleetStatusException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidFleetStatusException {
         let reader = baseError.errorBodyReader
         var value = InvalidFleetStatusException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17822,7 +18184,7 @@ extension InvalidFleetStatusException {
 
 extension FleetCapacityExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> FleetCapacityExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> FleetCapacityExceededException {
         let reader = baseError.errorBodyReader
         var value = FleetCapacityExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17835,7 +18197,7 @@ extension FleetCapacityExceededException {
 
 extension IdempotentParameterMismatchException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IdempotentParameterMismatchException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> IdempotentParameterMismatchException {
         let reader = baseError.errorBodyReader
         var value = IdempotentParameterMismatchException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17848,7 +18210,7 @@ extension IdempotentParameterMismatchException {
 
 extension TerminalRoutingStrategyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TerminalRoutingStrategyException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TerminalRoutingStrategyException {
         let reader = baseError.errorBodyReader
         var value = TerminalRoutingStrategyException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17861,7 +18223,7 @@ extension TerminalRoutingStrategyException {
 
 extension GameSessionFullException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> GameSessionFullException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> GameSessionFullException {
         let reader = baseError.errorBodyReader
         var value = GameSessionFullException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -17874,33 +18236,13 @@ extension GameSessionFullException {
 
 extension InvalidGameSessionStatusException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidGameSessionStatusException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidGameSessionStatusException {
         let reader = baseError.errorBodyReader
         var value = InvalidGameSessionStatusException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension GameLiftClientTypes.GameServer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameServer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.GameServer()
-        value.gameServerGroupName = try reader["GameServerGroupName"].readIfPresent()
-        value.gameServerGroupArn = try reader["GameServerGroupArn"].readIfPresent()
-        value.gameServerId = try reader["GameServerId"].readIfPresent()
-        value.instanceId = try reader["InstanceId"].readIfPresent()
-        value.connectionInfo = try reader["ConnectionInfo"].readIfPresent()
-        value.gameServerData = try reader["GameServerData"].readIfPresent()
-        value.claimStatus = try reader["ClaimStatus"].readIfPresent()
-        value.utilizationStatus = try reader["UtilizationStatus"].readIfPresent()
-        value.registrationTime = try reader["RegistrationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastClaimTime = try reader["LastClaimTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastHealthCheckTime = try reader["LastHealthCheckTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -17921,21 +18263,50 @@ extension GameLiftClientTypes.Alias {
     }
 }
 
-extension GameLiftClientTypes.RoutingStrategy {
+extension GameLiftClientTypes.AnywhereConfiguration {
 
-    static func write(value: GameLiftClientTypes.RoutingStrategy?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GameLiftClientTypes.AnywhereConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["FleetId"].write(value.fleetId)
-        try writer["Message"].write(value.message)
-        try writer["Type"].write(value.type)
+        try writer["Cost"].write(value.cost)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.RoutingStrategy {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.AnywhereConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.RoutingStrategy()
-        value.type = try reader["Type"].readIfPresent()
-        value.fleetId = try reader["FleetId"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
+        var value = GameLiftClientTypes.AnywhereConfiguration()
+        value.cost = try reader["Cost"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GameLiftClientTypes.AttributeValue {
+
+    static func write(value: GameLiftClientTypes.AttributeValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["N"].write(value.n)
+        try writer["S"].write(value.s)
+        try writer["SDM"].writeMap(value.sdm, valueWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["SL"].writeList(value.sl, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.AttributeValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.AttributeValue()
+        value.s = try reader["S"].readIfPresent()
+        value.n = try reader["N"].readIfPresent()
+        value.sl = try reader["SL"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sdm = try reader["SDM"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GameLiftClientTypes.AwsCredentials {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.AwsCredentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.AwsCredentials()
+        value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
+        value.secretAccessKey = try reader["SecretAccessKey"].readIfPresent()
+        value.sessionToken = try reader["SessionToken"].readIfPresent()
         return value
     }
 }
@@ -17958,35 +18329,112 @@ extension GameLiftClientTypes.Build {
     }
 }
 
-extension GameLiftClientTypes.AwsCredentials {
+extension GameLiftClientTypes.CertificateConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.AwsCredentials {
+    static func write(value: GameLiftClientTypes.CertificateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateType"].write(value.certificateType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.CertificateConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.AwsCredentials()
-        value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
-        value.secretAccessKey = try reader["SecretAccessKey"].readIfPresent()
-        value.sessionToken = try reader["SessionToken"].readIfPresent()
+        var value = GameLiftClientTypes.CertificateConfiguration()
+        value.certificateType = try reader["CertificateType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension GameLiftClientTypes.S3Location {
+extension GameLiftClientTypes.ClaimFilterOption {
 
-    static func write(value: GameLiftClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GameLiftClientTypes.ClaimFilterOption?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["Key"].write(value.key)
-        try writer["ObjectVersion"].write(value.objectVersion)
-        try writer["RoleArn"].write(value.roleArn)
+        try writer["InstanceStatuses"].writeList(value.instanceStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GameLiftClientTypes.FilterInstanceStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GameLiftClientTypes.Compute {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Compute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.Compute()
+        value.fleetId = try reader["FleetId"].readIfPresent()
+        value.fleetArn = try reader["FleetArn"].readIfPresent()
+        value.computeName = try reader["ComputeName"].readIfPresent()
+        value.computeArn = try reader["ComputeArn"].readIfPresent()
+        value.ipAddress = try reader["IpAddress"].readIfPresent()
+        value.dnsName = try reader["DnsName"].readIfPresent()
+        value.computeStatus = try reader["ComputeStatus"].readIfPresent()
+        value.location = try reader["Location"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.operatingSystem = try reader["OperatingSystem"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.gameLiftServiceSdkEndpoint = try reader["GameLiftServiceSdkEndpoint"].readIfPresent()
+        value.gameLiftAgentEndpoint = try reader["GameLiftAgentEndpoint"].readIfPresent()
+        value.instanceId = try reader["InstanceId"].readIfPresent()
+        value.containerAttributes = try reader["ContainerAttributes"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.gameServerContainerGroupDefinitionArn = try reader["GameServerContainerGroupDefinitionArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.ConnectionPortRange {
+
+    static func write(value: GameLiftClientTypes.ConnectionPortRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FromPort"].write(value.fromPort)
+        try writer["ToPort"].write(value.toPort)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.S3Location {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ConnectionPortRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.S3Location()
-        value.bucket = try reader["Bucket"].readIfPresent()
-        value.key = try reader["Key"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.objectVersion = try reader["ObjectVersion"].readIfPresent()
+        var value = GameLiftClientTypes.ConnectionPortRange()
+        value.fromPort = try reader["FromPort"].readIfPresent() ?? 0
+        value.toPort = try reader["ToPort"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GameLiftClientTypes.ContainerAttribute {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.ContainerAttribute()
+        value.containerName = try reader["ContainerName"].readIfPresent()
+        value.containerRuntimeId = try reader["ContainerRuntimeId"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.ContainerDependency {
+
+    static func write(value: GameLiftClientTypes.ContainerDependency?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Condition"].write(value.condition)
+        try writer["ContainerName"].write(value.containerName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerDependency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.ContainerDependency()
+        value.containerName = try reader["ContainerName"].readIfPresent() ?? ""
+        value.condition = try reader["Condition"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GameLiftClientTypes.ContainerEnvironment {
+
+    static func write(value: GameLiftClientTypes.ContainerEnvironment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerEnvironment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.ContainerEnvironment()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -18018,6 +18466,7 @@ extension GameLiftClientTypes.ContainerFleet {
         value.deploymentDetails = try reader["DeploymentDetails"].readIfPresent(with: GameLiftClientTypes.DeploymentDetails.read(from:))
         value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: GameLiftClientTypes.LogConfiguration.read(from:))
         value.locationAttributes = try reader["LocationAttributes"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerFleetLocationAttributes.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.playerGatewayMode = try reader["PlayerGatewayMode"].readIfPresent()
         return value
     }
 }
@@ -18029,90 +18478,7 @@ extension GameLiftClientTypes.ContainerFleetLocationAttributes {
         var value = GameLiftClientTypes.ContainerFleetLocationAttributes()
         value.location = try reader["Location"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.LogConfiguration {
-
-    static func write(value: GameLiftClientTypes.LogConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LogDestination"].write(value.logDestination)
-        try writer["LogGroupArn"].write(value.logGroupArn)
-        try writer["S3BucketName"].write(value.s3BucketName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.LogConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.LogConfiguration()
-        value.logDestination = try reader["LogDestination"].readIfPresent()
-        value.s3BucketName = try reader["S3BucketName"].readIfPresent()
-        value.logGroupArn = try reader["LogGroupArn"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.DeploymentDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.DeploymentDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.DeploymentDetails()
-        value.latestDeploymentId = try reader["LatestDeploymentId"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.GameSessionCreationLimitPolicy {
-
-    static func write(value: GameLiftClientTypes.GameSessionCreationLimitPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NewGameSessionsPerCreator"].write(value.newGameSessionsPerCreator)
-        try writer["PolicyPeriodInMinutes"].write(value.policyPeriodInMinutes)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameSessionCreationLimitPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.GameSessionCreationLimitPolicy()
-        value.newGameSessionsPerCreator = try reader["NewGameSessionsPerCreator"].readIfPresent()
-        value.policyPeriodInMinutes = try reader["PolicyPeriodInMinutes"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.IpPermission {
-
-    static func write(value: GameLiftClientTypes.IpPermission?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FromPort"].write(value.fromPort)
-        try writer["IpRange"].write(value.ipRange)
-        try writer["Protocol"].write(value.`protocol`)
-        try writer["ToPort"].write(value.toPort)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.IpPermission {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.IpPermission()
-        value.fromPort = try reader["FromPort"].readIfPresent() ?? 0
-        value.toPort = try reader["ToPort"].readIfPresent() ?? 0
-        value.ipRange = try reader["IpRange"].readIfPresent() ?? ""
-        value.`protocol` = try reader["Protocol"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension GameLiftClientTypes.ConnectionPortRange {
-
-    static func write(value: GameLiftClientTypes.ConnectionPortRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FromPort"].write(value.fromPort)
-        try writer["ToPort"].write(value.toPort)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ConnectionPortRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.ConnectionPortRange()
-        value.fromPort = try reader["FromPort"].readIfPresent() ?? 0
-        value.toPort = try reader["ToPort"].readIfPresent() ?? 0
+        value.playerGatewayStatus = try reader["PlayerGatewayStatus"].readIfPresent()
         return value
     }
 }
@@ -18139,22 +18505,55 @@ extension GameLiftClientTypes.ContainerGroupDefinition {
     }
 }
 
-extension GameLiftClientTypes.SupportContainerDefinition {
+extension GameLiftClientTypes.ContainerHealthCheck {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.SupportContainerDefinition {
+    static func write(value: GameLiftClientTypes.ContainerHealthCheck?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Interval"].write(value.interval)
+        try writer["Retries"].write(value.retries)
+        try writer["StartPeriod"].write(value.startPeriod)
+        try writer["Timeout"].write(value.timeout)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerHealthCheck {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.SupportContainerDefinition()
+        var value = GameLiftClientTypes.ContainerHealthCheck()
+        value.command = try reader["Command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.interval = try reader["Interval"].readIfPresent()
+        value.retries = try reader["Retries"].readIfPresent()
+        value.startPeriod = try reader["StartPeriod"].readIfPresent()
+        value.timeout = try reader["Timeout"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.ContainerIdentifier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.ContainerIdentifier()
         value.containerName = try reader["ContainerName"].readIfPresent()
-        value.dependsOn = try reader["DependsOn"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerDependency.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.mountPoints = try reader["MountPoints"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerMountPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.environmentOverride = try reader["EnvironmentOverride"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerEnvironment.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.essential = try reader["Essential"].readIfPresent()
-        value.healthCheck = try reader["HealthCheck"].readIfPresent(with: GameLiftClientTypes.ContainerHealthCheck.read(from:))
-        value.imageUri = try reader["ImageUri"].readIfPresent()
-        value.memoryHardLimitMebibytes = try reader["MemoryHardLimitMebibytes"].readIfPresent()
-        value.portConfiguration = try reader["PortConfiguration"].readIfPresent(with: GameLiftClientTypes.ContainerPortConfiguration.read(from:))
-        value.resolvedImageDigest = try reader["ResolvedImageDigest"].readIfPresent()
-        value.vcpu = try reader["Vcpu"].readIfPresent()
+        value.containerRuntimeId = try reader["ContainerRuntimeId"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.ContainerMountPoint {
+
+    static func write(value: GameLiftClientTypes.ContainerMountPoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessLevel"].write(value.accessLevel)
+        try writer["ContainerPath"].write(value.containerPath)
+        try writer["InstancePath"].write(value.instancePath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerMountPoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.ContainerMountPoint()
+        value.instancePath = try reader["InstancePath"].readIfPresent() ?? ""
+        value.containerPath = try reader["ContainerPath"].readIfPresent()
+        value.accessLevel = try reader["AccessLevel"].readIfPresent()
         return value
     }
 }
@@ -18193,95 +18592,100 @@ extension GameLiftClientTypes.ContainerPortRange {
     }
 }
 
-extension GameLiftClientTypes.ContainerHealthCheck {
+extension GameLiftClientTypes.DeploymentConfiguration {
 
-    static func write(value: GameLiftClientTypes.ContainerHealthCheck?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GameLiftClientTypes.DeploymentConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Interval"].write(value.interval)
-        try writer["Retries"].write(value.retries)
-        try writer["StartPeriod"].write(value.startPeriod)
-        try writer["Timeout"].write(value.timeout)
+        try writer["ImpairmentStrategy"].write(value.impairmentStrategy)
+        try writer["MinimumHealthyPercentage"].write(value.minimumHealthyPercentage)
+        try writer["ProtectionStrategy"].write(value.protectionStrategy)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerHealthCheck {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.DeploymentConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.ContainerHealthCheck()
-        value.command = try reader["Command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.interval = try reader["Interval"].readIfPresent()
-        value.retries = try reader["Retries"].readIfPresent()
-        value.startPeriod = try reader["StartPeriod"].readIfPresent()
-        value.timeout = try reader["Timeout"].readIfPresent()
+        var value = GameLiftClientTypes.DeploymentConfiguration()
+        value.protectionStrategy = try reader["ProtectionStrategy"].readIfPresent()
+        value.minimumHealthyPercentage = try reader["MinimumHealthyPercentage"].readIfPresent()
+        value.impairmentStrategy = try reader["ImpairmentStrategy"].readIfPresent()
         return value
     }
 }
 
-extension GameLiftClientTypes.ContainerEnvironment {
+extension GameLiftClientTypes.DeploymentDetails {
 
-    static func write(value: GameLiftClientTypes.ContainerEnvironment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerEnvironment {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.DeploymentDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.ContainerEnvironment()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
+        var value = GameLiftClientTypes.DeploymentDetails()
+        value.latestDeploymentId = try reader["LatestDeploymentId"].readIfPresent()
         return value
     }
 }
 
-extension GameLiftClientTypes.ContainerMountPoint {
+extension GameLiftClientTypes.DesiredPlayerSession {
 
-    static func write(value: GameLiftClientTypes.ContainerMountPoint?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GameLiftClientTypes.DesiredPlayerSession?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AccessLevel"].write(value.accessLevel)
-        try writer["ContainerPath"].write(value.containerPath)
-        try writer["InstancePath"].write(value.instancePath)
+        try writer["PlayerData"].write(value.playerData)
+        try writer["PlayerId"].write(value.playerId)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerMountPoint {
+extension GameLiftClientTypes.EC2InstanceCounts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.EC2InstanceCounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.ContainerMountPoint()
-        value.instancePath = try reader["InstancePath"].readIfPresent() ?? ""
-        value.containerPath = try reader["ContainerPath"].readIfPresent()
-        value.accessLevel = try reader["AccessLevel"].readIfPresent()
+        var value = GameLiftClientTypes.EC2InstanceCounts()
+        value.desired = try reader["DESIRED"].readIfPresent()
+        value.minimum = try reader["MINIMUM"].readIfPresent()
+        value.maximum = try reader["MAXIMUM"].readIfPresent()
+        value.pending = try reader["PENDING"].readIfPresent()
+        value.active = try reader["ACTIVE"].readIfPresent()
+        value.idle = try reader["IDLE"].readIfPresent()
+        value.terminating = try reader["TERMINATING"].readIfPresent()
         return value
     }
 }
 
-extension GameLiftClientTypes.ContainerDependency {
+extension GameLiftClientTypes.EC2InstanceLimit {
 
-    static func write(value: GameLiftClientTypes.ContainerDependency?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Condition"].write(value.condition)
-        try writer["ContainerName"].write(value.containerName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerDependency {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.EC2InstanceLimit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.ContainerDependency()
-        value.containerName = try reader["ContainerName"].readIfPresent() ?? ""
-        value.condition = try reader["Condition"].readIfPresent() ?? .sdkUnknown("")
+        var value = GameLiftClientTypes.EC2InstanceLimit()
+        value.ec2InstanceType = try reader["EC2InstanceType"].readIfPresent()
+        value.currentInstances = try reader["CurrentInstances"].readIfPresent()
+        value.instanceLimit = try reader["InstanceLimit"].readIfPresent()
+        value.location = try reader["Location"].readIfPresent()
         return value
     }
 }
 
-extension GameLiftClientTypes.GameServerContainerDefinition {
+extension GameLiftClientTypes.Event {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameServerContainerDefinition {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Event {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.GameServerContainerDefinition()
-        value.containerName = try reader["ContainerName"].readIfPresent()
-        value.dependsOn = try reader["DependsOn"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerDependency.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.mountPoints = try reader["MountPoints"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerMountPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.environmentOverride = try reader["EnvironmentOverride"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerEnvironment.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.imageUri = try reader["ImageUri"].readIfPresent()
-        value.portConfiguration = try reader["PortConfiguration"].readIfPresent(with: GameLiftClientTypes.ContainerPortConfiguration.read(from:))
-        value.resolvedImageDigest = try reader["ResolvedImageDigest"].readIfPresent()
-        value.serverSdkVersion = try reader["ServerSdkVersion"].readIfPresent()
+        var value = GameLiftClientTypes.Event()
+        value.eventId = try reader["EventId"].readIfPresent()
+        value.resourceId = try reader["ResourceId"].readIfPresent()
+        value.eventCode = try reader["EventCode"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.eventTime = try reader["EventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.preSignedLogUrl = try reader["PreSignedLogUrl"].readIfPresent()
+        value.count = try reader["Count"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.FilterConfiguration {
+
+    static func write(value: GameLiftClientTypes.FilterConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedLocations"].writeList(value.allowedLocations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.FilterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.FilterConfiguration()
+        value.allowedLocations = try reader["AllowedLocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -18317,64 +18721,139 @@ extension GameLiftClientTypes.FleetAttributes {
         value.computeType = try reader["ComputeType"].readIfPresent()
         value.anywhereConfiguration = try reader["AnywhereConfiguration"].readIfPresent(with: GameLiftClientTypes.AnywhereConfiguration.read(from:))
         value.instanceRoleCredentialsProvider = try reader["InstanceRoleCredentialsProvider"].readIfPresent()
+        value.playerGatewayMode = try reader["PlayerGatewayMode"].readIfPresent()
+        value.playerGatewayConfiguration = try reader["PlayerGatewayConfiguration"].readIfPresent(with: GameLiftClientTypes.PlayerGatewayConfiguration.read(from:))
         return value
     }
 }
 
-extension GameLiftClientTypes.AnywhereConfiguration {
+extension GameLiftClientTypes.FleetCapacity {
 
-    static func write(value: GameLiftClientTypes.AnywhereConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Cost"].write(value.cost)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.AnywhereConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.FleetCapacity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.AnywhereConfiguration()
-        value.cost = try reader["Cost"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GameLiftClientTypes.CertificateConfiguration {
-
-    static func write(value: GameLiftClientTypes.CertificateConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateType"].write(value.certificateType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.CertificateConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.CertificateConfiguration()
-        value.certificateType = try reader["CertificateType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension GameLiftClientTypes.ResourceCreationLimitPolicy {
-
-    static func write(value: GameLiftClientTypes.ResourceCreationLimitPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NewGameSessionsPerCreator"].write(value.newGameSessionsPerCreator)
-        try writer["PolicyPeriodInMinutes"].write(value.policyPeriodInMinutes)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ResourceCreationLimitPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.ResourceCreationLimitPolicy()
-        value.newGameSessionsPerCreator = try reader["NewGameSessionsPerCreator"].readIfPresent()
-        value.policyPeriodInMinutes = try reader["PolicyPeriodInMinutes"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.LocationState {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.LocationState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.LocationState()
+        var value = GameLiftClientTypes.FleetCapacity()
+        value.fleetId = try reader["FleetId"].readIfPresent()
+        value.fleetArn = try reader["FleetArn"].readIfPresent()
+        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.instanceCounts = try reader["InstanceCounts"].readIfPresent(with: GameLiftClientTypes.EC2InstanceCounts.read(from:))
         value.location = try reader["Location"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.gameServerContainerGroupCounts = try reader["GameServerContainerGroupCounts"].readIfPresent(with: GameLiftClientTypes.GameServerContainerGroupCounts.read(from:))
+        value.managedCapacityConfiguration = try reader["ManagedCapacityConfiguration"].readIfPresent(with: GameLiftClientTypes.ManagedCapacityConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GameLiftClientTypes.FleetDeployment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.FleetDeployment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.FleetDeployment()
+        value.deploymentId = try reader["DeploymentId"].readIfPresent()
+        value.fleetId = try reader["FleetId"].readIfPresent()
+        value.gameServerBinaryArn = try reader["GameServerBinaryArn"].readIfPresent()
+        value.rollbackGameServerBinaryArn = try reader["RollbackGameServerBinaryArn"].readIfPresent()
+        value.perInstanceBinaryArn = try reader["PerInstanceBinaryArn"].readIfPresent()
+        value.rollbackPerInstanceBinaryArn = try reader["RollbackPerInstanceBinaryArn"].readIfPresent()
+        value.deploymentStatus = try reader["DeploymentStatus"].readIfPresent()
+        value.deploymentConfiguration = try reader["DeploymentConfiguration"].readIfPresent(with: GameLiftClientTypes.DeploymentConfiguration.read(from:))
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GameLiftClientTypes.FleetUtilization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.FleetUtilization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.FleetUtilization()
+        value.fleetId = try reader["FleetId"].readIfPresent()
+        value.fleetArn = try reader["FleetArn"].readIfPresent()
+        value.activeServerProcessCount = try reader["ActiveServerProcessCount"].readIfPresent()
+        value.activeGameSessionCount = try reader["ActiveGameSessionCount"].readIfPresent()
+        value.currentPlayerSessionCount = try reader["CurrentPlayerSessionCount"].readIfPresent()
+        value.maximumPlayerSessionCount = try reader["MaximumPlayerSessionCount"].readIfPresent()
+        value.location = try reader["Location"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.GameProperty {
+
+    static func write(value: GameLiftClientTypes.GameProperty?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.GameProperty()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GameLiftClientTypes.GameServer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameServer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.GameServer()
+        value.gameServerGroupName = try reader["GameServerGroupName"].readIfPresent()
+        value.gameServerGroupArn = try reader["GameServerGroupArn"].readIfPresent()
+        value.gameServerId = try reader["GameServerId"].readIfPresent()
+        value.instanceId = try reader["InstanceId"].readIfPresent()
+        value.connectionInfo = try reader["ConnectionInfo"].readIfPresent()
+        value.gameServerData = try reader["GameServerData"].readIfPresent()
+        value.claimStatus = try reader["ClaimStatus"].readIfPresent()
+        value.utilizationStatus = try reader["UtilizationStatus"].readIfPresent()
+        value.registrationTime = try reader["RegistrationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastClaimTime = try reader["LastClaimTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastHealthCheckTime = try reader["LastHealthCheckTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GameLiftClientTypes.GameServerContainerDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameServerContainerDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.GameServerContainerDefinition()
+        value.containerName = try reader["ContainerName"].readIfPresent()
+        value.dependsOn = try reader["DependsOn"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerDependency.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mountPoints = try reader["MountPoints"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerMountPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.environmentOverride = try reader["EnvironmentOverride"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerEnvironment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.imageUri = try reader["ImageUri"].readIfPresent()
+        value.portConfiguration = try reader["PortConfiguration"].readIfPresent(with: GameLiftClientTypes.ContainerPortConfiguration.read(from:))
+        value.resolvedImageDigest = try reader["ResolvedImageDigest"].readIfPresent()
+        value.serverSdkVersion = try reader["ServerSdkVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.GameServerContainerDefinitionInput {
+
+    static func write(value: GameLiftClientTypes.GameServerContainerDefinitionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContainerName"].write(value.containerName)
+        try writer["DependsOn"].writeList(value.dependsOn, memberWritingClosure: GameLiftClientTypes.ContainerDependency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EnvironmentOverride"].writeList(value.environmentOverride, memberWritingClosure: GameLiftClientTypes.ContainerEnvironment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ImageUri"].write(value.imageUri)
+        try writer["MountPoints"].writeList(value.mountPoints, memberWritingClosure: GameLiftClientTypes.ContainerMountPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PortConfiguration"].write(value.portConfiguration, with: GameLiftClientTypes.ContainerPortConfiguration.write(value:to:))
+        try writer["ServerSdkVersion"].write(value.serverSdkVersion)
+    }
+}
+
+extension GameLiftClientTypes.GameServerContainerGroupCounts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameServerContainerGroupCounts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.GameServerContainerGroupCounts()
+        value.pending = try reader["PENDING"].readIfPresent()
+        value.active = try reader["ACTIVE"].readIfPresent()
+        value.idle = try reader["IDLE"].readIfPresent()
+        value.terminating = try reader["TERMINATING"].readIfPresent()
         return value
     }
 }
@@ -18400,19 +18879,24 @@ extension GameLiftClientTypes.GameServerGroup {
     }
 }
 
-extension GameLiftClientTypes.InstanceDefinition {
+extension GameLiftClientTypes.GameServerGroupAutoScalingPolicy {
 
-    static func write(value: GameLiftClientTypes.InstanceDefinition?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GameLiftClientTypes.GameServerGroupAutoScalingPolicy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["WeightedCapacity"].write(value.weightedCapacity)
+        try writer["EstimatedInstanceWarmup"].write(value.estimatedInstanceWarmup)
+        try writer["TargetTrackingConfiguration"].write(value.targetTrackingConfiguration, with: GameLiftClientTypes.TargetTrackingConfiguration.write(value:to:))
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.InstanceDefinition {
+extension GameLiftClientTypes.GameServerInstance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameServerInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.InstanceDefinition()
-        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
-        value.weightedCapacity = try reader["WeightedCapacity"].readIfPresent()
+        var value = GameLiftClientTypes.GameServerInstance()
+        value.gameServerGroupName = try reader["GameServerGroupName"].readIfPresent()
+        value.gameServerGroupArn = try reader["GameServerGroupArn"].readIfPresent()
+        value.instanceId = try reader["InstanceId"].readIfPresent()
+        value.instanceStatus = try reader["InstanceStatus"].readIfPresent()
         return value
     }
 }
@@ -18441,23 +18925,79 @@ extension GameLiftClientTypes.GameSession {
         value.gameSessionData = try reader["GameSessionData"].readIfPresent()
         value.matchmakerData = try reader["MatchmakerData"].readIfPresent()
         value.location = try reader["Location"].readIfPresent()
+        value.playerGatewayStatus = try reader["PlayerGatewayStatus"].readIfPresent()
         return value
     }
 }
 
-extension GameLiftClientTypes.GameProperty {
+extension GameLiftClientTypes.GameSessionConnectionInfo {
 
-    static func write(value: GameLiftClientTypes.GameProperty?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameSessionConnectionInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.GameSessionConnectionInfo()
+        value.gameSessionArn = try reader["GameSessionArn"].readIfPresent()
+        value.ipAddress = try reader["IpAddress"].readIfPresent()
+        value.dnsName = try reader["DnsName"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.matchedPlayerSessions = try reader["MatchedPlayerSessions"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.MatchedPlayerSession.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.playerGatewayStatus = try reader["PlayerGatewayStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.GameSessionCreationLimitPolicy {
+
+    static func write(value: GameLiftClientTypes.GameSessionCreationLimitPolicy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
+        try writer["NewGameSessionsPerCreator"].write(value.newGameSessionsPerCreator)
+        try writer["PolicyPeriodInMinutes"].write(value.policyPeriodInMinutes)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameProperty {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameSessionCreationLimitPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.GameProperty()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
+        var value = GameLiftClientTypes.GameSessionCreationLimitPolicy()
+        value.newGameSessionsPerCreator = try reader["NewGameSessionsPerCreator"].readIfPresent()
+        value.policyPeriodInMinutes = try reader["PolicyPeriodInMinutes"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.GameSessionDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameSessionDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.GameSessionDetail()
+        value.gameSession = try reader["GameSession"].readIfPresent(with: GameLiftClientTypes.GameSession.read(from:))
+        value.protectionPolicy = try reader["ProtectionPolicy"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.GameSessionPlacement {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameSessionPlacement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.GameSessionPlacement()
+        value.placementId = try reader["PlacementId"].readIfPresent()
+        value.gameSessionQueueName = try reader["GameSessionQueueName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.gameProperties = try reader["GameProperties"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.GameProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.maximumPlayerSessionCount = try reader["MaximumPlayerSessionCount"].readIfPresent()
+        value.gameSessionName = try reader["GameSessionName"].readIfPresent()
+        value.gameSessionId = try reader["GameSessionId"].readIfPresent()
+        value.gameSessionArn = try reader["GameSessionArn"].readIfPresent()
+        value.gameSessionRegion = try reader["GameSessionRegion"].readIfPresent()
+        value.playerLatencies = try reader["PlayerLatencies"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.PlayerLatency.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.ipAddress = try reader["IpAddress"].readIfPresent()
+        value.dnsName = try reader["DnsName"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.placedPlayerSessions = try reader["PlacedPlayerSessions"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.PlacedPlayerSession.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.gameSessionData = try reader["GameSessionData"].readIfPresent()
+        value.matchmakerData = try reader["MatchmakerData"].readIfPresent()
+        value.priorityConfigurationOverride = try reader["PriorityConfigurationOverride"].readIfPresent(with: GameLiftClientTypes.PriorityConfigurationOverride.read(from:))
+        value.playerGatewayStatus = try reader["PlayerGatewayStatus"].readIfPresent()
         return value
     }
 }
@@ -18480,38 +19020,6 @@ extension GameLiftClientTypes.GameSessionQueue {
     }
 }
 
-extension GameLiftClientTypes.PriorityConfiguration {
-
-    static func write(value: GameLiftClientTypes.PriorityConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LocationOrder"].writeList(value.locationOrder, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PriorityOrder"].writeList(value.priorityOrder, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GameLiftClientTypes.PriorityType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PriorityConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.PriorityConfiguration()
-        value.priorityOrder = try reader["PriorityOrder"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GameLiftClientTypes.PriorityType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.locationOrder = try reader["LocationOrder"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GameLiftClientTypes.FilterConfiguration {
-
-    static func write(value: GameLiftClientTypes.FilterConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedLocations"].writeList(value.allowedLocations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.FilterConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.FilterConfiguration()
-        value.allowedLocations = try reader["AllowedLocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension GameLiftClientTypes.GameSessionQueueDestination {
 
     static func write(value: GameLiftClientTypes.GameSessionQueueDestination?, to writer: SmithyJSON.Writer) throws {
@@ -18527,20 +19035,125 @@ extension GameLiftClientTypes.GameSessionQueueDestination {
     }
 }
 
-extension GameLiftClientTypes.PlayerLatencyPolicy {
+extension GameLiftClientTypes.Instance {
 
-    static func write(value: GameLiftClientTypes.PlayerLatencyPolicy?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Instance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.Instance()
+        value.fleetId = try reader["FleetId"].readIfPresent()
+        value.fleetArn = try reader["FleetArn"].readIfPresent()
+        value.instanceId = try reader["InstanceId"].readIfPresent()
+        value.ipAddress = try reader["IpAddress"].readIfPresent()
+        value.dnsName = try reader["DnsName"].readIfPresent()
+        value.operatingSystem = try reader["OperatingSystem"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.location = try reader["Location"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.InstanceAccess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.InstanceAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.InstanceAccess()
+        value.fleetId = try reader["FleetId"].readIfPresent()
+        value.instanceId = try reader["InstanceId"].readIfPresent()
+        value.ipAddress = try reader["IpAddress"].readIfPresent()
+        value.operatingSystem = try reader["OperatingSystem"].readIfPresent()
+        value.credentials = try reader["Credentials"].readIfPresent(with: GameLiftClientTypes.InstanceCredentials.read(from:))
+        return value
+    }
+}
+
+extension GameLiftClientTypes.InstanceCredentials {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.InstanceCredentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.InstanceCredentials()
+        value.userName = try reader["UserName"].readIfPresent()
+        value.secret = try reader["Secret"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.InstanceDefinition {
+
+    static func write(value: GameLiftClientTypes.InstanceDefinition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["MaximumIndividualPlayerLatencyMilliseconds"].write(value.maximumIndividualPlayerLatencyMilliseconds)
-        try writer["PolicyDurationSeconds"].write(value.policyDurationSeconds)
+        try writer["InstanceType"].write(value.instanceType)
+        try writer["WeightedCapacity"].write(value.weightedCapacity)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PlayerLatencyPolicy {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.InstanceDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.PlayerLatencyPolicy()
-        value.maximumIndividualPlayerLatencyMilliseconds = try reader["MaximumIndividualPlayerLatencyMilliseconds"].readIfPresent()
-        value.policyDurationSeconds = try reader["PolicyDurationSeconds"].readIfPresent()
+        var value = GameLiftClientTypes.InstanceDefinition()
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.weightedCapacity = try reader["WeightedCapacity"].readIfPresent()
         return value
+    }
+}
+
+extension GameLiftClientTypes.IpPermission {
+
+    static func write(value: GameLiftClientTypes.IpPermission?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FromPort"].write(value.fromPort)
+        try writer["IpRange"].write(value.ipRange)
+        try writer["Protocol"].write(value.`protocol`)
+        try writer["ToPort"].write(value.toPort)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.IpPermission {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.IpPermission()
+        value.fromPort = try reader["FromPort"].readIfPresent() ?? 0
+        value.toPort = try reader["ToPort"].readIfPresent() ?? 0
+        value.ipRange = try reader["IpRange"].readIfPresent() ?? ""
+        value.`protocol` = try reader["Protocol"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GameLiftClientTypes.LaunchTemplateSpecification {
+
+    static func write(value: GameLiftClientTypes.LaunchTemplateSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LaunchTemplateId"].write(value.launchTemplateId)
+        try writer["LaunchTemplateName"].write(value.launchTemplateName)
+        try writer["Version"].write(value.version)
+    }
+}
+
+extension GameLiftClientTypes.LocationalDeployment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.LocationalDeployment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.LocationalDeployment()
+        value.deploymentStatus = try reader["DeploymentStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.LocationAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.LocationAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.LocationAttributes()
+        value.locationState = try reader["LocationState"].readIfPresent(with: GameLiftClientTypes.LocationState.read(from:))
+        value.stoppedActions = try reader["StoppedActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GameLiftClientTypes.FleetAction>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.updateStatus = try reader["UpdateStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.LocationConfiguration {
+
+    static func write(value: GameLiftClientTypes.LocationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Location"].write(value.location)
     }
 }
 
@@ -18556,23 +19169,61 @@ extension GameLiftClientTypes.LocationModel {
     }
 }
 
-extension GameLiftClientTypes.PingBeacon {
+extension GameLiftClientTypes.LocationState {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PingBeacon {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.LocationState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.PingBeacon()
-        value.udpEndpoint = try reader["UDPEndpoint"].readIfPresent(with: GameLiftClientTypes.UDPEndpoint.read(from:))
+        var value = GameLiftClientTypes.LocationState()
+        value.location = try reader["Location"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.playerGatewayStatus = try reader["PlayerGatewayStatus"].readIfPresent()
         return value
     }
 }
 
-extension GameLiftClientTypes.UDPEndpoint {
+extension GameLiftClientTypes.LogConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.UDPEndpoint {
+    static func write(value: GameLiftClientTypes.LogConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LogDestination"].write(value.logDestination)
+        try writer["LogGroupArn"].write(value.logGroupArn)
+        try writer["S3BucketName"].write(value.s3BucketName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.LogConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.UDPEndpoint()
-        value.domain = try reader["Domain"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
+        var value = GameLiftClientTypes.LogConfiguration()
+        value.logDestination = try reader["LogDestination"].readIfPresent()
+        value.s3BucketName = try reader["S3BucketName"].readIfPresent()
+        value.logGroupArn = try reader["LogGroupArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.ManagedCapacityConfiguration {
+
+    static func write(value: GameLiftClientTypes.ManagedCapacityConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ScaleInAfterInactivityMinutes"].write(value.scaleInAfterInactivityMinutes)
+        try writer["ZeroCapacityStrategy"].write(value.zeroCapacityStrategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ManagedCapacityConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.ManagedCapacityConfiguration()
+        value.zeroCapacityStrategy = try reader["ZeroCapacityStrategy"].readIfPresent()
+        value.scaleInAfterInactivityMinutes = try reader["ScaleInAfterInactivityMinutes"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.MatchedPlayerSession {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.MatchedPlayerSession {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.MatchedPlayerSession()
+        value.playerId = try reader["PlayerId"].readIfPresent()
+        value.playerSessionId = try reader["PlayerSessionId"].readIfPresent()
         return value
     }
 }
@@ -18616,378 +19267,6 @@ extension GameLiftClientTypes.MatchmakingRuleSet {
     }
 }
 
-extension GameLiftClientTypes.PlayerSession {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PlayerSession {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.PlayerSession()
-        value.playerSessionId = try reader["PlayerSessionId"].readIfPresent()
-        value.playerId = try reader["PlayerId"].readIfPresent()
-        value.gameSessionId = try reader["GameSessionId"].readIfPresent()
-        value.fleetId = try reader["FleetId"].readIfPresent()
-        value.fleetArn = try reader["FleetArn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.terminationTime = try reader["TerminationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
-        value.ipAddress = try reader["IpAddress"].readIfPresent()
-        value.dnsName = try reader["DnsName"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.playerData = try reader["PlayerData"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.Script {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Script {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.Script()
-        value.scriptId = try reader["ScriptId"].readIfPresent()
-        value.scriptArn = try reader["ScriptArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.version = try reader["Version"].readIfPresent()
-        value.sizeOnDisk = try reader["SizeOnDisk"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.storageLocation = try reader["StorageLocation"].readIfPresent(with: GameLiftClientTypes.S3Location.read(from:))
-        value.nodeJsVersion = try reader["NodeJsVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.VpcPeeringAuthorization {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.VpcPeeringAuthorization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.VpcPeeringAuthorization()
-        value.gameLiftAwsAccountId = try reader["GameLiftAwsAccountId"].readIfPresent()
-        value.peerVpcAwsAccountId = try reader["PeerVpcAwsAccountId"].readIfPresent()
-        value.peerVpcId = try reader["PeerVpcId"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.expirationTime = try reader["ExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension GameLiftClientTypes.Compute {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Compute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.Compute()
-        value.fleetId = try reader["FleetId"].readIfPresent()
-        value.fleetArn = try reader["FleetArn"].readIfPresent()
-        value.computeName = try reader["ComputeName"].readIfPresent()
-        value.computeArn = try reader["ComputeArn"].readIfPresent()
-        value.ipAddress = try reader["IpAddress"].readIfPresent()
-        value.dnsName = try reader["DnsName"].readIfPresent()
-        value.computeStatus = try reader["ComputeStatus"].readIfPresent()
-        value.location = try reader["Location"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.operatingSystem = try reader["OperatingSystem"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.gameLiftServiceSdkEndpoint = try reader["GameLiftServiceSdkEndpoint"].readIfPresent()
-        value.gameLiftAgentEndpoint = try reader["GameLiftAgentEndpoint"].readIfPresent()
-        value.instanceId = try reader["InstanceId"].readIfPresent()
-        value.containerAttributes = try reader["ContainerAttributes"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.gameServerContainerGroupDefinitionArn = try reader["GameServerContainerGroupDefinitionArn"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.ContainerAttribute {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.ContainerAttribute()
-        value.containerName = try reader["ContainerName"].readIfPresent()
-        value.containerRuntimeId = try reader["ContainerRuntimeId"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.EC2InstanceLimit {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.EC2InstanceLimit {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.EC2InstanceLimit()
-        value.ec2InstanceType = try reader["EC2InstanceType"].readIfPresent()
-        value.currentInstances = try reader["CurrentInstances"].readIfPresent()
-        value.instanceLimit = try reader["InstanceLimit"].readIfPresent()
-        value.location = try reader["Location"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.FleetCapacity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.FleetCapacity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.FleetCapacity()
-        value.fleetId = try reader["FleetId"].readIfPresent()
-        value.fleetArn = try reader["FleetArn"].readIfPresent()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.instanceCounts = try reader["InstanceCounts"].readIfPresent(with: GameLiftClientTypes.EC2InstanceCounts.read(from:))
-        value.location = try reader["Location"].readIfPresent()
-        value.gameServerContainerGroupCounts = try reader["GameServerContainerGroupCounts"].readIfPresent(with: GameLiftClientTypes.GameServerContainerGroupCounts.read(from:))
-        value.managedCapacityConfiguration = try reader["ManagedCapacityConfiguration"].readIfPresent(with: GameLiftClientTypes.ManagedCapacityConfiguration.read(from:))
-        return value
-    }
-}
-
-extension GameLiftClientTypes.ManagedCapacityConfiguration {
-
-    static func write(value: GameLiftClientTypes.ManagedCapacityConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ScaleInAfterInactivityMinutes"].write(value.scaleInAfterInactivityMinutes)
-        try writer["ZeroCapacityStrategy"].write(value.zeroCapacityStrategy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ManagedCapacityConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.ManagedCapacityConfiguration()
-        value.zeroCapacityStrategy = try reader["ZeroCapacityStrategy"].readIfPresent()
-        value.scaleInAfterInactivityMinutes = try reader["ScaleInAfterInactivityMinutes"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.GameServerContainerGroupCounts {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameServerContainerGroupCounts {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.GameServerContainerGroupCounts()
-        value.pending = try reader["PENDING"].readIfPresent()
-        value.active = try reader["ACTIVE"].readIfPresent()
-        value.idle = try reader["IDLE"].readIfPresent()
-        value.terminating = try reader["TERMINATING"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.EC2InstanceCounts {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.EC2InstanceCounts {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.EC2InstanceCounts()
-        value.desired = try reader["DESIRED"].readIfPresent()
-        value.minimum = try reader["MINIMUM"].readIfPresent()
-        value.maximum = try reader["MAXIMUM"].readIfPresent()
-        value.pending = try reader["PENDING"].readIfPresent()
-        value.active = try reader["ACTIVE"].readIfPresent()
-        value.idle = try reader["IDLE"].readIfPresent()
-        value.terminating = try reader["TERMINATING"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.FleetDeployment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.FleetDeployment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.FleetDeployment()
-        value.deploymentId = try reader["DeploymentId"].readIfPresent()
-        value.fleetId = try reader["FleetId"].readIfPresent()
-        value.gameServerBinaryArn = try reader["GameServerBinaryArn"].readIfPresent()
-        value.rollbackGameServerBinaryArn = try reader["RollbackGameServerBinaryArn"].readIfPresent()
-        value.perInstanceBinaryArn = try reader["PerInstanceBinaryArn"].readIfPresent()
-        value.rollbackPerInstanceBinaryArn = try reader["RollbackPerInstanceBinaryArn"].readIfPresent()
-        value.deploymentStatus = try reader["DeploymentStatus"].readIfPresent()
-        value.deploymentConfiguration = try reader["DeploymentConfiguration"].readIfPresent(with: GameLiftClientTypes.DeploymentConfiguration.read(from:))
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension GameLiftClientTypes.DeploymentConfiguration {
-
-    static func write(value: GameLiftClientTypes.DeploymentConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ImpairmentStrategy"].write(value.impairmentStrategy)
-        try writer["MinimumHealthyPercentage"].write(value.minimumHealthyPercentage)
-        try writer["ProtectionStrategy"].write(value.protectionStrategy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.DeploymentConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.DeploymentConfiguration()
-        value.protectionStrategy = try reader["ProtectionStrategy"].readIfPresent()
-        value.minimumHealthyPercentage = try reader["MinimumHealthyPercentage"].readIfPresent()
-        value.impairmentStrategy = try reader["ImpairmentStrategy"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.LocationalDeployment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.LocationalDeployment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.LocationalDeployment()
-        value.deploymentStatus = try reader["DeploymentStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.Event {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Event {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.Event()
-        value.eventId = try reader["EventId"].readIfPresent()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.eventCode = try reader["EventCode"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        value.eventTime = try reader["EventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.preSignedLogUrl = try reader["PreSignedLogUrl"].readIfPresent()
-        value.count = try reader["Count"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.LocationAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.LocationAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.LocationAttributes()
-        value.locationState = try reader["LocationState"].readIfPresent(with: GameLiftClientTypes.LocationState.read(from:))
-        value.stoppedActions = try reader["StoppedActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GameLiftClientTypes.FleetAction>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.updateStatus = try reader["UpdateStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.FleetUtilization {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.FleetUtilization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.FleetUtilization()
-        value.fleetId = try reader["FleetId"].readIfPresent()
-        value.fleetArn = try reader["FleetArn"].readIfPresent()
-        value.activeServerProcessCount = try reader["ActiveServerProcessCount"].readIfPresent()
-        value.activeGameSessionCount = try reader["ActiveGameSessionCount"].readIfPresent()
-        value.currentPlayerSessionCount = try reader["CurrentPlayerSessionCount"].readIfPresent()
-        value.maximumPlayerSessionCount = try reader["MaximumPlayerSessionCount"].readIfPresent()
-        value.location = try reader["Location"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.GameServerInstance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameServerInstance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.GameServerInstance()
-        value.gameServerGroupName = try reader["GameServerGroupName"].readIfPresent()
-        value.gameServerGroupArn = try reader["GameServerGroupArn"].readIfPresent()
-        value.instanceId = try reader["InstanceId"].readIfPresent()
-        value.instanceStatus = try reader["InstanceStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.GameSessionDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameSessionDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.GameSessionDetail()
-        value.gameSession = try reader["GameSession"].readIfPresent(with: GameLiftClientTypes.GameSession.read(from:))
-        value.protectionPolicy = try reader["ProtectionPolicy"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.GameSessionPlacement {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameSessionPlacement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.GameSessionPlacement()
-        value.placementId = try reader["PlacementId"].readIfPresent()
-        value.gameSessionQueueName = try reader["GameSessionQueueName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.gameProperties = try reader["GameProperties"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.GameProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.maximumPlayerSessionCount = try reader["MaximumPlayerSessionCount"].readIfPresent()
-        value.gameSessionName = try reader["GameSessionName"].readIfPresent()
-        value.gameSessionId = try reader["GameSessionId"].readIfPresent()
-        value.gameSessionArn = try reader["GameSessionArn"].readIfPresent()
-        value.gameSessionRegion = try reader["GameSessionRegion"].readIfPresent()
-        value.playerLatencies = try reader["PlayerLatencies"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.PlayerLatency.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.ipAddress = try reader["IpAddress"].readIfPresent()
-        value.dnsName = try reader["DnsName"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.placedPlayerSessions = try reader["PlacedPlayerSessions"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.PlacedPlayerSession.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.gameSessionData = try reader["GameSessionData"].readIfPresent()
-        value.matchmakerData = try reader["MatchmakerData"].readIfPresent()
-        value.priorityConfigurationOverride = try reader["PriorityConfigurationOverride"].readIfPresent(with: GameLiftClientTypes.PriorityConfigurationOverride.read(from:))
-        return value
-    }
-}
-
-extension GameLiftClientTypes.PriorityConfigurationOverride {
-
-    static func write(value: GameLiftClientTypes.PriorityConfigurationOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LocationOrder"].writeList(value.locationOrder, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PlacementFallbackStrategy"].write(value.placementFallbackStrategy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PriorityConfigurationOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.PriorityConfigurationOverride()
-        value.placementFallbackStrategy = try reader["PlacementFallbackStrategy"].readIfPresent()
-        value.locationOrder = try reader["LocationOrder"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GameLiftClientTypes.PlacedPlayerSession {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PlacedPlayerSession {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.PlacedPlayerSession()
-        value.playerId = try reader["PlayerId"].readIfPresent()
-        value.playerSessionId = try reader["PlayerSessionId"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.PlayerLatency {
-
-    static func write(value: GameLiftClientTypes.PlayerLatency?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LatencyInMilliseconds"].write(value.latencyInMilliseconds)
-        try writer["PlayerId"].write(value.playerId)
-        try writer["RegionIdentifier"].write(value.regionIdentifier)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PlayerLatency {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.PlayerLatency()
-        value.playerId = try reader["PlayerId"].readIfPresent()
-        value.regionIdentifier = try reader["RegionIdentifier"].readIfPresent()
-        value.latencyInMilliseconds = try reader["LatencyInMilliseconds"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.Instance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Instance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.Instance()
-        value.fleetId = try reader["FleetId"].readIfPresent()
-        value.fleetArn = try reader["FleetArn"].readIfPresent()
-        value.instanceId = try reader["InstanceId"].readIfPresent()
-        value.ipAddress = try reader["IpAddress"].readIfPresent()
-        value.dnsName = try reader["DnsName"].readIfPresent()
-        value.operatingSystem = try reader["OperatingSystem"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.location = try reader["Location"].readIfPresent()
-        return value
-    }
-}
-
 extension GameLiftClientTypes.MatchmakingTicket {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.MatchmakingTicket {
@@ -19008,25 +19287,21 @@ extension GameLiftClientTypes.MatchmakingTicket {
     }
 }
 
-extension GameLiftClientTypes.GameSessionConnectionInfo {
+extension GameLiftClientTypes.PingBeacon {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameSessionConnectionInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PingBeacon {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.GameSessionConnectionInfo()
-        value.gameSessionArn = try reader["GameSessionArn"].readIfPresent()
-        value.ipAddress = try reader["IpAddress"].readIfPresent()
-        value.dnsName = try reader["DnsName"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.matchedPlayerSessions = try reader["MatchedPlayerSessions"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.MatchedPlayerSession.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GameLiftClientTypes.PingBeacon()
+        value.udpEndpoint = try reader["UDPEndpoint"].readIfPresent(with: GameLiftClientTypes.UDPEndpoint.read(from:))
         return value
     }
 }
 
-extension GameLiftClientTypes.MatchedPlayerSession {
+extension GameLiftClientTypes.PlacedPlayerSession {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.MatchedPlayerSession {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PlacedPlayerSession {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.MatchedPlayerSession()
+        var value = GameLiftClientTypes.PlacedPlayerSession()
         value.playerId = try reader["PlayerId"].readIfPresent()
         value.playerSessionId = try reader["PlayerSessionId"].readIfPresent()
         return value
@@ -19054,23 +19329,168 @@ extension GameLiftClientTypes.Player {
     }
 }
 
-extension GameLiftClientTypes.AttributeValue {
+extension GameLiftClientTypes.PlayerConnectionDetail {
 
-    static func write(value: GameLiftClientTypes.AttributeValue?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PlayerConnectionDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.PlayerConnectionDetail()
+        value.playerId = try reader["PlayerId"].readIfPresent()
+        value.endpoints = try reader["Endpoints"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.PlayerConnectionEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.playerGatewayToken = try reader["PlayerGatewayToken"].readIfPresent()
+        value.expiration = try reader["Expiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GameLiftClientTypes.PlayerConnectionEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PlayerConnectionEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.PlayerConnectionEndpoint()
+        value.ipAddress = try reader["IpAddress"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.PlayerGatewayConfiguration {
+
+    static func write(value: GameLiftClientTypes.PlayerGatewayConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["N"].write(value.n)
-        try writer["S"].write(value.s)
-        try writer["SDM"].writeMap(value.sdm, valueWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["SL"].writeList(value.sl, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["GameServerIpProtocolSupported"].write(value.gameServerIpProtocolSupported)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.AttributeValue {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PlayerGatewayConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.AttributeValue()
-        value.s = try reader["S"].readIfPresent()
-        value.n = try reader["N"].readIfPresent()
-        value.sl = try reader["SL"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sdm = try reader["SDM"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = GameLiftClientTypes.PlayerGatewayConfiguration()
+        value.gameServerIpProtocolSupported = try reader["GameServerIpProtocolSupported"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.PlayerLatency {
+
+    static func write(value: GameLiftClientTypes.PlayerLatency?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LatencyInMilliseconds"].write(value.latencyInMilliseconds)
+        try writer["PlayerId"].write(value.playerId)
+        try writer["RegionIdentifier"].write(value.regionIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PlayerLatency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.PlayerLatency()
+        value.playerId = try reader["PlayerId"].readIfPresent()
+        value.regionIdentifier = try reader["RegionIdentifier"].readIfPresent()
+        value.latencyInMilliseconds = try reader["LatencyInMilliseconds"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.PlayerLatencyPolicy {
+
+    static func write(value: GameLiftClientTypes.PlayerLatencyPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaximumIndividualPlayerLatencyMilliseconds"].write(value.maximumIndividualPlayerLatencyMilliseconds)
+        try writer["PolicyDurationSeconds"].write(value.policyDurationSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PlayerLatencyPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.PlayerLatencyPolicy()
+        value.maximumIndividualPlayerLatencyMilliseconds = try reader["MaximumIndividualPlayerLatencyMilliseconds"].readIfPresent()
+        value.policyDurationSeconds = try reader["PolicyDurationSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.PlayerSession {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PlayerSession {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.PlayerSession()
+        value.playerSessionId = try reader["PlayerSessionId"].readIfPresent()
+        value.playerId = try reader["PlayerId"].readIfPresent()
+        value.gameSessionId = try reader["GameSessionId"].readIfPresent()
+        value.fleetId = try reader["FleetId"].readIfPresent()
+        value.fleetArn = try reader["FleetArn"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.terminationTime = try reader["TerminationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.ipAddress = try reader["IpAddress"].readIfPresent()
+        value.dnsName = try reader["DnsName"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.playerData = try reader["PlayerData"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.PriorityConfiguration {
+
+    static func write(value: GameLiftClientTypes.PriorityConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LocationOrder"].writeList(value.locationOrder, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PriorityOrder"].writeList(value.priorityOrder, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GameLiftClientTypes.PriorityType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PriorityConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.PriorityConfiguration()
+        value.priorityOrder = try reader["PriorityOrder"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GameLiftClientTypes.PriorityType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.locationOrder = try reader["LocationOrder"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GameLiftClientTypes.PriorityConfigurationOverride {
+
+    static func write(value: GameLiftClientTypes.PriorityConfigurationOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LocationOrder"].writeList(value.locationOrder, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PlacementFallbackStrategy"].write(value.placementFallbackStrategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PriorityConfigurationOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.PriorityConfigurationOverride()
+        value.placementFallbackStrategy = try reader["PlacementFallbackStrategy"].readIfPresent()
+        value.locationOrder = try reader["LocationOrder"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GameLiftClientTypes.ResourceCreationLimitPolicy {
+
+    static func write(value: GameLiftClientTypes.ResourceCreationLimitPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NewGameSessionsPerCreator"].write(value.newGameSessionsPerCreator)
+        try writer["PolicyPeriodInMinutes"].write(value.policyPeriodInMinutes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ResourceCreationLimitPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.ResourceCreationLimitPolicy()
+        value.newGameSessionsPerCreator = try reader["NewGameSessionsPerCreator"].readIfPresent()
+        value.policyPeriodInMinutes = try reader["PolicyPeriodInMinutes"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.RoutingStrategy {
+
+    static func write(value: GameLiftClientTypes.RoutingStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FleetId"].write(value.fleetId)
+        try writer["Message"].write(value.message)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.RoutingStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.RoutingStrategy()
+        value.type = try reader["Type"].readIfPresent()
+        value.fleetId = try reader["FleetId"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -19094,21 +19514,23 @@ extension GameLiftClientTypes.RuntimeConfiguration {
     }
 }
 
-extension GameLiftClientTypes.ServerProcess {
+extension GameLiftClientTypes.S3Location {
 
-    static func write(value: GameLiftClientTypes.ServerProcess?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GameLiftClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ConcurrentExecutions"].write(value.concurrentExecutions)
-        try writer["LaunchPath"].write(value.launchPath)
-        try writer["Parameters"].write(value.parameters)
+        try writer["Bucket"].write(value.bucket)
+        try writer["Key"].write(value.key)
+        try writer["ObjectVersion"].write(value.objectVersion)
+        try writer["RoleArn"].write(value.roleArn)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ServerProcess {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.S3Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.ServerProcess()
-        value.launchPath = try reader["LaunchPath"].readIfPresent() ?? ""
-        value.parameters = try reader["Parameters"].readIfPresent()
-        value.concurrentExecutions = try reader["ConcurrentExecutions"].readIfPresent() ?? 0
+        var value = GameLiftClientTypes.S3Location()
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.objectVersion = try reader["ObjectVersion"].readIfPresent()
         return value
     }
 }
@@ -19136,6 +19558,96 @@ extension GameLiftClientTypes.ScalingPolicy {
     }
 }
 
+extension GameLiftClientTypes.Script {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Script {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.Script()
+        value.scriptId = try reader["ScriptId"].readIfPresent()
+        value.scriptArn = try reader["ScriptArn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.version = try reader["Version"].readIfPresent()
+        value.sizeOnDisk = try reader["SizeOnDisk"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.storageLocation = try reader["StorageLocation"].readIfPresent(with: GameLiftClientTypes.S3Location.read(from:))
+        value.nodeJsVersion = try reader["NodeJsVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.ServerProcess {
+
+    static func write(value: GameLiftClientTypes.ServerProcess?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConcurrentExecutions"].write(value.concurrentExecutions)
+        try writer["LaunchPath"].write(value.launchPath)
+        try writer["Parameters"].write(value.parameters)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ServerProcess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.ServerProcess()
+        value.launchPath = try reader["LaunchPath"].readIfPresent() ?? ""
+        value.parameters = try reader["Parameters"].readIfPresent()
+        value.concurrentExecutions = try reader["ConcurrentExecutions"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GameLiftClientTypes.SupportContainerDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.SupportContainerDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.SupportContainerDefinition()
+        value.containerName = try reader["ContainerName"].readIfPresent()
+        value.dependsOn = try reader["DependsOn"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerDependency.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mountPoints = try reader["MountPoints"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerMountPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.environmentOverride = try reader["EnvironmentOverride"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerEnvironment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.essential = try reader["Essential"].readIfPresent()
+        value.healthCheck = try reader["HealthCheck"].readIfPresent(with: GameLiftClientTypes.ContainerHealthCheck.read(from:))
+        value.imageUri = try reader["ImageUri"].readIfPresent()
+        value.memoryHardLimitMebibytes = try reader["MemoryHardLimitMebibytes"].readIfPresent()
+        value.portConfiguration = try reader["PortConfiguration"].readIfPresent(with: GameLiftClientTypes.ContainerPortConfiguration.read(from:))
+        value.resolvedImageDigest = try reader["ResolvedImageDigest"].readIfPresent()
+        value.vcpu = try reader["Vcpu"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.SupportContainerDefinitionInput {
+
+    static func write(value: GameLiftClientTypes.SupportContainerDefinitionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContainerName"].write(value.containerName)
+        try writer["DependsOn"].writeList(value.dependsOn, memberWritingClosure: GameLiftClientTypes.ContainerDependency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EnvironmentOverride"].writeList(value.environmentOverride, memberWritingClosure: GameLiftClientTypes.ContainerEnvironment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Essential"].write(value.essential)
+        try writer["HealthCheck"].write(value.healthCheck, with: GameLiftClientTypes.ContainerHealthCheck.write(value:to:))
+        try writer["ImageUri"].write(value.imageUri)
+        try writer["MemoryHardLimitMebibytes"].write(value.memoryHardLimitMebibytes)
+        try writer["MountPoints"].writeList(value.mountPoints, memberWritingClosure: GameLiftClientTypes.ContainerMountPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PortConfiguration"].write(value.portConfiguration, with: GameLiftClientTypes.ContainerPortConfiguration.write(value:to:))
+        try writer["Vcpu"].write(value.vcpu)
+    }
+}
+
+extension GameLiftClientTypes.Tag {
+
+    static func write(value: GameLiftClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension GameLiftClientTypes.TargetConfiguration {
 
     static func write(value: GameLiftClientTypes.TargetConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -19147,6 +19659,39 @@ extension GameLiftClientTypes.TargetConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GameLiftClientTypes.TargetConfiguration()
         value.targetValue = try reader["TargetValue"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension GameLiftClientTypes.TargetTrackingConfiguration {
+
+    static func write(value: GameLiftClientTypes.TargetTrackingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TargetValue"].write(value.targetValue)
+    }
+}
+
+extension GameLiftClientTypes.UDPEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.UDPEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.UDPEndpoint()
+        value.domain = try reader["Domain"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.VpcPeeringAuthorization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.VpcPeeringAuthorization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.VpcPeeringAuthorization()
+        value.gameLiftAwsAccountId = try reader["GameLiftAwsAccountId"].readIfPresent()
+        value.peerVpcAwsAccountId = try reader["PeerVpcAwsAccountId"].readIfPresent()
+        value.peerVpcId = try reader["PeerVpcId"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.expirationTime = try reader["ExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -19175,142 +19720,6 @@ extension GameLiftClientTypes.VpcPeeringConnectionStatus {
         value.code = try reader["Code"].readIfPresent()
         value.message = try reader["Message"].readIfPresent()
         return value
-    }
-}
-
-extension GameLiftClientTypes.ContainerIdentifier {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.ContainerIdentifier()
-        value.containerName = try reader["ContainerName"].readIfPresent()
-        value.containerRuntimeId = try reader["ContainerRuntimeId"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.InstanceAccess {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.InstanceAccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.InstanceAccess()
-        value.fleetId = try reader["FleetId"].readIfPresent()
-        value.instanceId = try reader["InstanceId"].readIfPresent()
-        value.ipAddress = try reader["IpAddress"].readIfPresent()
-        value.operatingSystem = try reader["OperatingSystem"].readIfPresent()
-        value.credentials = try reader["Credentials"].readIfPresent(with: GameLiftClientTypes.InstanceCredentials.read(from:))
-        return value
-    }
-}
-
-extension GameLiftClientTypes.InstanceCredentials {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.InstanceCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.InstanceCredentials()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.secret = try reader["Secret"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.Tag {
-
-    static func write(value: GameLiftClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GameLiftClientTypes.ClaimFilterOption {
-
-    static func write(value: GameLiftClientTypes.ClaimFilterOption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InstanceStatuses"].writeList(value.instanceStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GameLiftClientTypes.FilterInstanceStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GameLiftClientTypes.LocationConfiguration {
-
-    static func write(value: GameLiftClientTypes.LocationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Location"].write(value.location)
-    }
-}
-
-extension GameLiftClientTypes.GameServerContainerDefinitionInput {
-
-    static func write(value: GameLiftClientTypes.GameServerContainerDefinitionInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContainerName"].write(value.containerName)
-        try writer["DependsOn"].writeList(value.dependsOn, memberWritingClosure: GameLiftClientTypes.ContainerDependency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EnvironmentOverride"].writeList(value.environmentOverride, memberWritingClosure: GameLiftClientTypes.ContainerEnvironment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ImageUri"].write(value.imageUri)
-        try writer["MountPoints"].writeList(value.mountPoints, memberWritingClosure: GameLiftClientTypes.ContainerMountPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PortConfiguration"].write(value.portConfiguration, with: GameLiftClientTypes.ContainerPortConfiguration.write(value:to:))
-        try writer["ServerSdkVersion"].write(value.serverSdkVersion)
-    }
-}
-
-extension GameLiftClientTypes.SupportContainerDefinitionInput {
-
-    static func write(value: GameLiftClientTypes.SupportContainerDefinitionInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContainerName"].write(value.containerName)
-        try writer["DependsOn"].writeList(value.dependsOn, memberWritingClosure: GameLiftClientTypes.ContainerDependency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EnvironmentOverride"].writeList(value.environmentOverride, memberWritingClosure: GameLiftClientTypes.ContainerEnvironment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Essential"].write(value.essential)
-        try writer["HealthCheck"].write(value.healthCheck, with: GameLiftClientTypes.ContainerHealthCheck.write(value:to:))
-        try writer["ImageUri"].write(value.imageUri)
-        try writer["MemoryHardLimitMebibytes"].write(value.memoryHardLimitMebibytes)
-        try writer["MountPoints"].writeList(value.mountPoints, memberWritingClosure: GameLiftClientTypes.ContainerMountPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PortConfiguration"].write(value.portConfiguration, with: GameLiftClientTypes.ContainerPortConfiguration.write(value:to:))
-        try writer["Vcpu"].write(value.vcpu)
-    }
-}
-
-extension GameLiftClientTypes.LaunchTemplateSpecification {
-
-    static func write(value: GameLiftClientTypes.LaunchTemplateSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LaunchTemplateId"].write(value.launchTemplateId)
-        try writer["LaunchTemplateName"].write(value.launchTemplateName)
-        try writer["Version"].write(value.version)
-    }
-}
-
-extension GameLiftClientTypes.GameServerGroupAutoScalingPolicy {
-
-    static func write(value: GameLiftClientTypes.GameServerGroupAutoScalingPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EstimatedInstanceWarmup"].write(value.estimatedInstanceWarmup)
-        try writer["TargetTrackingConfiguration"].write(value.targetTrackingConfiguration, with: GameLiftClientTypes.TargetTrackingConfiguration.write(value:to:))
-    }
-}
-
-extension GameLiftClientTypes.TargetTrackingConfiguration {
-
-    static func write(value: GameLiftClientTypes.TargetTrackingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TargetValue"].write(value.targetValue)
-    }
-}
-
-extension GameLiftClientTypes.DesiredPlayerSession {
-
-    static func write(value: GameLiftClientTypes.DesiredPlayerSession?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PlayerData"].write(value.playerData)
-        try writer["PlayerId"].write(value.playerId)
     }
 }
 

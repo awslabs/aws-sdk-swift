@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -58,6 +57,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -665,7 +665,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateEntitiesToExperienceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>(xAmzTarget: "AWSKendraFrontendService.AssociateEntitiesToExperience"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.AssociateEntitiesToExperience"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateEntitiesToExperienceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateEntitiesToExperienceOutput>())
@@ -739,7 +739,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociatePersonasToEntitiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>(xAmzTarget: "AWSKendraFrontendService.AssociatePersonasToEntities"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.AssociatePersonasToEntities"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociatePersonasToEntitiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociatePersonasToEntitiesOutput>())
@@ -813,7 +813,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteDocumentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>(xAmzTarget: "AWSKendraFrontendService.BatchDeleteDocument"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.BatchDeleteDocument"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteDocumentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteDocumentOutput>())
@@ -886,7 +886,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteFeaturedResultsSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>(xAmzTarget: "AWSKendraFrontendService.BatchDeleteFeaturedResultsSet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.BatchDeleteFeaturedResultsSet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteFeaturedResultsSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteFeaturedResultsSetOutput>())
@@ -960,7 +960,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetDocumentStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>(xAmzTarget: "AWSKendraFrontendService.BatchGetDocumentStatus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.BatchGetDocumentStatus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetDocumentStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetDocumentStatusOutput>())
@@ -1035,7 +1035,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchPutDocumentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>(xAmzTarget: "AWSKendraFrontendService.BatchPutDocument"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.BatchPutDocument"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchPutDocumentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchPutDocumentOutput>())
@@ -1109,7 +1109,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ClearQuerySuggestionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>(xAmzTarget: "AWSKendraFrontendService.ClearQuerySuggestions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.ClearQuerySuggestions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ClearQuerySuggestionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ClearQuerySuggestionsOutput>())
@@ -1185,7 +1185,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAccessControlConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>(xAmzTarget: "AWSKendraFrontendService.CreateAccessControlConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.CreateAccessControlConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAccessControlConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAccessControlConfigurationOutput>())
@@ -1262,7 +1262,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDataSourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDataSourceInput, CreateDataSourceOutput>(xAmzTarget: "AWSKendraFrontendService.CreateDataSource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDataSourceInput, CreateDataSourceOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.CreateDataSource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDataSourceInput, CreateDataSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDataSourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDataSourceInput, CreateDataSourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDataSourceOutput>())
@@ -1338,7 +1338,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateExperienceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateExperienceInput, CreateExperienceOutput>(xAmzTarget: "AWSKendraFrontendService.CreateExperience"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateExperienceInput, CreateExperienceOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.CreateExperience"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateExperienceInput, CreateExperienceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateExperienceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateExperienceInput, CreateExperienceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateExperienceOutput>())
@@ -1414,7 +1414,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFaqOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateFaqInput, CreateFaqOutput>(xAmzTarget: "AWSKendraFrontendService.CreateFaq"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFaqInput, CreateFaqOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.CreateFaq"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateFaqInput, CreateFaqOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFaqInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFaqInput, CreateFaqOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFaqOutput>())
@@ -1489,7 +1489,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFeaturedResultsSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>(xAmzTarget: "AWSKendraFrontendService.CreateFeaturedResultsSet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.CreateFeaturedResultsSet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFeaturedResultsSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFeaturedResultsSetOutput>())
@@ -1565,7 +1565,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateIndexOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateIndexInput, CreateIndexOutput>(xAmzTarget: "AWSKendraFrontendService.CreateIndex"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateIndexInput, CreateIndexOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.CreateIndex"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateIndexInput, CreateIndexOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateIndexInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateIndexInput, CreateIndexOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIndexOutput>())
@@ -1641,7 +1641,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateQuerySuggestionsBlockListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>(xAmzTarget: "AWSKendraFrontendService.CreateQuerySuggestionsBlockList"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.CreateQuerySuggestionsBlockList"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateQuerySuggestionsBlockListInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateQuerySuggestionsBlockListOutput>())
@@ -1717,7 +1717,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateThesaurusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateThesaurusInput, CreateThesaurusOutput>(xAmzTarget: "AWSKendraFrontendService.CreateThesaurus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateThesaurusInput, CreateThesaurusOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.CreateThesaurus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateThesaurusInput, CreateThesaurusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateThesaurusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateThesaurusInput, CreateThesaurusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateThesaurusOutput>())
@@ -1791,7 +1791,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAccessControlConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>(xAmzTarget: "AWSKendraFrontendService.DeleteAccessControlConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.DeleteAccessControlConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAccessControlConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAccessControlConfigurationOutput>())
@@ -1865,7 +1865,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDataSourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>(xAmzTarget: "AWSKendraFrontendService.DeleteDataSource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.DeleteDataSource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDataSourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDataSourceOutput>())
@@ -1939,7 +1939,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteExperienceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteExperienceInput, DeleteExperienceOutput>(xAmzTarget: "AWSKendraFrontendService.DeleteExperience"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteExperienceInput, DeleteExperienceOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.DeleteExperience"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteExperienceInput, DeleteExperienceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteExperienceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteExperienceInput, DeleteExperienceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteExperienceOutput>())
@@ -2013,7 +2013,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFaqOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteFaqInput, DeleteFaqOutput>(xAmzTarget: "AWSKendraFrontendService.DeleteFaq"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFaqInput, DeleteFaqOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.DeleteFaq"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteFaqInput, DeleteFaqOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFaqInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFaqInput, DeleteFaqOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFaqOutput>())
@@ -2087,7 +2087,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteIndexOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteIndexInput, DeleteIndexOutput>(xAmzTarget: "AWSKendraFrontendService.DeleteIndex"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteIndexInput, DeleteIndexOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.DeleteIndex"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteIndexInput, DeleteIndexOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteIndexInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteIndexInput, DeleteIndexOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIndexOutput>())
@@ -2161,7 +2161,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePrincipalMappingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>(xAmzTarget: "AWSKendraFrontendService.DeletePrincipalMapping"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.DeletePrincipalMapping"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePrincipalMappingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePrincipalMappingOutput>())
@@ -2235,7 +2235,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteQuerySuggestionsBlockListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>(xAmzTarget: "AWSKendraFrontendService.DeleteQuerySuggestionsBlockList"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.DeleteQuerySuggestionsBlockList"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteQuerySuggestionsBlockListInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteQuerySuggestionsBlockListOutput>())
@@ -2309,7 +2309,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteThesaurusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput>(xAmzTarget: "AWSKendraFrontendService.DeleteThesaurus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.DeleteThesaurus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteThesaurusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteThesaurusOutput>())
@@ -2382,7 +2382,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAccessControlConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeAccessControlConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.DescribeAccessControlConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAccessControlConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAccessControlConfigurationOutput>())
@@ -2455,7 +2455,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDataSourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeDataSource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.DescribeDataSource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDataSourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDataSourceOutput>())
@@ -2528,7 +2528,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeExperienceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeExperienceInput, DescribeExperienceOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeExperience"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeExperienceInput, DescribeExperienceOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.DescribeExperience"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeExperienceInput, DescribeExperienceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeExperienceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeExperienceInput, DescribeExperienceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeExperienceOutput>())
@@ -2601,7 +2601,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFaqOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeFaqInput, DescribeFaqOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeFaq"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFaqInput, DescribeFaqOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.DescribeFaq"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeFaqInput, DescribeFaqOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFaqInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFaqInput, DescribeFaqOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFaqOutput>())
@@ -2674,7 +2674,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFeaturedResultsSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeFeaturedResultsSet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.DescribeFeaturedResultsSet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFeaturedResultsSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFeaturedResultsSetOutput>())
@@ -2747,7 +2747,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeIndexOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeIndexInput, DescribeIndexOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeIndex"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeIndexInput, DescribeIndexOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.DescribeIndex"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeIndexInput, DescribeIndexOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeIndexInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeIndexInput, DescribeIndexOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeIndexOutput>())
@@ -2820,7 +2820,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePrincipalMappingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>(xAmzTarget: "AWSKendraFrontendService.DescribePrincipalMapping"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.DescribePrincipalMapping"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePrincipalMappingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePrincipalMappingOutput>())
@@ -2893,7 +2893,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeQuerySuggestionsBlockListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeQuerySuggestionsBlockList"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.DescribeQuerySuggestionsBlockList"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeQuerySuggestionsBlockListInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeQuerySuggestionsBlockListOutput>())
@@ -2966,7 +2966,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeQuerySuggestionsConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeQuerySuggestionsConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.DescribeQuerySuggestionsConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeQuerySuggestionsConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeQuerySuggestionsConfigOutput>())
@@ -3039,7 +3039,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeThesaurusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput>(xAmzTarget: "AWSKendraFrontendService.DescribeThesaurus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.DescribeThesaurus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeThesaurusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeThesaurusOutput>())
@@ -3112,7 +3112,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateEntitiesFromExperienceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>(xAmzTarget: "AWSKendraFrontendService.DisassociateEntitiesFromExperience"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.DisassociateEntitiesFromExperience"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateEntitiesFromExperienceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateEntitiesFromExperienceOutput>())
@@ -3185,7 +3185,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociatePersonasFromEntitiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>(xAmzTarget: "AWSKendraFrontendService.DisassociatePersonasFromEntities"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.DisassociatePersonasFromEntities"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociatePersonasFromEntitiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociatePersonasFromEntitiesOutput>())
@@ -3260,7 +3260,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetQuerySuggestionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>(xAmzTarget: "AWSKendraFrontendService.GetQuerySuggestions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.GetQuerySuggestions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetQuerySuggestionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetQuerySuggestionsOutput>())
@@ -3332,7 +3332,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSnapshotsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSnapshotsInput, GetSnapshotsOutput>(xAmzTarget: "AWSKendraFrontendService.GetSnapshots"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSnapshotsInput, GetSnapshotsOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.GetSnapshots"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetSnapshotsInput, GetSnapshotsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSnapshotsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSnapshotsInput, GetSnapshotsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSnapshotsOutput>())
@@ -3405,7 +3405,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAccessControlConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>(xAmzTarget: "AWSKendraFrontendService.ListAccessControlConfigurations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.ListAccessControlConfigurations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccessControlConfigurationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAccessControlConfigurationsOutput>())
@@ -3479,7 +3479,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDataSourceSyncJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>(xAmzTarget: "AWSKendraFrontendService.ListDataSourceSyncJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.ListDataSourceSyncJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDataSourceSyncJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataSourceSyncJobsOutput>())
@@ -3552,7 +3552,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDataSourcesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(xAmzTarget: "AWSKendraFrontendService.ListDataSources"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.ListDataSources"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDataSourcesInput, ListDataSourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDataSourcesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataSourcesOutput>())
@@ -3625,7 +3625,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEntityPersonasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput>(xAmzTarget: "AWSKendraFrontendService.ListEntityPersonas"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.ListEntityPersonas"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEntityPersonasInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEntityPersonasOutput>())
@@ -3698,7 +3698,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListExperienceEntitiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>(xAmzTarget: "AWSKendraFrontendService.ListExperienceEntities"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.ListExperienceEntities"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListExperienceEntitiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListExperienceEntitiesOutput>())
@@ -3771,7 +3771,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListExperiencesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListExperiencesInput, ListExperiencesOutput>(xAmzTarget: "AWSKendraFrontendService.ListExperiences"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListExperiencesInput, ListExperiencesOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.ListExperiences"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListExperiencesInput, ListExperiencesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListExperiencesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListExperiencesInput, ListExperiencesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListExperiencesOutput>())
@@ -3844,7 +3844,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFaqsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListFaqsInput, ListFaqsOutput>(xAmzTarget: "AWSKendraFrontendService.ListFaqs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFaqsInput, ListFaqsOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.ListFaqs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListFaqsInput, ListFaqsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFaqsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFaqsInput, ListFaqsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFaqsOutput>())
@@ -3917,7 +3917,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFeaturedResultsSetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>(xAmzTarget: "AWSKendraFrontendService.ListFeaturedResultsSets"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.ListFeaturedResultsSets"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFeaturedResultsSetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFeaturedResultsSetsOutput>())
@@ -3991,7 +3991,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListGroupsOlderThanOrderingIdOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>(xAmzTarget: "AWSKendraFrontendService.ListGroupsOlderThanOrderingId"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.ListGroupsOlderThanOrderingId"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListGroupsOlderThanOrderingIdInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListGroupsOlderThanOrderingIdOutput>())
@@ -4063,7 +4063,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListIndicesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListIndicesInput, ListIndicesOutput>(xAmzTarget: "AWSKendraFrontendService.ListIndices"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListIndicesInput, ListIndicesOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.ListIndices"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListIndicesInput, ListIndicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListIndicesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListIndicesInput, ListIndicesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListIndicesOutput>())
@@ -4136,7 +4136,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListQuerySuggestionsBlockListsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>(xAmzTarget: "AWSKendraFrontendService.ListQuerySuggestionsBlockLists"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.ListQuerySuggestionsBlockLists"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListQuerySuggestionsBlockListsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListQuerySuggestionsBlockListsOutput>())
@@ -4209,7 +4209,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AWSKendraFrontendService.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -4282,7 +4282,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListThesauriOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListThesauriInput, ListThesauriOutput>(xAmzTarget: "AWSKendraFrontendService.ListThesauri"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListThesauriInput, ListThesauriOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.ListThesauri"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListThesauriInput, ListThesauriOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListThesauriInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListThesauriInput, ListThesauriOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListThesauriOutput>())
@@ -4357,7 +4357,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutPrincipalMappingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput>(xAmzTarget: "AWSKendraFrontendService.PutPrincipalMapping"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.PutPrincipalMapping"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutPrincipalMappingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutPrincipalMappingOutput>())
@@ -4441,7 +4441,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<QueryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<QueryInput, QueryOutput>(xAmzTarget: "AWSKendraFrontendService.Query"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<QueryInput, QueryOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.Query"]))
         builder.serialize(ClientRuntime.BodyMiddleware<QueryInput, QueryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: QueryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<QueryInput, QueryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<QueryOutput>())
@@ -4527,7 +4527,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RetrieveOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RetrieveInput, RetrieveOutput>(xAmzTarget: "AWSKendraFrontendService.Retrieve"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RetrieveInput, RetrieveOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.Retrieve"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RetrieveInput, RetrieveOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RetrieveInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RetrieveInput, RetrieveOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RetrieveOutput>())
@@ -4602,7 +4602,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartDataSourceSyncJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>(xAmzTarget: "AWSKendraFrontendService.StartDataSourceSyncJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.StartDataSourceSyncJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartDataSourceSyncJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartDataSourceSyncJobOutput>())
@@ -4675,7 +4675,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopDataSourceSyncJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>(xAmzTarget: "AWSKendraFrontendService.StopDataSourceSyncJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.StopDataSourceSyncJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopDataSourceSyncJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopDataSourceSyncJobOutput>())
@@ -4749,7 +4749,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SubmitFeedbackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput>(xAmzTarget: "AWSKendraFrontendService.SubmitFeedback"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.SubmitFeedback"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SubmitFeedbackInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SubmitFeedbackOutput>())
@@ -4822,7 +4822,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AWSKendraFrontendService.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -4895,7 +4895,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AWSKendraFrontendService.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -4970,7 +4970,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAccessControlConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateAccessControlConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.UpdateAccessControlConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAccessControlConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAccessControlConfigurationOutput>())
@@ -5044,7 +5044,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDataSourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateDataSource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.UpdateDataSource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDataSourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDataSourceOutput>())
@@ -5118,7 +5118,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateExperienceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateExperienceInput, UpdateExperienceOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateExperience"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateExperienceInput, UpdateExperienceOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.UpdateExperience"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateExperienceInput, UpdateExperienceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateExperienceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateExperienceInput, UpdateExperienceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateExperienceOutput>())
@@ -5192,7 +5192,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFeaturedResultsSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateFeaturedResultsSet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.UpdateFeaturedResultsSet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFeaturedResultsSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFeaturedResultsSetOutput>())
@@ -5267,7 +5267,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateIndexOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateIndexInput, UpdateIndexOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateIndex"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateIndexInput, UpdateIndexOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.UpdateIndex"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateIndexInput, UpdateIndexOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateIndexInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateIndexInput, UpdateIndexOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateIndexOutput>())
@@ -5341,7 +5341,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateQuerySuggestionsBlockListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateQuerySuggestionsBlockList"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.UpdateQuerySuggestionsBlockList"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateQuerySuggestionsBlockListInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateQuerySuggestionsBlockListOutput>())
@@ -5415,7 +5415,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateQuerySuggestionsConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateQuerySuggestionsConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.UpdateQuerySuggestionsConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateQuerySuggestionsConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateQuerySuggestionsConfigOutput>())
@@ -5489,7 +5489,7 @@ extension KendraClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateThesaurusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput>(xAmzTarget: "AWSKendraFrontendService.UpdateThesaurus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput>(overrides: ["X-Amz-Target": "AWSKendraFrontendService.UpdateThesaurus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateThesaurusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateThesaurusOutput>())

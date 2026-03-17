@@ -38,10 +38,19 @@ let package = Package(
         .tvOS(.v13),
         .watchOS(.v6)
     ],
-    dependencies: [
-        .package(path: "../../smithy-swift"),
-        .package(path: "../../aws-sdk-swift"),
-    ],
+    dependencies: {
+        var deps: [Package.Dependency] = [
+            .package(path: "../../smithy-swift"),
+            .package(path: "../../aws-sdk-swift"),
+        ]
+        #if swift(>=5.10)
+        deps.append(contentsOf: [
+            .package(url: "https://github.com/smithy-lang/smithy-swift-opentelemetry.git", from: "2.0.0"),
+            .package(url: "https://github.com/open-telemetry/opentelemetry-swift-core", from: "2.3.0"),
+        ])
+        #endif
+        return deps
+    }(),
     targets: integrationTestTargets
 )
 
@@ -70,6 +79,7 @@ private func integrationTestTarget(_ name: String) -> Target {
     let integrationTestName = "\(name)IntegrationTests"
     var additionalDependencies: [String] = []
     var exclusions: [String] = []
+    var platformSpecificDependencies: [Target.Dependency] = []
     switch name {
     case "AWSEC2":
         additionalDependencies = ["AWSIAM", "AWSSTS", "AWSCloudWatchLogs"]
@@ -90,6 +100,12 @@ private func integrationTestTarget(_ name: String) -> Target {
         additionalDependencies = ["AWSCloudFront"]
     case "AWSSTS":
         additionalDependencies = ["AWSIAM", "AWSCognitoIdentity"]
+        #if swift(>=5.10)
+        platformSpecificDependencies = [
+            .product(name: "SmithyOpenTelemetry", package: "smithy-swift-opentelemetry", condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .visionOS])),
+            .product(name: "OpenTelemetrySdk", package: "opentelemetry-swift-core", condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .visionOS])),
+        ]
+        #endif
     case "AWSCognitoIdentity":
         additionalDependencies = ["AWSSTS", "AWSIAM"]
     default:
@@ -110,7 +126,7 @@ private func integrationTestTarget(_ name: String) -> Target {
             .product(name: name, package: "aws-sdk-swift")
         ] + additionalDependencies.map {
             Target.Dependency.product(name: $0, package: "aws-sdk-swift", condition: nil)
-        },
+        } + platformSpecificDependencies,
         path: "./Services/\(integrationTestName)",
         exclude: exclusions,
         resources: [.process("Resources")]

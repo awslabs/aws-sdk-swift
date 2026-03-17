@@ -20,8 +20,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 import struct Smithy.Document
 
 extension OpenSearchServerlessClientTypes {
@@ -4812,7 +4812,7 @@ enum BatchGetCollectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -4827,7 +4827,7 @@ enum BatchGetCollectionGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -4842,7 +4842,7 @@ enum BatchGetEffectiveLifecyclePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -4857,7 +4857,7 @@ enum BatchGetLifecyclePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -4872,7 +4872,7 @@ enum BatchGetVpcEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -4887,7 +4887,7 @@ enum CreateAccessPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -4904,7 +4904,7 @@ enum CreateCollectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -4922,7 +4922,7 @@ enum CreateCollectionGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -4939,7 +4939,7 @@ enum CreateIndexOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -4956,7 +4956,7 @@ enum CreateLifecyclePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -4973,7 +4973,7 @@ enum CreateSecurityConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -4990,7 +4990,7 @@ enum CreateSecurityPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5007,7 +5007,7 @@ enum CreateVpcEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5024,7 +5024,7 @@ enum DeleteAccessPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5041,7 +5041,7 @@ enum DeleteCollectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5058,7 +5058,7 @@ enum DeleteCollectionGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5075,7 +5075,7 @@ enum DeleteIndexOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -5091,7 +5091,7 @@ enum DeleteLifecyclePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5108,7 +5108,7 @@ enum DeleteSecurityConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5125,7 +5125,7 @@ enum DeleteSecurityPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5142,7 +5142,7 @@ enum DeleteVpcEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5159,7 +5159,7 @@ enum GetAccessPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -5175,7 +5175,7 @@ enum GetAccountSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -5190,7 +5190,7 @@ enum GetIndexOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -5206,7 +5206,7 @@ enum GetPoliciesStatsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -5220,7 +5220,7 @@ enum GetSecurityConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -5236,7 +5236,7 @@ enum GetSecurityPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -5252,7 +5252,7 @@ enum ListAccessPoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -5267,7 +5267,7 @@ enum ListCollectionGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -5282,7 +5282,7 @@ enum ListCollectionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -5297,7 +5297,7 @@ enum ListLifecyclePoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -5312,7 +5312,7 @@ enum ListSecurityConfigsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -5327,7 +5327,7 @@ enum ListSecurityPoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -5342,7 +5342,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -5358,7 +5358,7 @@ enum ListVpcEndpointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -5373,7 +5373,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5391,7 +5391,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5408,7 +5408,7 @@ enum UpdateAccessPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5425,7 +5425,7 @@ enum UpdateAccountSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -5441,7 +5441,7 @@ enum UpdateCollectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5457,7 +5457,7 @@ enum UpdateCollectionGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5474,7 +5474,7 @@ enum UpdateIndexOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -5490,7 +5490,7 @@ enum UpdateLifecyclePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5508,7 +5508,7 @@ enum UpdateSecurityConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5525,7 +5525,7 @@ enum UpdateSecurityPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5543,7 +5543,7 @@ enum UpdateVpcEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5556,7 +5556,7 @@ enum UpdateVpcEndpointOutputError {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5569,7 +5569,7 @@ extension InternalServerException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5582,7 +5582,7 @@ extension ValidationException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5595,7 +5595,7 @@ extension ConflictException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5612,7 +5612,7 @@ extension ServiceQuotaExceededException {
 
 extension OcuLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OcuLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> OcuLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = OcuLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5625,13 +5625,81 @@ extension OcuLimitExceededException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.AccessPolicyDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.AccessPolicyDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.AccessPolicyDetail()
+        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.policyVersion = try reader["policyVersion"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.policy = try reader["policy"].readIfPresent()
+        value.createdDate = try reader["createdDate"].readIfPresent()
+        value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.AccessPolicyStats {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.AccessPolicyStats {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.AccessPolicyStats()
+        value.dataPolicyCount = try reader["DataPolicyCount"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.AccessPolicySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.AccessPolicySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.AccessPolicySummary()
+        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.policyVersion = try reader["policyVersion"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.createdDate = try reader["createdDate"].readIfPresent()
+        value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.AccountSettingsDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.AccountSettingsDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.AccountSettingsDetail()
+        value.capacityLimits = try reader["capacityLimits"].readIfPresent(with: OpenSearchServerlessClientTypes.CapacityLimits.read(from:))
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.CapacityLimits {
+
+    static func write(value: OpenSearchServerlessClientTypes.CapacityLimits?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxIndexingCapacityInOCU"].write(value.maxIndexingCapacityInOCU)
+        try writer["maxSearchCapacityInOCU"].write(value.maxSearchCapacityInOCU)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.CapacityLimits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.CapacityLimits()
+        value.maxIndexingCapacityInOCU = try reader["maxIndexingCapacityInOCU"].readIfPresent()
+        value.maxSearchCapacityInOCU = try reader["maxSearchCapacityInOCU"].readIfPresent()
         return value
     }
 }
@@ -5662,32 +5730,6 @@ extension OpenSearchServerlessClientTypes.CollectionDetail {
     }
 }
 
-extension OpenSearchServerlessClientTypes.FipsEndpoints {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.FipsEndpoints {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.FipsEndpoints()
-        value.collectionEndpoint = try reader["collectionEndpoint"].readIfPresent()
-        value.dashboardEndpoint = try reader["dashboardEndpoint"].readIfPresent()
-        return value
-    }
-}
-
-extension OpenSearchServerlessClientTypes.VectorOptions {
-
-    static func write(value: OpenSearchServerlessClientTypes.VectorOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ServerlessVectorAcceleration"].write(value.serverlessVectorAcceleration)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.VectorOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.VectorOptions()
-        value.serverlessVectorAcceleration = try reader["ServerlessVectorAcceleration"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
 extension OpenSearchServerlessClientTypes.CollectionErrorDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.CollectionErrorDetail {
@@ -5701,21 +5743,13 @@ extension OpenSearchServerlessClientTypes.CollectionErrorDetail {
     }
 }
 
-extension OpenSearchServerlessClientTypes.CollectionGroupDetail {
+extension OpenSearchServerlessClientTypes.CollectionFilters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.CollectionGroupDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.CollectionGroupDetail()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.standbyReplicas = try reader["standbyReplicas"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: OpenSearchServerlessClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdDate = try reader["createdDate"].readIfPresent()
-        value.capacityLimits = try reader["capacityLimits"].readIfPresent(with: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits.read(from:))
-        value.numberOfCollections = try reader["numberOfCollections"].readIfPresent()
-        return value
+    static func write(value: OpenSearchServerlessClientTypes.CollectionFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["collectionGroupName"].write(value.collectionGroupName)
+        try writer["name"].write(value.name)
+        try writer["status"].write(value.status)
     }
 }
 
@@ -5740,19 +5774,20 @@ extension OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits {
     }
 }
 
-extension OpenSearchServerlessClientTypes.Tag {
+extension OpenSearchServerlessClientTypes.CollectionGroupDetail {
 
-    static func write(value: OpenSearchServerlessClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.Tag {
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.CollectionGroupDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
+        var value = OpenSearchServerlessClientTypes.CollectionGroupDetail()
+        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.standbyReplicas = try reader["standbyReplicas"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: OpenSearchServerlessClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdDate = try reader["createdDate"].readIfPresent()
+        value.capacityLimits = try reader["capacityLimits"].readIfPresent(with: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits.read(from:))
+        value.numberOfCollections = try reader["numberOfCollections"].readIfPresent()
         return value
     }
 }
@@ -5770,105 +5805,32 @@ extension OpenSearchServerlessClientTypes.CollectionGroupErrorDetail {
     }
 }
 
-extension OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyDetail {
+extension OpenSearchServerlessClientTypes.CollectionGroupSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyDetail {
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.CollectionGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyDetail()
-        value.type = try reader["type"].readIfPresent()
-        value.resource = try reader["resource"].readIfPresent()
-        value.policyName = try reader["policyName"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.retentionPeriod = try reader["retentionPeriod"].readIfPresent()
-        value.noMinRetentionPeriod = try reader["noMinRetentionPeriod"].readIfPresent()
-        return value
-    }
-}
-
-extension OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyErrorDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyErrorDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyErrorDetail()
-        value.type = try reader["type"].readIfPresent()
-        value.resource = try reader["resource"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        return value
-    }
-}
-
-extension OpenSearchServerlessClientTypes.LifecyclePolicyDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.LifecyclePolicyDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.LifecyclePolicyDetail()
-        value.type = try reader["type"].readIfPresent()
+        var value = OpenSearchServerlessClientTypes.CollectionGroupSummary()
+        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
-        value.policyVersion = try reader["policyVersion"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.policy = try reader["policy"].readIfPresent()
+        value.numberOfCollections = try reader["numberOfCollections"].readIfPresent()
         value.createdDate = try reader["createdDate"].readIfPresent()
-        value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
+        value.capacityLimits = try reader["capacityLimits"].readIfPresent(with: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits.read(from:))
         return value
     }
 }
 
-extension OpenSearchServerlessClientTypes.LifecyclePolicyErrorDetail {
+extension OpenSearchServerlessClientTypes.CollectionSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.LifecyclePolicyErrorDetail {
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.CollectionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.LifecyclePolicyErrorDetail()
-        value.type = try reader["type"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        return value
-    }
-}
-
-extension OpenSearchServerlessClientTypes.VpcEndpointDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.VpcEndpointDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.VpcEndpointDetail()
+        var value = OpenSearchServerlessClientTypes.CollectionSummary()
         value.id = try reader["id"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
-        value.vpcId = try reader["vpcId"].readIfPresent()
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent()
-        value.createdDate = try reader["createdDate"].readIfPresent()
-        value.failureCode = try reader["failureCode"].readIfPresent()
-        value.failureMessage = try reader["failureMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension OpenSearchServerlessClientTypes.VpcEndpointErrorDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.VpcEndpointErrorDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.VpcEndpointErrorDetail()
-        value.id = try reader["id"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        return value
-    }
-}
-
-extension OpenSearchServerlessClientTypes.AccessPolicyDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.AccessPolicyDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.AccessPolicyDetail()
-        value.type = try reader["type"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.policyVersion = try reader["policyVersion"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.policy = try reader["policy"].readIfPresent()
-        value.createdDate = try reader["createdDate"].readIfPresent()
-        value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        value.collectionGroupName = try reader["collectionGroupName"].readIfPresent()
         return value
     }
 }
@@ -5911,92 +5873,13 @@ extension OpenSearchServerlessClientTypes.CreateCollectionGroupDetail {
     }
 }
 
-extension OpenSearchServerlessClientTypes.SecurityConfigDetail {
+extension OpenSearchServerlessClientTypes.CreateIamIdentityCenterConfigOptions {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.SecurityConfigDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.SecurityConfigDetail()
-        value.id = try reader["id"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.configVersion = try reader["configVersion"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.samlOptions = try reader["samlOptions"].readIfPresent(with: OpenSearchServerlessClientTypes.SamlConfigOptions.read(from:))
-        value.iamIdentityCenterOptions = try reader["iamIdentityCenterOptions"].readIfPresent(with: OpenSearchServerlessClientTypes.IamIdentityCenterConfigOptions.read(from:))
-        value.iamFederationOptions = try reader["iamFederationOptions"].readIfPresent(with: OpenSearchServerlessClientTypes.IamFederationConfigOptions.read(from:))
-        value.createdDate = try reader["createdDate"].readIfPresent()
-        value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
-        return value
-    }
-}
-
-extension OpenSearchServerlessClientTypes.IamFederationConfigOptions {
-
-    static func write(value: OpenSearchServerlessClientTypes.IamFederationConfigOptions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: OpenSearchServerlessClientTypes.CreateIamIdentityCenterConfigOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["groupAttribute"].write(value.groupAttribute)
+        try writer["instanceArn"].write(value.instanceArn)
         try writer["userAttribute"].write(value.userAttribute)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.IamFederationConfigOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.IamFederationConfigOptions()
-        value.groupAttribute = try reader["groupAttribute"].readIfPresent()
-        value.userAttribute = try reader["userAttribute"].readIfPresent()
-        return value
-    }
-}
-
-extension OpenSearchServerlessClientTypes.IamIdentityCenterConfigOptions {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.IamIdentityCenterConfigOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.IamIdentityCenterConfigOptions()
-        value.instanceArn = try reader["instanceArn"].readIfPresent()
-        value.applicationArn = try reader["applicationArn"].readIfPresent()
-        value.applicationName = try reader["applicationName"].readIfPresent()
-        value.applicationDescription = try reader["applicationDescription"].readIfPresent()
-        value.userAttribute = try reader["userAttribute"].readIfPresent()
-        value.groupAttribute = try reader["groupAttribute"].readIfPresent()
-        return value
-    }
-}
-
-extension OpenSearchServerlessClientTypes.SamlConfigOptions {
-
-    static func write(value: OpenSearchServerlessClientTypes.SamlConfigOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["groupAttribute"].write(value.groupAttribute)
-        try writer["metadata"].write(value.metadata)
-        try writer["openSearchServerlessEntityId"].write(value.openSearchServerlessEntityId)
-        try writer["sessionTimeout"].write(value.sessionTimeout)
-        try writer["userAttribute"].write(value.userAttribute)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.SamlConfigOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.SamlConfigOptions()
-        value.metadata = try reader["metadata"].readIfPresent() ?? ""
-        value.userAttribute = try reader["userAttribute"].readIfPresent()
-        value.groupAttribute = try reader["groupAttribute"].readIfPresent()
-        value.openSearchServerlessEntityId = try reader["openSearchServerlessEntityId"].readIfPresent()
-        value.sessionTimeout = try reader["sessionTimeout"].readIfPresent()
-        return value
-    }
-}
-
-extension OpenSearchServerlessClientTypes.SecurityPolicyDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.SecurityPolicyDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.SecurityPolicyDetail()
-        value.type = try reader["type"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.policyVersion = try reader["policyVersion"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.policy = try reader["policy"].readIfPresent()
-        value.createdDate = try reader["createdDate"].readIfPresent()
-        value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
-        return value
     }
 }
 
@@ -6036,61 +5919,130 @@ extension OpenSearchServerlessClientTypes.DeleteVpcEndpointDetail {
     }
 }
 
-extension OpenSearchServerlessClientTypes.AccountSettingsDetail {
+extension OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.AccountSettingsDetail {
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.AccountSettingsDetail()
-        value.capacityLimits = try reader["capacityLimits"].readIfPresent(with: OpenSearchServerlessClientTypes.CapacityLimits.read(from:))
+        var value = OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyDetail()
+        value.type = try reader["type"].readIfPresent()
+        value.resource = try reader["resource"].readIfPresent()
+        value.policyName = try reader["policyName"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.retentionPeriod = try reader["retentionPeriod"].readIfPresent()
+        value.noMinRetentionPeriod = try reader["noMinRetentionPeriod"].readIfPresent()
         return value
     }
 }
 
-extension OpenSearchServerlessClientTypes.CapacityLimits {
+extension OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyErrorDetail {
 
-    static func write(value: OpenSearchServerlessClientTypes.CapacityLimits?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyErrorDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyErrorDetail()
+        value.type = try reader["type"].readIfPresent()
+        value.resource = try reader["resource"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.EncryptionConfig {
+
+    static func write(value: OpenSearchServerlessClientTypes.EncryptionConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["maxIndexingCapacityInOCU"].write(value.maxIndexingCapacityInOCU)
-        try writer["maxSearchCapacityInOCU"].write(value.maxSearchCapacityInOCU)
+        try writer["aWSOwnedKey"].write(value.aWSOwnedKey)
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.CapacityLimits {
+extension OpenSearchServerlessClientTypes.FipsEndpoints {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.FipsEndpoints {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.CapacityLimits()
-        value.maxIndexingCapacityInOCU = try reader["maxIndexingCapacityInOCU"].readIfPresent()
-        value.maxSearchCapacityInOCU = try reader["maxSearchCapacityInOCU"].readIfPresent()
+        var value = OpenSearchServerlessClientTypes.FipsEndpoints()
+        value.collectionEndpoint = try reader["collectionEndpoint"].readIfPresent()
+        value.dashboardEndpoint = try reader["dashboardEndpoint"].readIfPresent()
         return value
     }
 }
 
-extension OpenSearchServerlessClientTypes.AccessPolicyStats {
+extension OpenSearchServerlessClientTypes.IamFederationConfigOptions {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.AccessPolicyStats {
+    static func write(value: OpenSearchServerlessClientTypes.IamFederationConfigOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["groupAttribute"].write(value.groupAttribute)
+        try writer["userAttribute"].write(value.userAttribute)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.IamFederationConfigOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.AccessPolicyStats()
-        value.dataPolicyCount = try reader["DataPolicyCount"].readIfPresent()
+        var value = OpenSearchServerlessClientTypes.IamFederationConfigOptions()
+        value.groupAttribute = try reader["groupAttribute"].readIfPresent()
+        value.userAttribute = try reader["userAttribute"].readIfPresent()
         return value
     }
 }
 
-extension OpenSearchServerlessClientTypes.SecurityPolicyStats {
+extension OpenSearchServerlessClientTypes.IamIdentityCenterConfigOptions {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.SecurityPolicyStats {
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.IamIdentityCenterConfigOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.SecurityPolicyStats()
-        value.encryptionPolicyCount = try reader["EncryptionPolicyCount"].readIfPresent()
-        value.networkPolicyCount = try reader["NetworkPolicyCount"].readIfPresent()
+        var value = OpenSearchServerlessClientTypes.IamIdentityCenterConfigOptions()
+        value.instanceArn = try reader["instanceArn"].readIfPresent()
+        value.applicationArn = try reader["applicationArn"].readIfPresent()
+        value.applicationName = try reader["applicationName"].readIfPresent()
+        value.applicationDescription = try reader["applicationDescription"].readIfPresent()
+        value.userAttribute = try reader["userAttribute"].readIfPresent()
+        value.groupAttribute = try reader["groupAttribute"].readIfPresent()
         return value
     }
 }
 
-extension OpenSearchServerlessClientTypes.SecurityConfigStats {
+extension OpenSearchServerlessClientTypes.LifecyclePolicyDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.SecurityConfigStats {
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.LifecyclePolicyDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.SecurityConfigStats()
-        value.samlConfigCount = try reader["SamlConfigCount"].readIfPresent()
+        var value = OpenSearchServerlessClientTypes.LifecyclePolicyDetail()
+        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.policyVersion = try reader["policyVersion"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.policy = try reader["policy"].readIfPresent()
+        value.createdDate = try reader["createdDate"].readIfPresent()
+        value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
         return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.LifecyclePolicyErrorDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.LifecyclePolicyErrorDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.LifecyclePolicyErrorDetail()
+        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.LifecyclePolicyIdentifier {
+
+    static func write(value: OpenSearchServerlessClientTypes.LifecyclePolicyIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension OpenSearchServerlessClientTypes.LifecyclePolicyResourceIdentifier {
+
+    static func write(value: OpenSearchServerlessClientTypes.LifecyclePolicyResourceIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resource"].write(value.resource)
+        try writer["type"].write(value.type)
     }
 }
 
@@ -6100,51 +6052,6 @@ extension OpenSearchServerlessClientTypes.LifecyclePolicyStats {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchServerlessClientTypes.LifecyclePolicyStats()
         value.retentionPolicyCount = try reader["RetentionPolicyCount"].readIfPresent()
-        return value
-    }
-}
-
-extension OpenSearchServerlessClientTypes.AccessPolicySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.AccessPolicySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.AccessPolicySummary()
-        value.type = try reader["type"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.policyVersion = try reader["policyVersion"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.createdDate = try reader["createdDate"].readIfPresent()
-        value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
-        return value
-    }
-}
-
-extension OpenSearchServerlessClientTypes.CollectionGroupSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.CollectionGroupSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.CollectionGroupSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.numberOfCollections = try reader["numberOfCollections"].readIfPresent()
-        value.createdDate = try reader["createdDate"].readIfPresent()
-        value.capacityLimits = try reader["capacityLimits"].readIfPresent(with: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits.read(from:))
-        return value
-    }
-}
-
-extension OpenSearchServerlessClientTypes.CollectionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.CollectionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.CollectionSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
-        value.collectionGroupName = try reader["collectionGroupName"].readIfPresent()
         return value
     }
 }
@@ -6164,6 +6071,57 @@ extension OpenSearchServerlessClientTypes.LifecyclePolicySummary {
     }
 }
 
+extension OpenSearchServerlessClientTypes.SamlConfigOptions {
+
+    static func write(value: OpenSearchServerlessClientTypes.SamlConfigOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["groupAttribute"].write(value.groupAttribute)
+        try writer["metadata"].write(value.metadata)
+        try writer["openSearchServerlessEntityId"].write(value.openSearchServerlessEntityId)
+        try writer["sessionTimeout"].write(value.sessionTimeout)
+        try writer["userAttribute"].write(value.userAttribute)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.SamlConfigOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.SamlConfigOptions()
+        value.metadata = try reader["metadata"].readIfPresent() ?? ""
+        value.userAttribute = try reader["userAttribute"].readIfPresent()
+        value.groupAttribute = try reader["groupAttribute"].readIfPresent()
+        value.openSearchServerlessEntityId = try reader["openSearchServerlessEntityId"].readIfPresent()
+        value.sessionTimeout = try reader["sessionTimeout"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.SecurityConfigDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.SecurityConfigDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.SecurityConfigDetail()
+        value.id = try reader["id"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.configVersion = try reader["configVersion"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.samlOptions = try reader["samlOptions"].readIfPresent(with: OpenSearchServerlessClientTypes.SamlConfigOptions.read(from:))
+        value.iamIdentityCenterOptions = try reader["iamIdentityCenterOptions"].readIfPresent(with: OpenSearchServerlessClientTypes.IamIdentityCenterConfigOptions.read(from:))
+        value.iamFederationOptions = try reader["iamFederationOptions"].readIfPresent(with: OpenSearchServerlessClientTypes.IamFederationConfigOptions.read(from:))
+        value.createdDate = try reader["createdDate"].readIfPresent()
+        value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.SecurityConfigStats {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.SecurityConfigStats {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.SecurityConfigStats()
+        value.samlConfigCount = try reader["SamlConfigCount"].readIfPresent()
+        return value
+    }
+}
+
 extension OpenSearchServerlessClientTypes.SecurityConfigSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.SecurityConfigSummary {
@@ -6175,6 +6133,33 @@ extension OpenSearchServerlessClientTypes.SecurityConfigSummary {
         value.description = try reader["description"].readIfPresent()
         value.createdDate = try reader["createdDate"].readIfPresent()
         value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.SecurityPolicyDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.SecurityPolicyDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.SecurityPolicyDetail()
+        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.policyVersion = try reader["policyVersion"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.policy = try reader["policy"].readIfPresent()
+        value.createdDate = try reader["createdDate"].readIfPresent()
+        value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.SecurityPolicyStats {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.SecurityPolicyStats {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.SecurityPolicyStats()
+        value.encryptionPolicyCount = try reader["EncryptionPolicyCount"].readIfPresent()
+        value.networkPolicyCount = try reader["NetworkPolicyCount"].readIfPresent()
         return value
     }
 }
@@ -6194,14 +6179,19 @@ extension OpenSearchServerlessClientTypes.SecurityPolicySummary {
     }
 }
 
-extension OpenSearchServerlessClientTypes.VpcEndpointSummary {
+extension OpenSearchServerlessClientTypes.Tag {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.VpcEndpointSummary {
+    static func write(value: OpenSearchServerlessClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.VpcEndpointSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        var value = OpenSearchServerlessClientTypes.Tag()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6239,6 +6229,15 @@ extension OpenSearchServerlessClientTypes.UpdateCollectionGroupDetail {
     }
 }
 
+extension OpenSearchServerlessClientTypes.UpdateIamIdentityCenterConfigOptions {
+
+    static func write(value: OpenSearchServerlessClientTypes.UpdateIamIdentityCenterConfigOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["groupAttribute"].write(value.groupAttribute)
+        try writer["userAttribute"].write(value.userAttribute)
+    }
+}
+
 extension OpenSearchServerlessClientTypes.UpdateVpcEndpointDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.UpdateVpcEndpointDetail {
@@ -6254,50 +6253,48 @@ extension OpenSearchServerlessClientTypes.UpdateVpcEndpointDetail {
     }
 }
 
-extension OpenSearchServerlessClientTypes.LifecyclePolicyResourceIdentifier {
+extension OpenSearchServerlessClientTypes.VectorOptions {
 
-    static func write(value: OpenSearchServerlessClientTypes.LifecyclePolicyResourceIdentifier?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: OpenSearchServerlessClientTypes.VectorOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["resource"].write(value.resource)
-        try writer["type"].write(value.type)
+        try writer["ServerlessVectorAcceleration"].write(value.serverlessVectorAcceleration)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.VectorOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.VectorOptions()
+        value.serverlessVectorAcceleration = try reader["ServerlessVectorAcceleration"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
-extension OpenSearchServerlessClientTypes.LifecyclePolicyIdentifier {
+extension OpenSearchServerlessClientTypes.VpcEndpointDetail {
 
-    static func write(value: OpenSearchServerlessClientTypes.LifecyclePolicyIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type)
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.VpcEndpointDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.VpcEndpointDetail()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.vpcId = try reader["vpcId"].readIfPresent()
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent()
+        value.createdDate = try reader["createdDate"].readIfPresent()
+        value.failureCode = try reader["failureCode"].readIfPresent()
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
+        return value
     }
 }
 
-extension OpenSearchServerlessClientTypes.EncryptionConfig {
+extension OpenSearchServerlessClientTypes.VpcEndpointErrorDetail {
 
-    static func write(value: OpenSearchServerlessClientTypes.EncryptionConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["aWSOwnedKey"].write(value.aWSOwnedKey)
-        try writer["kmsKeyArn"].write(value.kmsKeyArn)
-    }
-}
-
-extension OpenSearchServerlessClientTypes.CreateIamIdentityCenterConfigOptions {
-
-    static func write(value: OpenSearchServerlessClientTypes.CreateIamIdentityCenterConfigOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["groupAttribute"].write(value.groupAttribute)
-        try writer["instanceArn"].write(value.instanceArn)
-        try writer["userAttribute"].write(value.userAttribute)
-    }
-}
-
-extension OpenSearchServerlessClientTypes.CollectionFilters {
-
-    static func write(value: OpenSearchServerlessClientTypes.CollectionFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["collectionGroupName"].write(value.collectionGroupName)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.VpcEndpointErrorDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.VpcEndpointErrorDetail()
+        value.id = try reader["id"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        return value
     }
 }
 
@@ -6309,12 +6306,15 @@ extension OpenSearchServerlessClientTypes.VpcEndpointFilters {
     }
 }
 
-extension OpenSearchServerlessClientTypes.UpdateIamIdentityCenterConfigOptions {
+extension OpenSearchServerlessClientTypes.VpcEndpointSummary {
 
-    static func write(value: OpenSearchServerlessClientTypes.UpdateIamIdentityCenterConfigOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["groupAttribute"].write(value.groupAttribute)
-        try writer["userAttribute"].write(value.userAttribute)
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.VpcEndpointSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.VpcEndpointSummary()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
     }
 }
 

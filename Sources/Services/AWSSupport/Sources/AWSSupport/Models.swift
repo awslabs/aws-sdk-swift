@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 
 /// The limit for the number of attachment sets created in a short period of time has been exceeded.
 public struct AttachmentLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -1946,7 +1946,7 @@ enum AddAttachmentsToSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AttachmentLimitExceeded": return try AttachmentLimitExceeded.makeError(baseError: baseError)
@@ -1964,7 +1964,7 @@ enum AddCommunicationToCaseOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AttachmentSetExpired": return try AttachmentSetExpired.makeError(baseError: baseError)
@@ -1981,7 +1981,7 @@ enum CreateCaseOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AttachmentSetExpired": return try AttachmentSetExpired.makeError(baseError: baseError)
@@ -1998,7 +1998,7 @@ enum DescribeAttachmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AttachmentIdNotFound": return try AttachmentIdNotFound.makeError(baseError: baseError)
@@ -2014,7 +2014,7 @@ enum DescribeCasesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CaseIdNotFound": return try CaseIdNotFound.makeError(baseError: baseError)
@@ -2029,7 +2029,7 @@ enum DescribeCommunicationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CaseIdNotFound": return try CaseIdNotFound.makeError(baseError: baseError)
@@ -2044,7 +2044,7 @@ enum DescribeCreateCaseOptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -2059,7 +2059,7 @@ enum DescribeServicesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -2073,7 +2073,7 @@ enum DescribeSeverityLevelsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -2087,7 +2087,7 @@ enum DescribeSupportedLanguagesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -2102,7 +2102,7 @@ enum DescribeTrustedAdvisorCheckRefreshStatusesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -2117,7 +2117,7 @@ enum DescribeTrustedAdvisorCheckResultOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -2132,7 +2132,7 @@ enum DescribeTrustedAdvisorChecksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -2147,7 +2147,7 @@ enum DescribeTrustedAdvisorCheckSummariesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -2162,7 +2162,7 @@ enum RefreshTrustedAdvisorCheckOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -2176,7 +2176,7 @@ enum ResolveCaseOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CaseIdNotFound": return try CaseIdNotFound.makeError(baseError: baseError)
@@ -2188,7 +2188,7 @@ enum ResolveCaseOutputError {
 
 extension AttachmentLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AttachmentLimitExceeded {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AttachmentLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = AttachmentLimitExceeded()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2201,7 +2201,7 @@ extension AttachmentLimitExceeded {
 
 extension AttachmentSetExpired {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AttachmentSetExpired {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AttachmentSetExpired {
         let reader = baseError.errorBodyReader
         var value = AttachmentSetExpired()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2214,7 +2214,7 @@ extension AttachmentSetExpired {
 
 extension AttachmentSetIdNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AttachmentSetIdNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AttachmentSetIdNotFound {
         let reader = baseError.errorBodyReader
         var value = AttachmentSetIdNotFound()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2227,7 +2227,7 @@ extension AttachmentSetIdNotFound {
 
 extension AttachmentSetSizeLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AttachmentSetSizeLimitExceeded {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AttachmentSetSizeLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = AttachmentSetSizeLimitExceeded()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2240,7 +2240,7 @@ extension AttachmentSetSizeLimitExceeded {
 
 extension InternalServerError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerError {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerError {
         let reader = baseError.errorBodyReader
         var value = InternalServerError()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2253,7 +2253,7 @@ extension InternalServerError {
 
 extension CaseIdNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CaseIdNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CaseIdNotFound {
         let reader = baseError.errorBodyReader
         var value = CaseIdNotFound()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2266,7 +2266,7 @@ extension CaseIdNotFound {
 
 extension CaseCreationLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CaseCreationLimitExceeded {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CaseCreationLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = CaseCreationLimitExceeded()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2279,7 +2279,7 @@ extension CaseCreationLimitExceeded {
 
 extension AttachmentIdNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AttachmentIdNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AttachmentIdNotFound {
         let reader = baseError.errorBodyReader
         var value = AttachmentIdNotFound()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2292,7 +2292,7 @@ extension AttachmentIdNotFound {
 
 extension DescribeAttachmentLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DescribeAttachmentLimitExceeded {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DescribeAttachmentLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = DescribeAttachmentLimitExceeded()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2305,7 +2305,7 @@ extension DescribeAttachmentLimitExceeded {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2333,6 +2333,17 @@ extension SupportClientTypes.Attachment {
     }
 }
 
+extension SupportClientTypes.AttachmentDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.AttachmentDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupportClientTypes.AttachmentDetails()
+        value.attachmentId = try reader["attachmentId"].readIfPresent()
+        value.fileName = try reader["fileName"].readIfPresent()
+        return value
+    }
+}
+
 extension SupportClientTypes.CaseDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.CaseDetails {
@@ -2354,13 +2365,13 @@ extension SupportClientTypes.CaseDetails {
     }
 }
 
-extension SupportClientTypes.RecentCaseCommunications {
+extension SupportClientTypes.Category {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.RecentCaseCommunications {
+    static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.Category {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupportClientTypes.RecentCaseCommunications()
-        value.communications = try reader["communications"].readListIfPresent(memberReadingClosure: SupportClientTypes.Communication.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nextToken = try reader["nextToken"].readIfPresent()
+        var value = SupportClientTypes.Category()
+        value.code = try reader["code"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
         return value
     }
 }
@@ -2375,17 +2386,6 @@ extension SupportClientTypes.Communication {
         value.submittedBy = try reader["submittedBy"].readIfPresent()
         value.timeCreated = try reader["timeCreated"].readIfPresent()
         value.attachmentSet = try reader["attachmentSet"].readListIfPresent(memberReadingClosure: SupportClientTypes.AttachmentDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension SupportClientTypes.AttachmentDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.AttachmentDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupportClientTypes.AttachmentDetails()
-        value.attachmentId = try reader["attachmentId"].readIfPresent()
-        value.fileName = try reader["fileName"].readIfPresent()
         return value
     }
 }
@@ -2413,13 +2413,13 @@ extension SupportClientTypes.DateInterval {
     }
 }
 
-extension SupportClientTypes.SupportedHour {
+extension SupportClientTypes.RecentCaseCommunications {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.SupportedHour {
+    static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.RecentCaseCommunications {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupportClientTypes.SupportedHour()
-        value.startTime = try reader["startTime"].readIfPresent()
-        value.endTime = try reader["endTime"].readIfPresent()
+        var value = SupportClientTypes.RecentCaseCommunications()
+        value.communications = try reader["communications"].readListIfPresent(memberReadingClosure: SupportClientTypes.Communication.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -2436,17 +2436,6 @@ extension SupportClientTypes.Service {
     }
 }
 
-extension SupportClientTypes.Category {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.Category {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupportClientTypes.Category()
-        value.code = try reader["code"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
-}
-
 extension SupportClientTypes.SeverityLevel {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.SeverityLevel {
@@ -2454,6 +2443,17 @@ extension SupportClientTypes.SeverityLevel {
         var value = SupportClientTypes.SeverityLevel()
         value.code = try reader["code"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension SupportClientTypes.SupportedHour {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.SupportedHour {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupportClientTypes.SupportedHour()
+        value.startTime = try reader["startTime"].readIfPresent()
+        value.endTime = try reader["endTime"].readIfPresent()
         return value
     }
 }
@@ -2466,6 +2466,30 @@ extension SupportClientTypes.SupportedLanguage {
         value.code = try reader["code"].readIfPresent()
         value.language = try reader["language"].readIfPresent()
         value.display = try reader["display"].readIfPresent()
+        return value
+    }
+}
+
+extension SupportClientTypes.TrustedAdvisorCategorySpecificSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorCategorySpecificSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupportClientTypes.TrustedAdvisorCategorySpecificSummary()
+        value.costOptimizing = try reader["costOptimizing"].readIfPresent(with: SupportClientTypes.TrustedAdvisorCostOptimizingSummary.read(from:))
+        return value
+    }
+}
+
+extension SupportClientTypes.TrustedAdvisorCheckDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorCheckDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupportClientTypes.TrustedAdvisorCheckDescription()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.category = try reader["category"].readIfPresent() ?? ""
+        value.metadata = try reader["metadata"].readListIfPresent(memberReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2497,26 +2521,17 @@ extension SupportClientTypes.TrustedAdvisorCheckResult {
     }
 }
 
-extension SupportClientTypes.TrustedAdvisorResourceDetail {
+extension SupportClientTypes.TrustedAdvisorCheckSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorResourceDetail {
+    static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorCheckSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupportClientTypes.TrustedAdvisorResourceDetail()
+        var value = SupportClientTypes.TrustedAdvisorCheckSummary()
+        value.checkId = try reader["checkId"].readIfPresent() ?? ""
+        value.timestamp = try reader["timestamp"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? ""
-        value.region = try reader["region"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.isSuppressed = try reader["isSuppressed"].readIfPresent() ?? false
-        value.metadata = try reader["metadata"].readListIfPresent(memberReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension SupportClientTypes.TrustedAdvisorCategorySpecificSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorCategorySpecificSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupportClientTypes.TrustedAdvisorCategorySpecificSummary()
-        value.costOptimizing = try reader["costOptimizing"].readIfPresent(with: SupportClientTypes.TrustedAdvisorCostOptimizingSummary.read(from:))
+        value.hasFlaggedResources = try reader["hasFlaggedResources"].readIfPresent() ?? false
+        value.resourcesSummary = try reader["resourcesSummary"].readIfPresent(with: SupportClientTypes.TrustedAdvisorResourcesSummary.read(from:))
+        value.categorySpecificSummary = try reader["categorySpecificSummary"].readIfPresent(with: SupportClientTypes.TrustedAdvisorCategorySpecificSummary.read(from:))
         return value
     }
 }
@@ -2532,6 +2547,20 @@ extension SupportClientTypes.TrustedAdvisorCostOptimizingSummary {
     }
 }
 
+extension SupportClientTypes.TrustedAdvisorResourceDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorResourceDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupportClientTypes.TrustedAdvisorResourceDetail()
+        value.status = try reader["status"].readIfPresent() ?? ""
+        value.region = try reader["region"].readIfPresent()
+        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.isSuppressed = try reader["isSuppressed"].readIfPresent() ?? false
+        value.metadata = try reader["metadata"].readListIfPresent(memberReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension SupportClientTypes.TrustedAdvisorResourcesSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorResourcesSummary {
@@ -2541,35 +2570,6 @@ extension SupportClientTypes.TrustedAdvisorResourcesSummary {
         value.resourcesFlagged = try reader["resourcesFlagged"].readIfPresent() ?? 0
         value.resourcesIgnored = try reader["resourcesIgnored"].readIfPresent() ?? 0
         value.resourcesSuppressed = try reader["resourcesSuppressed"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SupportClientTypes.TrustedAdvisorCheckDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorCheckDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupportClientTypes.TrustedAdvisorCheckDescription()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent() ?? ""
-        value.category = try reader["category"].readIfPresent() ?? ""
-        value.metadata = try reader["metadata"].readListIfPresent(memberReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension SupportClientTypes.TrustedAdvisorCheckSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorCheckSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupportClientTypes.TrustedAdvisorCheckSummary()
-        value.checkId = try reader["checkId"].readIfPresent() ?? ""
-        value.timestamp = try reader["timestamp"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? ""
-        value.hasFlaggedResources = try reader["hasFlaggedResources"].readIfPresent() ?? false
-        value.resourcesSummary = try reader["resourcesSummary"].readIfPresent(with: SupportClientTypes.TrustedAdvisorResourcesSummary.read(from:))
-        value.categorySpecificSummary = try reader["categorySpecificSummary"].readIfPresent(with: SupportClientTypes.TrustedAdvisorCategorySpecificSummary.read(from:))
         return value
     }
 }

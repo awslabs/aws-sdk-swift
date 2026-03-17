@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
@@ -11710,7 +11710,7 @@ enum AssociateFileSystemAliasesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -11726,7 +11726,7 @@ enum CancelDataRepositoryTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -11744,7 +11744,7 @@ enum CopyBackupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BackupNotFound": return try BackupNotFound.makeError(baseError: baseError)
@@ -11768,7 +11768,7 @@ enum CopySnapshotAndUpdateVolumeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -11785,7 +11785,7 @@ enum CreateAndAttachS3AccessPointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessPointAlreadyOwnedByYou": return try AccessPointAlreadyOwnedByYou.makeError(baseError: baseError)
@@ -11807,7 +11807,7 @@ enum CreateBackupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BackupInProgress": return try BackupInProgress.makeError(baseError: baseError)
@@ -11828,7 +11828,7 @@ enum CreateDataRepositoryAssociationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -11847,7 +11847,7 @@ enum CreateDataRepositoryTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -11867,7 +11867,7 @@ enum CreateFileCacheOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -11887,7 +11887,7 @@ enum CreateFileSystemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ActiveDirectoryError": return try ActiveDirectoryError.makeError(baseError: baseError)
@@ -11910,7 +11910,7 @@ enum CreateFileSystemFromBackupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ActiveDirectoryError": return try ActiveDirectoryError.makeError(baseError: baseError)
@@ -11932,7 +11932,7 @@ enum CreateSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -11949,7 +11949,7 @@ enum CreateStorageVirtualMachineOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ActiveDirectoryError": return try ActiveDirectoryError.makeError(baseError: baseError)
@@ -11969,7 +11969,7 @@ enum CreateVolumeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -11990,7 +11990,7 @@ enum CreateVolumeFromBackupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BackupNotFound": return try BackupNotFound.makeError(baseError: baseError)
@@ -12011,7 +12011,7 @@ enum DeleteBackupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BackupBeingCopied": return try BackupBeingCopied.makeError(baseError: baseError)
@@ -12031,7 +12031,7 @@ enum DeleteDataRepositoryAssociationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12049,7 +12049,7 @@ enum DeleteFileCacheOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12067,7 +12067,7 @@ enum DeleteFileSystemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12085,7 +12085,7 @@ enum DeleteSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12101,7 +12101,7 @@ enum DeleteStorageVirtualMachineOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12118,7 +12118,7 @@ enum DeleteVolumeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12136,7 +12136,7 @@ enum DescribeBackupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BackupNotFound": return try BackupNotFound.makeError(baseError: baseError)
@@ -12154,7 +12154,7 @@ enum DescribeDataRepositoryAssociationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12172,7 +12172,7 @@ enum DescribeDataRepositoryTasksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12189,7 +12189,7 @@ enum DescribeFileCachesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12205,7 +12205,7 @@ enum DescribeFileSystemAliasesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12221,7 +12221,7 @@ enum DescribeFileSystemsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12237,7 +12237,7 @@ enum DescribeS3AccessPointAttachmentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12254,7 +12254,7 @@ enum DescribeSharedVpcConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12269,7 +12269,7 @@ enum DescribeSnapshotsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12285,7 +12285,7 @@ enum DescribeStorageVirtualMachinesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12301,7 +12301,7 @@ enum DescribeVolumesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12317,7 +12317,7 @@ enum DetachAndDeleteS3AccessPointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12335,7 +12335,7 @@ enum DisassociateFileSystemAliasesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12351,7 +12351,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12369,7 +12369,7 @@ enum ReleaseFileSystemNfsV3LocksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12387,7 +12387,7 @@ enum RestoreVolumeFromSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12403,7 +12403,7 @@ enum StartMisconfiguredStateRecoveryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12419,7 +12419,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12437,7 +12437,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12455,7 +12455,7 @@ enum UpdateDataRepositoryAssociationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12473,7 +12473,7 @@ enum UpdateFileCacheOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12493,7 +12493,7 @@ enum UpdateFileSystemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12514,7 +12514,7 @@ enum UpdateSharedVpcConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12530,7 +12530,7 @@ enum UpdateSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12546,7 +12546,7 @@ enum UpdateStorageVirtualMachineOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12564,7 +12564,7 @@ enum UpdateVolumeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -12579,7 +12579,7 @@ enum UpdateVolumeOutputError {
 
 extension BadRequest {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BadRequest {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> BadRequest {
         let reader = baseError.errorBodyReader
         var value = BadRequest()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12592,7 +12592,7 @@ extension BadRequest {
 
 extension FileSystemNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> FileSystemNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> FileSystemNotFound {
         let reader = baseError.errorBodyReader
         var value = FileSystemNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12605,7 +12605,7 @@ extension FileSystemNotFound {
 
 extension InternalServerError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerError {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerError {
         let reader = baseError.errorBodyReader
         var value = InternalServerError()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12618,7 +12618,7 @@ extension InternalServerError {
 
 extension DataRepositoryTaskEnded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DataRepositoryTaskEnded {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DataRepositoryTaskEnded {
         let reader = baseError.errorBodyReader
         var value = DataRepositoryTaskEnded()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12631,7 +12631,7 @@ extension DataRepositoryTaskEnded {
 
 extension DataRepositoryTaskNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DataRepositoryTaskNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DataRepositoryTaskNotFound {
         let reader = baseError.errorBodyReader
         var value = DataRepositoryTaskNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12644,7 +12644,7 @@ extension DataRepositoryTaskNotFound {
 
 extension UnsupportedOperation {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperation {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UnsupportedOperation {
         let reader = baseError.errorBodyReader
         var value = UnsupportedOperation()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12657,7 +12657,7 @@ extension UnsupportedOperation {
 
 extension BackupNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> BackupNotFound {
         let reader = baseError.errorBodyReader
         var value = BackupNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12670,7 +12670,7 @@ extension BackupNotFound {
 
 extension IncompatibleParameterError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IncompatibleParameterError {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> IncompatibleParameterError {
         let reader = baseError.errorBodyReader
         var value = IncompatibleParameterError()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12684,7 +12684,7 @@ extension IncompatibleParameterError {
 
 extension IncompatibleRegionForMultiAZ {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IncompatibleRegionForMultiAZ {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> IncompatibleRegionForMultiAZ {
         let reader = baseError.errorBodyReader
         var value = IncompatibleRegionForMultiAZ()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12697,7 +12697,7 @@ extension IncompatibleRegionForMultiAZ {
 
 extension InvalidDestinationKmsKey {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDestinationKmsKey {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidDestinationKmsKey {
         let reader = baseError.errorBodyReader
         var value = InvalidDestinationKmsKey()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12710,7 +12710,7 @@ extension InvalidDestinationKmsKey {
 
 extension InvalidRegion {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRegion {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidRegion {
         let reader = baseError.errorBodyReader
         var value = InvalidRegion()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12723,7 +12723,7 @@ extension InvalidRegion {
 
 extension InvalidSourceKmsKey {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSourceKmsKey {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidSourceKmsKey {
         let reader = baseError.errorBodyReader
         var value = InvalidSourceKmsKey()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12736,7 +12736,7 @@ extension InvalidSourceKmsKey {
 
 extension ServiceLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceLimitExceeded {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = ServiceLimitExceeded()
         value.properties.limit = try reader["Limit"].readIfPresent() ?? .sdkUnknown("")
@@ -12750,7 +12750,7 @@ extension ServiceLimitExceeded {
 
 extension SourceBackupUnavailable {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SourceBackupUnavailable {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SourceBackupUnavailable {
         let reader = baseError.errorBodyReader
         var value = SourceBackupUnavailable()
         value.properties.backupId = try reader["BackupId"].readIfPresent()
@@ -12764,7 +12764,7 @@ extension SourceBackupUnavailable {
 
 extension AccessPointAlreadyOwnedByYou {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessPointAlreadyOwnedByYou {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessPointAlreadyOwnedByYou {
         let reader = baseError.errorBodyReader
         var value = AccessPointAlreadyOwnedByYou()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
@@ -12778,7 +12778,7 @@ extension AccessPointAlreadyOwnedByYou {
 
 extension InvalidAccessPoint {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAccessPoint {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidAccessPoint {
         let reader = baseError.errorBodyReader
         var value = InvalidAccessPoint()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
@@ -12792,7 +12792,7 @@ extension InvalidAccessPoint {
 
 extension InvalidRequest {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRequest {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidRequest {
         let reader = baseError.errorBodyReader
         var value = InvalidRequest()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
@@ -12806,7 +12806,7 @@ extension InvalidRequest {
 
 extension TooManyAccessPoints {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyAccessPoints {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TooManyAccessPoints {
         let reader = baseError.errorBodyReader
         var value = TooManyAccessPoints()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
@@ -12820,7 +12820,7 @@ extension TooManyAccessPoints {
 
 extension VolumeNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> VolumeNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> VolumeNotFound {
         let reader = baseError.errorBodyReader
         var value = VolumeNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12833,7 +12833,7 @@ extension VolumeNotFound {
 
 extension BackupInProgress {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupInProgress {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> BackupInProgress {
         let reader = baseError.errorBodyReader
         var value = BackupInProgress()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12846,7 +12846,7 @@ extension BackupInProgress {
 
 extension DataRepositoryTaskExecuting {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DataRepositoryTaskExecuting {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DataRepositoryTaskExecuting {
         let reader = baseError.errorBodyReader
         var value = DataRepositoryTaskExecuting()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12859,7 +12859,7 @@ extension DataRepositoryTaskExecuting {
 
 extension InvalidNetworkSettings {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNetworkSettings {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidNetworkSettings {
         let reader = baseError.errorBodyReader
         var value = InvalidNetworkSettings()
         value.properties.invalidRouteTableId = try reader["InvalidRouteTableId"].readIfPresent()
@@ -12875,7 +12875,7 @@ extension InvalidNetworkSettings {
 
 extension InvalidPerUnitStorageThroughput {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPerUnitStorageThroughput {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidPerUnitStorageThroughput {
         let reader = baseError.errorBodyReader
         var value = InvalidPerUnitStorageThroughput()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12888,7 +12888,7 @@ extension InvalidPerUnitStorageThroughput {
 
 extension MissingFileCacheConfiguration {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MissingFileCacheConfiguration {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MissingFileCacheConfiguration {
         let reader = baseError.errorBodyReader
         var value = MissingFileCacheConfiguration()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12901,7 +12901,7 @@ extension MissingFileCacheConfiguration {
 
 extension ActiveDirectoryError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ActiveDirectoryError {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ActiveDirectoryError {
         let reader = baseError.errorBodyReader
         var value = ActiveDirectoryError()
         value.properties.activeDirectoryId = try reader["ActiveDirectoryId"].readIfPresent() ?? ""
@@ -12916,7 +12916,7 @@ extension ActiveDirectoryError {
 
 extension InvalidExportPath {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidExportPath {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidExportPath {
         let reader = baseError.errorBodyReader
         var value = InvalidExportPath()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12929,7 +12929,7 @@ extension InvalidExportPath {
 
 extension InvalidImportPath {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidImportPath {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidImportPath {
         let reader = baseError.errorBodyReader
         var value = InvalidImportPath()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12942,7 +12942,7 @@ extension InvalidImportPath {
 
 extension MissingFileSystemConfiguration {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MissingFileSystemConfiguration {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MissingFileSystemConfiguration {
         let reader = baseError.errorBodyReader
         var value = MissingFileSystemConfiguration()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12955,7 +12955,7 @@ extension MissingFileSystemConfiguration {
 
 extension MissingVolumeConfiguration {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MissingVolumeConfiguration {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MissingVolumeConfiguration {
         let reader = baseError.errorBodyReader
         var value = MissingVolumeConfiguration()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12968,7 +12968,7 @@ extension MissingVolumeConfiguration {
 
 extension StorageVirtualMachineNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> StorageVirtualMachineNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> StorageVirtualMachineNotFound {
         let reader = baseError.errorBodyReader
         var value = StorageVirtualMachineNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12981,7 +12981,7 @@ extension StorageVirtualMachineNotFound {
 
 extension BackupBeingCopied {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupBeingCopied {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> BackupBeingCopied {
         let reader = baseError.errorBodyReader
         var value = BackupBeingCopied()
         value.properties.backupId = try reader["BackupId"].readIfPresent()
@@ -12995,7 +12995,7 @@ extension BackupBeingCopied {
 
 extension BackupRestoring {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupRestoring {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> BackupRestoring {
         let reader = baseError.errorBodyReader
         var value = BackupRestoring()
         value.properties.fileSystemId = try reader["FileSystemId"].readIfPresent()
@@ -13009,7 +13009,7 @@ extension BackupRestoring {
 
 extension DataRepositoryAssociationNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DataRepositoryAssociationNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DataRepositoryAssociationNotFound {
         let reader = baseError.errorBodyReader
         var value = DataRepositoryAssociationNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -13022,7 +13022,7 @@ extension DataRepositoryAssociationNotFound {
 
 extension FileCacheNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> FileCacheNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> FileCacheNotFound {
         let reader = baseError.errorBodyReader
         var value = FileCacheNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -13035,7 +13035,7 @@ extension FileCacheNotFound {
 
 extension SnapshotNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SnapshotNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SnapshotNotFound {
         let reader = baseError.errorBodyReader
         var value = SnapshotNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -13048,7 +13048,7 @@ extension SnapshotNotFound {
 
 extension InvalidDataRepositoryType {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDataRepositoryType {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidDataRepositoryType {
         let reader = baseError.errorBodyReader
         var value = InvalidDataRepositoryType()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -13061,7 +13061,7 @@ extension InvalidDataRepositoryType {
 
 extension S3AccessPointAttachmentNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> S3AccessPointAttachmentNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> S3AccessPointAttachmentNotFound {
         let reader = baseError.errorBodyReader
         var value = S3AccessPointAttachmentNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -13074,7 +13074,7 @@ extension S3AccessPointAttachmentNotFound {
 
 extension NotServiceResourceError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotServiceResourceError {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NotServiceResourceError {
         let reader = baseError.errorBodyReader
         var value = NotServiceResourceError()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -13088,7 +13088,7 @@ extension NotServiceResourceError {
 
 extension ResourceDoesNotSupportTagging {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceDoesNotSupportTagging {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceDoesNotSupportTagging {
         let reader = baseError.errorBodyReader
         var value = ResourceDoesNotSupportTagging()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -13102,7 +13102,7 @@ extension ResourceDoesNotSupportTagging {
 
 extension ResourceNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFound {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -13114,6 +13114,59 @@ extension ResourceNotFound {
     }
 }
 
+extension FSxClientTypes.ActiveDirectoryBackupAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.ActiveDirectoryBackupAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.ActiveDirectoryBackupAttributes()
+        value.domainName = try reader["DomainName"].readIfPresent()
+        value.activeDirectoryId = try reader["ActiveDirectoryId"].readIfPresent()
+        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.AdministrativeAction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.AdministrativeAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.AdministrativeAction()
+        value.administrativeActionType = try reader["AdministrativeActionType"].readIfPresent()
+        value.progressPercent = try reader["ProgressPercent"].readIfPresent()
+        value.requestTime = try reader["RequestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.targetFileSystemValues = try reader["TargetFileSystemValues"].readIfPresent(with: FSxClientTypes.FileSystem.read(from:))
+        value.failureDetails = try reader["FailureDetails"].readIfPresent(with: FSxClientTypes.AdministrativeActionFailureDetails.read(from:))
+        value.targetVolumeValues = try reader["TargetVolumeValues"].readIfPresent(with: FSxClientTypes.Volume.read(from:))
+        value.targetSnapshotValues = try reader["TargetSnapshotValues"].readIfPresent(with: FSxClientTypes.Snapshot.read(from:))
+        value.totalTransferBytes = try reader["TotalTransferBytes"].readIfPresent()
+        value.remainingTransferBytes = try reader["RemainingTransferBytes"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.AdministrativeActionFailureDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.AdministrativeActionFailureDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.AdministrativeActionFailureDetails()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.AggregateConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.AggregateConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.AggregateConfiguration()
+        value.aggregates = try reader["Aggregates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.totalConstituents = try reader["TotalConstituents"].readIfPresent()
+        return value
+    }
+}
+
 extension FSxClientTypes.Alias {
 
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.Alias {
@@ -13121,6 +13174,53 @@ extension FSxClientTypes.Alias {
         var value = FSxClientTypes.Alias()
         value.name = try reader["Name"].readIfPresent()
         value.lifecycle = try reader["Lifecycle"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.AutocommitPeriod {
+
+    static func write(value: FSxClientTypes.AutocommitPeriod?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.AutocommitPeriod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.AutocommitPeriod()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.AutoExportPolicy {
+
+    static func write(value: FSxClientTypes.AutoExportPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Events"].writeList(value.events, memberWritingClosure: SmithyReadWrite.WritingClosureBox<FSxClientTypes.EventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.AutoExportPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.AutoExportPolicy()
+        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<FSxClientTypes.EventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FSxClientTypes.AutoImportPolicy {
+
+    static func write(value: FSxClientTypes.AutoImportPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Events"].writeList(value.events, memberWritingClosure: SmithyReadWrite.WritingClosureBox<FSxClientTypes.EventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.AutoImportPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.AutoImportPolicy()
+        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<FSxClientTypes.EventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -13151,944 +13251,12 @@ extension FSxClientTypes.Backup {
     }
 }
 
-extension FSxClientTypes.Volume {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.Volume {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.Volume()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
-        value.lifecycle = try reader["Lifecycle"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.ontapConfiguration = try reader["OntapConfiguration"].readIfPresent(with: FSxClientTypes.OntapVolumeConfiguration.read(from:))
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.volumeId = try reader["VolumeId"].readIfPresent()
-        value.volumeType = try reader["VolumeType"].readIfPresent()
-        value.lifecycleTransitionReason = try reader["LifecycleTransitionReason"].readIfPresent(with: FSxClientTypes.LifecycleTransitionReason.read(from:))
-        value.administrativeActions = try reader["AdministrativeActions"].readListIfPresent(memberReadingClosure: FSxClientTypes.AdministrativeAction.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.openZFSConfiguration = try reader["OpenZFSConfiguration"].readIfPresent(with: FSxClientTypes.OpenZFSVolumeConfiguration.read(from:))
-        return value
-    }
-}
-
-extension FSxClientTypes.OpenZFSVolumeConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSVolumeConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.OpenZFSVolumeConfiguration()
-        value.parentVolumeId = try reader["ParentVolumeId"].readIfPresent()
-        value.volumePath = try reader["VolumePath"].readIfPresent()
-        value.storageCapacityReservationGiB = try reader["StorageCapacityReservationGiB"].readIfPresent()
-        value.storageCapacityQuotaGiB = try reader["StorageCapacityQuotaGiB"].readIfPresent()
-        value.recordSizeKiB = try reader["RecordSizeKiB"].readIfPresent()
-        value.dataCompressionType = try reader["DataCompressionType"].readIfPresent()
-        value.copyTagsToSnapshots = try reader["CopyTagsToSnapshots"].readIfPresent()
-        value.originSnapshot = try reader["OriginSnapshot"].readIfPresent(with: FSxClientTypes.OpenZFSOriginSnapshotConfiguration.read(from:))
-        value.readOnly = try reader["ReadOnly"].readIfPresent()
-        value.nfsExports = try reader["NfsExports"].readListIfPresent(memberReadingClosure: FSxClientTypes.OpenZFSNfsExport.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.userAndGroupQuotas = try reader["UserAndGroupQuotas"].readListIfPresent(memberReadingClosure: FSxClientTypes.OpenZFSUserOrGroupQuota.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.restoreToSnapshot = try reader["RestoreToSnapshot"].readIfPresent()
-        value.deleteIntermediateSnaphots = try reader["DeleteIntermediateSnaphots"].readIfPresent()
-        value.deleteClonedVolumes = try reader["DeleteClonedVolumes"].readIfPresent()
-        value.deleteIntermediateData = try reader["DeleteIntermediateData"].readIfPresent()
-        value.sourceSnapshotARN = try reader["SourceSnapshotARN"].readIfPresent()
-        value.destinationSnapshot = try reader["DestinationSnapshot"].readIfPresent()
-        value.copyStrategy = try reader["CopyStrategy"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.OpenZFSUserOrGroupQuota {
-
-    static func write(value: FSxClientTypes.OpenZFSUserOrGroupQuota?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["StorageCapacityQuotaGiB"].write(value.storageCapacityQuotaGiB)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSUserOrGroupQuota {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.OpenZFSUserOrGroupQuota()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.id = try reader["Id"].readIfPresent() ?? 0
-        value.storageCapacityQuotaGiB = try reader["StorageCapacityQuotaGiB"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension FSxClientTypes.OpenZFSNfsExport {
-
-    static func write(value: FSxClientTypes.OpenZFSNfsExport?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClientConfigurations"].writeList(value.clientConfigurations, memberWritingClosure: FSxClientTypes.OpenZFSClientConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSNfsExport {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.OpenZFSNfsExport()
-        value.clientConfigurations = try reader["ClientConfigurations"].readListIfPresent(memberReadingClosure: FSxClientTypes.OpenZFSClientConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension FSxClientTypes.OpenZFSClientConfiguration {
-
-    static func write(value: FSxClientTypes.OpenZFSClientConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Clients"].write(value.clients)
-        try writer["Options"].writeList(value.options, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSClientConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.OpenZFSClientConfiguration()
-        value.clients = try reader["Clients"].readIfPresent() ?? ""
-        value.options = try reader["Options"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension FSxClientTypes.OpenZFSOriginSnapshotConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSOriginSnapshotConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.OpenZFSOriginSnapshotConfiguration()
-        value.snapshotARN = try reader["SnapshotARN"].readIfPresent()
-        value.copyStrategy = try reader["CopyStrategy"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.AdministrativeAction {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.AdministrativeAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.AdministrativeAction()
-        value.administrativeActionType = try reader["AdministrativeActionType"].readIfPresent()
-        value.progressPercent = try reader["ProgressPercent"].readIfPresent()
-        value.requestTime = try reader["RequestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
-        value.targetFileSystemValues = try reader["TargetFileSystemValues"].readIfPresent(with: FSxClientTypes.FileSystem.read(from:))
-        value.failureDetails = try reader["FailureDetails"].readIfPresent(with: FSxClientTypes.AdministrativeActionFailureDetails.read(from:))
-        value.targetVolumeValues = try reader["TargetVolumeValues"].readIfPresent(with: FSxClientTypes.Volume.read(from:))
-        value.targetSnapshotValues = try reader["TargetSnapshotValues"].readIfPresent(with: FSxClientTypes.Snapshot.read(from:))
-        value.totalTransferBytes = try reader["TotalTransferBytes"].readIfPresent()
-        value.remainingTransferBytes = try reader["RemainingTransferBytes"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.Snapshot {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.Snapshot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.Snapshot()
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
-        value.snapshotId = try reader["SnapshotId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.volumeId = try reader["VolumeId"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lifecycle = try reader["Lifecycle"].readIfPresent()
-        value.lifecycleTransitionReason = try reader["LifecycleTransitionReason"].readIfPresent(with: FSxClientTypes.LifecycleTransitionReason.read(from:))
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.administrativeActions = try reader["AdministrativeActions"].readListIfPresent(memberReadingClosure: FSxClientTypes.AdministrativeAction.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FSxClientTypes.Tag {
-
-    static func write(value: FSxClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension FSxClientTypes.LifecycleTransitionReason {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.LifecycleTransitionReason {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.LifecycleTransitionReason()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.AdministrativeActionFailureDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.AdministrativeActionFailureDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.AdministrativeActionFailureDetails()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.FileSystem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileSystem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.FileSystem()
-        value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
-        value.fileSystemType = try reader["FileSystemType"].readIfPresent()
-        value.lifecycle = try reader["Lifecycle"].readIfPresent()
-        value.failureDetails = try reader["FailureDetails"].readIfPresent(with: FSxClientTypes.FileSystemFailureDetails.read(from:))
-        value.storageCapacity = try reader["StorageCapacity"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.networkInterfaceIds = try reader["NetworkInterfaceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dnsName = try reader["DNSName"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.windowsConfiguration = try reader["WindowsConfiguration"].readIfPresent(with: FSxClientTypes.WindowsFileSystemConfiguration.read(from:))
-        value.lustreConfiguration = try reader["LustreConfiguration"].readIfPresent(with: FSxClientTypes.LustreFileSystemConfiguration.read(from:))
-        value.administrativeActions = try reader["AdministrativeActions"].readListIfPresent(memberReadingClosure: FSxClientTypes.AdministrativeAction.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ontapConfiguration = try reader["OntapConfiguration"].readIfPresent(with: FSxClientTypes.OntapFileSystemConfiguration.read(from:))
-        value.fileSystemTypeVersion = try reader["FileSystemTypeVersion"].readIfPresent()
-        value.openZFSConfiguration = try reader["OpenZFSConfiguration"].readIfPresent(with: FSxClientTypes.OpenZFSFileSystemConfiguration.read(from:))
-        value.networkType = try reader["NetworkType"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.OpenZFSFileSystemConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSFileSystemConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.OpenZFSFileSystemConfiguration()
-        value.automaticBackupRetentionDays = try reader["AutomaticBackupRetentionDays"].readIfPresent()
-        value.copyTagsToBackups = try reader["CopyTagsToBackups"].readIfPresent()
-        value.copyTagsToVolumes = try reader["CopyTagsToVolumes"].readIfPresent()
-        value.dailyAutomaticBackupStartTime = try reader["DailyAutomaticBackupStartTime"].readIfPresent()
-        value.deploymentType = try reader["DeploymentType"].readIfPresent()
-        value.throughputCapacity = try reader["ThroughputCapacity"].readIfPresent()
-        value.weeklyMaintenanceStartTime = try reader["WeeklyMaintenanceStartTime"].readIfPresent()
-        value.diskIopsConfiguration = try reader["DiskIopsConfiguration"].readIfPresent(with: FSxClientTypes.DiskIopsConfiguration.read(from:))
-        value.rootVolumeId = try reader["RootVolumeId"].readIfPresent()
-        value.preferredSubnetId = try reader["PreferredSubnetId"].readIfPresent()
-        value.endpointIpAddressRange = try reader["EndpointIpAddressRange"].readIfPresent()
-        value.endpointIpv6AddressRange = try reader["EndpointIpv6AddressRange"].readIfPresent()
-        value.routeTableIds = try reader["RouteTableIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.endpointIpAddress = try reader["EndpointIpAddress"].readIfPresent()
-        value.endpointIpv6Address = try reader["EndpointIpv6Address"].readIfPresent()
-        value.readCacheConfiguration = try reader["ReadCacheConfiguration"].readIfPresent(with: FSxClientTypes.OpenZFSReadCacheConfiguration.read(from:))
-        return value
-    }
-}
-
-extension FSxClientTypes.OpenZFSReadCacheConfiguration {
-
-    static func write(value: FSxClientTypes.OpenZFSReadCacheConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SizeGiB"].write(value.sizeGiB)
-        try writer["SizingMode"].write(value.sizingMode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSReadCacheConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.OpenZFSReadCacheConfiguration()
-        value.sizingMode = try reader["SizingMode"].readIfPresent()
-        value.sizeGiB = try reader["SizeGiB"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.DiskIopsConfiguration {
-
-    static func write(value: FSxClientTypes.DiskIopsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Iops"].write(value.iops)
-        try writer["Mode"].write(value.mode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DiskIopsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.DiskIopsConfiguration()
-        value.mode = try reader["Mode"].readIfPresent()
-        value.iops = try reader["Iops"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.OntapFileSystemConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OntapFileSystemConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.OntapFileSystemConfiguration()
-        value.automaticBackupRetentionDays = try reader["AutomaticBackupRetentionDays"].readIfPresent()
-        value.dailyAutomaticBackupStartTime = try reader["DailyAutomaticBackupStartTime"].readIfPresent()
-        value.deploymentType = try reader["DeploymentType"].readIfPresent()
-        value.endpointIpAddressRange = try reader["EndpointIpAddressRange"].readIfPresent()
-        value.endpoints = try reader["Endpoints"].readIfPresent(with: FSxClientTypes.FileSystemEndpoints.read(from:))
-        value.diskIopsConfiguration = try reader["DiskIopsConfiguration"].readIfPresent(with: FSxClientTypes.DiskIopsConfiguration.read(from:))
-        value.preferredSubnetId = try reader["PreferredSubnetId"].readIfPresent()
-        value.routeTableIds = try reader["RouteTableIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.throughputCapacity = try reader["ThroughputCapacity"].readIfPresent()
-        value.weeklyMaintenanceStartTime = try reader["WeeklyMaintenanceStartTime"].readIfPresent()
-        value.fsxAdminPassword = try reader["FsxAdminPassword"].readIfPresent()
-        value.haPairs = try reader["HAPairs"].readIfPresent()
-        value.throughputCapacityPerHAPair = try reader["ThroughputCapacityPerHAPair"].readIfPresent()
-        value.endpointIpv6AddressRange = try reader["EndpointIpv6AddressRange"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.FileSystemEndpoints {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileSystemEndpoints {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.FileSystemEndpoints()
-        value.intercluster = try reader["Intercluster"].readIfPresent(with: FSxClientTypes.FileSystemEndpoint.read(from:))
-        value.management = try reader["Management"].readIfPresent(with: FSxClientTypes.FileSystemEndpoint.read(from:))
-        return value
-    }
-}
-
-extension FSxClientTypes.FileSystemEndpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileSystemEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.FileSystemEndpoint()
-        value.dnsName = try reader["DNSName"].readIfPresent()
-        value.ipAddresses = try reader["IpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ipv6Addresses = try reader["Ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FSxClientTypes.LustreFileSystemConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.LustreFileSystemConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.LustreFileSystemConfiguration()
-        value.weeklyMaintenanceStartTime = try reader["WeeklyMaintenanceStartTime"].readIfPresent()
-        value.dataRepositoryConfiguration = try reader["DataRepositoryConfiguration"].readIfPresent(with: FSxClientTypes.DataRepositoryConfiguration.read(from:))
-        value.deploymentType = try reader["DeploymentType"].readIfPresent()
-        value.perUnitStorageThroughput = try reader["PerUnitStorageThroughput"].readIfPresent()
-        value.mountName = try reader["MountName"].readIfPresent()
-        value.dailyAutomaticBackupStartTime = try reader["DailyAutomaticBackupStartTime"].readIfPresent()
-        value.automaticBackupRetentionDays = try reader["AutomaticBackupRetentionDays"].readIfPresent()
-        value.copyTagsToBackups = try reader["CopyTagsToBackups"].readIfPresent()
-        value.driveCacheType = try reader["DriveCacheType"].readIfPresent()
-        value.dataCompressionType = try reader["DataCompressionType"].readIfPresent()
-        value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: FSxClientTypes.LustreLogConfiguration.read(from:))
-        value.rootSquashConfiguration = try reader["RootSquashConfiguration"].readIfPresent(with: FSxClientTypes.LustreRootSquashConfiguration.read(from:))
-        value.metadataConfiguration = try reader["MetadataConfiguration"].readIfPresent(with: FSxClientTypes.FileSystemLustreMetadataConfiguration.read(from:))
-        value.efaEnabled = try reader["EfaEnabled"].readIfPresent()
-        value.throughputCapacity = try reader["ThroughputCapacity"].readIfPresent()
-        value.dataReadCacheConfiguration = try reader["DataReadCacheConfiguration"].readIfPresent(with: FSxClientTypes.LustreReadCacheConfiguration.read(from:))
-        return value
-    }
-}
-
-extension FSxClientTypes.LustreReadCacheConfiguration {
-
-    static func write(value: FSxClientTypes.LustreReadCacheConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SizeGiB"].write(value.sizeGiB)
-        try writer["SizingMode"].write(value.sizingMode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.LustreReadCacheConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.LustreReadCacheConfiguration()
-        value.sizingMode = try reader["SizingMode"].readIfPresent()
-        value.sizeGiB = try reader["SizeGiB"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.FileSystemLustreMetadataConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileSystemLustreMetadataConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.FileSystemLustreMetadataConfiguration()
-        value.iops = try reader["Iops"].readIfPresent()
-        value.mode = try reader["Mode"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension FSxClientTypes.LustreRootSquashConfiguration {
-
-    static func write(value: FSxClientTypes.LustreRootSquashConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NoSquashNids"].writeList(value.noSquashNids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RootSquash"].write(value.rootSquash)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.LustreRootSquashConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.LustreRootSquashConfiguration()
-        value.rootSquash = try reader["RootSquash"].readIfPresent()
-        value.noSquashNids = try reader["NoSquashNids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FSxClientTypes.LustreLogConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.LustreLogConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.LustreLogConfiguration()
-        value.level = try reader["Level"].readIfPresent() ?? .sdkUnknown("")
-        value.destination = try reader["Destination"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.DataRepositoryConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DataRepositoryConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.DataRepositoryConfiguration()
-        value.lifecycle = try reader["Lifecycle"].readIfPresent()
-        value.importPath = try reader["ImportPath"].readIfPresent()
-        value.exportPath = try reader["ExportPath"].readIfPresent()
-        value.importedFileChunkSize = try reader["ImportedFileChunkSize"].readIfPresent()
-        value.autoImportPolicy = try reader["AutoImportPolicy"].readIfPresent()
-        value.failureDetails = try reader["FailureDetails"].readIfPresent(with: FSxClientTypes.DataRepositoryFailureDetails.read(from:))
-        return value
-    }
-}
-
-extension FSxClientTypes.DataRepositoryFailureDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DataRepositoryFailureDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.DataRepositoryFailureDetails()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.WindowsFileSystemConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.WindowsFileSystemConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.WindowsFileSystemConfiguration()
-        value.activeDirectoryId = try reader["ActiveDirectoryId"].readIfPresent()
-        value.selfManagedActiveDirectoryConfiguration = try reader["SelfManagedActiveDirectoryConfiguration"].readIfPresent(with: FSxClientTypes.SelfManagedActiveDirectoryAttributes.read(from:))
-        value.deploymentType = try reader["DeploymentType"].readIfPresent()
-        value.remoteAdministrationEndpoint = try reader["RemoteAdministrationEndpoint"].readIfPresent()
-        value.preferredSubnetId = try reader["PreferredSubnetId"].readIfPresent()
-        value.preferredFileServerIp = try reader["PreferredFileServerIp"].readIfPresent()
-        value.throughputCapacity = try reader["ThroughputCapacity"].readIfPresent()
-        value.maintenanceOperationsInProgress = try reader["MaintenanceOperationsInProgress"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<FSxClientTypes.FileSystemMaintenanceOperation>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.weeklyMaintenanceStartTime = try reader["WeeklyMaintenanceStartTime"].readIfPresent()
-        value.dailyAutomaticBackupStartTime = try reader["DailyAutomaticBackupStartTime"].readIfPresent()
-        value.automaticBackupRetentionDays = try reader["AutomaticBackupRetentionDays"].readIfPresent()
-        value.copyTagsToBackups = try reader["CopyTagsToBackups"].readIfPresent()
-        value.aliases = try reader["Aliases"].readListIfPresent(memberReadingClosure: FSxClientTypes.Alias.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.auditLogConfiguration = try reader["AuditLogConfiguration"].readIfPresent(with: FSxClientTypes.WindowsAuditLogConfiguration.read(from:))
-        value.diskIopsConfiguration = try reader["DiskIopsConfiguration"].readIfPresent(with: FSxClientTypes.DiskIopsConfiguration.read(from:))
-        value.preferredFileServerIpv6 = try reader["PreferredFileServerIpv6"].readIfPresent()
-        value.fsrmConfiguration = try reader["FsrmConfiguration"].readIfPresent(with: FSxClientTypes.WindowsFsrmConfiguration.read(from:))
-        return value
-    }
-}
-
-extension FSxClientTypes.WindowsFsrmConfiguration {
-
-    static func write(value: FSxClientTypes.WindowsFsrmConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EventLogDestination"].write(value.eventLogDestination)
-        try writer["FsrmServiceEnabled"].write(value.fsrmServiceEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.WindowsFsrmConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.WindowsFsrmConfiguration()
-        value.fsrmServiceEnabled = try reader["FsrmServiceEnabled"].readIfPresent() ?? false
-        value.eventLogDestination = try reader["EventLogDestination"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.WindowsAuditLogConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.WindowsAuditLogConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.WindowsAuditLogConfiguration()
-        value.fileAccessAuditLogLevel = try reader["FileAccessAuditLogLevel"].readIfPresent() ?? .sdkUnknown("")
-        value.fileShareAccessAuditLogLevel = try reader["FileShareAccessAuditLogLevel"].readIfPresent() ?? .sdkUnknown("")
-        value.auditLogDestination = try reader["AuditLogDestination"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.SelfManagedActiveDirectoryAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.SelfManagedActiveDirectoryAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.SelfManagedActiveDirectoryAttributes()
-        value.domainName = try reader["DomainName"].readIfPresent()
-        value.organizationalUnitDistinguishedName = try reader["OrganizationalUnitDistinguishedName"].readIfPresent()
-        value.fileSystemAdministratorsGroup = try reader["FileSystemAdministratorsGroup"].readIfPresent()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.dnsIps = try reader["DnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.domainJoinServiceAccountSecret = try reader["DomainJoinServiceAccountSecret"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.FileSystemFailureDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileSystemFailureDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.FileSystemFailureDetails()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.OntapVolumeConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OntapVolumeConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.OntapVolumeConfiguration()
-        value.flexCacheEndpointType = try reader["FlexCacheEndpointType"].readIfPresent()
-        value.junctionPath = try reader["JunctionPath"].readIfPresent()
-        value.securityStyle = try reader["SecurityStyle"].readIfPresent()
-        value.sizeInMegabytes = try reader["SizeInMegabytes"].readIfPresent()
-        value.storageEfficiencyEnabled = try reader["StorageEfficiencyEnabled"].readIfPresent()
-        value.storageVirtualMachineId = try reader["StorageVirtualMachineId"].readIfPresent()
-        value.storageVirtualMachineRoot = try reader["StorageVirtualMachineRoot"].readIfPresent()
-        value.tieringPolicy = try reader["TieringPolicy"].readIfPresent(with: FSxClientTypes.TieringPolicy.read(from:))
-        value.uuid = try reader["UUID"].readIfPresent()
-        value.ontapVolumeType = try reader["OntapVolumeType"].readIfPresent()
-        value.snapshotPolicy = try reader["SnapshotPolicy"].readIfPresent()
-        value.copyTagsToBackups = try reader["CopyTagsToBackups"].readIfPresent()
-        value.snaplockConfiguration = try reader["SnaplockConfiguration"].readIfPresent(with: FSxClientTypes.SnaplockConfiguration.read(from:))
-        value.volumeStyle = try reader["VolumeStyle"].readIfPresent()
-        value.aggregateConfiguration = try reader["AggregateConfiguration"].readIfPresent(with: FSxClientTypes.AggregateConfiguration.read(from:))
-        value.sizeInBytes = try reader["SizeInBytes"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.AggregateConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.AggregateConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.AggregateConfiguration()
-        value.aggregates = try reader["Aggregates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.totalConstituents = try reader["TotalConstituents"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.SnaplockConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.SnaplockConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.SnaplockConfiguration()
-        value.auditLogVolume = try reader["AuditLogVolume"].readIfPresent()
-        value.autocommitPeriod = try reader["AutocommitPeriod"].readIfPresent(with: FSxClientTypes.AutocommitPeriod.read(from:))
-        value.privilegedDelete = try reader["PrivilegedDelete"].readIfPresent()
-        value.retentionPeriod = try reader["RetentionPeriod"].readIfPresent(with: FSxClientTypes.SnaplockRetentionPeriod.read(from:))
-        value.snaplockType = try reader["SnaplockType"].readIfPresent()
-        value.volumeAppendModeEnabled = try reader["VolumeAppendModeEnabled"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.SnaplockRetentionPeriod {
-
-    static func write(value: FSxClientTypes.SnaplockRetentionPeriod?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultRetention"].write(value.defaultRetention, with: FSxClientTypes.RetentionPeriod.write(value:to:))
-        try writer["MaximumRetention"].write(value.maximumRetention, with: FSxClientTypes.RetentionPeriod.write(value:to:))
-        try writer["MinimumRetention"].write(value.minimumRetention, with: FSxClientTypes.RetentionPeriod.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.SnaplockRetentionPeriod {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.SnaplockRetentionPeriod()
-        value.defaultRetention = try reader["DefaultRetention"].readIfPresent(with: FSxClientTypes.RetentionPeriod.read(from:))
-        value.minimumRetention = try reader["MinimumRetention"].readIfPresent(with: FSxClientTypes.RetentionPeriod.read(from:))
-        value.maximumRetention = try reader["MaximumRetention"].readIfPresent(with: FSxClientTypes.RetentionPeriod.read(from:))
-        return value
-    }
-}
-
-extension FSxClientTypes.RetentionPeriod {
-
-    static func write(value: FSxClientTypes.RetentionPeriod?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.RetentionPeriod {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.RetentionPeriod()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.AutocommitPeriod {
-
-    static func write(value: FSxClientTypes.AutocommitPeriod?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.AutocommitPeriod {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.AutocommitPeriod()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.TieringPolicy {
-
-    static func write(value: FSxClientTypes.TieringPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CoolingPeriod"].write(value.coolingPeriod)
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.TieringPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.TieringPolicy()
-        value.coolingPeriod = try reader["CoolingPeriod"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.ActiveDirectoryBackupAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.ActiveDirectoryBackupAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.ActiveDirectoryBackupAttributes()
-        value.domainName = try reader["DomainName"].readIfPresent()
-        value.activeDirectoryId = try reader["ActiveDirectoryId"].readIfPresent()
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
-        return value
-    }
-}
-
 extension FSxClientTypes.BackupFailureDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.BackupFailureDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.BackupFailureDetails()
         value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.S3AccessPointAttachment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.S3AccessPointAttachment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.S3AccessPointAttachment()
-        value.lifecycle = try reader["Lifecycle"].readIfPresent()
-        value.lifecycleTransitionReason = try reader["LifecycleTransitionReason"].readIfPresent(with: FSxClientTypes.LifecycleTransitionReason.read(from:))
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.openZFSConfiguration = try reader["OpenZFSConfiguration"].readIfPresent(with: FSxClientTypes.S3AccessPointOpenZFSConfiguration.read(from:))
-        value.ontapConfiguration = try reader["OntapConfiguration"].readIfPresent(with: FSxClientTypes.S3AccessPointOntapConfiguration.read(from:))
-        value.s3AccessPoint = try reader["S3AccessPoint"].readIfPresent(with: FSxClientTypes.S3AccessPoint.read(from:))
-        return value
-    }
-}
-
-extension FSxClientTypes.S3AccessPoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.S3AccessPoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.S3AccessPoint()
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
-        value.alias = try reader["Alias"].readIfPresent()
-        value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: FSxClientTypes.S3AccessPointVpcConfiguration.read(from:))
-        return value
-    }
-}
-
-extension FSxClientTypes.S3AccessPointVpcConfiguration {
-
-    static func write(value: FSxClientTypes.S3AccessPointVpcConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["VpcId"].write(value.vpcId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.S3AccessPointVpcConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.S3AccessPointVpcConfiguration()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.S3AccessPointOntapConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.S3AccessPointOntapConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.S3AccessPointOntapConfiguration()
-        value.volumeId = try reader["VolumeId"].readIfPresent()
-        value.fileSystemIdentity = try reader["FileSystemIdentity"].readIfPresent(with: FSxClientTypes.OntapFileSystemIdentity.read(from:))
-        return value
-    }
-}
-
-extension FSxClientTypes.OntapFileSystemIdentity {
-
-    static func write(value: FSxClientTypes.OntapFileSystemIdentity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["UnixUser"].write(value.unixUser, with: FSxClientTypes.OntapUnixFileSystemUser.write(value:to:))
-        try writer["WindowsUser"].write(value.windowsUser, with: FSxClientTypes.OntapWindowsFileSystemUser.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OntapFileSystemIdentity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.OntapFileSystemIdentity()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.unixUser = try reader["UnixUser"].readIfPresent(with: FSxClientTypes.OntapUnixFileSystemUser.read(from:))
-        value.windowsUser = try reader["WindowsUser"].readIfPresent(with: FSxClientTypes.OntapWindowsFileSystemUser.read(from:))
-        return value
-    }
-}
-
-extension FSxClientTypes.OntapWindowsFileSystemUser {
-
-    static func write(value: FSxClientTypes.OntapWindowsFileSystemUser?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OntapWindowsFileSystemUser {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.OntapWindowsFileSystemUser()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension FSxClientTypes.OntapUnixFileSystemUser {
-
-    static func write(value: FSxClientTypes.OntapUnixFileSystemUser?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OntapUnixFileSystemUser {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.OntapUnixFileSystemUser()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension FSxClientTypes.S3AccessPointOpenZFSConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.S3AccessPointOpenZFSConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.S3AccessPointOpenZFSConfiguration()
-        value.volumeId = try reader["VolumeId"].readIfPresent()
-        value.fileSystemIdentity = try reader["FileSystemIdentity"].readIfPresent(with: FSxClientTypes.OpenZFSFileSystemIdentity.read(from:))
-        return value
-    }
-}
-
-extension FSxClientTypes.OpenZFSFileSystemIdentity {
-
-    static func write(value: FSxClientTypes.OpenZFSFileSystemIdentity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PosixUser"].write(value.posixUser, with: FSxClientTypes.OpenZFSPosixFileSystemUser.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSFileSystemIdentity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.OpenZFSFileSystemIdentity()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.posixUser = try reader["PosixUser"].readIfPresent(with: FSxClientTypes.OpenZFSPosixFileSystemUser.read(from:))
-        return value
-    }
-}
-
-extension FSxClientTypes.OpenZFSPosixFileSystemUser {
-
-    static func write(value: FSxClientTypes.OpenZFSPosixFileSystemUser?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Gid"].write(value.gid)
-        try writer["SecondaryGids"].writeList(value.secondaryGids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Uid"].write(value.uid)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSPosixFileSystemUser {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.OpenZFSPosixFileSystemUser()
-        value.uid = try reader["Uid"].readIfPresent() ?? 0
-        value.gid = try reader["Gid"].readIfPresent() ?? 0
-        value.secondaryGids = try reader["SecondaryGids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FSxClientTypes.DataRepositoryAssociation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DataRepositoryAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.DataRepositoryAssociation()
-        value.associationId = try reader["AssociationId"].readIfPresent()
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
-        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
-        value.lifecycle = try reader["Lifecycle"].readIfPresent()
-        value.failureDetails = try reader["FailureDetails"].readIfPresent(with: FSxClientTypes.DataRepositoryFailureDetails.read(from:))
-        value.fileSystemPath = try reader["FileSystemPath"].readIfPresent()
-        value.dataRepositoryPath = try reader["DataRepositoryPath"].readIfPresent()
-        value.batchImportMetaDataOnCreate = try reader["BatchImportMetaDataOnCreate"].readIfPresent()
-        value.importedFileChunkSize = try reader["ImportedFileChunkSize"].readIfPresent()
-        value.s3 = try reader["S3"].readIfPresent(with: FSxClientTypes.S3DataRepositoryConfiguration.read(from:))
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.fileCacheId = try reader["FileCacheId"].readIfPresent()
-        value.fileCachePath = try reader["FileCachePath"].readIfPresent()
-        value.dataRepositorySubdirectories = try reader["DataRepositorySubdirectories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nfs = try reader["NFS"].readIfPresent(with: FSxClientTypes.NFSDataRepositoryConfiguration.read(from:))
-        return value
-    }
-}
-
-extension FSxClientTypes.NFSDataRepositoryConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.NFSDataRepositoryConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.NFSDataRepositoryConfiguration()
-        value.version = try reader["Version"].readIfPresent() ?? .sdkUnknown("")
-        value.dnsIps = try reader["DnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.autoExportPolicy = try reader["AutoExportPolicy"].readIfPresent(with: FSxClientTypes.AutoExportPolicy.read(from:))
-        return value
-    }
-}
-
-extension FSxClientTypes.AutoExportPolicy {
-
-    static func write(value: FSxClientTypes.AutoExportPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Events"].writeList(value.events, memberWritingClosure: SmithyReadWrite.WritingClosureBox<FSxClientTypes.EventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.AutoExportPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.AutoExportPolicy()
-        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<FSxClientTypes.EventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FSxClientTypes.S3DataRepositoryConfiguration {
-
-    static func write(value: FSxClientTypes.S3DataRepositoryConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoExportPolicy"].write(value.autoExportPolicy, with: FSxClientTypes.AutoExportPolicy.write(value:to:))
-        try writer["AutoImportPolicy"].write(value.autoImportPolicy, with: FSxClientTypes.AutoImportPolicy.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.S3DataRepositoryConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.S3DataRepositoryConfiguration()
-        value.autoImportPolicy = try reader["AutoImportPolicy"].readIfPresent(with: FSxClientTypes.AutoImportPolicy.read(from:))
-        value.autoExportPolicy = try reader["AutoExportPolicy"].readIfPresent(with: FSxClientTypes.AutoExportPolicy.read(from:))
-        return value
-    }
-}
-
-extension FSxClientTypes.AutoImportPolicy {
-
-    static func write(value: FSxClientTypes.AutoImportPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Events"].writeList(value.events, memberWritingClosure: SmithyReadWrite.WritingClosureBox<FSxClientTypes.EventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.AutoImportPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.AutoImportPolicy()
-        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<FSxClientTypes.EventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FSxClientTypes.DataRepositoryTask {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DataRepositoryTask {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.DataRepositoryTask()
-        value.taskId = try reader["TaskId"].readIfPresent() ?? ""
-        value.lifecycle = try reader["Lifecycle"].readIfPresent() ?? .sdkUnknown("")
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
-        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.failureDetails = try reader["FailureDetails"].readIfPresent(with: FSxClientTypes.DataRepositoryTaskFailureDetails.read(from:))
-        value.status = try reader["Status"].readIfPresent(with: FSxClientTypes.DataRepositoryTaskStatus.read(from:))
-        value.report = try reader["Report"].readIfPresent(with: FSxClientTypes.CompletionReport.read(from:))
-        value.capacityToRelease = try reader["CapacityToRelease"].readIfPresent()
-        value.fileCacheId = try reader["FileCacheId"].readIfPresent()
-        value.releaseConfiguration = try reader["ReleaseConfiguration"].readIfPresent(with: FSxClientTypes.ReleaseConfiguration.read(from:))
-        return value
-    }
-}
-
-extension FSxClientTypes.ReleaseConfiguration {
-
-    static func write(value: FSxClientTypes.ReleaseConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DurationSinceLastAccess"].write(value.durationSinceLastAccess, with: FSxClientTypes.DurationSinceLastAccess.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.ReleaseConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.ReleaseConfiguration()
-        value.durationSinceLastAccess = try reader["DurationSinceLastAccess"].readIfPresent(with: FSxClientTypes.DurationSinceLastAccess.read(from:))
-        return value
-    }
-}
-
-extension FSxClientTypes.DurationSinceLastAccess {
-
-    static func write(value: FSxClientTypes.DurationSinceLastAccess?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Unit"].write(value.unit)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DurationSinceLastAccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.DurationSinceLastAccess()
-        value.unit = try reader["Unit"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
         return value
     }
 }
@@ -14114,230 +13282,12 @@ extension FSxClientTypes.CompletionReport {
     }
 }
 
-extension FSxClientTypes.DataRepositoryTaskStatus {
+extension FSxClientTypes.CreateAggregateConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DataRepositoryTaskStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.DataRepositoryTaskStatus()
-        value.totalCount = try reader["TotalCount"].readIfPresent()
-        value.succeededCount = try reader["SucceededCount"].readIfPresent()
-        value.failedCount = try reader["FailedCount"].readIfPresent()
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.releasedCapacity = try reader["ReleasedCapacity"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.DataRepositoryTaskFailureDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DataRepositoryTaskFailureDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.DataRepositoryTaskFailureDetails()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.FileCacheCreating {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileCacheCreating {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.FileCacheCreating()
-        value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.fileCacheId = try reader["FileCacheId"].readIfPresent()
-        value.fileCacheType = try reader["FileCacheType"].readIfPresent()
-        value.fileCacheTypeVersion = try reader["FileCacheTypeVersion"].readIfPresent()
-        value.lifecycle = try reader["Lifecycle"].readIfPresent()
-        value.failureDetails = try reader["FailureDetails"].readIfPresent(with: FSxClientTypes.FileCacheFailureDetails.read(from:))
-        value.storageCapacity = try reader["StorageCapacity"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.networkInterfaceIds = try reader["NetworkInterfaceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dnsName = try reader["DNSName"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.copyTagsToDataRepositoryAssociations = try reader["CopyTagsToDataRepositoryAssociations"].readIfPresent()
-        value.lustreConfiguration = try reader["LustreConfiguration"].readIfPresent(with: FSxClientTypes.FileCacheLustreConfiguration.read(from:))
-        value.dataRepositoryAssociationIds = try reader["DataRepositoryAssociationIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FSxClientTypes.FileCacheLustreConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileCacheLustreConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.FileCacheLustreConfiguration()
-        value.perUnitStorageThroughput = try reader["PerUnitStorageThroughput"].readIfPresent()
-        value.deploymentType = try reader["DeploymentType"].readIfPresent()
-        value.mountName = try reader["MountName"].readIfPresent()
-        value.weeklyMaintenanceStartTime = try reader["WeeklyMaintenanceStartTime"].readIfPresent()
-        value.metadataConfiguration = try reader["MetadataConfiguration"].readIfPresent(with: FSxClientTypes.FileCacheLustreMetadataConfiguration.read(from:))
-        value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: FSxClientTypes.LustreLogConfiguration.read(from:))
-        return value
-    }
-}
-
-extension FSxClientTypes.FileCacheLustreMetadataConfiguration {
-
-    static func write(value: FSxClientTypes.FileCacheLustreMetadataConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FSxClientTypes.CreateAggregateConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["StorageCapacity"].write(value.storageCapacity)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileCacheLustreMetadataConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.FileCacheLustreMetadataConfiguration()
-        value.storageCapacity = try reader["StorageCapacity"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension FSxClientTypes.FileCacheFailureDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileCacheFailureDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.FileCacheFailureDetails()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.StorageVirtualMachine {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.StorageVirtualMachine {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.StorageVirtualMachine()
-        value.activeDirectoryConfiguration = try reader["ActiveDirectoryConfiguration"].readIfPresent(with: FSxClientTypes.SvmActiveDirectoryConfiguration.read(from:))
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endpoints = try reader["Endpoints"].readIfPresent(with: FSxClientTypes.SvmEndpoints.read(from:))
-        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
-        value.lifecycle = try reader["Lifecycle"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
-        value.storageVirtualMachineId = try reader["StorageVirtualMachineId"].readIfPresent()
-        value.subtype = try reader["Subtype"].readIfPresent()
-        value.uuid = try reader["UUID"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lifecycleTransitionReason = try reader["LifecycleTransitionReason"].readIfPresent(with: FSxClientTypes.LifecycleTransitionReason.read(from:))
-        value.rootVolumeSecurityStyle = try reader["RootVolumeSecurityStyle"].readIfPresent()
-        return value
-    }
-}
-
-extension FSxClientTypes.SvmEndpoints {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.SvmEndpoints {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.SvmEndpoints()
-        value.iscsi = try reader["Iscsi"].readIfPresent(with: FSxClientTypes.SvmEndpoint.read(from:))
-        value.management = try reader["Management"].readIfPresent(with: FSxClientTypes.SvmEndpoint.read(from:))
-        value.nfs = try reader["Nfs"].readIfPresent(with: FSxClientTypes.SvmEndpoint.read(from:))
-        value.smb = try reader["Smb"].readIfPresent(with: FSxClientTypes.SvmEndpoint.read(from:))
-        return value
-    }
-}
-
-extension FSxClientTypes.SvmEndpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.SvmEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.SvmEndpoint()
-        value.dnsName = try reader["DNSName"].readIfPresent()
-        value.ipAddresses = try reader["IpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ipv6Addresses = try reader["Ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FSxClientTypes.SvmActiveDirectoryConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.SvmActiveDirectoryConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.SvmActiveDirectoryConfiguration()
-        value.netBiosName = try reader["NetBiosName"].readIfPresent()
-        value.selfManagedActiveDirectoryConfiguration = try reader["SelfManagedActiveDirectoryConfiguration"].readIfPresent(with: FSxClientTypes.SelfManagedActiveDirectoryAttributes.read(from:))
-        return value
-    }
-}
-
-extension FSxClientTypes.DeleteFileSystemWindowsResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DeleteFileSystemWindowsResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.DeleteFileSystemWindowsResponse()
-        value.finalBackupId = try reader["FinalBackupId"].readIfPresent()
-        value.finalBackupTags = try reader["FinalBackupTags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FSxClientTypes.DeleteFileSystemLustreResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DeleteFileSystemLustreResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.DeleteFileSystemLustreResponse()
-        value.finalBackupId = try reader["FinalBackupId"].readIfPresent()
-        value.finalBackupTags = try reader["FinalBackupTags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FSxClientTypes.DeleteFileSystemOpenZFSResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DeleteFileSystemOpenZFSResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.DeleteFileSystemOpenZFSResponse()
-        value.finalBackupId = try reader["FinalBackupId"].readIfPresent()
-        value.finalBackupTags = try reader["FinalBackupTags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FSxClientTypes.DeleteVolumeOntapResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DeleteVolumeOntapResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.DeleteVolumeOntapResponse()
-        value.finalBackupId = try reader["FinalBackupId"].readIfPresent()
-        value.finalBackupTags = try reader["FinalBackupTags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FSxClientTypes.FileCache {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileCache {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FSxClientTypes.FileCache()
-        value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.fileCacheId = try reader["FileCacheId"].readIfPresent()
-        value.fileCacheType = try reader["FileCacheType"].readIfPresent()
-        value.fileCacheTypeVersion = try reader["FileCacheTypeVersion"].readIfPresent()
-        value.lifecycle = try reader["Lifecycle"].readIfPresent()
-        value.failureDetails = try reader["FailureDetails"].readIfPresent(with: FSxClientTypes.FileCacheFailureDetails.read(from:))
-        value.storageCapacity = try reader["StorageCapacity"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.networkInterfaceIds = try reader["NetworkInterfaceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dnsName = try reader["DNSName"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
-        value.lustreConfiguration = try reader["LustreConfiguration"].readIfPresent(with: FSxClientTypes.FileCacheLustreConfiguration.read(from:))
-        value.dataRepositoryAssociationIds = try reader["DataRepositoryAssociationIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FSxClientTypes.CreateAndAttachS3AccessPointOpenZFSConfiguration {
-
-    static func write(value: FSxClientTypes.CreateAndAttachS3AccessPointOpenZFSConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FileSystemIdentity"].write(value.fileSystemIdentity, with: FSxClientTypes.OpenZFSFileSystemIdentity.write(value:to:))
-        try writer["VolumeId"].write(value.volumeId)
+        try writer["Aggregates"].writeList(value.aggregates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ConstituentsPerAggregate"].write(value.constituentsPerAggregate)
     }
 }
 
@@ -14346,6 +13296,15 @@ extension FSxClientTypes.CreateAndAttachS3AccessPointOntapConfiguration {
     static func write(value: FSxClientTypes.CreateAndAttachS3AccessPointOntapConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["FileSystemIdentity"].write(value.fileSystemIdentity, with: FSxClientTypes.OntapFileSystemIdentity.write(value:to:))
+        try writer["VolumeId"].write(value.volumeId)
+    }
+}
+
+extension FSxClientTypes.CreateAndAttachS3AccessPointOpenZFSConfiguration {
+
+    static func write(value: FSxClientTypes.CreateAndAttachS3AccessPointOpenZFSConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FileSystemIdentity"].write(value.fileSystemIdentity, with: FSxClientTypes.OpenZFSFileSystemIdentity.write(value:to:))
         try writer["VolumeId"].write(value.volumeId)
     }
 }
@@ -14367,70 +13326,6 @@ extension FSxClientTypes.CreateFileCacheLustreConfiguration {
         try writer["MetadataConfiguration"].write(value.metadataConfiguration, with: FSxClientTypes.FileCacheLustreMetadataConfiguration.write(value:to:))
         try writer["PerUnitStorageThroughput"].write(value.perUnitStorageThroughput)
         try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
-    }
-}
-
-extension FSxClientTypes.FileCacheDataRepositoryAssociation {
-
-    static func write(value: FSxClientTypes.FileCacheDataRepositoryAssociation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataRepositoryPath"].write(value.dataRepositoryPath)
-        try writer["DataRepositorySubdirectories"].writeList(value.dataRepositorySubdirectories, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FileCachePath"].write(value.fileCachePath)
-        try writer["NFS"].write(value.nfs, with: FSxClientTypes.FileCacheNFSConfiguration.write(value:to:))
-    }
-}
-
-extension FSxClientTypes.FileCacheNFSConfiguration {
-
-    static func write(value: FSxClientTypes.FileCacheNFSConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DnsIps"].writeList(value.dnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Version"].write(value.version)
-    }
-}
-
-extension FSxClientTypes.CreateFileSystemWindowsConfiguration {
-
-    static func write(value: FSxClientTypes.CreateFileSystemWindowsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActiveDirectoryId"].write(value.activeDirectoryId)
-        try writer["Aliases"].writeList(value.aliases, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["AuditLogConfiguration"].write(value.auditLogConfiguration, with: FSxClientTypes.WindowsAuditLogCreateConfiguration.write(value:to:))
-        try writer["AutomaticBackupRetentionDays"].write(value.automaticBackupRetentionDays)
-        try writer["CopyTagsToBackups"].write(value.copyTagsToBackups)
-        try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
-        try writer["DeploymentType"].write(value.deploymentType)
-        try writer["DiskIopsConfiguration"].write(value.diskIopsConfiguration, with: FSxClientTypes.DiskIopsConfiguration.write(value:to:))
-        try writer["FsrmConfiguration"].write(value.fsrmConfiguration, with: FSxClientTypes.WindowsFsrmConfiguration.write(value:to:))
-        try writer["PreferredSubnetId"].write(value.preferredSubnetId)
-        try writer["SelfManagedActiveDirectoryConfiguration"].write(value.selfManagedActiveDirectoryConfiguration, with: FSxClientTypes.SelfManagedActiveDirectoryConfiguration.write(value:to:))
-        try writer["ThroughputCapacity"].write(value.throughputCapacity)
-        try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
-    }
-}
-
-extension FSxClientTypes.WindowsAuditLogCreateConfiguration {
-
-    static func write(value: FSxClientTypes.WindowsAuditLogCreateConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuditLogDestination"].write(value.auditLogDestination)
-        try writer["FileAccessAuditLogLevel"].write(value.fileAccessAuditLogLevel)
-        try writer["FileShareAccessAuditLogLevel"].write(value.fileShareAccessAuditLogLevel)
-    }
-}
-
-extension FSxClientTypes.SelfManagedActiveDirectoryConfiguration {
-
-    static func write(value: FSxClientTypes.SelfManagedActiveDirectoryConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DnsIps"].writeList(value.dnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DomainJoinServiceAccountSecret"].write(value.domainJoinServiceAccountSecret)
-        try writer["DomainName"].write(value.domainName)
-        try writer["FileSystemAdministratorsGroup"].write(value.fileSystemAdministratorsGroup)
-        try writer["OrganizationalUnitDistinguishedName"].write(value.organizationalUnitDistinguishedName)
-        try writer["Password"].write(value.password)
-        try writer["UserName"].write(value.userName)
     }
 }
 
@@ -14465,15 +13360,6 @@ extension FSxClientTypes.CreateFileSystemLustreMetadataConfiguration {
         guard let value else { return }
         try writer["Iops"].write(value.iops)
         try writer["Mode"].write(value.mode)
-    }
-}
-
-extension FSxClientTypes.LustreLogCreateConfiguration {
-
-    static func write(value: FSxClientTypes.LustreLogCreateConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Destination"].write(value.destination)
-        try writer["Level"].write(value.level)
     }
 }
 
@@ -14518,25 +13404,23 @@ extension FSxClientTypes.CreateFileSystemOpenZFSConfiguration {
     }
 }
 
-extension FSxClientTypes.OpenZFSCreateRootVolumeConfiguration {
+extension FSxClientTypes.CreateFileSystemWindowsConfiguration {
 
-    static func write(value: FSxClientTypes.OpenZFSCreateRootVolumeConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FSxClientTypes.CreateFileSystemWindowsConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CopyTagsToSnapshots"].write(value.copyTagsToSnapshots)
-        try writer["DataCompressionType"].write(value.dataCompressionType)
-        try writer["NfsExports"].writeList(value.nfsExports, memberWritingClosure: FSxClientTypes.OpenZFSNfsExport.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReadOnly"].write(value.readOnly)
-        try writer["RecordSizeKiB"].write(value.recordSizeKiB)
-        try writer["UserAndGroupQuotas"].writeList(value.userAndGroupQuotas, memberWritingClosure: FSxClientTypes.OpenZFSUserOrGroupQuota.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension FSxClientTypes.CreateSvmActiveDirectoryConfiguration {
-
-    static func write(value: FSxClientTypes.CreateSvmActiveDirectoryConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NetBiosName"].write(value.netBiosName)
+        try writer["ActiveDirectoryId"].write(value.activeDirectoryId)
+        try writer["Aliases"].writeList(value.aliases, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AuditLogConfiguration"].write(value.auditLogConfiguration, with: FSxClientTypes.WindowsAuditLogCreateConfiguration.write(value:to:))
+        try writer["AutomaticBackupRetentionDays"].write(value.automaticBackupRetentionDays)
+        try writer["CopyTagsToBackups"].write(value.copyTagsToBackups)
+        try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
+        try writer["DeploymentType"].write(value.deploymentType)
+        try writer["DiskIopsConfiguration"].write(value.diskIopsConfiguration, with: FSxClientTypes.DiskIopsConfiguration.write(value:to:))
+        try writer["FsrmConfiguration"].write(value.fsrmConfiguration, with: FSxClientTypes.WindowsFsrmConfiguration.write(value:to:))
+        try writer["PreferredSubnetId"].write(value.preferredSubnetId)
         try writer["SelfManagedActiveDirectoryConfiguration"].write(value.selfManagedActiveDirectoryConfiguration, with: FSxClientTypes.SelfManagedActiveDirectoryConfiguration.write(value:to:))
+        try writer["ThroughputCapacity"].write(value.throughputCapacity)
+        try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
     }
 }
 
@@ -14560,25 +13444,12 @@ extension FSxClientTypes.CreateOntapVolumeConfiguration {
     }
 }
 
-extension FSxClientTypes.CreateAggregateConfiguration {
+extension FSxClientTypes.CreateOpenZFSOriginSnapshotConfiguration {
 
-    static func write(value: FSxClientTypes.CreateAggregateConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FSxClientTypes.CreateOpenZFSOriginSnapshotConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Aggregates"].writeList(value.aggregates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ConstituentsPerAggregate"].write(value.constituentsPerAggregate)
-    }
-}
-
-extension FSxClientTypes.CreateSnaplockConfiguration {
-
-    static func write(value: FSxClientTypes.CreateSnaplockConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuditLogVolume"].write(value.auditLogVolume)
-        try writer["AutocommitPeriod"].write(value.autocommitPeriod, with: FSxClientTypes.AutocommitPeriod.write(value:to:))
-        try writer["PrivilegedDelete"].write(value.privilegedDelete)
-        try writer["RetentionPeriod"].write(value.retentionPeriod, with: FSxClientTypes.SnaplockRetentionPeriod.write(value:to:))
-        try writer["SnaplockType"].write(value.snaplockType)
-        try writer["VolumeAppendModeEnabled"].write(value.volumeAppendModeEnabled)
+        try writer["CopyStrategy"].write(value.copyStrategy)
+        try writer["SnapshotARN"].write(value.snapshotARN)
     }
 }
 
@@ -14599,21 +13470,133 @@ extension FSxClientTypes.CreateOpenZFSVolumeConfiguration {
     }
 }
 
-extension FSxClientTypes.CreateOpenZFSOriginSnapshotConfiguration {
+extension FSxClientTypes.CreateSnaplockConfiguration {
 
-    static func write(value: FSxClientTypes.CreateOpenZFSOriginSnapshotConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FSxClientTypes.CreateSnaplockConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CopyStrategy"].write(value.copyStrategy)
-        try writer["SnapshotARN"].write(value.snapshotARN)
+        try writer["AuditLogVolume"].write(value.auditLogVolume)
+        try writer["AutocommitPeriod"].write(value.autocommitPeriod, with: FSxClientTypes.AutocommitPeriod.write(value:to:))
+        try writer["PrivilegedDelete"].write(value.privilegedDelete)
+        try writer["RetentionPeriod"].write(value.retentionPeriod, with: FSxClientTypes.SnaplockRetentionPeriod.write(value:to:))
+        try writer["SnaplockType"].write(value.snaplockType)
+        try writer["VolumeAppendModeEnabled"].write(value.volumeAppendModeEnabled)
     }
 }
 
-extension FSxClientTypes.DeleteFileSystemWindowsConfiguration {
+extension FSxClientTypes.CreateSvmActiveDirectoryConfiguration {
 
-    static func write(value: FSxClientTypes.DeleteFileSystemWindowsConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FSxClientTypes.CreateSvmActiveDirectoryConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["FinalBackupTags"].writeList(value.finalBackupTags, memberWritingClosure: FSxClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SkipFinalBackup"].write(value.skipFinalBackup)
+        try writer["NetBiosName"].write(value.netBiosName)
+        try writer["SelfManagedActiveDirectoryConfiguration"].write(value.selfManagedActiveDirectoryConfiguration, with: FSxClientTypes.SelfManagedActiveDirectoryConfiguration.write(value:to:))
+    }
+}
+
+extension FSxClientTypes.DataRepositoryAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DataRepositoryAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.DataRepositoryAssociation()
+        value.associationId = try reader["AssociationId"].readIfPresent()
+        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
+        value.lifecycle = try reader["Lifecycle"].readIfPresent()
+        value.failureDetails = try reader["FailureDetails"].readIfPresent(with: FSxClientTypes.DataRepositoryFailureDetails.read(from:))
+        value.fileSystemPath = try reader["FileSystemPath"].readIfPresent()
+        value.dataRepositoryPath = try reader["DataRepositoryPath"].readIfPresent()
+        value.batchImportMetaDataOnCreate = try reader["BatchImportMetaDataOnCreate"].readIfPresent()
+        value.importedFileChunkSize = try reader["ImportedFileChunkSize"].readIfPresent()
+        value.s3 = try reader["S3"].readIfPresent(with: FSxClientTypes.S3DataRepositoryConfiguration.read(from:))
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.fileCacheId = try reader["FileCacheId"].readIfPresent()
+        value.fileCachePath = try reader["FileCachePath"].readIfPresent()
+        value.dataRepositorySubdirectories = try reader["DataRepositorySubdirectories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nfs = try reader["NFS"].readIfPresent(with: FSxClientTypes.NFSDataRepositoryConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.DataRepositoryConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DataRepositoryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.DataRepositoryConfiguration()
+        value.lifecycle = try reader["Lifecycle"].readIfPresent()
+        value.importPath = try reader["ImportPath"].readIfPresent()
+        value.exportPath = try reader["ExportPath"].readIfPresent()
+        value.importedFileChunkSize = try reader["ImportedFileChunkSize"].readIfPresent()
+        value.autoImportPolicy = try reader["AutoImportPolicy"].readIfPresent()
+        value.failureDetails = try reader["FailureDetails"].readIfPresent(with: FSxClientTypes.DataRepositoryFailureDetails.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.DataRepositoryFailureDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DataRepositoryFailureDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.DataRepositoryFailureDetails()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.DataRepositoryTask {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DataRepositoryTask {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.DataRepositoryTask()
+        value.taskId = try reader["TaskId"].readIfPresent() ?? ""
+        value.lifecycle = try reader["Lifecycle"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
+        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failureDetails = try reader["FailureDetails"].readIfPresent(with: FSxClientTypes.DataRepositoryTaskFailureDetails.read(from:))
+        value.status = try reader["Status"].readIfPresent(with: FSxClientTypes.DataRepositoryTaskStatus.read(from:))
+        value.report = try reader["Report"].readIfPresent(with: FSxClientTypes.CompletionReport.read(from:))
+        value.capacityToRelease = try reader["CapacityToRelease"].readIfPresent()
+        value.fileCacheId = try reader["FileCacheId"].readIfPresent()
+        value.releaseConfiguration = try reader["ReleaseConfiguration"].readIfPresent(with: FSxClientTypes.ReleaseConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.DataRepositoryTaskFailureDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DataRepositoryTaskFailureDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.DataRepositoryTaskFailureDetails()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.DataRepositoryTaskFilter {
+
+    static func write(value: FSxClientTypes.DataRepositoryTaskFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension FSxClientTypes.DataRepositoryTaskStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DataRepositoryTaskStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.DataRepositoryTaskStatus()
+        value.totalCount = try reader["TotalCount"].readIfPresent()
+        value.succeededCount = try reader["SucceededCount"].readIfPresent()
+        value.failedCount = try reader["FailedCount"].readIfPresent()
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.releasedCapacity = try reader["ReleasedCapacity"].readIfPresent()
+        return value
     }
 }
 
@@ -14623,6 +13606,17 @@ extension FSxClientTypes.DeleteFileSystemLustreConfiguration {
         guard let value else { return }
         try writer["FinalBackupTags"].writeList(value.finalBackupTags, memberWritingClosure: FSxClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SkipFinalBackup"].write(value.skipFinalBackup)
+    }
+}
+
+extension FSxClientTypes.DeleteFileSystemLustreResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DeleteFileSystemLustreResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.DeleteFileSystemLustreResponse()
+        value.finalBackupId = try reader["FinalBackupId"].readIfPresent()
+        value.finalBackupTags = try reader["FinalBackupTags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -14636,6 +13630,37 @@ extension FSxClientTypes.DeleteFileSystemOpenZFSConfiguration {
     }
 }
 
+extension FSxClientTypes.DeleteFileSystemOpenZFSResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DeleteFileSystemOpenZFSResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.DeleteFileSystemOpenZFSResponse()
+        value.finalBackupId = try reader["FinalBackupId"].readIfPresent()
+        value.finalBackupTags = try reader["FinalBackupTags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FSxClientTypes.DeleteFileSystemWindowsConfiguration {
+
+    static func write(value: FSxClientTypes.DeleteFileSystemWindowsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FinalBackupTags"].writeList(value.finalBackupTags, memberWritingClosure: FSxClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SkipFinalBackup"].write(value.skipFinalBackup)
+    }
+}
+
+extension FSxClientTypes.DeleteFileSystemWindowsResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DeleteFileSystemWindowsResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.DeleteFileSystemWindowsResponse()
+        value.finalBackupId = try reader["FinalBackupId"].readIfPresent()
+        value.finalBackupTags = try reader["FinalBackupTags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension FSxClientTypes.DeleteVolumeOntapConfiguration {
 
     static func write(value: FSxClientTypes.DeleteVolumeOntapConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -14646,11 +13671,243 @@ extension FSxClientTypes.DeleteVolumeOntapConfiguration {
     }
 }
 
+extension FSxClientTypes.DeleteVolumeOntapResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DeleteVolumeOntapResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.DeleteVolumeOntapResponse()
+        value.finalBackupId = try reader["FinalBackupId"].readIfPresent()
+        value.finalBackupTags = try reader["FinalBackupTags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension FSxClientTypes.DeleteVolumeOpenZFSConfiguration {
 
     static func write(value: FSxClientTypes.DeleteVolumeOpenZFSConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Options"].writeList(value.options, memberWritingClosure: SmithyReadWrite.WritingClosureBox<FSxClientTypes.DeleteOpenZFSVolumeOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension FSxClientTypes.DiskIopsConfiguration {
+
+    static func write(value: FSxClientTypes.DiskIopsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Iops"].write(value.iops)
+        try writer["Mode"].write(value.mode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DiskIopsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.DiskIopsConfiguration()
+        value.mode = try reader["Mode"].readIfPresent()
+        value.iops = try reader["Iops"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.DurationSinceLastAccess {
+
+    static func write(value: FSxClientTypes.DurationSinceLastAccess?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Unit"].write(value.unit)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DurationSinceLastAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.DurationSinceLastAccess()
+        value.unit = try reader["Unit"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.FileCache {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileCache {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.FileCache()
+        value.ownerId = try reader["OwnerId"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.fileCacheId = try reader["FileCacheId"].readIfPresent()
+        value.fileCacheType = try reader["FileCacheType"].readIfPresent()
+        value.fileCacheTypeVersion = try reader["FileCacheTypeVersion"].readIfPresent()
+        value.lifecycle = try reader["Lifecycle"].readIfPresent()
+        value.failureDetails = try reader["FailureDetails"].readIfPresent(with: FSxClientTypes.FileCacheFailureDetails.read(from:))
+        value.storageCapacity = try reader["StorageCapacity"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.networkInterfaceIds = try reader["NetworkInterfaceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dnsName = try reader["DNSName"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.lustreConfiguration = try reader["LustreConfiguration"].readIfPresent(with: FSxClientTypes.FileCacheLustreConfiguration.read(from:))
+        value.dataRepositoryAssociationIds = try reader["DataRepositoryAssociationIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FSxClientTypes.FileCacheCreating {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileCacheCreating {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.FileCacheCreating()
+        value.ownerId = try reader["OwnerId"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.fileCacheId = try reader["FileCacheId"].readIfPresent()
+        value.fileCacheType = try reader["FileCacheType"].readIfPresent()
+        value.fileCacheTypeVersion = try reader["FileCacheTypeVersion"].readIfPresent()
+        value.lifecycle = try reader["Lifecycle"].readIfPresent()
+        value.failureDetails = try reader["FailureDetails"].readIfPresent(with: FSxClientTypes.FileCacheFailureDetails.read(from:))
+        value.storageCapacity = try reader["StorageCapacity"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.networkInterfaceIds = try reader["NetworkInterfaceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dnsName = try reader["DNSName"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.copyTagsToDataRepositoryAssociations = try reader["CopyTagsToDataRepositoryAssociations"].readIfPresent()
+        value.lustreConfiguration = try reader["LustreConfiguration"].readIfPresent(with: FSxClientTypes.FileCacheLustreConfiguration.read(from:))
+        value.dataRepositoryAssociationIds = try reader["DataRepositoryAssociationIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FSxClientTypes.FileCacheDataRepositoryAssociation {
+
+    static func write(value: FSxClientTypes.FileCacheDataRepositoryAssociation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataRepositoryPath"].write(value.dataRepositoryPath)
+        try writer["DataRepositorySubdirectories"].writeList(value.dataRepositorySubdirectories, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FileCachePath"].write(value.fileCachePath)
+        try writer["NFS"].write(value.nfs, with: FSxClientTypes.FileCacheNFSConfiguration.write(value:to:))
+    }
+}
+
+extension FSxClientTypes.FileCacheFailureDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileCacheFailureDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.FileCacheFailureDetails()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.FileCacheLustreConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileCacheLustreConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.FileCacheLustreConfiguration()
+        value.perUnitStorageThroughput = try reader["PerUnitStorageThroughput"].readIfPresent()
+        value.deploymentType = try reader["DeploymentType"].readIfPresent()
+        value.mountName = try reader["MountName"].readIfPresent()
+        value.weeklyMaintenanceStartTime = try reader["WeeklyMaintenanceStartTime"].readIfPresent()
+        value.metadataConfiguration = try reader["MetadataConfiguration"].readIfPresent(with: FSxClientTypes.FileCacheLustreMetadataConfiguration.read(from:))
+        value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: FSxClientTypes.LustreLogConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.FileCacheLustreMetadataConfiguration {
+
+    static func write(value: FSxClientTypes.FileCacheLustreMetadataConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StorageCapacity"].write(value.storageCapacity)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileCacheLustreMetadataConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.FileCacheLustreMetadataConfiguration()
+        value.storageCapacity = try reader["StorageCapacity"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension FSxClientTypes.FileCacheNFSConfiguration {
+
+    static func write(value: FSxClientTypes.FileCacheNFSConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DnsIps"].writeList(value.dnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Version"].write(value.version)
+    }
+}
+
+extension FSxClientTypes.FileSystem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileSystem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.FileSystem()
+        value.ownerId = try reader["OwnerId"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
+        value.fileSystemType = try reader["FileSystemType"].readIfPresent()
+        value.lifecycle = try reader["Lifecycle"].readIfPresent()
+        value.failureDetails = try reader["FailureDetails"].readIfPresent(with: FSxClientTypes.FileSystemFailureDetails.read(from:))
+        value.storageCapacity = try reader["StorageCapacity"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.networkInterfaceIds = try reader["NetworkInterfaceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dnsName = try reader["DNSName"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.windowsConfiguration = try reader["WindowsConfiguration"].readIfPresent(with: FSxClientTypes.WindowsFileSystemConfiguration.read(from:))
+        value.lustreConfiguration = try reader["LustreConfiguration"].readIfPresent(with: FSxClientTypes.LustreFileSystemConfiguration.read(from:))
+        value.administrativeActions = try reader["AdministrativeActions"].readListIfPresent(memberReadingClosure: FSxClientTypes.AdministrativeAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ontapConfiguration = try reader["OntapConfiguration"].readIfPresent(with: FSxClientTypes.OntapFileSystemConfiguration.read(from:))
+        value.fileSystemTypeVersion = try reader["FileSystemTypeVersion"].readIfPresent()
+        value.openZFSConfiguration = try reader["OpenZFSConfiguration"].readIfPresent(with: FSxClientTypes.OpenZFSFileSystemConfiguration.read(from:))
+        value.networkType = try reader["NetworkType"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.FileSystemEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileSystemEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.FileSystemEndpoint()
+        value.dnsName = try reader["DNSName"].readIfPresent()
+        value.ipAddresses = try reader["IpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipv6Addresses = try reader["Ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FSxClientTypes.FileSystemEndpoints {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileSystemEndpoints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.FileSystemEndpoints()
+        value.intercluster = try reader["Intercluster"].readIfPresent(with: FSxClientTypes.FileSystemEndpoint.read(from:))
+        value.management = try reader["Management"].readIfPresent(with: FSxClientTypes.FileSystemEndpoint.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.FileSystemFailureDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileSystemFailureDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.FileSystemFailureDetails()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.FileSystemLustreMetadataConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileSystemLustreMetadataConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.FileSystemLustreMetadataConfiguration()
+        value.iops = try reader["Iops"].readIfPresent()
+        value.mode = try reader["Mode"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
@@ -14663,12 +13920,442 @@ extension FSxClientTypes.Filter {
     }
 }
 
-extension FSxClientTypes.DataRepositoryTaskFilter {
+extension FSxClientTypes.LifecycleTransitionReason {
 
-    static func write(value: FSxClientTypes.DataRepositoryTaskFilter?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.LifecycleTransitionReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.LifecycleTransitionReason()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.LustreFileSystemConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.LustreFileSystemConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.LustreFileSystemConfiguration()
+        value.weeklyMaintenanceStartTime = try reader["WeeklyMaintenanceStartTime"].readIfPresent()
+        value.dataRepositoryConfiguration = try reader["DataRepositoryConfiguration"].readIfPresent(with: FSxClientTypes.DataRepositoryConfiguration.read(from:))
+        value.deploymentType = try reader["DeploymentType"].readIfPresent()
+        value.perUnitStorageThroughput = try reader["PerUnitStorageThroughput"].readIfPresent()
+        value.mountName = try reader["MountName"].readIfPresent()
+        value.dailyAutomaticBackupStartTime = try reader["DailyAutomaticBackupStartTime"].readIfPresent()
+        value.automaticBackupRetentionDays = try reader["AutomaticBackupRetentionDays"].readIfPresent()
+        value.copyTagsToBackups = try reader["CopyTagsToBackups"].readIfPresent()
+        value.driveCacheType = try reader["DriveCacheType"].readIfPresent()
+        value.dataCompressionType = try reader["DataCompressionType"].readIfPresent()
+        value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: FSxClientTypes.LustreLogConfiguration.read(from:))
+        value.rootSquashConfiguration = try reader["RootSquashConfiguration"].readIfPresent(with: FSxClientTypes.LustreRootSquashConfiguration.read(from:))
+        value.metadataConfiguration = try reader["MetadataConfiguration"].readIfPresent(with: FSxClientTypes.FileSystemLustreMetadataConfiguration.read(from:))
+        value.efaEnabled = try reader["EfaEnabled"].readIfPresent()
+        value.throughputCapacity = try reader["ThroughputCapacity"].readIfPresent()
+        value.dataReadCacheConfiguration = try reader["DataReadCacheConfiguration"].readIfPresent(with: FSxClientTypes.LustreReadCacheConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.LustreLogConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.LustreLogConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.LustreLogConfiguration()
+        value.level = try reader["Level"].readIfPresent() ?? .sdkUnknown("")
+        value.destination = try reader["Destination"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.LustreLogCreateConfiguration {
+
+    static func write(value: FSxClientTypes.LustreLogCreateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Destination"].write(value.destination)
+        try writer["Level"].write(value.level)
+    }
+}
+
+extension FSxClientTypes.LustreReadCacheConfiguration {
+
+    static func write(value: FSxClientTypes.LustreReadCacheConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SizeGiB"].write(value.sizeGiB)
+        try writer["SizingMode"].write(value.sizingMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.LustreReadCacheConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.LustreReadCacheConfiguration()
+        value.sizingMode = try reader["SizingMode"].readIfPresent()
+        value.sizeGiB = try reader["SizeGiB"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.LustreRootSquashConfiguration {
+
+    static func write(value: FSxClientTypes.LustreRootSquashConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NoSquashNids"].writeList(value.noSquashNids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RootSquash"].write(value.rootSquash)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.LustreRootSquashConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.LustreRootSquashConfiguration()
+        value.rootSquash = try reader["RootSquash"].readIfPresent()
+        value.noSquashNids = try reader["NoSquashNids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FSxClientTypes.NFSDataRepositoryConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.NFSDataRepositoryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.NFSDataRepositoryConfiguration()
+        value.version = try reader["Version"].readIfPresent() ?? .sdkUnknown("")
+        value.dnsIps = try reader["DnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.autoExportPolicy = try reader["AutoExportPolicy"].readIfPresent(with: FSxClientTypes.AutoExportPolicy.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.OntapFileSystemConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OntapFileSystemConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OntapFileSystemConfiguration()
+        value.automaticBackupRetentionDays = try reader["AutomaticBackupRetentionDays"].readIfPresent()
+        value.dailyAutomaticBackupStartTime = try reader["DailyAutomaticBackupStartTime"].readIfPresent()
+        value.deploymentType = try reader["DeploymentType"].readIfPresent()
+        value.endpointIpAddressRange = try reader["EndpointIpAddressRange"].readIfPresent()
+        value.endpoints = try reader["Endpoints"].readIfPresent(with: FSxClientTypes.FileSystemEndpoints.read(from:))
+        value.diskIopsConfiguration = try reader["DiskIopsConfiguration"].readIfPresent(with: FSxClientTypes.DiskIopsConfiguration.read(from:))
+        value.preferredSubnetId = try reader["PreferredSubnetId"].readIfPresent()
+        value.routeTableIds = try reader["RouteTableIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.throughputCapacity = try reader["ThroughputCapacity"].readIfPresent()
+        value.weeklyMaintenanceStartTime = try reader["WeeklyMaintenanceStartTime"].readIfPresent()
+        value.fsxAdminPassword = try reader["FsxAdminPassword"].readIfPresent()
+        value.haPairs = try reader["HAPairs"].readIfPresent()
+        value.throughputCapacityPerHAPair = try reader["ThroughputCapacityPerHAPair"].readIfPresent()
+        value.endpointIpv6AddressRange = try reader["EndpointIpv6AddressRange"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.OntapFileSystemIdentity {
+
+    static func write(value: FSxClientTypes.OntapFileSystemIdentity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["UnixUser"].write(value.unixUser, with: FSxClientTypes.OntapUnixFileSystemUser.write(value:to:))
+        try writer["WindowsUser"].write(value.windowsUser, with: FSxClientTypes.OntapWindowsFileSystemUser.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OntapFileSystemIdentity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OntapFileSystemIdentity()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.unixUser = try reader["UnixUser"].readIfPresent(with: FSxClientTypes.OntapUnixFileSystemUser.read(from:))
+        value.windowsUser = try reader["WindowsUser"].readIfPresent(with: FSxClientTypes.OntapWindowsFileSystemUser.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.OntapUnixFileSystemUser {
+
+    static func write(value: FSxClientTypes.OntapUnixFileSystemUser?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OntapUnixFileSystemUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OntapUnixFileSystemUser()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension FSxClientTypes.OntapVolumeConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OntapVolumeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OntapVolumeConfiguration()
+        value.flexCacheEndpointType = try reader["FlexCacheEndpointType"].readIfPresent()
+        value.junctionPath = try reader["JunctionPath"].readIfPresent()
+        value.securityStyle = try reader["SecurityStyle"].readIfPresent()
+        value.sizeInMegabytes = try reader["SizeInMegabytes"].readIfPresent()
+        value.storageEfficiencyEnabled = try reader["StorageEfficiencyEnabled"].readIfPresent()
+        value.storageVirtualMachineId = try reader["StorageVirtualMachineId"].readIfPresent()
+        value.storageVirtualMachineRoot = try reader["StorageVirtualMachineRoot"].readIfPresent()
+        value.tieringPolicy = try reader["TieringPolicy"].readIfPresent(with: FSxClientTypes.TieringPolicy.read(from:))
+        value.uuid = try reader["UUID"].readIfPresent()
+        value.ontapVolumeType = try reader["OntapVolumeType"].readIfPresent()
+        value.snapshotPolicy = try reader["SnapshotPolicy"].readIfPresent()
+        value.copyTagsToBackups = try reader["CopyTagsToBackups"].readIfPresent()
+        value.snaplockConfiguration = try reader["SnaplockConfiguration"].readIfPresent(with: FSxClientTypes.SnaplockConfiguration.read(from:))
+        value.volumeStyle = try reader["VolumeStyle"].readIfPresent()
+        value.aggregateConfiguration = try reader["AggregateConfiguration"].readIfPresent(with: FSxClientTypes.AggregateConfiguration.read(from:))
+        value.sizeInBytes = try reader["SizeInBytes"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.OntapWindowsFileSystemUser {
+
+    static func write(value: FSxClientTypes.OntapWindowsFileSystemUser?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OntapWindowsFileSystemUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OntapWindowsFileSystemUser()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension FSxClientTypes.OpenZFSClientConfiguration {
+
+    static func write(value: FSxClientTypes.OpenZFSClientConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Clients"].write(value.clients)
+        try writer["Options"].writeList(value.options, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSClientConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OpenZFSClientConfiguration()
+        value.clients = try reader["Clients"].readIfPresent() ?? ""
+        value.options = try reader["Options"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension FSxClientTypes.OpenZFSCreateRootVolumeConfiguration {
+
+    static func write(value: FSxClientTypes.OpenZFSCreateRootVolumeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CopyTagsToSnapshots"].write(value.copyTagsToSnapshots)
+        try writer["DataCompressionType"].write(value.dataCompressionType)
+        try writer["NfsExports"].writeList(value.nfsExports, memberWritingClosure: FSxClientTypes.OpenZFSNfsExport.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ReadOnly"].write(value.readOnly)
+        try writer["RecordSizeKiB"].write(value.recordSizeKiB)
+        try writer["UserAndGroupQuotas"].writeList(value.userAndGroupQuotas, memberWritingClosure: FSxClientTypes.OpenZFSUserOrGroupQuota.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension FSxClientTypes.OpenZFSFileSystemConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSFileSystemConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OpenZFSFileSystemConfiguration()
+        value.automaticBackupRetentionDays = try reader["AutomaticBackupRetentionDays"].readIfPresent()
+        value.copyTagsToBackups = try reader["CopyTagsToBackups"].readIfPresent()
+        value.copyTagsToVolumes = try reader["CopyTagsToVolumes"].readIfPresent()
+        value.dailyAutomaticBackupStartTime = try reader["DailyAutomaticBackupStartTime"].readIfPresent()
+        value.deploymentType = try reader["DeploymentType"].readIfPresent()
+        value.throughputCapacity = try reader["ThroughputCapacity"].readIfPresent()
+        value.weeklyMaintenanceStartTime = try reader["WeeklyMaintenanceStartTime"].readIfPresent()
+        value.diskIopsConfiguration = try reader["DiskIopsConfiguration"].readIfPresent(with: FSxClientTypes.DiskIopsConfiguration.read(from:))
+        value.rootVolumeId = try reader["RootVolumeId"].readIfPresent()
+        value.preferredSubnetId = try reader["PreferredSubnetId"].readIfPresent()
+        value.endpointIpAddressRange = try reader["EndpointIpAddressRange"].readIfPresent()
+        value.endpointIpv6AddressRange = try reader["EndpointIpv6AddressRange"].readIfPresent()
+        value.routeTableIds = try reader["RouteTableIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.endpointIpAddress = try reader["EndpointIpAddress"].readIfPresent()
+        value.endpointIpv6Address = try reader["EndpointIpv6Address"].readIfPresent()
+        value.readCacheConfiguration = try reader["ReadCacheConfiguration"].readIfPresent(with: FSxClientTypes.OpenZFSReadCacheConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.OpenZFSFileSystemIdentity {
+
+    static func write(value: FSxClientTypes.OpenZFSFileSystemIdentity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PosixUser"].write(value.posixUser, with: FSxClientTypes.OpenZFSPosixFileSystemUser.write(value:to:))
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSFileSystemIdentity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OpenZFSFileSystemIdentity()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.posixUser = try reader["PosixUser"].readIfPresent(with: FSxClientTypes.OpenZFSPosixFileSystemUser.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.OpenZFSNfsExport {
+
+    static func write(value: FSxClientTypes.OpenZFSNfsExport?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientConfigurations"].writeList(value.clientConfigurations, memberWritingClosure: FSxClientTypes.OpenZFSClientConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSNfsExport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OpenZFSNfsExport()
+        value.clientConfigurations = try reader["ClientConfigurations"].readListIfPresent(memberReadingClosure: FSxClientTypes.OpenZFSClientConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension FSxClientTypes.OpenZFSOriginSnapshotConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSOriginSnapshotConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OpenZFSOriginSnapshotConfiguration()
+        value.snapshotARN = try reader["SnapshotARN"].readIfPresent()
+        value.copyStrategy = try reader["CopyStrategy"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.OpenZFSPosixFileSystemUser {
+
+    static func write(value: FSxClientTypes.OpenZFSPosixFileSystemUser?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Gid"].write(value.gid)
+        try writer["SecondaryGids"].writeList(value.secondaryGids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Uid"].write(value.uid)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSPosixFileSystemUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OpenZFSPosixFileSystemUser()
+        value.uid = try reader["Uid"].readIfPresent() ?? 0
+        value.gid = try reader["Gid"].readIfPresent() ?? 0
+        value.secondaryGids = try reader["SecondaryGids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FSxClientTypes.OpenZFSReadCacheConfiguration {
+
+    static func write(value: FSxClientTypes.OpenZFSReadCacheConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SizeGiB"].write(value.sizeGiB)
+        try writer["SizingMode"].write(value.sizingMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSReadCacheConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OpenZFSReadCacheConfiguration()
+        value.sizingMode = try reader["SizingMode"].readIfPresent()
+        value.sizeGiB = try reader["SizeGiB"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.OpenZFSUserOrGroupQuota {
+
+    static func write(value: FSxClientTypes.OpenZFSUserOrGroupQuota?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["StorageCapacityQuotaGiB"].write(value.storageCapacityQuotaGiB)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSUserOrGroupQuota {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OpenZFSUserOrGroupQuota()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.id = try reader["Id"].readIfPresent() ?? 0
+        value.storageCapacityQuotaGiB = try reader["StorageCapacityQuotaGiB"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension FSxClientTypes.OpenZFSVolumeConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSVolumeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OpenZFSVolumeConfiguration()
+        value.parentVolumeId = try reader["ParentVolumeId"].readIfPresent()
+        value.volumePath = try reader["VolumePath"].readIfPresent()
+        value.storageCapacityReservationGiB = try reader["StorageCapacityReservationGiB"].readIfPresent()
+        value.storageCapacityQuotaGiB = try reader["StorageCapacityQuotaGiB"].readIfPresent()
+        value.recordSizeKiB = try reader["RecordSizeKiB"].readIfPresent()
+        value.dataCompressionType = try reader["DataCompressionType"].readIfPresent()
+        value.copyTagsToSnapshots = try reader["CopyTagsToSnapshots"].readIfPresent()
+        value.originSnapshot = try reader["OriginSnapshot"].readIfPresent(with: FSxClientTypes.OpenZFSOriginSnapshotConfiguration.read(from:))
+        value.readOnly = try reader["ReadOnly"].readIfPresent()
+        value.nfsExports = try reader["NfsExports"].readListIfPresent(memberReadingClosure: FSxClientTypes.OpenZFSNfsExport.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userAndGroupQuotas = try reader["UserAndGroupQuotas"].readListIfPresent(memberReadingClosure: FSxClientTypes.OpenZFSUserOrGroupQuota.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.restoreToSnapshot = try reader["RestoreToSnapshot"].readIfPresent()
+        value.deleteIntermediateSnaphots = try reader["DeleteIntermediateSnaphots"].readIfPresent()
+        value.deleteClonedVolumes = try reader["DeleteClonedVolumes"].readIfPresent()
+        value.deleteIntermediateData = try reader["DeleteIntermediateData"].readIfPresent()
+        value.sourceSnapshotARN = try reader["SourceSnapshotARN"].readIfPresent()
+        value.destinationSnapshot = try reader["DestinationSnapshot"].readIfPresent()
+        value.copyStrategy = try reader["CopyStrategy"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.ReleaseConfiguration {
+
+    static func write(value: FSxClientTypes.ReleaseConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DurationSinceLastAccess"].write(value.durationSinceLastAccess, with: FSxClientTypes.DurationSinceLastAccess.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.ReleaseConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.ReleaseConfiguration()
+        value.durationSinceLastAccess = try reader["DurationSinceLastAccess"].readIfPresent(with: FSxClientTypes.DurationSinceLastAccess.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.RetentionPeriod {
+
+    static func write(value: FSxClientTypes.RetentionPeriod?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.RetentionPeriod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.RetentionPeriod()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.S3AccessPoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.S3AccessPoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.S3AccessPoint()
+        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.alias = try reader["Alias"].readIfPresent()
+        value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: FSxClientTypes.S3AccessPointVpcConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.S3AccessPointAttachment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.S3AccessPointAttachment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.S3AccessPointAttachment()
+        value.lifecycle = try reader["Lifecycle"].readIfPresent()
+        value.lifecycleTransitionReason = try reader["LifecycleTransitionReason"].readIfPresent(with: FSxClientTypes.LifecycleTransitionReason.read(from:))
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.openZFSConfiguration = try reader["OpenZFSConfiguration"].readIfPresent(with: FSxClientTypes.S3AccessPointOpenZFSConfiguration.read(from:))
+        value.ontapConfiguration = try reader["OntapConfiguration"].readIfPresent(with: FSxClientTypes.S3AccessPointOntapConfiguration.read(from:))
+        value.s3AccessPoint = try reader["S3AccessPoint"].readIfPresent(with: FSxClientTypes.S3AccessPoint.read(from:))
+        return value
     }
 }
 
@@ -14681,53 +14368,86 @@ extension FSxClientTypes.S3AccessPointAttachmentsFilter {
     }
 }
 
-extension FSxClientTypes.SnapshotFilter {
+extension FSxClientTypes.S3AccessPointOntapConfiguration {
 
-    static func write(value: FSxClientTypes.SnapshotFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.S3AccessPointOntapConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.S3AccessPointOntapConfiguration()
+        value.volumeId = try reader["VolumeId"].readIfPresent()
+        value.fileSystemIdentity = try reader["FileSystemIdentity"].readIfPresent(with: FSxClientTypes.OntapFileSystemIdentity.read(from:))
+        return value
     }
 }
 
-extension FSxClientTypes.StorageVirtualMachineFilter {
+extension FSxClientTypes.S3AccessPointOpenZFSConfiguration {
 
-    static func write(value: FSxClientTypes.StorageVirtualMachineFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.S3AccessPointOpenZFSConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.S3AccessPointOpenZFSConfiguration()
+        value.volumeId = try reader["VolumeId"].readIfPresent()
+        value.fileSystemIdentity = try reader["FileSystemIdentity"].readIfPresent(with: FSxClientTypes.OpenZFSFileSystemIdentity.read(from:))
+        return value
     }
 }
 
-extension FSxClientTypes.VolumeFilter {
+extension FSxClientTypes.S3AccessPointVpcConfiguration {
 
-    static func write(value: FSxClientTypes.VolumeFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FSxClientTypes.S3AccessPointVpcConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VpcId"].write(value.vpcId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.S3AccessPointVpcConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.S3AccessPointVpcConfiguration()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        return value
     }
 }
 
-extension FSxClientTypes.UpdateFileCacheLustreConfiguration {
+extension FSxClientTypes.S3DataRepositoryConfiguration {
 
-    static func write(value: FSxClientTypes.UpdateFileCacheLustreConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FSxClientTypes.S3DataRepositoryConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
+        try writer["AutoExportPolicy"].write(value.autoExportPolicy, with: FSxClientTypes.AutoExportPolicy.write(value:to:))
+        try writer["AutoImportPolicy"].write(value.autoImportPolicy, with: FSxClientTypes.AutoImportPolicy.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.S3DataRepositoryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.S3DataRepositoryConfiguration()
+        value.autoImportPolicy = try reader["AutoImportPolicy"].readIfPresent(with: FSxClientTypes.AutoImportPolicy.read(from:))
+        value.autoExportPolicy = try reader["AutoExportPolicy"].readIfPresent(with: FSxClientTypes.AutoExportPolicy.read(from:))
+        return value
     }
 }
 
-extension FSxClientTypes.UpdateFileSystemWindowsConfiguration {
+extension FSxClientTypes.SelfManagedActiveDirectoryAttributes {
 
-    static func write(value: FSxClientTypes.UpdateFileSystemWindowsConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.SelfManagedActiveDirectoryAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.SelfManagedActiveDirectoryAttributes()
+        value.domainName = try reader["DomainName"].readIfPresent()
+        value.organizationalUnitDistinguishedName = try reader["OrganizationalUnitDistinguishedName"].readIfPresent()
+        value.fileSystemAdministratorsGroup = try reader["FileSystemAdministratorsGroup"].readIfPresent()
+        value.userName = try reader["UserName"].readIfPresent()
+        value.dnsIps = try reader["DnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domainJoinServiceAccountSecret = try reader["DomainJoinServiceAccountSecret"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.SelfManagedActiveDirectoryConfiguration {
+
+    static func write(value: FSxClientTypes.SelfManagedActiveDirectoryConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AuditLogConfiguration"].write(value.auditLogConfiguration, with: FSxClientTypes.WindowsAuditLogCreateConfiguration.write(value:to:))
-        try writer["AutomaticBackupRetentionDays"].write(value.automaticBackupRetentionDays)
-        try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
-        try writer["DiskIopsConfiguration"].write(value.diskIopsConfiguration, with: FSxClientTypes.DiskIopsConfiguration.write(value:to:))
-        try writer["FsrmConfiguration"].write(value.fsrmConfiguration, with: FSxClientTypes.WindowsFsrmConfiguration.write(value:to:))
-        try writer["SelfManagedActiveDirectoryConfiguration"].write(value.selfManagedActiveDirectoryConfiguration, with: FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates.write(value:to:))
-        try writer["ThroughputCapacity"].write(value.throughputCapacity)
-        try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
+        try writer["DnsIps"].writeList(value.dnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DomainJoinServiceAccountSecret"].write(value.domainJoinServiceAccountSecret)
+        try writer["DomainName"].write(value.domainName)
+        try writer["FileSystemAdministratorsGroup"].write(value.fileSystemAdministratorsGroup)
+        try writer["OrganizationalUnitDistinguishedName"].write(value.organizationalUnitDistinguishedName)
+        try writer["Password"].write(value.password)
+        try writer["UserName"].write(value.userName)
     }
 }
 
@@ -14742,6 +14462,176 @@ extension FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates {
         try writer["OrganizationalUnitDistinguishedName"].write(value.organizationalUnitDistinguishedName)
         try writer["Password"].write(value.password)
         try writer["UserName"].write(value.userName)
+    }
+}
+
+extension FSxClientTypes.SnaplockConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.SnaplockConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.SnaplockConfiguration()
+        value.auditLogVolume = try reader["AuditLogVolume"].readIfPresent()
+        value.autocommitPeriod = try reader["AutocommitPeriod"].readIfPresent(with: FSxClientTypes.AutocommitPeriod.read(from:))
+        value.privilegedDelete = try reader["PrivilegedDelete"].readIfPresent()
+        value.retentionPeriod = try reader["RetentionPeriod"].readIfPresent(with: FSxClientTypes.SnaplockRetentionPeriod.read(from:))
+        value.snaplockType = try reader["SnaplockType"].readIfPresent()
+        value.volumeAppendModeEnabled = try reader["VolumeAppendModeEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.SnaplockRetentionPeriod {
+
+    static func write(value: FSxClientTypes.SnaplockRetentionPeriod?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultRetention"].write(value.defaultRetention, with: FSxClientTypes.RetentionPeriod.write(value:to:))
+        try writer["MaximumRetention"].write(value.maximumRetention, with: FSxClientTypes.RetentionPeriod.write(value:to:))
+        try writer["MinimumRetention"].write(value.minimumRetention, with: FSxClientTypes.RetentionPeriod.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.SnaplockRetentionPeriod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.SnaplockRetentionPeriod()
+        value.defaultRetention = try reader["DefaultRetention"].readIfPresent(with: FSxClientTypes.RetentionPeriod.read(from:))
+        value.minimumRetention = try reader["MinimumRetention"].readIfPresent(with: FSxClientTypes.RetentionPeriod.read(from:))
+        value.maximumRetention = try reader["MaximumRetention"].readIfPresent(with: FSxClientTypes.RetentionPeriod.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.Snapshot {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.Snapshot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.Snapshot()
+        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.snapshotId = try reader["SnapshotId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.volumeId = try reader["VolumeId"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lifecycle = try reader["Lifecycle"].readIfPresent()
+        value.lifecycleTransitionReason = try reader["LifecycleTransitionReason"].readIfPresent(with: FSxClientTypes.LifecycleTransitionReason.read(from:))
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.administrativeActions = try reader["AdministrativeActions"].readListIfPresent(memberReadingClosure: FSxClientTypes.AdministrativeAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FSxClientTypes.SnapshotFilter {
+
+    static func write(value: FSxClientTypes.SnapshotFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension FSxClientTypes.StorageVirtualMachine {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.StorageVirtualMachine {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.StorageVirtualMachine()
+        value.activeDirectoryConfiguration = try reader["ActiveDirectoryConfiguration"].readIfPresent(with: FSxClientTypes.SvmActiveDirectoryConfiguration.read(from:))
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endpoints = try reader["Endpoints"].readIfPresent(with: FSxClientTypes.SvmEndpoints.read(from:))
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
+        value.lifecycle = try reader["Lifecycle"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.storageVirtualMachineId = try reader["StorageVirtualMachineId"].readIfPresent()
+        value.subtype = try reader["Subtype"].readIfPresent()
+        value.uuid = try reader["UUID"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lifecycleTransitionReason = try reader["LifecycleTransitionReason"].readIfPresent(with: FSxClientTypes.LifecycleTransitionReason.read(from:))
+        value.rootVolumeSecurityStyle = try reader["RootVolumeSecurityStyle"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.StorageVirtualMachineFilter {
+
+    static func write(value: FSxClientTypes.StorageVirtualMachineFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension FSxClientTypes.SvmActiveDirectoryConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.SvmActiveDirectoryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.SvmActiveDirectoryConfiguration()
+        value.netBiosName = try reader["NetBiosName"].readIfPresent()
+        value.selfManagedActiveDirectoryConfiguration = try reader["SelfManagedActiveDirectoryConfiguration"].readIfPresent(with: FSxClientTypes.SelfManagedActiveDirectoryAttributes.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.SvmEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.SvmEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.SvmEndpoint()
+        value.dnsName = try reader["DNSName"].readIfPresent()
+        value.ipAddresses = try reader["IpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipv6Addresses = try reader["Ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FSxClientTypes.SvmEndpoints {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.SvmEndpoints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.SvmEndpoints()
+        value.iscsi = try reader["Iscsi"].readIfPresent(with: FSxClientTypes.SvmEndpoint.read(from:))
+        value.management = try reader["Management"].readIfPresent(with: FSxClientTypes.SvmEndpoint.read(from:))
+        value.nfs = try reader["Nfs"].readIfPresent(with: FSxClientTypes.SvmEndpoint.read(from:))
+        value.smb = try reader["Smb"].readIfPresent(with: FSxClientTypes.SvmEndpoint.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.Tag {
+
+    static func write(value: FSxClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension FSxClientTypes.TieringPolicy {
+
+    static func write(value: FSxClientTypes.TieringPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CoolingPeriod"].write(value.coolingPeriod)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.TieringPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.TieringPolicy()
+        value.coolingPeriod = try reader["CoolingPeriod"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.UpdateFileCacheLustreConfiguration {
+
+    static func write(value: FSxClientTypes.UpdateFileCacheLustreConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
     }
 }
 
@@ -14808,12 +14698,18 @@ extension FSxClientTypes.UpdateFileSystemOpenZFSConfiguration {
     }
 }
 
-extension FSxClientTypes.UpdateSvmActiveDirectoryConfiguration {
+extension FSxClientTypes.UpdateFileSystemWindowsConfiguration {
 
-    static func write(value: FSxClientTypes.UpdateSvmActiveDirectoryConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FSxClientTypes.UpdateFileSystemWindowsConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["NetBiosName"].write(value.netBiosName)
+        try writer["AuditLogConfiguration"].write(value.auditLogConfiguration, with: FSxClientTypes.WindowsAuditLogCreateConfiguration.write(value:to:))
+        try writer["AutomaticBackupRetentionDays"].write(value.automaticBackupRetentionDays)
+        try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
+        try writer["DiskIopsConfiguration"].write(value.diskIopsConfiguration, with: FSxClientTypes.DiskIopsConfiguration.write(value:to:))
+        try writer["FsrmConfiguration"].write(value.fsrmConfiguration, with: FSxClientTypes.WindowsFsrmConfiguration.write(value:to:))
         try writer["SelfManagedActiveDirectoryConfiguration"].write(value.selfManagedActiveDirectoryConfiguration, with: FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates.write(value:to:))
+        try writer["ThroughputCapacity"].write(value.throughputCapacity)
+        try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
     }
 }
 
@@ -14833,6 +14729,20 @@ extension FSxClientTypes.UpdateOntapVolumeConfiguration {
     }
 }
 
+extension FSxClientTypes.UpdateOpenZFSVolumeConfiguration {
+
+    static func write(value: FSxClientTypes.UpdateOpenZFSVolumeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataCompressionType"].write(value.dataCompressionType)
+        try writer["NfsExports"].writeList(value.nfsExports, memberWritingClosure: FSxClientTypes.OpenZFSNfsExport.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ReadOnly"].write(value.readOnly)
+        try writer["RecordSizeKiB"].write(value.recordSizeKiB)
+        try writer["StorageCapacityQuotaGiB"].write(value.storageCapacityQuotaGiB)
+        try writer["StorageCapacityReservationGiB"].write(value.storageCapacityReservationGiB)
+        try writer["UserAndGroupQuotas"].writeList(value.userAndGroupQuotas, memberWritingClosure: FSxClientTypes.OpenZFSUserOrGroupQuota.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension FSxClientTypes.UpdateSnaplockConfiguration {
 
     static func write(value: FSxClientTypes.UpdateSnaplockConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -14845,17 +14755,107 @@ extension FSxClientTypes.UpdateSnaplockConfiguration {
     }
 }
 
-extension FSxClientTypes.UpdateOpenZFSVolumeConfiguration {
+extension FSxClientTypes.UpdateSvmActiveDirectoryConfiguration {
 
-    static func write(value: FSxClientTypes.UpdateOpenZFSVolumeConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FSxClientTypes.UpdateSvmActiveDirectoryConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DataCompressionType"].write(value.dataCompressionType)
-        try writer["NfsExports"].writeList(value.nfsExports, memberWritingClosure: FSxClientTypes.OpenZFSNfsExport.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReadOnly"].write(value.readOnly)
-        try writer["RecordSizeKiB"].write(value.recordSizeKiB)
-        try writer["StorageCapacityQuotaGiB"].write(value.storageCapacityQuotaGiB)
-        try writer["StorageCapacityReservationGiB"].write(value.storageCapacityReservationGiB)
-        try writer["UserAndGroupQuotas"].writeList(value.userAndGroupQuotas, memberWritingClosure: FSxClientTypes.OpenZFSUserOrGroupQuota.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NetBiosName"].write(value.netBiosName)
+        try writer["SelfManagedActiveDirectoryConfiguration"].write(value.selfManagedActiveDirectoryConfiguration, with: FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates.write(value:to:))
+    }
+}
+
+extension FSxClientTypes.Volume {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.Volume {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.Volume()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
+        value.lifecycle = try reader["Lifecycle"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.ontapConfiguration = try reader["OntapConfiguration"].readIfPresent(with: FSxClientTypes.OntapVolumeConfiguration.read(from:))
+        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.volumeId = try reader["VolumeId"].readIfPresent()
+        value.volumeType = try reader["VolumeType"].readIfPresent()
+        value.lifecycleTransitionReason = try reader["LifecycleTransitionReason"].readIfPresent(with: FSxClientTypes.LifecycleTransitionReason.read(from:))
+        value.administrativeActions = try reader["AdministrativeActions"].readListIfPresent(memberReadingClosure: FSxClientTypes.AdministrativeAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.openZFSConfiguration = try reader["OpenZFSConfiguration"].readIfPresent(with: FSxClientTypes.OpenZFSVolumeConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.VolumeFilter {
+
+    static func write(value: FSxClientTypes.VolumeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension FSxClientTypes.WindowsAuditLogConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.WindowsAuditLogConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.WindowsAuditLogConfiguration()
+        value.fileAccessAuditLogLevel = try reader["FileAccessAuditLogLevel"].readIfPresent() ?? .sdkUnknown("")
+        value.fileShareAccessAuditLogLevel = try reader["FileShareAccessAuditLogLevel"].readIfPresent() ?? .sdkUnknown("")
+        value.auditLogDestination = try reader["AuditLogDestination"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.WindowsAuditLogCreateConfiguration {
+
+    static func write(value: FSxClientTypes.WindowsAuditLogCreateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuditLogDestination"].write(value.auditLogDestination)
+        try writer["FileAccessAuditLogLevel"].write(value.fileAccessAuditLogLevel)
+        try writer["FileShareAccessAuditLogLevel"].write(value.fileShareAccessAuditLogLevel)
+    }
+}
+
+extension FSxClientTypes.WindowsFileSystemConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.WindowsFileSystemConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.WindowsFileSystemConfiguration()
+        value.activeDirectoryId = try reader["ActiveDirectoryId"].readIfPresent()
+        value.selfManagedActiveDirectoryConfiguration = try reader["SelfManagedActiveDirectoryConfiguration"].readIfPresent(with: FSxClientTypes.SelfManagedActiveDirectoryAttributes.read(from:))
+        value.deploymentType = try reader["DeploymentType"].readIfPresent()
+        value.remoteAdministrationEndpoint = try reader["RemoteAdministrationEndpoint"].readIfPresent()
+        value.preferredSubnetId = try reader["PreferredSubnetId"].readIfPresent()
+        value.preferredFileServerIp = try reader["PreferredFileServerIp"].readIfPresent()
+        value.throughputCapacity = try reader["ThroughputCapacity"].readIfPresent()
+        value.maintenanceOperationsInProgress = try reader["MaintenanceOperationsInProgress"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<FSxClientTypes.FileSystemMaintenanceOperation>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.weeklyMaintenanceStartTime = try reader["WeeklyMaintenanceStartTime"].readIfPresent()
+        value.dailyAutomaticBackupStartTime = try reader["DailyAutomaticBackupStartTime"].readIfPresent()
+        value.automaticBackupRetentionDays = try reader["AutomaticBackupRetentionDays"].readIfPresent()
+        value.copyTagsToBackups = try reader["CopyTagsToBackups"].readIfPresent()
+        value.aliases = try reader["Aliases"].readListIfPresent(memberReadingClosure: FSxClientTypes.Alias.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.auditLogConfiguration = try reader["AuditLogConfiguration"].readIfPresent(with: FSxClientTypes.WindowsAuditLogConfiguration.read(from:))
+        value.diskIopsConfiguration = try reader["DiskIopsConfiguration"].readIfPresent(with: FSxClientTypes.DiskIopsConfiguration.read(from:))
+        value.preferredFileServerIpv6 = try reader["PreferredFileServerIpv6"].readIfPresent()
+        value.fsrmConfiguration = try reader["FsrmConfiguration"].readIfPresent(with: FSxClientTypes.WindowsFsrmConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.WindowsFsrmConfiguration {
+
+    static func write(value: FSxClientTypes.WindowsFsrmConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EventLogDestination"].write(value.eventLogDestination)
+        try writer["FsrmServiceEnabled"].write(value.fsrmServiceEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.WindowsFsrmConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.WindowsFsrmConfiguration()
+        value.fsrmServiceEnabled = try reader["FsrmServiceEnabled"].readIfPresent() ?? false
+        value.eventLogDestination = try reader["EventLogDestination"].readIfPresent()
+        return value
     }
 }
 

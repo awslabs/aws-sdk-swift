@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 import struct Smithy.Document
 
 extension IdentitystoreClientTypes {
@@ -2499,7 +2499,7 @@ extension UpdateUserOutput {
     }
 }
 
-func httpServiceError(baseError: AWSClientRuntime.AWSJSONError) throws -> Swift.Error? {
+func httpServiceError(baseError: ClientRuntime.AWSJSONError) throws -> Swift.Error? {
     switch baseError.code {
         case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
         case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2513,7 +2513,7 @@ enum CreateGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2531,7 +2531,7 @@ enum CreateGroupMembershipOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2549,7 +2549,7 @@ enum CreateUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2567,7 +2567,7 @@ enum DeleteGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2584,7 +2584,7 @@ enum DeleteGroupMembershipOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2601,7 +2601,7 @@ enum DeleteUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2618,7 +2618,7 @@ enum DescribeGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2634,7 +2634,7 @@ enum DescribeGroupMembershipOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2650,7 +2650,7 @@ enum DescribeUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2666,7 +2666,7 @@ enum GetGroupIdOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2682,7 +2682,7 @@ enum GetGroupMembershipIdOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2698,7 +2698,7 @@ enum GetUserIdOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2714,7 +2714,7 @@ enum IsMemberInGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2730,7 +2730,7 @@ enum ListGroupMembershipsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2746,7 +2746,7 @@ enum ListGroupMembershipsForMemberOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2762,7 +2762,7 @@ enum ListGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2778,7 +2778,7 @@ enum ListUsersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2794,7 +2794,7 @@ enum UpdateGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2812,7 +2812,7 @@ enum UpdateUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2827,7 +2827,7 @@ enum UpdateUserOutputError {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2842,7 +2842,7 @@ extension ConflictException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2859,7 +2859,7 @@ extension ResourceNotFoundException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2873,7 +2873,7 @@ extension ServiceQuotaExceededException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2888,7 +2888,7 @@ extension ValidationException {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2903,7 +2903,7 @@ extension AccessDeniedException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = InternalServerException()
@@ -2921,7 +2921,7 @@ extension InternalServerException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = ThrottlingException()
@@ -2934,6 +2934,78 @@ extension ThrottlingException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension IdentitystoreClientTypes.Address {
+
+    static func write(value: IdentitystoreClientTypes.Address?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Country"].write(value.country)
+        try writer["Formatted"].write(value.formatted)
+        try writer["Locality"].write(value.locality)
+        try writer["PostalCode"].write(value.postalCode)
+        try writer["Primary"].write(value.primary)
+        try writer["Region"].write(value.region)
+        try writer["StreetAddress"].write(value.streetAddress)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.Address {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IdentitystoreClientTypes.Address()
+        value.streetAddress = try reader["StreetAddress"].readIfPresent()
+        value.locality = try reader["Locality"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.postalCode = try reader["PostalCode"].readIfPresent()
+        value.country = try reader["Country"].readIfPresent()
+        value.formatted = try reader["Formatted"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.primary = try reader["Primary"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension IdentitystoreClientTypes.AlternateIdentifier {
+
+    static func write(value: IdentitystoreClientTypes.AlternateIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .externalid(externalid):
+                try writer["ExternalId"].write(externalid, with: IdentitystoreClientTypes.ExternalId.write(value:to:))
+            case let .uniqueattribute(uniqueattribute):
+                try writer["UniqueAttribute"].write(uniqueattribute, with: IdentitystoreClientTypes.UniqueAttribute.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension IdentitystoreClientTypes.AttributeOperation {
+
+    static func write(value: IdentitystoreClientTypes.AttributeOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributePath"].write(value.attributePath)
+        try writer["AttributeValue"].write(value.attributeValue)
+    }
+}
+
+extension IdentitystoreClientTypes.Email {
+
+    static func write(value: IdentitystoreClientTypes.Email?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Primary"].write(value.primary)
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.Email {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IdentitystoreClientTypes.Email()
+        value.value = try reader["Value"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.primary = try reader["Primary"].readIfPresent() ?? false
         return value
     }
 }
@@ -2951,6 +3023,62 @@ extension IdentitystoreClientTypes.ExternalId {
         var value = IdentitystoreClientTypes.ExternalId()
         value.issuer = try reader["Issuer"].readIfPresent() ?? ""
         value.id = try reader["Id"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IdentitystoreClientTypes.Filter {
+
+    static func write(value: IdentitystoreClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributePath"].write(value.attributePath)
+        try writer["AttributeValue"].write(value.attributeValue)
+    }
+}
+
+extension IdentitystoreClientTypes.Group {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.Group {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IdentitystoreClientTypes.Group()
+        value.groupId = try reader["GroupId"].readIfPresent() ?? ""
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.externalIds = try reader["ExternalIds"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.ExternalId.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.description = try reader["Description"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
+        value.updatedBy = try reader["UpdatedBy"].readIfPresent()
+        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IdentitystoreClientTypes.GroupMembership {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.GroupMembership {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IdentitystoreClientTypes.GroupMembership()
+        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent() ?? ""
+        value.membershipId = try reader["MembershipId"].readIfPresent()
+        value.groupId = try reader["GroupId"].readIfPresent()
+        value.memberId = try reader["MemberId"].readIfPresent(with: IdentitystoreClientTypes.MemberId.read(from:))
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
+        value.updatedBy = try reader["UpdatedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension IdentitystoreClientTypes.GroupMembershipExistenceResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.GroupMembershipExistenceResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IdentitystoreClientTypes.GroupMembershipExistenceResult()
+        value.groupId = try reader["GroupId"].readIfPresent()
+        value.memberId = try reader["MemberId"].readIfPresent(with: IdentitystoreClientTypes.MemberId.read(from:))
+        value.membershipExists = try reader["MembershipExists"].readIfPresent() ?? false
         return value
     }
 }
@@ -3000,54 +3128,6 @@ extension IdentitystoreClientTypes.Name {
         value.middleName = try reader["MiddleName"].readIfPresent()
         value.honorificPrefix = try reader["HonorificPrefix"].readIfPresent()
         value.honorificSuffix = try reader["HonorificSuffix"].readIfPresent()
-        return value
-    }
-}
-
-extension IdentitystoreClientTypes.Email {
-
-    static func write(value: IdentitystoreClientTypes.Email?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Primary"].write(value.primary)
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.Email {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IdentitystoreClientTypes.Email()
-        value.value = try reader["Value"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.primary = try reader["Primary"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension IdentitystoreClientTypes.Address {
-
-    static func write(value: IdentitystoreClientTypes.Address?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Country"].write(value.country)
-        try writer["Formatted"].write(value.formatted)
-        try writer["Locality"].write(value.locality)
-        try writer["PostalCode"].write(value.postalCode)
-        try writer["Primary"].write(value.primary)
-        try writer["Region"].write(value.region)
-        try writer["StreetAddress"].write(value.streetAddress)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.Address {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IdentitystoreClientTypes.Address()
-        value.streetAddress = try reader["StreetAddress"].readIfPresent()
-        value.locality = try reader["Locality"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.postalCode = try reader["PostalCode"].readIfPresent()
-        value.country = try reader["Country"].readIfPresent()
-        value.formatted = try reader["Formatted"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.primary = try reader["Primary"].readIfPresent() ?? false
         return value
     }
 }
@@ -3111,50 +3191,12 @@ extension IdentitystoreClientTypes.Role {
     }
 }
 
-extension IdentitystoreClientTypes.GroupMembershipExistenceResult {
+extension IdentitystoreClientTypes.UniqueAttribute {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.GroupMembershipExistenceResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IdentitystoreClientTypes.GroupMembershipExistenceResult()
-        value.groupId = try reader["GroupId"].readIfPresent()
-        value.memberId = try reader["MemberId"].readIfPresent(with: IdentitystoreClientTypes.MemberId.read(from:))
-        value.membershipExists = try reader["MembershipExists"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension IdentitystoreClientTypes.GroupMembership {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.GroupMembership {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IdentitystoreClientTypes.GroupMembership()
-        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent() ?? ""
-        value.membershipId = try reader["MembershipId"].readIfPresent()
-        value.groupId = try reader["GroupId"].readIfPresent()
-        value.memberId = try reader["MemberId"].readIfPresent(with: IdentitystoreClientTypes.MemberId.read(from:))
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["CreatedBy"].readIfPresent()
-        value.updatedBy = try reader["UpdatedBy"].readIfPresent()
-        return value
-    }
-}
-
-extension IdentitystoreClientTypes.Group {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.Group {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IdentitystoreClientTypes.Group()
-        value.groupId = try reader["GroupId"].readIfPresent() ?? ""
-        value.displayName = try reader["DisplayName"].readIfPresent()
-        value.externalIds = try reader["ExternalIds"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.ExternalId.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.description = try reader["Description"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["CreatedBy"].readIfPresent()
-        value.updatedBy = try reader["UpdatedBy"].readIfPresent()
-        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent() ?? ""
-        return value
+    static func write(value: IdentitystoreClientTypes.UniqueAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributePath"].write(value.attributePath)
+        try writer["AttributeValue"].write(value.attributeValue)
     }
 }
 
@@ -3190,48 +3232,6 @@ extension IdentitystoreClientTypes.User {
         value.updatedBy = try reader["UpdatedBy"].readIfPresent()
         value.extensions = try reader["Extensions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDocument(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
-    }
-}
-
-extension IdentitystoreClientTypes.AlternateIdentifier {
-
-    static func write(value: IdentitystoreClientTypes.AlternateIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .externalid(externalid):
-                try writer["ExternalId"].write(externalid, with: IdentitystoreClientTypes.ExternalId.write(value:to:))
-            case let .uniqueattribute(uniqueattribute):
-                try writer["UniqueAttribute"].write(uniqueattribute, with: IdentitystoreClientTypes.UniqueAttribute.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension IdentitystoreClientTypes.UniqueAttribute {
-
-    static func write(value: IdentitystoreClientTypes.UniqueAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributePath"].write(value.attributePath)
-        try writer["AttributeValue"].write(value.attributeValue)
-    }
-}
-
-extension IdentitystoreClientTypes.Filter {
-
-    static func write(value: IdentitystoreClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributePath"].write(value.attributePath)
-        try writer["AttributeValue"].write(value.attributeValue)
-    }
-}
-
-extension IdentitystoreClientTypes.AttributeOperation {
-
-    static func write(value: IdentitystoreClientTypes.AttributeOperation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributePath"].write(value.attributePath)
-        try writer["AttributeValue"].write(value.attributeValue)
     }
 }
 

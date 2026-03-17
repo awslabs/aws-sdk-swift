@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You do not have required permissions to perform this operation.
@@ -3423,7 +3423,7 @@ enum CreateSignalingChannelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3442,7 +3442,7 @@ enum CreateStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccountStreamLimitExceededException": return try AccountStreamLimitExceededException.makeError(baseError: baseError)
@@ -3462,7 +3462,7 @@ enum DeleteEdgeConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3480,7 +3480,7 @@ enum DeleteSignalingChannelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3499,7 +3499,7 @@ enum DeleteStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
@@ -3518,7 +3518,7 @@ enum DescribeEdgeConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3536,7 +3536,7 @@ enum DescribeImageGenerationConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3553,7 +3553,7 @@ enum DescribeMappedResourceConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3570,7 +3570,7 @@ enum DescribeMediaStorageConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3587,7 +3587,7 @@ enum DescribeNotificationConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3604,7 +3604,7 @@ enum DescribeSignalingChannelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3621,7 +3621,7 @@ enum DescribeStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
@@ -3638,7 +3638,7 @@ enum DescribeStreamStorageConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3655,7 +3655,7 @@ enum GetDataEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
@@ -3672,7 +3672,7 @@ enum GetSignalingChannelEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3690,7 +3690,7 @@ enum ListEdgeAgentConfigurationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
@@ -3706,7 +3706,7 @@ enum ListSignalingChannelsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3722,7 +3722,7 @@ enum ListStreamsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
@@ -3737,7 +3737,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3754,7 +3754,7 @@ enum ListTagsForStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
@@ -3772,7 +3772,7 @@ enum StartEdgeConfigurationUpdateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3791,7 +3791,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3809,7 +3809,7 @@ enum TagStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
@@ -3828,7 +3828,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3845,7 +3845,7 @@ enum UntagStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
@@ -3863,7 +3863,7 @@ enum UpdateDataRetentionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
@@ -3882,7 +3882,7 @@ enum UpdateImageGenerationConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3901,7 +3901,7 @@ enum UpdateMediaStorageConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3920,7 +3920,7 @@ enum UpdateNotificationConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3939,7 +3939,7 @@ enum UpdateSignalingChannelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3958,7 +3958,7 @@ enum UpdateStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
@@ -3977,7 +3977,7 @@ enum UpdateStreamStorageConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3993,7 +3993,7 @@ enum UpdateStreamStorageConfigurationOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4006,7 +4006,7 @@ extension AccessDeniedException {
 
 extension AccountChannelLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccountChannelLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccountChannelLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = AccountChannelLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4019,7 +4019,7 @@ extension AccountChannelLimitExceededException {
 
 extension ClientLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ClientLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ClientLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ClientLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4032,7 +4032,7 @@ extension ClientLimitExceededException {
 
 extension InvalidArgumentException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidArgumentException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidArgumentException {
         let reader = baseError.errorBodyReader
         var value = InvalidArgumentException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4045,7 +4045,7 @@ extension InvalidArgumentException {
 
 extension ResourceInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceInUseException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceInUseException {
         let reader = baseError.errorBodyReader
         var value = ResourceInUseException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4058,7 +4058,7 @@ extension ResourceInUseException {
 
 extension TagsPerResourceExceededLimitException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TagsPerResourceExceededLimitException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TagsPerResourceExceededLimitException {
         let reader = baseError.errorBodyReader
         var value = TagsPerResourceExceededLimitException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4071,7 +4071,7 @@ extension TagsPerResourceExceededLimitException {
 
 extension AccountStreamLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccountStreamLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccountStreamLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = AccountStreamLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4084,7 +4084,7 @@ extension AccountStreamLimitExceededException {
 
 extension DeviceStreamLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DeviceStreamLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DeviceStreamLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = DeviceStreamLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4097,7 +4097,7 @@ extension DeviceStreamLimitExceededException {
 
 extension InvalidDeviceException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidDeviceException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidDeviceException {
         let reader = baseError.errorBodyReader
         var value = InvalidDeviceException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4110,7 +4110,7 @@ extension InvalidDeviceException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4123,7 +4123,7 @@ extension ResourceNotFoundException {
 
 extension StreamEdgeConfigurationNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> StreamEdgeConfigurationNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> StreamEdgeConfigurationNotFoundException {
         let reader = baseError.errorBodyReader
         var value = StreamEdgeConfigurationNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4136,7 +4136,7 @@ extension StreamEdgeConfigurationNotFoundException {
 
 extension VersionMismatchException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> VersionMismatchException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> VersionMismatchException {
         let reader = baseError.errorBodyReader
         var value = VersionMismatchException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4149,7 +4149,7 @@ extension VersionMismatchException {
 
 extension NotAuthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotAuthorizedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotAuthorizedException {
         let reader = baseError.errorBodyReader
         var value = NotAuthorizedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4162,7 +4162,7 @@ extension NotAuthorizedException {
 
 extension InvalidResourceFormatException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidResourceFormatException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidResourceFormatException {
         let reader = baseError.errorBodyReader
         var value = InvalidResourceFormatException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4175,7 +4175,7 @@ extension InvalidResourceFormatException {
 
 extension NoDataRetentionException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NoDataRetentionException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NoDataRetentionException {
         let reader = baseError.errorBodyReader
         var value = NoDataRetentionException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4186,24 +4186,28 @@ extension NoDataRetentionException {
     }
 }
 
-extension KinesisVideoClientTypes.EdgeConfig {
+extension KinesisVideoClientTypes.ChannelInfo {
 
-    static func write(value: KinesisVideoClientTypes.EdgeConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeletionConfig"].write(value.deletionConfig, with: KinesisVideoClientTypes.DeletionConfig.write(value:to:))
-        try writer["HubDeviceArn"].write(value.hubDeviceArn)
-        try writer["RecorderConfig"].write(value.recorderConfig, with: KinesisVideoClientTypes.RecorderConfig.write(value:to:))
-        try writer["UploaderConfig"].write(value.uploaderConfig, with: KinesisVideoClientTypes.UploaderConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.EdgeConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.ChannelInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.EdgeConfig()
-        value.hubDeviceArn = try reader["HubDeviceArn"].readIfPresent() ?? ""
-        value.recorderConfig = try reader["RecorderConfig"].readIfPresent(with: KinesisVideoClientTypes.RecorderConfig.read(from:))
-        value.uploaderConfig = try reader["UploaderConfig"].readIfPresent(with: KinesisVideoClientTypes.UploaderConfig.read(from:))
-        value.deletionConfig = try reader["DeletionConfig"].readIfPresent(with: KinesisVideoClientTypes.DeletionConfig.read(from:))
+        var value = KinesisVideoClientTypes.ChannelInfo()
+        value.channelName = try reader["ChannelName"].readIfPresent()
+        value.channelARN = try reader["ChannelARN"].readIfPresent()
+        value.channelType = try reader["ChannelType"].readIfPresent()
+        value.channelStatus = try reader["ChannelStatus"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.singleMasterConfiguration = try reader["SingleMasterConfiguration"].readIfPresent(with: KinesisVideoClientTypes.SingleMasterConfiguration.read(from:))
+        value.version = try reader["Version"].readIfPresent()
         return value
+    }
+}
+
+extension KinesisVideoClientTypes.ChannelNameCondition {
+
+    static func write(value: KinesisVideoClientTypes.ChannelNameCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComparisonOperator"].write(value.comparisonOperator)
+        try writer["ComparisonValue"].write(value.comparisonValue)
     }
 }
 
@@ -4226,89 +4230,6 @@ extension KinesisVideoClientTypes.DeletionConfig {
     }
 }
 
-extension KinesisVideoClientTypes.LocalSizeConfig {
-
-    static func write(value: KinesisVideoClientTypes.LocalSizeConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxLocalMediaSizeInMB"].write(value.maxLocalMediaSizeInMB)
-        try writer["StrategyOnFullSize"].write(value.strategyOnFullSize)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.LocalSizeConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.LocalSizeConfig()
-        value.maxLocalMediaSizeInMB = try reader["MaxLocalMediaSizeInMB"].readIfPresent()
-        value.strategyOnFullSize = try reader["StrategyOnFullSize"].readIfPresent()
-        return value
-    }
-}
-
-extension KinesisVideoClientTypes.UploaderConfig {
-
-    static func write(value: KinesisVideoClientTypes.UploaderConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ScheduleConfig"].write(value.scheduleConfig, with: KinesisVideoClientTypes.ScheduleConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.UploaderConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.UploaderConfig()
-        value.scheduleConfig = try reader["ScheduleConfig"].readIfPresent(with: KinesisVideoClientTypes.ScheduleConfig.read(from:))
-        return value
-    }
-}
-
-extension KinesisVideoClientTypes.ScheduleConfig {
-
-    static func write(value: KinesisVideoClientTypes.ScheduleConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DurationInSeconds"].write(value.durationInSeconds)
-        try writer["ScheduleExpression"].write(value.scheduleExpression)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.ScheduleConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.ScheduleConfig()
-        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent() ?? ""
-        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension KinesisVideoClientTypes.RecorderConfig {
-
-    static func write(value: KinesisVideoClientTypes.RecorderConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MediaSourceConfig"].write(value.mediaSourceConfig, with: KinesisVideoClientTypes.MediaSourceConfig.write(value:to:))
-        try writer["ScheduleConfig"].write(value.scheduleConfig, with: KinesisVideoClientTypes.ScheduleConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.RecorderConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.RecorderConfig()
-        value.mediaSourceConfig = try reader["MediaSourceConfig"].readIfPresent(with: KinesisVideoClientTypes.MediaSourceConfig.read(from:))
-        value.scheduleConfig = try reader["ScheduleConfig"].readIfPresent(with: KinesisVideoClientTypes.ScheduleConfig.read(from:))
-        return value
-    }
-}
-
-extension KinesisVideoClientTypes.MediaSourceConfig {
-
-    static func write(value: KinesisVideoClientTypes.MediaSourceConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MediaUriSecretArn"].write(value.mediaUriSecretArn)
-        try writer["MediaUriType"].write(value.mediaUriType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.MediaSourceConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.MediaSourceConfig()
-        value.mediaUriSecretArn = try reader["MediaUriSecretArn"].readIfPresent() ?? ""
-        value.mediaUriType = try reader["MediaUriType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
 extension KinesisVideoClientTypes.EdgeAgentStatus {
 
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.EdgeAgentStatus {
@@ -4320,28 +4241,23 @@ extension KinesisVideoClientTypes.EdgeAgentStatus {
     }
 }
 
-extension KinesisVideoClientTypes.LastUploaderStatus {
+extension KinesisVideoClientTypes.EdgeConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.LastUploaderStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.LastUploaderStatus()
-        value.jobStatusDetails = try reader["JobStatusDetails"].readIfPresent()
-        value.lastCollectedTime = try reader["LastCollectedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.uploaderStatus = try reader["UploaderStatus"].readIfPresent()
-        return value
+    static func write(value: KinesisVideoClientTypes.EdgeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeletionConfig"].write(value.deletionConfig, with: KinesisVideoClientTypes.DeletionConfig.write(value:to:))
+        try writer["HubDeviceArn"].write(value.hubDeviceArn)
+        try writer["RecorderConfig"].write(value.recorderConfig, with: KinesisVideoClientTypes.RecorderConfig.write(value:to:))
+        try writer["UploaderConfig"].write(value.uploaderConfig, with: KinesisVideoClientTypes.UploaderConfig.write(value:to:))
     }
-}
 
-extension KinesisVideoClientTypes.LastRecorderStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.LastRecorderStatus {
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.EdgeConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.LastRecorderStatus()
-        value.jobStatusDetails = try reader["JobStatusDetails"].readIfPresent()
-        value.lastCollectedTime = try reader["LastCollectedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.recorderStatus = try reader["RecorderStatus"].readIfPresent()
+        var value = KinesisVideoClientTypes.EdgeConfig()
+        value.hubDeviceArn = try reader["HubDeviceArn"].readIfPresent() ?? ""
+        value.recorderConfig = try reader["RecorderConfig"].readIfPresent(with: KinesisVideoClientTypes.RecorderConfig.read(from:))
+        value.uploaderConfig = try reader["UploaderConfig"].readIfPresent(with: KinesisVideoClientTypes.UploaderConfig.read(from:))
+        value.deletionConfig = try reader["DeletionConfig"].readIfPresent(with: KinesisVideoClientTypes.DeletionConfig.read(from:))
         return value
     }
 }
@@ -4392,6 +4308,65 @@ extension KinesisVideoClientTypes.ImageGenerationDestinationConfig {
     }
 }
 
+extension KinesisVideoClientTypes.LastRecorderStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.LastRecorderStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisVideoClientTypes.LastRecorderStatus()
+        value.jobStatusDetails = try reader["JobStatusDetails"].readIfPresent()
+        value.lastCollectedTime = try reader["LastCollectedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.recorderStatus = try reader["RecorderStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension KinesisVideoClientTypes.LastUploaderStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.LastUploaderStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisVideoClientTypes.LastUploaderStatus()
+        value.jobStatusDetails = try reader["JobStatusDetails"].readIfPresent()
+        value.lastCollectedTime = try reader["LastCollectedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.uploaderStatus = try reader["UploaderStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig()
+        value.streamName = try reader["StreamName"].readIfPresent()
+        value.streamARN = try reader["StreamARN"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.syncStatus = try reader["SyncStatus"].readIfPresent()
+        value.failedStatusDetails = try reader["FailedStatusDetails"].readIfPresent()
+        value.edgeConfig = try reader["EdgeConfig"].readIfPresent(with: KinesisVideoClientTypes.EdgeConfig.read(from:))
+        return value
+    }
+}
+
+extension KinesisVideoClientTypes.LocalSizeConfig {
+
+    static func write(value: KinesisVideoClientTypes.LocalSizeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxLocalMediaSizeInMB"].write(value.maxLocalMediaSizeInMB)
+        try writer["StrategyOnFullSize"].write(value.strategyOnFullSize)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.LocalSizeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisVideoClientTypes.LocalSizeConfig()
+        value.maxLocalMediaSizeInMB = try reader["MaxLocalMediaSizeInMB"].readIfPresent()
+        value.strategyOnFullSize = try reader["StrategyOnFullSize"].readIfPresent()
+        return value
+    }
+}
+
 extension KinesisVideoClientTypes.MappedResourceConfigurationListItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.MappedResourceConfigurationListItem {
@@ -4399,6 +4374,23 @@ extension KinesisVideoClientTypes.MappedResourceConfigurationListItem {
         var value = KinesisVideoClientTypes.MappedResourceConfigurationListItem()
         value.type = try reader["Type"].readIfPresent()
         value.arn = try reader["ARN"].readIfPresent()
+        return value
+    }
+}
+
+extension KinesisVideoClientTypes.MediaSourceConfig {
+
+    static func write(value: KinesisVideoClientTypes.MediaSourceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MediaUriSecretArn"].write(value.mediaUriSecretArn)
+        try writer["MediaUriType"].write(value.mediaUriType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.MediaSourceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisVideoClientTypes.MediaSourceConfig()
+        value.mediaUriSecretArn = try reader["MediaUriSecretArn"].readIfPresent() ?? ""
+        value.mediaUriType = try reader["MediaUriType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -4452,19 +4444,57 @@ extension KinesisVideoClientTypes.NotificationDestinationConfig {
     }
 }
 
-extension KinesisVideoClientTypes.ChannelInfo {
+extension KinesisVideoClientTypes.RecorderConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.ChannelInfo {
+    static func write(value: KinesisVideoClientTypes.RecorderConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MediaSourceConfig"].write(value.mediaSourceConfig, with: KinesisVideoClientTypes.MediaSourceConfig.write(value:to:))
+        try writer["ScheduleConfig"].write(value.scheduleConfig, with: KinesisVideoClientTypes.ScheduleConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.RecorderConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.ChannelInfo()
-        value.channelName = try reader["ChannelName"].readIfPresent()
-        value.channelARN = try reader["ChannelARN"].readIfPresent()
-        value.channelType = try reader["ChannelType"].readIfPresent()
-        value.channelStatus = try reader["ChannelStatus"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.singleMasterConfiguration = try reader["SingleMasterConfiguration"].readIfPresent(with: KinesisVideoClientTypes.SingleMasterConfiguration.read(from:))
-        value.version = try reader["Version"].readIfPresent()
+        var value = KinesisVideoClientTypes.RecorderConfig()
+        value.mediaSourceConfig = try reader["MediaSourceConfig"].readIfPresent(with: KinesisVideoClientTypes.MediaSourceConfig.read(from:))
+        value.scheduleConfig = try reader["ScheduleConfig"].readIfPresent(with: KinesisVideoClientTypes.ScheduleConfig.read(from:))
         return value
+    }
+}
+
+extension KinesisVideoClientTypes.ResourceEndpointListItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.ResourceEndpointListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisVideoClientTypes.ResourceEndpointListItem()
+        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.resourceEndpoint = try reader["ResourceEndpoint"].readIfPresent()
+        return value
+    }
+}
+
+extension KinesisVideoClientTypes.ScheduleConfig {
+
+    static func write(value: KinesisVideoClientTypes.ScheduleConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DurationInSeconds"].write(value.durationInSeconds)
+        try writer["ScheduleExpression"].write(value.scheduleExpression)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.ScheduleConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisVideoClientTypes.ScheduleConfig()
+        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent() ?? ""
+        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension KinesisVideoClientTypes.SingleMasterChannelEndpointConfiguration {
+
+    static func write(value: KinesisVideoClientTypes.SingleMasterChannelEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Protocols"].writeList(value.protocols, memberWritingClosure: SmithyReadWrite.WritingClosureBox<KinesisVideoClientTypes.ChannelProtocol>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Role"].write(value.role)
     }
 }
 
@@ -4501,6 +4531,15 @@ extension KinesisVideoClientTypes.StreamInfo {
     }
 }
 
+extension KinesisVideoClientTypes.StreamNameCondition {
+
+    static func write(value: KinesisVideoClientTypes.StreamNameCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComparisonOperator"].write(value.comparisonOperator)
+        try writer["ComparisonValue"].write(value.comparisonValue)
+    }
+}
+
 extension KinesisVideoClientTypes.StreamStorageConfiguration {
 
     static func write(value: KinesisVideoClientTypes.StreamStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -4516,33 +4555,6 @@ extension KinesisVideoClientTypes.StreamStorageConfiguration {
     }
 }
 
-extension KinesisVideoClientTypes.ResourceEndpointListItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.ResourceEndpointListItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.ResourceEndpointListItem()
-        value.`protocol` = try reader["Protocol"].readIfPresent()
-        value.resourceEndpoint = try reader["ResourceEndpoint"].readIfPresent()
-        return value
-    }
-}
-
-extension KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig()
-        value.streamName = try reader["StreamName"].readIfPresent()
-        value.streamARN = try reader["StreamARN"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.syncStatus = try reader["SyncStatus"].readIfPresent()
-        value.failedStatusDetails = try reader["FailedStatusDetails"].readIfPresent()
-        value.edgeConfig = try reader["EdgeConfig"].readIfPresent(with: KinesisVideoClientTypes.EdgeConfig.read(from:))
-        return value
-    }
-}
-
 extension KinesisVideoClientTypes.Tag {
 
     static func write(value: KinesisVideoClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
@@ -4552,30 +4564,18 @@ extension KinesisVideoClientTypes.Tag {
     }
 }
 
-extension KinesisVideoClientTypes.SingleMasterChannelEndpointConfiguration {
+extension KinesisVideoClientTypes.UploaderConfig {
 
-    static func write(value: KinesisVideoClientTypes.SingleMasterChannelEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KinesisVideoClientTypes.UploaderConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Protocols"].writeList(value.protocols, memberWritingClosure: SmithyReadWrite.WritingClosureBox<KinesisVideoClientTypes.ChannelProtocol>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Role"].write(value.role)
+        try writer["ScheduleConfig"].write(value.scheduleConfig, with: KinesisVideoClientTypes.ScheduleConfig.write(value:to:))
     }
-}
 
-extension KinesisVideoClientTypes.ChannelNameCondition {
-
-    static func write(value: KinesisVideoClientTypes.ChannelNameCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComparisonOperator"].write(value.comparisonOperator)
-        try writer["ComparisonValue"].write(value.comparisonValue)
-    }
-}
-
-extension KinesisVideoClientTypes.StreamNameCondition {
-
-    static func write(value: KinesisVideoClientTypes.StreamNameCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComparisonOperator"].write(value.comparisonOperator)
-        try writer["ComparisonValue"].write(value.comparisonValue)
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.UploaderConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisVideoClientTypes.UploaderConfig()
+        value.scheduleConfig = try reader["ScheduleConfig"].readIfPresent(with: KinesisVideoClientTypes.ScheduleConfig.read(from:))
+        return value
     }
 }
 

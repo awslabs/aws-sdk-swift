@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -58,6 +57,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -615,7 +615,7 @@ extension MarketplaceMeteringClient {
 extension MarketplaceMeteringClient {
     /// Performs the `BatchMeterUsage` operation on the `MarketplaceMetering` service.
     ///
-    /// The CustomerIdentifier and CustomerAWSAccountID are mutually exclusive parameters. You must use one or the other, but not both in the same API request. For new implementations, we recommend using the CustomerAWSAccountID. Your current integration will continue to work. When updating your implementation, consider migrating to CustomerAWSAccountID for improved integration. To post metering records for customers, SaaS applications call BatchMeterUsage, which is used for metering SaaS flexible consumption pricing (FCP). Identical requests are idempotent and can be retried with the same records or a subset of records. Each BatchMeterUsage request is for only one product. If you want to meter usage for multiple products, you must make multiple BatchMeterUsage calls. Usage records should be submitted in quick succession following a recorded event. Usage records aren't accepted 6 hours or more after an event. BatchMeterUsage can process up to 25 UsageRecords at a time, and each request must be less than 1 MB in size. Optionally, you can have multiple usage allocations for usage data that's split into buckets according to predefined tags. BatchMeterUsage returns a list of UsageRecordResult objects, which have each UsageRecord. It also returns a list of UnprocessedRecords, which indicate errors on the service side that should be retried. For Amazon Web Services Regions that support BatchMeterUsage, see [BatchMeterUsage Region support](https://docs.aws.amazon.com/marketplace/latest/APIReference/metering-regions.html#batchmeterusage-region-support). For an example of BatchMeterUsage, see [ BatchMeterUsage code example](https://docs.aws.amazon.com/marketplace/latest/userguide/saas-code-examples.html#saas-batchmeterusage-example) in the Amazon Web Services Marketplace Seller Guide.
+    /// Amazon Web Services Marketplace is introducing Concurrent Agreements, enabling buyers to make multiple purchases per Amazon Web Services account. Starting June 1, 2026, new SaaS products must use CustomerAWSAccountId (instead of CustomerIdentifier), LicenseArn (instead of ProductCode) to support this feature. Existing integrations will continue to work. Review the new integration for Concurrent Agreements [here](https://catalog.workshops.aws/mpseller/en-US/saas/integration-for-concurrent-agreements). To post metering records for customers, SaaS applications call BatchMeterUsage, which is used for metering SaaS flexible consumption pricing (FCP). Identical requests are idempotent and can be retried with the same records or a subset of records. Each BatchMeterUsage request is for only one product. If you want to meter usage for multiple products, you must make multiple BatchMeterUsage calls. Usage records should be submitted in quick succession following a recorded event. Usage records aren't accepted 6 hours or more after an event. BatchMeterUsage can process up to 25 UsageRecords at a time, and each request must be less than 1 MB in size. Optionally, you can have multiple usage allocations for usage data that's split into buckets according to predefined tags. BatchMeterUsage returns a list of UsageRecordResult objects, which have each UsageRecord. It also returns a list of UnprocessedRecords, which indicate errors on the service side that should be retried. For Amazon Web Services Regions that support BatchMeterUsage, see [BatchMeterUsage Region support](https://docs.aws.amazon.com/marketplace/latest/APIReference/metering-regions.html#batchmeterusage-region-support). For an example of BatchMeterUsage, see [ BatchMeterUsage code example](https://docs.aws.amazon.com/marketplace/latest/userguide/saas-code-examples.html#saas-batchmeterusage-example) in the Amazon Web Services Marketplace Seller Guide.
     ///
     /// - Parameter input: A BatchMeterUsageRequest contains UsageRecords, which indicate quantities of usage within your application. (Type: `BatchMeterUsageInput`)
     ///
@@ -627,6 +627,7 @@ extension MarketplaceMeteringClient {
     /// - `DisabledApiException` : The API is disabled in the Region.
     /// - `InternalServiceErrorException` : An internal error has occurred. Retry your request. If the problem persists, post a message with details on the Amazon Web Services forums.
     /// - `InvalidCustomerIdentifierException` : You have metered usage for a CustomerIdentifier that does not exist.
+    /// - `InvalidLicenseException` : Ensure the LicenseArn is valid, matches the customer, and usage is within the license activation period.
     /// - `InvalidProductCodeException` : The product code passed does not match the product code used for publishing the product.
     /// - `InvalidTagException` : The tag is invalid, or the number of tags is greater than 5.
     /// - `InvalidUsageAllocationsException` : Sum of allocated usage quantities is not equal to the usage quantity.
@@ -668,7 +669,7 @@ extension MarketplaceMeteringClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchMeterUsageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchMeterUsageInput, BatchMeterUsageOutput>(xAmzTarget: "AWSMPMeteringService.BatchMeterUsage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchMeterUsageInput, BatchMeterUsageOutput>(overrides: ["X-Amz-Target": "AWSMPMeteringService.BatchMeterUsage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchMeterUsageInput, BatchMeterUsageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchMeterUsageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchMeterUsageInput, BatchMeterUsageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchMeterUsageOutput>())
@@ -766,7 +767,7 @@ extension MarketplaceMeteringClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<MeterUsageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<MeterUsageInput, MeterUsageOutput>(xAmzTarget: "AWSMPMeteringService.MeterUsage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<MeterUsageInput, MeterUsageOutput>(overrides: ["X-Amz-Target": "AWSMPMeteringService.MeterUsage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<MeterUsageInput, MeterUsageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: MeterUsageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<MeterUsageInput, MeterUsageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<MeterUsageOutput>())
@@ -846,7 +847,7 @@ extension MarketplaceMeteringClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterUsageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RegisterUsageInput, RegisterUsageOutput>(xAmzTarget: "AWSMPMeteringService.RegisterUsage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterUsageInput, RegisterUsageOutput>(overrides: ["X-Amz-Target": "AWSMPMeteringService.RegisterUsage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RegisterUsageInput, RegisterUsageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterUsageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterUsageInput, RegisterUsageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterUsageOutput>())
@@ -870,11 +871,11 @@ extension MarketplaceMeteringClient {
 
     /// Performs the `ResolveCustomer` operation on the `MarketplaceMetering` service.
     ///
-    /// ResolveCustomer is called by a SaaS application during the registration process. When a buyer visits your website during the registration process, the buyer submits a registration token through their browser. The registration token is resolved through this API to obtain a CustomerIdentifier along with the CustomerAWSAccountId and ProductCode. To successfully resolve the token, the API must be called from the account that was used to publish the SaaS application. For an example of using ResolveCustomer, see [ ResolveCustomer code example](https://docs.aws.amazon.com/marketplace/latest/userguide/saas-code-examples.html#saas-resolvecustomer-example) in the Amazon Web Services Marketplace Seller Guide. Permission is required for this operation. Your IAM role or user performing this operation requires a policy to allow the aws-marketplace:ResolveCustomer action. For more information, see [Actions, resources, and condition keys for Amazon Web Services Marketplace Metering Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsmarketplacemeteringservice.html) in the Service Authorization Reference. For Amazon Web Services Regions that support ResolveCustomer, see [ResolveCustomer Region support](https://docs.aws.amazon.com/marketplace/latest/APIReference/metering-regions.html#resolvecustomer-region-support).
+    /// ResolveCustomer is called by a SaaS application during the registration process. When a buyer visits your website during the registration process, the buyer submits a registration token through their browser. The registration token is resolved through this API to obtain a CustomerIdentifier along with the CustomerAWSAccountId, ProductCode, and LicenseArn. To successfully resolve the token, the API must be called from the account that was used to publish the SaaS application. For an example of using ResolveCustomer, see [ ResolveCustomer code example](https://docs.aws.amazon.com/marketplace/latest/userguide/saas-code-examples.html#saas-resolvecustomer-example) in the Amazon Web Services Marketplace Seller Guide. Permission is required for this operation. Your IAM role or user performing this operation requires a policy to allow the aws-marketplace:ResolveCustomer action. For more information, see [Actions, resources, and condition keys for Amazon Web Services Marketplace Metering Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsmarketplacemeteringservice.html) in the Service Authorization Reference. For Amazon Web Services Regions that support ResolveCustomer, see [ResolveCustomer Region support](https://docs.aws.amazon.com/marketplace/latest/APIReference/metering-regions.html#resolvecustomer-region-support).
     ///
     /// - Parameter input: Contains input to the ResolveCustomer operation. (Type: `ResolveCustomerInput`)
     ///
-    /// - Returns: The result of the ResolveCustomer operation. Contains the CustomerIdentifier along with the CustomerAWSAccountId and ProductCode. (Type: `ResolveCustomerOutput`)
+    /// - Returns: The result of the ResolveCustomer operation. Contains the CustomerIdentifier along with the CustomerAWSAccountId, ProductCode, and LicenseArn. (Type: `ResolveCustomerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -919,7 +920,7 @@ extension MarketplaceMeteringClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ResolveCustomerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ResolveCustomerInput, ResolveCustomerOutput>(xAmzTarget: "AWSMPMeteringService.ResolveCustomer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ResolveCustomerInput, ResolveCustomerOutput>(overrides: ["X-Amz-Target": "AWSMPMeteringService.ResolveCustomer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ResolveCustomerInput, ResolveCustomerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ResolveCustomerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResolveCustomerInput, ResolveCustomerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResolveCustomerOutput>())

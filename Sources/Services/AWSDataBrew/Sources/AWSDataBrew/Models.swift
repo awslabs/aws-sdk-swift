@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 
 /// Access to the specified resource was denied.
@@ -5687,7 +5687,7 @@ enum BatchDeleteRecipeVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5703,7 +5703,7 @@ enum CreateDatasetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5720,7 +5720,7 @@ enum CreateProfileJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5738,7 +5738,7 @@ enum CreateProjectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5755,7 +5755,7 @@ enum CreateRecipeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5771,7 +5771,7 @@ enum CreateRecipeJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5789,7 +5789,7 @@ enum CreateRulesetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5805,7 +5805,7 @@ enum CreateScheduleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5821,7 +5821,7 @@ enum DeleteDatasetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5837,7 +5837,7 @@ enum DeleteJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5853,7 +5853,7 @@ enum DeleteProjectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5869,7 +5869,7 @@ enum DeleteRecipeVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5885,7 +5885,7 @@ enum DeleteRulesetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -5901,7 +5901,7 @@ enum DeleteScheduleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -5916,7 +5916,7 @@ enum DescribeDatasetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -5931,7 +5931,7 @@ enum DescribeJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -5946,7 +5946,7 @@ enum DescribeJobRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -5961,7 +5961,7 @@ enum DescribeProjectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -5976,7 +5976,7 @@ enum DescribeRecipeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -5991,7 +5991,7 @@ enum DescribeRulesetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -6006,7 +6006,7 @@ enum DescribeScheduleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -6021,7 +6021,7 @@ enum ListDatasetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -6035,7 +6035,7 @@ enum ListJobRunsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -6050,7 +6050,7 @@ enum ListJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -6064,7 +6064,7 @@ enum ListProjectsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -6078,7 +6078,7 @@ enum ListRecipesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -6092,7 +6092,7 @@ enum ListRecipeVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -6106,7 +6106,7 @@ enum ListRulesetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -6121,7 +6121,7 @@ enum ListSchedulesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -6135,7 +6135,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -6151,7 +6151,7 @@ enum PublishRecipeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -6167,7 +6167,7 @@ enum SendProjectSessionActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -6183,7 +6183,7 @@ enum StartJobRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -6200,7 +6200,7 @@ enum StartProjectSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -6217,7 +6217,7 @@ enum StopJobRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -6232,7 +6232,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -6248,7 +6248,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -6264,7 +6264,7 @@ enum UpdateDatasetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6280,7 +6280,7 @@ enum UpdateProfileJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6296,7 +6296,7 @@ enum UpdateProjectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -6311,7 +6311,7 @@ enum UpdateRecipeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -6326,7 +6326,7 @@ enum UpdateRecipeJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6342,7 +6342,7 @@ enum UpdateRulesetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -6357,7 +6357,7 @@ enum UpdateScheduleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -6370,7 +6370,7 @@ enum UpdateScheduleOutputError {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6383,7 +6383,7 @@ extension ConflictException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6396,7 +6396,7 @@ extension ResourceNotFoundException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6409,7 +6409,7 @@ extension ValidationException {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6422,7 +6422,7 @@ extension AccessDeniedException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6435,7 +6435,7 @@ extension ServiceQuotaExceededException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6446,33 +6446,70 @@ extension InternalServerException {
     }
 }
 
-extension DataBrewClientTypes.RecipeVersionErrorDetail {
+extension DataBrewClientTypes.AllowedStatistics {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.RecipeVersionErrorDetail {
+    static func write(value: DataBrewClientTypes.AllowedStatistics?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Statistics"].writeList(value.statistics, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.AllowedStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.RecipeVersionErrorDetail()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.recipeVersion = try reader["RecipeVersion"].readIfPresent()
+        var value = DataBrewClientTypes.AllowedStatistics()
+        value.statistics = try reader["Statistics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
 
-extension DataBrewClientTypes.FormatOptions {
+extension DataBrewClientTypes.ColumnSelector {
 
-    static func write(value: DataBrewClientTypes.FormatOptions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataBrewClientTypes.ColumnSelector?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Csv"].write(value.csv, with: DataBrewClientTypes.CsvOptions.write(value:to:))
-        try writer["Excel"].write(value.excel, with: DataBrewClientTypes.ExcelOptions.write(value:to:))
-        try writer["Json"].write(value.json, with: DataBrewClientTypes.JsonOptions.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["Regex"].write(value.regex)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.FormatOptions {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.ColumnSelector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.FormatOptions()
-        value.json = try reader["Json"].readIfPresent(with: DataBrewClientTypes.JsonOptions.read(from:))
-        value.excel = try reader["Excel"].readIfPresent(with: DataBrewClientTypes.ExcelOptions.read(from:))
-        value.csv = try reader["Csv"].readIfPresent(with: DataBrewClientTypes.CsvOptions.read(from:))
+        var value = DataBrewClientTypes.ColumnSelector()
+        value.regex = try reader["Regex"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension DataBrewClientTypes.ColumnStatisticsConfiguration {
+
+    static func write(value: DataBrewClientTypes.ColumnStatisticsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Selectors"].writeList(value.selectors, memberWritingClosure: DataBrewClientTypes.ColumnSelector.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Statistics"].write(value.statistics, with: DataBrewClientTypes.StatisticsConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.ColumnStatisticsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.ColumnStatisticsConfiguration()
+        value.selectors = try reader["Selectors"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.ColumnSelector.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.statistics = try reader["Statistics"].readIfPresent(with: DataBrewClientTypes.StatisticsConfiguration.read(from:))
+        return value
+    }
+}
+
+extension DataBrewClientTypes.ConditionExpression {
+
+    static func write(value: DataBrewClientTypes.ConditionExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Condition"].write(value.condition)
+        try writer["TargetColumn"].write(value.targetColumn)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.ConditionExpression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.ConditionExpression()
+        value.condition = try reader["Condition"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent()
+        value.targetColumn = try reader["TargetColumn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6494,72 +6531,17 @@ extension DataBrewClientTypes.CsvOptions {
     }
 }
 
-extension DataBrewClientTypes.ExcelOptions {
+extension DataBrewClientTypes.CsvOutputOptions {
 
-    static func write(value: DataBrewClientTypes.ExcelOptions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataBrewClientTypes.CsvOutputOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["HeaderRow"].write(value.headerRow)
-        try writer["SheetIndexes"].writeList(value.sheetIndexes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SheetNames"].writeList(value.sheetNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Delimiter"].write(value.delimiter)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.ExcelOptions {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.CsvOutputOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.ExcelOptions()
-        value.sheetNames = try reader["SheetNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sheetIndexes = try reader["SheetIndexes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        value.headerRow = try reader["HeaderRow"].readIfPresent()
-        return value
-    }
-}
-
-extension DataBrewClientTypes.JsonOptions {
-
-    static func write(value: DataBrewClientTypes.JsonOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MultiLine"].write(value.multiLine)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.JsonOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.JsonOptions()
-        value.multiLine = try reader["MultiLine"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension DataBrewClientTypes.Input {
-
-    static func write(value: DataBrewClientTypes.Input?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataCatalogInputDefinition"].write(value.dataCatalogInputDefinition, with: DataBrewClientTypes.DataCatalogInputDefinition.write(value:to:))
-        try writer["DatabaseInputDefinition"].write(value.databaseInputDefinition, with: DataBrewClientTypes.DatabaseInputDefinition.write(value:to:))
-        try writer["Metadata"].write(value.metadata, with: DataBrewClientTypes.Metadata.write(value:to:))
-        try writer["S3InputDefinition"].write(value.s3InputDefinition, with: DataBrewClientTypes.S3Location.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.Input {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.Input()
-        value.s3InputDefinition = try reader["S3InputDefinition"].readIfPresent(with: DataBrewClientTypes.S3Location.read(from:))
-        value.dataCatalogInputDefinition = try reader["DataCatalogInputDefinition"].readIfPresent(with: DataBrewClientTypes.DataCatalogInputDefinition.read(from:))
-        value.databaseInputDefinition = try reader["DatabaseInputDefinition"].readIfPresent(with: DataBrewClientTypes.DatabaseInputDefinition.read(from:))
-        value.metadata = try reader["Metadata"].readIfPresent(with: DataBrewClientTypes.Metadata.read(from:))
-        return value
-    }
-}
-
-extension DataBrewClientTypes.Metadata {
-
-    static func write(value: DataBrewClientTypes.Metadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SourceArn"].write(value.sourceArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.Metadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.Metadata()
-        value.sourceArn = try reader["SourceArn"].readIfPresent()
+        var value = DataBrewClientTypes.CsvOutputOptions()
+        value.delimiter = try reader["Delimiter"].readIfPresent()
         return value
     }
 }
@@ -6585,21 +6567,38 @@ extension DataBrewClientTypes.DatabaseInputDefinition {
     }
 }
 
-extension DataBrewClientTypes.S3Location {
+extension DataBrewClientTypes.DatabaseOutput {
 
-    static func write(value: DataBrewClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataBrewClientTypes.DatabaseOutput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["BucketOwner"].write(value.bucketOwner)
-        try writer["Key"].write(value.key)
+        try writer["DatabaseOptions"].write(value.databaseOptions, with: DataBrewClientTypes.DatabaseTableOutputOptions.write(value:to:))
+        try writer["DatabaseOutputMode"].write(value.databaseOutputMode)
+        try writer["GlueConnectionName"].write(value.glueConnectionName)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.S3Location {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.DatabaseOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.S3Location()
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
-        value.key = try reader["Key"].readIfPresent()
-        value.bucketOwner = try reader["BucketOwner"].readIfPresent()
+        var value = DataBrewClientTypes.DatabaseOutput()
+        value.glueConnectionName = try reader["GlueConnectionName"].readIfPresent() ?? ""
+        value.databaseOptions = try reader["DatabaseOptions"].readIfPresent(with: DataBrewClientTypes.DatabaseTableOutputOptions.read(from:))
+        value.databaseOutputMode = try reader["DatabaseOutputMode"].readIfPresent()
+        return value
+    }
+}
+
+extension DataBrewClientTypes.DatabaseTableOutputOptions {
+
+    static func write(value: DataBrewClientTypes.DatabaseTableOutputOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TableName"].write(value.tableName)
+        try writer["TempDirectory"].write(value.tempDirectory, with: DataBrewClientTypes.S3Location.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.DatabaseTableOutputOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.DatabaseTableOutputOptions()
+        value.tempDirectory = try reader["TempDirectory"].readIfPresent(with: DataBrewClientTypes.S3Location.read(from:))
+        value.tableName = try reader["TableName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6625,21 +6624,49 @@ extension DataBrewClientTypes.DataCatalogInputDefinition {
     }
 }
 
-extension DataBrewClientTypes.PathOptions {
+extension DataBrewClientTypes.DataCatalogOutput {
 
-    static func write(value: DataBrewClientTypes.PathOptions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataBrewClientTypes.DataCatalogOutput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["FilesLimit"].write(value.filesLimit, with: DataBrewClientTypes.FilesLimit.write(value:to:))
-        try writer["LastModifiedDateCondition"].write(value.lastModifiedDateCondition, with: DataBrewClientTypes.FilterExpression.write(value:to:))
-        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: DataBrewClientTypes.DatasetParameter.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["DatabaseOptions"].write(value.databaseOptions, with: DataBrewClientTypes.DatabaseTableOutputOptions.write(value:to:))
+        try writer["Overwrite"].write(value.overwrite)
+        try writer["S3Options"].write(value.s3Options, with: DataBrewClientTypes.S3TableOutputOptions.write(value:to:))
+        try writer["TableName"].write(value.tableName)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.PathOptions {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.DataCatalogOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.PathOptions()
-        value.lastModifiedDateCondition = try reader["LastModifiedDateCondition"].readIfPresent(with: DataBrewClientTypes.FilterExpression.read(from:))
-        value.filesLimit = try reader["FilesLimit"].readIfPresent(with: DataBrewClientTypes.FilesLimit.read(from:))
-        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: DataBrewClientTypes.DatasetParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = DataBrewClientTypes.DataCatalogOutput()
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
+        value.tableName = try reader["TableName"].readIfPresent() ?? ""
+        value.s3Options = try reader["S3Options"].readIfPresent(with: DataBrewClientTypes.S3TableOutputOptions.read(from:))
+        value.databaseOptions = try reader["DatabaseOptions"].readIfPresent(with: DataBrewClientTypes.DatabaseTableOutputOptions.read(from:))
+        value.overwrite = try reader["Overwrite"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension DataBrewClientTypes.Dataset {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.Dataset {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.Dataset()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.format = try reader["Format"].readIfPresent()
+        value.formatOptions = try reader["FormatOptions"].readIfPresent(with: DataBrewClientTypes.FormatOptions.read(from:))
+        value.input = try reader["Input"].readIfPresent(with: DataBrewClientTypes.Input.read(from:))
+        value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
+        value.source = try reader["Source"].readIfPresent()
+        value.pathOptions = try reader["PathOptions"].readIfPresent(with: DataBrewClientTypes.PathOptions.read(from:))
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
         return value
     }
 }
@@ -6667,23 +6694,6 @@ extension DataBrewClientTypes.DatasetParameter {
     }
 }
 
-extension DataBrewClientTypes.FilterExpression {
-
-    static func write(value: DataBrewClientTypes.FilterExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Expression"].write(value.expression)
-        try writer["ValuesMap"].writeMap(value.valuesMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.FilterExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.FilterExpression()
-        value.expression = try reader["Expression"].readIfPresent() ?? ""
-        value.valuesMap = try reader["ValuesMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        return value
-    }
-}
-
 extension DataBrewClientTypes.DatetimeOptions {
 
     static func write(value: DataBrewClientTypes.DatetimeOptions?, to writer: SmithyJSON.Writer) throws {
@@ -6703,6 +6713,42 @@ extension DataBrewClientTypes.DatetimeOptions {
     }
 }
 
+extension DataBrewClientTypes.EntityDetectorConfiguration {
+
+    static func write(value: DataBrewClientTypes.EntityDetectorConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedStatistics"].writeList(value.allowedStatistics, memberWritingClosure: DataBrewClientTypes.AllowedStatistics.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EntityTypes"].writeList(value.entityTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.EntityDetectorConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.EntityDetectorConfiguration()
+        value.entityTypes = try reader["EntityTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.allowedStatistics = try reader["AllowedStatistics"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.AllowedStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataBrewClientTypes.ExcelOptions {
+
+    static func write(value: DataBrewClientTypes.ExcelOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HeaderRow"].write(value.headerRow)
+        try writer["SheetIndexes"].writeList(value.sheetIndexes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SheetNames"].writeList(value.sheetNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.ExcelOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.ExcelOptions()
+        value.sheetNames = try reader["SheetNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sheetIndexes = try reader["SheetIndexes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.headerRow = try reader["HeaderRow"].readIfPresent()
+        return value
+    }
+}
+
 extension DataBrewClientTypes.FilesLimit {
 
     static func write(value: DataBrewClientTypes.FilesLimit?, to writer: SmithyJSON.Writer) throws {
@@ -6718,6 +6764,170 @@ extension DataBrewClientTypes.FilesLimit {
         value.maxFiles = try reader["MaxFiles"].readIfPresent() ?? 0
         value.orderedBy = try reader["OrderedBy"].readIfPresent()
         value.order = try reader["Order"].readIfPresent()
+        return value
+    }
+}
+
+extension DataBrewClientTypes.FilterExpression {
+
+    static func write(value: DataBrewClientTypes.FilterExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Expression"].write(value.expression)
+        try writer["ValuesMap"].writeMap(value.valuesMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.FilterExpression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.FilterExpression()
+        value.expression = try reader["Expression"].readIfPresent() ?? ""
+        value.valuesMap = try reader["ValuesMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension DataBrewClientTypes.FormatOptions {
+
+    static func write(value: DataBrewClientTypes.FormatOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Csv"].write(value.csv, with: DataBrewClientTypes.CsvOptions.write(value:to:))
+        try writer["Excel"].write(value.excel, with: DataBrewClientTypes.ExcelOptions.write(value:to:))
+        try writer["Json"].write(value.json, with: DataBrewClientTypes.JsonOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.FormatOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.FormatOptions()
+        value.json = try reader["Json"].readIfPresent(with: DataBrewClientTypes.JsonOptions.read(from:))
+        value.excel = try reader["Excel"].readIfPresent(with: DataBrewClientTypes.ExcelOptions.read(from:))
+        value.csv = try reader["Csv"].readIfPresent(with: DataBrewClientTypes.CsvOptions.read(from:))
+        return value
+    }
+}
+
+extension DataBrewClientTypes.Input {
+
+    static func write(value: DataBrewClientTypes.Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataCatalogInputDefinition"].write(value.dataCatalogInputDefinition, with: DataBrewClientTypes.DataCatalogInputDefinition.write(value:to:))
+        try writer["DatabaseInputDefinition"].write(value.databaseInputDefinition, with: DataBrewClientTypes.DatabaseInputDefinition.write(value:to:))
+        try writer["Metadata"].write(value.metadata, with: DataBrewClientTypes.Metadata.write(value:to:))
+        try writer["S3InputDefinition"].write(value.s3InputDefinition, with: DataBrewClientTypes.S3Location.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.Input {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.Input()
+        value.s3InputDefinition = try reader["S3InputDefinition"].readIfPresent(with: DataBrewClientTypes.S3Location.read(from:))
+        value.dataCatalogInputDefinition = try reader["DataCatalogInputDefinition"].readIfPresent(with: DataBrewClientTypes.DataCatalogInputDefinition.read(from:))
+        value.databaseInputDefinition = try reader["DatabaseInputDefinition"].readIfPresent(with: DataBrewClientTypes.DatabaseInputDefinition.read(from:))
+        value.metadata = try reader["Metadata"].readIfPresent(with: DataBrewClientTypes.Metadata.read(from:))
+        return value
+    }
+}
+
+extension DataBrewClientTypes.Job {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.Job {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.Job()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.datasetName = try reader["DatasetName"].readIfPresent()
+        value.encryptionKeyArn = try reader["EncryptionKeyArn"].readIfPresent()
+        value.encryptionMode = try reader["EncryptionMode"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent()
+        value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
+        value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.logSubscription = try reader["LogSubscription"].readIfPresent()
+        value.maxCapacity = try reader["MaxCapacity"].readIfPresent() ?? 0
+        value.maxRetries = try reader["MaxRetries"].readIfPresent() ?? 0
+        value.outputs = try reader["Outputs"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.Output.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataCatalogOutputs = try reader["DataCatalogOutputs"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.DataCatalogOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.databaseOutputs = try reader["DatabaseOutputs"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.DatabaseOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.projectName = try reader["ProjectName"].readIfPresent()
+        value.recipeReference = try reader["RecipeReference"].readIfPresent(with: DataBrewClientTypes.RecipeReference.read(from:))
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.timeout = try reader["Timeout"].readIfPresent() ?? 0
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.jobSample = try reader["JobSample"].readIfPresent(with: DataBrewClientTypes.JobSample.read(from:))
+        value.validationConfigurations = try reader["ValidationConfigurations"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.ValidationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataBrewClientTypes.JobRun {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.JobRun {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.JobRun()
+        value.attempt = try reader["Attempt"].readIfPresent() ?? 0
+        value.completedOn = try reader["CompletedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.datasetName = try reader["DatasetName"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.executionTime = try reader["ExecutionTime"].readIfPresent() ?? 0
+        value.jobName = try reader["JobName"].readIfPresent()
+        value.runId = try reader["RunId"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.logSubscription = try reader["LogSubscription"].readIfPresent()
+        value.logGroupName = try reader["LogGroupName"].readIfPresent()
+        value.outputs = try reader["Outputs"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.Output.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataCatalogOutputs = try reader["DataCatalogOutputs"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.DataCatalogOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.databaseOutputs = try reader["DatabaseOutputs"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.DatabaseOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.recipeReference = try reader["RecipeReference"].readIfPresent(with: DataBrewClientTypes.RecipeReference.read(from:))
+        value.startedBy = try reader["StartedBy"].readIfPresent()
+        value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.jobSample = try reader["JobSample"].readIfPresent(with: DataBrewClientTypes.JobSample.read(from:))
+        value.validationConfigurations = try reader["ValidationConfigurations"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.ValidationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataBrewClientTypes.JobSample {
+
+    static func write(value: DataBrewClientTypes.JobSample?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Mode"].write(value.mode)
+        try writer["Size"].write(value.size)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.JobSample {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.JobSample()
+        value.mode = try reader["Mode"].readIfPresent()
+        value.size = try reader["Size"].readIfPresent()
+        return value
+    }
+}
+
+extension DataBrewClientTypes.JsonOptions {
+
+    static func write(value: DataBrewClientTypes.JsonOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MultiLine"].write(value.multiLine)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.JsonOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.JsonOptions()
+        value.multiLine = try reader["MultiLine"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension DataBrewClientTypes.Metadata {
+
+    static func write(value: DataBrewClientTypes.Metadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SourceArn"].write(value.sourceArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.Metadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.Metadata()
+        value.sourceArn = try reader["SourceArn"].readIfPresent()
         return value
     }
 }
@@ -6764,93 +6974,21 @@ extension DataBrewClientTypes.OutputFormatOptions {
     }
 }
 
-extension DataBrewClientTypes.CsvOutputOptions {
+extension DataBrewClientTypes.PathOptions {
 
-    static func write(value: DataBrewClientTypes.CsvOutputOptions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataBrewClientTypes.PathOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Delimiter"].write(value.delimiter)
+        try writer["FilesLimit"].write(value.filesLimit, with: DataBrewClientTypes.FilesLimit.write(value:to:))
+        try writer["LastModifiedDateCondition"].write(value.lastModifiedDateCondition, with: DataBrewClientTypes.FilterExpression.write(value:to:))
+        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: DataBrewClientTypes.DatasetParameter.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.CsvOutputOptions {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.PathOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.CsvOutputOptions()
-        value.delimiter = try reader["Delimiter"].readIfPresent()
-        return value
-    }
-}
-
-extension DataBrewClientTypes.DataCatalogOutput {
-
-    static func write(value: DataBrewClientTypes.DataCatalogOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CatalogId"].write(value.catalogId)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["DatabaseOptions"].write(value.databaseOptions, with: DataBrewClientTypes.DatabaseTableOutputOptions.write(value:to:))
-        try writer["Overwrite"].write(value.overwrite)
-        try writer["S3Options"].write(value.s3Options, with: DataBrewClientTypes.S3TableOutputOptions.write(value:to:))
-        try writer["TableName"].write(value.tableName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.DataCatalogOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.DataCatalogOutput()
-        value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
-        value.tableName = try reader["TableName"].readIfPresent() ?? ""
-        value.s3Options = try reader["S3Options"].readIfPresent(with: DataBrewClientTypes.S3TableOutputOptions.read(from:))
-        value.databaseOptions = try reader["DatabaseOptions"].readIfPresent(with: DataBrewClientTypes.DatabaseTableOutputOptions.read(from:))
-        value.overwrite = try reader["Overwrite"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension DataBrewClientTypes.DatabaseTableOutputOptions {
-
-    static func write(value: DataBrewClientTypes.DatabaseTableOutputOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TableName"].write(value.tableName)
-        try writer["TempDirectory"].write(value.tempDirectory, with: DataBrewClientTypes.S3Location.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.DatabaseTableOutputOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.DatabaseTableOutputOptions()
-        value.tempDirectory = try reader["TempDirectory"].readIfPresent(with: DataBrewClientTypes.S3Location.read(from:))
-        value.tableName = try reader["TableName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataBrewClientTypes.S3TableOutputOptions {
-
-    static func write(value: DataBrewClientTypes.S3TableOutputOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Location"].write(value.location, with: DataBrewClientTypes.S3Location.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.S3TableOutputOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.S3TableOutputOptions()
-        value.location = try reader["Location"].readIfPresent(with: DataBrewClientTypes.S3Location.read(from:))
-        return value
-    }
-}
-
-extension DataBrewClientTypes.DatabaseOutput {
-
-    static func write(value: DataBrewClientTypes.DatabaseOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DatabaseOptions"].write(value.databaseOptions, with: DataBrewClientTypes.DatabaseTableOutputOptions.write(value:to:))
-        try writer["DatabaseOutputMode"].write(value.databaseOutputMode)
-        try writer["GlueConnectionName"].write(value.glueConnectionName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.DatabaseOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.DatabaseOutput()
-        value.glueConnectionName = try reader["GlueConnectionName"].readIfPresent() ?? ""
-        value.databaseOptions = try reader["DatabaseOptions"].readIfPresent(with: DataBrewClientTypes.DatabaseTableOutputOptions.read(from:))
-        value.databaseOutputMode = try reader["DatabaseOutputMode"].readIfPresent()
+        var value = DataBrewClientTypes.PathOptions()
+        value.lastModifiedDateCondition = try reader["LastModifiedDateCondition"].readIfPresent(with: DataBrewClientTypes.FilterExpression.read(from:))
+        value.filesLimit = try reader["FilesLimit"].readIfPresent(with: DataBrewClientTypes.FilesLimit.read(from:))
+        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: DataBrewClientTypes.DatasetParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -6872,353 +7010,6 @@ extension DataBrewClientTypes.ProfileConfiguration {
         value.profileColumns = try reader["ProfileColumns"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.ColumnSelector.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.columnStatisticsConfigurations = try reader["ColumnStatisticsConfigurations"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.ColumnStatisticsConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.entityDetectorConfiguration = try reader["EntityDetectorConfiguration"].readIfPresent(with: DataBrewClientTypes.EntityDetectorConfiguration.read(from:))
-        return value
-    }
-}
-
-extension DataBrewClientTypes.EntityDetectorConfiguration {
-
-    static func write(value: DataBrewClientTypes.EntityDetectorConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedStatistics"].writeList(value.allowedStatistics, memberWritingClosure: DataBrewClientTypes.AllowedStatistics.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EntityTypes"].writeList(value.entityTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.EntityDetectorConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.EntityDetectorConfiguration()
-        value.entityTypes = try reader["EntityTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.allowedStatistics = try reader["AllowedStatistics"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.AllowedStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataBrewClientTypes.AllowedStatistics {
-
-    static func write(value: DataBrewClientTypes.AllowedStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Statistics"].writeList(value.statistics, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.AllowedStatistics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.AllowedStatistics()
-        value.statistics = try reader["Statistics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension DataBrewClientTypes.ColumnStatisticsConfiguration {
-
-    static func write(value: DataBrewClientTypes.ColumnStatisticsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Selectors"].writeList(value.selectors, memberWritingClosure: DataBrewClientTypes.ColumnSelector.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Statistics"].write(value.statistics, with: DataBrewClientTypes.StatisticsConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.ColumnStatisticsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.ColumnStatisticsConfiguration()
-        value.selectors = try reader["Selectors"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.ColumnSelector.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.statistics = try reader["Statistics"].readIfPresent(with: DataBrewClientTypes.StatisticsConfiguration.read(from:))
-        return value
-    }
-}
-
-extension DataBrewClientTypes.StatisticsConfiguration {
-
-    static func write(value: DataBrewClientTypes.StatisticsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IncludedStatistics"].writeList(value.includedStatistics, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Overrides"].writeList(value.overrides, memberWritingClosure: DataBrewClientTypes.StatisticOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.StatisticsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.StatisticsConfiguration()
-        value.includedStatistics = try reader["IncludedStatistics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.overrides = try reader["Overrides"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.StatisticOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataBrewClientTypes.StatisticOverride {
-
-    static func write(value: DataBrewClientTypes.StatisticOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Statistic"].write(value.statistic)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.StatisticOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.StatisticOverride()
-        value.statistic = try reader["Statistic"].readIfPresent() ?? ""
-        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        return value
-    }
-}
-
-extension DataBrewClientTypes.ColumnSelector {
-
-    static func write(value: DataBrewClientTypes.ColumnSelector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Regex"].write(value.regex)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.ColumnSelector {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.ColumnSelector()
-        value.regex = try reader["Regex"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension DataBrewClientTypes.ValidationConfiguration {
-
-    static func write(value: DataBrewClientTypes.ValidationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RulesetArn"].write(value.rulesetArn)
-        try writer["ValidationMode"].write(value.validationMode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.ValidationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.ValidationConfiguration()
-        value.rulesetArn = try reader["RulesetArn"].readIfPresent() ?? ""
-        value.validationMode = try reader["ValidationMode"].readIfPresent()
-        return value
-    }
-}
-
-extension DataBrewClientTypes.RecipeReference {
-
-    static func write(value: DataBrewClientTypes.RecipeReference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["RecipeVersion"].write(value.recipeVersion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.RecipeReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.RecipeReference()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.recipeVersion = try reader["RecipeVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension DataBrewClientTypes.JobSample {
-
-    static func write(value: DataBrewClientTypes.JobSample?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Mode"].write(value.mode)
-        try writer["Size"].write(value.size)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.JobSample {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.JobSample()
-        value.mode = try reader["Mode"].readIfPresent()
-        value.size = try reader["Size"].readIfPresent()
-        return value
-    }
-}
-
-extension DataBrewClientTypes.Sample {
-
-    static func write(value: DataBrewClientTypes.Sample?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Size"].write(value.size)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.Sample {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.Sample()
-        value.size = try reader["Size"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension DataBrewClientTypes.RecipeStep {
-
-    static func write(value: DataBrewClientTypes.RecipeStep?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action, with: DataBrewClientTypes.RecipeAction.write(value:to:))
-        try writer["ConditionExpressions"].writeList(value.conditionExpressions, memberWritingClosure: DataBrewClientTypes.ConditionExpression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.RecipeStep {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.RecipeStep()
-        value.action = try reader["Action"].readIfPresent(with: DataBrewClientTypes.RecipeAction.read(from:))
-        value.conditionExpressions = try reader["ConditionExpressions"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.ConditionExpression.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataBrewClientTypes.ConditionExpression {
-
-    static func write(value: DataBrewClientTypes.ConditionExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Condition"].write(value.condition)
-        try writer["TargetColumn"].write(value.targetColumn)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.ConditionExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.ConditionExpression()
-        value.condition = try reader["Condition"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent()
-        value.targetColumn = try reader["TargetColumn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataBrewClientTypes.RecipeAction {
-
-    static func write(value: DataBrewClientTypes.RecipeAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Operation"].write(value.operation)
-        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.RecipeAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.RecipeAction()
-        value.operation = try reader["Operation"].readIfPresent() ?? ""
-        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension DataBrewClientTypes.Rule {
-
-    static func write(value: DataBrewClientTypes.Rule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CheckExpression"].write(value.checkExpression)
-        try writer["ColumnSelectors"].writeList(value.columnSelectors, memberWritingClosure: DataBrewClientTypes.ColumnSelector.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Disabled"].write(value.disabled)
-        try writer["Name"].write(value.name)
-        try writer["SubstitutionMap"].writeMap(value.substitutionMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Threshold"].write(value.threshold, with: DataBrewClientTypes.Threshold.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.Rule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.Rule()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.disabled = try reader["Disabled"].readIfPresent() ?? false
-        value.checkExpression = try reader["CheckExpression"].readIfPresent() ?? ""
-        value.substitutionMap = try reader["SubstitutionMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.threshold = try reader["Threshold"].readIfPresent(with: DataBrewClientTypes.Threshold.read(from:))
-        value.columnSelectors = try reader["ColumnSelectors"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.ColumnSelector.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataBrewClientTypes.Threshold {
-
-    static func write(value: DataBrewClientTypes.Threshold?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["Unit"].write(value.unit)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.Threshold {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.Threshold()
-        value.value = try reader["Value"].readIfPresent() ?? 0
-        value.type = try reader["Type"].readIfPresent()
-        value.unit = try reader["Unit"].readIfPresent()
-        return value
-    }
-}
-
-extension DataBrewClientTypes.Dataset {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.Dataset {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.Dataset()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.createdBy = try reader["CreatedBy"].readIfPresent()
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.format = try reader["Format"].readIfPresent()
-        value.formatOptions = try reader["FormatOptions"].readIfPresent(with: DataBrewClientTypes.FormatOptions.read(from:))
-        value.input = try reader["Input"].readIfPresent(with: DataBrewClientTypes.Input.read(from:))
-        value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
-        value.source = try reader["Source"].readIfPresent()
-        value.pathOptions = try reader["PathOptions"].readIfPresent(with: DataBrewClientTypes.PathOptions.read(from:))
-        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DataBrewClientTypes.JobRun {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.JobRun {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.JobRun()
-        value.attempt = try reader["Attempt"].readIfPresent() ?? 0
-        value.completedOn = try reader["CompletedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.datasetName = try reader["DatasetName"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.executionTime = try reader["ExecutionTime"].readIfPresent() ?? 0
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.runId = try reader["RunId"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.logSubscription = try reader["LogSubscription"].readIfPresent()
-        value.logGroupName = try reader["LogGroupName"].readIfPresent()
-        value.outputs = try reader["Outputs"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.Output.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dataCatalogOutputs = try reader["DataCatalogOutputs"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.DataCatalogOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.databaseOutputs = try reader["DatabaseOutputs"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.DatabaseOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.recipeReference = try reader["RecipeReference"].readIfPresent(with: DataBrewClientTypes.RecipeReference.read(from:))
-        value.startedBy = try reader["StartedBy"].readIfPresent()
-        value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.jobSample = try reader["JobSample"].readIfPresent(with: DataBrewClientTypes.JobSample.read(from:))
-        value.validationConfigurations = try reader["ValidationConfigurations"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.ValidationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataBrewClientTypes.Job {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.Job {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataBrewClientTypes.Job()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.createdBy = try reader["CreatedBy"].readIfPresent()
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.datasetName = try reader["DatasetName"].readIfPresent()
-        value.encryptionKeyArn = try reader["EncryptionKeyArn"].readIfPresent()
-        value.encryptionMode = try reader["EncryptionMode"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent()
-        value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
-        value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.logSubscription = try reader["LogSubscription"].readIfPresent()
-        value.maxCapacity = try reader["MaxCapacity"].readIfPresent() ?? 0
-        value.maxRetries = try reader["MaxRetries"].readIfPresent() ?? 0
-        value.outputs = try reader["Outputs"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.Output.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dataCatalogOutputs = try reader["DataCatalogOutputs"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.DataCatalogOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.databaseOutputs = try reader["DatabaseOutputs"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.DatabaseOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.projectName = try reader["ProjectName"].readIfPresent()
-        value.recipeReference = try reader["RecipeReference"].readIfPresent(with: DataBrewClientTypes.RecipeReference.read(from:))
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.timeout = try reader["Timeout"].readIfPresent() ?? 0
-        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.jobSample = try reader["JobSample"].readIfPresent(with: DataBrewClientTypes.JobSample.read(from:))
-        value.validationConfigurations = try reader["ValidationConfigurations"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.ValidationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7268,6 +7059,94 @@ extension DataBrewClientTypes.Recipe {
     }
 }
 
+extension DataBrewClientTypes.RecipeAction {
+
+    static func write(value: DataBrewClientTypes.RecipeAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Operation"].write(value.operation)
+        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.RecipeAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.RecipeAction()
+        value.operation = try reader["Operation"].readIfPresent() ?? ""
+        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension DataBrewClientTypes.RecipeReference {
+
+    static func write(value: DataBrewClientTypes.RecipeReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["RecipeVersion"].write(value.recipeVersion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.RecipeReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.RecipeReference()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.recipeVersion = try reader["RecipeVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension DataBrewClientTypes.RecipeStep {
+
+    static func write(value: DataBrewClientTypes.RecipeStep?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action, with: DataBrewClientTypes.RecipeAction.write(value:to:))
+        try writer["ConditionExpressions"].writeList(value.conditionExpressions, memberWritingClosure: DataBrewClientTypes.ConditionExpression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.RecipeStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.RecipeStep()
+        value.action = try reader["Action"].readIfPresent(with: DataBrewClientTypes.RecipeAction.read(from:))
+        value.conditionExpressions = try reader["ConditionExpressions"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.ConditionExpression.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataBrewClientTypes.RecipeVersionErrorDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.RecipeVersionErrorDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.RecipeVersionErrorDetail()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.recipeVersion = try reader["RecipeVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension DataBrewClientTypes.Rule {
+
+    static func write(value: DataBrewClientTypes.Rule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CheckExpression"].write(value.checkExpression)
+        try writer["ColumnSelectors"].writeList(value.columnSelectors, memberWritingClosure: DataBrewClientTypes.ColumnSelector.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Disabled"].write(value.disabled)
+        try writer["Name"].write(value.name)
+        try writer["SubstitutionMap"].writeMap(value.substitutionMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Threshold"].write(value.threshold, with: DataBrewClientTypes.Threshold.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.Rule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.Rule()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.disabled = try reader["Disabled"].readIfPresent() ?? false
+        value.checkExpression = try reader["CheckExpression"].readIfPresent() ?? ""
+        value.substitutionMap = try reader["SubstitutionMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.threshold = try reader["Threshold"].readIfPresent(with: DataBrewClientTypes.Threshold.read(from:))
+        value.columnSelectors = try reader["ColumnSelectors"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.ColumnSelector.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension DataBrewClientTypes.RulesetItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.RulesetItem {
@@ -7288,6 +7167,57 @@ extension DataBrewClientTypes.RulesetItem {
     }
 }
 
+extension DataBrewClientTypes.S3Location {
+
+    static func write(value: DataBrewClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["BucketOwner"].write(value.bucketOwner)
+        try writer["Key"].write(value.key)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.S3Location {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.S3Location()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.key = try reader["Key"].readIfPresent()
+        value.bucketOwner = try reader["BucketOwner"].readIfPresent()
+        return value
+    }
+}
+
+extension DataBrewClientTypes.S3TableOutputOptions {
+
+    static func write(value: DataBrewClientTypes.S3TableOutputOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Location"].write(value.location, with: DataBrewClientTypes.S3Location.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.S3TableOutputOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.S3TableOutputOptions()
+        value.location = try reader["Location"].readIfPresent(with: DataBrewClientTypes.S3Location.read(from:))
+        return value
+    }
+}
+
+extension DataBrewClientTypes.Sample {
+
+    static func write(value: DataBrewClientTypes.Sample?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Size"].write(value.size)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.Sample {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.Sample()
+        value.size = try reader["Size"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension DataBrewClientTypes.Schedule {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.Schedule {
@@ -7303,6 +7233,76 @@ extension DataBrewClientTypes.Schedule {
         value.cronExpression = try reader["CronExpression"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataBrewClientTypes.StatisticOverride {
+
+    static func write(value: DataBrewClientTypes.StatisticOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Statistic"].write(value.statistic)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.StatisticOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.StatisticOverride()
+        value.statistic = try reader["Statistic"].readIfPresent() ?? ""
+        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension DataBrewClientTypes.StatisticsConfiguration {
+
+    static func write(value: DataBrewClientTypes.StatisticsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IncludedStatistics"].writeList(value.includedStatistics, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Overrides"].writeList(value.overrides, memberWritingClosure: DataBrewClientTypes.StatisticOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.StatisticsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.StatisticsConfiguration()
+        value.includedStatistics = try reader["IncludedStatistics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.overrides = try reader["Overrides"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.StatisticOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataBrewClientTypes.Threshold {
+
+    static func write(value: DataBrewClientTypes.Threshold?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Unit"].write(value.unit)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.Threshold {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.Threshold()
+        value.value = try reader["Value"].readIfPresent() ?? 0
+        value.type = try reader["Type"].readIfPresent()
+        value.unit = try reader["Unit"].readIfPresent()
+        return value
+    }
+}
+
+extension DataBrewClientTypes.ValidationConfiguration {
+
+    static func write(value: DataBrewClientTypes.ValidationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RulesetArn"].write(value.rulesetArn)
+        try writer["ValidationMode"].write(value.validationMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.ValidationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataBrewClientTypes.ValidationConfiguration()
+        value.rulesetArn = try reader["RulesetArn"].readIfPresent() ?? ""
+        value.validationMode = try reader["ValidationMode"].readIfPresent()
         return value
     }
 }

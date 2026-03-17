@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSQueryError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSQueryError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 
 
@@ -4202,7 +4202,7 @@ enum AddPermissionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4219,7 +4219,7 @@ enum CheckIfPhoneNumberIsOptedOutOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4236,7 +4236,7 @@ enum ConfirmSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4256,7 +4256,7 @@ enum CreatePlatformApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4272,7 +4272,7 @@ enum CreatePlatformEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4289,7 +4289,7 @@ enum CreateSMSSandboxPhoneNumberOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4308,7 +4308,7 @@ enum CreateTopicOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4330,7 +4330,7 @@ enum DeleteEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4346,7 +4346,7 @@ enum DeletePlatformApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4362,7 +4362,7 @@ enum DeleteSMSSandboxPhoneNumberOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4381,7 +4381,7 @@ enum DeleteTopicOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4402,7 +4402,7 @@ enum GetDataProtectionPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4420,7 +4420,7 @@ enum GetEndpointAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4437,7 +4437,7 @@ enum GetPlatformApplicationAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4454,7 +4454,7 @@ enum GetSMSAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4471,7 +4471,7 @@ enum GetSMSSandboxAccountStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4487,7 +4487,7 @@ enum GetSubscriptionAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4504,7 +4504,7 @@ enum GetTopicAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4522,7 +4522,7 @@ enum ListEndpointsByPlatformApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4539,7 +4539,7 @@ enum ListOriginationNumbersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4557,7 +4557,7 @@ enum ListPhoneNumbersOptedOutOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4574,7 +4574,7 @@ enum ListPlatformApplicationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4590,7 +4590,7 @@ enum ListSMSSandboxPhoneNumbersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4608,7 +4608,7 @@ enum ListSubscriptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4624,7 +4624,7 @@ enum ListSubscriptionsByTopicOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4641,7 +4641,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4659,7 +4659,7 @@ enum ListTopicsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4675,7 +4675,7 @@ enum OptInPhoneNumberOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4692,7 +4692,7 @@ enum PublishOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4720,7 +4720,7 @@ enum PublishBatchOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4753,7 +4753,7 @@ enum PutDataProtectionPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4771,7 +4771,7 @@ enum RemovePermissionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4788,7 +4788,7 @@ enum SetEndpointAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4805,7 +4805,7 @@ enum SetPlatformApplicationAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4822,7 +4822,7 @@ enum SetSMSAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4839,7 +4839,7 @@ enum SetSubscriptionAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4858,7 +4858,7 @@ enum SetTopicAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4876,7 +4876,7 @@ enum SubscribeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4897,7 +4897,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4917,7 +4917,7 @@ enum UnsubscribeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4935,7 +4935,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4955,7 +4955,7 @@ enum VerifySMSSandboxPhoneNumberOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationError": return try AuthorizationErrorException.makeError(baseError: baseError)
@@ -4971,7 +4971,7 @@ enum VerifySMSSandboxPhoneNumberOutputError {
 
 extension AuthorizationErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationErrorException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> AuthorizationErrorException {
         let reader = baseError.errorBodyReader
         var value = AuthorizationErrorException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4984,7 +4984,7 @@ extension AuthorizationErrorException {
 
 extension InternalErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InternalErrorException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InternalErrorException {
         let reader = baseError.errorBodyReader
         var value = InternalErrorException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4997,7 +4997,7 @@ extension InternalErrorException {
 
 extension InvalidParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidParameterException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5010,7 +5010,7 @@ extension InvalidParameterException {
 
 extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5023,7 +5023,7 @@ extension NotFoundException {
 
 extension ThrottledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ThrottledException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ThrottledException {
         let reader = baseError.errorBodyReader
         var value = ThrottledException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5036,7 +5036,7 @@ extension ThrottledException {
 
 extension FilterPolicyLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> FilterPolicyLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> FilterPolicyLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = FilterPolicyLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5049,7 +5049,7 @@ extension FilterPolicyLimitExceededException {
 
 extension ReplayLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReplayLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReplayLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ReplayLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5062,7 +5062,7 @@ extension ReplayLimitExceededException {
 
 extension SubscriptionLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SubscriptionLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = SubscriptionLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5075,7 +5075,7 @@ extension SubscriptionLimitExceededException {
 
 extension OptedOutException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OptedOutException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> OptedOutException {
         let reader = baseError.errorBodyReader
         var value = OptedOutException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5088,7 +5088,7 @@ extension OptedOutException {
 
 extension UserErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UserErrorException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> UserErrorException {
         let reader = baseError.errorBodyReader
         var value = UserErrorException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5101,7 +5101,7 @@ extension UserErrorException {
 
 extension ConcurrentAccessException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ConcurrentAccessException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ConcurrentAccessException {
         let reader = baseError.errorBodyReader
         var value = ConcurrentAccessException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5114,7 +5114,7 @@ extension ConcurrentAccessException {
 
 extension InvalidSecurityException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSecurityException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidSecurityException {
         let reader = baseError.errorBodyReader
         var value = InvalidSecurityException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5127,7 +5127,7 @@ extension InvalidSecurityException {
 
 extension StaleTagException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StaleTagException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> StaleTagException {
         let reader = baseError.errorBodyReader
         var value = StaleTagException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5140,7 +5140,7 @@ extension StaleTagException {
 
 extension TagLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TagLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TagLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = TagLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5153,7 +5153,7 @@ extension TagLimitExceededException {
 
 extension TagPolicyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TagPolicyException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TagPolicyException {
         let reader = baseError.errorBodyReader
         var value = TagPolicyException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5166,7 +5166,7 @@ extension TagPolicyException {
 
 extension TopicLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TopicLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TopicLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = TopicLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5179,7 +5179,7 @@ extension TopicLimitExceededException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5192,7 +5192,7 @@ extension ResourceNotFoundException {
 
 extension InvalidStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidStateException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidStateException {
         let reader = baseError.errorBodyReader
         var value = InvalidStateException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5205,7 +5205,7 @@ extension InvalidStateException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -5218,7 +5218,7 @@ extension ValidationException {
 
 extension EndpointDisabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EndpointDisabledException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> EndpointDisabledException {
         let reader = baseError.errorBodyReader
         var value = EndpointDisabledException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5231,7 +5231,7 @@ extension EndpointDisabledException {
 
 extension InvalidParameterValueException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidParameterValueException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidParameterValueException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterValueException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5244,7 +5244,7 @@ extension InvalidParameterValueException {
 
 extension KMSAccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> KMSAccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> KMSAccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = KMSAccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5257,7 +5257,7 @@ extension KMSAccessDeniedException {
 
 extension KMSDisabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> KMSDisabledException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> KMSDisabledException {
         let reader = baseError.errorBodyReader
         var value = KMSDisabledException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5270,7 +5270,7 @@ extension KMSDisabledException {
 
 extension KMSInvalidStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> KMSInvalidStateException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> KMSInvalidStateException {
         let reader = baseError.errorBodyReader
         var value = KMSInvalidStateException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5283,7 +5283,7 @@ extension KMSInvalidStateException {
 
 extension KMSNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> KMSNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> KMSNotFoundException {
         let reader = baseError.errorBodyReader
         var value = KMSNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5296,7 +5296,7 @@ extension KMSNotFoundException {
 
 extension KMSOptInRequired {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> KMSOptInRequired {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> KMSOptInRequired {
         let reader = baseError.errorBodyReader
         var value = KMSOptInRequired()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5309,7 +5309,7 @@ extension KMSOptInRequired {
 
 extension KMSThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> KMSThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> KMSThrottlingException {
         let reader = baseError.errorBodyReader
         var value = KMSThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5322,7 +5322,7 @@ extension KMSThrottlingException {
 
 extension PlatformApplicationDisabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PlatformApplicationDisabledException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> PlatformApplicationDisabledException {
         let reader = baseError.errorBodyReader
         var value = PlatformApplicationDisabledException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5335,7 +5335,7 @@ extension PlatformApplicationDisabledException {
 
 extension BatchEntryIdsNotDistinctException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> BatchEntryIdsNotDistinctException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> BatchEntryIdsNotDistinctException {
         let reader = baseError.errorBodyReader
         var value = BatchEntryIdsNotDistinctException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5348,7 +5348,7 @@ extension BatchEntryIdsNotDistinctException {
 
 extension BatchRequestTooLongException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> BatchRequestTooLongException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> BatchRequestTooLongException {
         let reader = baseError.errorBodyReader
         var value = BatchRequestTooLongException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5361,7 +5361,7 @@ extension BatchRequestTooLongException {
 
 extension EmptyBatchRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EmptyBatchRequestException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> EmptyBatchRequestException {
         let reader = baseError.errorBodyReader
         var value = EmptyBatchRequestException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5374,7 +5374,7 @@ extension EmptyBatchRequestException {
 
 extension InvalidBatchEntryIdException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidBatchEntryIdException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidBatchEntryIdException {
         let reader = baseError.errorBodyReader
         var value = InvalidBatchEntryIdException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5387,7 +5387,7 @@ extension InvalidBatchEntryIdException {
 
 extension TooManyEntriesInBatchRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyEntriesInBatchRequestException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyEntriesInBatchRequestException {
         let reader = baseError.errorBodyReader
         var value = TooManyEntriesInBatchRequestException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5400,7 +5400,7 @@ extension TooManyEntriesInBatchRequestException {
 
 extension VerificationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> VerificationException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> VerificationException {
         let reader = baseError.errorBodyReader
         var value = VerificationException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -5408,6 +5408,19 @@ extension VerificationException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension SNSClientTypes.BatchResultErrorEntry {
+
+    static func read(from reader: SmithyXML.Reader) throws -> SNSClientTypes.BatchResultErrorEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SNSClientTypes.BatchResultErrorEntry()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.code = try reader["Code"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent()
+        value.senderFault = try reader["SenderFault"].readIfPresent() ?? false
         return value
     }
 }
@@ -5420,6 +5433,16 @@ extension SNSClientTypes.Endpoint {
         value.endpointArn = try reader["EndpointArn"].readIfPresent()
         value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
+    }
+}
+
+extension SNSClientTypes.MessageAttributeValue {
+
+    static func write(value: SNSClientTypes.MessageAttributeValue?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["BinaryValue"].write(value.binaryValue)
+        try writer["DataType"].write(value.dataType)
+        try writer["StringValue"].write(value.stringValue)
     }
 }
 
@@ -5445,6 +5468,32 @@ extension SNSClientTypes.PlatformApplication {
         var value = SNSClientTypes.PlatformApplication()
         value.platformApplicationArn = try reader["PlatformApplicationArn"].readIfPresent()
         value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension SNSClientTypes.PublishBatchRequestEntry {
+
+    static func write(value: SNSClientTypes.PublishBatchRequestEntry?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["Message"].write(value.message)
+        try writer["MessageAttributes"].writeMap(value.messageAttributes, valueWritingClosure: SNSClientTypes.MessageAttributeValue.write(value:to:), keyNodeInfo: "Name", valueNodeInfo: "Value", isFlattened: false)
+        try writer["MessageDeduplicationId"].write(value.messageDeduplicationId)
+        try writer["MessageGroupId"].write(value.messageGroupId)
+        try writer["MessageStructure"].write(value.messageStructure)
+        try writer["Subject"].write(value.subject)
+    }
+}
+
+extension SNSClientTypes.PublishBatchResultEntry {
+
+    static func read(from reader: SmithyXML.Reader) throws -> SNSClientTypes.PublishBatchResultEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SNSClientTypes.PublishBatchResultEntry()
+        value.id = try reader["Id"].readIfPresent()
+        value.messageId = try reader["MessageId"].readIfPresent()
+        value.sequenceNumber = try reader["SequenceNumber"].readIfPresent()
         return value
     }
 }
@@ -5498,55 +5547,6 @@ extension SNSClientTypes.Topic {
         var value = SNSClientTypes.Topic()
         value.topicArn = try reader["TopicArn"].readIfPresent()
         return value
-    }
-}
-
-extension SNSClientTypes.PublishBatchResultEntry {
-
-    static func read(from reader: SmithyXML.Reader) throws -> SNSClientTypes.PublishBatchResultEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SNSClientTypes.PublishBatchResultEntry()
-        value.id = try reader["Id"].readIfPresent()
-        value.messageId = try reader["MessageId"].readIfPresent()
-        value.sequenceNumber = try reader["SequenceNumber"].readIfPresent()
-        return value
-    }
-}
-
-extension SNSClientTypes.BatchResultErrorEntry {
-
-    static func read(from reader: SmithyXML.Reader) throws -> SNSClientTypes.BatchResultErrorEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SNSClientTypes.BatchResultErrorEntry()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.code = try reader["Code"].readIfPresent() ?? ""
-        value.message = try reader["Message"].readIfPresent()
-        value.senderFault = try reader["SenderFault"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension SNSClientTypes.MessageAttributeValue {
-
-    static func write(value: SNSClientTypes.MessageAttributeValue?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["BinaryValue"].write(value.binaryValue)
-        try writer["DataType"].write(value.dataType)
-        try writer["StringValue"].write(value.stringValue)
-    }
-}
-
-extension SNSClientTypes.PublishBatchRequestEntry {
-
-    static func write(value: SNSClientTypes.PublishBatchRequestEntry?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Message"].write(value.message)
-        try writer["MessageAttributes"].writeMap(value.messageAttributes, valueWritingClosure: SNSClientTypes.MessageAttributeValue.write(value:to:), keyNodeInfo: "Name", valueNodeInfo: "Value", isFlattened: false)
-        try writer["MessageDeduplicationId"].write(value.messageDeduplicationId)
-        try writer["MessageGroupId"].write(value.messageGroupId)
-        try writer["MessageStructure"].write(value.messageStructure)
-        try writer["Subject"].write(value.subject)
     }
 }
 

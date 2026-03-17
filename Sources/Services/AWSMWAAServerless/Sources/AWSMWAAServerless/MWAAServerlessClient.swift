@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -58,6 +57,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
@@ -669,7 +669,7 @@ extension MWAAServerlessClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateWorkflowOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateWorkflowInput, CreateWorkflowOutput>(xAmzTarget: "AmazonMWAAServerless.CreateWorkflow"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateWorkflowInput, CreateWorkflowOutput>(overrides: ["X-Amz-Target": "AmazonMWAAServerless.CreateWorkflow"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateWorkflowInput, CreateWorkflowOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWorkflowInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWorkflowInput, CreateWorkflowOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWorkflowOutput>())
@@ -744,7 +744,7 @@ extension MWAAServerlessClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteWorkflowOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>(xAmzTarget: "AmazonMWAAServerless.DeleteWorkflow"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>(overrides: ["X-Amz-Target": "AmazonMWAAServerless.DeleteWorkflow"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteWorkflowInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWorkflowOutput>())
@@ -818,7 +818,7 @@ extension MWAAServerlessClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTaskInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetTaskInstanceInput, GetTaskInstanceOutput>(xAmzTarget: "AmazonMWAAServerless.GetTaskInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTaskInstanceInput, GetTaskInstanceOutput>(overrides: ["X-Amz-Target": "AmazonMWAAServerless.GetTaskInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetTaskInstanceInput, GetTaskInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTaskInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTaskInstanceInput, GetTaskInstanceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTaskInstanceOutput>())
@@ -893,7 +893,7 @@ extension MWAAServerlessClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetWorkflowOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetWorkflowInput, GetWorkflowOutput>(xAmzTarget: "AmazonMWAAServerless.GetWorkflow"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetWorkflowInput, GetWorkflowOutput>(overrides: ["X-Amz-Target": "AmazonMWAAServerless.GetWorkflow"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetWorkflowInput, GetWorkflowOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetWorkflowInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetWorkflowInput, GetWorkflowOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWorkflowOutput>())
@@ -967,7 +967,7 @@ extension MWAAServerlessClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetWorkflowRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetWorkflowRunInput, GetWorkflowRunOutput>(xAmzTarget: "AmazonMWAAServerless.GetWorkflowRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetWorkflowRunInput, GetWorkflowRunOutput>(overrides: ["X-Amz-Target": "AmazonMWAAServerless.GetWorkflowRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetWorkflowRunInput, GetWorkflowRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetWorkflowRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetWorkflowRunInput, GetWorkflowRunOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWorkflowRunOutput>())
@@ -1041,7 +1041,7 @@ extension MWAAServerlessClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AmazonMWAAServerless.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AmazonMWAAServerless.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -1115,7 +1115,7 @@ extension MWAAServerlessClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTaskInstancesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTaskInstancesInput, ListTaskInstancesOutput>(xAmzTarget: "AmazonMWAAServerless.ListTaskInstances"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTaskInstancesInput, ListTaskInstancesOutput>(overrides: ["X-Amz-Target": "AmazonMWAAServerless.ListTaskInstances"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTaskInstancesInput, ListTaskInstancesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTaskInstancesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTaskInstancesInput, ListTaskInstancesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTaskInstancesOutput>())
@@ -1189,7 +1189,7 @@ extension MWAAServerlessClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWorkflowRunsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListWorkflowRunsInput, ListWorkflowRunsOutput>(xAmzTarget: "AmazonMWAAServerless.ListWorkflowRuns"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListWorkflowRunsInput, ListWorkflowRunsOutput>(overrides: ["X-Amz-Target": "AmazonMWAAServerless.ListWorkflowRuns"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListWorkflowRunsInput, ListWorkflowRunsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListWorkflowRunsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWorkflowRunsInput, ListWorkflowRunsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWorkflowRunsOutput>())
@@ -1263,7 +1263,7 @@ extension MWAAServerlessClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWorkflowVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListWorkflowVersionsInput, ListWorkflowVersionsOutput>(xAmzTarget: "AmazonMWAAServerless.ListWorkflowVersions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListWorkflowVersionsInput, ListWorkflowVersionsOutput>(overrides: ["X-Amz-Target": "AmazonMWAAServerless.ListWorkflowVersions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListWorkflowVersionsInput, ListWorkflowVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListWorkflowVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWorkflowVersionsInput, ListWorkflowVersionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWorkflowVersionsOutput>())
@@ -1337,7 +1337,7 @@ extension MWAAServerlessClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWorkflowsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListWorkflowsInput, ListWorkflowsOutput>(xAmzTarget: "AmazonMWAAServerless.ListWorkflows"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListWorkflowsInput, ListWorkflowsOutput>(overrides: ["X-Amz-Target": "AmazonMWAAServerless.ListWorkflows"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListWorkflowsInput, ListWorkflowsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListWorkflowsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWorkflowsInput, ListWorkflowsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWorkflowsOutput>())
@@ -1414,7 +1414,7 @@ extension MWAAServerlessClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartWorkflowRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartWorkflowRunInput, StartWorkflowRunOutput>(xAmzTarget: "AmazonMWAAServerless.StartWorkflowRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartWorkflowRunInput, StartWorkflowRunOutput>(overrides: ["X-Amz-Target": "AmazonMWAAServerless.StartWorkflowRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartWorkflowRunInput, StartWorkflowRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartWorkflowRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartWorkflowRunInput, StartWorkflowRunOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartWorkflowRunOutput>())
@@ -1488,7 +1488,7 @@ extension MWAAServerlessClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopWorkflowRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopWorkflowRunInput, StopWorkflowRunOutput>(xAmzTarget: "AmazonMWAAServerless.StopWorkflowRun"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopWorkflowRunInput, StopWorkflowRunOutput>(overrides: ["X-Amz-Target": "AmazonMWAAServerless.StopWorkflowRun"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopWorkflowRunInput, StopWorkflowRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopWorkflowRunInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopWorkflowRunInput, StopWorkflowRunOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopWorkflowRunOutput>())
@@ -1562,7 +1562,7 @@ extension MWAAServerlessClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AmazonMWAAServerless.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AmazonMWAAServerless.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -1637,7 +1637,7 @@ extension MWAAServerlessClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AmazonMWAAServerless.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AmazonMWAAServerless.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -1713,7 +1713,7 @@ extension MWAAServerlessClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateWorkflowOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateWorkflowInput, UpdateWorkflowOutput>(xAmzTarget: "AmazonMWAAServerless.UpdateWorkflow"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateWorkflowInput, UpdateWorkflowOutput>(overrides: ["X-Amz-Target": "AmazonMWAAServerless.UpdateWorkflow"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateWorkflowInput, UpdateWorkflowOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateWorkflowInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWorkflowInput, UpdateWorkflowOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateWorkflowOutput>())

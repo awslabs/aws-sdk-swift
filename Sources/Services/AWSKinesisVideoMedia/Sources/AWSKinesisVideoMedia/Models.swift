@@ -20,8 +20,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 
 /// Kinesis Video Streams has throttled the request because you have exceeded the limit of allowed client calls. Try making the call later.
 public struct ClientLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -365,7 +365,7 @@ enum GetMediaOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
@@ -381,7 +381,7 @@ enum GetMediaOutputError {
 
 extension ClientLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ClientLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ClientLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ClientLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -394,7 +394,7 @@ extension ClientLimitExceededException {
 
 extension ConnectionLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConnectionLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConnectionLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ConnectionLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -407,7 +407,7 @@ extension ConnectionLimitExceededException {
 
 extension InvalidArgumentException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidArgumentException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidArgumentException {
         let reader = baseError.errorBodyReader
         var value = InvalidArgumentException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -420,7 +420,7 @@ extension InvalidArgumentException {
 
 extension InvalidEndpointException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidEndpointException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidEndpointException {
         let reader = baseError.errorBodyReader
         var value = InvalidEndpointException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -433,7 +433,7 @@ extension InvalidEndpointException {
 
 extension NotAuthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotAuthorizedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotAuthorizedException {
         let reader = baseError.errorBodyReader
         var value = NotAuthorizedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -446,7 +446,7 @@ extension NotAuthorizedException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()

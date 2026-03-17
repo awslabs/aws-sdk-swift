@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSQueryError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSQueryError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 extension ElasticLoadBalancingv2ClientTypes {
@@ -7294,7 +7294,7 @@ enum AddListenerCertificatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CertificateNotFound": return try CertificateNotFoundException.makeError(baseError: baseError)
@@ -7310,7 +7310,7 @@ enum AddTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DuplicateTagKeys": return try DuplicateTagKeysException.makeError(baseError: baseError)
@@ -7330,7 +7330,7 @@ enum AddTrustStoreRevocationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidRevocationContent": return try InvalidRevocationContentException.makeError(baseError: baseError)
@@ -7347,7 +7347,7 @@ enum CreateListenerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ALPNPolicyNotFound": return try ALPNPolicyNotSupportedException.makeError(baseError: baseError)
@@ -7380,7 +7380,7 @@ enum CreateLoadBalancerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AllocationIdNotFound": return try AllocationIdNotFoundException.makeError(baseError: baseError)
@@ -7406,7 +7406,7 @@ enum CreateRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IncompatibleProtocols": return try IncompatibleProtocolsException.makeError(baseError: baseError)
@@ -7434,7 +7434,7 @@ enum CreateTargetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DuplicateTargetGroupName": return try DuplicateTargetGroupNameException.makeError(baseError: baseError)
@@ -7451,7 +7451,7 @@ enum CreateTrustStoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CaCertificatesBundleNotFound": return try CaCertificatesBundleNotFoundException.makeError(baseError: baseError)
@@ -7470,7 +7470,7 @@ enum DeleteListenerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ListenerNotFound": return try ListenerNotFoundException.makeError(baseError: baseError)
@@ -7485,7 +7485,7 @@ enum DeleteLoadBalancerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try LoadBalancerNotFoundException.makeError(baseError: baseError)
@@ -7501,7 +7501,7 @@ enum DeleteRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
@@ -7516,7 +7516,7 @@ enum DeleteSharedTrustStoreAssociationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeleteAssociationSameAccount": return try DeleteAssociationSameAccountException.makeError(baseError: baseError)
@@ -7532,7 +7532,7 @@ enum DeleteTargetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceInUse": return try ResourceInUseException.makeError(baseError: baseError)
@@ -7546,7 +7546,7 @@ enum DeleteTrustStoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "TrustStoreInUse": return try TrustStoreInUseException.makeError(baseError: baseError)
@@ -7561,7 +7561,7 @@ enum DeregisterTargetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidTarget": return try InvalidTargetException.makeError(baseError: baseError)
@@ -7576,7 +7576,7 @@ enum DescribeAccountLimitsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7589,7 +7589,7 @@ enum DescribeCapacityReservationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try LoadBalancerNotFoundException.makeError(baseError: baseError)
@@ -7603,7 +7603,7 @@ enum DescribeListenerAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ListenerNotFound": return try ListenerNotFoundException.makeError(baseError: baseError)
@@ -7617,7 +7617,7 @@ enum DescribeListenerCertificatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ListenerNotFound": return try ListenerNotFoundException.makeError(baseError: baseError)
@@ -7631,7 +7631,7 @@ enum DescribeListenersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ListenerNotFound": return try ListenerNotFoundException.makeError(baseError: baseError)
@@ -7647,7 +7647,7 @@ enum DescribeLoadBalancerAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try LoadBalancerNotFoundException.makeError(baseError: baseError)
@@ -7661,7 +7661,7 @@ enum DescribeLoadBalancersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try LoadBalancerNotFoundException.makeError(baseError: baseError)
@@ -7675,7 +7675,7 @@ enum DescribeRulesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ListenerNotFound": return try ListenerNotFoundException.makeError(baseError: baseError)
@@ -7691,7 +7691,7 @@ enum DescribeSSLPoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "SSLPolicyNotFound": return try SSLPolicyNotFoundException.makeError(baseError: baseError)
@@ -7705,7 +7705,7 @@ enum DescribeTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ListenerNotFound": return try ListenerNotFoundException.makeError(baseError: baseError)
@@ -7723,7 +7723,7 @@ enum DescribeTargetGroupAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "TargetGroupNotFound": return try TargetGroupNotFoundException.makeError(baseError: baseError)
@@ -7737,7 +7737,7 @@ enum DescribeTargetGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try LoadBalancerNotFoundException.makeError(baseError: baseError)
@@ -7752,7 +7752,7 @@ enum DescribeTargetHealthOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "HealthUnavailable": return try HealthUnavailableException.makeError(baseError: baseError)
@@ -7768,7 +7768,7 @@ enum DescribeTrustStoreAssociationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "TrustStoreNotFound": return try TrustStoreNotFoundException.makeError(baseError: baseError)
@@ -7782,7 +7782,7 @@ enum DescribeTrustStoreRevocationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RevocationIdNotFound": return try RevocationIdNotFoundException.makeError(baseError: baseError)
@@ -7797,7 +7797,7 @@ enum DescribeTrustStoresOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "TrustStoreNotFound": return try TrustStoreNotFoundException.makeError(baseError: baseError)
@@ -7811,7 +7811,7 @@ enum GetResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -7825,7 +7825,7 @@ enum GetTrustStoreCaCertificatesBundleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "TrustStoreNotFound": return try TrustStoreNotFoundException.makeError(baseError: baseError)
@@ -7839,7 +7839,7 @@ enum GetTrustStoreRevocationContentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RevocationIdNotFound": return try RevocationIdNotFoundException.makeError(baseError: baseError)
@@ -7854,7 +7854,7 @@ enum ModifyCapacityReservationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CapacityDecreaseRequestLimitExceeded": return try CapacityDecreaseRequestsLimitExceededException.makeError(baseError: baseError)
@@ -7875,7 +7875,7 @@ enum ModifyIpPoolsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try LoadBalancerNotFoundException.makeError(baseError: baseError)
@@ -7889,7 +7889,7 @@ enum ModifyListenerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ALPNPolicyNotFound": return try ALPNPolicyNotSupportedException.makeError(baseError: baseError)
@@ -7921,7 +7921,7 @@ enum ModifyListenerAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidConfigurationRequest": return try InvalidConfigurationRequestException.makeError(baseError: baseError)
@@ -7936,7 +7936,7 @@ enum ModifyLoadBalancerAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidConfigurationRequest": return try InvalidConfigurationRequestException.makeError(baseError: baseError)
@@ -7951,7 +7951,7 @@ enum ModifyRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IncompatibleProtocols": return try IncompatibleProtocolsException.makeError(baseError: baseError)
@@ -7975,7 +7975,7 @@ enum ModifyTargetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidConfigurationRequest": return try InvalidConfigurationRequestException.makeError(baseError: baseError)
@@ -7990,7 +7990,7 @@ enum ModifyTargetGroupAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidConfigurationRequest": return try InvalidConfigurationRequestException.makeError(baseError: baseError)
@@ -8005,7 +8005,7 @@ enum ModifyTrustStoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CaCertificatesBundleNotFound": return try CaCertificatesBundleNotFoundException.makeError(baseError: baseError)
@@ -8021,7 +8021,7 @@ enum RegisterTargetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidTarget": return try InvalidTargetException.makeError(baseError: baseError)
@@ -8038,7 +8038,7 @@ enum RemoveListenerCertificatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ListenerNotFound": return try ListenerNotFoundException.makeError(baseError: baseError)
@@ -8053,7 +8053,7 @@ enum RemoveTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ListenerNotFound": return try ListenerNotFoundException.makeError(baseError: baseError)
@@ -8072,7 +8072,7 @@ enum RemoveTrustStoreRevocationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RevocationIdNotFound": return try RevocationIdNotFoundException.makeError(baseError: baseError)
@@ -8087,7 +8087,7 @@ enum SetIpAddressTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidConfigurationRequest": return try InvalidConfigurationRequestException.makeError(baseError: baseError)
@@ -8103,7 +8103,7 @@ enum SetRulePrioritiesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
@@ -8119,7 +8119,7 @@ enum SetSecurityGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidConfigurationRequest": return try InvalidConfigurationRequestException.makeError(baseError: baseError)
@@ -8135,7 +8135,7 @@ enum SetSubnetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AllocationIdNotFound": return try AllocationIdNotFoundException.makeError(baseError: baseError)
@@ -8152,7 +8152,7 @@ enum SetSubnetsOutputError {
 
 extension CertificateNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CertificateNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CertificateNotFoundException {
         let reader = baseError.errorBodyReader
         var value = CertificateNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8165,7 +8165,7 @@ extension CertificateNotFoundException {
 
 extension ListenerNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ListenerNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ListenerNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ListenerNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8178,7 +8178,7 @@ extension ListenerNotFoundException {
 
 extension TooManyCertificatesException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyCertificatesException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyCertificatesException {
         let reader = baseError.errorBodyReader
         var value = TooManyCertificatesException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8191,7 +8191,7 @@ extension TooManyCertificatesException {
 
 extension DuplicateTagKeysException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateTagKeysException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DuplicateTagKeysException {
         let reader = baseError.errorBodyReader
         var value = DuplicateTagKeysException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8204,7 +8204,7 @@ extension DuplicateTagKeysException {
 
 extension LoadBalancerNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> LoadBalancerNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> LoadBalancerNotFoundException {
         let reader = baseError.errorBodyReader
         var value = LoadBalancerNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8217,7 +8217,7 @@ extension LoadBalancerNotFoundException {
 
 extension RuleNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RuleNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> RuleNotFoundException {
         let reader = baseError.errorBodyReader
         var value = RuleNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8230,7 +8230,7 @@ extension RuleNotFoundException {
 
 extension TargetGroupNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TargetGroupNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TargetGroupNotFoundException {
         let reader = baseError.errorBodyReader
         var value = TargetGroupNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8243,7 +8243,7 @@ extension TargetGroupNotFoundException {
 
 extension TooManyTagsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyTagsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyTagsException {
         let reader = baseError.errorBodyReader
         var value = TooManyTagsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8256,7 +8256,7 @@ extension TooManyTagsException {
 
 extension TrustStoreNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TrustStoreNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TrustStoreNotFoundException {
         let reader = baseError.errorBodyReader
         var value = TrustStoreNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8269,7 +8269,7 @@ extension TrustStoreNotFoundException {
 
 extension InvalidRevocationContentException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidRevocationContentException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidRevocationContentException {
         let reader = baseError.errorBodyReader
         var value = InvalidRevocationContentException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8282,7 +8282,7 @@ extension InvalidRevocationContentException {
 
 extension RevocationContentNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RevocationContentNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> RevocationContentNotFoundException {
         let reader = baseError.errorBodyReader
         var value = RevocationContentNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8295,7 +8295,7 @@ extension RevocationContentNotFoundException {
 
 extension TooManyTrustStoreRevocationEntriesException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyTrustStoreRevocationEntriesException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyTrustStoreRevocationEntriesException {
         let reader = baseError.errorBodyReader
         var value = TooManyTrustStoreRevocationEntriesException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8308,7 +8308,7 @@ extension TooManyTrustStoreRevocationEntriesException {
 
 extension ALPNPolicyNotSupportedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ALPNPolicyNotSupportedException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ALPNPolicyNotSupportedException {
         let reader = baseError.errorBodyReader
         var value = ALPNPolicyNotSupportedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8321,7 +8321,7 @@ extension ALPNPolicyNotSupportedException {
 
 extension DuplicateListenerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateListenerException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DuplicateListenerException {
         let reader = baseError.errorBodyReader
         var value = DuplicateListenerException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8334,7 +8334,7 @@ extension DuplicateListenerException {
 
 extension IncompatibleProtocolsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IncompatibleProtocolsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> IncompatibleProtocolsException {
         let reader = baseError.errorBodyReader
         var value = IncompatibleProtocolsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8347,7 +8347,7 @@ extension IncompatibleProtocolsException {
 
 extension InvalidConfigurationRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidConfigurationRequestException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidConfigurationRequestException {
         let reader = baseError.errorBodyReader
         var value = InvalidConfigurationRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8360,7 +8360,7 @@ extension InvalidConfigurationRequestException {
 
 extension InvalidLoadBalancerActionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidLoadBalancerActionException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidLoadBalancerActionException {
         let reader = baseError.errorBodyReader
         var value = InvalidLoadBalancerActionException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8373,7 +8373,7 @@ extension InvalidLoadBalancerActionException {
 
 extension SSLPolicyNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SSLPolicyNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SSLPolicyNotFoundException {
         let reader = baseError.errorBodyReader
         var value = SSLPolicyNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8386,7 +8386,7 @@ extension SSLPolicyNotFoundException {
 
 extension TargetGroupAssociationLimitException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TargetGroupAssociationLimitException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TargetGroupAssociationLimitException {
         let reader = baseError.errorBodyReader
         var value = TargetGroupAssociationLimitException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8399,7 +8399,7 @@ extension TargetGroupAssociationLimitException {
 
 extension TooManyActionsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyActionsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyActionsException {
         let reader = baseError.errorBodyReader
         var value = TooManyActionsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8412,7 +8412,7 @@ extension TooManyActionsException {
 
 extension TooManyListenersException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyListenersException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyListenersException {
         let reader = baseError.errorBodyReader
         var value = TooManyListenersException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8425,7 +8425,7 @@ extension TooManyListenersException {
 
 extension TooManyRegistrationsForTargetIdException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyRegistrationsForTargetIdException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyRegistrationsForTargetIdException {
         let reader = baseError.errorBodyReader
         var value = TooManyRegistrationsForTargetIdException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8438,7 +8438,7 @@ extension TooManyRegistrationsForTargetIdException {
 
 extension TooManyTargetsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyTargetsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyTargetsException {
         let reader = baseError.errorBodyReader
         var value = TooManyTargetsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8451,7 +8451,7 @@ extension TooManyTargetsException {
 
 extension TooManyUniqueTargetGroupsPerLoadBalancerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyUniqueTargetGroupsPerLoadBalancerException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyUniqueTargetGroupsPerLoadBalancerException {
         let reader = baseError.errorBodyReader
         var value = TooManyUniqueTargetGroupsPerLoadBalancerException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8464,7 +8464,7 @@ extension TooManyUniqueTargetGroupsPerLoadBalancerException {
 
 extension TrustStoreNotReadyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TrustStoreNotReadyException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TrustStoreNotReadyException {
         let reader = baseError.errorBodyReader
         var value = TrustStoreNotReadyException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8477,7 +8477,7 @@ extension TrustStoreNotReadyException {
 
 extension UnsupportedProtocolException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UnsupportedProtocolException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> UnsupportedProtocolException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedProtocolException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8490,7 +8490,7 @@ extension UnsupportedProtocolException {
 
 extension AllocationIdNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AllocationIdNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> AllocationIdNotFoundException {
         let reader = baseError.errorBodyReader
         var value = AllocationIdNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8503,7 +8503,7 @@ extension AllocationIdNotFoundException {
 
 extension AvailabilityZoneNotSupportedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AvailabilityZoneNotSupportedException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> AvailabilityZoneNotSupportedException {
         let reader = baseError.errorBodyReader
         var value = AvailabilityZoneNotSupportedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8516,7 +8516,7 @@ extension AvailabilityZoneNotSupportedException {
 
 extension DuplicateLoadBalancerNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateLoadBalancerNameException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DuplicateLoadBalancerNameException {
         let reader = baseError.errorBodyReader
         var value = DuplicateLoadBalancerNameException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8529,7 +8529,7 @@ extension DuplicateLoadBalancerNameException {
 
 extension InvalidSchemeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSchemeException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidSchemeException {
         let reader = baseError.errorBodyReader
         var value = InvalidSchemeException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8542,7 +8542,7 @@ extension InvalidSchemeException {
 
 extension InvalidSecurityGroupException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSecurityGroupException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidSecurityGroupException {
         let reader = baseError.errorBodyReader
         var value = InvalidSecurityGroupException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8555,7 +8555,7 @@ extension InvalidSecurityGroupException {
 
 extension InvalidSubnetException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSubnetException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidSubnetException {
         let reader = baseError.errorBodyReader
         var value = InvalidSubnetException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8568,7 +8568,7 @@ extension InvalidSubnetException {
 
 extension OperationNotPermittedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OperationNotPermittedException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> OperationNotPermittedException {
         let reader = baseError.errorBodyReader
         var value = OperationNotPermittedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8581,7 +8581,7 @@ extension OperationNotPermittedException {
 
 extension ResourceInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceInUseException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ResourceInUseException {
         let reader = baseError.errorBodyReader
         var value = ResourceInUseException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8594,7 +8594,7 @@ extension ResourceInUseException {
 
 extension SubnetNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubnetNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SubnetNotFoundException {
         let reader = baseError.errorBodyReader
         var value = SubnetNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8607,7 +8607,7 @@ extension SubnetNotFoundException {
 
 extension TooManyLoadBalancersException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyLoadBalancersException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyLoadBalancersException {
         let reader = baseError.errorBodyReader
         var value = TooManyLoadBalancersException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8620,7 +8620,7 @@ extension TooManyLoadBalancersException {
 
 extension PriorityInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PriorityInUseException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> PriorityInUseException {
         let reader = baseError.errorBodyReader
         var value = PriorityInUseException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8633,7 +8633,7 @@ extension PriorityInUseException {
 
 extension TooManyRulesException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyRulesException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyRulesException {
         let reader = baseError.errorBodyReader
         var value = TooManyRulesException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8646,7 +8646,7 @@ extension TooManyRulesException {
 
 extension TooManyTargetGroupsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyTargetGroupsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyTargetGroupsException {
         let reader = baseError.errorBodyReader
         var value = TooManyTargetGroupsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8659,7 +8659,7 @@ extension TooManyTargetGroupsException {
 
 extension DuplicateTargetGroupNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateTargetGroupNameException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DuplicateTargetGroupNameException {
         let reader = baseError.errorBodyReader
         var value = DuplicateTargetGroupNameException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8672,7 +8672,7 @@ extension DuplicateTargetGroupNameException {
 
 extension CaCertificatesBundleNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CaCertificatesBundleNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CaCertificatesBundleNotFoundException {
         let reader = baseError.errorBodyReader
         var value = CaCertificatesBundleNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8685,7 +8685,7 @@ extension CaCertificatesBundleNotFoundException {
 
 extension DuplicateTrustStoreNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateTrustStoreNameException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DuplicateTrustStoreNameException {
         let reader = baseError.errorBodyReader
         var value = DuplicateTrustStoreNameException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8698,7 +8698,7 @@ extension DuplicateTrustStoreNameException {
 
 extension InvalidCaCertificatesBundleException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCaCertificatesBundleException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidCaCertificatesBundleException {
         let reader = baseError.errorBodyReader
         var value = InvalidCaCertificatesBundleException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8711,7 +8711,7 @@ extension InvalidCaCertificatesBundleException {
 
 extension TooManyTrustStoresException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyTrustStoresException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyTrustStoresException {
         let reader = baseError.errorBodyReader
         var value = TooManyTrustStoresException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8724,7 +8724,7 @@ extension TooManyTrustStoresException {
 
 extension DeleteAssociationSameAccountException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DeleteAssociationSameAccountException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DeleteAssociationSameAccountException {
         let reader = baseError.errorBodyReader
         var value = DeleteAssociationSameAccountException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8737,7 +8737,7 @@ extension DeleteAssociationSameAccountException {
 
 extension TrustStoreAssociationNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TrustStoreAssociationNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TrustStoreAssociationNotFoundException {
         let reader = baseError.errorBodyReader
         var value = TrustStoreAssociationNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8750,7 +8750,7 @@ extension TrustStoreAssociationNotFoundException {
 
 extension TrustStoreInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TrustStoreInUseException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TrustStoreInUseException {
         let reader = baseError.errorBodyReader
         var value = TrustStoreInUseException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8763,7 +8763,7 @@ extension TrustStoreInUseException {
 
 extension InvalidTargetException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidTargetException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidTargetException {
         let reader = baseError.errorBodyReader
         var value = InvalidTargetException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8776,7 +8776,7 @@ extension InvalidTargetException {
 
 extension HealthUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> HealthUnavailableException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> HealthUnavailableException {
         let reader = baseError.errorBodyReader
         var value = HealthUnavailableException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8789,7 +8789,7 @@ extension HealthUnavailableException {
 
 extension RevocationIdNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RevocationIdNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> RevocationIdNotFoundException {
         let reader = baseError.errorBodyReader
         var value = RevocationIdNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8802,7 +8802,7 @@ extension RevocationIdNotFoundException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8815,7 +8815,7 @@ extension ResourceNotFoundException {
 
 extension CapacityDecreaseRequestsLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CapacityDecreaseRequestsLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CapacityDecreaseRequestsLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = CapacityDecreaseRequestsLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8828,7 +8828,7 @@ extension CapacityDecreaseRequestsLimitExceededException {
 
 extension CapacityReservationPendingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CapacityReservationPendingException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CapacityReservationPendingException {
         let reader = baseError.errorBodyReader
         var value = CapacityReservationPendingException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8841,7 +8841,7 @@ extension CapacityReservationPendingException {
 
 extension CapacityUnitsLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CapacityUnitsLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CapacityUnitsLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = CapacityUnitsLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8854,7 +8854,7 @@ extension CapacityUnitsLimitExceededException {
 
 extension InsufficientCapacityException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientCapacityException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InsufficientCapacityException {
         let reader = baseError.errorBodyReader
         var value = InsufficientCapacityException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -8867,84 +8867,13 @@ extension InsufficientCapacityException {
 
 extension PriorRequestNotCompleteException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PriorRequestNotCompleteException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> PriorRequestNotCompleteException {
         let reader = baseError.errorBodyReader
         var value = PriorRequestNotCompleteException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.Certificate {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.Certificate?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateArn"].write(value.certificateArn)
-        try writer["IsDefault"].write(value.isDefault)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.Certificate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.Certificate()
-        value.certificateArn = try reader["CertificateArn"].readIfPresent()
-        value.isDefault = try reader["IsDefault"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.TrustStoreRevocation {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TrustStoreRevocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.TrustStoreRevocation()
-        value.trustStoreArn = try reader["TrustStoreArn"].readIfPresent()
-        value.revocationId = try reader["RevocationId"].readIfPresent()
-        value.revocationType = try reader["RevocationType"].readIfPresent()
-        value.numberOfRevokedEntries = try reader["NumberOfRevokedEntries"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.Listener {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.Listener {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.Listener()
-        value.listenerArn = try reader["ListenerArn"].readIfPresent()
-        value.loadBalancerArn = try reader["LoadBalancerArn"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.`protocol` = try reader["Protocol"].readIfPresent()
-        value.certificates = try reader["Certificates"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.Certificate.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sslPolicy = try reader["SslPolicy"].readIfPresent()
-        value.defaultActions = try reader["DefaultActions"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.Action.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.alpnPolicy = try reader["AlpnPolicy"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.mutualAuthentication = try reader["MutualAuthentication"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes.read(from:))
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AdvertiseTrustStoreCaNames"].write(value.advertiseTrustStoreCaNames)
-        try writer["IgnoreClientCertificateExpiry"].write(value.ignoreClientCertificateExpiry)
-        try writer["Mode"].write(value.mode)
-        try writer["TrustStoreArn"].write(value.trustStoreArn)
-        try writer["TrustStoreAssociationStatus"].write(value.trustStoreAssociationStatus)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes()
-        value.mode = try reader["Mode"].readIfPresent()
-        value.trustStoreArn = try reader["TrustStoreArn"].readIfPresent()
-        value.ignoreClientCertificateExpiry = try reader["IgnoreClientCertificateExpiry"].readIfPresent()
-        value.trustStoreAssociationStatus = try reader["TrustStoreAssociationStatus"].readIfPresent()
-        value.advertiseTrustStoreCaNames = try reader["AdvertiseTrustStoreCaNames"].readIfPresent()
         return value
     }
 }
@@ -8980,135 +8909,25 @@ extension ElasticLoadBalancingv2ClientTypes.Action {
     }
 }
 
-extension ElasticLoadBalancingv2ClientTypes.JwtValidationActionConfig {
+extension ElasticLoadBalancingv2ClientTypes.AdministrativeOverride {
 
-    static func write(value: ElasticLoadBalancingv2ClientTypes.JwtValidationActionConfig?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalClaims"].writeList(value.additionalClaims, memberWritingClosure: ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaim.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Issuer"].write(value.issuer)
-        try writer["JwksEndpoint"].write(value.jwksEndpoint)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.JwtValidationActionConfig {
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.AdministrativeOverride {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.JwtValidationActionConfig()
-        value.jwksEndpoint = try reader["JwksEndpoint"].readIfPresent() ?? ""
-        value.issuer = try reader["Issuer"].readIfPresent() ?? ""
-        value.additionalClaims = try reader["AdditionalClaims"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaim.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ElasticLoadBalancingv2ClientTypes.AdministrativeOverride()
+        value.state = try reader["State"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
         return value
     }
 }
 
-extension ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaim {
+extension ElasticLoadBalancingv2ClientTypes.AnomalyDetection {
 
-    static func write(value: ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaim?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Format"].write(value.format)
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaim {
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.AnomalyDetection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaim()
-        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.ForwardActionConfig {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.ForwardActionConfig?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["TargetGroupStickinessConfig"].write(value.targetGroupStickinessConfig, with: ElasticLoadBalancingv2ClientTypes.TargetGroupStickinessConfig.write(value:to:))
-        try writer["TargetGroups"].writeList(value.targetGroups, memberWritingClosure: ElasticLoadBalancingv2ClientTypes.TargetGroupTuple.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.ForwardActionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.ForwardActionConfig()
-        value.targetGroups = try reader["TargetGroups"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.TargetGroupTuple.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.targetGroupStickinessConfig = try reader["TargetGroupStickinessConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.TargetGroupStickinessConfig.read(from:))
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.TargetGroupStickinessConfig {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.TargetGroupStickinessConfig?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DurationSeconds"].write(value.durationSeconds)
-        try writer["Enabled"].write(value.enabled)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TargetGroupStickinessConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.TargetGroupStickinessConfig()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.durationSeconds = try reader["DurationSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.TargetGroupTuple {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.TargetGroupTuple?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["TargetGroupArn"].write(value.targetGroupArn)
-        try writer["Weight"].write(value.weight)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TargetGroupTuple {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.TargetGroupTuple()
-        value.targetGroupArn = try reader["TargetGroupArn"].readIfPresent()
-        value.weight = try reader["Weight"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.FixedResponseActionConfig {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.FixedResponseActionConfig?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ContentType"].write(value.contentType)
-        try writer["MessageBody"].write(value.messageBody)
-        try writer["StatusCode"].write(value.statusCode)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.FixedResponseActionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.FixedResponseActionConfig()
-        value.messageBody = try reader["MessageBody"].readIfPresent()
-        value.statusCode = try reader["StatusCode"].readIfPresent() ?? ""
-        value.contentType = try reader["ContentType"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.RedirectActionConfig {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.RedirectActionConfig?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Host"].write(value.host)
-        try writer["Path"].write(value.path)
-        try writer["Port"].write(value.port)
-        try writer["Protocol"].write(value.`protocol`)
-        try writer["Query"].write(value.query)
-        try writer["StatusCode"].write(value.statusCode)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.RedirectActionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.RedirectActionConfig()
-        value.`protocol` = try reader["Protocol"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.host = try reader["Host"].readIfPresent()
-        value.path = try reader["Path"].readIfPresent()
-        value.query = try reader["Query"].readIfPresent()
-        value.statusCode = try reader["StatusCode"].readIfPresent() ?? .sdkUnknown("")
+        var value = ElasticLoadBalancingv2ClientTypes.AnomalyDetection()
+        value.result = try reader["Result"].readIfPresent()
+        value.mitigationInEffect = try reader["MitigationInEffect"].readIfPresent()
         return value
     }
 }
@@ -9179,6 +8998,273 @@ extension ElasticLoadBalancingv2ClientTypes.AuthenticateOidcActionConfig {
     }
 }
 
+extension ElasticLoadBalancingv2ClientTypes.AvailabilityZone {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.AvailabilityZone {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.AvailabilityZone()
+        value.zoneName = try reader["ZoneName"].readIfPresent()
+        value.subnetId = try reader["SubnetId"].readIfPresent()
+        value.outpostId = try reader["OutpostId"].readIfPresent()
+        value.loadBalancerAddresses = try reader["LoadBalancerAddresses"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.LoadBalancerAddress.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sourceNatIpv6Prefixes = try reader["SourceNatIpv6Prefixes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.CapacityReservationStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.CapacityReservationStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.CapacityReservationStatus()
+        value.code = try reader["Code"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.Certificate {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.Certificate?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateArn"].write(value.certificateArn)
+        try writer["IsDefault"].write(value.isDefault)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.Certificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.Certificate()
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.isDefault = try reader["IsDefault"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.Cipher {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.Cipher {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.Cipher()
+        value.name = try reader["Name"].readIfPresent()
+        value.priority = try reader["Priority"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation()
+        value.trustStoreArn = try reader["TrustStoreArn"].readIfPresent()
+        value.revocationId = try reader["RevocationId"].readIfPresent()
+        value.revocationType = try reader["RevocationType"].readIfPresent()
+        value.numberOfRevokedEntries = try reader["NumberOfRevokedEntries"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.FixedResponseActionConfig {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.FixedResponseActionConfig?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ContentType"].write(value.contentType)
+        try writer["MessageBody"].write(value.messageBody)
+        try writer["StatusCode"].write(value.statusCode)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.FixedResponseActionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.FixedResponseActionConfig()
+        value.messageBody = try reader["MessageBody"].readIfPresent()
+        value.statusCode = try reader["StatusCode"].readIfPresent() ?? ""
+        value.contentType = try reader["ContentType"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.ForwardActionConfig {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.ForwardActionConfig?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["TargetGroupStickinessConfig"].write(value.targetGroupStickinessConfig, with: ElasticLoadBalancingv2ClientTypes.TargetGroupStickinessConfig.write(value:to:))
+        try writer["TargetGroups"].writeList(value.targetGroups, memberWritingClosure: ElasticLoadBalancingv2ClientTypes.TargetGroupTuple.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.ForwardActionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.ForwardActionConfig()
+        value.targetGroups = try reader["TargetGroups"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.TargetGroupTuple.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetGroupStickinessConfig = try reader["TargetGroupStickinessConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.TargetGroupStickinessConfig.read(from:))
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.HostHeaderConditionConfig {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.HostHeaderConditionConfig?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["RegexValues"].writeList(value.regexValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.HostHeaderConditionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.HostHeaderConditionConfig()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.regexValues = try reader["RegexValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.HostHeaderRewriteConfig {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.HostHeaderRewriteConfig?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Rewrites"].writeList(value.rewrites, memberWritingClosure: ElasticLoadBalancingv2ClientTypes.RewriteConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.HostHeaderRewriteConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.HostHeaderRewriteConfig()
+        value.rewrites = try reader["Rewrites"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.RewriteConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.HttpHeaderConditionConfig {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.HttpHeaderConditionConfig?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["HttpHeaderName"].write(value.httpHeaderName)
+        try writer["RegexValues"].writeList(value.regexValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.HttpHeaderConditionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.HttpHeaderConditionConfig()
+        value.httpHeaderName = try reader["HttpHeaderName"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.regexValues = try reader["RegexValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.HttpRequestMethodConditionConfig {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.HttpRequestMethodConditionConfig?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.HttpRequestMethodConditionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.HttpRequestMethodConditionConfig()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.IpamPools {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.IpamPools?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Ipv4IpamPoolId"].write(value.ipv4IpamPoolId)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.IpamPools {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.IpamPools()
+        value.ipv4IpamPoolId = try reader["Ipv4IpamPoolId"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaim {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaim?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Format"].write(value.format)
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaim {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaim()
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.JwtValidationActionConfig {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.JwtValidationActionConfig?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalClaims"].writeList(value.additionalClaims, memberWritingClosure: ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaim.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Issuer"].write(value.issuer)
+        try writer["JwksEndpoint"].write(value.jwksEndpoint)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.JwtValidationActionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.JwtValidationActionConfig()
+        value.jwksEndpoint = try reader["JwksEndpoint"].readIfPresent() ?? ""
+        value.issuer = try reader["Issuer"].readIfPresent() ?? ""
+        value.additionalClaims = try reader["AdditionalClaims"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaim.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.Limit {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.Limit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.Limit()
+        value.name = try reader["Name"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.Listener {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.Listener {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.Listener()
+        value.listenerArn = try reader["ListenerArn"].readIfPresent()
+        value.loadBalancerArn = try reader["LoadBalancerArn"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.certificates = try reader["Certificates"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.Certificate.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sslPolicy = try reader["SslPolicy"].readIfPresent()
+        value.defaultActions = try reader["DefaultActions"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.Action.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.alpnPolicy = try reader["AlpnPolicy"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mutualAuthentication = try reader["MutualAuthentication"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes.read(from:))
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.ListenerAttribute {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.ListenerAttribute?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.ListenerAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.ListenerAttribute()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
 extension ElasticLoadBalancingv2ClientTypes.LoadBalancer {
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.LoadBalancer {
@@ -9204,35 +9290,6 @@ extension ElasticLoadBalancingv2ClientTypes.LoadBalancer {
     }
 }
 
-extension ElasticLoadBalancingv2ClientTypes.IpamPools {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.IpamPools?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Ipv4IpamPoolId"].write(value.ipv4IpamPoolId)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.IpamPools {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.IpamPools()
-        value.ipv4IpamPoolId = try reader["Ipv4IpamPoolId"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.AvailabilityZone {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.AvailabilityZone {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.AvailabilityZone()
-        value.zoneName = try reader["ZoneName"].readIfPresent()
-        value.subnetId = try reader["SubnetId"].readIfPresent()
-        value.outpostId = try reader["OutpostId"].readIfPresent()
-        value.loadBalancerAddresses = try reader["LoadBalancerAddresses"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.LoadBalancerAddress.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sourceNatIpv6Prefixes = try reader["SourceNatIpv6Prefixes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension ElasticLoadBalancingv2ClientTypes.LoadBalancerAddress {
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.LoadBalancerAddress {
@@ -9242,6 +9299,23 @@ extension ElasticLoadBalancingv2ClientTypes.LoadBalancerAddress {
         value.allocationId = try reader["AllocationId"].readIfPresent()
         value.privateIPv4Address = try reader["PrivateIPv4Address"].readIfPresent()
         value.ipv6Address = try reader["IPv6Address"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.LoadBalancerAttribute {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.LoadBalancerAttribute?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.LoadBalancerAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.LoadBalancerAttribute()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
         return value
     }
 }
@@ -9257,144 +9331,74 @@ extension ElasticLoadBalancingv2ClientTypes.LoadBalancerState {
     }
 }
 
-extension ElasticLoadBalancingv2ClientTypes.Rule {
+extension ElasticLoadBalancingv2ClientTypes.Matcher {
 
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.Rule {
+    static func write(value: ElasticLoadBalancingv2ClientTypes.Matcher?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["GrpcCode"].write(value.grpcCode)
+        try writer["HttpCode"].write(value.httpCode)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.Matcher {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.Rule()
-        value.ruleArn = try reader["RuleArn"].readIfPresent()
-        value.priority = try reader["Priority"].readIfPresent()
-        value.conditions = try reader["Conditions"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.RuleCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.Action.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isDefault = try reader["IsDefault"].readIfPresent()
-        value.transforms = try reader["Transforms"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.RuleTransform.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ElasticLoadBalancingv2ClientTypes.Matcher()
+        value.httpCode = try reader["HttpCode"].readIfPresent()
+        value.grpcCode = try reader["GrpcCode"].readIfPresent()
         return value
     }
 }
 
-extension ElasticLoadBalancingv2ClientTypes.RuleTransform {
+extension ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity {
 
-    static func write(value: ElasticLoadBalancingv2ClientTypes.RuleTransform?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["HostHeaderRewriteConfig"].write(value.hostHeaderRewriteConfig, with: ElasticLoadBalancingv2ClientTypes.HostHeaderRewriteConfig.write(value:to:))
-        try writer["Type"].write(value.type)
-        try writer["UrlRewriteConfig"].write(value.urlRewriteConfig, with: ElasticLoadBalancingv2ClientTypes.UrlRewriteConfig.write(value:to:))
+        try writer["CapacityUnits"].write(value.capacityUnits)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.RuleTransform {
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.RuleTransform()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.hostHeaderRewriteConfig = try reader["HostHeaderRewriteConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.HostHeaderRewriteConfig.read(from:))
-        value.urlRewriteConfig = try reader["UrlRewriteConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.UrlRewriteConfig.read(from:))
+        var value = ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity()
+        value.capacityUnits = try reader["CapacityUnits"].readIfPresent()
         return value
     }
 }
 
-extension ElasticLoadBalancingv2ClientTypes.UrlRewriteConfig {
+extension ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes {
 
-    static func write(value: ElasticLoadBalancingv2ClientTypes.UrlRewriteConfig?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["Rewrites"].writeList(value.rewrites, memberWritingClosure: ElasticLoadBalancingv2ClientTypes.RewriteConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AdvertiseTrustStoreCaNames"].write(value.advertiseTrustStoreCaNames)
+        try writer["IgnoreClientCertificateExpiry"].write(value.ignoreClientCertificateExpiry)
+        try writer["Mode"].write(value.mode)
+        try writer["TrustStoreArn"].write(value.trustStoreArn)
+        try writer["TrustStoreAssociationStatus"].write(value.trustStoreAssociationStatus)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.UrlRewriteConfig {
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.UrlRewriteConfig()
-        value.rewrites = try reader["Rewrites"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.RewriteConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes()
+        value.mode = try reader["Mode"].readIfPresent()
+        value.trustStoreArn = try reader["TrustStoreArn"].readIfPresent()
+        value.ignoreClientCertificateExpiry = try reader["IgnoreClientCertificateExpiry"].readIfPresent()
+        value.trustStoreAssociationStatus = try reader["TrustStoreAssociationStatus"].readIfPresent()
+        value.advertiseTrustStoreCaNames = try reader["AdvertiseTrustStoreCaNames"].readIfPresent()
         return value
     }
 }
 
-extension ElasticLoadBalancingv2ClientTypes.RewriteConfig {
+extension ElasticLoadBalancingv2ClientTypes.PathPatternConditionConfig {
 
-    static func write(value: ElasticLoadBalancingv2ClientTypes.RewriteConfig?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: ElasticLoadBalancingv2ClientTypes.PathPatternConditionConfig?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["Regex"].write(value.regex)
-        try writer["Replace"].write(value.replace)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.RewriteConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.RewriteConfig()
-        value.regex = try reader["Regex"].readIfPresent() ?? ""
-        value.replace = try reader["Replace"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.HostHeaderRewriteConfig {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.HostHeaderRewriteConfig?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Rewrites"].writeList(value.rewrites, memberWritingClosure: ElasticLoadBalancingv2ClientTypes.RewriteConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.HostHeaderRewriteConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.HostHeaderRewriteConfig()
-        value.rewrites = try reader["Rewrites"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.RewriteConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.RuleCondition {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.RuleCondition?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Field"].write(value.field)
-        try writer["HostHeaderConfig"].write(value.hostHeaderConfig, with: ElasticLoadBalancingv2ClientTypes.HostHeaderConditionConfig.write(value:to:))
-        try writer["HttpHeaderConfig"].write(value.httpHeaderConfig, with: ElasticLoadBalancingv2ClientTypes.HttpHeaderConditionConfig.write(value:to:))
-        try writer["HttpRequestMethodConfig"].write(value.httpRequestMethodConfig, with: ElasticLoadBalancingv2ClientTypes.HttpRequestMethodConditionConfig.write(value:to:))
-        try writer["PathPatternConfig"].write(value.pathPatternConfig, with: ElasticLoadBalancingv2ClientTypes.PathPatternConditionConfig.write(value:to:))
-        try writer["QueryStringConfig"].write(value.queryStringConfig, with: ElasticLoadBalancingv2ClientTypes.QueryStringConditionConfig.write(value:to:))
         try writer["RegexValues"].writeList(value.regexValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SourceIpConfig"].write(value.sourceIpConfig, with: ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig.write(value:to:))
         try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.RuleCondition {
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.PathPatternConditionConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.RuleCondition()
-        value.field = try reader["Field"].readIfPresent()
+        var value = ElasticLoadBalancingv2ClientTypes.PathPatternConditionConfig()
         value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.hostHeaderConfig = try reader["HostHeaderConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.HostHeaderConditionConfig.read(from:))
-        value.pathPatternConfig = try reader["PathPatternConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.PathPatternConditionConfig.read(from:))
-        value.httpHeaderConfig = try reader["HttpHeaderConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.HttpHeaderConditionConfig.read(from:))
-        value.queryStringConfig = try reader["QueryStringConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.QueryStringConditionConfig.read(from:))
-        value.httpRequestMethodConfig = try reader["HttpRequestMethodConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.HttpRequestMethodConditionConfig.read(from:))
-        value.sourceIpConfig = try reader["SourceIpConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig.read(from:))
         value.regexValues = try reader["RegexValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.HttpRequestMethodConditionConfig {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.HttpRequestMethodConditionConfig?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.HttpRequestMethodConditionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.HttpRequestMethodConditionConfig()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9431,55 +9435,218 @@ extension ElasticLoadBalancingv2ClientTypes.QueryStringKeyValuePair {
     }
 }
 
-extension ElasticLoadBalancingv2ClientTypes.HttpHeaderConditionConfig {
+extension ElasticLoadBalancingv2ClientTypes.RedirectActionConfig {
 
-    static func write(value: ElasticLoadBalancingv2ClientTypes.HttpHeaderConditionConfig?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: ElasticLoadBalancingv2ClientTypes.RedirectActionConfig?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["HttpHeaderName"].write(value.httpHeaderName)
+        try writer["Host"].write(value.host)
+        try writer["Path"].write(value.path)
+        try writer["Port"].write(value.port)
+        try writer["Protocol"].write(value.`protocol`)
+        try writer["Query"].write(value.query)
+        try writer["StatusCode"].write(value.statusCode)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.RedirectActionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.RedirectActionConfig()
+        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.host = try reader["Host"].readIfPresent()
+        value.path = try reader["Path"].readIfPresent()
+        value.query = try reader["Query"].readIfPresent()
+        value.statusCode = try reader["StatusCode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.RevocationContent {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.RevocationContent?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["RevocationType"].write(value.revocationType)
+        try writer["S3Bucket"].write(value.s3Bucket)
+        try writer["S3Key"].write(value.s3Key)
+        try writer["S3ObjectVersion"].write(value.s3ObjectVersion)
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.RewriteConfig {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.RewriteConfig?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Regex"].write(value.regex)
+        try writer["Replace"].write(value.replace)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.RewriteConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.RewriteConfig()
+        value.regex = try reader["Regex"].readIfPresent() ?? ""
+        value.replace = try reader["Replace"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.Rule {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.Rule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.Rule()
+        value.ruleArn = try reader["RuleArn"].readIfPresent()
+        value.priority = try reader["Priority"].readIfPresent()
+        value.conditions = try reader["Conditions"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.RuleCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.Action.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isDefault = try reader["IsDefault"].readIfPresent()
+        value.transforms = try reader["Transforms"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.RuleTransform.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.RuleCondition {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.RuleCondition?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Field"].write(value.field)
+        try writer["HostHeaderConfig"].write(value.hostHeaderConfig, with: ElasticLoadBalancingv2ClientTypes.HostHeaderConditionConfig.write(value:to:))
+        try writer["HttpHeaderConfig"].write(value.httpHeaderConfig, with: ElasticLoadBalancingv2ClientTypes.HttpHeaderConditionConfig.write(value:to:))
+        try writer["HttpRequestMethodConfig"].write(value.httpRequestMethodConfig, with: ElasticLoadBalancingv2ClientTypes.HttpRequestMethodConditionConfig.write(value:to:))
+        try writer["PathPatternConfig"].write(value.pathPatternConfig, with: ElasticLoadBalancingv2ClientTypes.PathPatternConditionConfig.write(value:to:))
+        try writer["QueryStringConfig"].write(value.queryStringConfig, with: ElasticLoadBalancingv2ClientTypes.QueryStringConditionConfig.write(value:to:))
         try writer["RegexValues"].writeList(value.regexValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SourceIpConfig"].write(value.sourceIpConfig, with: ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig.write(value:to:))
         try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.HttpHeaderConditionConfig {
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.RuleCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.HttpHeaderConditionConfig()
-        value.httpHeaderName = try reader["HttpHeaderName"].readIfPresent()
+        var value = ElasticLoadBalancingv2ClientTypes.RuleCondition()
+        value.field = try reader["Field"].readIfPresent()
         value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hostHeaderConfig = try reader["HostHeaderConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.HostHeaderConditionConfig.read(from:))
+        value.pathPatternConfig = try reader["PathPatternConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.PathPatternConditionConfig.read(from:))
+        value.httpHeaderConfig = try reader["HttpHeaderConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.HttpHeaderConditionConfig.read(from:))
+        value.queryStringConfig = try reader["QueryStringConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.QueryStringConditionConfig.read(from:))
+        value.httpRequestMethodConfig = try reader["HttpRequestMethodConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.HttpRequestMethodConditionConfig.read(from:))
+        value.sourceIpConfig = try reader["SourceIpConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig.read(from:))
         value.regexValues = try reader["RegexValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension ElasticLoadBalancingv2ClientTypes.PathPatternConditionConfig {
+extension ElasticLoadBalancingv2ClientTypes.RulePriorityPair {
 
-    static func write(value: ElasticLoadBalancingv2ClientTypes.PathPatternConditionConfig?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: ElasticLoadBalancingv2ClientTypes.RulePriorityPair?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["RegexValues"].writeList(value.regexValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Priority"].write(value.priority)
+        try writer["RuleArn"].write(value.ruleArn)
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.RuleTransform {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.RuleTransform?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["HostHeaderRewriteConfig"].write(value.hostHeaderRewriteConfig, with: ElasticLoadBalancingv2ClientTypes.HostHeaderRewriteConfig.write(value:to:))
+        try writer["Type"].write(value.type)
+        try writer["UrlRewriteConfig"].write(value.urlRewriteConfig, with: ElasticLoadBalancingv2ClientTypes.UrlRewriteConfig.write(value:to:))
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.PathPatternConditionConfig {
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.RuleTransform {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.PathPatternConditionConfig()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.regexValues = try reader["RegexValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ElasticLoadBalancingv2ClientTypes.RuleTransform()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.hostHeaderRewriteConfig = try reader["HostHeaderRewriteConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.HostHeaderRewriteConfig.read(from:))
+        value.urlRewriteConfig = try reader["UrlRewriteConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.UrlRewriteConfig.read(from:))
         return value
     }
 }
 
-extension ElasticLoadBalancingv2ClientTypes.HostHeaderConditionConfig {
+extension ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig {
 
-    static func write(value: ElasticLoadBalancingv2ClientTypes.HostHeaderConditionConfig?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["RegexValues"].writeList(value.regexValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.HostHeaderConditionConfig {
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.HostHeaderConditionConfig()
+        var value = ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig()
         value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.regexValues = try reader["RegexValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.SslPolicy {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.SslPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.SslPolicy()
+        value.sslProtocols = try reader["SslProtocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ciphers = try reader["Ciphers"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.Cipher.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["Name"].readIfPresent()
+        value.supportedLoadBalancerTypes = try reader["SupportedLoadBalancerTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.SubnetMapping {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.SubnetMapping?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AllocationId"].write(value.allocationId)
+        try writer["IPv6Address"].write(value.ipv6Address)
+        try writer["PrivateIPv4Address"].write(value.privateIPv4Address)
+        try writer["SourceNatIpv6Prefix"].write(value.sourceNatIpv6Prefix)
+        try writer["SubnetId"].write(value.subnetId)
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.Tag {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.TagDescription {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TagDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.TagDescription()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.TargetDescription {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.TargetDescription?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["Id"].write(value.id)
+        try writer["Port"].write(value.port)
+        try writer["QuicServerId"].write(value.quicServerId)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TargetDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.TargetDescription()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.port = try reader["Port"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.quicServerId = try reader["QuicServerId"].readIfPresent()
         return value
     }
 }
@@ -9512,172 +9679,6 @@ extension ElasticLoadBalancingv2ClientTypes.TargetGroup {
     }
 }
 
-extension ElasticLoadBalancingv2ClientTypes.Matcher {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.Matcher?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["GrpcCode"].write(value.grpcCode)
-        try writer["HttpCode"].write(value.httpCode)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.Matcher {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.Matcher()
-        value.httpCode = try reader["HttpCode"].readIfPresent()
-        value.grpcCode = try reader["GrpcCode"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.TrustStore {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TrustStore {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.TrustStore()
-        value.name = try reader["Name"].readIfPresent()
-        value.trustStoreArn = try reader["TrustStoreArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.numberOfCaCertificates = try reader["NumberOfCaCertificates"].readIfPresent()
-        value.totalRevokedEntries = try reader["TotalRevokedEntries"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.Limit {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.Limit {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.Limit()
-        value.name = try reader["Name"].readIfPresent()
-        value.max = try reader["Max"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CapacityUnits"].write(value.capacityUnits)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity()
-        value.capacityUnits = try reader["CapacityUnits"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.ZonalCapacityReservationState {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.ZonalCapacityReservationState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.ZonalCapacityReservationState()
-        value.state = try reader["State"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.CapacityReservationStatus.read(from:))
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.effectiveCapacityUnits = try reader["EffectiveCapacityUnits"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.CapacityReservationStatus {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.CapacityReservationStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.CapacityReservationStatus()
-        value.code = try reader["Code"].readIfPresent()
-        value.reason = try reader["Reason"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.ListenerAttribute {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.ListenerAttribute?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.ListenerAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.ListenerAttribute()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.LoadBalancerAttribute {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.LoadBalancerAttribute?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.LoadBalancerAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.LoadBalancerAttribute()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.SslPolicy {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.SslPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.SslPolicy()
-        value.sslProtocols = try reader["SslProtocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ciphers = try reader["Ciphers"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.Cipher.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["Name"].readIfPresent()
-        value.supportedLoadBalancerTypes = try reader["SupportedLoadBalancerTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.Cipher {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.Cipher {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.Cipher()
-        value.name = try reader["Name"].readIfPresent()
-        value.priority = try reader["Priority"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.TagDescription {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TagDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.TagDescription()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.Tag {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
 extension ElasticLoadBalancingv2ClientTypes.TargetGroupAttribute {
 
     static func write(value: ElasticLoadBalancingv2ClientTypes.TargetGroupAttribute?, to writer: SmithyFormURL.Writer) throws {
@@ -9691,6 +9692,52 @@ extension ElasticLoadBalancingv2ClientTypes.TargetGroupAttribute {
         var value = ElasticLoadBalancingv2ClientTypes.TargetGroupAttribute()
         value.key = try reader["Key"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.TargetGroupStickinessConfig {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.TargetGroupStickinessConfig?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DurationSeconds"].write(value.durationSeconds)
+        try writer["Enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TargetGroupStickinessConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.TargetGroupStickinessConfig()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.durationSeconds = try reader["DurationSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.TargetGroupTuple {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.TargetGroupTuple?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["TargetGroupArn"].write(value.targetGroupArn)
+        try writer["Weight"].write(value.weight)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TargetGroupTuple {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.TargetGroupTuple()
+        value.targetGroupArn = try reader["TargetGroupArn"].readIfPresent()
+        value.weight = try reader["Weight"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.TargetHealth {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TargetHealth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.TargetHealth()
+        value.state = try reader["State"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
         return value
     }
 }
@@ -9709,58 +9756,16 @@ extension ElasticLoadBalancingv2ClientTypes.TargetHealthDescription {
     }
 }
 
-extension ElasticLoadBalancingv2ClientTypes.AdministrativeOverride {
+extension ElasticLoadBalancingv2ClientTypes.TrustStore {
 
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.AdministrativeOverride {
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TrustStore {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.AdministrativeOverride()
-        value.state = try reader["State"].readIfPresent()
-        value.reason = try reader["Reason"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.AnomalyDetection {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.AnomalyDetection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.AnomalyDetection()
-        value.result = try reader["Result"].readIfPresent()
-        value.mitigationInEffect = try reader["MitigationInEffect"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.TargetHealth {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TargetHealth {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.TargetHealth()
-        value.state = try reader["State"].readIfPresent()
-        value.reason = try reader["Reason"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.TargetDescription {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.TargetDescription?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["Id"].write(value.id)
-        try writer["Port"].write(value.port)
-        try writer["QuicServerId"].write(value.quicServerId)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TargetDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.TargetDescription()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.port = try reader["Port"].readIfPresent()
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.quicServerId = try reader["QuicServerId"].readIfPresent()
+        var value = ElasticLoadBalancingv2ClientTypes.TrustStore()
+        value.name = try reader["Name"].readIfPresent()
+        value.trustStoreArn = try reader["TrustStoreArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.numberOfCaCertificates = try reader["NumberOfCaCertificates"].readIfPresent()
+        value.totalRevokedEntries = try reader["TotalRevokedEntries"].readIfPresent()
         return value
     }
 }
@@ -9775,11 +9780,11 @@ extension ElasticLoadBalancingv2ClientTypes.TrustStoreAssociation {
     }
 }
 
-extension ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation {
+extension ElasticLoadBalancingv2ClientTypes.TrustStoreRevocation {
 
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation {
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TrustStoreRevocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation()
+        var value = ElasticLoadBalancingv2ClientTypes.TrustStoreRevocation()
         value.trustStoreArn = try reader["TrustStoreArn"].readIfPresent()
         value.revocationId = try reader["RevocationId"].readIfPresent()
         value.revocationType = try reader["RevocationType"].readIfPresent()
@@ -9788,35 +9793,30 @@ extension ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation {
     }
 }
 
-extension ElasticLoadBalancingv2ClientTypes.RevocationContent {
+extension ElasticLoadBalancingv2ClientTypes.UrlRewriteConfig {
 
-    static func write(value: ElasticLoadBalancingv2ClientTypes.RevocationContent?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: ElasticLoadBalancingv2ClientTypes.UrlRewriteConfig?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["RevocationType"].write(value.revocationType)
-        try writer["S3Bucket"].write(value.s3Bucket)
-        try writer["S3Key"].write(value.s3Key)
-        try writer["S3ObjectVersion"].write(value.s3ObjectVersion)
+        try writer["Rewrites"].writeList(value.rewrites, memberWritingClosure: ElasticLoadBalancingv2ClientTypes.RewriteConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.UrlRewriteConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.UrlRewriteConfig()
+        value.rewrites = try reader["Rewrites"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.RewriteConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
-extension ElasticLoadBalancingv2ClientTypes.SubnetMapping {
+extension ElasticLoadBalancingv2ClientTypes.ZonalCapacityReservationState {
 
-    static func write(value: ElasticLoadBalancingv2ClientTypes.SubnetMapping?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllocationId"].write(value.allocationId)
-        try writer["IPv6Address"].write(value.ipv6Address)
-        try writer["PrivateIPv4Address"].write(value.privateIPv4Address)
-        try writer["SourceNatIpv6Prefix"].write(value.sourceNatIpv6Prefix)
-        try writer["SubnetId"].write(value.subnetId)
-    }
-}
-
-extension ElasticLoadBalancingv2ClientTypes.RulePriorityPair {
-
-    static func write(value: ElasticLoadBalancingv2ClientTypes.RulePriorityPair?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Priority"].write(value.priority)
-        try writer["RuleArn"].write(value.ruleArn)
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.ZonalCapacityReservationState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.ZonalCapacityReservationState()
+        value.state = try reader["State"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.CapacityReservationStatus.read(from:))
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.effectiveCapacityUnits = try reader["EffectiveCapacityUnits"].readIfPresent()
+        return value
     }
 }
 

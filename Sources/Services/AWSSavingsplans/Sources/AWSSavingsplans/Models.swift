@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -319,6 +319,7 @@ extension SavingsplansClientTypes {
         case keyspaces
         case lambda
         case neptune
+        case opensearch
         case rds
         case sagemaker
         case timestream
@@ -336,6 +337,7 @@ extension SavingsplansClientTypes {
                 .keyspaces,
                 .lambda,
                 .neptune,
+                .opensearch,
                 .rds,
                 .sagemaker,
                 .timestream
@@ -359,6 +361,7 @@ extension SavingsplansClientTypes {
             case .keyspaces: return "Keyspaces"
             case .lambda: return "Lambda"
             case .neptune: return "Neptune"
+            case .opensearch: return "OpenSearch"
             case .rds: return "RDS"
             case .sagemaker: return "SageMaker"
             case .timestream: return "Timestream"
@@ -434,6 +437,7 @@ extension SavingsplansClientTypes {
         case dynamodb
         case ec2
         case elasticache
+        case es
         case fargate
         case fargateEks
         case lambda
@@ -452,6 +456,7 @@ extension SavingsplansClientTypes {
                 .dynamodb,
                 .ec2,
                 .elasticache,
+                .es,
                 .fargate,
                 .fargateEks,
                 .lambda,
@@ -476,6 +481,7 @@ extension SavingsplansClientTypes {
             case .dynamodb: return "AmazonDynamoDB"
             case .ec2: return "AmazonEC2"
             case .elasticache: return "AmazonElastiCache"
+            case .es: return "AmazonES"
             case .fargate: return "AmazonECS"
             case .fargateEks: return "AmazonEKS"
             case .lambda: return "AWSLambda"
@@ -499,8 +505,10 @@ extension SavingsplansClientTypes {
         case elastiCacheProcessingUnit
         case gbHours
         case hours
+        case jobs
         case lambdaGbSecond
         case ncuHr
+        case ocuHrs
         case readCapacityUnitHrs
         case readRequestUnits
         case replicatedWriteCapacityUnitHrs
@@ -518,8 +526,10 @@ extension SavingsplansClientTypes {
                 .elastiCacheProcessingUnit,
                 .gbHours,
                 .hours,
+                .jobs,
                 .lambdaGbSecond,
                 .ncuHr,
+                .ocuHrs,
                 .readCapacityUnitHrs,
                 .readRequestUnits,
                 .replicatedWriteCapacityUnitHrs,
@@ -543,8 +553,10 @@ extension SavingsplansClientTypes {
             case .elastiCacheProcessingUnit: return "ElastiCacheProcessingUnit"
             case .gbHours: return "GB-Hours"
             case .hours: return "Hrs"
+            case .jobs: return "Jobs"
             case .lambdaGbSecond: return "Lambda-GB-Second"
             case .ncuHr: return "NCU-hr"
+            case .ocuHrs: return "OCU-hours"
             case .readCapacityUnitHrs: return "ReadCapacityUnit-Hrs"
             case .readRequestUnits: return "ReadRequestUnits"
             case .replicatedWriteCapacityUnitHrs: return "ReplicatedWriteCapacityUnit-Hrs"
@@ -1779,7 +1791,7 @@ enum CreateSavingsPlanOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1796,7 +1808,7 @@ enum DeleteQueuedSavingsPlanOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1813,7 +1825,7 @@ enum DescribeSavingsPlanRatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1829,7 +1841,7 @@ enum DescribeSavingsPlansOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1844,7 +1856,7 @@ enum DescribeSavingsPlansOfferingRatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1859,7 +1871,7 @@ enum DescribeSavingsPlansOfferingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1874,7 +1886,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1890,7 +1902,7 @@ enum ReturnSavingsPlanOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1907,7 +1919,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1924,7 +1936,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1937,7 +1949,7 @@ enum UntagResourceOutputError {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -1950,7 +1962,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -1963,7 +1975,7 @@ extension ResourceNotFoundException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -1976,7 +1988,7 @@ extension ServiceQuotaExceededException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -1987,30 +1999,17 @@ extension ValidationException {
     }
 }
 
-extension SavingsplansClientTypes.SavingsPlanRate {
+extension SavingsplansClientTypes.ParentSavingsPlanOffering {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.SavingsPlanRate {
+    static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.ParentSavingsPlanOffering {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SavingsplansClientTypes.SavingsPlanRate()
-        value.rate = try reader["rate"].readIfPresent()
+        var value = SavingsplansClientTypes.ParentSavingsPlanOffering()
+        value.offeringId = try reader["offeringId"].readIfPresent()
+        value.paymentOption = try reader["paymentOption"].readIfPresent()
+        value.planType = try reader["planType"].readIfPresent()
+        value.durationSeconds = try reader["durationSeconds"].readIfPresent() ?? 0
         value.currency = try reader["currency"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
-        value.productType = try reader["productType"].readIfPresent()
-        value.serviceCode = try reader["serviceCode"].readIfPresent()
-        value.usageType = try reader["usageType"].readIfPresent()
-        value.operation = try reader["operation"].readIfPresent()
-        value.properties = try reader["properties"].readListIfPresent(memberReadingClosure: SavingsplansClientTypes.SavingsPlanRateProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension SavingsplansClientTypes.SavingsPlanRateProperty {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.SavingsPlanRateProperty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SavingsplansClientTypes.SavingsPlanRateProperty()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.planDescription = try reader["planDescription"].readIfPresent()
         return value
     }
 }
@@ -2043,46 +2042,12 @@ extension SavingsplansClientTypes.SavingsPlan {
     }
 }
 
-extension SavingsplansClientTypes.SavingsPlanOfferingRate {
+extension SavingsplansClientTypes.SavingsPlanFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.SavingsPlanOfferingRate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SavingsplansClientTypes.SavingsPlanOfferingRate()
-        value.savingsPlanOffering = try reader["savingsPlanOffering"].readIfPresent(with: SavingsplansClientTypes.ParentSavingsPlanOffering.read(from:))
-        value.rate = try reader["rate"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
-        value.productType = try reader["productType"].readIfPresent()
-        value.serviceCode = try reader["serviceCode"].readIfPresent()
-        value.usageType = try reader["usageType"].readIfPresent()
-        value.operation = try reader["operation"].readIfPresent()
-        value.properties = try reader["properties"].readListIfPresent(memberReadingClosure: SavingsplansClientTypes.SavingsPlanOfferingRateProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension SavingsplansClientTypes.SavingsPlanOfferingRateProperty {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.SavingsPlanOfferingRateProperty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SavingsplansClientTypes.SavingsPlanOfferingRateProperty()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
-}
-
-extension SavingsplansClientTypes.ParentSavingsPlanOffering {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.ParentSavingsPlanOffering {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SavingsplansClientTypes.ParentSavingsPlanOffering()
-        value.offeringId = try reader["offeringId"].readIfPresent()
-        value.paymentOption = try reader["paymentOption"].readIfPresent()
-        value.planType = try reader["planType"].readIfPresent()
-        value.durationSeconds = try reader["durationSeconds"].readIfPresent() ?? 0
-        value.currency = try reader["currency"].readIfPresent()
-        value.planDescription = try reader["planDescription"].readIfPresent()
-        return value
+    static func write(value: SavingsplansClientTypes.SavingsPlanFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -2106,6 +2071,15 @@ extension SavingsplansClientTypes.SavingsPlanOffering {
     }
 }
 
+extension SavingsplansClientTypes.SavingsPlanOfferingFilterElement {
+
+    static func write(value: SavingsplansClientTypes.SavingsPlanOfferingFilterElement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension SavingsplansClientTypes.SavingsPlanOfferingProperty {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.SavingsPlanOfferingProperty {
@@ -2113,6 +2087,60 @@ extension SavingsplansClientTypes.SavingsPlanOfferingProperty {
         var value = SavingsplansClientTypes.SavingsPlanOfferingProperty()
         value.name = try reader["name"].readIfPresent()
         value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension SavingsplansClientTypes.SavingsPlanOfferingRate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.SavingsPlanOfferingRate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SavingsplansClientTypes.SavingsPlanOfferingRate()
+        value.savingsPlanOffering = try reader["savingsPlanOffering"].readIfPresent(with: SavingsplansClientTypes.ParentSavingsPlanOffering.read(from:))
+        value.rate = try reader["rate"].readIfPresent()
+        value.unit = try reader["unit"].readIfPresent()
+        value.productType = try reader["productType"].readIfPresent()
+        value.serviceCode = try reader["serviceCode"].readIfPresent()
+        value.usageType = try reader["usageType"].readIfPresent()
+        value.operation = try reader["operation"].readIfPresent()
+        value.properties = try reader["properties"].readListIfPresent(memberReadingClosure: SavingsplansClientTypes.SavingsPlanOfferingRateProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SavingsplansClientTypes.SavingsPlanOfferingRateFilterElement {
+
+    static func write(value: SavingsplansClientTypes.SavingsPlanOfferingRateFilterElement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SavingsplansClientTypes.SavingsPlanOfferingRateProperty {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.SavingsPlanOfferingRateProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SavingsplansClientTypes.SavingsPlanOfferingRateProperty()
+        value.name = try reader["name"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension SavingsplansClientTypes.SavingsPlanRate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.SavingsPlanRate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SavingsplansClientTypes.SavingsPlanRate()
+        value.rate = try reader["rate"].readIfPresent()
+        value.currency = try reader["currency"].readIfPresent()
+        value.unit = try reader["unit"].readIfPresent()
+        value.productType = try reader["productType"].readIfPresent()
+        value.serviceCode = try reader["serviceCode"].readIfPresent()
+        value.usageType = try reader["usageType"].readIfPresent()
+        value.operation = try reader["operation"].readIfPresent()
+        value.properties = try reader["properties"].readListIfPresent(memberReadingClosure: SavingsplansClientTypes.SavingsPlanRateProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2126,30 +2154,14 @@ extension SavingsplansClientTypes.SavingsPlanRateFilter {
     }
 }
 
-extension SavingsplansClientTypes.SavingsPlanFilter {
+extension SavingsplansClientTypes.SavingsPlanRateProperty {
 
-    static func write(value: SavingsplansClientTypes.SavingsPlanFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension SavingsplansClientTypes.SavingsPlanOfferingRateFilterElement {
-
-    static func write(value: SavingsplansClientTypes.SavingsPlanOfferingRateFilterElement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension SavingsplansClientTypes.SavingsPlanOfferingFilterElement {
-
-    static func write(value: SavingsplansClientTypes.SavingsPlanOfferingFilterElement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.SavingsPlanRateProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SavingsplansClientTypes.SavingsPlanRateProperty()
+        value.name = try reader["name"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
     }
 }
 

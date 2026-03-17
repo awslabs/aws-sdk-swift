@@ -21,8 +21,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 
 
@@ -2514,7 +2514,7 @@ enum BatchCreateAttendeeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2536,7 +2536,7 @@ enum BatchUpdateAttendeeCapabilitiesExceptOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2557,7 +2557,7 @@ enum CreateAttendeeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2579,7 +2579,7 @@ enum CreateMeetingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2600,7 +2600,7 @@ enum CreateMeetingWithAttendeesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2621,7 +2621,7 @@ enum DeleteAttendeeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2641,7 +2641,7 @@ enum DeleteMeetingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2661,7 +2661,7 @@ enum GetAttendeeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2681,7 +2681,7 @@ enum GetMeetingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2701,7 +2701,7 @@ enum ListAttendeesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2721,7 +2721,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2742,7 +2742,7 @@ enum StartMeetingTranscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2764,7 +2764,7 @@ enum StopMeetingTranscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2785,7 +2785,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2807,7 +2807,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2828,7 +2828,7 @@ enum UpdateAttendeeCapabilitiesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -2846,7 +2846,7 @@ enum UpdateAttendeeCapabilitiesOutputError {
 
 extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -2861,7 +2861,7 @@ extension BadRequestException {
 
 extension ForbiddenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ForbiddenException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ForbiddenException {
         let reader = baseError.errorBodyReader
         var value = ForbiddenException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -2876,7 +2876,7 @@ extension ForbiddenException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -2891,7 +2891,7 @@ extension LimitExceededException {
 
 extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -2906,7 +2906,7 @@ extension NotFoundException {
 
 extension ServiceFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceFailureException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceFailureException {
         let reader = baseError.errorBodyReader
         var value = ServiceFailureException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -2921,7 +2921,7 @@ extension ServiceFailureException {
 
 extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = ServiceUnavailableException()
@@ -2940,7 +2940,7 @@ extension ServiceUnavailableException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -2955,7 +2955,7 @@ extension ThrottlingException {
 
 extension UnauthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnauthorizedException {
         let reader = baseError.errorBodyReader
         var value = UnauthorizedException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -2970,7 +2970,7 @@ extension UnauthorizedException {
 
 extension UnprocessableEntityException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnprocessableEntityException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnprocessableEntityException {
         let reader = baseError.errorBodyReader
         var value = UnprocessableEntityException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -2985,7 +2985,7 @@ extension UnprocessableEntityException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -3000,7 +3000,7 @@ extension ConflictException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -3016,7 +3016,7 @@ extension ResourceNotFoundException {
 
 extension TooManyTagsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyTagsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyTagsException {
         let reader = baseError.errorBodyReader
         var value = TooManyTagsException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -3062,6 +3062,59 @@ extension ChimeSDKMeetingsClientTypes.AttendeeCapabilities {
     }
 }
 
+extension ChimeSDKMeetingsClientTypes.AttendeeFeatures {
+
+    static func write(value: ChimeSDKMeetingsClientTypes.AttendeeFeatures?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxCount"].write(value.maxCount)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.AttendeeFeatures {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMeetingsClientTypes.AttendeeFeatures()
+        value.maxCount = try reader["MaxCount"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeSDKMeetingsClientTypes.AttendeeIdItem {
+
+    static func write(value: ChimeSDKMeetingsClientTypes.AttendeeIdItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttendeeId"].write(value.attendeeId)
+    }
+}
+
+extension ChimeSDKMeetingsClientTypes.AudioFeatures {
+
+    static func write(value: ChimeSDKMeetingsClientTypes.AudioFeatures?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EchoReduction"].write(value.echoReduction)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.AudioFeatures {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMeetingsClientTypes.AudioFeatures()
+        value.echoReduction = try reader["EchoReduction"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeSDKMeetingsClientTypes.ContentFeatures {
+
+    static func write(value: ChimeSDKMeetingsClientTypes.ContentFeatures?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResolution"].write(value.maxResolution)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.ContentFeatures {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMeetingsClientTypes.ContentFeatures()
+        value.maxResolution = try reader["MaxResolution"].readIfPresent()
+        return value
+    }
+}
+
 extension ChimeSDKMeetingsClientTypes.CreateAttendeeError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.CreateAttendeeError {
@@ -3070,6 +3123,68 @@ extension ChimeSDKMeetingsClientTypes.CreateAttendeeError {
         value.externalUserId = try reader["ExternalUserId"].readIfPresent()
         value.errorCode = try reader["ErrorCode"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeSDKMeetingsClientTypes.CreateAttendeeRequestItem {
+
+    static func write(value: ChimeSDKMeetingsClientTypes.CreateAttendeeRequestItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Capabilities"].write(value.capabilities, with: ChimeSDKMeetingsClientTypes.AttendeeCapabilities.write(value:to:))
+        try writer["ExternalUserId"].write(value.externalUserId)
+    }
+}
+
+extension ChimeSDKMeetingsClientTypes.EngineTranscribeMedicalSettings {
+
+    static func write(value: ChimeSDKMeetingsClientTypes.EngineTranscribeMedicalSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContentIdentificationType"].write(value.contentIdentificationType)
+        try writer["LanguageCode"].write(value.languageCode)
+        try writer["Region"].write(value.region)
+        try writer["Specialty"].write(value.specialty)
+        try writer["Type"].write(value.type)
+        try writer["VocabularyName"].write(value.vocabularyName)
+    }
+}
+
+extension ChimeSDKMeetingsClientTypes.EngineTranscribeSettings {
+
+    static func write(value: ChimeSDKMeetingsClientTypes.EngineTranscribeSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContentIdentificationType"].write(value.contentIdentificationType)
+        try writer["ContentRedactionType"].write(value.contentRedactionType)
+        try writer["EnablePartialResultsStabilization"].write(value.enablePartialResultsStabilization)
+        try writer["IdentifyLanguage"].write(value.identifyLanguage)
+        try writer["LanguageCode"].write(value.languageCode)
+        try writer["LanguageModelName"].write(value.languageModelName)
+        try writer["LanguageOptions"].write(value.languageOptions)
+        try writer["PartialResultsStability"].write(value.partialResultsStability)
+        try writer["PiiEntityTypes"].write(value.piiEntityTypes)
+        try writer["PreferredLanguage"].write(value.preferredLanguage)
+        try writer["Region"].write(value.region)
+        try writer["VocabularyFilterMethod"].write(value.vocabularyFilterMethod)
+        try writer["VocabularyFilterName"].write(value.vocabularyFilterName)
+        try writer["VocabularyFilterNames"].write(value.vocabularyFilterNames)
+        try writer["VocabularyName"].write(value.vocabularyName)
+        try writer["VocabularyNames"].write(value.vocabularyNames)
+    }
+}
+
+extension ChimeSDKMeetingsClientTypes.MediaPlacement {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.MediaPlacement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMeetingsClientTypes.MediaPlacement()
+        value.audioHostUrl = try reader["AudioHostUrl"].readIfPresent()
+        value.audioFallbackUrl = try reader["AudioFallbackUrl"].readIfPresent()
+        value.signalingUrl = try reader["SignalingUrl"].readIfPresent()
+        value.turnControlUrl = try reader["TurnControlUrl"].readIfPresent()
+        value.screenDataUrl = try reader["ScreenDataUrl"].readIfPresent()
+        value.screenViewingUrl = try reader["ScreenViewingUrl"].readIfPresent()
+        value.screenSharingUrl = try reader["ScreenSharingUrl"].readIfPresent()
+        value.eventIngestionUrl = try reader["EventIngestionUrl"].readIfPresent()
         return value
     }
 }
@@ -3113,80 +3228,13 @@ extension ChimeSDKMeetingsClientTypes.MeetingFeaturesConfiguration {
     }
 }
 
-extension ChimeSDKMeetingsClientTypes.AttendeeFeatures {
+extension ChimeSDKMeetingsClientTypes.NotificationsConfiguration {
 
-    static func write(value: ChimeSDKMeetingsClientTypes.AttendeeFeatures?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ChimeSDKMeetingsClientTypes.NotificationsConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["MaxCount"].write(value.maxCount)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.AttendeeFeatures {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMeetingsClientTypes.AttendeeFeatures()
-        value.maxCount = try reader["MaxCount"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKMeetingsClientTypes.ContentFeatures {
-
-    static func write(value: ChimeSDKMeetingsClientTypes.ContentFeatures?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxResolution"].write(value.maxResolution)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.ContentFeatures {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMeetingsClientTypes.ContentFeatures()
-        value.maxResolution = try reader["MaxResolution"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKMeetingsClientTypes.VideoFeatures {
-
-    static func write(value: ChimeSDKMeetingsClientTypes.VideoFeatures?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxResolution"].write(value.maxResolution)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.VideoFeatures {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMeetingsClientTypes.VideoFeatures()
-        value.maxResolution = try reader["MaxResolution"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKMeetingsClientTypes.AudioFeatures {
-
-    static func write(value: ChimeSDKMeetingsClientTypes.AudioFeatures?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EchoReduction"].write(value.echoReduction)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.AudioFeatures {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMeetingsClientTypes.AudioFeatures()
-        value.echoReduction = try reader["EchoReduction"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKMeetingsClientTypes.MediaPlacement {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.MediaPlacement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMeetingsClientTypes.MediaPlacement()
-        value.audioHostUrl = try reader["AudioHostUrl"].readIfPresent()
-        value.audioFallbackUrl = try reader["AudioFallbackUrl"].readIfPresent()
-        value.signalingUrl = try reader["SignalingUrl"].readIfPresent()
-        value.turnControlUrl = try reader["TurnControlUrl"].readIfPresent()
-        value.screenDataUrl = try reader["ScreenDataUrl"].readIfPresent()
-        value.screenViewingUrl = try reader["ScreenViewingUrl"].readIfPresent()
-        value.screenSharingUrl = try reader["ScreenSharingUrl"].readIfPresent()
-        value.eventIngestionUrl = try reader["EventIngestionUrl"].readIfPresent()
-        return value
+        try writer["LambdaFunctionArn"].write(value.lambdaFunctionArn)
+        try writer["SnsTopicArn"].write(value.snsTopicArn)
+        try writer["SqsQueueArn"].write(value.sqsQueueArn)
     }
 }
 
@@ -3207,33 +3255,6 @@ extension ChimeSDKMeetingsClientTypes.Tag {
     }
 }
 
-extension ChimeSDKMeetingsClientTypes.CreateAttendeeRequestItem {
-
-    static func write(value: ChimeSDKMeetingsClientTypes.CreateAttendeeRequestItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Capabilities"].write(value.capabilities, with: ChimeSDKMeetingsClientTypes.AttendeeCapabilities.write(value:to:))
-        try writer["ExternalUserId"].write(value.externalUserId)
-    }
-}
-
-extension ChimeSDKMeetingsClientTypes.AttendeeIdItem {
-
-    static func write(value: ChimeSDKMeetingsClientTypes.AttendeeIdItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttendeeId"].write(value.attendeeId)
-    }
-}
-
-extension ChimeSDKMeetingsClientTypes.NotificationsConfiguration {
-
-    static func write(value: ChimeSDKMeetingsClientTypes.NotificationsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LambdaFunctionArn"].write(value.lambdaFunctionArn)
-        try writer["SnsTopicArn"].write(value.snsTopicArn)
-        try writer["SqsQueueArn"].write(value.sqsQueueArn)
-    }
-}
-
 extension ChimeSDKMeetingsClientTypes.TranscriptionConfiguration {
 
     static func write(value: ChimeSDKMeetingsClientTypes.TranscriptionConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -3243,39 +3264,18 @@ extension ChimeSDKMeetingsClientTypes.TranscriptionConfiguration {
     }
 }
 
-extension ChimeSDKMeetingsClientTypes.EngineTranscribeMedicalSettings {
+extension ChimeSDKMeetingsClientTypes.VideoFeatures {
 
-    static func write(value: ChimeSDKMeetingsClientTypes.EngineTranscribeMedicalSettings?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ChimeSDKMeetingsClientTypes.VideoFeatures?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ContentIdentificationType"].write(value.contentIdentificationType)
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["Region"].write(value.region)
-        try writer["Specialty"].write(value.specialty)
-        try writer["Type"].write(value.type)
-        try writer["VocabularyName"].write(value.vocabularyName)
+        try writer["MaxResolution"].write(value.maxResolution)
     }
-}
 
-extension ChimeSDKMeetingsClientTypes.EngineTranscribeSettings {
-
-    static func write(value: ChimeSDKMeetingsClientTypes.EngineTranscribeSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContentIdentificationType"].write(value.contentIdentificationType)
-        try writer["ContentRedactionType"].write(value.contentRedactionType)
-        try writer["EnablePartialResultsStabilization"].write(value.enablePartialResultsStabilization)
-        try writer["IdentifyLanguage"].write(value.identifyLanguage)
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["LanguageModelName"].write(value.languageModelName)
-        try writer["LanguageOptions"].write(value.languageOptions)
-        try writer["PartialResultsStability"].write(value.partialResultsStability)
-        try writer["PiiEntityTypes"].write(value.piiEntityTypes)
-        try writer["PreferredLanguage"].write(value.preferredLanguage)
-        try writer["Region"].write(value.region)
-        try writer["VocabularyFilterMethod"].write(value.vocabularyFilterMethod)
-        try writer["VocabularyFilterName"].write(value.vocabularyFilterName)
-        try writer["VocabularyFilterNames"].write(value.vocabularyFilterNames)
-        try writer["VocabularyName"].write(value.vocabularyName)
-        try writer["VocabularyNames"].write(value.vocabularyNames)
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.VideoFeatures {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMeetingsClientTypes.VideoFeatures()
+        value.maxResolution = try reader["MaxResolution"].readIfPresent()
+        return value
     }
 }
 

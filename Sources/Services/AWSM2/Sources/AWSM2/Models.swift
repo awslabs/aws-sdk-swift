@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
@@ -4820,7 +4820,7 @@ enum CancelBatchJobExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4839,7 +4839,7 @@ enum CreateApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4858,7 +4858,7 @@ enum CreateDataSetExportTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4878,7 +4878,7 @@ enum CreateDataSetImportTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4898,7 +4898,7 @@ enum CreateDeploymentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4918,7 +4918,7 @@ enum CreateEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4937,7 +4937,7 @@ enum DeleteApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4955,7 +4955,7 @@ enum DeleteApplicationFromEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4974,7 +4974,7 @@ enum DeleteEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4992,7 +4992,7 @@ enum GetApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5010,7 +5010,7 @@ enum GetApplicationVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5028,7 +5028,7 @@ enum GetBatchJobExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5046,7 +5046,7 @@ enum GetDataSetDetailsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5067,7 +5067,7 @@ enum GetDataSetExportTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5085,7 +5085,7 @@ enum GetDataSetImportTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5103,7 +5103,7 @@ enum GetDeploymentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5121,7 +5121,7 @@ enum GetEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5139,7 +5139,7 @@ enum GetSignedBluinsightsUrlOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5155,7 +5155,7 @@ enum ListApplicationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5172,7 +5172,7 @@ enum ListApplicationVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5190,7 +5190,7 @@ enum ListBatchJobDefinitionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5208,7 +5208,7 @@ enum ListBatchJobExecutionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5226,7 +5226,7 @@ enum ListBatchJobRestartPointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5245,7 +5245,7 @@ enum ListDataSetExportHistoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5263,7 +5263,7 @@ enum ListDataSetImportHistoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5281,7 +5281,7 @@ enum ListDataSetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5302,7 +5302,7 @@ enum ListDeploymentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5320,7 +5320,7 @@ enum ListEngineVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5337,7 +5337,7 @@ enum ListEnvironmentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5354,7 +5354,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5372,7 +5372,7 @@ enum StartApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5391,7 +5391,7 @@ enum StartBatchJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5410,7 +5410,7 @@ enum StopApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5429,7 +5429,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5448,7 +5448,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5466,7 +5466,7 @@ enum UpdateApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5485,7 +5485,7 @@ enum UpdateEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5502,7 +5502,7 @@ enum UpdateEnvironmentOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5515,7 +5515,7 @@ extension AccessDeniedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5530,7 +5530,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = InternalServerException()
@@ -5547,7 +5547,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5562,7 +5562,7 @@ extension ResourceNotFoundException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = ThrottlingException()
@@ -5581,7 +5581,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: M2ClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -5596,7 +5596,7 @@ extension ValidationException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5613,7 +5613,7 @@ extension ServiceQuotaExceededException {
 
 extension ExecutionTimeoutException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ExecutionTimeoutException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ExecutionTimeoutException {
         let reader = baseError.errorBodyReader
         var value = ExecutionTimeoutException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5626,13 +5626,56 @@ extension ExecutionTimeoutException {
 
 extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension M2ClientTypes.AlternateKey {
+
+    static func write(value: M2ClientTypes.AlternateKey?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowDuplicates"].write(value.allowDuplicates)
+        try writer["length"].write(value.length)
+        try writer["name"].write(value.name)
+        try writer["offset"].write(value.offset)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.AlternateKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.AlternateKey()
+        value.name = try reader["name"].readIfPresent()
+        value.offset = try reader["offset"].readIfPresent() ?? 0
+        value.length = try reader["length"].readIfPresent() ?? 0
+        value.allowDuplicates = try reader["allowDuplicates"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension M2ClientTypes.ApplicationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.ApplicationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.ApplicationSummary()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        value.applicationArn = try reader["applicationArn"].readIfPresent() ?? ""
+        value.applicationVersion = try reader["applicationVersion"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.engineType = try reader["engineType"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.lastStartTime = try reader["lastStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.versionStatus = try reader["versionStatus"].readIfPresent()
+        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent()
         return value
     }
 }
@@ -5650,25 +5693,37 @@ extension M2ClientTypes.ApplicationVersionSummary {
     }
 }
 
-extension M2ClientTypes.DeployedVersionSummary {
+extension M2ClientTypes.BatchJobDefinition {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DeployedVersionSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.BatchJobDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.DeployedVersionSummary()
-        value.applicationVersion = try reader["applicationVersion"].readIfPresent() ?? 0
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        return value
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "fileBatchJobDefinition":
+                return .filebatchjobdefinition(try reader["fileBatchJobDefinition"].read(with: M2ClientTypes.FileBatchJobDefinition.read(from:)))
+            case "scriptBatchJobDefinition":
+                return .scriptbatchjobdefinition(try reader["scriptBatchJobDefinition"].read(with: M2ClientTypes.ScriptBatchJobDefinition.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
-extension M2ClientTypes.LogGroupSummary {
+extension M2ClientTypes.BatchJobExecutionSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.LogGroupSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.BatchJobExecutionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.LogGroupSummary()
-        value.logType = try reader["logType"].readIfPresent() ?? ""
-        value.logGroupName = try reader["logGroupName"].readIfPresent() ?? ""
+        var value = M2ClientTypes.BatchJobExecutionSummary()
+        value.executionId = try reader["executionId"].readIfPresent() ?? ""
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent()
+        value.jobName = try reader["jobName"].readIfPresent()
+        value.jobType = try reader["jobType"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.returnCode = try reader["returnCode"].readIfPresent()
+        value.batchJobIdentifier = try reader["batchJobIdentifier"].readIfPresent(with: M2ClientTypes.BatchJobIdentifier.read(from:))
         return value
     }
 }
@@ -5709,124 +5764,15 @@ extension M2ClientTypes.BatchJobIdentifier {
     }
 }
 
-extension M2ClientTypes.RestartBatchJobIdentifier {
+extension M2ClientTypes.DataSet {
 
-    static func write(value: M2ClientTypes.RestartBatchJobIdentifier?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: M2ClientTypes.DataSet?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["executionId"].write(value.executionId)
-        try writer["jobStepRestartMarker"].write(value.jobStepRestartMarker, with: M2ClientTypes.JobStepRestartMarker.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.RestartBatchJobIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.RestartBatchJobIdentifier()
-        value.executionId = try reader["executionId"].readIfPresent() ?? ""
-        value.jobStepRestartMarker = try reader["jobStepRestartMarker"].readIfPresent(with: M2ClientTypes.JobStepRestartMarker.read(from:))
-        return value
-    }
-}
-
-extension M2ClientTypes.JobStepRestartMarker {
-
-    static func write(value: M2ClientTypes.JobStepRestartMarker?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fromProcStep"].write(value.fromProcStep)
-        try writer["fromStep"].write(value.fromStep)
-        try writer["skip"].write(value.skip)
-        try writer["stepCheckpoint"].write(value.stepCheckpoint)
-        try writer["toProcStep"].write(value.toProcStep)
-        try writer["toStep"].write(value.toStep)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.JobStepRestartMarker {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.JobStepRestartMarker()
-        value.fromStep = try reader["fromStep"].readIfPresent() ?? ""
-        value.fromProcStep = try reader["fromProcStep"].readIfPresent()
-        value.toStep = try reader["toStep"].readIfPresent()
-        value.toProcStep = try reader["toProcStep"].readIfPresent()
-        value.stepCheckpoint = try reader["stepCheckpoint"].readIfPresent()
-        value.skip = try reader["skip"].readIfPresent()
-        return value
-    }
-}
-
-extension M2ClientTypes.S3BatchJobIdentifier {
-
-    static func write(value: M2ClientTypes.S3BatchJobIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["identifier"].write(value.identifier, with: M2ClientTypes.JobIdentifier.write(value:to:))
-        try writer["keyPrefix"].write(value.keyPrefix)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.S3BatchJobIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.S3BatchJobIdentifier()
-        value.bucket = try reader["bucket"].readIfPresent() ?? ""
-        value.keyPrefix = try reader["keyPrefix"].readIfPresent()
-        value.identifier = try reader["identifier"].readIfPresent(with: M2ClientTypes.JobIdentifier.read(from:))
-        return value
-    }
-}
-
-extension M2ClientTypes.JobIdentifier {
-
-    static func write(value: M2ClientTypes.JobIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .filename(filename):
-                try writer["fileName"].write(filename)
-            case let .scriptname(scriptname):
-                try writer["scriptName"].write(scriptname)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.JobIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "fileName":
-                return .filename(try reader["fileName"].read())
-            case "scriptName":
-                return .scriptname(try reader["scriptName"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension M2ClientTypes.ScriptBatchJobIdentifier {
-
-    static func write(value: M2ClientTypes.ScriptBatchJobIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["scriptName"].write(value.scriptName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.ScriptBatchJobIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.ScriptBatchJobIdentifier()
-        value.scriptName = try reader["scriptName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension M2ClientTypes.FileBatchJobIdentifier {
-
-    static func write(value: M2ClientTypes.FileBatchJobIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fileName"].write(value.fileName)
-        try writer["folderPath"].write(value.folderPath)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.FileBatchJobIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.FileBatchJobIdentifier()
-        value.fileName = try reader["fileName"].readIfPresent() ?? ""
-        value.folderPath = try reader["folderPath"].readIfPresent()
-        return value
+        try writer["datasetName"].write(value.datasetName)
+        try writer["datasetOrg"].write(value.datasetOrg, with: M2ClientTypes.DatasetOrgAttributes.write(value:to:))
+        try writer["recordLength"].write(value.recordLength, with: M2ClientTypes.RecordLength.write(value:to:))
+        try writer["relativePath"].write(value.relativePath)
+        try writer["storageType"].write(value.storageType)
     }
 }
 
@@ -5850,91 +5796,27 @@ extension M2ClientTypes.DatasetDetailOrgAttributes {
     }
 }
 
-extension M2ClientTypes.PsDetailAttributes {
+extension M2ClientTypes.DataSetExportConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.PsDetailAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.PsDetailAttributes()
-        value.format = try reader["format"].readIfPresent() ?? ""
-        value.encoding = try reader["encoding"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension M2ClientTypes.PoDetailAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.PoDetailAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.PoDetailAttributes()
-        value.format = try reader["format"].readIfPresent() ?? ""
-        value.encoding = try reader["encoding"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension M2ClientTypes.GdgDetailAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.GdgDetailAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.GdgDetailAttributes()
-        value.limit = try reader["limit"].readIfPresent() ?? 0
-        value.rollDisposition = try reader["rollDisposition"].readIfPresent()
-        return value
-    }
-}
-
-extension M2ClientTypes.VsamDetailAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.VsamDetailAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.VsamDetailAttributes()
-        value.encoding = try reader["encoding"].readIfPresent()
-        value.recordFormat = try reader["recordFormat"].readIfPresent()
-        value.compressed = try reader["compressed"].readIfPresent()
-        value.cacheAtStartup = try reader["cacheAtStartup"].readIfPresent()
-        value.primaryKey = try reader["primaryKey"].readIfPresent(with: M2ClientTypes.PrimaryKey.read(from:))
-        value.alternateKeys = try reader["alternateKeys"].readListIfPresent(memberReadingClosure: M2ClientTypes.AlternateKey.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension M2ClientTypes.AlternateKey {
-
-    static func write(value: M2ClientTypes.AlternateKey?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: M2ClientTypes.DataSetExportConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["allowDuplicates"].write(value.allowDuplicates)
-        try writer["length"].write(value.length)
-        try writer["name"].write(value.name)
-        try writer["offset"].write(value.offset)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.AlternateKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.AlternateKey()
-        value.name = try reader["name"].readIfPresent()
-        value.offset = try reader["offset"].readIfPresent() ?? 0
-        value.length = try reader["length"].readIfPresent() ?? 0
-        value.allowDuplicates = try reader["allowDuplicates"].readIfPresent() ?? false
-        return value
+        switch value {
+            case let .datasets(datasets):
+                try writer["dataSets"].writeList(datasets, memberWritingClosure: M2ClientTypes.DataSetExportItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .s3location(s3location):
+                try writer["s3Location"].write(s3location)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 
-extension M2ClientTypes.PrimaryKey {
+extension M2ClientTypes.DataSetExportItem {
 
-    static func write(value: M2ClientTypes.PrimaryKey?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: M2ClientTypes.DataSetExportItem?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["length"].write(value.length)
-        try writer["name"].write(value.name)
-        try writer["offset"].write(value.offset)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.PrimaryKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.PrimaryKey()
-        value.name = try reader["name"].readIfPresent()
-        value.offset = try reader["offset"].readIfPresent() ?? 0
-        value.length = try reader["length"].readIfPresent() ?? 0
-        return value
+        try writer["datasetName"].write(value.datasetName)
+        try writer["externalLocation"].write(value.externalLocation, with: M2ClientTypes.ExternalLocation.write(value:to:))
     }
 }
 
@@ -5952,6 +5834,43 @@ extension M2ClientTypes.DataSetExportSummary {
     }
 }
 
+extension M2ClientTypes.DataSetExportTask {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DataSetExportTask {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.DataSetExportTask()
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.summary = try reader["summary"].readIfPresent(with: M2ClientTypes.DataSetExportSummary.read(from:))
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension M2ClientTypes.DataSetImportConfig {
+
+    static func write(value: M2ClientTypes.DataSetImportConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .datasets(datasets):
+                try writer["dataSets"].writeList(datasets, memberWritingClosure: M2ClientTypes.DataSetImportItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .s3location(s3location):
+                try writer["s3Location"].write(s3location)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension M2ClientTypes.DataSetImportItem {
+
+    static func write(value: M2ClientTypes.DataSetImportItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataSet"].write(value.dataSet, with: M2ClientTypes.DataSet.write(value:to:))
+        try writer["externalLocation"].write(value.externalLocation, with: M2ClientTypes.ExternalLocation.write(value:to:))
+    }
+}
+
 extension M2ClientTypes.DataSetImportSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DataSetImportSummary {
@@ -5966,214 +5885,6 @@ extension M2ClientTypes.DataSetImportSummary {
     }
 }
 
-extension M2ClientTypes.StorageConfiguration {
-
-    static func write(value: M2ClientTypes.StorageConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .efs(efs):
-                try writer["efs"].write(efs, with: M2ClientTypes.EfsStorageConfiguration.write(value:to:))
-            case let .fsx(fsx):
-                try writer["fsx"].write(fsx, with: M2ClientTypes.FsxStorageConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.StorageConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "efs":
-                return .efs(try reader["efs"].read(with: M2ClientTypes.EfsStorageConfiguration.read(from:)))
-            case "fsx":
-                return .fsx(try reader["fsx"].read(with: M2ClientTypes.FsxStorageConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension M2ClientTypes.FsxStorageConfiguration {
-
-    static func write(value: M2ClientTypes.FsxStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["file-system-id"].write(value.fileSystemId)
-        try writer["mount-point"].write(value.mountPoint)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.FsxStorageConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.FsxStorageConfiguration()
-        value.fileSystemId = try reader["file-system-id"].readIfPresent() ?? ""
-        value.mountPoint = try reader["mount-point"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension M2ClientTypes.EfsStorageConfiguration {
-
-    static func write(value: M2ClientTypes.EfsStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["file-system-id"].write(value.fileSystemId)
-        try writer["mount-point"].write(value.mountPoint)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.EfsStorageConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.EfsStorageConfiguration()
-        value.fileSystemId = try reader["file-system-id"].readIfPresent() ?? ""
-        value.mountPoint = try reader["mount-point"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension M2ClientTypes.HighAvailabilityConfig {
-
-    static func write(value: M2ClientTypes.HighAvailabilityConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["desiredCapacity"].write(value.desiredCapacity)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.HighAvailabilityConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.HighAvailabilityConfig()
-        value.desiredCapacity = try reader["desiredCapacity"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension M2ClientTypes.PendingMaintenance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.PendingMaintenance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.PendingMaintenance()
-        value.schedule = try reader["schedule"].readIfPresent(with: M2ClientTypes.MaintenanceSchedule.read(from:))
-        value.engineVersion = try reader["engineVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension M2ClientTypes.MaintenanceSchedule {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.MaintenanceSchedule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.MaintenanceSchedule()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension M2ClientTypes.ApplicationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.ApplicationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.ApplicationSummary()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
-        value.applicationArn = try reader["applicationArn"].readIfPresent() ?? ""
-        value.applicationVersion = try reader["applicationVersion"].readIfPresent() ?? 0
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.engineType = try reader["engineType"].readIfPresent() ?? .sdkUnknown("")
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.environmentId = try reader["environmentId"].readIfPresent()
-        value.lastStartTime = try reader["lastStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.versionStatus = try reader["versionStatus"].readIfPresent()
-        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        return value
-    }
-}
-
-extension M2ClientTypes.BatchJobDefinition {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.BatchJobDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "fileBatchJobDefinition":
-                return .filebatchjobdefinition(try reader["fileBatchJobDefinition"].read(with: M2ClientTypes.FileBatchJobDefinition.read(from:)))
-            case "scriptBatchJobDefinition":
-                return .scriptbatchjobdefinition(try reader["scriptBatchJobDefinition"].read(with: M2ClientTypes.ScriptBatchJobDefinition.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension M2ClientTypes.ScriptBatchJobDefinition {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.ScriptBatchJobDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.ScriptBatchJobDefinition()
-        value.scriptName = try reader["scriptName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension M2ClientTypes.FileBatchJobDefinition {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.FileBatchJobDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.FileBatchJobDefinition()
-        value.fileName = try reader["fileName"].readIfPresent() ?? ""
-        value.folderPath = try reader["folderPath"].readIfPresent()
-        return value
-    }
-}
-
-extension M2ClientTypes.BatchJobExecutionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.BatchJobExecutionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.BatchJobExecutionSummary()
-        value.executionId = try reader["executionId"].readIfPresent() ?? ""
-        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
-        value.jobId = try reader["jobId"].readIfPresent()
-        value.jobName = try reader["jobName"].readIfPresent()
-        value.jobType = try reader["jobType"].readIfPresent()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.returnCode = try reader["returnCode"].readIfPresent()
-        value.batchJobIdentifier = try reader["batchJobIdentifier"].readIfPresent(with: M2ClientTypes.BatchJobIdentifier.read(from:))
-        return value
-    }
-}
-
-extension M2ClientTypes.JobStep {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.JobStep {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.JobStep()
-        value.stepNumber = try reader["stepNumber"].readIfPresent() ?? 0
-        value.stepName = try reader["stepName"].readIfPresent()
-        value.procStepNumber = try reader["procStepNumber"].readIfPresent() ?? 0
-        value.procStepName = try reader["procStepName"].readIfPresent()
-        value.stepCondCode = try reader["stepCondCode"].readIfPresent()
-        value.stepRestartable = try reader["stepRestartable"].readIfPresent() ?? false
-        value.stepCheckpoint = try reader["stepCheckpoint"].readIfPresent()
-        value.stepCheckpointStatus = try reader["stepCheckpointStatus"].readIfPresent()
-        value.stepCheckpointTime = try reader["stepCheckpointTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension M2ClientTypes.DataSetExportTask {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DataSetExportTask {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.DataSetExportTask()
-        value.taskId = try reader["taskId"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.summary = try reader["summary"].readIfPresent(with: M2ClientTypes.DataSetExportSummary.read(from:))
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        return value
-    }
-}
-
 extension M2ClientTypes.DataSetImportTask {
 
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DataSetImportTask {
@@ -6184,6 +5895,25 @@ extension M2ClientTypes.DataSetImportTask {
         value.summary = try reader["summary"].readIfPresent(with: M2ClientTypes.DataSetImportSummary.read(from:))
         value.statusReason = try reader["statusReason"].readIfPresent()
         return value
+    }
+}
+
+extension M2ClientTypes.DatasetOrgAttributes {
+
+    static func write(value: M2ClientTypes.DatasetOrgAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .gdg(gdg):
+                try writer["gdg"].write(gdg, with: M2ClientTypes.GdgAttributes.write(value:to:))
+            case let .po(po):
+                try writer["po"].write(po, with: M2ClientTypes.PoAttributes.write(value:to:))
+            case let .ps(ps):
+                try writer["ps"].write(ps, with: M2ClientTypes.PsAttributes.write(value:to:))
+            case let .vsam(vsam):
+                try writer["vsam"].write(vsam, with: M2ClientTypes.VsamAttributes.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 
@@ -6202,6 +5932,33 @@ extension M2ClientTypes.DataSetSummary {
     }
 }
 
+extension M2ClientTypes.Definition {
+
+    static func write(value: M2ClientTypes.Definition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .content(content):
+                try writer["content"].write(content)
+            case let .s3location(s3location):
+                try writer["s3Location"].write(s3location)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension M2ClientTypes.DeployedVersionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DeployedVersionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.DeployedVersionSummary()
+        value.applicationVersion = try reader["applicationVersion"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
 extension M2ClientTypes.DeploymentSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DeploymentSummary {
@@ -6214,6 +5971,23 @@ extension M2ClientTypes.DeploymentSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension M2ClientTypes.EfsStorageConfiguration {
+
+    static func write(value: M2ClientTypes.EfsStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["file-system-id"].write(value.fileSystemId)
+        try writer["mount-point"].write(value.mountPoint)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.EfsStorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.EfsStorageConfiguration()
+        value.fileSystemId = try reader["file-system-id"].readIfPresent() ?? ""
+        value.mountPoint = try reader["mount-point"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6247,56 +6021,6 @@ extension M2ClientTypes.EnvironmentSummary {
     }
 }
 
-extension M2ClientTypes.ValidationExceptionField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.ValidationExceptionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = M2ClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension M2ClientTypes.Definition {
-
-    static func write(value: M2ClientTypes.Definition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .content(content):
-                try writer["content"].write(content)
-            case let .s3location(s3location):
-                try writer["s3Location"].write(s3location)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension M2ClientTypes.DataSetExportConfig {
-
-    static func write(value: M2ClientTypes.DataSetExportConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .datasets(datasets):
-                try writer["dataSets"].writeList(datasets, memberWritingClosure: M2ClientTypes.DataSetExportItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .s3location(s3location):
-                try writer["s3Location"].write(s3location)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension M2ClientTypes.DataSetExportItem {
-
-    static func write(value: M2ClientTypes.DataSetExportItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["datasetName"].write(value.datasetName)
-        try writer["externalLocation"].write(value.externalLocation, with: M2ClientTypes.ExternalLocation.write(value:to:))
-    }
-}
-
 extension M2ClientTypes.ExternalLocation {
 
     static func write(value: M2ClientTypes.ExternalLocation?, to writer: SmithyJSON.Writer) throws {
@@ -6310,76 +6034,187 @@ extension M2ClientTypes.ExternalLocation {
     }
 }
 
-extension M2ClientTypes.DataSetImportConfig {
+extension M2ClientTypes.FileBatchJobDefinition {
 
-    static func write(value: M2ClientTypes.DataSetImportConfig?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.FileBatchJobDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.FileBatchJobDefinition()
+        value.fileName = try reader["fileName"].readIfPresent() ?? ""
+        value.folderPath = try reader["folderPath"].readIfPresent()
+        return value
+    }
+}
+
+extension M2ClientTypes.FileBatchJobIdentifier {
+
+    static func write(value: M2ClientTypes.FileBatchJobIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fileName"].write(value.fileName)
+        try writer["folderPath"].write(value.folderPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.FileBatchJobIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.FileBatchJobIdentifier()
+        value.fileName = try reader["fileName"].readIfPresent() ?? ""
+        value.folderPath = try reader["folderPath"].readIfPresent()
+        return value
+    }
+}
+
+extension M2ClientTypes.FsxStorageConfiguration {
+
+    static func write(value: M2ClientTypes.FsxStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["file-system-id"].write(value.fileSystemId)
+        try writer["mount-point"].write(value.mountPoint)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.FsxStorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.FsxStorageConfiguration()
+        value.fileSystemId = try reader["file-system-id"].readIfPresent() ?? ""
+        value.mountPoint = try reader["mount-point"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension M2ClientTypes.GdgAttributes {
+
+    static func write(value: M2ClientTypes.GdgAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["limit"].write(value.limit)
+        try writer["rollDisposition"].write(value.rollDisposition)
+    }
+}
+
+extension M2ClientTypes.GdgDetailAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.GdgDetailAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.GdgDetailAttributes()
+        value.limit = try reader["limit"].readIfPresent() ?? 0
+        value.rollDisposition = try reader["rollDisposition"].readIfPresent()
+        return value
+    }
+}
+
+extension M2ClientTypes.HighAvailabilityConfig {
+
+    static func write(value: M2ClientTypes.HighAvailabilityConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["desiredCapacity"].write(value.desiredCapacity)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.HighAvailabilityConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.HighAvailabilityConfig()
+        value.desiredCapacity = try reader["desiredCapacity"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension M2ClientTypes.JobIdentifier {
+
+    static func write(value: M2ClientTypes.JobIdentifier?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .datasets(datasets):
-                try writer["dataSets"].writeList(datasets, memberWritingClosure: M2ClientTypes.DataSetImportItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .s3location(s3location):
-                try writer["s3Location"].write(s3location)
+            case let .filename(filename):
+                try writer["fileName"].write(filename)
+            case let .scriptname(scriptname):
+                try writer["scriptName"].write(scriptname)
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-}
 
-extension M2ClientTypes.DataSetImportItem {
-
-    static func write(value: M2ClientTypes.DataSetImportItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataSet"].write(value.dataSet, with: M2ClientTypes.DataSet.write(value:to:))
-        try writer["externalLocation"].write(value.externalLocation, with: M2ClientTypes.ExternalLocation.write(value:to:))
-    }
-}
-
-extension M2ClientTypes.DataSet {
-
-    static func write(value: M2ClientTypes.DataSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["datasetName"].write(value.datasetName)
-        try writer["datasetOrg"].write(value.datasetOrg, with: M2ClientTypes.DatasetOrgAttributes.write(value:to:))
-        try writer["recordLength"].write(value.recordLength, with: M2ClientTypes.RecordLength.write(value:to:))
-        try writer["relativePath"].write(value.relativePath)
-        try writer["storageType"].write(value.storageType)
-    }
-}
-
-extension M2ClientTypes.RecordLength {
-
-    static func write(value: M2ClientTypes.RecordLength?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["max"].write(value.max)
-        try writer["min"].write(value.min)
-    }
-}
-
-extension M2ClientTypes.DatasetOrgAttributes {
-
-    static func write(value: M2ClientTypes.DatasetOrgAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .gdg(gdg):
-                try writer["gdg"].write(gdg, with: M2ClientTypes.GdgAttributes.write(value:to:))
-            case let .po(po):
-                try writer["po"].write(po, with: M2ClientTypes.PoAttributes.write(value:to:))
-            case let .ps(ps):
-                try writer["ps"].write(ps, with: M2ClientTypes.PsAttributes.write(value:to:))
-            case let .vsam(vsam):
-                try writer["vsam"].write(vsam, with: M2ClientTypes.VsamAttributes.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.JobIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "fileName":
+                return .filename(try reader["fileName"].read())
+            case "scriptName":
+                return .scriptname(try reader["scriptName"].read())
+            default:
+                return .sdkUnknown(name ?? "")
         }
     }
 }
 
-extension M2ClientTypes.PsAttributes {
+extension M2ClientTypes.JobStep {
 
-    static func write(value: M2ClientTypes.PsAttributes?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.JobStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.JobStep()
+        value.stepNumber = try reader["stepNumber"].readIfPresent() ?? 0
+        value.stepName = try reader["stepName"].readIfPresent()
+        value.procStepNumber = try reader["procStepNumber"].readIfPresent() ?? 0
+        value.procStepName = try reader["procStepName"].readIfPresent()
+        value.stepCondCode = try reader["stepCondCode"].readIfPresent()
+        value.stepRestartable = try reader["stepRestartable"].readIfPresent() ?? false
+        value.stepCheckpoint = try reader["stepCheckpoint"].readIfPresent()
+        value.stepCheckpointStatus = try reader["stepCheckpointStatus"].readIfPresent()
+        value.stepCheckpointTime = try reader["stepCheckpointTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension M2ClientTypes.JobStepRestartMarker {
+
+    static func write(value: M2ClientTypes.JobStepRestartMarker?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["encoding"].write(value.encoding)
-        try writer["format"].write(value.format)
+        try writer["fromProcStep"].write(value.fromProcStep)
+        try writer["fromStep"].write(value.fromStep)
+        try writer["skip"].write(value.skip)
+        try writer["stepCheckpoint"].write(value.stepCheckpoint)
+        try writer["toProcStep"].write(value.toProcStep)
+        try writer["toStep"].write(value.toStep)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.JobStepRestartMarker {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.JobStepRestartMarker()
+        value.fromStep = try reader["fromStep"].readIfPresent() ?? ""
+        value.fromProcStep = try reader["fromProcStep"].readIfPresent()
+        value.toStep = try reader["toStep"].readIfPresent()
+        value.toProcStep = try reader["toProcStep"].readIfPresent()
+        value.stepCheckpoint = try reader["stepCheckpoint"].readIfPresent()
+        value.skip = try reader["skip"].readIfPresent()
+        return value
+    }
+}
+
+extension M2ClientTypes.LogGroupSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.LogGroupSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.LogGroupSummary()
+        value.logType = try reader["logType"].readIfPresent() ?? ""
+        value.logGroupName = try reader["logGroupName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension M2ClientTypes.MaintenanceSchedule {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.MaintenanceSchedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.MaintenanceSchedule()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension M2ClientTypes.PendingMaintenance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.PendingMaintenance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.PendingMaintenance()
+        value.schedule = try reader["schedule"].readIfPresent(with: M2ClientTypes.MaintenanceSchedule.read(from:))
+        value.engineVersion = try reader["engineVersion"].readIfPresent()
+        return value
     }
 }
 
@@ -6393,12 +6228,162 @@ extension M2ClientTypes.PoAttributes {
     }
 }
 
-extension M2ClientTypes.GdgAttributes {
+extension M2ClientTypes.PoDetailAttributes {
 
-    static func write(value: M2ClientTypes.GdgAttributes?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.PoDetailAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.PoDetailAttributes()
+        value.format = try reader["format"].readIfPresent() ?? ""
+        value.encoding = try reader["encoding"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension M2ClientTypes.PrimaryKey {
+
+    static func write(value: M2ClientTypes.PrimaryKey?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["limit"].write(value.limit)
-        try writer["rollDisposition"].write(value.rollDisposition)
+        try writer["length"].write(value.length)
+        try writer["name"].write(value.name)
+        try writer["offset"].write(value.offset)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.PrimaryKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.PrimaryKey()
+        value.name = try reader["name"].readIfPresent()
+        value.offset = try reader["offset"].readIfPresent() ?? 0
+        value.length = try reader["length"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension M2ClientTypes.PsAttributes {
+
+    static func write(value: M2ClientTypes.PsAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encoding"].write(value.encoding)
+        try writer["format"].write(value.format)
+    }
+}
+
+extension M2ClientTypes.PsDetailAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.PsDetailAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.PsDetailAttributes()
+        value.format = try reader["format"].readIfPresent() ?? ""
+        value.encoding = try reader["encoding"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension M2ClientTypes.RecordLength {
+
+    static func write(value: M2ClientTypes.RecordLength?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["max"].write(value.max)
+        try writer["min"].write(value.min)
+    }
+}
+
+extension M2ClientTypes.RestartBatchJobIdentifier {
+
+    static func write(value: M2ClientTypes.RestartBatchJobIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["executionId"].write(value.executionId)
+        try writer["jobStepRestartMarker"].write(value.jobStepRestartMarker, with: M2ClientTypes.JobStepRestartMarker.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.RestartBatchJobIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.RestartBatchJobIdentifier()
+        value.executionId = try reader["executionId"].readIfPresent() ?? ""
+        value.jobStepRestartMarker = try reader["jobStepRestartMarker"].readIfPresent(with: M2ClientTypes.JobStepRestartMarker.read(from:))
+        return value
+    }
+}
+
+extension M2ClientTypes.S3BatchJobIdentifier {
+
+    static func write(value: M2ClientTypes.S3BatchJobIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["identifier"].write(value.identifier, with: M2ClientTypes.JobIdentifier.write(value:to:))
+        try writer["keyPrefix"].write(value.keyPrefix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.S3BatchJobIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.S3BatchJobIdentifier()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
+        value.keyPrefix = try reader["keyPrefix"].readIfPresent()
+        value.identifier = try reader["identifier"].readIfPresent(with: M2ClientTypes.JobIdentifier.read(from:))
+        return value
+    }
+}
+
+extension M2ClientTypes.ScriptBatchJobDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.ScriptBatchJobDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.ScriptBatchJobDefinition()
+        value.scriptName = try reader["scriptName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension M2ClientTypes.ScriptBatchJobIdentifier {
+
+    static func write(value: M2ClientTypes.ScriptBatchJobIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scriptName"].write(value.scriptName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.ScriptBatchJobIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.ScriptBatchJobIdentifier()
+        value.scriptName = try reader["scriptName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension M2ClientTypes.StorageConfiguration {
+
+    static func write(value: M2ClientTypes.StorageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .efs(efs):
+                try writer["efs"].write(efs, with: M2ClientTypes.EfsStorageConfiguration.write(value:to:))
+            case let .fsx(fsx):
+                try writer["fsx"].write(fsx, with: M2ClientTypes.FsxStorageConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.StorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "efs":
+                return .efs(try reader["efs"].read(with: M2ClientTypes.EfsStorageConfiguration.read(from:)))
+            case "fsx":
+                return .fsx(try reader["fsx"].read(with: M2ClientTypes.FsxStorageConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension M2ClientTypes.ValidationExceptionField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.ValidationExceptionField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -6411,6 +6396,21 @@ extension M2ClientTypes.VsamAttributes {
         try writer["encoding"].write(value.encoding)
         try writer["format"].write(value.format)
         try writer["primaryKey"].write(value.primaryKey, with: M2ClientTypes.PrimaryKey.write(value:to:))
+    }
+}
+
+extension M2ClientTypes.VsamDetailAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.VsamDetailAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.VsamDetailAttributes()
+        value.encoding = try reader["encoding"].readIfPresent()
+        value.recordFormat = try reader["recordFormat"].readIfPresent()
+        value.compressed = try reader["compressed"].readIfPresent()
+        value.cacheAtStartup = try reader["cacheAtStartup"].readIfPresent()
+        value.primaryKey = try reader["primaryKey"].readIfPresent(with: M2ClientTypes.PrimaryKey.read(from:))
+        value.alternateKeys = try reader["alternateKeys"].readListIfPresent(memberReadingClosure: M2ClientTypes.AlternateKey.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 

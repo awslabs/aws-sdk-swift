@@ -11,12 +11,9 @@ import AWSSTS
 import AWSIAM
 import AWSSDKIdentity
 import ClientRuntime
-#if canImport(InMemoryExporter)
-import InMemoryExporter
+#if canImport(SmithyOpenTelemetry)
+import SmithyOpenTelemetry
 #endif
-//#if os(Linux)
-//import OpenTelemetryConcurrency
-//#endif
 
 class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
     private let region = "us-east-1"
@@ -89,8 +86,8 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
         throw lastError!
     }
 
-    // Right now opentelemetry-swift doesnt support linux or visionos
-    #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
+    // Right now opentelemetry-swift doesnt support linux
+    #if canImport(SmithyOpenTelemetry)
     // OpenTelemetry Tracing works as expected
     func testGetCallerIdentityWithOTelTracing() async throws {
         let inMemoryExporter = InMemoryExporter()

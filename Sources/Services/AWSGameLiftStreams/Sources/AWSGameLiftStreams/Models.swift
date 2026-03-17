@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 
 
@@ -200,6 +200,27 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension GameLiftStreamsClientTypes {
 
+    /// Configuration for connecting a stream group location to resources in your Amazon VPC using AWS Transit Gateway. When you specify a VPC transit configuration, Amazon GameLift Streams creates a Transit Gateway and shares it with your account using AWS Resource Access Manager. After the stream group is active, you must complete the setup by accepting the resource share, creating a VPC attachment, and configuring routing.
+    public struct VpcTransitConfiguration: Swift.Sendable {
+        /// A list of IPv4 CIDR blocks in your VPC that you want the stream group to be able to access. You can specify up to 5 CIDR blocks. The CIDR blocks must be valid subsets of the VPC's CIDR blocks and cannot overlap with the service VPC CIDR block.
+        /// This member is required.
+        public var ipv4CidrBlocks: [Swift.String]?
+        /// The ID of the Amazon VPC that you want to connect to the stream group. The VPC must be in the same Amazon Web Services account as the stream group. This value cannot be changed after the stream group is created.
+        /// This member is required.
+        public var vpcId: Swift.String?
+
+        public init(
+            ipv4CidrBlocks: [Swift.String]? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.ipv4CidrBlocks = ipv4CidrBlocks
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension GameLiftStreamsClientTypes {
+
     /// Configuration settings that define a stream group's stream capacity for a location. When configuring a location for the first time, you must specify a numeric value for at least one of the two capacity types. To update the capacity for an existing stream group, call [UpdateStreamGroup](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_UpdateStreamGroup.html). To add a new location and specify its capacity, call [AddStreamGroupLocations](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_AddStreamGroupLocations.html).
     public struct LocationConfiguration: Swift.Sendable {
         /// This setting, if non-zero, indicates minimum streaming capacity which is allocated to you and is never released back to the service. You pay for this base level of capacity at all times, whether used or idle.
@@ -214,19 +235,23 @@ extension GameLiftStreamsClientTypes {
         public var onDemandCapacity: Swift.Int?
         /// This indicates idle capacity which the service pre-allocates and holds for you in anticipation of future activity. This helps to insulate your users from capacity-allocation delays. You pay for capacity which is held in this intentional idle state.
         public var targetIdleCapacity: Swift.Int?
+        /// Configuration for connecting the stream group to resources in your Amazon VPC using AWS Transit Gateway. This setting is optional. If specified, Amazon GameLift Streams creates a Transit Gateway to enable private network connectivity between the service VPC and your VPC. The VPC ID cannot be changed after the stream group is created, but you can update the CIDR blocks by calling [UpdateStreamGroup](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_UpdateStreamGroup.html).
+        public var vpcTransitConfiguration: GameLiftStreamsClientTypes.VpcTransitConfiguration?
 
         public init(
             alwaysOnCapacity: Swift.Int? = nil,
             locationName: Swift.String? = nil,
             maximumCapacity: Swift.Int? = nil,
             onDemandCapacity: Swift.Int? = nil,
-            targetIdleCapacity: Swift.Int? = nil
+            targetIdleCapacity: Swift.Int? = nil,
+            vpcTransitConfiguration: GameLiftStreamsClientTypes.VpcTransitConfiguration? = nil
         ) {
             self.alwaysOnCapacity = alwaysOnCapacity
             self.locationName = locationName
             self.maximumCapacity = maximumCapacity
             self.onDemandCapacity = onDemandCapacity
             self.targetIdleCapacity = targetIdleCapacity
+            self.vpcTransitConfiguration = vpcTransitConfiguration
         }
     }
 }
@@ -285,6 +310,33 @@ extension GameLiftStreamsClientTypes {
 
 extension GameLiftStreamsClientTypes {
 
+    /// The VPC transit configuration details for a stream group location, including the Transit Gateway information needed to complete the VPC attachment setup.
+    public struct VpcTransitConfigurationResponse: Swift.Sendable {
+        /// The IPv4 CIDR blocks in your VPC that the stream group can access.
+        public var ipv4CidrBlocks: [Swift.String]?
+        /// The ID of the Transit Gateway that Amazon GameLift Streams created for this VPC connection. Use this ID when creating your VPC attachment.
+        public var transitGatewayId: Swift.String?
+        /// The ARN of the AWS Resource Access Manager resource share for the Transit Gateway. You must accept this resource share before you can create a VPC attachment.
+        public var transitGatewayResourceShareArn: Swift.String?
+        /// The ID of the Amazon VPC that is connected to the stream group.
+        public var vpcId: Swift.String?
+
+        public init(
+            ipv4CidrBlocks: [Swift.String]? = nil,
+            transitGatewayId: Swift.String? = nil,
+            transitGatewayResourceShareArn: Swift.String? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.ipv4CidrBlocks = ipv4CidrBlocks
+            self.transitGatewayId = transitGatewayId
+            self.transitGatewayResourceShareArn = transitGatewayResourceShareArn
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension GameLiftStreamsClientTypes {
+
     /// Represents a location and its corresponding stream capacity and status.
     public struct LocationState: Swift.Sendable {
         /// This value is the stream capacity that Amazon GameLift Streams has provisioned in a stream group that can respond immediately to stream requests. It includes resources that are currently streaming and resources that are idle and ready to respond to stream requests. When target-idle capacity is configured, the idle resources include the capacity buffer maintained beyond ongoing sessions. You pay for this capacity whether it's in use or not. After making changes to capacity, it can take a few minutes for the allocated capacity count to reflect the change while compute resources are allocated or deallocated. Similarly, when allocated on-demand capacity is no longer needed, it can take a few minutes for Amazon GameLift Streams to spin down the allocated capacity.
@@ -293,6 +345,8 @@ extension GameLiftStreamsClientTypes {
         public var alwaysOnCapacity: Swift.Int?
         /// This value is the amount of allocated capacity that is not currently streaming. It represents the stream group's ability to respond immediately to new stream requests with near-instant startup time.
         public var idleCapacity: Swift.Int?
+        /// The CIDR block of the service VPC for this location. Add this CIDR block to your VPC route table to enable traffic routing through the Transit Gateway.
+        public var internalVpcIpv4CidrBlock: Swift.String?
         /// A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions, quotas, and limitations](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
         public var locationName: Swift.String?
         /// This indicates the maximum capacity that the service can allocate for you. Newly created streams may take a few minutes to start. Capacity is released back to the service when idle. You pay for capacity that is allocated to you until it is released.
@@ -313,27 +367,33 @@ extension GameLiftStreamsClientTypes {
         public var status: GameLiftStreamsClientTypes.StreamGroupLocationStatus?
         /// This indicates idle capacity which the service pre-allocates and holds for you in anticipation of future activity. This helps to insulate your users from capacity-allocation delays. You pay for capacity which is held in this intentional idle state.
         public var targetIdleCapacity: Swift.Int?
+        /// The VPC transit configuration for this location, including the Transit Gateway details needed to complete the VPC attachment setup.
+        public var vpcTransitConfiguration: GameLiftStreamsClientTypes.VpcTransitConfigurationResponse?
 
         public init(
             allocatedCapacity: Swift.Int? = nil,
             alwaysOnCapacity: Swift.Int? = nil,
             idleCapacity: Swift.Int? = nil,
+            internalVpcIpv4CidrBlock: Swift.String? = nil,
             locationName: Swift.String? = nil,
             maximumCapacity: Swift.Int? = nil,
             onDemandCapacity: Swift.Int? = nil,
             requestedCapacity: Swift.Int? = nil,
             status: GameLiftStreamsClientTypes.StreamGroupLocationStatus? = nil,
-            targetIdleCapacity: Swift.Int? = nil
+            targetIdleCapacity: Swift.Int? = nil,
+            vpcTransitConfiguration: GameLiftStreamsClientTypes.VpcTransitConfigurationResponse? = nil
         ) {
             self.allocatedCapacity = allocatedCapacity
             self.alwaysOnCapacity = alwaysOnCapacity
             self.idleCapacity = idleCapacity
+            self.internalVpcIpv4CidrBlock = internalVpcIpv4CidrBlock
             self.locationName = locationName
             self.maximumCapacity = maximumCapacity
             self.onDemandCapacity = onDemandCapacity
             self.requestedCapacity = requestedCapacity
             self.status = status
             self.targetIdleCapacity = targetIdleCapacity
+            self.vpcTransitConfiguration = vpcTransitConfiguration
         }
     }
 }
@@ -406,12 +466,14 @@ extension GameLiftStreamsClientTypes {
     public enum ApplicationStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessDenied
         case internalError
+        case sourceModified
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ApplicationStatusReason] {
             return [
                 .accessDenied,
-                .internalError
+                .internalError,
+                .sourceModified
             ]
         }
 
@@ -424,6 +486,7 @@ extension GameLiftStreamsClientTypes {
             switch self {
             case .accessDenied: return "accessDenied"
             case .internalError: return "internalError"
+            case .sourceModified: return "sourceModified"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1092,11 +1155,15 @@ extension GameLiftStreamsClientTypes {
         case gen5nHigh
         case gen5nUltra
         case gen5nWin2022
+        case gen6ePro
+        case gen6eProWin2022
         case gen6nHigh
         case gen6nMedium
+        case gen6nMediumWin2022
         case gen6nPro
         case gen6nProWin2022
         case gen6nSmall
+        case gen6nSmallWin2022
         case gen6nUltra
         case gen6nUltraWin2022
         case sdkUnknown(Swift.String)
@@ -1109,11 +1176,15 @@ extension GameLiftStreamsClientTypes {
                 .gen5nHigh,
                 .gen5nUltra,
                 .gen5nWin2022,
+                .gen6ePro,
+                .gen6eProWin2022,
                 .gen6nHigh,
                 .gen6nMedium,
+                .gen6nMediumWin2022,
                 .gen6nPro,
                 .gen6nProWin2022,
                 .gen6nSmall,
+                .gen6nSmallWin2022,
                 .gen6nUltra,
                 .gen6nUltraWin2022
             ]
@@ -1132,11 +1203,15 @@ extension GameLiftStreamsClientTypes {
             case .gen5nHigh: return "gen5n_high"
             case .gen5nUltra: return "gen5n_ultra"
             case .gen5nWin2022: return "gen5n_win2022"
+            case .gen6ePro: return "gen6e_pro"
+            case .gen6eProWin2022: return "gen6e_pro_win2022"
             case .gen6nHigh: return "gen6n_high"
             case .gen6nMedium: return "gen6n_medium"
+            case .gen6nMediumWin2022: return "gen6n_medium_win2022"
             case .gen6nPro: return "gen6n_pro"
             case .gen6nProWin2022: return "gen6n_pro_win2022"
             case .gen6nSmall: return "gen6n_small"
+            case .gen6nSmallWin2022: return "gen6n_small_win2022"
             case .gen6nUltra: return "gen6n_ultra"
             case .gen6nUltraWin2022: return "gen6n_ultra_win2022"
             case let .sdkUnknown(s): return s
@@ -4263,7 +4338,7 @@ enum AddStreamGroupLocationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4282,7 +4357,7 @@ enum AssociateApplicationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4301,7 +4376,7 @@ enum CreateApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4320,7 +4395,7 @@ enum CreateStreamGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4340,7 +4415,7 @@ enum CreateStreamSessionConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4359,7 +4434,7 @@ enum DeleteApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4378,7 +4453,7 @@ enum DeleteStreamGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4397,7 +4472,7 @@ enum DisassociateApplicationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4415,7 +4490,7 @@ enum ExportStreamSessionFilesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4433,7 +4508,7 @@ enum GetApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4451,7 +4526,7 @@ enum GetStreamGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4469,7 +4544,7 @@ enum GetStreamSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4487,7 +4562,7 @@ enum ListApplicationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4504,7 +4579,7 @@ enum ListStreamGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4521,7 +4596,7 @@ enum ListStreamSessionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4539,7 +4614,7 @@ enum ListStreamSessionsByAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4556,7 +4631,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4573,7 +4648,7 @@ enum RemoveStreamGroupLocationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4591,7 +4666,7 @@ enum StartStreamSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4610,7 +4685,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4627,7 +4702,7 @@ enum TerminateStreamSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4645,7 +4720,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4662,7 +4737,7 @@ enum UpdateApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4680,7 +4755,7 @@ enum UpdateStreamGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4697,7 +4772,7 @@ enum UpdateStreamGroupOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -4710,7 +4785,7 @@ extension AccessDeniedException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -4723,7 +4798,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -4736,7 +4811,7 @@ extension ResourceNotFoundException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -4749,7 +4824,7 @@ extension ServiceQuotaExceededException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -4762,7 +4837,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -4775,7 +4850,7 @@ extension ValidationException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -4783,6 +4858,58 @@ extension ConflictException {
         value.requestID = baseError.requestID
         value.message = baseError.message
         return value
+    }
+}
+
+extension GameLiftStreamsClientTypes.ApplicationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.ApplicationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftStreamsClientTypes.ApplicationSummary()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.runtimeEnvironment = try reader["RuntimeEnvironment"].readIfPresent(with: GameLiftStreamsClientTypes.RuntimeEnvironment.read(from:))
+        return value
+    }
+}
+
+extension GameLiftStreamsClientTypes.DefaultApplication {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.DefaultApplication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftStreamsClientTypes.DefaultApplication()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftStreamsClientTypes.ExportFilesMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.ExportFilesMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftStreamsClientTypes.ExportFilesMetadata()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.outputUri = try reader["OutputUri"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftStreamsClientTypes.LocationConfiguration {
+
+    static func write(value: GameLiftStreamsClientTypes.LocationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AlwaysOnCapacity"].write(value.alwaysOnCapacity)
+        try writer["LocationName"].write(value.locationName)
+        try writer["MaximumCapacity"].write(value.maximumCapacity)
+        try writer["OnDemandCapacity"].write(value.onDemandCapacity)
+        try writer["TargetIdleCapacity"].write(value.targetIdleCapacity)
+        try writer["VpcTransitConfiguration"].write(value.vpcTransitConfiguration, with: GameLiftStreamsClientTypes.VpcTransitConfiguration.write(value:to:))
     }
 }
 
@@ -4800,45 +4927,8 @@ extension GameLiftStreamsClientTypes.LocationState {
         value.requestedCapacity = try reader["RequestedCapacity"].readIfPresent()
         value.allocatedCapacity = try reader["AllocatedCapacity"].readIfPresent()
         value.idleCapacity = try reader["IdleCapacity"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftStreamsClientTypes.RuntimeEnvironment {
-
-    static func write(value: GameLiftStreamsClientTypes.RuntimeEnvironment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["Version"].write(value.version)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.RuntimeEnvironment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftStreamsClientTypes.RuntimeEnvironment()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.version = try reader["Version"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GameLiftStreamsClientTypes.ReplicationStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.ReplicationStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftStreamsClientTypes.ReplicationStatus()
-        value.location = try reader["Location"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftStreamsClientTypes.DefaultApplication {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.DefaultApplication {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftStreamsClientTypes.DefaultApplication()
-        value.id = try reader["Id"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.internalVpcIpv4CidrBlock = try reader["InternalVpcIpv4CidrBlock"].readIfPresent()
+        value.vpcTransitConfiguration = try reader["VpcTransitConfiguration"].readIfPresent(with: GameLiftStreamsClientTypes.VpcTransitConfigurationResponse.read(from:))
         return value
     }
 }
@@ -4858,30 +4948,30 @@ extension GameLiftStreamsClientTypes.PerformanceStatsConfiguration {
     }
 }
 
-extension GameLiftStreamsClientTypes.ExportFilesMetadata {
+extension GameLiftStreamsClientTypes.ReplicationStatus {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.ExportFilesMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.ReplicationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftStreamsClientTypes.ExportFilesMetadata()
+        var value = GameLiftStreamsClientTypes.ReplicationStatus()
+        value.location = try reader["Location"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.outputUri = try reader["OutputUri"].readIfPresent()
         return value
     }
 }
 
-extension GameLiftStreamsClientTypes.ApplicationSummary {
+extension GameLiftStreamsClientTypes.RuntimeEnvironment {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.ApplicationSummary {
+    static func write(value: GameLiftStreamsClientTypes.RuntimeEnvironment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Version"].write(value.version)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.RuntimeEnvironment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftStreamsClientTypes.ApplicationSummary()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.id = try reader["Id"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.runtimeEnvironment = try reader["RuntimeEnvironment"].readIfPresent(with: GameLiftStreamsClientTypes.RuntimeEnvironment.read(from:))
+        var value = GameLiftStreamsClientTypes.RuntimeEnvironment()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.version = try reader["Version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4923,15 +5013,25 @@ extension GameLiftStreamsClientTypes.StreamSessionSummary {
     }
 }
 
-extension GameLiftStreamsClientTypes.LocationConfiguration {
+extension GameLiftStreamsClientTypes.VpcTransitConfiguration {
 
-    static func write(value: GameLiftStreamsClientTypes.LocationConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GameLiftStreamsClientTypes.VpcTransitConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AlwaysOnCapacity"].write(value.alwaysOnCapacity)
-        try writer["LocationName"].write(value.locationName)
-        try writer["MaximumCapacity"].write(value.maximumCapacity)
-        try writer["OnDemandCapacity"].write(value.onDemandCapacity)
-        try writer["TargetIdleCapacity"].write(value.targetIdleCapacity)
+        try writer["Ipv4CidrBlocks"].writeList(value.ipv4CidrBlocks, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VpcId"].write(value.vpcId)
+    }
+}
+
+extension GameLiftStreamsClientTypes.VpcTransitConfigurationResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.VpcTransitConfigurationResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftStreamsClientTypes.VpcTransitConfigurationResponse()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.ipv4CidrBlocks = try reader["Ipv4CidrBlocks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.transitGatewayId = try reader["TransitGatewayId"].readIfPresent()
+        value.transitGatewayResourceShareArn = try reader["TransitGatewayResourceShareArn"].readIfPresent()
+        return value
     }
 }
 

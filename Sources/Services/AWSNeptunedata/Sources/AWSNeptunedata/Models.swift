@@ -24,8 +24,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.Document
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
@@ -5508,7 +5508,7 @@ enum CancelGremlinQueryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5535,7 +5535,7 @@ enum CancelLoaderJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5561,7 +5561,7 @@ enum CancelMLDataProcessingJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5585,7 +5585,7 @@ enum CancelMLModelTrainingJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5609,7 +5609,7 @@ enum CancelMLModelTransformJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5633,7 +5633,7 @@ enum CancelOpenCypherQueryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5661,7 +5661,7 @@ enum CreateMLEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5685,7 +5685,7 @@ enum DeleteMLEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5709,7 +5709,7 @@ enum DeletePropertygraphStatisticsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5735,7 +5735,7 @@ enum DeleteSparqlStatisticsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5761,7 +5761,7 @@ enum ExecuteFastResetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5787,7 +5787,7 @@ enum ExecuteGremlinExplainQueryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5820,7 +5820,7 @@ enum ExecuteGremlinProfileQueryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5853,7 +5853,7 @@ enum ExecuteGremlinQueryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5886,7 +5886,7 @@ enum ExecuteOpenCypherExplainQueryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5920,7 +5920,7 @@ enum ExecuteOpenCypherQueryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5954,7 +5954,7 @@ enum GetEngineStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientTimeoutException": return try ClientTimeoutException.makeError(baseError: baseError)
@@ -5975,7 +5975,7 @@ enum GetGremlinQueryStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6004,7 +6004,7 @@ enum GetLoaderJobStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6030,7 +6030,7 @@ enum GetMLDataProcessingJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6054,7 +6054,7 @@ enum GetMLEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6078,7 +6078,7 @@ enum GetMLModelTrainingJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6102,7 +6102,7 @@ enum GetMLModelTransformJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6126,7 +6126,7 @@ enum GetOpenCypherQueryStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6156,7 +6156,7 @@ enum GetPropertygraphStatisticsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6182,7 +6182,7 @@ enum GetPropertygraphStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientTimeoutException": return try ClientTimeoutException.makeError(baseError: baseError)
@@ -6207,7 +6207,7 @@ enum GetPropertygraphSummaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6233,7 +6233,7 @@ enum GetRDFGraphSummaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6259,7 +6259,7 @@ enum GetSparqlStatisticsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6285,7 +6285,7 @@ enum GetSparqlStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientTimeoutException": return try ClientTimeoutException.makeError(baseError: baseError)
@@ -6310,7 +6310,7 @@ enum ListGremlinQueriesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6339,7 +6339,7 @@ enum ListLoaderJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6364,7 +6364,7 @@ enum ListMLDataProcessingJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6388,7 +6388,7 @@ enum ListMLEndpointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6412,7 +6412,7 @@ enum ListMLModelTrainingJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6436,7 +6436,7 @@ enum ListMLModelTransformJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6460,7 +6460,7 @@ enum ListOpenCypherQueriesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6490,7 +6490,7 @@ enum ManagePropertygraphStatisticsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6516,7 +6516,7 @@ enum ManageSparqlStatisticsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6542,7 +6542,7 @@ enum StartLoaderJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6569,7 +6569,7 @@ enum StartMLDataProcessingJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6593,7 +6593,7 @@ enum StartMLModelTrainingJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6617,7 +6617,7 @@ enum StartMLModelTransformJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6638,7 +6638,7 @@ enum StartMLModelTransformJobOutputError {
 
 extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6653,7 +6653,7 @@ extension BadRequestException {
 
 extension ClientTimeoutException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ClientTimeoutException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ClientTimeoutException {
         let reader = baseError.errorBodyReader
         var value = ClientTimeoutException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6668,7 +6668,7 @@ extension ClientTimeoutException {
 
 extension ConcurrentModificationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConcurrentModificationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConcurrentModificationException {
         let reader = baseError.errorBodyReader
         var value = ConcurrentModificationException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6683,7 +6683,7 @@ extension ConcurrentModificationException {
 
 extension ConstraintViolationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConstraintViolationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConstraintViolationException {
         let reader = baseError.errorBodyReader
         var value = ConstraintViolationException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6698,7 +6698,7 @@ extension ConstraintViolationException {
 
 extension FailureByQueryException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FailureByQueryException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> FailureByQueryException {
         let reader = baseError.errorBodyReader
         var value = FailureByQueryException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6713,7 +6713,7 @@ extension FailureByQueryException {
 
 extension IllegalArgumentException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> IllegalArgumentException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> IllegalArgumentException {
         let reader = baseError.errorBodyReader
         var value = IllegalArgumentException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6728,7 +6728,7 @@ extension IllegalArgumentException {
 
 extension InvalidArgumentException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidArgumentException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidArgumentException {
         let reader = baseError.errorBodyReader
         var value = InvalidArgumentException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6743,7 +6743,7 @@ extension InvalidArgumentException {
 
 extension InvalidParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6758,7 +6758,7 @@ extension InvalidParameterException {
 
 extension MissingParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MissingParameterException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MissingParameterException {
         let reader = baseError.errorBodyReader
         var value = MissingParameterException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6773,7 +6773,7 @@ extension MissingParameterException {
 
 extension ParsingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ParsingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ParsingException {
         let reader = baseError.errorBodyReader
         var value = ParsingException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6788,7 +6788,7 @@ extension ParsingException {
 
 extension PreconditionsFailedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PreconditionsFailedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> PreconditionsFailedException {
         let reader = baseError.errorBodyReader
         var value = PreconditionsFailedException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6803,7 +6803,7 @@ extension PreconditionsFailedException {
 
 extension TimeLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TimeLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TimeLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = TimeLimitExceededException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6818,7 +6818,7 @@ extension TimeLimitExceededException {
 
 extension TooManyRequestsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6833,7 +6833,7 @@ extension TooManyRequestsException {
 
 extension UnsupportedOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedOperationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnsupportedOperationException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedOperationException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6848,7 +6848,7 @@ extension UnsupportedOperationException {
 
 extension BulkLoadIdNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BulkLoadIdNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BulkLoadIdNotFoundException {
         let reader = baseError.errorBodyReader
         var value = BulkLoadIdNotFoundException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6863,7 +6863,7 @@ extension BulkLoadIdNotFoundException {
 
 extension InternalFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalFailureException {
         let reader = baseError.errorBodyReader
         var value = InternalFailureException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6878,7 +6878,7 @@ extension InternalFailureException {
 
 extension LoadUrlAccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LoadUrlAccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LoadUrlAccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = LoadUrlAccessDeniedException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6893,7 +6893,7 @@ extension LoadUrlAccessDeniedException {
 
 extension MLResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MLResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MLResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = MLResourceNotFoundException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6908,7 +6908,7 @@ extension MLResourceNotFoundException {
 
 extension InvalidNumericDataException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidNumericDataException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidNumericDataException {
         let reader = baseError.errorBodyReader
         var value = InvalidNumericDataException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6923,7 +6923,7 @@ extension InvalidNumericDataException {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6938,7 +6938,7 @@ extension AccessDeniedException {
 
 extension ReadOnlyViolationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ReadOnlyViolationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ReadOnlyViolationException {
         let reader = baseError.errorBodyReader
         var value = ReadOnlyViolationException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6953,7 +6953,7 @@ extension ReadOnlyViolationException {
 
 extension StatisticsNotAvailableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> StatisticsNotAvailableException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> StatisticsNotAvailableException {
         let reader = baseError.errorBodyReader
         var value = StatisticsNotAvailableException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6968,7 +6968,7 @@ extension StatisticsNotAvailableException {
 
 extension MethodNotAllowedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MethodNotAllowedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MethodNotAllowedException {
         let reader = baseError.errorBodyReader
         var value = MethodNotAllowedException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6983,7 +6983,7 @@ extension MethodNotAllowedException {
 
 extension ServerShutdownException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServerShutdownException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServerShutdownException {
         let reader = baseError.errorBodyReader
         var value = ServerShutdownException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -6998,7 +6998,7 @@ extension ServerShutdownException {
 
 extension CancelledByUserException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> CancelledByUserException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> CancelledByUserException {
         let reader = baseError.errorBodyReader
         var value = CancelledByUserException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -7013,7 +7013,7 @@ extension CancelledByUserException {
 
 extension MalformedQueryException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MalformedQueryException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MalformedQueryException {
         let reader = baseError.errorBodyReader
         var value = MalformedQueryException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -7028,7 +7028,7 @@ extension MalformedQueryException {
 
 extension MemoryLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MemoryLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MemoryLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = MemoryLimitExceededException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -7043,7 +7043,7 @@ extension MemoryLimitExceededException {
 
 extension QueryLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> QueryLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> QueryLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = QueryLimitExceededException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -7058,7 +7058,7 @@ extension QueryLimitExceededException {
 
 extension QueryLimitException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> QueryLimitException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> QueryLimitException {
         let reader = baseError.errorBodyReader
         var value = QueryLimitException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -7073,7 +7073,7 @@ extension QueryLimitException {
 
 extension QueryTooLargeException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> QueryTooLargeException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> QueryTooLargeException {
         let reader = baseError.errorBodyReader
         var value = QueryTooLargeException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -7088,7 +7088,7 @@ extension QueryTooLargeException {
 
 extension ExpiredStreamException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ExpiredStreamException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ExpiredStreamException {
         let reader = baseError.errorBodyReader
         var value = ExpiredStreamException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -7103,7 +7103,7 @@ extension ExpiredStreamException {
 
 extension StreamRecordsNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> StreamRecordsNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> StreamRecordsNotFoundException {
         let reader = baseError.errorBodyReader
         var value = StreamRecordsNotFoundException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -7118,7 +7118,7 @@ extension StreamRecordsNotFoundException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -7133,7 +7133,7 @@ extension ThrottlingException {
 
 extension S3Exception {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> S3Exception {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> S3Exception {
         let reader = baseError.errorBodyReader
         var value = S3Exception()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
@@ -7143,6 +7143,25 @@ extension S3Exception {
         value.requestID = baseError.requestID
         value.message = baseError.message
         return value
+    }
+}
+
+extension NeptunedataClientTypes.CustomModelTrainingParameters {
+
+    static func write(value: NeptunedataClientTypes.CustomModelTrainingParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourceS3DirectoryPath"].write(value.sourceS3DirectoryPath)
+        try writer["trainingEntryPointScript"].write(value.trainingEntryPointScript)
+        try writer["transformEntryPointScript"].write(value.transformEntryPointScript)
+    }
+}
+
+extension NeptunedataClientTypes.CustomModelTransformParameters {
+
+    static func write(value: NeptunedataClientTypes.CustomModelTransformParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourceS3DirectoryPath"].write(value.sourceS3DirectoryPath)
+        try writer["transformEntryPointScript"].write(value.transformEntryPointScript)
     }
 }
 
@@ -7157,12 +7176,35 @@ extension NeptunedataClientTypes.DeleteStatisticsValueMap {
     }
 }
 
+extension NeptunedataClientTypes.EdgeStructure {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.EdgeStructure {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.EdgeStructure()
+        value.count = try reader["count"].readIfPresent()
+        value.edgeProperties = try reader["edgeProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension NeptunedataClientTypes.FastResetToken {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.FastResetToken {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptunedataClientTypes.FastResetToken()
         value.token = try reader["token"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.GremlinQueryStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.GremlinQueryStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.GremlinQueryStatus()
+        value.queryId = try reader["queryId"].readIfPresent()
+        value.queryString = try reader["queryString"].readIfPresent()
+        value.queryEvalStats = try reader["queryEvalStats"].readIfPresent(with: NeptunedataClientTypes.QueryEvalStats.read(from:))
         return value
     }
 }
@@ -7179,25 +7221,23 @@ extension NeptunedataClientTypes.GremlinQueryStatusAttributes {
     }
 }
 
-extension NeptunedataClientTypes.QueryLanguageVersion {
+extension NeptunedataClientTypes.LoaderIdResult {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.QueryLanguageVersion {
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.LoaderIdResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.QueryLanguageVersion()
-        value.version = try reader["version"].readIfPresent() ?? ""
+        var value = NeptunedataClientTypes.LoaderIdResult()
+        value.loadIds = try reader["loadIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension NeptunedataClientTypes.QueryEvalStats {
+extension NeptunedataClientTypes.MlConfigDefinition {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.QueryEvalStats {
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.MlConfigDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.QueryEvalStats()
-        value.waited = try reader["waited"].readIfPresent()
-        value.elapsed = try reader["elapsed"].readIfPresent()
-        value.cancelled = try reader["cancelled"].readIfPresent()
-        value.subqueries = try reader["subqueries"].readIfPresent()
+        var value = NeptunedataClientTypes.MlConfigDefinition()
+        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
         return value
     }
 }
@@ -7217,13 +7257,163 @@ extension NeptunedataClientTypes.MlResourceDefinition {
     }
 }
 
-extension NeptunedataClientTypes.MlConfigDefinition {
+extension NeptunedataClientTypes.NodeStructure {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.MlConfigDefinition {
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.NodeStructure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.MlConfigDefinition()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
+        var value = NeptunedataClientTypes.NodeStructure()
+        value.count = try reader["count"].readIfPresent()
+        value.nodeProperties = try reader["nodeProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.distinctOutgoingEdgeLabels = try reader["distinctOutgoingEdgeLabels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.PropertygraphData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.PropertygraphData()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? [:]
+        value.from = try reader["from"].readIfPresent()
+        value.to = try reader["to"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.PropertygraphRecord {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphRecord {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.PropertygraphRecord()
+        value.commitTimestampInMillis = try reader["commitTimestamp"].readIfPresent() ?? 0
+        value.eventId = try reader["eventId"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.data = try reader["data"].readIfPresent(with: NeptunedataClientTypes.PropertygraphData.read(from:))
+        value.op = try reader["op"].readIfPresent() ?? ""
+        value.isLastOp = try reader["isLastOp"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.PropertygraphSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.PropertygraphSummary()
+        value.numNodes = try reader["numNodes"].readIfPresent()
+        value.numEdges = try reader["numEdges"].readIfPresent()
+        value.numNodeLabels = try reader["numNodeLabels"].readIfPresent()
+        value.numEdgeLabels = try reader["numEdgeLabels"].readIfPresent()
+        value.nodeLabels = try reader["nodeLabels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.edgeLabels = try reader["edgeLabels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.numNodeProperties = try reader["numNodeProperties"].readIfPresent()
+        value.numEdgeProperties = try reader["numEdgeProperties"].readIfPresent()
+        value.nodeProperties = try reader["nodeProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.edgeProperties = try reader["edgeProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.totalNodePropertyValues = try reader["totalNodePropertyValues"].readIfPresent()
+        value.totalEdgePropertyValues = try reader["totalEdgePropertyValues"].readIfPresent()
+        value.nodeStructures = try reader["nodeStructures"].readListIfPresent(memberReadingClosure: NeptunedataClientTypes.NodeStructure.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.edgeStructures = try reader["edgeStructures"].readListIfPresent(memberReadingClosure: NeptunedataClientTypes.EdgeStructure.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.PropertygraphSummaryValueMap {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphSummaryValueMap {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.PropertygraphSummaryValueMap()
+        value.version = try reader["version"].readIfPresent()
+        value.lastStatisticsComputationTime = try reader["lastStatisticsComputationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.graphSummary = try reader["graphSummary"].readIfPresent(with: NeptunedataClientTypes.PropertygraphSummary.read(from:))
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.QueryEvalStats {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.QueryEvalStats {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.QueryEvalStats()
+        value.waited = try reader["waited"].readIfPresent()
+        value.elapsed = try reader["elapsed"].readIfPresent()
+        value.cancelled = try reader["cancelled"].readIfPresent()
+        value.subqueries = try reader["subqueries"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.QueryLanguageVersion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.QueryLanguageVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.QueryLanguageVersion()
+        value.version = try reader["version"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.RDFGraphSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.RDFGraphSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.RDFGraphSummary()
+        value.numDistinctSubjects = try reader["numDistinctSubjects"].readIfPresent()
+        value.numDistinctPredicates = try reader["numDistinctPredicates"].readIfPresent()
+        value.numQuads = try reader["numQuads"].readIfPresent()
+        value.numClasses = try reader["numClasses"].readIfPresent()
+        value.classes = try reader["classes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.predicates = try reader["predicates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.subjectStructures = try reader["subjectStructures"].readListIfPresent(memberReadingClosure: NeptunedataClientTypes.SubjectStructure.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.RDFGraphSummaryValueMap {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.RDFGraphSummaryValueMap {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.RDFGraphSummaryValueMap()
+        value.version = try reader["version"].readIfPresent()
+        value.lastStatisticsComputationTime = try reader["lastStatisticsComputationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.graphSummary = try reader["graphSummary"].readIfPresent(with: NeptunedataClientTypes.RDFGraphSummary.read(from:))
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.RefreshStatisticsIdMap {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.RefreshStatisticsIdMap {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.RefreshStatisticsIdMap()
+        value.statisticsId = try reader["statisticsId"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.SparqlData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.SparqlData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.SparqlData()
+        value.stmt = try reader["stmt"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.SparqlRecord {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.SparqlRecord {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.SparqlRecord()
+        value.commitTimestampInMillis = try reader["commitTimestamp"].readIfPresent() ?? 0
+        value.eventId = try reader["eventId"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.data = try reader["data"].readIfPresent(with: NeptunedataClientTypes.SparqlData.read(from:))
+        value.op = try reader["op"].readIfPresent() ?? ""
+        value.isLastOp = try reader["isLastOp"].readIfPresent()
         return value
     }
 }
@@ -7255,121 +7445,6 @@ extension NeptunedataClientTypes.StatisticsSummary {
     }
 }
 
-extension NeptunedataClientTypes.PropertygraphRecord {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphRecord {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.PropertygraphRecord()
-        value.commitTimestampInMillis = try reader["commitTimestamp"].readIfPresent() ?? 0
-        value.eventId = try reader["eventId"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.data = try reader["data"].readIfPresent(with: NeptunedataClientTypes.PropertygraphData.read(from:))
-        value.op = try reader["op"].readIfPresent() ?? ""
-        value.isLastOp = try reader["isLastOp"].readIfPresent()
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.PropertygraphData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.PropertygraphData()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? ""
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? [:]
-        value.from = try reader["from"].readIfPresent()
-        value.to = try reader["to"].readIfPresent()
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.PropertygraphSummaryValueMap {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphSummaryValueMap {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.PropertygraphSummaryValueMap()
-        value.version = try reader["version"].readIfPresent()
-        value.lastStatisticsComputationTime = try reader["lastStatisticsComputationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.graphSummary = try reader["graphSummary"].readIfPresent(with: NeptunedataClientTypes.PropertygraphSummary.read(from:))
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.PropertygraphSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.PropertygraphSummary()
-        value.numNodes = try reader["numNodes"].readIfPresent()
-        value.numEdges = try reader["numEdges"].readIfPresent()
-        value.numNodeLabels = try reader["numNodeLabels"].readIfPresent()
-        value.numEdgeLabels = try reader["numEdgeLabels"].readIfPresent()
-        value.nodeLabels = try reader["nodeLabels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.edgeLabels = try reader["edgeLabels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.numNodeProperties = try reader["numNodeProperties"].readIfPresent()
-        value.numEdgeProperties = try reader["numEdgeProperties"].readIfPresent()
-        value.nodeProperties = try reader["nodeProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.edgeProperties = try reader["edgeProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.totalNodePropertyValues = try reader["totalNodePropertyValues"].readIfPresent()
-        value.totalEdgePropertyValues = try reader["totalEdgePropertyValues"].readIfPresent()
-        value.nodeStructures = try reader["nodeStructures"].readListIfPresent(memberReadingClosure: NeptunedataClientTypes.NodeStructure.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.edgeStructures = try reader["edgeStructures"].readListIfPresent(memberReadingClosure: NeptunedataClientTypes.EdgeStructure.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.EdgeStructure {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.EdgeStructure {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.EdgeStructure()
-        value.count = try reader["count"].readIfPresent()
-        value.edgeProperties = try reader["edgeProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.NodeStructure {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.NodeStructure {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.NodeStructure()
-        value.count = try reader["count"].readIfPresent()
-        value.nodeProperties = try reader["nodeProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.distinctOutgoingEdgeLabels = try reader["distinctOutgoingEdgeLabels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.RDFGraphSummaryValueMap {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.RDFGraphSummaryValueMap {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.RDFGraphSummaryValueMap()
-        value.version = try reader["version"].readIfPresent()
-        value.lastStatisticsComputationTime = try reader["lastStatisticsComputationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.graphSummary = try reader["graphSummary"].readIfPresent(with: NeptunedataClientTypes.RDFGraphSummary.read(from:))
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.RDFGraphSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.RDFGraphSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.RDFGraphSummary()
-        value.numDistinctSubjects = try reader["numDistinctSubjects"].readIfPresent()
-        value.numDistinctPredicates = try reader["numDistinctPredicates"].readIfPresent()
-        value.numQuads = try reader["numQuads"].readIfPresent()
-        value.numClasses = try reader["numClasses"].readIfPresent()
-        value.classes = try reader["classes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.predicates = try reader["predicates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.subjectStructures = try reader["subjectStructures"].readListIfPresent(memberReadingClosure: NeptunedataClientTypes.SubjectStructure.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension NeptunedataClientTypes.SubjectStructure {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.SubjectStructure {
@@ -7378,81 +7453,6 @@ extension NeptunedataClientTypes.SubjectStructure {
         value.count = try reader["count"].readIfPresent()
         value.predicates = try reader["predicates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
-    }
-}
-
-extension NeptunedataClientTypes.SparqlRecord {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.SparqlRecord {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.SparqlRecord()
-        value.commitTimestampInMillis = try reader["commitTimestamp"].readIfPresent() ?? 0
-        value.eventId = try reader["eventId"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.data = try reader["data"].readIfPresent(with: NeptunedataClientTypes.SparqlData.read(from:))
-        value.op = try reader["op"].readIfPresent() ?? ""
-        value.isLastOp = try reader["isLastOp"].readIfPresent()
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.SparqlData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.SparqlData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.SparqlData()
-        value.stmt = try reader["stmt"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.GremlinQueryStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.GremlinQueryStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.GremlinQueryStatus()
-        value.queryId = try reader["queryId"].readIfPresent()
-        value.queryString = try reader["queryString"].readIfPresent()
-        value.queryEvalStats = try reader["queryEvalStats"].readIfPresent(with: NeptunedataClientTypes.QueryEvalStats.read(from:))
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.LoaderIdResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.LoaderIdResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.LoaderIdResult()
-        value.loadIds = try reader["loadIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.RefreshStatisticsIdMap {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.RefreshStatisticsIdMap {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.RefreshStatisticsIdMap()
-        value.statisticsId = try reader["statisticsId"].readIfPresent()
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.CustomModelTrainingParameters {
-
-    static func write(value: NeptunedataClientTypes.CustomModelTrainingParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sourceS3DirectoryPath"].write(value.sourceS3DirectoryPath)
-        try writer["trainingEntryPointScript"].write(value.trainingEntryPointScript)
-        try writer["transformEntryPointScript"].write(value.transformEntryPointScript)
-    }
-}
-
-extension NeptunedataClientTypes.CustomModelTransformParameters {
-
-    static func write(value: NeptunedataClientTypes.CustomModelTransformParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sourceS3DirectoryPath"].write(value.sourceS3DirectoryPath)
-        try writer["transformEntryPointScript"].write(value.transformEntryPointScript)
     }
 }
 

@@ -2427,9 +2427,7 @@ extension OpenSearchClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput>(DescribeDomainAutoTunesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput>())
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput>(contentType: "application/json"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDomainAutoTunesInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput>(DescribeDomainAutoTunesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainAutoTunesOutput>(DescribeDomainAutoTunesOutput.httpOutput(from:), DescribeDomainAutoTunesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
@@ -5833,6 +5831,7 @@ extension OpenSearchClient {
     /// - `BaseException` : An error occurred while processing the request.
     /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
     /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `LimitExceededException` : An exception for trying to create more than the allowed number of resources or sub-resources.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func updateDirectQueryDataSource(input: UpdateDirectQueryDataSourceInput) async throws -> UpdateDirectQueryDataSourceOutput {

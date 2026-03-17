@@ -48,7 +48,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -57,6 +56,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -662,7 +662,7 @@ extension EvsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateEipToVlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateEipToVlanInput, AssociateEipToVlanOutput>(xAmzTarget: "AmazonElasticVMwareService.AssociateEipToVlan"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateEipToVlanInput, AssociateEipToVlanOutput>(overrides: ["X-Amz-Target": "AmazonElasticVMwareService.AssociateEipToVlan"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateEipToVlanInput, AssociateEipToVlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateEipToVlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateEipToVlanInput, AssociateEipToVlanOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateEipToVlanOutput>())
@@ -732,7 +732,7 @@ extension EvsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEnvironmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(xAmzTarget: "AmazonElasticVMwareService.CreateEnvironment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(overrides: ["X-Amz-Target": "AmazonElasticVMwareService.CreateEnvironment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEnvironmentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEnvironmentOutput>())
@@ -803,7 +803,7 @@ extension EvsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEnvironmentHostOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateEnvironmentHostInput, CreateEnvironmentHostOutput>(xAmzTarget: "AmazonElasticVMwareService.CreateEnvironmentHost"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEnvironmentHostInput, CreateEnvironmentHostOutput>(overrides: ["X-Amz-Target": "AmazonElasticVMwareService.CreateEnvironmentHost"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateEnvironmentHostInput, CreateEnvironmentHostOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEnvironmentHostInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEnvironmentHostInput, CreateEnvironmentHostOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEnvironmentHostOutput>())
@@ -874,7 +874,7 @@ extension EvsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEnvironmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>(xAmzTarget: "AmazonElasticVMwareService.DeleteEnvironment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>(overrides: ["X-Amz-Target": "AmazonElasticVMwareService.DeleteEnvironment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEnvironmentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEnvironmentOutput>())
@@ -945,7 +945,7 @@ extension EvsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEnvironmentHostOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteEnvironmentHostInput, DeleteEnvironmentHostOutput>(xAmzTarget: "AmazonElasticVMwareService.DeleteEnvironmentHost"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEnvironmentHostInput, DeleteEnvironmentHostOutput>(overrides: ["X-Amz-Target": "AmazonElasticVMwareService.DeleteEnvironmentHost"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteEnvironmentHostInput, DeleteEnvironmentHostOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEnvironmentHostInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEnvironmentHostInput, DeleteEnvironmentHostOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEnvironmentHostOutput>())
@@ -1017,7 +1017,7 @@ extension EvsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateEipFromVlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateEipFromVlanInput, DisassociateEipFromVlanOutput>(xAmzTarget: "AmazonElasticVMwareService.DisassociateEipFromVlan"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateEipFromVlanInput, DisassociateEipFromVlanOutput>(overrides: ["X-Amz-Target": "AmazonElasticVMwareService.DisassociateEipFromVlan"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateEipFromVlanInput, DisassociateEipFromVlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateEipFromVlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateEipFromVlanInput, DisassociateEipFromVlanOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateEipFromVlanOutput>())
@@ -1087,7 +1087,7 @@ extension EvsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEnvironmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetEnvironmentInput, GetEnvironmentOutput>(xAmzTarget: "AmazonElasticVMwareService.GetEnvironment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEnvironmentInput, GetEnvironmentOutput>(overrides: ["X-Amz-Target": "AmazonElasticVMwareService.GetEnvironment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetEnvironmentInput, GetEnvironmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEnvironmentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEnvironmentInput, GetEnvironmentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEnvironmentOutput>())
@@ -1157,7 +1157,7 @@ extension EvsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetVersionsInput, GetVersionsOutput>(xAmzTarget: "AmazonElasticVMwareService.GetVersions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetVersionsInput, GetVersionsOutput>(overrides: ["X-Amz-Target": "AmazonElasticVMwareService.GetVersions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetVersionsInput, GetVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetVersionsInput, GetVersionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetVersionsOutput>())
@@ -1227,7 +1227,7 @@ extension EvsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEnvironmentHostsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEnvironmentHostsInput, ListEnvironmentHostsOutput>(xAmzTarget: "AmazonElasticVMwareService.ListEnvironmentHosts"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEnvironmentHostsInput, ListEnvironmentHostsOutput>(overrides: ["X-Amz-Target": "AmazonElasticVMwareService.ListEnvironmentHosts"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEnvironmentHostsInput, ListEnvironmentHostsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEnvironmentHostsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEnvironmentHostsInput, ListEnvironmentHostsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEnvironmentHostsOutput>())
@@ -1297,7 +1297,7 @@ extension EvsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEnvironmentVlansOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEnvironmentVlansInput, ListEnvironmentVlansOutput>(xAmzTarget: "AmazonElasticVMwareService.ListEnvironmentVlans"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEnvironmentVlansInput, ListEnvironmentVlansOutput>(overrides: ["X-Amz-Target": "AmazonElasticVMwareService.ListEnvironmentVlans"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEnvironmentVlansInput, ListEnvironmentVlansOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEnvironmentVlansInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEnvironmentVlansInput, ListEnvironmentVlansOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEnvironmentVlansOutput>())
@@ -1366,7 +1366,7 @@ extension EvsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEnvironmentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>(xAmzTarget: "AmazonElasticVMwareService.ListEnvironments"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>(overrides: ["X-Amz-Target": "AmazonElasticVMwareService.ListEnvironments"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEnvironmentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEnvironmentsOutput>())
@@ -1435,7 +1435,7 @@ extension EvsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AmazonElasticVMwareService.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AmazonElasticVMwareService.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -1507,7 +1507,7 @@ extension EvsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AmazonElasticVMwareService.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AmazonElasticVMwareService.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -1577,7 +1577,7 @@ extension EvsClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AmazonElasticVMwareService.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AmazonElasticVMwareService.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())

@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -1539,7 +1539,7 @@ enum AssociateSourceViewsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BillingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1560,7 +1560,7 @@ enum CreateBillingViewOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BillingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1581,7 +1581,7 @@ enum DeleteBillingViewOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BillingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1599,7 +1599,7 @@ enum DisassociateSourceViewsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BillingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1619,7 +1619,7 @@ enum GetBillingViewOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BillingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1637,7 +1637,7 @@ enum GetResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BillingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1655,7 +1655,7 @@ enum ListBillingViewsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BillingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1672,7 +1672,7 @@ enum ListSourceViewsForBillingViewOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BillingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1690,7 +1690,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BillingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1708,7 +1708,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BillingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1726,7 +1726,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BillingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1744,7 +1744,7 @@ enum UpdateBillingViewOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BillingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1762,7 +1762,7 @@ enum UpdateBillingViewOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -1775,7 +1775,7 @@ extension AccessDeniedException {
 
 extension BillingViewHealthStatusException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BillingViewHealthStatusException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> BillingViewHealthStatusException {
         let reader = baseError.errorBodyReader
         var value = BillingViewHealthStatusException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -1788,7 +1788,7 @@ extension BillingViewHealthStatusException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -1803,7 +1803,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -1816,7 +1816,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -1831,7 +1831,7 @@ extension ResourceNotFoundException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -1848,7 +1848,7 @@ extension ServiceQuotaExceededException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -1861,7 +1861,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: BillingClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -1871,6 +1871,15 @@ extension ValidationException {
         value.requestID = baseError.requestID
         value.message = baseError.message
         return value
+    }
+}
+
+extension BillingClientTypes.ActiveTimeRange {
+
+    static func write(value: BillingClientTypes.ActiveTimeRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["activeAfterInclusive"].writeTimestamp(value.activeAfterInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["activeBeforeInclusive"].writeTimestamp(value.activeBeforeInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }
 }
 
@@ -1907,40 +1916,18 @@ extension BillingClientTypes.BillingViewHealthStatus {
     }
 }
 
-extension BillingClientTypes.Expression {
+extension BillingClientTypes.BillingViewListElement {
 
-    static func write(value: BillingClientTypes.Expression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["costCategories"].write(value.costCategories, with: BillingClientTypes.CostCategoryValues.write(value:to:))
-        try writer["dimensions"].write(value.dimensions, with: BillingClientTypes.DimensionValues.write(value:to:))
-        try writer["tags"].write(value.tags, with: BillingClientTypes.TagValues.write(value:to:))
-        try writer["timeRange"].write(value.timeRange, with: BillingClientTypes.TimeRange.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.Expression {
+    static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.BillingViewListElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingClientTypes.Expression()
-        value.dimensions = try reader["dimensions"].readIfPresent(with: BillingClientTypes.DimensionValues.read(from:))
-        value.tags = try reader["tags"].readIfPresent(with: BillingClientTypes.TagValues.read(from:))
-        value.costCategories = try reader["costCategories"].readIfPresent(with: BillingClientTypes.CostCategoryValues.read(from:))
-        value.timeRange = try reader["timeRange"].readIfPresent(with: BillingClientTypes.TimeRange.read(from:))
-        return value
-    }
-}
-
-extension BillingClientTypes.TimeRange {
-
-    static func write(value: BillingClientTypes.TimeRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["beginDateInclusive"].writeTimestamp(value.beginDateInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["endDateInclusive"].writeTimestamp(value.endDateInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.TimeRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingClientTypes.TimeRange()
-        value.beginDateInclusive = try reader["beginDateInclusive"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endDateInclusive = try reader["endDateInclusive"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = BillingClientTypes.BillingViewListElement()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.ownerAccountId = try reader["ownerAccountId"].readIfPresent()
+        value.sourceAccountId = try reader["sourceAccountId"].readIfPresent()
+        value.billingViewType = try reader["billingViewType"].readIfPresent()
+        value.healthStatus = try reader["healthStatus"].readIfPresent(with: BillingClientTypes.BillingViewHealthStatus.read(from:))
         return value
     }
 }
@@ -1956,23 +1943,6 @@ extension BillingClientTypes.CostCategoryValues {
     static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.CostCategoryValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingClientTypes.CostCategoryValues()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension BillingClientTypes.TagValues {
-
-    static func write(value: BillingClientTypes.TagValues?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.TagValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingClientTypes.TagValues()
         value.key = try reader["key"].readIfPresent() ?? ""
         value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
@@ -1996,18 +1966,23 @@ extension BillingClientTypes.DimensionValues {
     }
 }
 
-extension BillingClientTypes.BillingViewListElement {
+extension BillingClientTypes.Expression {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.BillingViewListElement {
+    static func write(value: BillingClientTypes.Expression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["costCategories"].write(value.costCategories, with: BillingClientTypes.CostCategoryValues.write(value:to:))
+        try writer["dimensions"].write(value.dimensions, with: BillingClientTypes.DimensionValues.write(value:to:))
+        try writer["tags"].write(value.tags, with: BillingClientTypes.TagValues.write(value:to:))
+        try writer["timeRange"].write(value.timeRange, with: BillingClientTypes.TimeRange.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.Expression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingClientTypes.BillingViewListElement()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.ownerAccountId = try reader["ownerAccountId"].readIfPresent()
-        value.sourceAccountId = try reader["sourceAccountId"].readIfPresent()
-        value.billingViewType = try reader["billingViewType"].readIfPresent()
-        value.healthStatus = try reader["healthStatus"].readIfPresent(with: BillingClientTypes.BillingViewHealthStatus.read(from:))
+        var value = BillingClientTypes.Expression()
+        value.dimensions = try reader["dimensions"].readIfPresent(with: BillingClientTypes.DimensionValues.read(from:))
+        value.tags = try reader["tags"].readIfPresent(with: BillingClientTypes.TagValues.read(from:))
+        value.costCategories = try reader["costCategories"].readIfPresent(with: BillingClientTypes.CostCategoryValues.read(from:))
+        value.timeRange = try reader["timeRange"].readIfPresent(with: BillingClientTypes.TimeRange.read(from:))
         return value
     }
 }
@@ -2029,6 +2004,49 @@ extension BillingClientTypes.ResourceTag {
     }
 }
 
+extension BillingClientTypes.StringSearch {
+
+    static func write(value: BillingClientTypes.StringSearch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["searchOption"].write(value.searchOption)
+        try writer["searchValue"].write(value.searchValue)
+    }
+}
+
+extension BillingClientTypes.TagValues {
+
+    static func write(value: BillingClientTypes.TagValues?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.TagValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BillingClientTypes.TagValues()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BillingClientTypes.TimeRange {
+
+    static func write(value: BillingClientTypes.TimeRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["beginDateInclusive"].writeTimestamp(value.beginDateInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["endDateInclusive"].writeTimestamp(value.endDateInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.TimeRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BillingClientTypes.TimeRange()
+        value.beginDateInclusive = try reader["beginDateInclusive"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endDateInclusive = try reader["endDateInclusive"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension BillingClientTypes.ValidationExceptionField {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.ValidationExceptionField {
@@ -2037,24 +2055,6 @@ extension BillingClientTypes.ValidationExceptionField {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension BillingClientTypes.ActiveTimeRange {
-
-    static func write(value: BillingClientTypes.ActiveTimeRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activeAfterInclusive"].writeTimestamp(value.activeAfterInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["activeBeforeInclusive"].writeTimestamp(value.activeBeforeInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension BillingClientTypes.StringSearch {
-
-    static func write(value: BillingClientTypes.StringSearch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["searchOption"].write(value.searchOption)
-        try writer["searchValue"].write(value.searchValue)
     }
 }
 

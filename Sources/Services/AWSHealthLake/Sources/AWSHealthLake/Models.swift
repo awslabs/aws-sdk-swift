@@ -21,8 +21,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// Access is denied. Your account is not authorized to perform this operation.
@@ -1735,7 +1735,7 @@ enum CreateFHIRDatastoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1752,7 +1752,7 @@ enum DeleteFHIRDatastoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1771,7 +1771,7 @@ enum DescribeFHIRDatastoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1788,7 +1788,7 @@ enum DescribeFHIRExportJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1805,7 +1805,7 @@ enum DescribeFHIRImportJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1822,7 +1822,7 @@ enum ListFHIRDatastoresOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -1838,7 +1838,7 @@ enum ListFHIRExportJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1856,7 +1856,7 @@ enum ListFHIRImportJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1874,7 +1874,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -1889,7 +1889,7 @@ enum StartFHIRExportJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1907,7 +1907,7 @@ enum StartFHIRImportJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1925,7 +1925,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -1940,7 +1940,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -1952,7 +1952,7 @@ enum UntagResourceOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1965,7 +1965,7 @@ extension AccessDeniedException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1978,7 +1978,7 @@ extension InternalServerException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1991,7 +1991,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2004,7 +2004,7 @@ extension ValidationException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2017,7 +2017,7 @@ extension ConflictException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2025,6 +2025,17 @@ extension ResourceNotFoundException {
         value.requestID = baseError.requestID
         value.message = baseError.message
         return value
+    }
+}
+
+extension HealthLakeClientTypes.DatastoreFilter {
+
+    static func write(value: HealthLakeClientTypes.DatastoreFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CreatedAfter"].writeTimestamp(value.createdAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["CreatedBefore"].writeTimestamp(value.createdBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["DatastoreName"].write(value.datastoreName)
+        try writer["DatastoreStatus"].write(value.datastoreStatus)
     }
 }
 
@@ -2059,6 +2070,24 @@ extension HealthLakeClientTypes.ErrorCause {
     }
 }
 
+extension HealthLakeClientTypes.ExportJobProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.ExportJobProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = HealthLakeClientTypes.ExportJobProperties()
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
+        value.jobName = try reader["JobName"].readIfPresent()
+        value.jobStatus = try reader["JobStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.submitTime = try reader["SubmitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.datastoreId = try reader["DatastoreId"].readIfPresent() ?? ""
+        value.outputDataConfig = try reader["OutputDataConfig"].readIfPresent(with: HealthLakeClientTypes.OutputDataConfig.read(from:))
+        value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
 extension HealthLakeClientTypes.IdentityProviderConfiguration {
 
     static func write(value: HealthLakeClientTypes.IdentityProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -2080,112 +2109,6 @@ extension HealthLakeClientTypes.IdentityProviderConfiguration {
     }
 }
 
-extension HealthLakeClientTypes.PreloadDataConfig {
-
-    static func write(value: HealthLakeClientTypes.PreloadDataConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PreloadDataType"].write(value.preloadDataType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.PreloadDataConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthLakeClientTypes.PreloadDataConfig()
-        value.preloadDataType = try reader["PreloadDataType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension HealthLakeClientTypes.SseConfiguration {
-
-    static func write(value: HealthLakeClientTypes.SseConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsEncryptionConfig"].write(value.kmsEncryptionConfig, with: HealthLakeClientTypes.KmsEncryptionConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.SseConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthLakeClientTypes.SseConfiguration()
-        value.kmsEncryptionConfig = try reader["KmsEncryptionConfig"].readIfPresent(with: HealthLakeClientTypes.KmsEncryptionConfig.read(from:))
-        return value
-    }
-}
-
-extension HealthLakeClientTypes.KmsEncryptionConfig {
-
-    static func write(value: HealthLakeClientTypes.KmsEncryptionConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CmkType"].write(value.cmkType)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.KmsEncryptionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthLakeClientTypes.KmsEncryptionConfig()
-        value.cmkType = try reader["CmkType"].readIfPresent() ?? .sdkUnknown("")
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        return value
-    }
-}
-
-extension HealthLakeClientTypes.ExportJobProperties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.ExportJobProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthLakeClientTypes.ExportJobProperties()
-        value.jobId = try reader["JobId"].readIfPresent() ?? ""
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.submitTime = try reader["SubmitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.datastoreId = try reader["DatastoreId"].readIfPresent() ?? ""
-        value.outputDataConfig = try reader["OutputDataConfig"].readIfPresent(with: HealthLakeClientTypes.OutputDataConfig.read(from:))
-        value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension HealthLakeClientTypes.OutputDataConfig {
-
-    static func write(value: HealthLakeClientTypes.OutputDataConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .s3configuration(s3configuration):
-                try writer["S3Configuration"].write(s3configuration, with: HealthLakeClientTypes.S3Configuration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.OutputDataConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "S3Configuration":
-                return .s3configuration(try reader["S3Configuration"].read(with: HealthLakeClientTypes.S3Configuration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension HealthLakeClientTypes.S3Configuration {
-
-    static func write(value: HealthLakeClientTypes.S3Configuration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["S3Uri"].write(value.s3Uri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.S3Configuration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthLakeClientTypes.S3Configuration()
-        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension HealthLakeClientTypes.ImportJobProperties {
 
     static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.ImportJobProperties {
@@ -2203,23 +2126,6 @@ extension HealthLakeClientTypes.ImportJobProperties {
         value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
         value.message = try reader["Message"].readIfPresent()
         value.validationLevel = try reader["ValidationLevel"].readIfPresent()
-        return value
-    }
-}
-
-extension HealthLakeClientTypes.JobProgressReport {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.JobProgressReport {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthLakeClientTypes.JobProgressReport()
-        value.totalNumberOfScannedFiles = try reader["TotalNumberOfScannedFiles"].readIfPresent()
-        value.totalSizeOfScannedFilesInMB = try reader["TotalSizeOfScannedFilesInMB"].readIfPresent()
-        value.totalNumberOfImportedFiles = try reader["TotalNumberOfImportedFiles"].readIfPresent()
-        value.totalNumberOfResourcesScanned = try reader["TotalNumberOfResourcesScanned"].readIfPresent()
-        value.totalNumberOfResourcesImported = try reader["TotalNumberOfResourcesImported"].readIfPresent()
-        value.totalNumberOfResourcesWithCustomerError = try reader["TotalNumberOfResourcesWithCustomerError"].readIfPresent()
-        value.totalNumberOfFilesReadWithCustomerError = try reader["TotalNumberOfFilesReadWithCustomerError"].readIfPresent()
-        value.throughput = try reader["Throughput"].readIfPresent()
         return value
     }
 }
@@ -2248,6 +2154,111 @@ extension HealthLakeClientTypes.InputDataConfig {
     }
 }
 
+extension HealthLakeClientTypes.JobProgressReport {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.JobProgressReport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = HealthLakeClientTypes.JobProgressReport()
+        value.totalNumberOfScannedFiles = try reader["TotalNumberOfScannedFiles"].readIfPresent()
+        value.totalSizeOfScannedFilesInMB = try reader["TotalSizeOfScannedFilesInMB"].readIfPresent()
+        value.totalNumberOfImportedFiles = try reader["TotalNumberOfImportedFiles"].readIfPresent()
+        value.totalNumberOfResourcesScanned = try reader["TotalNumberOfResourcesScanned"].readIfPresent()
+        value.totalNumberOfResourcesImported = try reader["TotalNumberOfResourcesImported"].readIfPresent()
+        value.totalNumberOfResourcesWithCustomerError = try reader["TotalNumberOfResourcesWithCustomerError"].readIfPresent()
+        value.totalNumberOfFilesReadWithCustomerError = try reader["TotalNumberOfFilesReadWithCustomerError"].readIfPresent()
+        value.throughput = try reader["Throughput"].readIfPresent()
+        return value
+    }
+}
+
+extension HealthLakeClientTypes.KmsEncryptionConfig {
+
+    static func write(value: HealthLakeClientTypes.KmsEncryptionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CmkType"].write(value.cmkType)
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.KmsEncryptionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = HealthLakeClientTypes.KmsEncryptionConfig()
+        value.cmkType = try reader["CmkType"].readIfPresent() ?? .sdkUnknown("")
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
+extension HealthLakeClientTypes.OutputDataConfig {
+
+    static func write(value: HealthLakeClientTypes.OutputDataConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .s3configuration(s3configuration):
+                try writer["S3Configuration"].write(s3configuration, with: HealthLakeClientTypes.S3Configuration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.OutputDataConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "S3Configuration":
+                return .s3configuration(try reader["S3Configuration"].read(with: HealthLakeClientTypes.S3Configuration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension HealthLakeClientTypes.PreloadDataConfig {
+
+    static func write(value: HealthLakeClientTypes.PreloadDataConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PreloadDataType"].write(value.preloadDataType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.PreloadDataConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = HealthLakeClientTypes.PreloadDataConfig()
+        value.preloadDataType = try reader["PreloadDataType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension HealthLakeClientTypes.S3Configuration {
+
+    static func write(value: HealthLakeClientTypes.S3Configuration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["S3Uri"].write(value.s3Uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.S3Configuration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = HealthLakeClientTypes.S3Configuration()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension HealthLakeClientTypes.SseConfiguration {
+
+    static func write(value: HealthLakeClientTypes.SseConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsEncryptionConfig"].write(value.kmsEncryptionConfig, with: HealthLakeClientTypes.KmsEncryptionConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.SseConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = HealthLakeClientTypes.SseConfiguration()
+        value.kmsEncryptionConfig = try reader["KmsEncryptionConfig"].readIfPresent(with: HealthLakeClientTypes.KmsEncryptionConfig.read(from:))
+        return value
+    }
+}
+
 extension HealthLakeClientTypes.Tag {
 
     static func write(value: HealthLakeClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
@@ -2262,17 +2273,6 @@ extension HealthLakeClientTypes.Tag {
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension HealthLakeClientTypes.DatastoreFilter {
-
-    static func write(value: HealthLakeClientTypes.DatastoreFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAfter"].writeTimestamp(value.createdAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["CreatedBefore"].writeTimestamp(value.createdBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["DatastoreName"].write(value.datastoreName)
-        try writer["DatastoreStatus"].write(value.datastoreStatus)
     }
 }
 

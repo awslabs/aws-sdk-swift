@@ -24,8 +24,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.Document
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
@@ -4084,7 +4084,7 @@ enum CancelSolNetworkOperationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4102,7 +4102,7 @@ enum CreateSolFunctionPackageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4120,7 +4120,7 @@ enum CreateSolNetworkInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4139,7 +4139,7 @@ enum CreateSolNetworkPackageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4157,7 +4157,7 @@ enum DeleteSolFunctionPackageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4175,7 +4175,7 @@ enum DeleteSolNetworkInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4193,7 +4193,7 @@ enum DeleteSolNetworkPackageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4211,7 +4211,7 @@ enum GetSolFunctionInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4229,7 +4229,7 @@ enum GetSolFunctionPackageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4247,7 +4247,7 @@ enum GetSolFunctionPackageContentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4265,7 +4265,7 @@ enum GetSolFunctionPackageDescriptorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4283,7 +4283,7 @@ enum GetSolNetworkInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4301,7 +4301,7 @@ enum GetSolNetworkOperationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4319,7 +4319,7 @@ enum GetSolNetworkPackageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4337,7 +4337,7 @@ enum GetSolNetworkPackageContentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4355,7 +4355,7 @@ enum GetSolNetworkPackageDescriptorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4373,7 +4373,7 @@ enum InstantiateSolNetworkInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4392,7 +4392,7 @@ enum ListSolFunctionInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4409,7 +4409,7 @@ enum ListSolFunctionPackagesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4426,7 +4426,7 @@ enum ListSolNetworkInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4443,7 +4443,7 @@ enum ListSolNetworkOperationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4460,7 +4460,7 @@ enum ListSolNetworkPackagesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4477,7 +4477,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4495,7 +4495,7 @@ enum PutSolFunctionPackageContentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4513,7 +4513,7 @@ enum PutSolNetworkPackageContentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4531,7 +4531,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4549,7 +4549,7 @@ enum TerminateSolNetworkInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4568,7 +4568,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4586,7 +4586,7 @@ enum UpdateSolFunctionPackageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4604,7 +4604,7 @@ enum UpdateSolNetworkInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4623,7 +4623,7 @@ enum UpdateSolNetworkPackageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4641,7 +4641,7 @@ enum ValidateSolFunctionPackageContentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4659,7 +4659,7 @@ enum ValidateSolNetworkPackageContentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4674,7 +4674,7 @@ enum ValidateSolNetworkPackageContentOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -4687,7 +4687,7 @@ extension AccessDeniedException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -4700,7 +4700,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -4713,7 +4713,7 @@ extension ResourceNotFoundException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -4726,7 +4726,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -4739,7 +4739,7 @@ extension ValidationException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -4750,35 +4750,23 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension TnbClientTypes.GetSolVnfInfo {
+extension TnbClientTypes.ErrorInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolVnfInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ErrorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.GetSolVnfInfo()
-        value.vnfState = try reader["vnfState"].readIfPresent()
-        value.vnfcResourceInfo = try reader["vnfcResourceInfo"].readListIfPresent(memberReadingClosure: TnbClientTypes.GetSolVnfcResourceInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = TnbClientTypes.ErrorInfo()
+        value.cause = try reader["cause"].readIfPresent()
+        value.details = try reader["details"].readIfPresent()
         return value
     }
 }
 
-extension TnbClientTypes.GetSolVnfcResourceInfo {
+extension TnbClientTypes.FunctionArtifactMeta {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolVnfcResourceInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.FunctionArtifactMeta {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.GetSolVnfcResourceInfo()
-        value.metadata = try reader["metadata"].readIfPresent(with: TnbClientTypes.GetSolVnfcResourceInfoMetadata.read(from:))
-        return value
-    }
-}
-
-extension TnbClientTypes.GetSolVnfcResourceInfoMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolVnfcResourceInfoMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.GetSolVnfcResourceInfoMetadata()
-        value.nodeGroup = try reader["nodeGroup"].readIfPresent()
-        value.cluster = try reader["cluster"].readIfPresent()
-        value.helmChart = try reader["helmChart"].readIfPresent()
+        var value = TnbClientTypes.FunctionArtifactMeta()
+        value.overrides = try reader["overrides"].readListIfPresent(memberReadingClosure: TnbClientTypes.ToscaOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -4806,33 +4794,12 @@ extension TnbClientTypes.GetSolFunctionPackageMetadata {
     }
 }
 
-extension TnbClientTypes.FunctionArtifactMeta {
+extension TnbClientTypes.GetSolInstantiatedVnfInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.FunctionArtifactMeta {
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolInstantiatedVnfInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.FunctionArtifactMeta()
-        value.overrides = try reader["overrides"].readListIfPresent(memberReadingClosure: TnbClientTypes.ToscaOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TnbClientTypes.ToscaOverride {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ToscaOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.ToscaOverride()
-        value.name = try reader["name"].readIfPresent()
-        value.defaultValue = try reader["defaultValue"].readIfPresent()
-        return value
-    }
-}
-
-extension TnbClientTypes.LcmOperationInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.LcmOperationInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.LcmOperationInfo()
-        value.nsLcmOpOccId = try reader["nsLcmOpOccId"].readIfPresent() ?? ""
+        var value = TnbClientTypes.GetSolInstantiatedVnfInfo()
+        value.vnfState = try reader["vnfState"].readIfPresent()
         return value
     }
 }
@@ -4848,17 +4815,6 @@ extension TnbClientTypes.GetSolNetworkInstanceMetadata {
     }
 }
 
-extension TnbClientTypes.ProblemDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ProblemDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.ProblemDetails()
-        value.detail = try reader["detail"].readIfPresent() ?? ""
-        value.title = try reader["title"].readIfPresent()
-        return value
-    }
-}
-
 extension TnbClientTypes.GetSolNetworkOperationMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolNetworkOperationMetadata {
@@ -4869,39 +4825,6 @@ extension TnbClientTypes.GetSolNetworkOperationMetadata {
         value.instantiateMetadata = try reader["instantiateMetadata"].readIfPresent(with: TnbClientTypes.InstantiateMetadata.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension TnbClientTypes.InstantiateMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.InstantiateMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.InstantiateMetadata()
-        value.nsdInfoId = try reader["nsdInfoId"].readIfPresent() ?? ""
-        value.additionalParamsForNs = try reader["additionalParamsForNs"].readIfPresent()
-        return value
-    }
-}
-
-extension TnbClientTypes.ModifyVnfInfoMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ModifyVnfInfoMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.ModifyVnfInfoMetadata()
-        value.vnfInstanceId = try reader["vnfInstanceId"].readIfPresent() ?? ""
-        value.vnfConfigurableProperties = try reader["vnfConfigurableProperties"].readIfPresent() ?? [:]
-        return value
-    }
-}
-
-extension TnbClientTypes.UpdateNsMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.UpdateNsMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.UpdateNsMetadata()
-        value.nsdInfoId = try reader["nsdInfoId"].readIfPresent() ?? ""
-        value.additionalParamsForNs = try reader["additionalParamsForNs"].readIfPresent()
         return value
     }
 }
@@ -4921,17 +4844,6 @@ extension TnbClientTypes.GetSolNetworkOperationTaskDetails {
     }
 }
 
-extension TnbClientTypes.ErrorInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ErrorInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.ErrorInfo()
-        value.cause = try reader["cause"].readIfPresent()
-        value.details = try reader["details"].readIfPresent()
-        return value
-    }
-}
-
 extension TnbClientTypes.GetSolNetworkPackageMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolNetworkPackageMetadata {
@@ -4944,12 +4856,56 @@ extension TnbClientTypes.GetSolNetworkPackageMetadata {
     }
 }
 
-extension TnbClientTypes.NetworkArtifactMeta {
+extension TnbClientTypes.GetSolVnfcResourceInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.NetworkArtifactMeta {
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolVnfcResourceInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.NetworkArtifactMeta()
-        value.overrides = try reader["overrides"].readListIfPresent(memberReadingClosure: TnbClientTypes.ToscaOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = TnbClientTypes.GetSolVnfcResourceInfo()
+        value.metadata = try reader["metadata"].readIfPresent(with: TnbClientTypes.GetSolVnfcResourceInfoMetadata.read(from:))
+        return value
+    }
+}
+
+extension TnbClientTypes.GetSolVnfcResourceInfoMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolVnfcResourceInfoMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TnbClientTypes.GetSolVnfcResourceInfoMetadata()
+        value.nodeGroup = try reader["nodeGroup"].readIfPresent()
+        value.cluster = try reader["cluster"].readIfPresent()
+        value.helmChart = try reader["helmChart"].readIfPresent()
+        return value
+    }
+}
+
+extension TnbClientTypes.GetSolVnfInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolVnfInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TnbClientTypes.GetSolVnfInfo()
+        value.vnfState = try reader["vnfState"].readIfPresent()
+        value.vnfcResourceInfo = try reader["vnfcResourceInfo"].readListIfPresent(memberReadingClosure: TnbClientTypes.GetSolVnfcResourceInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TnbClientTypes.InstantiateMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.InstantiateMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TnbClientTypes.InstantiateMetadata()
+        value.nsdInfoId = try reader["nsdInfoId"].readIfPresent() ?? ""
+        value.additionalParamsForNs = try reader["additionalParamsForNs"].readIfPresent()
+        return value
+    }
+}
+
+extension TnbClientTypes.LcmOperationInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.LcmOperationInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TnbClientTypes.LcmOperationInfo()
+        value.nsLcmOpOccId = try reader["nsLcmOpOccId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4978,16 +4934,6 @@ extension TnbClientTypes.ListSolFunctionInstanceMetadata {
         var value = TnbClientTypes.ListSolFunctionInstanceMetadata()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension TnbClientTypes.GetSolInstantiatedVnfInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolInstantiatedVnfInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.GetSolInstantiatedVnfInfo()
-        value.vnfState = try reader["vnfState"].readIfPresent()
         return value
     }
 }
@@ -5112,6 +5058,38 @@ extension TnbClientTypes.ListSolNetworkPackageMetadata {
     }
 }
 
+extension TnbClientTypes.ModifyVnfInfoMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ModifyVnfInfoMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TnbClientTypes.ModifyVnfInfoMetadata()
+        value.vnfInstanceId = try reader["vnfInstanceId"].readIfPresent() ?? ""
+        value.vnfConfigurableProperties = try reader["vnfConfigurableProperties"].readIfPresent() ?? [:]
+        return value
+    }
+}
+
+extension TnbClientTypes.NetworkArtifactMeta {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.NetworkArtifactMeta {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TnbClientTypes.NetworkArtifactMeta()
+        value.overrides = try reader["overrides"].readListIfPresent(memberReadingClosure: TnbClientTypes.ToscaOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TnbClientTypes.ProblemDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ProblemDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TnbClientTypes.ProblemDetails()
+        value.detail = try reader["detail"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent()
+        return value
+    }
+}
+
 extension TnbClientTypes.PutSolFunctionPackageContentMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.PutSolFunctionPackageContentMetadata {
@@ -5132,22 +5110,24 @@ extension TnbClientTypes.PutSolNetworkPackageContentMetadata {
     }
 }
 
-extension TnbClientTypes.ValidateSolFunctionPackageContentMetadata {
+extension TnbClientTypes.ToscaOverride {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ValidateSolFunctionPackageContentMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ToscaOverride {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.ValidateSolFunctionPackageContentMetadata()
-        value.vnfd = try reader["vnfd"].readIfPresent(with: TnbClientTypes.FunctionArtifactMeta.read(from:))
+        var value = TnbClientTypes.ToscaOverride()
+        value.name = try reader["name"].readIfPresent()
+        value.defaultValue = try reader["defaultValue"].readIfPresent()
         return value
     }
 }
 
-extension TnbClientTypes.ValidateSolNetworkPackageContentMetadata {
+extension TnbClientTypes.UpdateNsMetadata {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ValidateSolNetworkPackageContentMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.UpdateNsMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.ValidateSolNetworkPackageContentMetadata()
-        value.nsd = try reader["nsd"].readIfPresent(with: TnbClientTypes.NetworkArtifactMeta.read(from:))
+        var value = TnbClientTypes.UpdateNsMetadata()
+        value.nsdInfoId = try reader["nsdInfoId"].readIfPresent() ?? ""
+        value.additionalParamsForNs = try reader["additionalParamsForNs"].readIfPresent()
         return value
     }
 }
@@ -5167,6 +5147,26 @@ extension TnbClientTypes.UpdateSolNetworkServiceData {
         guard let value else { return }
         try writer["additionalParamsForNs"].write(value.additionalParamsForNs)
         try writer["nsdInfoId"].write(value.nsdInfoId)
+    }
+}
+
+extension TnbClientTypes.ValidateSolFunctionPackageContentMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ValidateSolFunctionPackageContentMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TnbClientTypes.ValidateSolFunctionPackageContentMetadata()
+        value.vnfd = try reader["vnfd"].readIfPresent(with: TnbClientTypes.FunctionArtifactMeta.read(from:))
+        return value
+    }
+}
+
+extension TnbClientTypes.ValidateSolNetworkPackageContentMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ValidateSolNetworkPackageContentMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TnbClientTypes.ValidateSolNetworkPackageContentMetadata()
+        value.nsd = try reader["nsd"].readIfPresent(with: TnbClientTypes.NetworkArtifactMeta.read(from:))
+        return value
     }
 }
 

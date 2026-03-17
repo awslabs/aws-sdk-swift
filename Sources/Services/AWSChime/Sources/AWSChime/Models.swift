@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 
@@ -5609,7 +5609,7 @@ enum AssociatePhoneNumberWithUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5630,7 +5630,7 @@ enum AssociateSigninDelegateGroupsWithAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5650,7 +5650,7 @@ enum BatchCreateRoomMembershipOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5670,7 +5670,7 @@ enum BatchDeletePhoneNumberOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5690,7 +5690,7 @@ enum BatchSuspendUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5710,7 +5710,7 @@ enum BatchUnsuspendUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5730,7 +5730,7 @@ enum BatchUpdatePhoneNumberOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5750,7 +5750,7 @@ enum BatchUpdateUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5770,7 +5770,7 @@ enum CreateAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5790,7 +5790,7 @@ enum CreateBotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5811,7 +5811,7 @@ enum CreateMeetingDialOutOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5832,7 +5832,7 @@ enum CreatePhoneNumberOrderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5853,7 +5853,7 @@ enum CreateRoomOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5874,7 +5874,7 @@ enum CreateRoomMembershipOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5896,7 +5896,7 @@ enum CreateUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5917,7 +5917,7 @@ enum DeleteAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5938,7 +5938,7 @@ enum DeleteEventsConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5957,7 +5957,7 @@ enum DeletePhoneNumberOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5977,7 +5977,7 @@ enum DeleteRoomOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5997,7 +5997,7 @@ enum DeleteRoomMembershipOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6017,7 +6017,7 @@ enum DisassociatePhoneNumberFromUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6037,7 +6037,7 @@ enum DisassociateSigninDelegateGroupsFromAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6057,7 +6057,7 @@ enum GetAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6077,7 +6077,7 @@ enum GetAccountSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6097,7 +6097,7 @@ enum GetBotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6117,7 +6117,7 @@ enum GetEventsConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6137,7 +6137,7 @@ enum GetGlobalSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6156,7 +6156,7 @@ enum GetPhoneNumberOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6176,7 +6176,7 @@ enum GetPhoneNumberOrderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6196,7 +6196,7 @@ enum GetPhoneNumberSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6215,7 +6215,7 @@ enum GetRetentionSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6235,7 +6235,7 @@ enum GetRoomOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6255,7 +6255,7 @@ enum GetUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6275,7 +6275,7 @@ enum GetUserSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6295,7 +6295,7 @@ enum InviteUsersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6315,7 +6315,7 @@ enum ListAccountsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6335,7 +6335,7 @@ enum ListBotsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6355,7 +6355,7 @@ enum ListPhoneNumberOrdersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6374,7 +6374,7 @@ enum ListPhoneNumbersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6394,7 +6394,7 @@ enum ListRoomMembershipsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6414,7 +6414,7 @@ enum ListRoomsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6434,7 +6434,7 @@ enum ListSupportedPhoneNumberCountriesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6454,7 +6454,7 @@ enum ListUsersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6474,7 +6474,7 @@ enum LogoutUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6494,7 +6494,7 @@ enum PutEventsConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6514,7 +6514,7 @@ enum PutRetentionSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6535,7 +6535,7 @@ enum RedactConversationMessageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6555,7 +6555,7 @@ enum RedactRoomMessageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6575,7 +6575,7 @@ enum RegenerateSecurityTokenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6595,7 +6595,7 @@ enum ResetPersonalPINOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6615,7 +6615,7 @@ enum RestorePhoneNumberOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6636,7 +6636,7 @@ enum SearchAvailablePhoneNumbersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6656,7 +6656,7 @@ enum UpdateAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6676,7 +6676,7 @@ enum UpdateAccountSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6697,7 +6697,7 @@ enum UpdateBotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6717,7 +6717,7 @@ enum UpdateGlobalSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6736,7 +6736,7 @@ enum UpdatePhoneNumberOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6757,7 +6757,7 @@ enum UpdatePhoneNumberSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6776,7 +6776,7 @@ enum UpdateRoomOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6796,7 +6796,7 @@ enum UpdateRoomMembershipOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6816,7 +6816,7 @@ enum UpdateUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6836,7 +6836,7 @@ enum UpdateUserSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6853,7 +6853,7 @@ enum UpdateUserSettingsOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -6867,7 +6867,7 @@ extension AccessDeniedException {
 
 extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -6881,7 +6881,7 @@ extension BadRequestException {
 
 extension ForbiddenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ForbiddenException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ForbiddenException {
         let reader = baseError.errorBodyReader
         var value = ForbiddenException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -6895,7 +6895,7 @@ extension ForbiddenException {
 
 extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -6909,7 +6909,7 @@ extension NotFoundException {
 
 extension ServiceFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceFailureException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceFailureException {
         let reader = baseError.errorBodyReader
         var value = ServiceFailureException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -6923,7 +6923,7 @@ extension ServiceFailureException {
 
 extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -6937,7 +6937,7 @@ extension ServiceUnavailableException {
 
 extension ThrottledClientException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottledClientException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottledClientException {
         let reader = baseError.errorBodyReader
         var value = ThrottledClientException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -6951,7 +6951,7 @@ extension ThrottledClientException {
 
 extension UnauthorizedClientException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedClientException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnauthorizedClientException {
         let reader = baseError.errorBodyReader
         var value = UnauthorizedClientException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -6965,7 +6965,7 @@ extension UnauthorizedClientException {
 
 extension ResourceLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ResourceLimitExceededException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -6979,7 +6979,7 @@ extension ResourceLimitExceededException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -6993,7 +6993,7 @@ extension ConflictException {
 
 extension UnprocessableEntityException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnprocessableEntityException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnprocessableEntityException {
         let reader = baseError.errorBodyReader
         var value = UnprocessableEntityException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -7001,42 +7001,6 @@ extension UnprocessableEntityException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension ChimeClientTypes.MemberError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.MemberError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.MemberError()
-        value.memberId = try reader["MemberId"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeClientTypes.PhoneNumberError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.PhoneNumberError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.PhoneNumberError()
-        value.phoneNumberId = try reader["PhoneNumberId"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeClientTypes.UserError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.UserError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.UserError()
-        value.userId = try reader["UserId"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
     }
 }
@@ -7059,17 +7023,36 @@ extension ChimeClientTypes.Account {
     }
 }
 
-extension ChimeClientTypes.SigninDelegateGroup {
+extension ChimeClientTypes.AccountSettings {
 
-    static func write(value: ChimeClientTypes.SigninDelegateGroup?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ChimeClientTypes.AccountSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["GroupName"].write(value.groupName)
+        try writer["DisableRemoteControl"].write(value.disableRemoteControl)
+        try writer["EnableDialOut"].write(value.enableDialOut)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.SigninDelegateGroup {
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.AccountSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.SigninDelegateGroup()
-        value.groupName = try reader["GroupName"].readIfPresent()
+        var value = ChimeClientTypes.AccountSettings()
+        value.disableRemoteControl = try reader["DisableRemoteControl"].readIfPresent()
+        value.enableDialOut = try reader["EnableDialOut"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeClientTypes.AlexaForBusinessMetadata {
+
+    static func write(value: ChimeClientTypes.AlexaForBusinessMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AlexaForBusinessRoomArn"].write(value.alexaForBusinessRoomArn)
+        try writer["IsAlexaForBusinessEnabled"].write(value.isAlexaForBusinessEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.AlexaForBusinessMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeClientTypes.AlexaForBusinessMetadata()
+        value.isAlexaForBusinessEnabled = try reader["IsAlexaForBusinessEnabled"].readIfPresent()
+        value.alexaForBusinessRoomArn = try reader["AlexaForBusinessRoomArn"].readIfPresent()
         return value
     }
 }
@@ -7092,57 +7075,57 @@ extension ChimeClientTypes.Bot {
     }
 }
 
-extension ChimeClientTypes.PhoneNumberOrder {
+extension ChimeClientTypes.BusinessCallingSettings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.PhoneNumberOrder {
+    static func write(value: ChimeClientTypes.BusinessCallingSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CdrBucket"].write(value.cdrBucket)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.BusinessCallingSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.PhoneNumberOrder()
-        value.phoneNumberOrderId = try reader["PhoneNumberOrderId"].readIfPresent()
-        value.productType = try reader["ProductType"].readIfPresent()
+        var value = ChimeClientTypes.BusinessCallingSettings()
+        value.cdrBucket = try reader["CdrBucket"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeClientTypes.ConversationRetentionSettings {
+
+    static func write(value: ChimeClientTypes.ConversationRetentionSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RetentionDays"].write(value.retentionDays)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.ConversationRetentionSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeClientTypes.ConversationRetentionSettings()
+        value.retentionDays = try reader["RetentionDays"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeClientTypes.EventsConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.EventsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeClientTypes.EventsConfiguration()
+        value.botId = try reader["BotId"].readIfPresent()
+        value.outboundEventsHTTPSEndpoint = try reader["OutboundEventsHTTPSEndpoint"].readIfPresent()
+        value.lambdaFunctionArn = try reader["LambdaFunctionArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeClientTypes.Invite {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.Invite {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeClientTypes.Invite()
+        value.inviteId = try reader["InviteId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
-        value.orderedPhoneNumbers = try reader["OrderedPhoneNumbers"].readListIfPresent(memberReadingClosure: ChimeClientTypes.OrderedPhoneNumber.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension ChimeClientTypes.OrderedPhoneNumber {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.OrderedPhoneNumber {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.OrderedPhoneNumber()
-        value.e164PhoneNumber = try reader["E164PhoneNumber"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeClientTypes.Room {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.Room {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.Room()
-        value.roomId = try reader["RoomId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.createdBy = try reader["CreatedBy"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension ChimeClientTypes.RoomMembership {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.RoomMembership {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.RoomMembership()
-        value.roomId = try reader["RoomId"].readIfPresent()
-        value.member = try reader["Member"].readIfPresent(with: ChimeClientTypes.Member.read(from:))
-        value.role = try reader["Role"].readIfPresent()
-        value.invitedBy = try reader["InvitedBy"].readIfPresent()
-        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.emailAddress = try reader["EmailAddress"].readIfPresent()
+        value.emailStatus = try reader["EmailStatus"].readIfPresent()
         return value
     }
 }
@@ -7161,100 +7144,34 @@ extension ChimeClientTypes.Member {
     }
 }
 
-extension ChimeClientTypes.User {
+extension ChimeClientTypes.MemberError {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.User {
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.MemberError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.User()
-        value.userId = try reader["UserId"].readIfPresent() ?? ""
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.primaryEmail = try reader["PrimaryEmail"].readIfPresent()
-        value.primaryProvisionedNumber = try reader["PrimaryProvisionedNumber"].readIfPresent()
-        value.displayName = try reader["DisplayName"].readIfPresent()
-        value.licenseType = try reader["LicenseType"].readIfPresent()
-        value.userType = try reader["UserType"].readIfPresent()
-        value.userRegistrationStatus = try reader["UserRegistrationStatus"].readIfPresent()
-        value.userInvitationStatus = try reader["UserInvitationStatus"].readIfPresent()
-        value.registeredOn = try reader["RegisteredOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.invitedOn = try reader["InvitedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.alexaForBusinessMetadata = try reader["AlexaForBusinessMetadata"].readIfPresent(with: ChimeClientTypes.AlexaForBusinessMetadata.read(from:))
-        value.personalPIN = try reader["PersonalPIN"].readIfPresent()
+        var value = ChimeClientTypes.MemberError()
+        value.memberId = try reader["MemberId"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
     }
 }
 
-extension ChimeClientTypes.AlexaForBusinessMetadata {
+extension ChimeClientTypes.MembershipItem {
 
-    static func write(value: ChimeClientTypes.AlexaForBusinessMetadata?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ChimeClientTypes.MembershipItem?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AlexaForBusinessRoomArn"].write(value.alexaForBusinessRoomArn)
-        try writer["IsAlexaForBusinessEnabled"].write(value.isAlexaForBusinessEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.AlexaForBusinessMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.AlexaForBusinessMetadata()
-        value.isAlexaForBusinessEnabled = try reader["IsAlexaForBusinessEnabled"].readIfPresent()
-        value.alexaForBusinessRoomArn = try reader["AlexaForBusinessRoomArn"].readIfPresent()
-        return value
+        try writer["MemberId"].write(value.memberId)
+        try writer["Role"].write(value.role)
     }
 }
 
-extension ChimeClientTypes.AccountSettings {
+extension ChimeClientTypes.OrderedPhoneNumber {
 
-    static func write(value: ChimeClientTypes.AccountSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DisableRemoteControl"].write(value.disableRemoteControl)
-        try writer["EnableDialOut"].write(value.enableDialOut)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.AccountSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.OrderedPhoneNumber {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.AccountSettings()
-        value.disableRemoteControl = try reader["DisableRemoteControl"].readIfPresent()
-        value.enableDialOut = try reader["EnableDialOut"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeClientTypes.EventsConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.EventsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.EventsConfiguration()
-        value.botId = try reader["BotId"].readIfPresent()
-        value.outboundEventsHTTPSEndpoint = try reader["OutboundEventsHTTPSEndpoint"].readIfPresent()
-        value.lambdaFunctionArn = try reader["LambdaFunctionArn"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeClientTypes.BusinessCallingSettings {
-
-    static func write(value: ChimeClientTypes.BusinessCallingSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CdrBucket"].write(value.cdrBucket)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.BusinessCallingSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.BusinessCallingSettings()
-        value.cdrBucket = try reader["CdrBucket"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeClientTypes.VoiceConnectorSettings {
-
-    static func write(value: ChimeClientTypes.VoiceConnectorSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CdrBucket"].write(value.cdrBucket)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.VoiceConnectorSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.VoiceConnectorSettings()
-        value.cdrBucket = try reader["CdrBucket"].readIfPresent()
+        var value = ChimeClientTypes.OrderedPhoneNumber()
+        value.e164PhoneNumber = try reader["E164PhoneNumber"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -7308,6 +7225,44 @@ extension ChimeClientTypes.PhoneNumberCapabilities {
     }
 }
 
+extension ChimeClientTypes.PhoneNumberCountry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.PhoneNumberCountry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeClientTypes.PhoneNumberCountry()
+        value.countryCode = try reader["CountryCode"].readIfPresent()
+        value.supportedPhoneNumberTypes = try reader["SupportedPhoneNumberTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ChimeClientTypes.PhoneNumberType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ChimeClientTypes.PhoneNumberError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.PhoneNumberError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeClientTypes.PhoneNumberError()
+        value.phoneNumberId = try reader["PhoneNumberId"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeClientTypes.PhoneNumberOrder {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.PhoneNumberOrder {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeClientTypes.PhoneNumberOrder()
+        value.phoneNumberOrderId = try reader["PhoneNumberOrderId"].readIfPresent()
+        value.productType = try reader["ProductType"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.orderedPhoneNumbers = try reader["OrderedPhoneNumbers"].readListIfPresent(memberReadingClosure: ChimeClientTypes.OrderedPhoneNumber.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension ChimeClientTypes.RetentionSettings {
 
     static func write(value: ChimeClientTypes.RetentionSettings?, to writer: SmithyJSON.Writer) throws {
@@ -7325,17 +7280,31 @@ extension ChimeClientTypes.RetentionSettings {
     }
 }
 
-extension ChimeClientTypes.ConversationRetentionSettings {
+extension ChimeClientTypes.Room {
 
-    static func write(value: ChimeClientTypes.ConversationRetentionSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RetentionDays"].write(value.retentionDays)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.ConversationRetentionSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.Room {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.ConversationRetentionSettings()
-        value.retentionDays = try reader["RetentionDays"].readIfPresent()
+        var value = ChimeClientTypes.Room()
+        value.roomId = try reader["RoomId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension ChimeClientTypes.RoomMembership {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.RoomMembership {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeClientTypes.RoomMembership()
+        value.roomId = try reader["RoomId"].readIfPresent()
+        value.member = try reader["Member"].readIfPresent(with: ChimeClientTypes.Member.read(from:))
+        value.role = try reader["Role"].readIfPresent()
+        value.invitedBy = try reader["InvitedBy"].readIfPresent()
+        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -7355,17 +7324,17 @@ extension ChimeClientTypes.RoomRetentionSettings {
     }
 }
 
-extension ChimeClientTypes.UserSettings {
+extension ChimeClientTypes.SigninDelegateGroup {
 
-    static func write(value: ChimeClientTypes.UserSettings?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ChimeClientTypes.SigninDelegateGroup?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Telephony"].write(value.telephony, with: ChimeClientTypes.TelephonySettings.write(value:to:))
+        try writer["GroupName"].write(value.groupName)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.UserSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.SigninDelegateGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.UserSettings()
-        value.telephony = try reader["Telephony"].readIfPresent(with: ChimeClientTypes.TelephonySettings.read(from:))
+        var value = ChimeClientTypes.SigninDelegateGroup()
+        value.groupName = try reader["GroupName"].readIfPresent()
         return value
     }
 }
@@ -7389,39 +7358,6 @@ extension ChimeClientTypes.TelephonySettings {
     }
 }
 
-extension ChimeClientTypes.Invite {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.Invite {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.Invite()
-        value.inviteId = try reader["InviteId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.emailAddress = try reader["EmailAddress"].readIfPresent()
-        value.emailStatus = try reader["EmailStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeClientTypes.PhoneNumberCountry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.PhoneNumberCountry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeClientTypes.PhoneNumberCountry()
-        value.countryCode = try reader["CountryCode"].readIfPresent()
-        value.supportedPhoneNumberTypes = try reader["SupportedPhoneNumberTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ChimeClientTypes.PhoneNumberType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ChimeClientTypes.MembershipItem {
-
-    static func write(value: ChimeClientTypes.MembershipItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MemberId"].write(value.memberId)
-        try writer["Role"].write(value.role)
-    }
-}
-
 extension ChimeClientTypes.UpdatePhoneNumberRequestItem {
 
     static func write(value: ChimeClientTypes.UpdatePhoneNumberRequestItem?, to writer: SmithyJSON.Writer) throws {
@@ -7440,6 +7376,70 @@ extension ChimeClientTypes.UpdateUserRequestItem {
         try writer["LicenseType"].write(value.licenseType)
         try writer["UserId"].write(value.userId)
         try writer["UserType"].write(value.userType)
+    }
+}
+
+extension ChimeClientTypes.User {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.User {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeClientTypes.User()
+        value.userId = try reader["UserId"].readIfPresent() ?? ""
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.primaryEmail = try reader["PrimaryEmail"].readIfPresent()
+        value.primaryProvisionedNumber = try reader["PrimaryProvisionedNumber"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.licenseType = try reader["LicenseType"].readIfPresent()
+        value.userType = try reader["UserType"].readIfPresent()
+        value.userRegistrationStatus = try reader["UserRegistrationStatus"].readIfPresent()
+        value.userInvitationStatus = try reader["UserInvitationStatus"].readIfPresent()
+        value.registeredOn = try reader["RegisteredOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.invitedOn = try reader["InvitedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.alexaForBusinessMetadata = try reader["AlexaForBusinessMetadata"].readIfPresent(with: ChimeClientTypes.AlexaForBusinessMetadata.read(from:))
+        value.personalPIN = try reader["PersonalPIN"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeClientTypes.UserError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.UserError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeClientTypes.UserError()
+        value.userId = try reader["UserId"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeClientTypes.UserSettings {
+
+    static func write(value: ChimeClientTypes.UserSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Telephony"].write(value.telephony, with: ChimeClientTypes.TelephonySettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.UserSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeClientTypes.UserSettings()
+        value.telephony = try reader["Telephony"].readIfPresent(with: ChimeClientTypes.TelephonySettings.read(from:))
+        return value
+    }
+}
+
+extension ChimeClientTypes.VoiceConnectorSettings {
+
+    static func write(value: ChimeClientTypes.VoiceConnectorSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CdrBucket"].write(value.cdrBucket)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeClientTypes.VoiceConnectorSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeClientTypes.VoiceConnectorSettings()
+        value.cdrBucket = try reader["CdrBucket"].readIfPresent()
+        return value
     }
 }
 

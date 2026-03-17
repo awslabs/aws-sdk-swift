@@ -12,8 +12,8 @@ import Foundation
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-@_spi(SmithyReadWrite) import enum AWSClientRuntime.AWSQueryCompatibleUtils
 import enum ClientRuntime.ErrorFault
+@_spi(SmithyReadWrite) import enum ClientRuntime.QueryCompatibleUtils
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 
@@ -2968,7 +2968,7 @@ enum AddPermissionOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -2988,7 +2988,7 @@ enum CancelMessageMoveTaskOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3007,7 +3007,7 @@ enum ChangeMessageVisibilityOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3028,7 +3028,7 @@ enum ChangeMessageVisibilityBatchOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct": return try BatchEntryIdsNotDistinct.makeError(baseError: baseError)
@@ -3051,7 +3051,7 @@ enum CreateQueueOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3073,7 +3073,7 @@ enum DeleteMessageOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3094,7 +3094,7 @@ enum DeleteMessageBatchOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct": return try BatchEntryIdsNotDistinct.makeError(baseError: baseError)
@@ -3117,7 +3117,7 @@ enum DeleteQueueOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3136,7 +3136,7 @@ enum GetQueueAttributesOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3156,7 +3156,7 @@ enum GetQueueUrlOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3175,7 +3175,7 @@ enum ListDeadLetterSourceQueuesOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3194,7 +3194,7 @@ enum ListMessageMoveTasksOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3213,7 +3213,7 @@ enum ListQueuesOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3231,7 +3231,7 @@ enum ListQueueTagsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3250,7 +3250,7 @@ enum PurgeQueueOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3270,7 +3270,7 @@ enum ReceiveMessageOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3297,7 +3297,7 @@ enum RemovePermissionOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3316,7 +3316,7 @@ enum SendMessageOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3343,7 +3343,7 @@ enum SendMessageBatchOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct": return try BatchEntryIdsNotDistinct.makeError(baseError: baseError)
@@ -3374,7 +3374,7 @@ enum SetQueueAttributesOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3396,7 +3396,7 @@ enum StartMessageMoveTaskOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3415,7 +3415,7 @@ enum TagQueueOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3434,7 +3434,7 @@ enum UntagQueueOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError: AWSClientRuntime.AWSJSONError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError: ClientRuntime.AWSJSONError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3449,7 +3449,7 @@ enum UntagQueueOutputError {
 
 extension InvalidAddress {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAddress {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidAddress {
         let reader = baseError.errorBodyReader
         var value = InvalidAddress()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3462,7 +3462,7 @@ extension InvalidAddress {
 
 extension InvalidSecurity {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSecurity {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidSecurity {
         let reader = baseError.errorBodyReader
         var value = InvalidSecurity()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3475,7 +3475,7 @@ extension InvalidSecurity {
 
 extension OverLimit {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OverLimit {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> OverLimit {
         let reader = baseError.errorBodyReader
         var value = OverLimit()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3488,7 +3488,7 @@ extension OverLimit {
 
 extension QueueDoesNotExist {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> QueueDoesNotExist {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> QueueDoesNotExist {
         let reader = baseError.errorBodyReader
         var value = QueueDoesNotExist()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3501,7 +3501,7 @@ extension QueueDoesNotExist {
 
 extension RequestThrottled {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RequestThrottled {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> RequestThrottled {
         let reader = baseError.errorBodyReader
         var value = RequestThrottled()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3514,7 +3514,7 @@ extension RequestThrottled {
 
 extension UnsupportedOperation {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperation {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UnsupportedOperation {
         let reader = baseError.errorBodyReader
         var value = UnsupportedOperation()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3527,7 +3527,7 @@ extension UnsupportedOperation {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3540,7 +3540,7 @@ extension ResourceNotFoundException {
 
 extension MessageNotInflight {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MessageNotInflight {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MessageNotInflight {
         var value = MessageNotInflight()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3551,7 +3551,7 @@ extension MessageNotInflight {
 
 extension ReceiptHandleIsInvalid {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReceiptHandleIsInvalid {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ReceiptHandleIsInvalid {
         let reader = baseError.errorBodyReader
         var value = ReceiptHandleIsInvalid()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3564,7 +3564,7 @@ extension ReceiptHandleIsInvalid {
 
 extension BatchEntryIdsNotDistinct {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BatchEntryIdsNotDistinct {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> BatchEntryIdsNotDistinct {
         let reader = baseError.errorBodyReader
         var value = BatchEntryIdsNotDistinct()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3577,7 +3577,7 @@ extension BatchEntryIdsNotDistinct {
 
 extension EmptyBatchRequest {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EmptyBatchRequest {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> EmptyBatchRequest {
         let reader = baseError.errorBodyReader
         var value = EmptyBatchRequest()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3590,7 +3590,7 @@ extension EmptyBatchRequest {
 
 extension InvalidBatchEntryId {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidBatchEntryId {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidBatchEntryId {
         let reader = baseError.errorBodyReader
         var value = InvalidBatchEntryId()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3603,7 +3603,7 @@ extension InvalidBatchEntryId {
 
 extension TooManyEntriesInBatchRequest {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyEntriesInBatchRequest {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TooManyEntriesInBatchRequest {
         let reader = baseError.errorBodyReader
         var value = TooManyEntriesInBatchRequest()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3616,7 +3616,7 @@ extension TooManyEntriesInBatchRequest {
 
 extension InvalidAttributeName {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAttributeName {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidAttributeName {
         let reader = baseError.errorBodyReader
         var value = InvalidAttributeName()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3629,7 +3629,7 @@ extension InvalidAttributeName {
 
 extension InvalidAttributeValue {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAttributeValue {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidAttributeValue {
         let reader = baseError.errorBodyReader
         var value = InvalidAttributeValue()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3642,7 +3642,7 @@ extension InvalidAttributeValue {
 
 extension QueueDeletedRecently {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> QueueDeletedRecently {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> QueueDeletedRecently {
         let reader = baseError.errorBodyReader
         var value = QueueDeletedRecently()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3655,7 +3655,7 @@ extension QueueDeletedRecently {
 
 extension QueueNameExists {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> QueueNameExists {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> QueueNameExists {
         let reader = baseError.errorBodyReader
         var value = QueueNameExists()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3668,7 +3668,7 @@ extension QueueNameExists {
 
 extension InvalidIdFormat {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidIdFormat {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidIdFormat {
         var value = InvalidIdFormat()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3679,7 +3679,7 @@ extension InvalidIdFormat {
 
 extension PurgeQueueInProgress {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PurgeQueueInProgress {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PurgeQueueInProgress {
         let reader = baseError.errorBodyReader
         var value = PurgeQueueInProgress()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3692,7 +3692,7 @@ extension PurgeQueueInProgress {
 
 extension KmsAccessDenied {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsAccessDenied {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> KmsAccessDenied {
         let reader = baseError.errorBodyReader
         var value = KmsAccessDenied()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3705,7 +3705,7 @@ extension KmsAccessDenied {
 
 extension KmsDisabled {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsDisabled {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> KmsDisabled {
         let reader = baseError.errorBodyReader
         var value = KmsDisabled()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3718,7 +3718,7 @@ extension KmsDisabled {
 
 extension KmsInvalidKeyUsage {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsInvalidKeyUsage {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> KmsInvalidKeyUsage {
         let reader = baseError.errorBodyReader
         var value = KmsInvalidKeyUsage()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3731,7 +3731,7 @@ extension KmsInvalidKeyUsage {
 
 extension KmsInvalidState {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsInvalidState {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> KmsInvalidState {
         let reader = baseError.errorBodyReader
         var value = KmsInvalidState()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3744,7 +3744,7 @@ extension KmsInvalidState {
 
 extension KmsNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsNotFound {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> KmsNotFound {
         let reader = baseError.errorBodyReader
         var value = KmsNotFound()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3757,7 +3757,7 @@ extension KmsNotFound {
 
 extension KmsOptInRequired {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsOptInRequired {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> KmsOptInRequired {
         let reader = baseError.errorBodyReader
         var value = KmsOptInRequired()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3770,7 +3770,7 @@ extension KmsOptInRequired {
 
 extension KmsThrottled {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsThrottled {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> KmsThrottled {
         let reader = baseError.errorBodyReader
         var value = KmsThrottled()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3783,7 +3783,7 @@ extension KmsThrottled {
 
 extension InvalidMessageContents {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidMessageContents {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidMessageContents {
         let reader = baseError.errorBodyReader
         var value = InvalidMessageContents()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3796,23 +3796,13 @@ extension InvalidMessageContents {
 
 extension BatchRequestTooLong {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BatchRequestTooLong {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> BatchRequestTooLong {
         let reader = baseError.errorBodyReader
         var value = BatchRequestTooLong()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension SQSClientTypes.ChangeMessageVisibilityBatchResultEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SQSClientTypes.ChangeMessageVisibilityBatchResultEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SQSClientTypes.ChangeMessageVisibilityBatchResultEntry()
-        value.id = try reader["Id"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3827,6 +3817,35 @@ extension SQSClientTypes.BatchResultErrorEntry {
         value.code = try reader["Code"].readIfPresent() ?? ""
         value.message = try reader["Message"].readIfPresent()
         return value
+    }
+}
+
+extension SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry {
+
+    static func write(value: SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["ReceiptHandle"].write(value.receiptHandle)
+        try writer["VisibilityTimeout"].write(value.visibilityTimeout)
+    }
+}
+
+extension SQSClientTypes.ChangeMessageVisibilityBatchResultEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SQSClientTypes.ChangeMessageVisibilityBatchResultEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SQSClientTypes.ChangeMessageVisibilityBatchResultEntry()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SQSClientTypes.DeleteMessageBatchRequestEntry {
+
+    static func write(value: SQSClientTypes.DeleteMessageBatchRequestEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["ReceiptHandle"].write(value.receiptHandle)
     }
 }
 
@@ -3897,40 +3916,6 @@ extension SQSClientTypes.MessageAttributeValue {
     }
 }
 
-extension SQSClientTypes.SendMessageBatchResultEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SQSClientTypes.SendMessageBatchResultEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SQSClientTypes.SendMessageBatchResultEntry()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.messageId = try reader["MessageId"].readIfPresent() ?? ""
-        value.md5OfMessageBody = try reader["MD5OfMessageBody"].readIfPresent() ?? ""
-        value.md5OfMessageAttributes = try reader["MD5OfMessageAttributes"].readIfPresent()
-        value.md5OfMessageSystemAttributes = try reader["MD5OfMessageSystemAttributes"].readIfPresent()
-        value.sequenceNumber = try reader["SequenceNumber"].readIfPresent()
-        return value
-    }
-}
-
-extension SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry {
-
-    static func write(value: SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["ReceiptHandle"].write(value.receiptHandle)
-        try writer["VisibilityTimeout"].write(value.visibilityTimeout)
-    }
-}
-
-extension SQSClientTypes.DeleteMessageBatchRequestEntry {
-
-    static func write(value: SQSClientTypes.DeleteMessageBatchRequestEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["ReceiptHandle"].write(value.receiptHandle)
-    }
-}
-
 extension SQSClientTypes.MessageSystemAttributeValue {
 
     static func write(value: SQSClientTypes.MessageSystemAttributeValue?, to writer: SmithyJSON.Writer) throws {
@@ -3954,6 +3939,21 @@ extension SQSClientTypes.SendMessageBatchRequestEntry {
         try writer["MessageDeduplicationId"].write(value.messageDeduplicationId)
         try writer["MessageGroupId"].write(value.messageGroupId)
         try writer["MessageSystemAttributes"].writeMap(value.messageSystemAttributes, valueWritingClosure: SQSClientTypes.MessageSystemAttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: true)
+    }
+}
+
+extension SQSClientTypes.SendMessageBatchResultEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SQSClientTypes.SendMessageBatchResultEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SQSClientTypes.SendMessageBatchResultEntry()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.messageId = try reader["MessageId"].readIfPresent() ?? ""
+        value.md5OfMessageBody = try reader["MD5OfMessageBody"].readIfPresent() ?? ""
+        value.md5OfMessageAttributes = try reader["MD5OfMessageAttributes"].readIfPresent()
+        value.md5OfMessageSystemAttributes = try reader["MD5OfMessageSystemAttributes"].readIfPresent()
+        value.sequenceNumber = try reader["SequenceNumber"].readIfPresent()
+        return value
     }
 }
 

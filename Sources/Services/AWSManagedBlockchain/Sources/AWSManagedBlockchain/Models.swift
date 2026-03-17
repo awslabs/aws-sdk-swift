@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 
 /// You don't have sufficient access to perform this action.
@@ -3530,7 +3530,7 @@ enum CreateAccessorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3550,7 +3550,7 @@ enum CreateMemberOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3572,7 +3572,7 @@ enum CreateNetworkOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3592,7 +3592,7 @@ enum CreateNodeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3614,7 +3614,7 @@ enum CreateProposalOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3634,7 +3634,7 @@ enum DeleteAccessorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3652,7 +3652,7 @@ enum DeleteMemberOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3671,7 +3671,7 @@ enum DeleteNodeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3690,7 +3690,7 @@ enum GetAccessorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3708,7 +3708,7 @@ enum GetMemberOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3726,7 +3726,7 @@ enum GetNetworkOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3744,7 +3744,7 @@ enum GetNodeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3762,7 +3762,7 @@ enum GetProposalOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3780,7 +3780,7 @@ enum ListAccessorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3797,7 +3797,7 @@ enum ListInvitationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3816,7 +3816,7 @@ enum ListMembersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3833,7 +3833,7 @@ enum ListNetworksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3850,7 +3850,7 @@ enum ListNodesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3867,7 +3867,7 @@ enum ListProposalsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3885,7 +3885,7 @@ enum ListProposalVotesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3902,7 +3902,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
@@ -3919,7 +3919,7 @@ enum RejectInvitationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3938,7 +3938,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
@@ -3956,7 +3956,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
@@ -3973,7 +3973,7 @@ enum UpdateMemberOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3991,7 +3991,7 @@ enum UpdateNodeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4009,7 +4009,7 @@ enum VoteOnProposalOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4025,7 +4025,7 @@ enum VoteOnProposalOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4038,7 +4038,7 @@ extension AccessDeniedException {
 
 extension InternalServiceErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceErrorException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServiceErrorException {
         var value = InternalServiceErrorException()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4049,7 +4049,7 @@ extension InternalServiceErrorException {
 
 extension InvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
         var value = InvalidRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4062,7 +4062,7 @@ extension InvalidRequestException {
 
 extension ResourceAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = ResourceAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4075,7 +4075,7 @@ extension ResourceAlreadyExistsException {
 
 extension ResourceLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ResourceLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4088,7 +4088,7 @@ extension ResourceLimitExceededException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         var value = ThrottlingException()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4099,7 +4099,7 @@ extension ThrottlingException {
 
 extension TooManyTagsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyTagsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyTagsException {
         let reader = baseError.errorBodyReader
         var value = TooManyTagsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4113,7 +4113,7 @@ extension TooManyTagsException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4127,7 +4127,7 @@ extension ResourceNotFoundException {
 
 extension ResourceNotReadyException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotReadyException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotReadyException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotReadyException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4140,7 +4140,7 @@ extension ResourceNotReadyException {
 
 extension IllegalActionException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> IllegalActionException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> IllegalActionException {
         let reader = baseError.errorBodyReader
         var value = IllegalActionException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4168,6 +4168,100 @@ extension ManagedBlockchainClientTypes.Accessor {
     }
 }
 
+extension ManagedBlockchainClientTypes.AccessorSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.AccessorSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ManagedBlockchainClientTypes.AccessorSummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["Arn"].readIfPresent()
+        value.networkType = try reader["NetworkType"].readIfPresent()
+        return value
+    }
+}
+
+extension ManagedBlockchainClientTypes.ApprovalThresholdPolicy {
+
+    static func write(value: ManagedBlockchainClientTypes.ApprovalThresholdPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProposalDurationInHours"].write(value.proposalDurationInHours)
+        try writer["ThresholdComparator"].write(value.thresholdComparator)
+        try writer["ThresholdPercentage"].write(value.thresholdPercentage)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.ApprovalThresholdPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ManagedBlockchainClientTypes.ApprovalThresholdPolicy()
+        value.thresholdPercentage = try reader["ThresholdPercentage"].readIfPresent()
+        value.proposalDurationInHours = try reader["ProposalDurationInHours"].readIfPresent()
+        value.thresholdComparator = try reader["ThresholdComparator"].readIfPresent()
+        return value
+    }
+}
+
+extension ManagedBlockchainClientTypes.Invitation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.Invitation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ManagedBlockchainClientTypes.Invitation()
+        value.invitationId = try reader["InvitationId"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.expirationDate = try reader["ExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["Status"].readIfPresent()
+        value.networkSummary = try reader["NetworkSummary"].readIfPresent(with: ManagedBlockchainClientTypes.NetworkSummary.read(from:))
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension ManagedBlockchainClientTypes.InviteAction {
+
+    static func write(value: ManagedBlockchainClientTypes.InviteAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Principal"].write(value.principal)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.InviteAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ManagedBlockchainClientTypes.InviteAction()
+        value.principal = try reader["Principal"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ManagedBlockchainClientTypes.LogConfiguration {
+
+    static func write(value: ManagedBlockchainClientTypes.LogConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.LogConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ManagedBlockchainClientTypes.LogConfiguration()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension ManagedBlockchainClientTypes.LogConfigurations {
+
+    static func write(value: ManagedBlockchainClientTypes.LogConfigurations?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Cloudwatch"].write(value.cloudwatch, with: ManagedBlockchainClientTypes.LogConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.LogConfigurations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ManagedBlockchainClientTypes.LogConfigurations()
+        value.cloudwatch = try reader["Cloudwatch"].readIfPresent(with: ManagedBlockchainClientTypes.LogConfiguration.read(from:))
+        return value
+    }
+}
+
 extension ManagedBlockchainClientTypes.Member {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.Member {
@@ -4188,18 +4282,36 @@ extension ManagedBlockchainClientTypes.Member {
     }
 }
 
-extension ManagedBlockchainClientTypes.MemberLogPublishingConfiguration {
+extension ManagedBlockchainClientTypes.MemberConfiguration {
 
-    static func write(value: ManagedBlockchainClientTypes.MemberLogPublishingConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ManagedBlockchainClientTypes.MemberConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Fabric"].write(value.fabric, with: ManagedBlockchainClientTypes.MemberFabricLogPublishingConfiguration.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["FrameworkConfiguration"].write(value.frameworkConfiguration, with: ManagedBlockchainClientTypes.MemberFrameworkConfiguration.write(value:to:))
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+        try writer["LogPublishingConfiguration"].write(value.logPublishingConfiguration, with: ManagedBlockchainClientTypes.MemberLogPublishingConfiguration.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.MemberLogPublishingConfiguration {
+extension ManagedBlockchainClientTypes.MemberFabricAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.MemberFabricAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.MemberLogPublishingConfiguration()
-        value.fabric = try reader["Fabric"].readIfPresent(with: ManagedBlockchainClientTypes.MemberFabricLogPublishingConfiguration.read(from:))
+        var value = ManagedBlockchainClientTypes.MemberFabricAttributes()
+        value.adminUsername = try reader["AdminUsername"].readIfPresent()
+        value.caEndpoint = try reader["CaEndpoint"].readIfPresent()
         return value
+    }
+}
+
+extension ManagedBlockchainClientTypes.MemberFabricConfiguration {
+
+    static func write(value: ManagedBlockchainClientTypes.MemberFabricConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdminPassword"].write(value.adminPassword)
+        try writer["AdminUsername"].write(value.adminUsername)
     }
 }
 
@@ -4218,36 +4330,6 @@ extension ManagedBlockchainClientTypes.MemberFabricLogPublishingConfiguration {
     }
 }
 
-extension ManagedBlockchainClientTypes.LogConfigurations {
-
-    static func write(value: ManagedBlockchainClientTypes.LogConfigurations?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Cloudwatch"].write(value.cloudwatch, with: ManagedBlockchainClientTypes.LogConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.LogConfigurations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.LogConfigurations()
-        value.cloudwatch = try reader["Cloudwatch"].readIfPresent(with: ManagedBlockchainClientTypes.LogConfiguration.read(from:))
-        return value
-    }
-}
-
-extension ManagedBlockchainClientTypes.LogConfiguration {
-
-    static func write(value: ManagedBlockchainClientTypes.LogConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.LogConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.LogConfiguration()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        return value
-    }
-}
-
 extension ManagedBlockchainClientTypes.MemberFrameworkAttributes {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.MemberFrameworkAttributes {
@@ -4258,13 +4340,41 @@ extension ManagedBlockchainClientTypes.MemberFrameworkAttributes {
     }
 }
 
-extension ManagedBlockchainClientTypes.MemberFabricAttributes {
+extension ManagedBlockchainClientTypes.MemberFrameworkConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.MemberFabricAttributes {
+    static func write(value: ManagedBlockchainClientTypes.MemberFrameworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Fabric"].write(value.fabric, with: ManagedBlockchainClientTypes.MemberFabricConfiguration.write(value:to:))
+    }
+}
+
+extension ManagedBlockchainClientTypes.MemberLogPublishingConfiguration {
+
+    static func write(value: ManagedBlockchainClientTypes.MemberLogPublishingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Fabric"].write(value.fabric, with: ManagedBlockchainClientTypes.MemberFabricLogPublishingConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.MemberLogPublishingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.MemberFabricAttributes()
-        value.adminUsername = try reader["AdminUsername"].readIfPresent()
-        value.caEndpoint = try reader["CaEndpoint"].readIfPresent()
+        var value = ManagedBlockchainClientTypes.MemberLogPublishingConfiguration()
+        value.fabric = try reader["Fabric"].readIfPresent(with: ManagedBlockchainClientTypes.MemberFabricLogPublishingConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ManagedBlockchainClientTypes.MemberSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.MemberSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ManagedBlockchainClientTypes.MemberSummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.isOwned = try reader["IsOwned"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
         return value
     }
 }
@@ -4290,51 +4400,6 @@ extension ManagedBlockchainClientTypes.Network {
     }
 }
 
-extension ManagedBlockchainClientTypes.VotingPolicy {
-
-    static func write(value: ManagedBlockchainClientTypes.VotingPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApprovalThresholdPolicy"].write(value.approvalThresholdPolicy, with: ManagedBlockchainClientTypes.ApprovalThresholdPolicy.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.VotingPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.VotingPolicy()
-        value.approvalThresholdPolicy = try reader["ApprovalThresholdPolicy"].readIfPresent(with: ManagedBlockchainClientTypes.ApprovalThresholdPolicy.read(from:))
-        return value
-    }
-}
-
-extension ManagedBlockchainClientTypes.ApprovalThresholdPolicy {
-
-    static func write(value: ManagedBlockchainClientTypes.ApprovalThresholdPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ProposalDurationInHours"].write(value.proposalDurationInHours)
-        try writer["ThresholdComparator"].write(value.thresholdComparator)
-        try writer["ThresholdPercentage"].write(value.thresholdPercentage)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.ApprovalThresholdPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.ApprovalThresholdPolicy()
-        value.thresholdPercentage = try reader["ThresholdPercentage"].readIfPresent()
-        value.proposalDurationInHours = try reader["ProposalDurationInHours"].readIfPresent()
-        value.thresholdComparator = try reader["ThresholdComparator"].readIfPresent()
-        return value
-    }
-}
-
-extension ManagedBlockchainClientTypes.NetworkFrameworkAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NetworkFrameworkAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.NetworkFrameworkAttributes()
-        value.fabric = try reader["Fabric"].readIfPresent(with: ManagedBlockchainClientTypes.NetworkFabricAttributes.read(from:))
-        value.ethereum = try reader["Ethereum"].readIfPresent(with: ManagedBlockchainClientTypes.NetworkEthereumAttributes.read(from:))
-        return value
-    }
-}
-
 extension ManagedBlockchainClientTypes.NetworkEthereumAttributes {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NetworkEthereumAttributes {
@@ -4352,6 +4417,50 @@ extension ManagedBlockchainClientTypes.NetworkFabricAttributes {
         var value = ManagedBlockchainClientTypes.NetworkFabricAttributes()
         value.orderingServiceEndpoint = try reader["OrderingServiceEndpoint"].readIfPresent()
         value.edition = try reader["Edition"].readIfPresent()
+        return value
+    }
+}
+
+extension ManagedBlockchainClientTypes.NetworkFabricConfiguration {
+
+    static func write(value: ManagedBlockchainClientTypes.NetworkFabricConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Edition"].write(value.edition)
+    }
+}
+
+extension ManagedBlockchainClientTypes.NetworkFrameworkAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NetworkFrameworkAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ManagedBlockchainClientTypes.NetworkFrameworkAttributes()
+        value.fabric = try reader["Fabric"].readIfPresent(with: ManagedBlockchainClientTypes.NetworkFabricAttributes.read(from:))
+        value.ethereum = try reader["Ethereum"].readIfPresent(with: ManagedBlockchainClientTypes.NetworkEthereumAttributes.read(from:))
+        return value
+    }
+}
+
+extension ManagedBlockchainClientTypes.NetworkFrameworkConfiguration {
+
+    static func write(value: ManagedBlockchainClientTypes.NetworkFrameworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Fabric"].write(value.fabric, with: ManagedBlockchainClientTypes.NetworkFabricConfiguration.write(value:to:))
+    }
+}
+
+extension ManagedBlockchainClientTypes.NetworkSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NetworkSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ManagedBlockchainClientTypes.NetworkSummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.framework = try reader["Framework"].readIfPresent()
+        value.frameworkVersion = try reader["FrameworkVersion"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["Arn"].readIfPresent()
         return value
     }
 }
@@ -4378,17 +4487,35 @@ extension ManagedBlockchainClientTypes.Node {
     }
 }
 
-extension ManagedBlockchainClientTypes.NodeLogPublishingConfiguration {
+extension ManagedBlockchainClientTypes.NodeConfiguration {
 
-    static func write(value: ManagedBlockchainClientTypes.NodeLogPublishingConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ManagedBlockchainClientTypes.NodeConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Fabric"].write(value.fabric, with: ManagedBlockchainClientTypes.NodeFabricLogPublishingConfiguration.write(value:to:))
+        try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["InstanceType"].write(value.instanceType)
+        try writer["LogPublishingConfiguration"].write(value.logPublishingConfiguration, with: ManagedBlockchainClientTypes.NodeLogPublishingConfiguration.write(value:to:))
+        try writer["StateDB"].write(value.stateDB)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NodeLogPublishingConfiguration {
+extension ManagedBlockchainClientTypes.NodeEthereumAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NodeEthereumAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.NodeLogPublishingConfiguration()
-        value.fabric = try reader["Fabric"].readIfPresent(with: ManagedBlockchainClientTypes.NodeFabricLogPublishingConfiguration.read(from:))
+        var value = ManagedBlockchainClientTypes.NodeEthereumAttributes()
+        value.httpEndpoint = try reader["HttpEndpoint"].readIfPresent()
+        value.webSocketEndpoint = try reader["WebSocketEndpoint"].readIfPresent()
+        return value
+    }
+}
+
+extension ManagedBlockchainClientTypes.NodeFabricAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NodeFabricAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ManagedBlockchainClientTypes.NodeFabricAttributes()
+        value.peerEndpoint = try reader["PeerEndpoint"].readIfPresent()
+        value.peerEventEndpoint = try reader["PeerEventEndpoint"].readIfPresent()
         return value
     }
 }
@@ -4421,24 +4548,32 @@ extension ManagedBlockchainClientTypes.NodeFrameworkAttributes {
     }
 }
 
-extension ManagedBlockchainClientTypes.NodeEthereumAttributes {
+extension ManagedBlockchainClientTypes.NodeLogPublishingConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NodeEthereumAttributes {
+    static func write(value: ManagedBlockchainClientTypes.NodeLogPublishingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Fabric"].write(value.fabric, with: ManagedBlockchainClientTypes.NodeFabricLogPublishingConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NodeLogPublishingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.NodeEthereumAttributes()
-        value.httpEndpoint = try reader["HttpEndpoint"].readIfPresent()
-        value.webSocketEndpoint = try reader["WebSocketEndpoint"].readIfPresent()
+        var value = ManagedBlockchainClientTypes.NodeLogPublishingConfiguration()
+        value.fabric = try reader["Fabric"].readIfPresent(with: ManagedBlockchainClientTypes.NodeFabricLogPublishingConfiguration.read(from:))
         return value
     }
 }
 
-extension ManagedBlockchainClientTypes.NodeFabricAttributes {
+extension ManagedBlockchainClientTypes.NodeSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NodeFabricAttributes {
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NodeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.NodeFabricAttributes()
-        value.peerEndpoint = try reader["PeerEndpoint"].readIfPresent()
-        value.peerEventEndpoint = try reader["PeerEventEndpoint"].readIfPresent()
+        var value = ManagedBlockchainClientTypes.NodeSummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
         return value
     }
 }
@@ -4483,114 +4618,6 @@ extension ManagedBlockchainClientTypes.ProposalActions {
     }
 }
 
-extension ManagedBlockchainClientTypes.RemoveAction {
-
-    static func write(value: ManagedBlockchainClientTypes.RemoveAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MemberId"].write(value.memberId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.RemoveAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.RemoveAction()
-        value.memberId = try reader["MemberId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ManagedBlockchainClientTypes.InviteAction {
-
-    static func write(value: ManagedBlockchainClientTypes.InviteAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Principal"].write(value.principal)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.InviteAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.InviteAction()
-        value.principal = try reader["Principal"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ManagedBlockchainClientTypes.AccessorSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.AccessorSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.AccessorSummary()
-        value.id = try reader["Id"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.arn = try reader["Arn"].readIfPresent()
-        value.networkType = try reader["NetworkType"].readIfPresent()
-        return value
-    }
-}
-
-extension ManagedBlockchainClientTypes.Invitation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.Invitation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.Invitation()
-        value.invitationId = try reader["InvitationId"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.expirationDate = try reader["ExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["Status"].readIfPresent()
-        value.networkSummary = try reader["NetworkSummary"].readIfPresent(with: ManagedBlockchainClientTypes.NetworkSummary.read(from:))
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
-    }
-}
-
-extension ManagedBlockchainClientTypes.NetworkSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NetworkSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.NetworkSummary()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.framework = try reader["Framework"].readIfPresent()
-        value.frameworkVersion = try reader["FrameworkVersion"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
-    }
-}
-
-extension ManagedBlockchainClientTypes.MemberSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.MemberSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.MemberSummary()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.isOwned = try reader["IsOwned"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
-    }
-}
-
-extension ManagedBlockchainClientTypes.NodeSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.NodeSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainClientTypes.NodeSummary()
-        value.id = try reader["Id"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
-    }
-}
-
 extension ManagedBlockchainClientTypes.ProposalSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.ProposalSummary {
@@ -4608,6 +4635,21 @@ extension ManagedBlockchainClientTypes.ProposalSummary {
     }
 }
 
+extension ManagedBlockchainClientTypes.RemoveAction {
+
+    static func write(value: ManagedBlockchainClientTypes.RemoveAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MemberId"].write(value.memberId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.RemoveAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ManagedBlockchainClientTypes.RemoveAction()
+        value.memberId = try reader["MemberId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ManagedBlockchainClientTypes.VoteSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.VoteSummary {
@@ -4620,60 +4662,18 @@ extension ManagedBlockchainClientTypes.VoteSummary {
     }
 }
 
-extension ManagedBlockchainClientTypes.MemberConfiguration {
+extension ManagedBlockchainClientTypes.VotingPolicy {
 
-    static func write(value: ManagedBlockchainClientTypes.MemberConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ManagedBlockchainClientTypes.VotingPolicy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["FrameworkConfiguration"].write(value.frameworkConfiguration, with: ManagedBlockchainClientTypes.MemberFrameworkConfiguration.write(value:to:))
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
-        try writer["LogPublishingConfiguration"].write(value.logPublishingConfiguration, with: ManagedBlockchainClientTypes.MemberLogPublishingConfiguration.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ApprovalThresholdPolicy"].write(value.approvalThresholdPolicy, with: ManagedBlockchainClientTypes.ApprovalThresholdPolicy.write(value:to:))
     }
-}
 
-extension ManagedBlockchainClientTypes.MemberFrameworkConfiguration {
-
-    static func write(value: ManagedBlockchainClientTypes.MemberFrameworkConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Fabric"].write(value.fabric, with: ManagedBlockchainClientTypes.MemberFabricConfiguration.write(value:to:))
-    }
-}
-
-extension ManagedBlockchainClientTypes.MemberFabricConfiguration {
-
-    static func write(value: ManagedBlockchainClientTypes.MemberFabricConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdminPassword"].write(value.adminPassword)
-        try writer["AdminUsername"].write(value.adminUsername)
-    }
-}
-
-extension ManagedBlockchainClientTypes.NetworkFrameworkConfiguration {
-
-    static func write(value: ManagedBlockchainClientTypes.NetworkFrameworkConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Fabric"].write(value.fabric, with: ManagedBlockchainClientTypes.NetworkFabricConfiguration.write(value:to:))
-    }
-}
-
-extension ManagedBlockchainClientTypes.NetworkFabricConfiguration {
-
-    static func write(value: ManagedBlockchainClientTypes.NetworkFabricConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Edition"].write(value.edition)
-    }
-}
-
-extension ManagedBlockchainClientTypes.NodeConfiguration {
-
-    static func write(value: ManagedBlockchainClientTypes.NodeConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["LogPublishingConfiguration"].write(value.logPublishingConfiguration, with: ManagedBlockchainClientTypes.NodeLogPublishingConfiguration.write(value:to:))
-        try writer["StateDB"].write(value.stateDB)
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.VotingPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ManagedBlockchainClientTypes.VotingPolicy()
+        value.approvalThresholdPolicy = try reader["ApprovalThresholdPolicy"].readIfPresent(with: ManagedBlockchainClientTypes.ApprovalThresholdPolicy.read(from:))
+        return value
     }
 }
 

@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
@@ -5460,7 +5460,7 @@ enum CreateCapabilityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5480,7 +5480,7 @@ enum CreatePartnershipOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5500,7 +5500,7 @@ enum CreateProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5520,7 +5520,7 @@ enum CreateStarterMappingTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5537,7 +5537,7 @@ enum CreateTransformerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5557,7 +5557,7 @@ enum DeleteCapabilityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5576,7 +5576,7 @@ enum DeletePartnershipOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5595,7 +5595,7 @@ enum DeleteProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5614,7 +5614,7 @@ enum DeleteTransformerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5633,7 +5633,7 @@ enum GenerateMappingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5650,7 +5650,7 @@ enum GetCapabilityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5668,7 +5668,7 @@ enum GetPartnershipOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5686,7 +5686,7 @@ enum GetProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5704,7 +5704,7 @@ enum GetTransformerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5722,7 +5722,7 @@ enum GetTransformerJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5740,7 +5740,7 @@ enum ListCapabilitiesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5757,7 +5757,7 @@ enum ListPartnershipsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5775,7 +5775,7 @@ enum ListProfilesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5792,7 +5792,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -5808,7 +5808,7 @@ enum ListTransformersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5825,7 +5825,7 @@ enum StartTransformerJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5844,7 +5844,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -5861,7 +5861,7 @@ enum TestConversionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5879,7 +5879,7 @@ enum TestMappingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5897,7 +5897,7 @@ enum TestParsingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5915,7 +5915,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -5931,7 +5931,7 @@ enum UpdateCapabilityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5951,7 +5951,7 @@ enum UpdatePartnershipOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5971,7 +5971,7 @@ enum UpdateProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5991,7 +5991,7 @@ enum UpdateTransformerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6008,7 +6008,7 @@ enum UpdateTransformerOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -6021,7 +6021,7 @@ extension AccessDeniedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -6034,7 +6034,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = InternalServerException()
@@ -6051,7 +6051,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -6064,7 +6064,7 @@ extension ResourceNotFoundException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -6081,7 +6081,7 @@ extension ServiceQuotaExceededException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = ThrottlingException()
@@ -6098,13 +6098,28 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension B2biClientTypes.AdvancedOptions {
+
+    static func write(value: B2biClientTypes.AdvancedOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["x12"].write(value.x12, with: B2biClientTypes.X12AdvancedOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.AdvancedOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.AdvancedOptions()
+        value.x12 = try reader["x12"].readIfPresent(with: B2biClientTypes.X12AdvancedOptions.read(from:))
         return value
     }
 }
@@ -6133,6 +6148,70 @@ extension B2biClientTypes.CapabilityConfiguration {
     }
 }
 
+extension B2biClientTypes.CapabilityOptions {
+
+    static func write(value: B2biClientTypes.CapabilityOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inboundEdi"].write(value.inboundEdi, with: B2biClientTypes.InboundEdiOptions.write(value:to:))
+        try writer["outboundEdi"].write(value.outboundEdi, with: B2biClientTypes.OutboundEdiOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.CapabilityOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.CapabilityOptions()
+        value.outboundEdi = try reader["outboundEdi"].readIfPresent(with: B2biClientTypes.OutboundEdiOptions.read(from:))
+        value.inboundEdi = try reader["inboundEdi"].readIfPresent(with: B2biClientTypes.InboundEdiOptions.read(from:))
+        return value
+    }
+}
+
+extension B2biClientTypes.CapabilitySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.CapabilitySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.CapabilitySummary()
+        value.capabilityId = try reader["capabilityId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension B2biClientTypes.ConversionSource {
+
+    static func write(value: B2biClientTypes.ConversionSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fileFormat"].write(value.fileFormat)
+        try writer["inputFile"].write(value.inputFile, with: B2biClientTypes.InputFileSource.write(value:to:))
+    }
+}
+
+extension B2biClientTypes.ConversionTarget {
+
+    static func write(value: B2biClientTypes.ConversionTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["advancedOptions"].write(value.advancedOptions, with: B2biClientTypes.AdvancedOptions.write(value:to:))
+        try writer["fileFormat"].write(value.fileFormat)
+        try writer["formatDetails"].write(value.formatDetails, with: B2biClientTypes.ConversionTargetFormatDetails.write(value:to:))
+        try writer["outputSampleFile"].write(value.outputSampleFile, with: B2biClientTypes.OutputSampleFileSource.write(value:to:))
+    }
+}
+
+extension B2biClientTypes.ConversionTargetFormatDetails {
+
+    static func write(value: B2biClientTypes.ConversionTargetFormatDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .x12(x12):
+                try writer["x12"].write(x12, with: B2biClientTypes.X12Details.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
 extension B2biClientTypes.EdiConfiguration {
 
     static func write(value: B2biClientTypes.EdiConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -6152,23 +6231,6 @@ extension B2biClientTypes.EdiConfiguration {
         value.inputLocation = try reader["inputLocation"].readIfPresent(with: B2biClientTypes.S3Location.read(from:))
         value.outputLocation = try reader["outputLocation"].readIfPresent(with: B2biClientTypes.S3Location.read(from:))
         value.transformerId = try reader["transformerId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension B2biClientTypes.S3Location {
-
-    static func write(value: B2biClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucketName"].write(value.bucketName)
-        try writer["key"].write(value.key)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.S3Location {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.S3Location()
-        value.bucketName = try reader["bucketName"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
         return value
     }
 }
@@ -6197,37 +6259,27 @@ extension B2biClientTypes.EdiType {
     }
 }
 
-extension B2biClientTypes.X12Details {
+extension B2biClientTypes.FormatOptions {
 
-    static func write(value: B2biClientTypes.X12Details?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: B2biClientTypes.FormatOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["transactionSet"].write(value.transactionSet)
-        try writer["version"].write(value.version)
+        switch value {
+            case let .x12(x12):
+                try writer["x12"].write(x12, with: B2biClientTypes.X12Details.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12Details {
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.FormatOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.X12Details()
-        value.transactionSet = try reader["transactionSet"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
-        return value
-    }
-}
-
-extension B2biClientTypes.CapabilityOptions {
-
-    static func write(value: B2biClientTypes.CapabilityOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["inboundEdi"].write(value.inboundEdi, with: B2biClientTypes.InboundEdiOptions.write(value:to:))
-        try writer["outboundEdi"].write(value.outboundEdi, with: B2biClientTypes.OutboundEdiOptions.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.CapabilityOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.CapabilityOptions()
-        value.outboundEdi = try reader["outboundEdi"].readIfPresent(with: B2biClientTypes.OutboundEdiOptions.read(from:))
-        value.inboundEdi = try reader["inboundEdi"].readIfPresent(with: B2biClientTypes.InboundEdiOptions.read(from:))
-        return value
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "x12":
+                return .x12(try reader["x12"].read(with: B2biClientTypes.X12Details.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -6246,34 +6298,51 @@ extension B2biClientTypes.InboundEdiOptions {
     }
 }
 
-extension B2biClientTypes.X12InboundEdiOptions {
+extension B2biClientTypes.InputConversion {
 
-    static func write(value: B2biClientTypes.X12InboundEdiOptions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: B2biClientTypes.InputConversion?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["acknowledgmentOptions"].write(value.acknowledgmentOptions, with: B2biClientTypes.X12AcknowledgmentOptions.write(value:to:))
+        try writer["advancedOptions"].write(value.advancedOptions, with: B2biClientTypes.AdvancedOptions.write(value:to:))
+        try writer["formatOptions"].write(value.formatOptions, with: B2biClientTypes.FormatOptions.write(value:to:))
+        try writer["fromFormat"].write(value.fromFormat)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12InboundEdiOptions {
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.InputConversion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.X12InboundEdiOptions()
-        value.acknowledgmentOptions = try reader["acknowledgmentOptions"].readIfPresent(with: B2biClientTypes.X12AcknowledgmentOptions.read(from:))
+        var value = B2biClientTypes.InputConversion()
+        value.fromFormat = try reader["fromFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.formatOptions = try reader["formatOptions"].readIfPresent(with: B2biClientTypes.FormatOptions.read(from:))
+        value.advancedOptions = try reader["advancedOptions"].readIfPresent(with: B2biClientTypes.AdvancedOptions.read(from:))
         return value
     }
 }
 
-extension B2biClientTypes.X12AcknowledgmentOptions {
+extension B2biClientTypes.InputFileSource {
 
-    static func write(value: B2biClientTypes.X12AcknowledgmentOptions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: B2biClientTypes.InputFileSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["functionalAcknowledgment"].write(value.functionalAcknowledgment)
-        try writer["technicalAcknowledgment"].write(value.technicalAcknowledgment)
+        switch value {
+            case let .filecontent(filecontent):
+                try writer["fileContent"].write(filecontent)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension B2biClientTypes.Mapping {
+
+    static func write(value: B2biClientTypes.Mapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["template"].write(value.template)
+        try writer["templateLanguage"].write(value.templateLanguage)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12AcknowledgmentOptions {
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.Mapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.X12AcknowledgmentOptions()
-        value.functionalAcknowledgment = try reader["functionalAcknowledgment"].readIfPresent() ?? .sdkUnknown("")
-        value.technicalAcknowledgment = try reader["technicalAcknowledgment"].readIfPresent() ?? .sdkUnknown("")
+        var value = B2biClientTypes.Mapping()
+        value.templateLanguage = try reader["templateLanguage"].readIfPresent() ?? .sdkUnknown("")
+        value.template = try reader["template"].readIfPresent()
         return value
     }
 }
@@ -6302,19 +6371,170 @@ extension B2biClientTypes.OutboundEdiOptions {
     }
 }
 
-extension B2biClientTypes.X12Envelope {
+extension B2biClientTypes.OutputConversion {
 
-    static func write(value: B2biClientTypes.X12Envelope?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: B2biClientTypes.OutputConversion?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["common"].write(value.common, with: B2biClientTypes.X12OutboundEdiHeaders.write(value:to:))
-        try writer["wrapOptions"].write(value.wrapOptions, with: B2biClientTypes.WrapOptions.write(value:to:))
+        try writer["advancedOptions"].write(value.advancedOptions, with: B2biClientTypes.AdvancedOptions.write(value:to:))
+        try writer["formatOptions"].write(value.formatOptions, with: B2biClientTypes.FormatOptions.write(value:to:))
+        try writer["toFormat"].write(value.toFormat)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12Envelope {
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.OutputConversion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.X12Envelope()
-        value.common = try reader["common"].readIfPresent(with: B2biClientTypes.X12OutboundEdiHeaders.read(from:))
-        value.wrapOptions = try reader["wrapOptions"].readIfPresent(with: B2biClientTypes.WrapOptions.read(from:))
+        var value = B2biClientTypes.OutputConversion()
+        value.toFormat = try reader["toFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.formatOptions = try reader["formatOptions"].readIfPresent(with: B2biClientTypes.FormatOptions.read(from:))
+        value.advancedOptions = try reader["advancedOptions"].readIfPresent(with: B2biClientTypes.AdvancedOptions.read(from:))
+        return value
+    }
+}
+
+extension B2biClientTypes.OutputSampleFileSource {
+
+    static func write(value: B2biClientTypes.OutputSampleFileSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .filelocation(filelocation):
+                try writer["fileLocation"].write(filelocation, with: B2biClientTypes.S3Location.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension B2biClientTypes.PartnershipSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.PartnershipSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.PartnershipSummary()
+        value.profileId = try reader["profileId"].readIfPresent() ?? ""
+        value.partnershipId = try reader["partnershipId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.capabilities = try reader["capabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.capabilityOptions = try reader["capabilityOptions"].readIfPresent(with: B2biClientTypes.CapabilityOptions.read(from:))
+        value.tradingPartnerId = try reader["tradingPartnerId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension B2biClientTypes.ProfileSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.ProfileSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.ProfileSummary()
+        value.profileId = try reader["profileId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.businessName = try reader["businessName"].readIfPresent() ?? ""
+        value.logging = try reader["logging"].readIfPresent()
+        value.logGroupName = try reader["logGroupName"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension B2biClientTypes.S3Location {
+
+    static func write(value: B2biClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketName"].write(value.bucketName)
+        try writer["key"].write(value.key)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.S3Location {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.S3Location()
+        value.bucketName = try reader["bucketName"].readIfPresent()
+        value.key = try reader["key"].readIfPresent()
+        return value
+    }
+}
+
+extension B2biClientTypes.SampleDocumentKeys {
+
+    static func write(value: B2biClientTypes.SampleDocumentKeys?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["input"].write(value.input)
+        try writer["output"].write(value.output)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.SampleDocumentKeys {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.SampleDocumentKeys()
+        value.input = try reader["input"].readIfPresent()
+        value.output = try reader["output"].readIfPresent()
+        return value
+    }
+}
+
+extension B2biClientTypes.SampleDocuments {
+
+    static func write(value: B2biClientTypes.SampleDocuments?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketName"].write(value.bucketName)
+        try writer["keys"].writeList(value.keys, memberWritingClosure: B2biClientTypes.SampleDocumentKeys.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.SampleDocuments {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.SampleDocuments()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
+        value.keys = try reader["keys"].readListIfPresent(memberReadingClosure: B2biClientTypes.SampleDocumentKeys.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension B2biClientTypes.Tag {
+
+    static func write(value: B2biClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension B2biClientTypes.TemplateDetails {
+
+    static func write(value: B2biClientTypes.TemplateDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .x12(x12):
+                try writer["x12"].write(x12, with: B2biClientTypes.X12Details.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension B2biClientTypes.TransformerSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.TransformerSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.TransformerSummary()
+        value.transformerId = try reader["transformerId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? B2biClientTypes.FileFormat.notUsed
+        value.mappingTemplate = try reader["mappingTemplate"].readIfPresent() ?? "NOT_USED"
+        value.ediType = try reader["ediType"].readIfPresent(with: B2biClientTypes.EdiType.read(from:))
+        value.sampleDocument = try reader["sampleDocument"].readIfPresent()
+        value.inputConversion = try reader["inputConversion"].readIfPresent(with: B2biClientTypes.InputConversion.read(from:))
+        value.mapping = try reader["mapping"].readIfPresent(with: B2biClientTypes.Mapping.read(from:))
+        value.outputConversion = try reader["outputConversion"].readIfPresent(with: B2biClientTypes.OutputConversion.read(from:))
+        value.sampleDocuments = try reader["sampleDocuments"].readIfPresent(with: B2biClientTypes.SampleDocuments.read(from:))
         return value
     }
 }
@@ -6338,27 +6558,55 @@ extension B2biClientTypes.WrapOptions {
     }
 }
 
-extension B2biClientTypes.X12OutboundEdiHeaders {
+extension B2biClientTypes.X12AcknowledgmentOptions {
 
-    static func write(value: B2biClientTypes.X12OutboundEdiHeaders?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: B2biClientTypes.X12AcknowledgmentOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["controlNumbers"].write(value.controlNumbers, with: B2biClientTypes.X12ControlNumbers.write(value:to:))
-        try writer["delimiters"].write(value.delimiters, with: B2biClientTypes.X12Delimiters.write(value:to:))
-        try writer["functionalGroupHeaders"].write(value.functionalGroupHeaders, with: B2biClientTypes.X12FunctionalGroupHeaders.write(value:to:))
-        try writer["gs05TimeFormat"].write(value.gs05TimeFormat)
-        try writer["interchangeControlHeaders"].write(value.interchangeControlHeaders, with: B2biClientTypes.X12InterchangeControlHeaders.write(value:to:))
-        try writer["validateEdi"].write(value.validateEdi)
+        try writer["functionalAcknowledgment"].write(value.functionalAcknowledgment)
+        try writer["technicalAcknowledgment"].write(value.technicalAcknowledgment)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12OutboundEdiHeaders {
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12AcknowledgmentOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.X12OutboundEdiHeaders()
-        value.interchangeControlHeaders = try reader["interchangeControlHeaders"].readIfPresent(with: B2biClientTypes.X12InterchangeControlHeaders.read(from:))
-        value.functionalGroupHeaders = try reader["functionalGroupHeaders"].readIfPresent(with: B2biClientTypes.X12FunctionalGroupHeaders.read(from:))
-        value.delimiters = try reader["delimiters"].readIfPresent(with: B2biClientTypes.X12Delimiters.read(from:))
-        value.validateEdi = try reader["validateEdi"].readIfPresent()
-        value.controlNumbers = try reader["controlNumbers"].readIfPresent(with: B2biClientTypes.X12ControlNumbers.read(from:))
-        value.gs05TimeFormat = try reader["gs05TimeFormat"].readIfPresent()
+        var value = B2biClientTypes.X12AcknowledgmentOptions()
+        value.functionalAcknowledgment = try reader["functionalAcknowledgment"].readIfPresent() ?? .sdkUnknown("")
+        value.technicalAcknowledgment = try reader["technicalAcknowledgment"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension B2biClientTypes.X12AdvancedOptions {
+
+    static func write(value: B2biClientTypes.X12AdvancedOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["splitOptions"].write(value.splitOptions, with: B2biClientTypes.X12SplitOptions.write(value:to:))
+        try writer["validationOptions"].write(value.validationOptions, with: B2biClientTypes.X12ValidationOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12AdvancedOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.X12AdvancedOptions()
+        value.splitOptions = try reader["splitOptions"].readIfPresent(with: B2biClientTypes.X12SplitOptions.read(from:))
+        value.validationOptions = try reader["validationOptions"].readIfPresent(with: B2biClientTypes.X12ValidationOptions.read(from:))
+        return value
+    }
+}
+
+extension B2biClientTypes.X12CodeListValidationRule {
+
+    static func write(value: B2biClientTypes.X12CodeListValidationRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["codesToAdd"].writeList(value.codesToAdd, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["codesToRemove"].writeList(value.codesToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["elementId"].write(value.elementId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12CodeListValidationRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.X12CodeListValidationRule()
+        value.elementId = try reader["elementId"].readIfPresent() ?? ""
+        value.codesToAdd = try reader["codesToAdd"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.codesToRemove = try reader["codesToRemove"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6401,6 +6649,76 @@ extension B2biClientTypes.X12Delimiters {
     }
 }
 
+extension B2biClientTypes.X12Details {
+
+    static func write(value: B2biClientTypes.X12Details?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["transactionSet"].write(value.transactionSet)
+        try writer["version"].write(value.version)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12Details {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.X12Details()
+        value.transactionSet = try reader["transactionSet"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
+        return value
+    }
+}
+
+extension B2biClientTypes.X12ElementLengthValidationRule {
+
+    static func write(value: B2biClientTypes.X12ElementLengthValidationRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["elementId"].write(value.elementId)
+        try writer["maxLength"].write(value.maxLength)
+        try writer["minLength"].write(value.minLength)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12ElementLengthValidationRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.X12ElementLengthValidationRule()
+        value.elementId = try reader["elementId"].readIfPresent() ?? ""
+        value.maxLength = try reader["maxLength"].readIfPresent() ?? 0
+        value.minLength = try reader["minLength"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension B2biClientTypes.X12ElementRequirementValidationRule {
+
+    static func write(value: B2biClientTypes.X12ElementRequirementValidationRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["elementPosition"].write(value.elementPosition)
+        try writer["requirement"].write(value.requirement)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12ElementRequirementValidationRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.X12ElementRequirementValidationRule()
+        value.elementPosition = try reader["elementPosition"].readIfPresent() ?? ""
+        value.requirement = try reader["requirement"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension B2biClientTypes.X12Envelope {
+
+    static func write(value: B2biClientTypes.X12Envelope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["common"].write(value.common, with: B2biClientTypes.X12OutboundEdiHeaders.write(value:to:))
+        try writer["wrapOptions"].write(value.wrapOptions, with: B2biClientTypes.WrapOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12Envelope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.X12Envelope()
+        value.common = try reader["common"].readIfPresent(with: B2biClientTypes.X12OutboundEdiHeaders.read(from:))
+        value.wrapOptions = try reader["wrapOptions"].readIfPresent(with: B2biClientTypes.WrapOptions.read(from:))
+        return value
+    }
+}
+
 extension B2biClientTypes.X12FunctionalGroupHeaders {
 
     static func write(value: B2biClientTypes.X12FunctionalGroupHeaders?, to writer: SmithyJSON.Writer) throws {
@@ -6416,6 +6734,21 @@ extension B2biClientTypes.X12FunctionalGroupHeaders {
         value.applicationSenderCode = try reader["applicationSenderCode"].readIfPresent()
         value.applicationReceiverCode = try reader["applicationReceiverCode"].readIfPresent()
         value.responsibleAgencyCode = try reader["responsibleAgencyCode"].readIfPresent()
+        return value
+    }
+}
+
+extension B2biClientTypes.X12InboundEdiOptions {
+
+    static func write(value: B2biClientTypes.X12InboundEdiOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["acknowledgmentOptions"].write(value.acknowledgmentOptions, with: B2biClientTypes.X12AcknowledgmentOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12InboundEdiOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.X12InboundEdiOptions()
+        value.acknowledgmentOptions = try reader["acknowledgmentOptions"].readIfPresent(with: B2biClientTypes.X12AcknowledgmentOptions.read(from:))
         return value
     }
 }
@@ -6447,53 +6780,42 @@ extension B2biClientTypes.X12InterchangeControlHeaders {
     }
 }
 
-extension B2biClientTypes.InputConversion {
+extension B2biClientTypes.X12OutboundEdiHeaders {
 
-    static func write(value: B2biClientTypes.InputConversion?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: B2biClientTypes.X12OutboundEdiHeaders?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["advancedOptions"].write(value.advancedOptions, with: B2biClientTypes.AdvancedOptions.write(value:to:))
-        try writer["formatOptions"].write(value.formatOptions, with: B2biClientTypes.FormatOptions.write(value:to:))
-        try writer["fromFormat"].write(value.fromFormat)
+        try writer["controlNumbers"].write(value.controlNumbers, with: B2biClientTypes.X12ControlNumbers.write(value:to:))
+        try writer["delimiters"].write(value.delimiters, with: B2biClientTypes.X12Delimiters.write(value:to:))
+        try writer["functionalGroupHeaders"].write(value.functionalGroupHeaders, with: B2biClientTypes.X12FunctionalGroupHeaders.write(value:to:))
+        try writer["gs05TimeFormat"].write(value.gs05TimeFormat)
+        try writer["interchangeControlHeaders"].write(value.interchangeControlHeaders, with: B2biClientTypes.X12InterchangeControlHeaders.write(value:to:))
+        try writer["validateEdi"].write(value.validateEdi)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.InputConversion {
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12OutboundEdiHeaders {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.InputConversion()
-        value.fromFormat = try reader["fromFormat"].readIfPresent() ?? .sdkUnknown("")
-        value.formatOptions = try reader["formatOptions"].readIfPresent(with: B2biClientTypes.FormatOptions.read(from:))
-        value.advancedOptions = try reader["advancedOptions"].readIfPresent(with: B2biClientTypes.AdvancedOptions.read(from:))
+        var value = B2biClientTypes.X12OutboundEdiHeaders()
+        value.interchangeControlHeaders = try reader["interchangeControlHeaders"].readIfPresent(with: B2biClientTypes.X12InterchangeControlHeaders.read(from:))
+        value.functionalGroupHeaders = try reader["functionalGroupHeaders"].readIfPresent(with: B2biClientTypes.X12FunctionalGroupHeaders.read(from:))
+        value.delimiters = try reader["delimiters"].readIfPresent(with: B2biClientTypes.X12Delimiters.read(from:))
+        value.validateEdi = try reader["validateEdi"].readIfPresent()
+        value.controlNumbers = try reader["controlNumbers"].readIfPresent(with: B2biClientTypes.X12ControlNumbers.read(from:))
+        value.gs05TimeFormat = try reader["gs05TimeFormat"].readIfPresent()
         return value
     }
 }
 
-extension B2biClientTypes.AdvancedOptions {
+extension B2biClientTypes.X12SplitOptions {
 
-    static func write(value: B2biClientTypes.AdvancedOptions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: B2biClientTypes.X12SplitOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["x12"].write(value.x12, with: B2biClientTypes.X12AdvancedOptions.write(value:to:))
+        try writer["splitBy"].write(value.splitBy)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.AdvancedOptions {
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12SplitOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.AdvancedOptions()
-        value.x12 = try reader["x12"].readIfPresent(with: B2biClientTypes.X12AdvancedOptions.read(from:))
-        return value
-    }
-}
-
-extension B2biClientTypes.X12AdvancedOptions {
-
-    static func write(value: B2biClientTypes.X12AdvancedOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["splitOptions"].write(value.splitOptions, with: B2biClientTypes.X12SplitOptions.write(value:to:))
-        try writer["validationOptions"].write(value.validationOptions, with: B2biClientTypes.X12ValidationOptions.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12AdvancedOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.X12AdvancedOptions()
-        value.splitOptions = try reader["splitOptions"].readIfPresent(with: B2biClientTypes.X12SplitOptions.read(from:))
-        value.validationOptions = try reader["validationOptions"].readIfPresent(with: B2biClientTypes.X12ValidationOptions.read(from:))
+        var value = B2biClientTypes.X12SplitOptions()
+        value.splitBy = try reader["splitBy"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -6541,328 +6863,6 @@ extension B2biClientTypes.X12ValidationRule {
                 return .elementrequirementvalidationrule(try reader["elementRequirementValidationRule"].read(with: B2biClientTypes.X12ElementRequirementValidationRule.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension B2biClientTypes.X12ElementRequirementValidationRule {
-
-    static func write(value: B2biClientTypes.X12ElementRequirementValidationRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["elementPosition"].write(value.elementPosition)
-        try writer["requirement"].write(value.requirement)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12ElementRequirementValidationRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.X12ElementRequirementValidationRule()
-        value.elementPosition = try reader["elementPosition"].readIfPresent() ?? ""
-        value.requirement = try reader["requirement"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension B2biClientTypes.X12ElementLengthValidationRule {
-
-    static func write(value: B2biClientTypes.X12ElementLengthValidationRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["elementId"].write(value.elementId)
-        try writer["maxLength"].write(value.maxLength)
-        try writer["minLength"].write(value.minLength)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12ElementLengthValidationRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.X12ElementLengthValidationRule()
-        value.elementId = try reader["elementId"].readIfPresent() ?? ""
-        value.maxLength = try reader["maxLength"].readIfPresent() ?? 0
-        value.minLength = try reader["minLength"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension B2biClientTypes.X12CodeListValidationRule {
-
-    static func write(value: B2biClientTypes.X12CodeListValidationRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["codesToAdd"].writeList(value.codesToAdd, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["codesToRemove"].writeList(value.codesToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["elementId"].write(value.elementId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12CodeListValidationRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.X12CodeListValidationRule()
-        value.elementId = try reader["elementId"].readIfPresent() ?? ""
-        value.codesToAdd = try reader["codesToAdd"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.codesToRemove = try reader["codesToRemove"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension B2biClientTypes.X12SplitOptions {
-
-    static func write(value: B2biClientTypes.X12SplitOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["splitBy"].write(value.splitBy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12SplitOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.X12SplitOptions()
-        value.splitBy = try reader["splitBy"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension B2biClientTypes.FormatOptions {
-
-    static func write(value: B2biClientTypes.FormatOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .x12(x12):
-                try writer["x12"].write(x12, with: B2biClientTypes.X12Details.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.FormatOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "x12":
-                return .x12(try reader["x12"].read(with: B2biClientTypes.X12Details.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension B2biClientTypes.Mapping {
-
-    static func write(value: B2biClientTypes.Mapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["template"].write(value.template)
-        try writer["templateLanguage"].write(value.templateLanguage)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.Mapping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.Mapping()
-        value.templateLanguage = try reader["templateLanguage"].readIfPresent() ?? .sdkUnknown("")
-        value.template = try reader["template"].readIfPresent()
-        return value
-    }
-}
-
-extension B2biClientTypes.OutputConversion {
-
-    static func write(value: B2biClientTypes.OutputConversion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["advancedOptions"].write(value.advancedOptions, with: B2biClientTypes.AdvancedOptions.write(value:to:))
-        try writer["formatOptions"].write(value.formatOptions, with: B2biClientTypes.FormatOptions.write(value:to:))
-        try writer["toFormat"].write(value.toFormat)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.OutputConversion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.OutputConversion()
-        value.toFormat = try reader["toFormat"].readIfPresent() ?? .sdkUnknown("")
-        value.formatOptions = try reader["formatOptions"].readIfPresent(with: B2biClientTypes.FormatOptions.read(from:))
-        value.advancedOptions = try reader["advancedOptions"].readIfPresent(with: B2biClientTypes.AdvancedOptions.read(from:))
-        return value
-    }
-}
-
-extension B2biClientTypes.SampleDocuments {
-
-    static func write(value: B2biClientTypes.SampleDocuments?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucketName"].write(value.bucketName)
-        try writer["keys"].writeList(value.keys, memberWritingClosure: B2biClientTypes.SampleDocumentKeys.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.SampleDocuments {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.SampleDocuments()
-        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
-        value.keys = try reader["keys"].readListIfPresent(memberReadingClosure: B2biClientTypes.SampleDocumentKeys.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension B2biClientTypes.SampleDocumentKeys {
-
-    static func write(value: B2biClientTypes.SampleDocumentKeys?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["input"].write(value.input)
-        try writer["output"].write(value.output)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.SampleDocumentKeys {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.SampleDocumentKeys()
-        value.input = try reader["input"].readIfPresent()
-        value.output = try reader["output"].readIfPresent()
-        return value
-    }
-}
-
-extension B2biClientTypes.CapabilitySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.CapabilitySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.CapabilitySummary()
-        value.capabilityId = try reader["capabilityId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension B2biClientTypes.PartnershipSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.PartnershipSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.PartnershipSummary()
-        value.profileId = try reader["profileId"].readIfPresent() ?? ""
-        value.partnershipId = try reader["partnershipId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent()
-        value.capabilities = try reader["capabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.capabilityOptions = try reader["capabilityOptions"].readIfPresent(with: B2biClientTypes.CapabilityOptions.read(from:))
-        value.tradingPartnerId = try reader["tradingPartnerId"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension B2biClientTypes.ProfileSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.ProfileSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.ProfileSummary()
-        value.profileId = try reader["profileId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.businessName = try reader["businessName"].readIfPresent() ?? ""
-        value.logging = try reader["logging"].readIfPresent()
-        value.logGroupName = try reader["logGroupName"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension B2biClientTypes.Tag {
-
-    static func write(value: B2biClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension B2biClientTypes.TransformerSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.TransformerSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = B2biClientTypes.TransformerSummary()
-        value.transformerId = try reader["transformerId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? B2biClientTypes.FileFormat.notUsed
-        value.mappingTemplate = try reader["mappingTemplate"].readIfPresent() ?? "NOT_USED"
-        value.ediType = try reader["ediType"].readIfPresent(with: B2biClientTypes.EdiType.read(from:))
-        value.sampleDocument = try reader["sampleDocument"].readIfPresent()
-        value.inputConversion = try reader["inputConversion"].readIfPresent(with: B2biClientTypes.InputConversion.read(from:))
-        value.mapping = try reader["mapping"].readIfPresent(with: B2biClientTypes.Mapping.read(from:))
-        value.outputConversion = try reader["outputConversion"].readIfPresent(with: B2biClientTypes.OutputConversion.read(from:))
-        value.sampleDocuments = try reader["sampleDocuments"].readIfPresent(with: B2biClientTypes.SampleDocuments.read(from:))
-        return value
-    }
-}
-
-extension B2biClientTypes.TemplateDetails {
-
-    static func write(value: B2biClientTypes.TemplateDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .x12(x12):
-                try writer["x12"].write(x12, with: B2biClientTypes.X12Details.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension B2biClientTypes.ConversionSource {
-
-    static func write(value: B2biClientTypes.ConversionSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fileFormat"].write(value.fileFormat)
-        try writer["inputFile"].write(value.inputFile, with: B2biClientTypes.InputFileSource.write(value:to:))
-    }
-}
-
-extension B2biClientTypes.InputFileSource {
-
-    static func write(value: B2biClientTypes.InputFileSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .filecontent(filecontent):
-                try writer["fileContent"].write(filecontent)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension B2biClientTypes.ConversionTarget {
-
-    static func write(value: B2biClientTypes.ConversionTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["advancedOptions"].write(value.advancedOptions, with: B2biClientTypes.AdvancedOptions.write(value:to:))
-        try writer["fileFormat"].write(value.fileFormat)
-        try writer["formatDetails"].write(value.formatDetails, with: B2biClientTypes.ConversionTargetFormatDetails.write(value:to:))
-        try writer["outputSampleFile"].write(value.outputSampleFile, with: B2biClientTypes.OutputSampleFileSource.write(value:to:))
-    }
-}
-
-extension B2biClientTypes.OutputSampleFileSource {
-
-    static func write(value: B2biClientTypes.OutputSampleFileSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .filelocation(filelocation):
-                try writer["fileLocation"].write(filelocation, with: B2biClientTypes.S3Location.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension B2biClientTypes.ConversionTargetFormatDetails {
-
-    static func write(value: B2biClientTypes.ConversionTargetFormatDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .x12(x12):
-                try writer["x12"].write(x12, with: B2biClientTypes.X12Details.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 }

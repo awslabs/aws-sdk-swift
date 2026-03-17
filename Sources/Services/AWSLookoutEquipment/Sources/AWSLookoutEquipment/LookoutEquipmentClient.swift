@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -58,6 +57,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -666,7 +666,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDatasetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDatasetInput, CreateDatasetOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.CreateDataset"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDatasetInput, CreateDatasetOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.CreateDataset"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDatasetInput, CreateDatasetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDatasetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDatasetInput, CreateDatasetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDatasetOutput>())
@@ -742,7 +742,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateInferenceSchedulerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateInferenceSchedulerInput, CreateInferenceSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.CreateInferenceScheduler"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateInferenceSchedulerInput, CreateInferenceSchedulerOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.CreateInferenceScheduler"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateInferenceSchedulerInput, CreateInferenceSchedulerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateInferenceSchedulerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateInferenceSchedulerInput, CreateInferenceSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateInferenceSchedulerOutput>())
@@ -818,7 +818,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLabelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateLabelInput, CreateLabelOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.CreateLabel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLabelInput, CreateLabelOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.CreateLabel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateLabelInput, CreateLabelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLabelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLabelInput, CreateLabelOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLabelOutput>())
@@ -893,7 +893,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLabelGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateLabelGroupInput, CreateLabelGroupOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.CreateLabelGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLabelGroupInput, CreateLabelGroupOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.CreateLabelGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateLabelGroupInput, CreateLabelGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLabelGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLabelGroupInput, CreateLabelGroupOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLabelGroupOutput>())
@@ -969,7 +969,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateModelInput, CreateModelOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.CreateModel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateModelInput, CreateModelOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.CreateModel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateModelInput, CreateModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateModelInput, CreateModelOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateModelOutput>())
@@ -1044,7 +1044,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRetrainingSchedulerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.CreateRetrainingScheduler"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.CreateRetrainingScheduler"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRetrainingSchedulerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRetrainingSchedulerOutput>())
@@ -1118,7 +1118,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDatasetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteDataset"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.DeleteDataset"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDatasetInput, DeleteDatasetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDatasetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDatasetOutput>())
@@ -1192,7 +1192,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteInferenceSchedulerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteInferenceSchedulerInput, DeleteInferenceSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteInferenceScheduler"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteInferenceSchedulerInput, DeleteInferenceSchedulerOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.DeleteInferenceScheduler"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteInferenceSchedulerInput, DeleteInferenceSchedulerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteInferenceSchedulerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteInferenceSchedulerInput, DeleteInferenceSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteInferenceSchedulerOutput>())
@@ -1266,7 +1266,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLabelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteLabelInput, DeleteLabelOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteLabel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteLabelInput, DeleteLabelOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.DeleteLabel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteLabelInput, DeleteLabelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLabelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLabelInput, DeleteLabelOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLabelOutput>())
@@ -1340,7 +1340,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLabelGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteLabelGroupInput, DeleteLabelGroupOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteLabelGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteLabelGroupInput, DeleteLabelGroupOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.DeleteLabelGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteLabelGroupInput, DeleteLabelGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLabelGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLabelGroupInput, DeleteLabelGroupOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLabelGroupOutput>())
@@ -1414,7 +1414,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteModelInput, DeleteModelOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteModel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteModelInput, DeleteModelOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.DeleteModel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteModelInput, DeleteModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteModelInput, DeleteModelOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteModelOutput>())
@@ -1488,7 +1488,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteResourcePolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.DeleteResourcePolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
@@ -1562,7 +1562,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRetrainingSchedulerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteRetrainingScheduler"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.DeleteRetrainingScheduler"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRetrainingSchedulerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRetrainingSchedulerOutput>())
@@ -1635,7 +1635,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDataIngestionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDataIngestionJobInput, DescribeDataIngestionJobOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeDataIngestionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDataIngestionJobInput, DescribeDataIngestionJobOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.DescribeDataIngestionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeDataIngestionJobInput, DescribeDataIngestionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDataIngestionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDataIngestionJobInput, DescribeDataIngestionJobOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDataIngestionJobOutput>())
@@ -1708,7 +1708,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDatasetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeDataset"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.DescribeDataset"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeDatasetInput, DescribeDatasetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDatasetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDatasetOutput>())
@@ -1781,7 +1781,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeInferenceSchedulerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeInferenceSchedulerInput, DescribeInferenceSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeInferenceScheduler"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeInferenceSchedulerInput, DescribeInferenceSchedulerOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.DescribeInferenceScheduler"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeInferenceSchedulerInput, DescribeInferenceSchedulerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeInferenceSchedulerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeInferenceSchedulerInput, DescribeInferenceSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInferenceSchedulerOutput>())
@@ -1854,7 +1854,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLabelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLabelInput, DescribeLabelOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeLabel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLabelInput, DescribeLabelOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.DescribeLabel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeLabelInput, DescribeLabelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLabelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLabelInput, DescribeLabelOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLabelOutput>())
@@ -1927,7 +1927,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLabelGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLabelGroupInput, DescribeLabelGroupOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeLabelGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLabelGroupInput, DescribeLabelGroupOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.DescribeLabelGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeLabelGroupInput, DescribeLabelGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLabelGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLabelGroupInput, DescribeLabelGroupOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLabelGroupOutput>())
@@ -2000,7 +2000,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeModelInput, DescribeModelOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeModel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeModelInput, DescribeModelOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.DescribeModel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeModelInput, DescribeModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeModelInput, DescribeModelOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeModelOutput>())
@@ -2073,7 +2073,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeModelVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeModelVersionInput, DescribeModelVersionOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeModelVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeModelVersionInput, DescribeModelVersionOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.DescribeModelVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeModelVersionInput, DescribeModelVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeModelVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeModelVersionInput, DescribeModelVersionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeModelVersionOutput>())
@@ -2146,7 +2146,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeResourcePolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.DescribeResourcePolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeResourcePolicyOutput>())
@@ -2219,7 +2219,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRetrainingSchedulerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeRetrainingScheduler"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.DescribeRetrainingScheduler"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRetrainingSchedulerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRetrainingSchedulerOutput>())
@@ -2295,7 +2295,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportDatasetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ImportDatasetInput, ImportDatasetOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ImportDataset"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportDatasetInput, ImportDatasetOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.ImportDataset"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ImportDatasetInput, ImportDatasetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportDatasetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportDatasetInput, ImportDatasetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportDatasetOutput>())
@@ -2371,7 +2371,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportModelVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ImportModelVersionInput, ImportModelVersionOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ImportModelVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportModelVersionInput, ImportModelVersionOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.ImportModelVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ImportModelVersionInput, ImportModelVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportModelVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportModelVersionInput, ImportModelVersionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportModelVersionOutput>())
@@ -2443,7 +2443,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDataIngestionJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDataIngestionJobsInput, ListDataIngestionJobsOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListDataIngestionJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDataIngestionJobsInput, ListDataIngestionJobsOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.ListDataIngestionJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDataIngestionJobsInput, ListDataIngestionJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDataIngestionJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataIngestionJobsInput, ListDataIngestionJobsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataIngestionJobsOutput>())
@@ -2515,7 +2515,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDatasetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDatasetsInput, ListDatasetsOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListDatasets"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDatasetsInput, ListDatasetsOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.ListDatasets"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDatasetsInput, ListDatasetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDatasetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDatasetsInput, ListDatasetsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDatasetsOutput>())
@@ -2588,7 +2588,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListInferenceEventsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListInferenceEventsInput, ListInferenceEventsOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListInferenceEvents"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListInferenceEventsInput, ListInferenceEventsOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.ListInferenceEvents"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListInferenceEventsInput, ListInferenceEventsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListInferenceEventsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListInferenceEventsInput, ListInferenceEventsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInferenceEventsOutput>())
@@ -2661,7 +2661,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListInferenceExecutionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListInferenceExecutionsInput, ListInferenceExecutionsOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListInferenceExecutions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListInferenceExecutionsInput, ListInferenceExecutionsOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.ListInferenceExecutions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListInferenceExecutionsInput, ListInferenceExecutionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListInferenceExecutionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListInferenceExecutionsInput, ListInferenceExecutionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInferenceExecutionsOutput>())
@@ -2733,7 +2733,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListInferenceSchedulersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListInferenceSchedulersInput, ListInferenceSchedulersOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListInferenceSchedulers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListInferenceSchedulersInput, ListInferenceSchedulersOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.ListInferenceSchedulers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListInferenceSchedulersInput, ListInferenceSchedulersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListInferenceSchedulersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListInferenceSchedulersInput, ListInferenceSchedulersOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInferenceSchedulersOutput>())
@@ -2805,7 +2805,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLabelGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListLabelGroupsInput, ListLabelGroupsOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListLabelGroups"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLabelGroupsInput, ListLabelGroupsOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.ListLabelGroups"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListLabelGroupsInput, ListLabelGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLabelGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLabelGroupsInput, ListLabelGroupsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLabelGroupsOutput>())
@@ -2877,7 +2877,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLabelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListLabelsInput, ListLabelsOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListLabels"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLabelsInput, ListLabelsOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.ListLabels"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListLabelsInput, ListLabelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLabelsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLabelsInput, ListLabelsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLabelsOutput>())
@@ -2950,7 +2950,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListModelVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListModelVersionsInput, ListModelVersionsOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListModelVersions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListModelVersionsInput, ListModelVersionsOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.ListModelVersions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListModelVersionsInput, ListModelVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListModelVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListModelVersionsInput, ListModelVersionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListModelVersionsOutput>())
@@ -3022,7 +3022,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListModelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListModelsInput, ListModelsOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListModels"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListModelsInput, ListModelsOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.ListModels"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListModelsInput, ListModelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListModelsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListModelsInput, ListModelsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListModelsOutput>())
@@ -3094,7 +3094,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRetrainingSchedulersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListRetrainingSchedulers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.ListRetrainingSchedulers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRetrainingSchedulersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRetrainingSchedulersOutput>())
@@ -3167,7 +3167,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSensorStatisticsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSensorStatisticsInput, ListSensorStatisticsOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListSensorStatistics"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSensorStatisticsInput, ListSensorStatisticsOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.ListSensorStatistics"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListSensorStatisticsInput, ListSensorStatisticsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSensorStatisticsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSensorStatisticsInput, ListSensorStatisticsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSensorStatisticsOutput>())
@@ -3240,7 +3240,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -3316,7 +3316,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.PutResourcePolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.PutResourcePolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
@@ -3392,7 +3392,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartDataIngestionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartDataIngestionJobInput, StartDataIngestionJobOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.StartDataIngestionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartDataIngestionJobInput, StartDataIngestionJobOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.StartDataIngestionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartDataIngestionJobInput, StartDataIngestionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartDataIngestionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartDataIngestionJobInput, StartDataIngestionJobOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartDataIngestionJobOutput>())
@@ -3466,7 +3466,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartInferenceSchedulerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartInferenceSchedulerInput, StartInferenceSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.StartInferenceScheduler"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartInferenceSchedulerInput, StartInferenceSchedulerOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.StartInferenceScheduler"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartInferenceSchedulerInput, StartInferenceSchedulerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartInferenceSchedulerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartInferenceSchedulerInput, StartInferenceSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartInferenceSchedulerOutput>())
@@ -3540,7 +3540,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartRetrainingSchedulerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.StartRetrainingScheduler"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.StartRetrainingScheduler"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartRetrainingSchedulerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartRetrainingSchedulerOutput>())
@@ -3614,7 +3614,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopInferenceSchedulerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopInferenceSchedulerInput, StopInferenceSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.StopInferenceScheduler"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopInferenceSchedulerInput, StopInferenceSchedulerOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.StopInferenceScheduler"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopInferenceSchedulerInput, StopInferenceSchedulerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopInferenceSchedulerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopInferenceSchedulerInput, StopInferenceSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopInferenceSchedulerOutput>())
@@ -3688,7 +3688,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopRetrainingSchedulerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.StopRetrainingScheduler"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.StopRetrainingScheduler"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopRetrainingSchedulerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopRetrainingSchedulerOutput>())
@@ -3762,7 +3762,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -3835,7 +3835,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -3909,7 +3909,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateActiveModelVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateActiveModelVersionInput, UpdateActiveModelVersionOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.UpdateActiveModelVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateActiveModelVersionInput, UpdateActiveModelVersionOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.UpdateActiveModelVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateActiveModelVersionInput, UpdateActiveModelVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateActiveModelVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateActiveModelVersionInput, UpdateActiveModelVersionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateActiveModelVersionOutput>())
@@ -3983,7 +3983,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateInferenceSchedulerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateInferenceSchedulerInput, UpdateInferenceSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.UpdateInferenceScheduler"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateInferenceSchedulerInput, UpdateInferenceSchedulerOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.UpdateInferenceScheduler"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateInferenceSchedulerInput, UpdateInferenceSchedulerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateInferenceSchedulerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateInferenceSchedulerInput, UpdateInferenceSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateInferenceSchedulerOutput>())
@@ -4057,7 +4057,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLabelGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateLabelGroupInput, UpdateLabelGroupOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.UpdateLabelGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLabelGroupInput, UpdateLabelGroupOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.UpdateLabelGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateLabelGroupInput, UpdateLabelGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLabelGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLabelGroupInput, UpdateLabelGroupOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLabelGroupOutput>())
@@ -4131,7 +4131,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateModelInput, UpdateModelOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.UpdateModel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateModelInput, UpdateModelOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.UpdateModel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateModelInput, UpdateModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateModelInput, UpdateModelOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateModelOutput>())
@@ -4205,7 +4205,7 @@ extension LookoutEquipmentClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRetrainingSchedulerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutput>(xAmzTarget: "AWSLookoutEquipmentFrontendService.UpdateRetrainingScheduler"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutput>(overrides: ["X-Amz-Target": "AWSLookoutEquipmentFrontendService.UpdateRetrainingScheduler"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRetrainingSchedulerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRetrainingSchedulerOutput>())

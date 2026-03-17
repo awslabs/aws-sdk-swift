@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
@@ -5884,7 +5884,7 @@ enum CreateCallAnalyticsCategoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5901,7 +5901,7 @@ enum CreateLanguageModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5918,7 +5918,7 @@ enum CreateMedicalVocabularyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5935,7 +5935,7 @@ enum CreateVocabularyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5952,7 +5952,7 @@ enum CreateVocabularyFilterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5969,7 +5969,7 @@ enum DeleteCallAnalyticsCategoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5986,7 +5986,7 @@ enum DeleteCallAnalyticsJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6002,7 +6002,7 @@ enum DeleteLanguageModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6018,7 +6018,7 @@ enum DeleteMedicalScribeJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6034,7 +6034,7 @@ enum DeleteMedicalTranscriptionJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6050,7 +6050,7 @@ enum DeleteMedicalVocabularyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6067,7 +6067,7 @@ enum DeleteTranscriptionJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6083,7 +6083,7 @@ enum DeleteVocabularyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6100,7 +6100,7 @@ enum DeleteVocabularyFilterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6117,7 +6117,7 @@ enum DescribeLanguageModelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6134,7 +6134,7 @@ enum GetCallAnalyticsCategoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6151,7 +6151,7 @@ enum GetCallAnalyticsJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6168,7 +6168,7 @@ enum GetMedicalScribeJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6185,7 +6185,7 @@ enum GetMedicalTranscriptionJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6202,7 +6202,7 @@ enum GetMedicalVocabularyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6219,7 +6219,7 @@ enum GetTranscriptionJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6236,7 +6236,7 @@ enum GetVocabularyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6253,7 +6253,7 @@ enum GetVocabularyFilterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6270,7 +6270,7 @@ enum ListCallAnalyticsCategoriesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6286,7 +6286,7 @@ enum ListCallAnalyticsJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6302,7 +6302,7 @@ enum ListLanguageModelsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6318,7 +6318,7 @@ enum ListMedicalScribeJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6334,7 +6334,7 @@ enum ListMedicalTranscriptionJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6350,7 +6350,7 @@ enum ListMedicalVocabulariesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6366,7 +6366,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6383,7 +6383,7 @@ enum ListTranscriptionJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6399,7 +6399,7 @@ enum ListVocabulariesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6415,7 +6415,7 @@ enum ListVocabularyFiltersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6431,7 +6431,7 @@ enum StartCallAnalyticsJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6448,7 +6448,7 @@ enum StartMedicalScribeJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6465,7 +6465,7 @@ enum StartMedicalTranscriptionJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6482,7 +6482,7 @@ enum StartTranscriptionJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6499,7 +6499,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6517,7 +6517,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6535,7 +6535,7 @@ enum UpdateCallAnalyticsCategoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6553,7 +6553,7 @@ enum UpdateMedicalVocabularyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6571,7 +6571,7 @@ enum UpdateVocabularyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6589,7 +6589,7 @@ enum UpdateVocabularyFilterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6603,7 +6603,7 @@ enum UpdateVocabularyFilterOutputError {
 
 extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BadRequestException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6616,7 +6616,7 @@ extension BadRequestException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6629,7 +6629,7 @@ extension ConflictException {
 
 extension InternalFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalFailureException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalFailureException {
         let reader = baseError.errorBodyReader
         var value = InternalFailureException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6642,7 +6642,7 @@ extension InternalFailureException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6655,13 +6655,128 @@ extension LimitExceededException {
 
 extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension TranscribeClientTypes.AbsoluteTimeRange {
+
+    static func write(value: TranscribeClientTypes.AbsoluteTimeRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndTime"].write(value.endTime)
+        try writer["First"].write(value.first)
+        try writer["Last"].write(value.last)
+        try writer["StartTime"].write(value.startTime)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.AbsoluteTimeRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.AbsoluteTimeRange()
+        value.startTime = try reader["StartTime"].readIfPresent()
+        value.endTime = try reader["EndTime"].readIfPresent()
+        value.first = try reader["First"].readIfPresent()
+        value.last = try reader["Last"].readIfPresent()
+        return value
+    }
+}
+
+extension TranscribeClientTypes.CallAnalyticsJob {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.CallAnalyticsJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.CallAnalyticsJob()
+        value.callAnalyticsJobName = try reader["CallAnalyticsJobName"].readIfPresent()
+        value.callAnalyticsJobStatus = try reader["CallAnalyticsJobStatus"].readIfPresent()
+        value.callAnalyticsJobDetails = try reader["CallAnalyticsJobDetails"].readIfPresent(with: TranscribeClientTypes.CallAnalyticsJobDetails.read(from:))
+        value.languageCode = try reader["LanguageCode"].readIfPresent()
+        value.mediaSampleRateHertz = try reader["MediaSampleRateHertz"].readIfPresent()
+        value.mediaFormat = try reader["MediaFormat"].readIfPresent()
+        value.media = try reader["Media"].readIfPresent(with: TranscribeClientTypes.Media.read(from:))
+        value.transcript = try reader["Transcript"].readIfPresent(with: TranscribeClientTypes.Transcript.read(from:))
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
+        value.identifiedLanguageScore = try reader["IdentifiedLanguageScore"].readIfPresent()
+        value.settings = try reader["Settings"].readIfPresent(with: TranscribeClientTypes.CallAnalyticsJobSettings.read(from:))
+        value.channelDefinitions = try reader["ChannelDefinitions"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.ChannelDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TranscribeClientTypes.CallAnalyticsJobDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.CallAnalyticsJobDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.CallAnalyticsJobDetails()
+        value.skipped = try reader["Skipped"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.CallAnalyticsSkippedFeature.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TranscribeClientTypes.CallAnalyticsJobSettings {
+
+    static func write(value: TranscribeClientTypes.CallAnalyticsJobSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContentRedaction"].write(value.contentRedaction, with: TranscribeClientTypes.ContentRedaction.write(value:to:))
+        try writer["LanguageIdSettings"].writeMap(value.languageIdSettings, valueWritingClosure: TranscribeClientTypes.LanguageIdSettings.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["LanguageModelName"].write(value.languageModelName)
+        try writer["LanguageOptions"].writeList(value.languageOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<TranscribeClientTypes.LanguageCode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Summarization"].write(value.summarization, with: TranscribeClientTypes.Summarization.write(value:to:))
+        try writer["VocabularyFilterMethod"].write(value.vocabularyFilterMethod)
+        try writer["VocabularyFilterName"].write(value.vocabularyFilterName)
+        try writer["VocabularyName"].write(value.vocabularyName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.CallAnalyticsJobSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.CallAnalyticsJobSettings()
+        value.vocabularyName = try reader["VocabularyName"].readIfPresent()
+        value.vocabularyFilterName = try reader["VocabularyFilterName"].readIfPresent()
+        value.vocabularyFilterMethod = try reader["VocabularyFilterMethod"].readIfPresent()
+        value.languageModelName = try reader["LanguageModelName"].readIfPresent()
+        value.contentRedaction = try reader["ContentRedaction"].readIfPresent(with: TranscribeClientTypes.ContentRedaction.read(from:))
+        value.languageOptions = try reader["LanguageOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TranscribeClientTypes.LanguageCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.languageIdSettings = try reader["LanguageIdSettings"].readMapIfPresent(valueReadingClosure: TranscribeClientTypes.LanguageIdSettings.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.summarization = try reader["Summarization"].readIfPresent(with: TranscribeClientTypes.Summarization.read(from:))
+        return value
+    }
+}
+
+extension TranscribeClientTypes.CallAnalyticsJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.CallAnalyticsJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.CallAnalyticsJobSummary()
+        value.callAnalyticsJobName = try reader["CallAnalyticsJobName"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.languageCode = try reader["LanguageCode"].readIfPresent()
+        value.callAnalyticsJobStatus = try reader["CallAnalyticsJobStatus"].readIfPresent()
+        value.callAnalyticsJobDetails = try reader["CallAnalyticsJobDetails"].readIfPresent(with: TranscribeClientTypes.CallAnalyticsJobDetails.read(from:))
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension TranscribeClientTypes.CallAnalyticsSkippedFeature {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.CallAnalyticsSkippedFeature {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.CallAnalyticsSkippedFeature()
+        value.feature = try reader["Feature"].readIfPresent()
+        value.reasonCode = try reader["ReasonCode"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -6681,19 +6796,424 @@ extension TranscribeClientTypes.CategoryProperties {
     }
 }
 
-extension TranscribeClientTypes.Tag {
+extension TranscribeClientTypes.ChannelDefinition {
 
-    static func write(value: TranscribeClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: TranscribeClientTypes.ChannelDefinition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
+        try writer["ChannelId"].write(value.channelId)
+        try writer["ParticipantRole"].write(value.participantRole)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.Tag {
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.ChannelDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
+        var value = TranscribeClientTypes.ChannelDefinition()
+        value.channelId = try reader["ChannelId"].readIfPresent() ?? 0
+        value.participantRole = try reader["ParticipantRole"].readIfPresent()
+        return value
+    }
+}
+
+extension TranscribeClientTypes.ClinicalNoteGenerationSettings {
+
+    static func write(value: TranscribeClientTypes.ClinicalNoteGenerationSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NoteTemplate"].write(value.noteTemplate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.ClinicalNoteGenerationSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.ClinicalNoteGenerationSettings()
+        value.noteTemplate = try reader["NoteTemplate"].readIfPresent()
+        return value
+    }
+}
+
+extension TranscribeClientTypes.ContentRedaction {
+
+    static func write(value: TranscribeClientTypes.ContentRedaction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PiiEntityTypes"].writeList(value.piiEntityTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<TranscribeClientTypes.PiiEntityType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RedactionOutput"].write(value.redactionOutput)
+        try writer["RedactionType"].write(value.redactionType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.ContentRedaction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.ContentRedaction()
+        value.redactionType = try reader["RedactionType"].readIfPresent() ?? .sdkUnknown("")
+        value.redactionOutput = try reader["RedactionOutput"].readIfPresent() ?? .sdkUnknown("")
+        value.piiEntityTypes = try reader["PiiEntityTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TranscribeClientTypes.PiiEntityType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TranscribeClientTypes.InputDataConfig {
+
+    static func write(value: TranscribeClientTypes.InputDataConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
+        try writer["S3Uri"].write(value.s3Uri)
+        try writer["TuningDataS3Uri"].write(value.tuningDataS3Uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.InputDataConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.InputDataConfig()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
+        value.tuningDataS3Uri = try reader["TuningDataS3Uri"].readIfPresent()
+        value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension TranscribeClientTypes.InterruptionFilter {
+
+    static func write(value: TranscribeClientTypes.InterruptionFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AbsoluteTimeRange"].write(value.absoluteTimeRange, with: TranscribeClientTypes.AbsoluteTimeRange.write(value:to:))
+        try writer["Negate"].write(value.negate)
+        try writer["ParticipantRole"].write(value.participantRole)
+        try writer["RelativeTimeRange"].write(value.relativeTimeRange, with: TranscribeClientTypes.RelativeTimeRange.write(value:to:))
+        try writer["Threshold"].write(value.threshold)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.InterruptionFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.InterruptionFilter()
+        value.threshold = try reader["Threshold"].readIfPresent()
+        value.participantRole = try reader["ParticipantRole"].readIfPresent()
+        value.absoluteTimeRange = try reader["AbsoluteTimeRange"].readIfPresent(with: TranscribeClientTypes.AbsoluteTimeRange.read(from:))
+        value.relativeTimeRange = try reader["RelativeTimeRange"].readIfPresent(with: TranscribeClientTypes.RelativeTimeRange.read(from:))
+        value.negate = try reader["Negate"].readIfPresent()
+        return value
+    }
+}
+
+extension TranscribeClientTypes.JobExecutionSettings {
+
+    static func write(value: TranscribeClientTypes.JobExecutionSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowDeferredExecution"].write(value.allowDeferredExecution)
+        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.JobExecutionSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.JobExecutionSettings()
+        value.allowDeferredExecution = try reader["AllowDeferredExecution"].readIfPresent()
+        value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension TranscribeClientTypes.LanguageCodeItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.LanguageCodeItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.LanguageCodeItem()
+        value.languageCode = try reader["LanguageCode"].readIfPresent()
+        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension TranscribeClientTypes.LanguageIdSettings {
+
+    static func write(value: TranscribeClientTypes.LanguageIdSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LanguageModelName"].write(value.languageModelName)
+        try writer["VocabularyFilterName"].write(value.vocabularyFilterName)
+        try writer["VocabularyName"].write(value.vocabularyName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.LanguageIdSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.LanguageIdSettings()
+        value.vocabularyName = try reader["VocabularyName"].readIfPresent()
+        value.vocabularyFilterName = try reader["VocabularyFilterName"].readIfPresent()
+        value.languageModelName = try reader["LanguageModelName"].readIfPresent()
+        return value
+    }
+}
+
+extension TranscribeClientTypes.LanguageModel {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.LanguageModel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.LanguageModel()
+        value.modelName = try reader["ModelName"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.languageCode = try reader["LanguageCode"].readIfPresent()
+        value.baseModelName = try reader["BaseModelName"].readIfPresent()
+        value.modelStatus = try reader["ModelStatus"].readIfPresent()
+        value.upgradeAvailability = try reader["UpgradeAvailability"].readIfPresent()
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.inputDataConfig = try reader["InputDataConfig"].readIfPresent(with: TranscribeClientTypes.InputDataConfig.read(from:))
+        return value
+    }
+}
+
+extension TranscribeClientTypes.Media {
+
+    static func write(value: TranscribeClientTypes.Media?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MediaFileUri"].write(value.mediaFileUri)
+        try writer["RedactedMediaFileUri"].write(value.redactedMediaFileUri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.Media {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.Media()
+        value.mediaFileUri = try reader["MediaFileUri"].readIfPresent()
+        value.redactedMediaFileUri = try reader["RedactedMediaFileUri"].readIfPresent()
+        return value
+    }
+}
+
+extension TranscribeClientTypes.MedicalScribeChannelDefinition {
+
+    static func write(value: TranscribeClientTypes.MedicalScribeChannelDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ChannelId"].write(value.channelId)
+        try writer["ParticipantRole"].write(value.participantRole)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalScribeChannelDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.MedicalScribeChannelDefinition()
+        value.channelId = try reader["ChannelId"].readIfPresent() ?? 0
+        value.participantRole = try reader["ParticipantRole"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension TranscribeClientTypes.MedicalScribeContext {
+
+    static func write(value: TranscribeClientTypes.MedicalScribeContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PatientContext"].write(value.patientContext, with: TranscribeClientTypes.MedicalScribePatientContext.write(value:to:))
+    }
+}
+
+extension TranscribeClientTypes.MedicalScribeJob {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalScribeJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.MedicalScribeJob()
+        value.medicalScribeJobName = try reader["MedicalScribeJobName"].readIfPresent()
+        value.medicalScribeJobStatus = try reader["MedicalScribeJobStatus"].readIfPresent()
+        value.languageCode = try reader["LanguageCode"].readIfPresent()
+        value.media = try reader["Media"].readIfPresent(with: TranscribeClientTypes.Media.read(from:))
+        value.medicalScribeOutput = try reader["MedicalScribeOutput"].readIfPresent(with: TranscribeClientTypes.MedicalScribeOutput.read(from:))
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.settings = try reader["Settings"].readIfPresent(with: TranscribeClientTypes.MedicalScribeSettings.read(from:))
+        value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
+        value.channelDefinitions = try reader["ChannelDefinitions"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.MedicalScribeChannelDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.medicalScribeContextProvided = try reader["MedicalScribeContextProvided"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TranscribeClientTypes.MedicalScribeJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalScribeJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.MedicalScribeJobSummary()
+        value.medicalScribeJobName = try reader["MedicalScribeJobName"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.languageCode = try reader["LanguageCode"].readIfPresent()
+        value.medicalScribeJobStatus = try reader["MedicalScribeJobStatus"].readIfPresent()
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension TranscribeClientTypes.MedicalScribeOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalScribeOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.MedicalScribeOutput()
+        value.transcriptFileUri = try reader["TranscriptFileUri"].readIfPresent() ?? ""
+        value.clinicalDocumentUri = try reader["ClinicalDocumentUri"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension TranscribeClientTypes.MedicalScribePatientContext {
+
+    static func write(value: TranscribeClientTypes.MedicalScribePatientContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Pronouns"].write(value.pronouns)
+    }
+}
+
+extension TranscribeClientTypes.MedicalScribeSettings {
+
+    static func write(value: TranscribeClientTypes.MedicalScribeSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ChannelIdentification"].write(value.channelIdentification)
+        try writer["ClinicalNoteGenerationSettings"].write(value.clinicalNoteGenerationSettings, with: TranscribeClientTypes.ClinicalNoteGenerationSettings.write(value:to:))
+        try writer["MaxSpeakerLabels"].write(value.maxSpeakerLabels)
+        try writer["ShowSpeakerLabels"].write(value.showSpeakerLabels)
+        try writer["VocabularyFilterMethod"].write(value.vocabularyFilterMethod)
+        try writer["VocabularyFilterName"].write(value.vocabularyFilterName)
+        try writer["VocabularyName"].write(value.vocabularyName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalScribeSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.MedicalScribeSettings()
+        value.showSpeakerLabels = try reader["ShowSpeakerLabels"].readIfPresent()
+        value.maxSpeakerLabels = try reader["MaxSpeakerLabels"].readIfPresent()
+        value.channelIdentification = try reader["ChannelIdentification"].readIfPresent()
+        value.vocabularyName = try reader["VocabularyName"].readIfPresent()
+        value.vocabularyFilterName = try reader["VocabularyFilterName"].readIfPresent()
+        value.vocabularyFilterMethod = try reader["VocabularyFilterMethod"].readIfPresent()
+        value.clinicalNoteGenerationSettings = try reader["ClinicalNoteGenerationSettings"].readIfPresent(with: TranscribeClientTypes.ClinicalNoteGenerationSettings.read(from:))
+        return value
+    }
+}
+
+extension TranscribeClientTypes.MedicalTranscript {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalTranscript {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.MedicalTranscript()
+        value.transcriptFileUri = try reader["TranscriptFileUri"].readIfPresent()
+        return value
+    }
+}
+
+extension TranscribeClientTypes.MedicalTranscriptionJob {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalTranscriptionJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.MedicalTranscriptionJob()
+        value.medicalTranscriptionJobName = try reader["MedicalTranscriptionJobName"].readIfPresent()
+        value.transcriptionJobStatus = try reader["TranscriptionJobStatus"].readIfPresent()
+        value.languageCode = try reader["LanguageCode"].readIfPresent()
+        value.mediaSampleRateHertz = try reader["MediaSampleRateHertz"].readIfPresent()
+        value.mediaFormat = try reader["MediaFormat"].readIfPresent()
+        value.media = try reader["Media"].readIfPresent(with: TranscribeClientTypes.Media.read(from:))
+        value.transcript = try reader["Transcript"].readIfPresent(with: TranscribeClientTypes.MedicalTranscript.read(from:))
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.settings = try reader["Settings"].readIfPresent(with: TranscribeClientTypes.MedicalTranscriptionSetting.read(from:))
+        value.contentIdentificationType = try reader["ContentIdentificationType"].readIfPresent()
+        value.specialty = try reader["Specialty"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TranscribeClientTypes.MedicalTranscriptionJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalTranscriptionJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.MedicalTranscriptionJobSummary()
+        value.medicalTranscriptionJobName = try reader["MedicalTranscriptionJobName"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.languageCode = try reader["LanguageCode"].readIfPresent()
+        value.transcriptionJobStatus = try reader["TranscriptionJobStatus"].readIfPresent()
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.outputLocationType = try reader["OutputLocationType"].readIfPresent()
+        value.specialty = try reader["Specialty"].readIfPresent()
+        value.contentIdentificationType = try reader["ContentIdentificationType"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension TranscribeClientTypes.MedicalTranscriptionSetting {
+
+    static func write(value: TranscribeClientTypes.MedicalTranscriptionSetting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ChannelIdentification"].write(value.channelIdentification)
+        try writer["MaxAlternatives"].write(value.maxAlternatives)
+        try writer["MaxSpeakerLabels"].write(value.maxSpeakerLabels)
+        try writer["ShowAlternatives"].write(value.showAlternatives)
+        try writer["ShowSpeakerLabels"].write(value.showSpeakerLabels)
+        try writer["VocabularyName"].write(value.vocabularyName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalTranscriptionSetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.MedicalTranscriptionSetting()
+        value.showSpeakerLabels = try reader["ShowSpeakerLabels"].readIfPresent()
+        value.maxSpeakerLabels = try reader["MaxSpeakerLabels"].readIfPresent()
+        value.channelIdentification = try reader["ChannelIdentification"].readIfPresent()
+        value.showAlternatives = try reader["ShowAlternatives"].readIfPresent()
+        value.maxAlternatives = try reader["MaxAlternatives"].readIfPresent()
+        value.vocabularyName = try reader["VocabularyName"].readIfPresent()
+        return value
+    }
+}
+
+extension TranscribeClientTypes.ModelSettings {
+
+    static func write(value: TranscribeClientTypes.ModelSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LanguageModelName"].write(value.languageModelName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.ModelSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.ModelSettings()
+        value.languageModelName = try reader["LanguageModelName"].readIfPresent()
+        return value
+    }
+}
+
+extension TranscribeClientTypes.NonTalkTimeFilter {
+
+    static func write(value: TranscribeClientTypes.NonTalkTimeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AbsoluteTimeRange"].write(value.absoluteTimeRange, with: TranscribeClientTypes.AbsoluteTimeRange.write(value:to:))
+        try writer["Negate"].write(value.negate)
+        try writer["RelativeTimeRange"].write(value.relativeTimeRange, with: TranscribeClientTypes.RelativeTimeRange.write(value:to:))
+        try writer["Threshold"].write(value.threshold)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.NonTalkTimeFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.NonTalkTimeFilter()
+        value.threshold = try reader["Threshold"].readIfPresent()
+        value.absoluteTimeRange = try reader["AbsoluteTimeRange"].readIfPresent(with: TranscribeClientTypes.AbsoluteTimeRange.read(from:))
+        value.relativeTimeRange = try reader["RelativeTimeRange"].readIfPresent(with: TranscribeClientTypes.RelativeTimeRange.read(from:))
+        value.negate = try reader["Negate"].readIfPresent()
+        return value
+    }
+}
+
+extension TranscribeClientTypes.RelativeTimeRange {
+
+    static func write(value: TranscribeClientTypes.RelativeTimeRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndPercentage"].write(value.endPercentage)
+        try writer["First"].write(value.first)
+        try writer["Last"].write(value.last)
+        try writer["StartPercentage"].write(value.startPercentage)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.RelativeTimeRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.RelativeTimeRange()
+        value.startPercentage = try reader["StartPercentage"].readIfPresent()
+        value.endPercentage = try reader["EndPercentage"].readIfPresent()
+        value.first = try reader["First"].readIfPresent()
+        value.last = try reader["Last"].readIfPresent()
         return value
     }
 }
@@ -6757,44 +7277,110 @@ extension TranscribeClientTypes.SentimentFilter {
     }
 }
 
-extension TranscribeClientTypes.RelativeTimeRange {
+extension TranscribeClientTypes.Settings {
 
-    static func write(value: TranscribeClientTypes.RelativeTimeRange?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: TranscribeClientTypes.Settings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EndPercentage"].write(value.endPercentage)
-        try writer["First"].write(value.first)
-        try writer["Last"].write(value.last)
-        try writer["StartPercentage"].write(value.startPercentage)
+        try writer["ChannelIdentification"].write(value.channelIdentification)
+        try writer["MaxAlternatives"].write(value.maxAlternatives)
+        try writer["MaxSpeakerLabels"].write(value.maxSpeakerLabels)
+        try writer["ShowAlternatives"].write(value.showAlternatives)
+        try writer["ShowSpeakerLabels"].write(value.showSpeakerLabels)
+        try writer["VocabularyFilterMethod"].write(value.vocabularyFilterMethod)
+        try writer["VocabularyFilterName"].write(value.vocabularyFilterName)
+        try writer["VocabularyName"].write(value.vocabularyName)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.RelativeTimeRange {
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.Settings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.RelativeTimeRange()
-        value.startPercentage = try reader["StartPercentage"].readIfPresent()
-        value.endPercentage = try reader["EndPercentage"].readIfPresent()
-        value.first = try reader["First"].readIfPresent()
-        value.last = try reader["Last"].readIfPresent()
+        var value = TranscribeClientTypes.Settings()
+        value.vocabularyName = try reader["VocabularyName"].readIfPresent()
+        value.showSpeakerLabels = try reader["ShowSpeakerLabels"].readIfPresent()
+        value.maxSpeakerLabels = try reader["MaxSpeakerLabels"].readIfPresent()
+        value.channelIdentification = try reader["ChannelIdentification"].readIfPresent()
+        value.showAlternatives = try reader["ShowAlternatives"].readIfPresent()
+        value.maxAlternatives = try reader["MaxAlternatives"].readIfPresent()
+        value.vocabularyFilterName = try reader["VocabularyFilterName"].readIfPresent()
+        value.vocabularyFilterMethod = try reader["VocabularyFilterMethod"].readIfPresent()
         return value
     }
 }
 
-extension TranscribeClientTypes.AbsoluteTimeRange {
+extension TranscribeClientTypes.Subtitles {
 
-    static func write(value: TranscribeClientTypes.AbsoluteTimeRange?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: TranscribeClientTypes.Subtitles?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EndTime"].write(value.endTime)
-        try writer["First"].write(value.first)
-        try writer["Last"].write(value.last)
-        try writer["StartTime"].write(value.startTime)
+        try writer["Formats"].writeList(value.formats, memberWritingClosure: SmithyReadWrite.WritingClosureBox<TranscribeClientTypes.SubtitleFormat>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OutputStartIndex"].write(value.outputStartIndex)
+    }
+}
+
+extension TranscribeClientTypes.SubtitlesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.SubtitlesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.SubtitlesOutput()
+        value.formats = try reader["Formats"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TranscribeClientTypes.SubtitleFormat>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subtitleFileUris = try reader["SubtitleFileUris"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputStartIndex = try reader["OutputStartIndex"].readIfPresent()
+        return value
+    }
+}
+
+extension TranscribeClientTypes.Summarization {
+
+    static func write(value: TranscribeClientTypes.Summarization?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GenerateAbstractiveSummary"].write(value.generateAbstractiveSummary)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.AbsoluteTimeRange {
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.Summarization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.AbsoluteTimeRange()
-        value.startTime = try reader["StartTime"].readIfPresent()
-        value.endTime = try reader["EndTime"].readIfPresent()
-        value.first = try reader["First"].readIfPresent()
-        value.last = try reader["Last"].readIfPresent()
+        var value = TranscribeClientTypes.Summarization()
+        value.generateAbstractiveSummary = try reader["GenerateAbstractiveSummary"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension TranscribeClientTypes.Tag {
+
+    static func write(value: TranscribeClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension TranscribeClientTypes.ToxicityDetectionSettings {
+
+    static func write(value: TranscribeClientTypes.ToxicityDetectionSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ToxicityCategories"].writeList(value.toxicityCategories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<TranscribeClientTypes.ToxicityCategory>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.ToxicityDetectionSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.ToxicityDetectionSettings()
+        value.toxicityCategories = try reader["ToxicityCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TranscribeClientTypes.ToxicityCategory>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension TranscribeClientTypes.Transcript {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.Transcript {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.Transcript()
+        value.transcriptFileUri = try reader["TranscriptFileUri"].readIfPresent()
+        value.redactedTranscriptFileUri = try reader["RedactedTranscriptFileUri"].readIfPresent()
         return value
     }
 }
@@ -6820,415 +7406,6 @@ extension TranscribeClientTypes.TranscriptFilter {
         value.participantRole = try reader["ParticipantRole"].readIfPresent()
         value.negate = try reader["Negate"].readIfPresent()
         value.targets = try reader["Targets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension TranscribeClientTypes.InterruptionFilter {
-
-    static func write(value: TranscribeClientTypes.InterruptionFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AbsoluteTimeRange"].write(value.absoluteTimeRange, with: TranscribeClientTypes.AbsoluteTimeRange.write(value:to:))
-        try writer["Negate"].write(value.negate)
-        try writer["ParticipantRole"].write(value.participantRole)
-        try writer["RelativeTimeRange"].write(value.relativeTimeRange, with: TranscribeClientTypes.RelativeTimeRange.write(value:to:))
-        try writer["Threshold"].write(value.threshold)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.InterruptionFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.InterruptionFilter()
-        value.threshold = try reader["Threshold"].readIfPresent()
-        value.participantRole = try reader["ParticipantRole"].readIfPresent()
-        value.absoluteTimeRange = try reader["AbsoluteTimeRange"].readIfPresent(with: TranscribeClientTypes.AbsoluteTimeRange.read(from:))
-        value.relativeTimeRange = try reader["RelativeTimeRange"].readIfPresent(with: TranscribeClientTypes.RelativeTimeRange.read(from:))
-        value.negate = try reader["Negate"].readIfPresent()
-        return value
-    }
-}
-
-extension TranscribeClientTypes.NonTalkTimeFilter {
-
-    static func write(value: TranscribeClientTypes.NonTalkTimeFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AbsoluteTimeRange"].write(value.absoluteTimeRange, with: TranscribeClientTypes.AbsoluteTimeRange.write(value:to:))
-        try writer["Negate"].write(value.negate)
-        try writer["RelativeTimeRange"].write(value.relativeTimeRange, with: TranscribeClientTypes.RelativeTimeRange.write(value:to:))
-        try writer["Threshold"].write(value.threshold)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.NonTalkTimeFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.NonTalkTimeFilter()
-        value.threshold = try reader["Threshold"].readIfPresent()
-        value.absoluteTimeRange = try reader["AbsoluteTimeRange"].readIfPresent(with: TranscribeClientTypes.AbsoluteTimeRange.read(from:))
-        value.relativeTimeRange = try reader["RelativeTimeRange"].readIfPresent(with: TranscribeClientTypes.RelativeTimeRange.read(from:))
-        value.negate = try reader["Negate"].readIfPresent()
-        return value
-    }
-}
-
-extension TranscribeClientTypes.InputDataConfig {
-
-    static func write(value: TranscribeClientTypes.InputDataConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-        try writer["S3Uri"].write(value.s3Uri)
-        try writer["TuningDataS3Uri"].write(value.tuningDataS3Uri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.InputDataConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.InputDataConfig()
-        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
-        value.tuningDataS3Uri = try reader["TuningDataS3Uri"].readIfPresent()
-        value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension TranscribeClientTypes.LanguageModel {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.LanguageModel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.LanguageModel()
-        value.modelName = try reader["ModelName"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.baseModelName = try reader["BaseModelName"].readIfPresent()
-        value.modelStatus = try reader["ModelStatus"].readIfPresent()
-        value.upgradeAvailability = try reader["UpgradeAvailability"].readIfPresent()
-        value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.inputDataConfig = try reader["InputDataConfig"].readIfPresent(with: TranscribeClientTypes.InputDataConfig.read(from:))
-        return value
-    }
-}
-
-extension TranscribeClientTypes.CallAnalyticsJob {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.CallAnalyticsJob {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.CallAnalyticsJob()
-        value.callAnalyticsJobName = try reader["CallAnalyticsJobName"].readIfPresent()
-        value.callAnalyticsJobStatus = try reader["CallAnalyticsJobStatus"].readIfPresent()
-        value.callAnalyticsJobDetails = try reader["CallAnalyticsJobDetails"].readIfPresent(with: TranscribeClientTypes.CallAnalyticsJobDetails.read(from:))
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.mediaSampleRateHertz = try reader["MediaSampleRateHertz"].readIfPresent()
-        value.mediaFormat = try reader["MediaFormat"].readIfPresent()
-        value.media = try reader["Media"].readIfPresent(with: TranscribeClientTypes.Media.read(from:))
-        value.transcript = try reader["Transcript"].readIfPresent(with: TranscribeClientTypes.Transcript.read(from:))
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
-        value.identifiedLanguageScore = try reader["IdentifiedLanguageScore"].readIfPresent()
-        value.settings = try reader["Settings"].readIfPresent(with: TranscribeClientTypes.CallAnalyticsJobSettings.read(from:))
-        value.channelDefinitions = try reader["ChannelDefinitions"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.ChannelDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TranscribeClientTypes.ChannelDefinition {
-
-    static func write(value: TranscribeClientTypes.ChannelDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChannelId"].write(value.channelId)
-        try writer["ParticipantRole"].write(value.participantRole)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.ChannelDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.ChannelDefinition()
-        value.channelId = try reader["ChannelId"].readIfPresent() ?? 0
-        value.participantRole = try reader["ParticipantRole"].readIfPresent()
-        return value
-    }
-}
-
-extension TranscribeClientTypes.CallAnalyticsJobSettings {
-
-    static func write(value: TranscribeClientTypes.CallAnalyticsJobSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContentRedaction"].write(value.contentRedaction, with: TranscribeClientTypes.ContentRedaction.write(value:to:))
-        try writer["LanguageIdSettings"].writeMap(value.languageIdSettings, valueWritingClosure: TranscribeClientTypes.LanguageIdSettings.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["LanguageModelName"].write(value.languageModelName)
-        try writer["LanguageOptions"].writeList(value.languageOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<TranscribeClientTypes.LanguageCode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Summarization"].write(value.summarization, with: TranscribeClientTypes.Summarization.write(value:to:))
-        try writer["VocabularyFilterMethod"].write(value.vocabularyFilterMethod)
-        try writer["VocabularyFilterName"].write(value.vocabularyFilterName)
-        try writer["VocabularyName"].write(value.vocabularyName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.CallAnalyticsJobSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.CallAnalyticsJobSettings()
-        value.vocabularyName = try reader["VocabularyName"].readIfPresent()
-        value.vocabularyFilterName = try reader["VocabularyFilterName"].readIfPresent()
-        value.vocabularyFilterMethod = try reader["VocabularyFilterMethod"].readIfPresent()
-        value.languageModelName = try reader["LanguageModelName"].readIfPresent()
-        value.contentRedaction = try reader["ContentRedaction"].readIfPresent(with: TranscribeClientTypes.ContentRedaction.read(from:))
-        value.languageOptions = try reader["LanguageOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TranscribeClientTypes.LanguageCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.languageIdSettings = try reader["LanguageIdSettings"].readMapIfPresent(valueReadingClosure: TranscribeClientTypes.LanguageIdSettings.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.summarization = try reader["Summarization"].readIfPresent(with: TranscribeClientTypes.Summarization.read(from:))
-        return value
-    }
-}
-
-extension TranscribeClientTypes.Summarization {
-
-    static func write(value: TranscribeClientTypes.Summarization?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GenerateAbstractiveSummary"].write(value.generateAbstractiveSummary)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.Summarization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.Summarization()
-        value.generateAbstractiveSummary = try reader["GenerateAbstractiveSummary"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension TranscribeClientTypes.LanguageIdSettings {
-
-    static func write(value: TranscribeClientTypes.LanguageIdSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LanguageModelName"].write(value.languageModelName)
-        try writer["VocabularyFilterName"].write(value.vocabularyFilterName)
-        try writer["VocabularyName"].write(value.vocabularyName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.LanguageIdSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.LanguageIdSettings()
-        value.vocabularyName = try reader["VocabularyName"].readIfPresent()
-        value.vocabularyFilterName = try reader["VocabularyFilterName"].readIfPresent()
-        value.languageModelName = try reader["LanguageModelName"].readIfPresent()
-        return value
-    }
-}
-
-extension TranscribeClientTypes.ContentRedaction {
-
-    static func write(value: TranscribeClientTypes.ContentRedaction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PiiEntityTypes"].writeList(value.piiEntityTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<TranscribeClientTypes.PiiEntityType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RedactionOutput"].write(value.redactionOutput)
-        try writer["RedactionType"].write(value.redactionType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.ContentRedaction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.ContentRedaction()
-        value.redactionType = try reader["RedactionType"].readIfPresent() ?? .sdkUnknown("")
-        value.redactionOutput = try reader["RedactionOutput"].readIfPresent() ?? .sdkUnknown("")
-        value.piiEntityTypes = try reader["PiiEntityTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TranscribeClientTypes.PiiEntityType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TranscribeClientTypes.Transcript {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.Transcript {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.Transcript()
-        value.transcriptFileUri = try reader["TranscriptFileUri"].readIfPresent()
-        value.redactedTranscriptFileUri = try reader["RedactedTranscriptFileUri"].readIfPresent()
-        return value
-    }
-}
-
-extension TranscribeClientTypes.Media {
-
-    static func write(value: TranscribeClientTypes.Media?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MediaFileUri"].write(value.mediaFileUri)
-        try writer["RedactedMediaFileUri"].write(value.redactedMediaFileUri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.Media {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.Media()
-        value.mediaFileUri = try reader["MediaFileUri"].readIfPresent()
-        value.redactedMediaFileUri = try reader["RedactedMediaFileUri"].readIfPresent()
-        return value
-    }
-}
-
-extension TranscribeClientTypes.CallAnalyticsJobDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.CallAnalyticsJobDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.CallAnalyticsJobDetails()
-        value.skipped = try reader["Skipped"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.CallAnalyticsSkippedFeature.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TranscribeClientTypes.CallAnalyticsSkippedFeature {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.CallAnalyticsSkippedFeature {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.CallAnalyticsSkippedFeature()
-        value.feature = try reader["Feature"].readIfPresent()
-        value.reasonCode = try reader["ReasonCode"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension TranscribeClientTypes.MedicalScribeJob {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalScribeJob {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.MedicalScribeJob()
-        value.medicalScribeJobName = try reader["MedicalScribeJobName"].readIfPresent()
-        value.medicalScribeJobStatus = try reader["MedicalScribeJobStatus"].readIfPresent()
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.media = try reader["Media"].readIfPresent(with: TranscribeClientTypes.Media.read(from:))
-        value.medicalScribeOutput = try reader["MedicalScribeOutput"].readIfPresent(with: TranscribeClientTypes.MedicalScribeOutput.read(from:))
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.settings = try reader["Settings"].readIfPresent(with: TranscribeClientTypes.MedicalScribeSettings.read(from:))
-        value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
-        value.channelDefinitions = try reader["ChannelDefinitions"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.MedicalScribeChannelDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.medicalScribeContextProvided = try reader["MedicalScribeContextProvided"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TranscribeClientTypes.MedicalScribeChannelDefinition {
-
-    static func write(value: TranscribeClientTypes.MedicalScribeChannelDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChannelId"].write(value.channelId)
-        try writer["ParticipantRole"].write(value.participantRole)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalScribeChannelDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.MedicalScribeChannelDefinition()
-        value.channelId = try reader["ChannelId"].readIfPresent() ?? 0
-        value.participantRole = try reader["ParticipantRole"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension TranscribeClientTypes.MedicalScribeSettings {
-
-    static func write(value: TranscribeClientTypes.MedicalScribeSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChannelIdentification"].write(value.channelIdentification)
-        try writer["ClinicalNoteGenerationSettings"].write(value.clinicalNoteGenerationSettings, with: TranscribeClientTypes.ClinicalNoteGenerationSettings.write(value:to:))
-        try writer["MaxSpeakerLabels"].write(value.maxSpeakerLabels)
-        try writer["ShowSpeakerLabels"].write(value.showSpeakerLabels)
-        try writer["VocabularyFilterMethod"].write(value.vocabularyFilterMethod)
-        try writer["VocabularyFilterName"].write(value.vocabularyFilterName)
-        try writer["VocabularyName"].write(value.vocabularyName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalScribeSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.MedicalScribeSettings()
-        value.showSpeakerLabels = try reader["ShowSpeakerLabels"].readIfPresent()
-        value.maxSpeakerLabels = try reader["MaxSpeakerLabels"].readIfPresent()
-        value.channelIdentification = try reader["ChannelIdentification"].readIfPresent()
-        value.vocabularyName = try reader["VocabularyName"].readIfPresent()
-        value.vocabularyFilterName = try reader["VocabularyFilterName"].readIfPresent()
-        value.vocabularyFilterMethod = try reader["VocabularyFilterMethod"].readIfPresent()
-        value.clinicalNoteGenerationSettings = try reader["ClinicalNoteGenerationSettings"].readIfPresent(with: TranscribeClientTypes.ClinicalNoteGenerationSettings.read(from:))
-        return value
-    }
-}
-
-extension TranscribeClientTypes.ClinicalNoteGenerationSettings {
-
-    static func write(value: TranscribeClientTypes.ClinicalNoteGenerationSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NoteTemplate"].write(value.noteTemplate)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.ClinicalNoteGenerationSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.ClinicalNoteGenerationSettings()
-        value.noteTemplate = try reader["NoteTemplate"].readIfPresent()
-        return value
-    }
-}
-
-extension TranscribeClientTypes.MedicalScribeOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalScribeOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.MedicalScribeOutput()
-        value.transcriptFileUri = try reader["TranscriptFileUri"].readIfPresent() ?? ""
-        value.clinicalDocumentUri = try reader["ClinicalDocumentUri"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension TranscribeClientTypes.MedicalTranscriptionJob {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalTranscriptionJob {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.MedicalTranscriptionJob()
-        value.medicalTranscriptionJobName = try reader["MedicalTranscriptionJobName"].readIfPresent()
-        value.transcriptionJobStatus = try reader["TranscriptionJobStatus"].readIfPresent()
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.mediaSampleRateHertz = try reader["MediaSampleRateHertz"].readIfPresent()
-        value.mediaFormat = try reader["MediaFormat"].readIfPresent()
-        value.media = try reader["Media"].readIfPresent(with: TranscribeClientTypes.Media.read(from:))
-        value.transcript = try reader["Transcript"].readIfPresent(with: TranscribeClientTypes.MedicalTranscript.read(from:))
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.settings = try reader["Settings"].readIfPresent(with: TranscribeClientTypes.MedicalTranscriptionSetting.read(from:))
-        value.contentIdentificationType = try reader["ContentIdentificationType"].readIfPresent()
-        value.specialty = try reader["Specialty"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TranscribeClientTypes.MedicalTranscriptionSetting {
-
-    static func write(value: TranscribeClientTypes.MedicalTranscriptionSetting?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChannelIdentification"].write(value.channelIdentification)
-        try writer["MaxAlternatives"].write(value.maxAlternatives)
-        try writer["MaxSpeakerLabels"].write(value.maxSpeakerLabels)
-        try writer["ShowAlternatives"].write(value.showAlternatives)
-        try writer["ShowSpeakerLabels"].write(value.showSpeakerLabels)
-        try writer["VocabularyName"].write(value.vocabularyName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalTranscriptionSetting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.MedicalTranscriptionSetting()
-        value.showSpeakerLabels = try reader["ShowSpeakerLabels"].readIfPresent()
-        value.maxSpeakerLabels = try reader["MaxSpeakerLabels"].readIfPresent()
-        value.channelIdentification = try reader["ChannelIdentification"].readIfPresent()
-        value.showAlternatives = try reader["ShowAlternatives"].readIfPresent()
-        value.maxAlternatives = try reader["MaxAlternatives"].readIfPresent()
-        value.vocabularyName = try reader["VocabularyName"].readIfPresent()
-        return value
-    }
-}
-
-extension TranscribeClientTypes.MedicalTranscript {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalTranscript {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.MedicalTranscript()
-        value.transcriptFileUri = try reader["TranscriptFileUri"].readIfPresent()
         return value
     }
 }
@@ -7262,171 +7439,6 @@ extension TranscribeClientTypes.TranscriptionJob {
         value.subtitles = try reader["Subtitles"].readIfPresent(with: TranscribeClientTypes.SubtitlesOutput.read(from:))
         value.languageIdSettings = try reader["LanguageIdSettings"].readMapIfPresent(valueReadingClosure: TranscribeClientTypes.LanguageIdSettings.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.toxicityDetection = try reader["ToxicityDetection"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.ToxicityDetectionSettings.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TranscribeClientTypes.ToxicityDetectionSettings {
-
-    static func write(value: TranscribeClientTypes.ToxicityDetectionSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ToxicityCategories"].writeList(value.toxicityCategories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<TranscribeClientTypes.ToxicityCategory>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.ToxicityDetectionSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.ToxicityDetectionSettings()
-        value.toxicityCategories = try reader["ToxicityCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TranscribeClientTypes.ToxicityCategory>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension TranscribeClientTypes.SubtitlesOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.SubtitlesOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.SubtitlesOutput()
-        value.formats = try reader["Formats"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TranscribeClientTypes.SubtitleFormat>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subtitleFileUris = try reader["SubtitleFileUris"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.outputStartIndex = try reader["OutputStartIndex"].readIfPresent()
-        return value
-    }
-}
-
-extension TranscribeClientTypes.LanguageCodeItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.LanguageCodeItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.LanguageCodeItem()
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension TranscribeClientTypes.JobExecutionSettings {
-
-    static func write(value: TranscribeClientTypes.JobExecutionSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllowDeferredExecution"].write(value.allowDeferredExecution)
-        try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.JobExecutionSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.JobExecutionSettings()
-        value.allowDeferredExecution = try reader["AllowDeferredExecution"].readIfPresent()
-        value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
-        return value
-    }
-}
-
-extension TranscribeClientTypes.ModelSettings {
-
-    static func write(value: TranscribeClientTypes.ModelSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LanguageModelName"].write(value.languageModelName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.ModelSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.ModelSettings()
-        value.languageModelName = try reader["LanguageModelName"].readIfPresent()
-        return value
-    }
-}
-
-extension TranscribeClientTypes.Settings {
-
-    static func write(value: TranscribeClientTypes.Settings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChannelIdentification"].write(value.channelIdentification)
-        try writer["MaxAlternatives"].write(value.maxAlternatives)
-        try writer["MaxSpeakerLabels"].write(value.maxSpeakerLabels)
-        try writer["ShowAlternatives"].write(value.showAlternatives)
-        try writer["ShowSpeakerLabels"].write(value.showSpeakerLabels)
-        try writer["VocabularyFilterMethod"].write(value.vocabularyFilterMethod)
-        try writer["VocabularyFilterName"].write(value.vocabularyFilterName)
-        try writer["VocabularyName"].write(value.vocabularyName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.Settings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.Settings()
-        value.vocabularyName = try reader["VocabularyName"].readIfPresent()
-        value.showSpeakerLabels = try reader["ShowSpeakerLabels"].readIfPresent()
-        value.maxSpeakerLabels = try reader["MaxSpeakerLabels"].readIfPresent()
-        value.channelIdentification = try reader["ChannelIdentification"].readIfPresent()
-        value.showAlternatives = try reader["ShowAlternatives"].readIfPresent()
-        value.maxAlternatives = try reader["MaxAlternatives"].readIfPresent()
-        value.vocabularyFilterName = try reader["VocabularyFilterName"].readIfPresent()
-        value.vocabularyFilterMethod = try reader["VocabularyFilterMethod"].readIfPresent()
-        return value
-    }
-}
-
-extension TranscribeClientTypes.CallAnalyticsJobSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.CallAnalyticsJobSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.CallAnalyticsJobSummary()
-        value.callAnalyticsJobName = try reader["CallAnalyticsJobName"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.callAnalyticsJobStatus = try reader["CallAnalyticsJobStatus"].readIfPresent()
-        value.callAnalyticsJobDetails = try reader["CallAnalyticsJobDetails"].readIfPresent(with: TranscribeClientTypes.CallAnalyticsJobDetails.read(from:))
-        value.failureReason = try reader["FailureReason"].readIfPresent()
-        return value
-    }
-}
-
-extension TranscribeClientTypes.MedicalScribeJobSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalScribeJobSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.MedicalScribeJobSummary()
-        value.medicalScribeJobName = try reader["MedicalScribeJobName"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.medicalScribeJobStatus = try reader["MedicalScribeJobStatus"].readIfPresent()
-        value.failureReason = try reader["FailureReason"].readIfPresent()
-        return value
-    }
-}
-
-extension TranscribeClientTypes.MedicalTranscriptionJobSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalTranscriptionJobSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.MedicalTranscriptionJobSummary()
-        value.medicalTranscriptionJobName = try reader["MedicalTranscriptionJobName"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.transcriptionJobStatus = try reader["TranscriptionJobStatus"].readIfPresent()
-        value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.outputLocationType = try reader["OutputLocationType"].readIfPresent()
-        value.specialty = try reader["Specialty"].readIfPresent()
-        value.contentIdentificationType = try reader["ContentIdentificationType"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension TranscribeClientTypes.VocabularyInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.VocabularyInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.VocabularyInfo()
-        value.vocabularyName = try reader["VocabularyName"].readIfPresent()
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.vocabularyState = try reader["VocabularyState"].readIfPresent()
         return value
     }
 }
@@ -7467,28 +7479,16 @@ extension TranscribeClientTypes.VocabularyFilterInfo {
     }
 }
 
-extension TranscribeClientTypes.MedicalScribeContext {
+extension TranscribeClientTypes.VocabularyInfo {
 
-    static func write(value: TranscribeClientTypes.MedicalScribeContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PatientContext"].write(value.patientContext, with: TranscribeClientTypes.MedicalScribePatientContext.write(value:to:))
-    }
-}
-
-extension TranscribeClientTypes.MedicalScribePatientContext {
-
-    static func write(value: TranscribeClientTypes.MedicalScribePatientContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Pronouns"].write(value.pronouns)
-    }
-}
-
-extension TranscribeClientTypes.Subtitles {
-
-    static func write(value: TranscribeClientTypes.Subtitles?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Formats"].writeList(value.formats, memberWritingClosure: SmithyReadWrite.WritingClosureBox<TranscribeClientTypes.SubtitleFormat>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OutputStartIndex"].write(value.outputStartIndex)
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.VocabularyInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.VocabularyInfo()
+        value.vocabularyName = try reader["VocabularyName"].readIfPresent()
+        value.languageCode = try reader["LanguageCode"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.vocabularyState = try reader["VocabularyState"].readIfPresent()
+        return value
     }
 }
 

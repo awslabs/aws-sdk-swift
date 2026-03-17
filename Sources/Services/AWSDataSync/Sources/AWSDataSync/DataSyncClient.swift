@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -57,6 +56,7 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -660,7 +660,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelTaskExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelTaskExecutionInput, CancelTaskExecutionOutput>(xAmzTarget: "FmrsService.CancelTaskExecution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelTaskExecutionInput, CancelTaskExecutionOutput>(overrides: ["X-Amz-Target": "FmrsService.CancelTaskExecution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CancelTaskExecutionInput, CancelTaskExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelTaskExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelTaskExecutionInput, CancelTaskExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelTaskExecutionOutput>())
@@ -730,7 +730,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAgentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateAgentInput, CreateAgentOutput>(xAmzTarget: "FmrsService.CreateAgent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAgentInput, CreateAgentOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateAgent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateAgentInput, CreateAgentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAgentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAgentInput, CreateAgentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAgentOutput>())
@@ -800,7 +800,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationAzureBlobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput>(xAmzTarget: "FmrsService.CreateLocationAzureBlob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationAzureBlob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationAzureBlobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationAzureBlobOutput>())
@@ -870,7 +870,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationEfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateLocationEfsInput, CreateLocationEfsOutput>(xAmzTarget: "FmrsService.CreateLocationEfs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationEfsInput, CreateLocationEfsOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationEfs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationEfsInput, CreateLocationEfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationEfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationEfsInput, CreateLocationEfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationEfsOutput>())
@@ -940,7 +940,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationFsxLustreOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput>(xAmzTarget: "FmrsService.CreateLocationFsxLustre"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationFsxLustre"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationFsxLustreInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationFsxLustreOutput>())
@@ -1010,7 +1010,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationFsxOntapOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput>(xAmzTarget: "FmrsService.CreateLocationFsxOntap"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationFsxOntap"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationFsxOntapInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationFsxOntapOutput>())
@@ -1080,7 +1080,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationFsxOpenZfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput>(xAmzTarget: "FmrsService.CreateLocationFsxOpenZfs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationFsxOpenZfs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationFsxOpenZfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationFsxOpenZfsOutput>())
@@ -1150,7 +1150,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationFsxWindowsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput>(xAmzTarget: "FmrsService.CreateLocationFsxWindows"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationFsxWindows"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationFsxWindowsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationFsxWindowsOutput>())
@@ -1220,7 +1220,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationHdfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateLocationHdfsInput, CreateLocationHdfsOutput>(xAmzTarget: "FmrsService.CreateLocationHdfs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationHdfsInput, CreateLocationHdfsOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationHdfs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationHdfsInput, CreateLocationHdfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationHdfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationHdfsInput, CreateLocationHdfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationHdfsOutput>())
@@ -1290,7 +1290,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationNfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateLocationNfsInput, CreateLocationNfsOutput>(xAmzTarget: "FmrsService.CreateLocationNfs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationNfsInput, CreateLocationNfsOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationNfs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationNfsInput, CreateLocationNfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationNfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationNfsInput, CreateLocationNfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationNfsOutput>())
@@ -1360,7 +1360,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationObjectStorageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput>(xAmzTarget: "FmrsService.CreateLocationObjectStorage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationObjectStorage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationObjectStorageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationObjectStorageOutput>())
@@ -1437,7 +1437,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationS3Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateLocationS3Input, CreateLocationS3Output>(xAmzTarget: "FmrsService.CreateLocationS3"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationS3Input, CreateLocationS3Output>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationS3"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationS3Input, CreateLocationS3Output, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationS3Input.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationS3Input, CreateLocationS3Output>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationS3Output>())
@@ -1507,7 +1507,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationSmbOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateLocationSmbInput, CreateLocationSmbOutput>(xAmzTarget: "FmrsService.CreateLocationSmb"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationSmbInput, CreateLocationSmbOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationSmb"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationSmbInput, CreateLocationSmbOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationSmbInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationSmbInput, CreateLocationSmbOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationSmbOutput>())
@@ -1577,7 +1577,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateTaskInput, CreateTaskOutput>(xAmzTarget: "FmrsService.CreateTask"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTaskInput, CreateTaskOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateTask"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateTaskInput, CreateTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTaskInput, CreateTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTaskOutput>())
@@ -1647,7 +1647,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAgentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteAgentInput, DeleteAgentOutput>(xAmzTarget: "FmrsService.DeleteAgent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAgentInput, DeleteAgentOutput>(overrides: ["X-Amz-Target": "FmrsService.DeleteAgent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteAgentInput, DeleteAgentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAgentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAgentInput, DeleteAgentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAgentOutput>())
@@ -1717,7 +1717,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLocationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteLocationInput, DeleteLocationOutput>(xAmzTarget: "FmrsService.DeleteLocation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteLocationInput, DeleteLocationOutput>(overrides: ["X-Amz-Target": "FmrsService.DeleteLocation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteLocationInput, DeleteLocationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLocationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLocationInput, DeleteLocationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLocationOutput>())
@@ -1787,7 +1787,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTaskInput, DeleteTaskOutput>(xAmzTarget: "FmrsService.DeleteTask"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTaskInput, DeleteTaskOutput>(overrides: ["X-Amz-Target": "FmrsService.DeleteTask"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTaskInput, DeleteTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTaskInput, DeleteTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTaskOutput>())
@@ -1857,7 +1857,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAgentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeAgentInput, DescribeAgentOutput>(xAmzTarget: "FmrsService.DescribeAgent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAgentInput, DescribeAgentOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeAgent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeAgentInput, DescribeAgentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAgentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAgentInput, DescribeAgentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAgentOutput>())
@@ -1927,7 +1927,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationAzureBlobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput>(xAmzTarget: "FmrsService.DescribeLocationAzureBlob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationAzureBlob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationAzureBlobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationAzureBlobOutput>())
@@ -1997,7 +1997,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationEfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationEfsInput, DescribeLocationEfsOutput>(xAmzTarget: "FmrsService.DescribeLocationEfs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationEfsInput, DescribeLocationEfsOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationEfs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationEfsInput, DescribeLocationEfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationEfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationEfsInput, DescribeLocationEfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationEfsOutput>())
@@ -2067,7 +2067,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationFsxLustreOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput>(xAmzTarget: "FmrsService.DescribeLocationFsxLustre"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationFsxLustre"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationFsxLustreInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationFsxLustreOutput>())
@@ -2137,7 +2137,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationFsxOntapOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput>(xAmzTarget: "FmrsService.DescribeLocationFsxOntap"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationFsxOntap"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationFsxOntapInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationFsxOntapOutput>())
@@ -2207,7 +2207,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationFsxOpenZfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput>(xAmzTarget: "FmrsService.DescribeLocationFsxOpenZfs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationFsxOpenZfs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationFsxOpenZfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationFsxOpenZfsOutput>())
@@ -2277,7 +2277,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationFsxWindowsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput>(xAmzTarget: "FmrsService.DescribeLocationFsxWindows"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationFsxWindows"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationFsxWindowsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationFsxWindowsOutput>())
@@ -2347,7 +2347,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationHdfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationHdfsInput, DescribeLocationHdfsOutput>(xAmzTarget: "FmrsService.DescribeLocationHdfs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationHdfsInput, DescribeLocationHdfsOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationHdfs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationHdfsInput, DescribeLocationHdfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationHdfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationHdfsInput, DescribeLocationHdfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationHdfsOutput>())
@@ -2417,7 +2417,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationNfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationNfsInput, DescribeLocationNfsOutput>(xAmzTarget: "FmrsService.DescribeLocationNfs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationNfsInput, DescribeLocationNfsOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationNfs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationNfsInput, DescribeLocationNfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationNfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationNfsInput, DescribeLocationNfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationNfsOutput>())
@@ -2487,7 +2487,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationObjectStorageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput>(xAmzTarget: "FmrsService.DescribeLocationObjectStorage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationObjectStorage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationObjectStorageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationObjectStorageOutput>())
@@ -2557,7 +2557,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationS3Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationS3Input, DescribeLocationS3Output>(xAmzTarget: "FmrsService.DescribeLocationS3"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationS3Input, DescribeLocationS3Output>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationS3"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationS3Input, DescribeLocationS3Output, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationS3Input.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationS3Input, DescribeLocationS3Output>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationS3Output>())
@@ -2627,7 +2627,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationSmbOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationSmbInput, DescribeLocationSmbOutput>(xAmzTarget: "FmrsService.DescribeLocationSmb"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationSmbInput, DescribeLocationSmbOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationSmb"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationSmbInput, DescribeLocationSmbOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationSmbInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationSmbInput, DescribeLocationSmbOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationSmbOutput>())
@@ -2697,7 +2697,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTaskInput, DescribeTaskOutput>(xAmzTarget: "FmrsService.DescribeTask"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTaskInput, DescribeTaskOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeTask"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTaskInput, DescribeTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTaskInput, DescribeTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTaskOutput>())
@@ -2767,7 +2767,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTaskExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTaskExecutionInput, DescribeTaskExecutionOutput>(xAmzTarget: "FmrsService.DescribeTaskExecution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTaskExecutionInput, DescribeTaskExecutionOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeTaskExecution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTaskExecutionInput, DescribeTaskExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTaskExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTaskExecutionInput, DescribeTaskExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTaskExecutionOutput>())
@@ -2837,7 +2837,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAgentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAgentsInput, ListAgentsOutput>(xAmzTarget: "FmrsService.ListAgents"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAgentsInput, ListAgentsOutput>(overrides: ["X-Amz-Target": "FmrsService.ListAgents"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAgentsInput, ListAgentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAgentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAgentsInput, ListAgentsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAgentsOutput>())
@@ -2907,7 +2907,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLocationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListLocationsInput, ListLocationsOutput>(xAmzTarget: "FmrsService.ListLocations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLocationsInput, ListLocationsOutput>(overrides: ["X-Amz-Target": "FmrsService.ListLocations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListLocationsInput, ListLocationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLocationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLocationsInput, ListLocationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLocationsOutput>())
@@ -2977,7 +2977,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "FmrsService.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "FmrsService.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -3047,7 +3047,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTaskExecutionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTaskExecutionsInput, ListTaskExecutionsOutput>(xAmzTarget: "FmrsService.ListTaskExecutions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTaskExecutionsInput, ListTaskExecutionsOutput>(overrides: ["X-Amz-Target": "FmrsService.ListTaskExecutions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTaskExecutionsInput, ListTaskExecutionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTaskExecutionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTaskExecutionsInput, ListTaskExecutionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTaskExecutionsOutput>())
@@ -3117,7 +3117,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTasksInput, ListTasksOutput>(xAmzTarget: "FmrsService.ListTasks"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTasksInput, ListTasksOutput>(overrides: ["X-Amz-Target": "FmrsService.ListTasks"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTasksInput, ListTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTasksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTasksInput, ListTasksOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTasksOutput>())
@@ -3187,7 +3187,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartTaskExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartTaskExecutionInput, StartTaskExecutionOutput>(xAmzTarget: "FmrsService.StartTaskExecution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartTaskExecutionInput, StartTaskExecutionOutput>(overrides: ["X-Amz-Target": "FmrsService.StartTaskExecution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartTaskExecutionInput, StartTaskExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartTaskExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartTaskExecutionInput, StartTaskExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartTaskExecutionOutput>())
@@ -3257,7 +3257,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "FmrsService.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "FmrsService.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -3327,7 +3327,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "FmrsService.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "FmrsService.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -3397,7 +3397,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAgentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateAgentInput, UpdateAgentOutput>(xAmzTarget: "FmrsService.UpdateAgent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAgentInput, UpdateAgentOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateAgent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateAgentInput, UpdateAgentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAgentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAgentInput, UpdateAgentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAgentOutput>())
@@ -3467,7 +3467,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationAzureBlobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput>(xAmzTarget: "FmrsService.UpdateLocationAzureBlob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationAzureBlob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationAzureBlobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationAzureBlobOutput>())
@@ -3537,7 +3537,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationEfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateLocationEfsInput, UpdateLocationEfsOutput>(xAmzTarget: "FmrsService.UpdateLocationEfs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationEfsInput, UpdateLocationEfsOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationEfs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationEfsInput, UpdateLocationEfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationEfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationEfsInput, UpdateLocationEfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationEfsOutput>())
@@ -3607,7 +3607,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationFsxLustreOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateLocationFsxLustreInput, UpdateLocationFsxLustreOutput>(xAmzTarget: "FmrsService.UpdateLocationFsxLustre"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationFsxLustreInput, UpdateLocationFsxLustreOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationFsxLustre"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationFsxLustreInput, UpdateLocationFsxLustreOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationFsxLustreInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationFsxLustreInput, UpdateLocationFsxLustreOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationFsxLustreOutput>())
@@ -3677,7 +3677,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationFsxOntapOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateLocationFsxOntapInput, UpdateLocationFsxOntapOutput>(xAmzTarget: "FmrsService.UpdateLocationFsxOntap"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationFsxOntapInput, UpdateLocationFsxOntapOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationFsxOntap"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationFsxOntapInput, UpdateLocationFsxOntapOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationFsxOntapInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationFsxOntapInput, UpdateLocationFsxOntapOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationFsxOntapOutput>())
@@ -3747,7 +3747,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationFsxOpenZfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateLocationFsxOpenZfsInput, UpdateLocationFsxOpenZfsOutput>(xAmzTarget: "FmrsService.UpdateLocationFsxOpenZfs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationFsxOpenZfsInput, UpdateLocationFsxOpenZfsOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationFsxOpenZfs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationFsxOpenZfsInput, UpdateLocationFsxOpenZfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationFsxOpenZfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationFsxOpenZfsInput, UpdateLocationFsxOpenZfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationFsxOpenZfsOutput>())
@@ -3817,7 +3817,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationFsxWindowsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateLocationFsxWindowsInput, UpdateLocationFsxWindowsOutput>(xAmzTarget: "FmrsService.UpdateLocationFsxWindows"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationFsxWindowsInput, UpdateLocationFsxWindowsOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationFsxWindows"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationFsxWindowsInput, UpdateLocationFsxWindowsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationFsxWindowsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationFsxWindowsInput, UpdateLocationFsxWindowsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationFsxWindowsOutput>())
@@ -3887,7 +3887,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationHdfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateLocationHdfsInput, UpdateLocationHdfsOutput>(xAmzTarget: "FmrsService.UpdateLocationHdfs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationHdfsInput, UpdateLocationHdfsOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationHdfs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationHdfsInput, UpdateLocationHdfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationHdfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationHdfsInput, UpdateLocationHdfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationHdfsOutput>())
@@ -3957,7 +3957,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationNfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateLocationNfsInput, UpdateLocationNfsOutput>(xAmzTarget: "FmrsService.UpdateLocationNfs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationNfsInput, UpdateLocationNfsOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationNfs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationNfsInput, UpdateLocationNfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationNfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationNfsInput, UpdateLocationNfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationNfsOutput>())
@@ -4027,7 +4027,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationObjectStorageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput>(xAmzTarget: "FmrsService.UpdateLocationObjectStorage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationObjectStorage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationObjectStorageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationObjectStorageOutput>())
@@ -4101,7 +4101,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationS3Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateLocationS3Input, UpdateLocationS3Output>(xAmzTarget: "FmrsService.UpdateLocationS3"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationS3Input, UpdateLocationS3Output>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationS3"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationS3Input, UpdateLocationS3Output, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationS3Input.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationS3Input, UpdateLocationS3Output>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationS3Output>())
@@ -4171,7 +4171,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationSmbOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateLocationSmbInput, UpdateLocationSmbOutput>(xAmzTarget: "FmrsService.UpdateLocationSmb"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationSmbInput, UpdateLocationSmbOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationSmb"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationSmbInput, UpdateLocationSmbOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationSmbInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationSmbInput, UpdateLocationSmbOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationSmbOutput>())
@@ -4241,7 +4241,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTaskInput, UpdateTaskOutput>(xAmzTarget: "FmrsService.UpdateTask"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTaskInput, UpdateTaskOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateTask"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateTaskInput, UpdateTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTaskInput, UpdateTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTaskOutput>())
@@ -4311,7 +4311,7 @@ extension DataSyncClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTaskExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTaskExecutionInput, UpdateTaskExecutionOutput>(xAmzTarget: "FmrsService.UpdateTaskExecution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTaskExecutionInput, UpdateTaskExecutionOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateTaskExecution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateTaskExecutionInput, UpdateTaskExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTaskExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTaskExecutionInput, UpdateTaskExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTaskExecutionOutput>())

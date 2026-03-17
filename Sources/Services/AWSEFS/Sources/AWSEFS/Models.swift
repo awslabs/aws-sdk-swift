@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
@@ -4169,7 +4169,7 @@ enum CreateAccessPointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessPointAlreadyExists": return try AccessPointAlreadyExists.makeError(baseError: baseError)
@@ -4189,7 +4189,7 @@ enum CreateFileSystemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4209,7 +4209,7 @@ enum CreateMountTargetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AvailabilityZonesMismatch": return try AvailabilityZonesMismatch.makeError(baseError: baseError)
@@ -4235,7 +4235,7 @@ enum CreateReplicationConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4259,7 +4259,7 @@ enum CreateTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4275,7 +4275,7 @@ enum DeleteAccessPointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessPointNotFound": return try AccessPointNotFound.makeError(baseError: baseError)
@@ -4291,7 +4291,7 @@ enum DeleteFileSystemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4308,7 +4308,7 @@ enum DeleteFileSystemPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4325,7 +4325,7 @@ enum DeleteMountTargetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4342,7 +4342,7 @@ enum DeleteReplicationConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4359,7 +4359,7 @@ enum DeleteTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4375,7 +4375,7 @@ enum DescribeAccessPointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessPointNotFound": return try AccessPointNotFound.makeError(baseError: baseError)
@@ -4392,7 +4392,7 @@ enum DescribeAccountPreferencesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
@@ -4406,7 +4406,7 @@ enum DescribeBackupPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4424,7 +4424,7 @@ enum DescribeFileSystemPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4441,7 +4441,7 @@ enum DescribeFileSystemsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4457,7 +4457,7 @@ enum DescribeLifecycleConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4473,7 +4473,7 @@ enum DescribeMountTargetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessPointNotFound": return try AccessPointNotFound.makeError(baseError: baseError)
@@ -4491,7 +4491,7 @@ enum DescribeMountTargetSecurityGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4508,7 +4508,7 @@ enum DescribeReplicationConfigurationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4526,7 +4526,7 @@ enum DescribeTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4542,7 +4542,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessPointNotFound": return try AccessPointNotFound.makeError(baseError: baseError)
@@ -4559,7 +4559,7 @@ enum ModifyMountTargetSecurityGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4578,7 +4578,7 @@ enum PutAccountPreferencesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4593,7 +4593,7 @@ enum PutBackupPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4611,7 +4611,7 @@ enum PutFileSystemPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4629,7 +4629,7 @@ enum PutLifecycleConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4646,7 +4646,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessPointNotFound": return try AccessPointNotFound.makeError(baseError: baseError)
@@ -4663,7 +4663,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessPointNotFound": return try AccessPointNotFound.makeError(baseError: baseError)
@@ -4680,7 +4680,7 @@ enum UpdateFileSystemOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4700,7 +4700,7 @@ enum UpdateFileSystemProtectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
@@ -4718,7 +4718,7 @@ enum UpdateFileSystemProtectionOutputError {
 
 extension AccessPointAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessPointAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessPointAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = AccessPointAlreadyExists()
         value.properties.accessPointId = try reader["AccessPointId"].readIfPresent() ?? ""
@@ -4733,7 +4733,7 @@ extension AccessPointAlreadyExists {
 
 extension AccessPointLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessPointLimitExceeded {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessPointLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = AccessPointLimitExceeded()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -4747,7 +4747,7 @@ extension AccessPointLimitExceeded {
 
 extension BadRequest {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequest {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadRequest {
         let reader = baseError.errorBodyReader
         var value = BadRequest()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -4761,7 +4761,7 @@ extension BadRequest {
 
 extension FileSystemNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FileSystemNotFound {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> FileSystemNotFound {
         let reader = baseError.errorBodyReader
         var value = FileSystemNotFound()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -4775,7 +4775,7 @@ extension FileSystemNotFound {
 
 extension IncorrectFileSystemLifeCycleState {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> IncorrectFileSystemLifeCycleState {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> IncorrectFileSystemLifeCycleState {
         let reader = baseError.errorBodyReader
         var value = IncorrectFileSystemLifeCycleState()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -4789,7 +4789,7 @@ extension IncorrectFileSystemLifeCycleState {
 
 extension InternalServerError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerError {
         let reader = baseError.errorBodyReader
         var value = InternalServerError()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -4803,7 +4803,7 @@ extension InternalServerError {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
@@ -4817,7 +4817,7 @@ extension ThrottlingException {
 
 extension FileSystemAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FileSystemAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> FileSystemAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = FileSystemAlreadyExists()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -4832,7 +4832,7 @@ extension FileSystemAlreadyExists {
 
 extension FileSystemLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FileSystemLimitExceeded {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> FileSystemLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = FileSystemLimitExceeded()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -4846,7 +4846,7 @@ extension FileSystemLimitExceeded {
 
 extension InsufficientThroughputCapacity {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InsufficientThroughputCapacity {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InsufficientThroughputCapacity {
         let reader = baseError.errorBodyReader
         var value = InsufficientThroughputCapacity()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -4860,7 +4860,7 @@ extension InsufficientThroughputCapacity {
 
 extension ThroughputLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThroughputLimitExceeded {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThroughputLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = ThroughputLimitExceeded()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -4874,7 +4874,7 @@ extension ThroughputLimitExceeded {
 
 extension UnsupportedAvailabilityZone {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedAvailabilityZone {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnsupportedAvailabilityZone {
         let reader = baseError.errorBodyReader
         var value = UnsupportedAvailabilityZone()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -4888,7 +4888,7 @@ extension UnsupportedAvailabilityZone {
 
 extension AvailabilityZonesMismatch {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AvailabilityZonesMismatch {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AvailabilityZonesMismatch {
         let reader = baseError.errorBodyReader
         var value = AvailabilityZonesMismatch()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
@@ -4902,7 +4902,7 @@ extension AvailabilityZonesMismatch {
 
 extension IpAddressInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> IpAddressInUse {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> IpAddressInUse {
         let reader = baseError.errorBodyReader
         var value = IpAddressInUse()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -4916,7 +4916,7 @@ extension IpAddressInUse {
 
 extension MountTargetConflict {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MountTargetConflict {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MountTargetConflict {
         let reader = baseError.errorBodyReader
         var value = MountTargetConflict()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -4930,7 +4930,7 @@ extension MountTargetConflict {
 
 extension NetworkInterfaceLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NetworkInterfaceLimitExceeded {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NetworkInterfaceLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = NetworkInterfaceLimitExceeded()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -4944,7 +4944,7 @@ extension NetworkInterfaceLimitExceeded {
 
 extension NoFreeAddressesInSubnet {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NoFreeAddressesInSubnet {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NoFreeAddressesInSubnet {
         let reader = baseError.errorBodyReader
         var value = NoFreeAddressesInSubnet()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -4958,7 +4958,7 @@ extension NoFreeAddressesInSubnet {
 
 extension SecurityGroupLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SecurityGroupLimitExceeded {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SecurityGroupLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = SecurityGroupLimitExceeded()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -4972,7 +4972,7 @@ extension SecurityGroupLimitExceeded {
 
 extension SecurityGroupNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SecurityGroupNotFound {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SecurityGroupNotFound {
         let reader = baseError.errorBodyReader
         var value = SecurityGroupNotFound()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -4986,7 +4986,7 @@ extension SecurityGroupNotFound {
 
 extension SubnetNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SubnetNotFound {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SubnetNotFound {
         let reader = baseError.errorBodyReader
         var value = SubnetNotFound()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -5000,7 +5000,7 @@ extension SubnetNotFound {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
@@ -5014,7 +5014,7 @@ extension ConflictException {
 
 extension ReplicationNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ReplicationNotFound {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ReplicationNotFound {
         let reader = baseError.errorBodyReader
         var value = ReplicationNotFound()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
@@ -5028,7 +5028,7 @@ extension ReplicationNotFound {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -5042,7 +5042,7 @@ extension ValidationException {
 
 extension AccessPointNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessPointNotFound {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessPointNotFound {
         let reader = baseError.errorBodyReader
         var value = AccessPointNotFound()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -5056,7 +5056,7 @@ extension AccessPointNotFound {
 
 extension FileSystemInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FileSystemInUse {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> FileSystemInUse {
         let reader = baseError.errorBodyReader
         var value = FileSystemInUse()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -5070,7 +5070,7 @@ extension FileSystemInUse {
 
 extension DependencyTimeout {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DependencyTimeout {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DependencyTimeout {
         let reader = baseError.errorBodyReader
         var value = DependencyTimeout()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -5084,7 +5084,7 @@ extension DependencyTimeout {
 
 extension MountTargetNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MountTargetNotFound {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MountTargetNotFound {
         let reader = baseError.errorBodyReader
         var value = MountTargetNotFound()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -5098,7 +5098,7 @@ extension MountTargetNotFound {
 
 extension PolicyNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PolicyNotFound {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> PolicyNotFound {
         let reader = baseError.errorBodyReader
         var value = PolicyNotFound()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
@@ -5112,7 +5112,7 @@ extension PolicyNotFound {
 
 extension IncorrectMountTargetState {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> IncorrectMountTargetState {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> IncorrectMountTargetState {
         let reader = baseError.errorBodyReader
         var value = IncorrectMountTargetState()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -5126,7 +5126,7 @@ extension IncorrectMountTargetState {
 
 extension InvalidPolicyException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidPolicyException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidPolicyException {
         let reader = baseError.errorBodyReader
         var value = InvalidPolicyException()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
@@ -5140,7 +5140,7 @@ extension InvalidPolicyException {
 
 extension TooManyRequests {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequests {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyRequests {
         let reader = baseError.errorBodyReader
         var value = TooManyRequests()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
@@ -5154,7 +5154,7 @@ extension TooManyRequests {
 
 extension ReplicationAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ReplicationAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ReplicationAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = ReplicationAlreadyExists()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
@@ -5162,118 +5162,6 @@ extension ReplicationAlreadyExists {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension EFSClientTypes.Tag {
-
-    static func write(value: EFSClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EFSClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension EFSClientTypes.PosixUser {
-
-    static func write(value: EFSClientTypes.PosixUser?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Gid"].write(value.gid)
-        try writer["SecondaryGids"].writeList(value.secondaryGids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Uid"].write(value.uid)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.PosixUser {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EFSClientTypes.PosixUser()
-        value.uid = try reader["Uid"].readIfPresent() ?? 0
-        value.gid = try reader["Gid"].readIfPresent() ?? 0
-        value.secondaryGids = try reader["SecondaryGids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EFSClientTypes.RootDirectory {
-
-    static func write(value: EFSClientTypes.RootDirectory?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationInfo"].write(value.creationInfo, with: EFSClientTypes.CreationInfo.write(value:to:))
-        try writer["Path"].write(value.path)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.RootDirectory {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EFSClientTypes.RootDirectory()
-        value.path = try reader["Path"].readIfPresent()
-        value.creationInfo = try reader["CreationInfo"].readIfPresent(with: EFSClientTypes.CreationInfo.read(from:))
-        return value
-    }
-}
-
-extension EFSClientTypes.CreationInfo {
-
-    static func write(value: EFSClientTypes.CreationInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OwnerGid"].write(value.ownerGid)
-        try writer["OwnerUid"].write(value.ownerUid)
-        try writer["Permissions"].write(value.permissions)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.CreationInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EFSClientTypes.CreationInfo()
-        value.ownerUid = try reader["OwnerUid"].readIfPresent() ?? 0
-        value.ownerGid = try reader["OwnerGid"].readIfPresent() ?? 0
-        value.permissions = try reader["Permissions"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension EFSClientTypes.FileSystemSize {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.FileSystemSize {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EFSClientTypes.FileSystemSize()
-        value.value = try reader["Value"].readIfPresent() ?? 0
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.valueInIA = try reader["ValueInIA"].readIfPresent()
-        value.valueInStandard = try reader["ValueInStandard"].readIfPresent()
-        value.valueInArchive = try reader["ValueInArchive"].readIfPresent()
-        return value
-    }
-}
-
-extension EFSClientTypes.FileSystemProtectionDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.FileSystemProtectionDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EFSClientTypes.FileSystemProtectionDescription()
-        value.replicationOverwriteProtection = try reader["ReplicationOverwriteProtection"].readIfPresent()
-        return value
-    }
-}
-
-extension EFSClientTypes.Destination {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.Destination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EFSClientTypes.Destination()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.fileSystemId = try reader["FileSystemId"].readIfPresent() ?? ""
-        value.region = try reader["Region"].readIfPresent() ?? ""
-        value.lastReplicatedTimestamp = try reader["LastReplicatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
         return value
     }
 }
@@ -5297,17 +5185,6 @@ extension EFSClientTypes.AccessPointDescription {
     }
 }
 
-extension EFSClientTypes.ResourceIdPreference {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.ResourceIdPreference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EFSClientTypes.ResourceIdPreference()
-        value.resourceIdType = try reader["ResourceIdType"].readIfPresent()
-        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EFSClientTypes.Resource>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension EFSClientTypes.BackupPolicy {
 
     static func write(value: EFSClientTypes.BackupPolicy?, to writer: SmithyJSON.Writer) throws {
@@ -5320,6 +5197,53 @@ extension EFSClientTypes.BackupPolicy {
         var value = EFSClientTypes.BackupPolicy()
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
+    }
+}
+
+extension EFSClientTypes.CreationInfo {
+
+    static func write(value: EFSClientTypes.CreationInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OwnerGid"].write(value.ownerGid)
+        try writer["OwnerUid"].write(value.ownerUid)
+        try writer["Permissions"].write(value.permissions)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.CreationInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EFSClientTypes.CreationInfo()
+        value.ownerUid = try reader["OwnerUid"].readIfPresent() ?? 0
+        value.ownerGid = try reader["OwnerGid"].readIfPresent() ?? 0
+        value.permissions = try reader["Permissions"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension EFSClientTypes.Destination {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.Destination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EFSClientTypes.Destination()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent() ?? ""
+        value.region = try reader["Region"].readIfPresent() ?? ""
+        value.lastReplicatedTimestamp = try reader["LastReplicatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.ownerId = try reader["OwnerId"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension EFSClientTypes.DestinationToCreate {
+
+    static func write(value: EFSClientTypes.DestinationToCreate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityZoneName"].write(value.availabilityZoneName)
+        try writer["FileSystemId"].write(value.fileSystemId)
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["Region"].write(value.region)
+        try writer["RoleArn"].write(value.roleArn)
     }
 }
 
@@ -5346,6 +5270,30 @@ extension EFSClientTypes.FileSystemDescription {
         value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: EFSClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.fileSystemProtection = try reader["FileSystemProtection"].readIfPresent(with: EFSClientTypes.FileSystemProtectionDescription.read(from:))
+        return value
+    }
+}
+
+extension EFSClientTypes.FileSystemProtectionDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.FileSystemProtectionDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EFSClientTypes.FileSystemProtectionDescription()
+        value.replicationOverwriteProtection = try reader["ReplicationOverwriteProtection"].readIfPresent()
+        return value
+    }
+}
+
+extension EFSClientTypes.FileSystemSize {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.FileSystemSize {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EFSClientTypes.FileSystemSize()
+        value.value = try reader["Value"].readIfPresent() ?? 0
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.valueInIA = try reader["ValueInIA"].readIfPresent()
+        value.valueInStandard = try reader["ValueInStandard"].readIfPresent()
+        value.valueInArchive = try reader["ValueInArchive"].readIfPresent()
         return value
     }
 }
@@ -5389,6 +5337,25 @@ extension EFSClientTypes.MountTargetDescription {
     }
 }
 
+extension EFSClientTypes.PosixUser {
+
+    static func write(value: EFSClientTypes.PosixUser?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Gid"].write(value.gid)
+        try writer["SecondaryGids"].writeList(value.secondaryGids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Uid"].write(value.uid)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.PosixUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EFSClientTypes.PosixUser()
+        value.uid = try reader["Uid"].readIfPresent() ?? 0
+        value.gid = try reader["Gid"].readIfPresent() ?? 0
+        value.secondaryGids = try reader["SecondaryGids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension EFSClientTypes.ReplicationConfigurationDescription {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.ReplicationConfigurationDescription {
@@ -5405,15 +5372,48 @@ extension EFSClientTypes.ReplicationConfigurationDescription {
     }
 }
 
-extension EFSClientTypes.DestinationToCreate {
+extension EFSClientTypes.ResourceIdPreference {
 
-    static func write(value: EFSClientTypes.DestinationToCreate?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.ResourceIdPreference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EFSClientTypes.ResourceIdPreference()
+        value.resourceIdType = try reader["ResourceIdType"].readIfPresent()
+        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EFSClientTypes.Resource>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EFSClientTypes.RootDirectory {
+
+    static func write(value: EFSClientTypes.RootDirectory?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AvailabilityZoneName"].write(value.availabilityZoneName)
-        try writer["FileSystemId"].write(value.fileSystemId)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["Region"].write(value.region)
-        try writer["RoleArn"].write(value.roleArn)
+        try writer["CreationInfo"].write(value.creationInfo, with: EFSClientTypes.CreationInfo.write(value:to:))
+        try writer["Path"].write(value.path)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.RootDirectory {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EFSClientTypes.RootDirectory()
+        value.path = try reader["Path"].readIfPresent()
+        value.creationInfo = try reader["CreationInfo"].readIfPresent(with: EFSClientTypes.CreationInfo.read(from:))
+        return value
+    }
+}
+
+extension EFSClientTypes.Tag {
+
+    static func write(value: EFSClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EFSClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
     }
 }
 

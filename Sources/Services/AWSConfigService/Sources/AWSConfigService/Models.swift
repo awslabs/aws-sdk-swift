@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
@@ -13589,7 +13589,7 @@ enum AssociateResourceTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -13605,7 +13605,7 @@ enum BatchGetAggregateResourceConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchConfigurationAggregatorException": return try NoSuchConfigurationAggregatorException.makeError(baseError: baseError)
@@ -13620,7 +13620,7 @@ enum BatchGetResourceConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoAvailableConfigurationRecorderException": return try NoAvailableConfigurationRecorderException.makeError(baseError: baseError)
@@ -13635,7 +13635,7 @@ enum DeleteAggregationAuthorizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13649,7 +13649,7 @@ enum DeleteConfigRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchConfigRuleException": return try NoSuchConfigRuleException.makeError(baseError: baseError)
@@ -13664,7 +13664,7 @@ enum DeleteConfigurationAggregatorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchConfigurationAggregatorException": return try NoSuchConfigurationAggregatorException.makeError(baseError: baseError)
@@ -13678,7 +13678,7 @@ enum DeleteConfigurationRecorderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchConfigurationRecorderException": return try NoSuchConfigurationRecorderException.makeError(baseError: baseError)
@@ -13693,7 +13693,7 @@ enum DeleteConformancePackOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchConformancePackException": return try NoSuchConformancePackException.makeError(baseError: baseError)
@@ -13708,7 +13708,7 @@ enum DeleteDeliveryChannelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LastDeliveryChannelDeleteFailedException": return try LastDeliveryChannelDeleteFailedException.makeError(baseError: baseError)
@@ -13723,7 +13723,7 @@ enum DeleteEvaluationResultsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchConfigRuleException": return try NoSuchConfigRuleException.makeError(baseError: baseError)
@@ -13738,7 +13738,7 @@ enum DeleteOrganizationConfigRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchOrganizationConfigRuleException": return try NoSuchOrganizationConfigRuleException.makeError(baseError: baseError)
@@ -13754,7 +13754,7 @@ enum DeleteOrganizationConformancePackOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchOrganizationConformancePackException": return try NoSuchOrganizationConformancePackException.makeError(baseError: baseError)
@@ -13770,7 +13770,7 @@ enum DeletePendingAggregationRequestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13784,7 +13784,7 @@ enum DeleteRemediationConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPermissionsException": return try InsufficientPermissionsException.makeError(baseError: baseError)
@@ -13801,7 +13801,7 @@ enum DeleteRemediationExceptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchRemediationExceptionException": return try NoSuchRemediationExceptionException.makeError(baseError: baseError)
@@ -13815,7 +13815,7 @@ enum DeleteResourceConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoRunningConfigurationRecorderException": return try NoRunningConfigurationRecorderException.makeError(baseError: baseError)
@@ -13830,7 +13830,7 @@ enum DeleteRetentionConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13845,7 +13845,7 @@ enum DeleteServiceLinkedConfigurationRecorderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -13861,7 +13861,7 @@ enum DeleteStoredQueryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -13876,7 +13876,7 @@ enum DeliverConfigSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoAvailableConfigurationRecorderException": return try NoAvailableConfigurationRecorderException.makeError(baseError: baseError)
@@ -13892,7 +13892,7 @@ enum DescribeAggregateComplianceByConfigRulesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -13909,7 +13909,7 @@ enum DescribeAggregateComplianceByConformancePacksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -13926,7 +13926,7 @@ enum DescribeAggregationAuthorizationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -13942,7 +13942,7 @@ enum DescribeComplianceByConfigRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -13958,7 +13958,7 @@ enum DescribeComplianceByResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -13973,7 +13973,7 @@ enum DescribeConfigRuleEvaluationStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -13989,7 +13989,7 @@ enum DescribeConfigRulesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -14005,7 +14005,7 @@ enum DescribeConfigurationAggregatorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14022,7 +14022,7 @@ enum DescribeConfigurationAggregatorSourcesStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14039,7 +14039,7 @@ enum DescribeConfigurationRecordersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchConfigurationRecorderException": return try NoSuchConfigurationRecorderException.makeError(baseError: baseError)
@@ -14054,7 +14054,7 @@ enum DescribeConfigurationRecorderStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchConfigurationRecorderException": return try NoSuchConfigurationRecorderException.makeError(baseError: baseError)
@@ -14069,7 +14069,7 @@ enum DescribeConformancePackComplianceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14087,7 +14087,7 @@ enum DescribeConformancePacksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14104,7 +14104,7 @@ enum DescribeConformancePackStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14120,7 +14120,7 @@ enum DescribeDeliveryChannelsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchDeliveryChannelException": return try NoSuchDeliveryChannelException.makeError(baseError: baseError)
@@ -14134,7 +14134,7 @@ enum DescribeDeliveryChannelStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchDeliveryChannelException": return try NoSuchDeliveryChannelException.makeError(baseError: baseError)
@@ -14148,7 +14148,7 @@ enum DescribeOrganizationConfigRulesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14165,7 +14165,7 @@ enum DescribeOrganizationConfigRuleStatusesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14182,7 +14182,7 @@ enum DescribeOrganizationConformancePacksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14199,7 +14199,7 @@ enum DescribeOrganizationConformancePackStatusesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14216,7 +14216,7 @@ enum DescribePendingAggregationRequestsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14232,7 +14232,7 @@ enum DescribeRemediationConfigurationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -14245,7 +14245,7 @@ enum DescribeRemediationExceptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -14260,7 +14260,7 @@ enum DescribeRemediationExecutionStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -14276,7 +14276,7 @@ enum DescribeRetentionConfigurationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -14292,7 +14292,7 @@ enum DisassociateResourceTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -14308,7 +14308,7 @@ enum GetAggregateComplianceDetailsByConfigRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14325,7 +14325,7 @@ enum GetAggregateConfigRuleComplianceSummaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14342,7 +14342,7 @@ enum GetAggregateConformancePackComplianceSummaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14359,7 +14359,7 @@ enum GetAggregateDiscoveredResourceCountsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14376,7 +14376,7 @@ enum GetAggregateResourceConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchConfigurationAggregatorException": return try NoSuchConfigurationAggregatorException.makeError(baseError: baseError)
@@ -14393,7 +14393,7 @@ enum GetComplianceDetailsByConfigRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -14409,7 +14409,7 @@ enum GetComplianceDetailsByResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14423,7 +14423,7 @@ enum GetComplianceSummaryByConfigRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -14436,7 +14436,7 @@ enum GetComplianceSummaryByResourceTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14450,7 +14450,7 @@ enum GetConformancePackComplianceDetailsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14468,7 +14468,7 @@ enum GetConformancePackComplianceSummaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14484,7 +14484,7 @@ enum GetCustomRulePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchConfigRuleException": return try NoSuchConfigRuleException.makeError(baseError: baseError)
@@ -14498,7 +14498,7 @@ enum GetDiscoveredResourceCountsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14514,7 +14514,7 @@ enum GetOrganizationConfigRuleDetailedStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14531,7 +14531,7 @@ enum GetOrganizationConformancePackDetailedStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14548,7 +14548,7 @@ enum GetOrganizationCustomRulePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchOrganizationConfigRuleException": return try NoSuchOrganizationConfigRuleException.makeError(baseError: baseError)
@@ -14563,7 +14563,7 @@ enum GetResourceConfigHistoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14582,7 +14582,7 @@ enum GetResourceEvaluationSummaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -14596,7 +14596,7 @@ enum GetStoredQueryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -14611,7 +14611,7 @@ enum ListAggregateDiscoveredResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14628,7 +14628,7 @@ enum ListConfigurationRecordersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -14642,7 +14642,7 @@ enum ListConformancePackComplianceScoresOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14658,7 +14658,7 @@ enum ListDiscoveredResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14675,7 +14675,7 @@ enum ListResourceEvaluationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -14691,7 +14691,7 @@ enum ListStoredQueriesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -14706,7 +14706,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidLimitException": return try InvalidLimitException.makeError(baseError: baseError)
@@ -14723,7 +14723,7 @@ enum PutAggregationAuthorizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14737,7 +14737,7 @@ enum PutConfigRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPermissionsException": return try InsufficientPermissionsException.makeError(baseError: baseError)
@@ -14755,7 +14755,7 @@ enum PutConfigurationAggregatorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14774,7 +14774,7 @@ enum PutConfigurationRecorderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidConfigurationRecorderNameException": return try InvalidConfigurationRecorderNameException.makeError(baseError: baseError)
@@ -14793,7 +14793,7 @@ enum PutConformancePackOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConformancePackTemplateValidationException": return try ConformancePackTemplateValidationException.makeError(baseError: baseError)
@@ -14811,7 +14811,7 @@ enum PutDeliveryChannelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientDeliveryPolicyException": return try InsufficientDeliveryPolicyException.makeError(baseError: baseError)
@@ -14832,7 +14832,7 @@ enum PutEvaluationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14848,7 +14848,7 @@ enum PutExternalEvaluationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14863,7 +14863,7 @@ enum PutOrganizationConfigRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPermissionsException": return try InsufficientPermissionsException.makeError(baseError: baseError)
@@ -14884,7 +14884,7 @@ enum PutOrganizationConformancePackOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPermissionsException": return try InsufficientPermissionsException.makeError(baseError: baseError)
@@ -14905,7 +14905,7 @@ enum PutRemediationConfigurationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPermissionsException": return try InsufficientPermissionsException.makeError(baseError: baseError)
@@ -14920,7 +14920,7 @@ enum PutRemediationExceptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPermissionsException": return try InsufficientPermissionsException.makeError(baseError: baseError)
@@ -14935,7 +14935,7 @@ enum PutResourceConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPermissionsException": return try InsufficientPermissionsException.makeError(baseError: baseError)
@@ -14952,7 +14952,7 @@ enum PutRetentionConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14967,7 +14967,7 @@ enum PutServiceLinkedConfigurationRecorderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -14984,7 +14984,7 @@ enum PutStoredQueryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceConcurrentModificationException": return try ResourceConcurrentModificationException.makeError(baseError: baseError)
@@ -15000,7 +15000,7 @@ enum SelectAggregateResourceConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidExpressionException": return try InvalidExpressionException.makeError(baseError: baseError)
@@ -15017,7 +15017,7 @@ enum SelectResourceConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidExpressionException": return try InvalidExpressionException.makeError(baseError: baseError)
@@ -15033,7 +15033,7 @@ enum StartConfigRulesEvaluationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -15050,7 +15050,7 @@ enum StartConfigurationRecorderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoAvailableDeliveryChannelException": return try NoAvailableDeliveryChannelException.makeError(baseError: baseError)
@@ -15066,7 +15066,7 @@ enum StartRemediationExecutionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientPermissionsException": return try InsufficientPermissionsException.makeError(baseError: baseError)
@@ -15082,7 +15082,7 @@ enum StartResourceEvaluationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IdempotentParameterMismatch": return try IdempotentParameterMismatch.makeError(baseError: baseError)
@@ -15097,7 +15097,7 @@ enum StopConfigurationRecorderOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchConfigurationRecorderException": return try NoSuchConfigurationRecorderException.makeError(baseError: baseError)
@@ -15112,7 +15112,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -15128,7 +15128,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -15140,7 +15140,7 @@ enum UntagResourceOutputError {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15153,7 +15153,7 @@ extension ConflictException {
 
 extension NoSuchConfigurationRecorderException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchConfigurationRecorderException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NoSuchConfigurationRecorderException {
         let reader = baseError.errorBodyReader
         var value = NoSuchConfigurationRecorderException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15166,7 +15166,7 @@ extension NoSuchConfigurationRecorderException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15179,7 +15179,7 @@ extension ValidationException {
 
 extension NoSuchConfigurationAggregatorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchConfigurationAggregatorException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NoSuchConfigurationAggregatorException {
         let reader = baseError.errorBodyReader
         var value = NoSuchConfigurationAggregatorException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15192,7 +15192,7 @@ extension NoSuchConfigurationAggregatorException {
 
 extension NoAvailableConfigurationRecorderException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoAvailableConfigurationRecorderException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NoAvailableConfigurationRecorderException {
         let reader = baseError.errorBodyReader
         var value = NoAvailableConfigurationRecorderException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15205,7 +15205,7 @@ extension NoAvailableConfigurationRecorderException {
 
 extension InvalidParameterValueException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterValueException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidParameterValueException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterValueException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15218,7 +15218,7 @@ extension InvalidParameterValueException {
 
 extension NoSuchConfigRuleException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchConfigRuleException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NoSuchConfigRuleException {
         let reader = baseError.errorBodyReader
         var value = NoSuchConfigRuleException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15231,7 +15231,7 @@ extension NoSuchConfigRuleException {
 
 extension ResourceInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceInUseException {
         let reader = baseError.errorBodyReader
         var value = ResourceInUseException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15244,7 +15244,7 @@ extension ResourceInUseException {
 
 extension UnmodifiableEntityException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnmodifiableEntityException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UnmodifiableEntityException {
         let reader = baseError.errorBodyReader
         var value = UnmodifiableEntityException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15257,7 +15257,7 @@ extension UnmodifiableEntityException {
 
 extension NoSuchConformancePackException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchConformancePackException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NoSuchConformancePackException {
         let reader = baseError.errorBodyReader
         var value = NoSuchConformancePackException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15270,7 +15270,7 @@ extension NoSuchConformancePackException {
 
 extension LastDeliveryChannelDeleteFailedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LastDeliveryChannelDeleteFailedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> LastDeliveryChannelDeleteFailedException {
         let reader = baseError.errorBodyReader
         var value = LastDeliveryChannelDeleteFailedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15283,7 +15283,7 @@ extension LastDeliveryChannelDeleteFailedException {
 
 extension NoSuchDeliveryChannelException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchDeliveryChannelException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NoSuchDeliveryChannelException {
         let reader = baseError.errorBodyReader
         var value = NoSuchDeliveryChannelException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15296,7 +15296,7 @@ extension NoSuchDeliveryChannelException {
 
 extension NoSuchOrganizationConfigRuleException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchOrganizationConfigRuleException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NoSuchOrganizationConfigRuleException {
         let reader = baseError.errorBodyReader
         var value = NoSuchOrganizationConfigRuleException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15309,7 +15309,7 @@ extension NoSuchOrganizationConfigRuleException {
 
 extension OrganizationAccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationAccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> OrganizationAccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = OrganizationAccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15322,7 +15322,7 @@ extension OrganizationAccessDeniedException {
 
 extension NoSuchOrganizationConformancePackException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchOrganizationConformancePackException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NoSuchOrganizationConformancePackException {
         let reader = baseError.errorBodyReader
         var value = NoSuchOrganizationConformancePackException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15335,7 +15335,7 @@ extension NoSuchOrganizationConformancePackException {
 
 extension InsufficientPermissionsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientPermissionsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InsufficientPermissionsException {
         let reader = baseError.errorBodyReader
         var value = InsufficientPermissionsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15348,7 +15348,7 @@ extension InsufficientPermissionsException {
 
 extension NoSuchRemediationConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchRemediationConfigurationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NoSuchRemediationConfigurationException {
         let reader = baseError.errorBodyReader
         var value = NoSuchRemediationConfigurationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15361,7 +15361,7 @@ extension NoSuchRemediationConfigurationException {
 
 extension RemediationInProgressException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RemediationInProgressException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> RemediationInProgressException {
         let reader = baseError.errorBodyReader
         var value = RemediationInProgressException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15374,7 +15374,7 @@ extension RemediationInProgressException {
 
 extension NoSuchRemediationExceptionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchRemediationExceptionException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NoSuchRemediationExceptionException {
         let reader = baseError.errorBodyReader
         var value = NoSuchRemediationExceptionException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15387,7 +15387,7 @@ extension NoSuchRemediationExceptionException {
 
 extension NoRunningConfigurationRecorderException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoRunningConfigurationRecorderException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NoRunningConfigurationRecorderException {
         let reader = baseError.errorBodyReader
         var value = NoRunningConfigurationRecorderException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15400,7 +15400,7 @@ extension NoRunningConfigurationRecorderException {
 
 extension NoSuchRetentionConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchRetentionConfigurationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NoSuchRetentionConfigurationException {
         let reader = baseError.errorBodyReader
         var value = NoSuchRetentionConfigurationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15413,7 +15413,7 @@ extension NoSuchRetentionConfigurationException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15426,7 +15426,7 @@ extension ResourceNotFoundException {
 
 extension InvalidLimitException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLimitException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidLimitException {
         let reader = baseError.errorBodyReader
         var value = InvalidLimitException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15439,7 +15439,7 @@ extension InvalidLimitException {
 
 extension InvalidNextTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidNextTokenException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15452,7 +15452,7 @@ extension InvalidNextTokenException {
 
 extension NoSuchConfigRuleInConformancePackException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchConfigRuleInConformancePackException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NoSuchConfigRuleInConformancePackException {
         let reader = baseError.errorBodyReader
         var value = NoSuchConfigRuleInConformancePackException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15465,7 +15465,7 @@ extension NoSuchConfigRuleInConformancePackException {
 
 extension OversizedConfigurationItemException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OversizedConfigurationItemException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> OversizedConfigurationItemException {
         let reader = baseError.errorBodyReader
         var value = OversizedConfigurationItemException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15478,7 +15478,7 @@ extension OversizedConfigurationItemException {
 
 extension ResourceNotDiscoveredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotDiscoveredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotDiscoveredException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotDiscoveredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15491,7 +15491,7 @@ extension ResourceNotDiscoveredException {
 
 extension InvalidTimeRangeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTimeRangeException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidTimeRangeException {
         let reader = baseError.errorBodyReader
         var value = InvalidTimeRangeException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15504,7 +15504,7 @@ extension InvalidTimeRangeException {
 
 extension MaxNumberOfConfigRulesExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaxNumberOfConfigRulesExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MaxNumberOfConfigRulesExceededException {
         let reader = baseError.errorBodyReader
         var value = MaxNumberOfConfigRulesExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15517,7 +15517,7 @@ extension MaxNumberOfConfigRulesExceededException {
 
 extension InvalidRoleException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRoleException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidRoleException {
         let reader = baseError.errorBodyReader
         var value = InvalidRoleException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15530,7 +15530,7 @@ extension InvalidRoleException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15543,7 +15543,7 @@ extension LimitExceededException {
 
 extension NoAvailableOrganizationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoAvailableOrganizationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NoAvailableOrganizationException {
         let reader = baseError.errorBodyReader
         var value = NoAvailableOrganizationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15556,7 +15556,7 @@ extension NoAvailableOrganizationException {
 
 extension OrganizationAllFeaturesNotEnabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationAllFeaturesNotEnabledException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> OrganizationAllFeaturesNotEnabledException {
         let reader = baseError.errorBodyReader
         var value = OrganizationAllFeaturesNotEnabledException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15569,7 +15569,7 @@ extension OrganizationAllFeaturesNotEnabledException {
 
 extension InvalidConfigurationRecorderNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidConfigurationRecorderNameException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidConfigurationRecorderNameException {
         let reader = baseError.errorBodyReader
         var value = InvalidConfigurationRecorderNameException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15582,7 +15582,7 @@ extension InvalidConfigurationRecorderNameException {
 
 extension InvalidRecordingGroupException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRecordingGroupException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidRecordingGroupException {
         let reader = baseError.errorBodyReader
         var value = InvalidRecordingGroupException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15595,7 +15595,7 @@ extension InvalidRecordingGroupException {
 
 extension MaxNumberOfConfigurationRecordersExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaxNumberOfConfigurationRecordersExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MaxNumberOfConfigurationRecordersExceededException {
         let reader = baseError.errorBodyReader
         var value = MaxNumberOfConfigurationRecordersExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15608,7 +15608,7 @@ extension MaxNumberOfConfigurationRecordersExceededException {
 
 extension ConformancePackTemplateValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConformancePackTemplateValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConformancePackTemplateValidationException {
         let reader = baseError.errorBodyReader
         var value = ConformancePackTemplateValidationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15621,7 +15621,7 @@ extension ConformancePackTemplateValidationException {
 
 extension MaxNumberOfConformancePacksExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaxNumberOfConformancePacksExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MaxNumberOfConformancePacksExceededException {
         let reader = baseError.errorBodyReader
         var value = MaxNumberOfConformancePacksExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15634,7 +15634,7 @@ extension MaxNumberOfConformancePacksExceededException {
 
 extension InsufficientDeliveryPolicyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientDeliveryPolicyException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InsufficientDeliveryPolicyException {
         let reader = baseError.errorBodyReader
         var value = InsufficientDeliveryPolicyException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15647,7 +15647,7 @@ extension InsufficientDeliveryPolicyException {
 
 extension InvalidDeliveryChannelNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeliveryChannelNameException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidDeliveryChannelNameException {
         let reader = baseError.errorBodyReader
         var value = InvalidDeliveryChannelNameException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15660,7 +15660,7 @@ extension InvalidDeliveryChannelNameException {
 
 extension InvalidS3KeyPrefixException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidS3KeyPrefixException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidS3KeyPrefixException {
         let reader = baseError.errorBodyReader
         var value = InvalidS3KeyPrefixException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15673,7 +15673,7 @@ extension InvalidS3KeyPrefixException {
 
 extension InvalidS3KmsKeyArnException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidS3KmsKeyArnException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidS3KmsKeyArnException {
         let reader = baseError.errorBodyReader
         var value = InvalidS3KmsKeyArnException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15686,7 +15686,7 @@ extension InvalidS3KmsKeyArnException {
 
 extension InvalidSNSTopicARNException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSNSTopicARNException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidSNSTopicARNException {
         let reader = baseError.errorBodyReader
         var value = InvalidSNSTopicARNException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15699,7 +15699,7 @@ extension InvalidSNSTopicARNException {
 
 extension MaxNumberOfDeliveryChannelsExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaxNumberOfDeliveryChannelsExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MaxNumberOfDeliveryChannelsExceededException {
         let reader = baseError.errorBodyReader
         var value = MaxNumberOfDeliveryChannelsExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15712,7 +15712,7 @@ extension MaxNumberOfDeliveryChannelsExceededException {
 
 extension NoSuchBucketException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchBucketException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NoSuchBucketException {
         let reader = baseError.errorBodyReader
         var value = NoSuchBucketException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15725,7 +15725,7 @@ extension NoSuchBucketException {
 
 extension InvalidResultTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidResultTokenException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidResultTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidResultTokenException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15738,7 +15738,7 @@ extension InvalidResultTokenException {
 
 extension MaxNumberOfOrganizationConfigRulesExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaxNumberOfOrganizationConfigRulesExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MaxNumberOfOrganizationConfigRulesExceededException {
         let reader = baseError.errorBodyReader
         var value = MaxNumberOfOrganizationConfigRulesExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15751,7 +15751,7 @@ extension MaxNumberOfOrganizationConfigRulesExceededException {
 
 extension MaxNumberOfOrganizationConformancePacksExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaxNumberOfOrganizationConformancePacksExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MaxNumberOfOrganizationConformancePacksExceededException {
         let reader = baseError.errorBodyReader
         var value = MaxNumberOfOrganizationConformancePacksExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15764,7 +15764,7 @@ extension MaxNumberOfOrganizationConformancePacksExceededException {
 
 extension OrganizationConformancePackTemplateValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationConformancePackTemplateValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> OrganizationConformancePackTemplateValidationException {
         let reader = baseError.errorBodyReader
         var value = OrganizationConformancePackTemplateValidationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15777,7 +15777,7 @@ extension OrganizationConformancePackTemplateValidationException {
 
 extension MaxActiveResourcesExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaxActiveResourcesExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MaxActiveResourcesExceededException {
         let reader = baseError.errorBodyReader
         var value = MaxActiveResourcesExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15790,7 +15790,7 @@ extension MaxActiveResourcesExceededException {
 
 extension MaxNumberOfRetentionConfigurationsExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaxNumberOfRetentionConfigurationsExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MaxNumberOfRetentionConfigurationsExceededException {
         let reader = baseError.errorBodyReader
         var value = MaxNumberOfRetentionConfigurationsExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15803,7 +15803,7 @@ extension MaxNumberOfRetentionConfigurationsExceededException {
 
 extension ResourceConcurrentModificationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceConcurrentModificationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceConcurrentModificationException {
         let reader = baseError.errorBodyReader
         var value = ResourceConcurrentModificationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15816,7 +15816,7 @@ extension ResourceConcurrentModificationException {
 
 extension TooManyTagsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TooManyTagsException {
         let reader = baseError.errorBodyReader
         var value = TooManyTagsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15829,7 +15829,7 @@ extension TooManyTagsException {
 
 extension InvalidExpressionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidExpressionException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidExpressionException {
         let reader = baseError.errorBodyReader
         var value = InvalidExpressionException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15842,7 +15842,7 @@ extension InvalidExpressionException {
 
 extension NoAvailableDeliveryChannelException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoAvailableDeliveryChannelException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NoAvailableDeliveryChannelException {
         let reader = baseError.errorBodyReader
         var value = NoAvailableDeliveryChannelException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15855,7 +15855,7 @@ extension NoAvailableDeliveryChannelException {
 
 extension IdempotentParameterMismatch {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IdempotentParameterMismatch {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> IdempotentParameterMismatch {
         let reader = baseError.errorBodyReader
         var value = IdempotentParameterMismatch()
         value.properties.message = try reader["message"].readIfPresent()
@@ -15866,118 +15866,232 @@ extension IdempotentParameterMismatch {
     }
 }
 
-extension ConfigClientTypes.ConfigurationRecorder {
+extension ConfigClientTypes.AccountAggregationSource {
 
-    static func write(value: ConfigClientTypes.ConfigurationRecorder?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConfigClientTypes.AccountAggregationSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["name"].write(value.name)
-        try writer["recordingGroup"].write(value.recordingGroup, with: ConfigClientTypes.RecordingGroup.write(value:to:))
-        try writer["recordingMode"].write(value.recordingMode, with: ConfigClientTypes.RecordingMode.write(value:to:))
-        try writer["recordingScope"].write(value.recordingScope)
-        try writer["roleARN"].write(value.roleARN)
-        try writer["servicePrincipal"].write(value.servicePrincipal)
+        try writer["AccountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AllAwsRegions"].write(value.allAwsRegions)
+        try writer["AwsRegions"].writeList(value.awsRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigurationRecorder {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AccountAggregationSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConfigurationRecorder()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.roleARN = try reader["roleARN"].readIfPresent()
-        value.recordingGroup = try reader["recordingGroup"].readIfPresent(with: ConfigClientTypes.RecordingGroup.read(from:))
-        value.recordingMode = try reader["recordingMode"].readIfPresent(with: ConfigClientTypes.RecordingMode.read(from:))
-        value.recordingScope = try reader["recordingScope"].readIfPresent()
-        value.servicePrincipal = try reader["servicePrincipal"].readIfPresent()
+        var value = ConfigClientTypes.AccountAggregationSource()
+        value.accountIds = try reader["AccountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.allAwsRegions = try reader["AllAwsRegions"].readIfPresent() ?? false
+        value.awsRegions = try reader["AwsRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension ConfigClientTypes.RecordingMode {
+extension ConfigClientTypes.AggregateComplianceByConfigRule {
 
-    static func write(value: ConfigClientTypes.RecordingMode?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["recordingFrequency"].write(value.recordingFrequency)
-        try writer["recordingModeOverrides"].writeList(value.recordingModeOverrides, memberWritingClosure: ConfigClientTypes.RecordingModeOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingMode {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateComplianceByConfigRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.RecordingMode()
-        value.recordingFrequency = try reader["recordingFrequency"].readIfPresent() ?? .sdkUnknown("")
-        value.recordingModeOverrides = try reader["recordingModeOverrides"].readListIfPresent(memberReadingClosure: ConfigClientTypes.RecordingModeOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ConfigClientTypes.AggregateComplianceByConfigRule()
+        value.configRuleName = try reader["ConfigRuleName"].readIfPresent()
+        value.compliance = try reader["Compliance"].readIfPresent(with: ConfigClientTypes.Compliance.read(from:))
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.awsRegion = try reader["AwsRegion"].readIfPresent()
         return value
     }
 }
 
-extension ConfigClientTypes.RecordingModeOverride {
+extension ConfigClientTypes.AggregateComplianceByConformancePack {
 
-    static func write(value: ConfigClientTypes.RecordingModeOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["recordingFrequency"].write(value.recordingFrequency)
-        try writer["resourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingModeOverride {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateComplianceByConformancePack {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.RecordingModeOverride()
-        value.description = try reader["description"].readIfPresent()
-        value.resourceTypes = try reader["resourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.recordingFrequency = try reader["recordingFrequency"].readIfPresent() ?? .sdkUnknown("")
+        var value = ConfigClientTypes.AggregateComplianceByConformancePack()
+        value.conformancePackName = try reader["ConformancePackName"].readIfPresent()
+        value.compliance = try reader["Compliance"].readIfPresent(with: ConfigClientTypes.AggregateConformancePackCompliance.read(from:))
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.awsRegion = try reader["AwsRegion"].readIfPresent()
         return value
     }
 }
 
-extension ConfigClientTypes.RecordingGroup {
+extension ConfigClientTypes.AggregateComplianceCount {
 
-    static func write(value: ConfigClientTypes.RecordingGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allSupported"].write(value.allSupported)
-        try writer["exclusionByResourceTypes"].write(value.exclusionByResourceTypes, with: ConfigClientTypes.ExclusionByResourceTypes.write(value:to:))
-        try writer["includeGlobalResourceTypes"].write(value.includeGlobalResourceTypes)
-        try writer["recordingStrategy"].write(value.recordingStrategy, with: ConfigClientTypes.RecordingStrategy.write(value:to:))
-        try writer["resourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingGroup {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateComplianceCount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.RecordingGroup()
-        value.allSupported = try reader["allSupported"].readIfPresent() ?? false
-        value.includeGlobalResourceTypes = try reader["includeGlobalResourceTypes"].readIfPresent() ?? false
-        value.resourceTypes = try reader["resourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.exclusionByResourceTypes = try reader["exclusionByResourceTypes"].readIfPresent(with: ConfigClientTypes.ExclusionByResourceTypes.read(from:))
-        value.recordingStrategy = try reader["recordingStrategy"].readIfPresent(with: ConfigClientTypes.RecordingStrategy.read(from:))
+        var value = ConfigClientTypes.AggregateComplianceCount()
+        value.groupName = try reader["GroupName"].readIfPresent()
+        value.complianceSummary = try reader["ComplianceSummary"].readIfPresent(with: ConfigClientTypes.ComplianceSummary.read(from:))
         return value
     }
 }
 
-extension ConfigClientTypes.RecordingStrategy {
+extension ConfigClientTypes.AggregateConformancePackCompliance {
 
-    static func write(value: ConfigClientTypes.RecordingStrategy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["useOnly"].write(value.useOnly)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingStrategy {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateConformancePackCompliance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.RecordingStrategy()
-        value.useOnly = try reader["useOnly"].readIfPresent()
+        var value = ConfigClientTypes.AggregateConformancePackCompliance()
+        value.complianceType = try reader["ComplianceType"].readIfPresent()
+        value.compliantRuleCount = try reader["CompliantRuleCount"].readIfPresent() ?? 0
+        value.nonCompliantRuleCount = try reader["NonCompliantRuleCount"].readIfPresent() ?? 0
+        value.totalRuleCount = try reader["TotalRuleCount"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension ConfigClientTypes.ExclusionByResourceTypes {
+extension ConfigClientTypes.AggregateConformancePackComplianceCount {
 
-    static func write(value: ConfigClientTypes.ExclusionByResourceTypes?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateConformancePackComplianceCount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.AggregateConformancePackComplianceCount()
+        value.compliantConformancePackCount = try reader["CompliantConformancePackCount"].readIfPresent() ?? 0
+        value.nonCompliantConformancePackCount = try reader["NonCompliantConformancePackCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ConfigClientTypes.AggregateConformancePackComplianceFilters {
+
+    static func write(value: ConfigClientTypes.AggregateConformancePackComplianceFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["resourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AccountId"].write(value.accountId)
+        try writer["AwsRegion"].write(value.awsRegion)
+        try writer["ComplianceType"].write(value.complianceType)
+        try writer["ConformancePackName"].write(value.conformancePackName)
+    }
+}
+
+extension ConfigClientTypes.AggregateConformancePackComplianceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateConformancePackComplianceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.AggregateConformancePackComplianceSummary()
+        value.complianceSummary = try reader["ComplianceSummary"].readIfPresent(with: ConfigClientTypes.AggregateConformancePackComplianceCount.read(from:))
+        value.groupName = try reader["GroupName"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.AggregateConformancePackComplianceSummaryFilters {
+
+    static func write(value: ConfigClientTypes.AggregateConformancePackComplianceSummaryFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+        try writer["AwsRegion"].write(value.awsRegion)
+    }
+}
+
+extension ConfigClientTypes.AggregatedSourceStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregatedSourceStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.AggregatedSourceStatus()
+        value.sourceId = try reader["SourceId"].readIfPresent()
+        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.awsRegion = try reader["AwsRegion"].readIfPresent()
+        value.lastUpdateStatus = try reader["LastUpdateStatus"].readIfPresent()
+        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastErrorCode = try reader["LastErrorCode"].readIfPresent()
+        value.lastErrorMessage = try reader["LastErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.AggregateEvaluationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateEvaluationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.AggregateEvaluationResult()
+        value.evaluationResultIdentifier = try reader["EvaluationResultIdentifier"].readIfPresent(with: ConfigClientTypes.EvaluationResultIdentifier.read(from:))
+        value.complianceType = try reader["ComplianceType"].readIfPresent()
+        value.resultRecordedTime = try reader["ResultRecordedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.configRuleInvokedTime = try reader["ConfigRuleInvokedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.annotation = try reader["Annotation"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.awsRegion = try reader["AwsRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.AggregateResourceIdentifier {
+
+    static func write(value: ConfigClientTypes.AggregateResourceIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceId"].write(value.resourceId)
+        try writer["ResourceName"].write(value.resourceName)
+        try writer["ResourceType"].write(value.resourceType)
+        try writer["SourceAccountId"].write(value.sourceAccountId)
+        try writer["SourceRegion"].write(value.sourceRegion)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ExclusionByResourceTypes {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateResourceIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ExclusionByResourceTypes()
-        value.resourceTypes = try reader["resourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ConfigClientTypes.AggregateResourceIdentifier()
+        value.sourceAccountId = try reader["SourceAccountId"].readIfPresent() ?? ""
+        value.sourceRegion = try reader["SourceRegion"].readIfPresent() ?? ""
+        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceName = try reader["ResourceName"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.AggregationAuthorization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregationAuthorization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.AggregationAuthorization()
+        value.aggregationAuthorizationArn = try reader["AggregationAuthorizationArn"].readIfPresent()
+        value.authorizedAccountId = try reader["AuthorizedAccountId"].readIfPresent()
+        value.authorizedAwsRegion = try reader["AuthorizedAwsRegion"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.AggregatorFilterResourceType {
+
+    static func write(value: ConfigClientTypes.AggregatorFilterResourceType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Value"].writeList(value.value, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregatorFilterResourceType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.AggregatorFilterResourceType()
+        value.type = try reader["Type"].readIfPresent()
+        value.value = try reader["Value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConfigClientTypes.AggregatorFilters {
+
+    static func write(value: ConfigClientTypes.AggregatorFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceType"].write(value.resourceType, with: ConfigClientTypes.AggregatorFilterResourceType.write(value:to:))
+        try writer["ServicePrincipal"].write(value.servicePrincipal, with: ConfigClientTypes.AggregatorFilterServicePrincipal.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregatorFilters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.AggregatorFilters()
+        value.resourceType = try reader["ResourceType"].readIfPresent(with: ConfigClientTypes.AggregatorFilterResourceType.read(from:))
+        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent(with: ConfigClientTypes.AggregatorFilterServicePrincipal.read(from:))
+        return value
+    }
+}
+
+extension ConfigClientTypes.AggregatorFilterServicePrincipal {
+
+    static func write(value: ConfigClientTypes.AggregatorFilterServicePrincipal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Value"].writeList(value.value, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregatorFilterServicePrincipal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.AggregatorFilterServicePrincipal()
+        value.type = try reader["Type"].readIfPresent()
+        value.value = try reader["Value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -16007,87 +16121,6 @@ extension ConfigClientTypes.BaseConfigurationItem {
     }
 }
 
-extension ConfigClientTypes.AggregateResourceIdentifier {
-
-    static func write(value: ConfigClientTypes.AggregateResourceIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceName"].write(value.resourceName)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["SourceAccountId"].write(value.sourceAccountId)
-        try writer["SourceRegion"].write(value.sourceRegion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateResourceIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregateResourceIdentifier()
-        value.sourceAccountId = try reader["SourceAccountId"].readIfPresent() ?? ""
-        value.sourceRegion = try reader["SourceRegion"].readIfPresent() ?? ""
-        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
-        value.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
-        value.resourceName = try reader["ResourceName"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.ResourceKey {
-
-    static func write(value: ConfigClientTypes.ResourceKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["resourceId"].write(value.resourceId)
-        try writer["resourceType"].write(value.resourceType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ResourceKey()
-        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
-        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ConfigClientTypes.FailedDeleteRemediationExceptionsBatch {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.FailedDeleteRemediationExceptionsBatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.FailedDeleteRemediationExceptionsBatch()
-        value.failureMessage = try reader["FailureMessage"].readIfPresent()
-        value.failedItems = try reader["FailedItems"].readListIfPresent(memberReadingClosure: ConfigClientTypes.RemediationExceptionResourceKey.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ConfigClientTypes.RemediationExceptionResourceKey {
-
-    static func write(value: ConfigClientTypes.RemediationExceptionResourceKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceType"].write(value.resourceType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RemediationExceptionResourceKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.RemediationExceptionResourceKey()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.AggregateComplianceByConfigRule {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateComplianceByConfigRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregateComplianceByConfigRule()
-        value.configRuleName = try reader["ConfigRuleName"].readIfPresent()
-        value.compliance = try reader["Compliance"].readIfPresent(with: ConfigClientTypes.Compliance.read(from:))
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.awsRegion = try reader["AwsRegion"].readIfPresent()
-        return value
-    }
-}
-
 extension ConfigClientTypes.Compliance {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Compliance {
@@ -16095,56 +16128,6 @@ extension ConfigClientTypes.Compliance {
         var value = ConfigClientTypes.Compliance()
         value.complianceType = try reader["ComplianceType"].readIfPresent()
         value.complianceContributorCount = try reader["ComplianceContributorCount"].readIfPresent(with: ConfigClientTypes.ComplianceContributorCount.read(from:))
-        return value
-    }
-}
-
-extension ConfigClientTypes.ComplianceContributorCount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ComplianceContributorCount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ComplianceContributorCount()
-        value.cappedCount = try reader["CappedCount"].readIfPresent() ?? 0
-        value.capExceeded = try reader["CapExceeded"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension ConfigClientTypes.AggregateComplianceByConformancePack {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateComplianceByConformancePack {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregateComplianceByConformancePack()
-        value.conformancePackName = try reader["ConformancePackName"].readIfPresent()
-        value.compliance = try reader["Compliance"].readIfPresent(with: ConfigClientTypes.AggregateConformancePackCompliance.read(from:))
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.awsRegion = try reader["AwsRegion"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.AggregateConformancePackCompliance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateConformancePackCompliance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregateConformancePackCompliance()
-        value.complianceType = try reader["ComplianceType"].readIfPresent()
-        value.compliantRuleCount = try reader["CompliantRuleCount"].readIfPresent() ?? 0
-        value.nonCompliantRuleCount = try reader["NonCompliantRuleCount"].readIfPresent() ?? 0
-        value.totalRuleCount = try reader["TotalRuleCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension ConfigClientTypes.AggregationAuthorization {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregationAuthorization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregationAuthorization()
-        value.aggregationAuthorizationArn = try reader["AggregationAuthorizationArn"].readIfPresent()
-        value.authorizedAccountId = try reader["AuthorizedAccountId"].readIfPresent()
-        value.authorizedAwsRegion = try reader["AuthorizedAwsRegion"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -16172,26 +16155,51 @@ extension ConfigClientTypes.ComplianceByResource {
     }
 }
 
-extension ConfigClientTypes.ConfigRuleEvaluationStatus {
+extension ConfigClientTypes.ComplianceContributorCount {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigRuleEvaluationStatus {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ComplianceContributorCount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConfigRuleEvaluationStatus()
-        value.configRuleName = try reader["ConfigRuleName"].readIfPresent()
-        value.configRuleArn = try reader["ConfigRuleArn"].readIfPresent()
-        value.configRuleId = try reader["ConfigRuleId"].readIfPresent()
-        value.lastSuccessfulInvocationTime = try reader["LastSuccessfulInvocationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastFailedInvocationTime = try reader["LastFailedInvocationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastSuccessfulEvaluationTime = try reader["LastSuccessfulEvaluationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastFailedEvaluationTime = try reader["LastFailedEvaluationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.firstActivatedTime = try reader["FirstActivatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastDeactivatedTime = try reader["LastDeactivatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastErrorCode = try reader["LastErrorCode"].readIfPresent()
-        value.lastErrorMessage = try reader["LastErrorMessage"].readIfPresent()
-        value.firstEvaluationStarted = try reader["FirstEvaluationStarted"].readIfPresent() ?? false
-        value.lastDebugLogDeliveryStatus = try reader["LastDebugLogDeliveryStatus"].readIfPresent()
-        value.lastDebugLogDeliveryStatusReason = try reader["LastDebugLogDeliveryStatusReason"].readIfPresent()
-        value.lastDebugLogDeliveryTime = try reader["LastDebugLogDeliveryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = ConfigClientTypes.ComplianceContributorCount()
+        value.cappedCount = try reader["CappedCount"].readIfPresent() ?? 0
+        value.capExceeded = try reader["CapExceeded"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension ConfigClientTypes.ComplianceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ComplianceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ComplianceSummary()
+        value.compliantResourceCount = try reader["CompliantResourceCount"].readIfPresent(with: ConfigClientTypes.ComplianceContributorCount.read(from:))
+        value.nonCompliantResourceCount = try reader["NonCompliantResourceCount"].readIfPresent(with: ConfigClientTypes.ComplianceContributorCount.read(from:))
+        value.complianceSummaryTimestamp = try reader["ComplianceSummaryTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.ComplianceSummaryByResourceType {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ComplianceSummaryByResourceType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ComplianceSummaryByResourceType()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.complianceSummary = try reader["ComplianceSummary"].readIfPresent(with: ConfigClientTypes.ComplianceSummary.read(from:))
+        return value
+    }
+}
+
+extension ConfigClientTypes.ConfigExportDeliveryInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigExportDeliveryInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ConfigExportDeliveryInfo()
+        value.lastStatus = try reader["lastStatus"].readIfPresent()
+        value.lastErrorCode = try reader["lastErrorCode"].readIfPresent()
+        value.lastErrorMessage = try reader["lastErrorMessage"].readIfPresent()
+        value.lastAttemptTime = try reader["lastAttemptTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastSuccessfulTime = try reader["lastSuccessfulTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.nextDeliveryTime = try reader["nextDeliveryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -16231,97 +16239,74 @@ extension ConfigClientTypes.ConfigRule {
     }
 }
 
-extension ConfigClientTypes.EvaluationModeConfiguration {
+extension ConfigClientTypes.ConfigRuleComplianceFilters {
 
-    static func write(value: ConfigClientTypes.EvaluationModeConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConfigClientTypes.ConfigRuleComplianceFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Mode"].write(value.mode)
+        try writer["AccountId"].write(value.accountId)
+        try writer["AwsRegion"].write(value.awsRegion)
+        try writer["ComplianceType"].write(value.complianceType)
+        try writer["ConfigRuleName"].write(value.configRuleName)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationModeConfiguration {
+extension ConfigClientTypes.ConfigRuleComplianceSummaryFilters {
+
+    static func write(value: ConfigClientTypes.ConfigRuleComplianceSummaryFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+        try writer["AwsRegion"].write(value.awsRegion)
+    }
+}
+
+extension ConfigClientTypes.ConfigRuleEvaluationStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigRuleEvaluationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.EvaluationModeConfiguration()
-        value.mode = try reader["Mode"].readIfPresent()
+        var value = ConfigClientTypes.ConfigRuleEvaluationStatus()
+        value.configRuleName = try reader["ConfigRuleName"].readIfPresent()
+        value.configRuleArn = try reader["ConfigRuleArn"].readIfPresent()
+        value.configRuleId = try reader["ConfigRuleId"].readIfPresent()
+        value.lastSuccessfulInvocationTime = try reader["LastSuccessfulInvocationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastFailedInvocationTime = try reader["LastFailedInvocationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastSuccessfulEvaluationTime = try reader["LastSuccessfulEvaluationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastFailedEvaluationTime = try reader["LastFailedEvaluationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.firstActivatedTime = try reader["FirstActivatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastDeactivatedTime = try reader["LastDeactivatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastErrorCode = try reader["LastErrorCode"].readIfPresent()
+        value.lastErrorMessage = try reader["LastErrorMessage"].readIfPresent()
+        value.firstEvaluationStarted = try reader["FirstEvaluationStarted"].readIfPresent() ?? false
+        value.lastDebugLogDeliveryStatus = try reader["LastDebugLogDeliveryStatus"].readIfPresent()
+        value.lastDebugLogDeliveryStatusReason = try reader["LastDebugLogDeliveryStatusReason"].readIfPresent()
+        value.lastDebugLogDeliveryTime = try reader["LastDebugLogDeliveryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension ConfigClientTypes.Source {
+extension ConfigClientTypes.ConfigSnapshotDeliveryProperties {
 
-    static func write(value: ConfigClientTypes.Source?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConfigClientTypes.ConfigSnapshotDeliveryProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CustomPolicyDetails"].write(value.customPolicyDetails, with: ConfigClientTypes.CustomPolicyDetails.write(value:to:))
-        try writer["Owner"].write(value.owner)
-        try writer["SourceDetails"].writeList(value.sourceDetails, memberWritingClosure: ConfigClientTypes.SourceDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SourceIdentifier"].write(value.sourceIdentifier)
+        try writer["deliveryFrequency"].write(value.deliveryFrequency)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Source {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigSnapshotDeliveryProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.Source()
-        value.owner = try reader["Owner"].readIfPresent() ?? .sdkUnknown("")
-        value.sourceIdentifier = try reader["SourceIdentifier"].readIfPresent()
-        value.sourceDetails = try reader["SourceDetails"].readListIfPresent(memberReadingClosure: ConfigClientTypes.SourceDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.customPolicyDetails = try reader["CustomPolicyDetails"].readIfPresent(with: ConfigClientTypes.CustomPolicyDetails.read(from:))
+        var value = ConfigClientTypes.ConfigSnapshotDeliveryProperties()
+        value.deliveryFrequency = try reader["deliveryFrequency"].readIfPresent()
         return value
     }
 }
 
-extension ConfigClientTypes.CustomPolicyDetails {
+extension ConfigClientTypes.ConfigStreamDeliveryInfo {
 
-    static func write(value: ConfigClientTypes.CustomPolicyDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EnableDebugLogDelivery"].write(value.enableDebugLogDelivery)
-        try writer["PolicyRuntime"].write(value.policyRuntime)
-        try writer["PolicyText"].write(value.policyText)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.CustomPolicyDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigStreamDeliveryInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.CustomPolicyDetails()
-        value.policyRuntime = try reader["PolicyRuntime"].readIfPresent() ?? ""
-        value.policyText = try reader["PolicyText"].readIfPresent() ?? ""
-        value.enableDebugLogDelivery = try reader["EnableDebugLogDelivery"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension ConfigClientTypes.SourceDetail {
-
-    static func write(value: ConfigClientTypes.SourceDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EventSource"].write(value.eventSource)
-        try writer["MaximumExecutionFrequency"].write(value.maximumExecutionFrequency)
-        try writer["MessageType"].write(value.messageType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.SourceDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.SourceDetail()
-        value.eventSource = try reader["EventSource"].readIfPresent()
-        value.messageType = try reader["MessageType"].readIfPresent()
-        value.maximumExecutionFrequency = try reader["MaximumExecutionFrequency"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.Scope {
-
-    static func write(value: ConfigClientTypes.Scope?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComplianceResourceId"].write(value.complianceResourceId)
-        try writer["ComplianceResourceTypes"].writeList(value.complianceResourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TagKey"].write(value.tagKey)
-        try writer["TagValue"].write(value.tagValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Scope {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.Scope()
-        value.complianceResourceTypes = try reader["ComplianceResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tagKey = try reader["TagKey"].readIfPresent()
-        value.tagValue = try reader["TagValue"].readIfPresent()
-        value.complianceResourceId = try reader["ComplianceResourceId"].readIfPresent()
+        var value = ConfigClientTypes.ConfigStreamDeliveryInfo()
+        value.lastStatus = try reader["lastStatus"].readIfPresent()
+        value.lastErrorCode = try reader["lastErrorCode"].readIfPresent()
+        value.lastErrorMessage = try reader["lastErrorMessage"].readIfPresent()
+        value.lastStatusChangeTime = try reader["lastStatusChangeTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -16343,108 +16328,68 @@ extension ConfigClientTypes.ConfigurationAggregator {
     }
 }
 
-extension ConfigClientTypes.AggregatorFilters {
+extension ConfigClientTypes.ConfigurationItem {
 
-    static func write(value: ConfigClientTypes.AggregatorFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceType"].write(value.resourceType, with: ConfigClientTypes.AggregatorFilterResourceType.write(value:to:))
-        try writer["ServicePrincipal"].write(value.servicePrincipal, with: ConfigClientTypes.AggregatorFilterServicePrincipal.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregatorFilters {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigurationItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregatorFilters()
-        value.resourceType = try reader["ResourceType"].readIfPresent(with: ConfigClientTypes.AggregatorFilterResourceType.read(from:))
-        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent(with: ConfigClientTypes.AggregatorFilterServicePrincipal.read(from:))
+        var value = ConfigClientTypes.ConfigurationItem()
+        value.version = try reader["version"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.configurationItemCaptureTime = try reader["configurationItemCaptureTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.configurationItemStatus = try reader["configurationItemStatus"].readIfPresent()
+        value.configurationStateId = try reader["configurationStateId"].readIfPresent()
+        value.configurationItemMD5Hash = try reader["configurationItemMD5Hash"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.resourceName = try reader["resourceName"].readIfPresent()
+        value.awsRegion = try reader["awsRegion"].readIfPresent()
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.resourceCreationTime = try reader["resourceCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.relatedEvents = try reader["relatedEvents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.relationships = try reader["relationships"].readListIfPresent(memberReadingClosure: ConfigClientTypes.Relationship.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.configuration = try reader["configuration"].readIfPresent()
+        value.supplementaryConfiguration = try reader["supplementaryConfiguration"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.recordingFrequency = try reader["recordingFrequency"].readIfPresent()
+        value.configurationItemDeliveryTime = try reader["configurationItemDeliveryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension ConfigClientTypes.AggregatorFilterServicePrincipal {
+extension ConfigClientTypes.ConfigurationRecorder {
 
-    static func write(value: ConfigClientTypes.AggregatorFilterServicePrincipal?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConfigClientTypes.ConfigurationRecorder?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["Value"].writeList(value.value, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["arn"].write(value.arn)
+        try writer["name"].write(value.name)
+        try writer["recordingGroup"].write(value.recordingGroup, with: ConfigClientTypes.RecordingGroup.write(value:to:))
+        try writer["recordingMode"].write(value.recordingMode, with: ConfigClientTypes.RecordingMode.write(value:to:))
+        try writer["recordingScope"].write(value.recordingScope)
+        try writer["roleARN"].write(value.roleARN)
+        try writer["servicePrincipal"].write(value.servicePrincipal)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregatorFilterServicePrincipal {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigurationRecorder {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregatorFilterServicePrincipal()
-        value.type = try reader["Type"].readIfPresent()
-        value.value = try reader["Value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ConfigClientTypes.ConfigurationRecorder()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.roleARN = try reader["roleARN"].readIfPresent()
+        value.recordingGroup = try reader["recordingGroup"].readIfPresent(with: ConfigClientTypes.RecordingGroup.read(from:))
+        value.recordingMode = try reader["recordingMode"].readIfPresent(with: ConfigClientTypes.RecordingMode.read(from:))
+        value.recordingScope = try reader["recordingScope"].readIfPresent()
+        value.servicePrincipal = try reader["servicePrincipal"].readIfPresent()
         return value
     }
 }
 
-extension ConfigClientTypes.AggregatorFilterResourceType {
+extension ConfigClientTypes.ConfigurationRecorderFilter {
 
-    static func write(value: ConfigClientTypes.AggregatorFilterResourceType?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConfigClientTypes.ConfigurationRecorderFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["Value"].writeList(value.value, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregatorFilterResourceType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregatorFilterResourceType()
-        value.type = try reader["Type"].readIfPresent()
-        value.value = try reader["Value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ConfigClientTypes.OrganizationAggregationSource {
-
-    static func write(value: ConfigClientTypes.OrganizationAggregationSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllAwsRegions"].write(value.allAwsRegions)
-        try writer["AwsRegions"].writeList(value.awsRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RoleArn"].write(value.roleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationAggregationSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.OrganizationAggregationSource()
-        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
-        value.awsRegions = try reader["AwsRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.allAwsRegions = try reader["AllAwsRegions"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension ConfigClientTypes.AccountAggregationSource {
-
-    static func write(value: ConfigClientTypes.AccountAggregationSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["AllAwsRegions"].write(value.allAwsRegions)
-        try writer["AwsRegions"].writeList(value.awsRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AccountAggregationSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AccountAggregationSource()
-        value.accountIds = try reader["AccountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.allAwsRegions = try reader["AllAwsRegions"].readIfPresent() ?? false
-        value.awsRegions = try reader["AwsRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ConfigClientTypes.AggregatedSourceStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregatedSourceStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregatedSourceStatus()
-        value.sourceId = try reader["SourceId"].readIfPresent()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.awsRegion = try reader["AwsRegion"].readIfPresent()
-        value.lastUpdateStatus = try reader["LastUpdateStatus"].readIfPresent()
-        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastErrorCode = try reader["LastErrorCode"].readIfPresent()
-        value.lastErrorMessage = try reader["LastErrorMessage"].readIfPresent()
-        return value
+        try writer["filterName"].write(value.filterName)
+        try writer["filterValue"].writeList(value.filterValue, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -16467,14 +16412,55 @@ extension ConfigClientTypes.ConfigurationRecorderStatus {
     }
 }
 
-extension ConfigClientTypes.ConformancePackRuleCompliance {
+extension ConfigClientTypes.ConfigurationRecorderSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackRuleCompliance {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigurationRecorderSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConformancePackRuleCompliance()
-        value.configRuleName = try reader["ConfigRuleName"].readIfPresent()
-        value.complianceType = try reader["ComplianceType"].readIfPresent()
-        value.controls = try reader["Controls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ConfigClientTypes.ConfigurationRecorderSummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.servicePrincipal = try reader["servicePrincipal"].readIfPresent()
+        value.recordingScope = try reader["recordingScope"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ConfigClientTypes.ConformancePackComplianceFilters {
+
+    static func write(value: ConfigClientTypes.ConformancePackComplianceFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComplianceType"].write(value.complianceType)
+        try writer["ConfigRuleNames"].writeList(value.configRuleNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ConfigClientTypes.ConformancePackComplianceScore {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackComplianceScore {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ConformancePackComplianceScore()
+        value.score = try reader["Score"].readIfPresent()
+        value.conformancePackName = try reader["ConformancePackName"].readIfPresent()
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.ConformancePackComplianceScoresFilters {
+
+    static func write(value: ConfigClientTypes.ConformancePackComplianceScoresFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConformancePackNames"].writeList(value.conformancePackNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ConfigClientTypes.ConformancePackComplianceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackComplianceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ConformancePackComplianceSummary()
+        value.conformancePackName = try reader["ConformancePackName"].readIfPresent() ?? ""
+        value.conformancePackComplianceStatus = try reader["ConformancePackComplianceStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -16497,19 +16483,27 @@ extension ConfigClientTypes.ConformancePackDetail {
     }
 }
 
-extension ConfigClientTypes.TemplateSSMDocumentDetails {
+extension ConfigClientTypes.ConformancePackEvaluationFilters {
 
-    static func write(value: ConfigClientTypes.TemplateSSMDocumentDetails?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConfigClientTypes.ConformancePackEvaluationFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DocumentName"].write(value.documentName)
-        try writer["DocumentVersion"].write(value.documentVersion)
+        try writer["ComplianceType"].write(value.complianceType)
+        try writer["ConfigRuleNames"].writeList(value.configRuleNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ResourceIds"].writeList(value.resourceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ResourceType"].write(value.resourceType)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.TemplateSSMDocumentDetails {
+extension ConfigClientTypes.ConformancePackEvaluationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackEvaluationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.TemplateSSMDocumentDetails()
-        value.documentName = try reader["DocumentName"].readIfPresent() ?? ""
-        value.documentVersion = try reader["DocumentVersion"].readIfPresent()
+        var value = ConfigClientTypes.ConformancePackEvaluationResult()
+        value.complianceType = try reader["ComplianceType"].readIfPresent() ?? .sdkUnknown("")
+        value.evaluationResultIdentifier = try reader["EvaluationResultIdentifier"].readIfPresent(with: ConfigClientTypes.EvaluationResultIdentifier.read(from:))
+        value.configRuleInvokedTime = try reader["ConfigRuleInvokedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.resultRecordedTime = try reader["ResultRecordedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.annotation = try reader["Annotation"].readIfPresent()
         return value
     }
 }
@@ -16531,6 +16525,18 @@ extension ConfigClientTypes.ConformancePackInputParameter {
     }
 }
 
+extension ConfigClientTypes.ConformancePackRuleCompliance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackRuleCompliance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ConformancePackRuleCompliance()
+        value.configRuleName = try reader["ConfigRuleName"].readIfPresent()
+        value.complianceType = try reader["ComplianceType"].readIfPresent()
+        value.controls = try reader["Controls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ConfigClientTypes.ConformancePackStatusDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackStatusDetail {
@@ -16544,6 +16550,25 @@ extension ConfigClientTypes.ConformancePackStatusDetail {
         value.conformancePackStatusReason = try reader["ConformancePackStatusReason"].readIfPresent()
         value.lastUpdateRequestedTime = try reader["LastUpdateRequestedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdateCompletedTime = try reader["LastUpdateCompletedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.CustomPolicyDetails {
+
+    static func write(value: ConfigClientTypes.CustomPolicyDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnableDebugLogDelivery"].write(value.enableDebugLogDelivery)
+        try writer["PolicyRuntime"].write(value.policyRuntime)
+        try writer["PolicyText"].write(value.policyText)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.CustomPolicyDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.CustomPolicyDetails()
+        value.policyRuntime = try reader["PolicyRuntime"].readIfPresent() ?? ""
+        value.policyText = try reader["PolicyText"].readIfPresent() ?? ""
+        value.enableDebugLogDelivery = try reader["EnableDebugLogDelivery"].readIfPresent() ?? false
         return value
     }
 }
@@ -16573,21 +16598,6 @@ extension ConfigClientTypes.DeliveryChannel {
     }
 }
 
-extension ConfigClientTypes.ConfigSnapshotDeliveryProperties {
-
-    static func write(value: ConfigClientTypes.ConfigSnapshotDeliveryProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deliveryFrequency"].write(value.deliveryFrequency)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigSnapshotDeliveryProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConfigSnapshotDeliveryProperties()
-        value.deliveryFrequency = try reader["deliveryFrequency"].readIfPresent()
-        return value
-    }
-}
-
 extension ConfigClientTypes.DeliveryChannelStatus {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.DeliveryChannelStatus {
@@ -16601,30 +16611,244 @@ extension ConfigClientTypes.DeliveryChannelStatus {
     }
 }
 
-extension ConfigClientTypes.ConfigStreamDeliveryInfo {
+extension ConfigClientTypes.DescribeConfigRulesFilters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigStreamDeliveryInfo {
+    static func write(value: ConfigClientTypes.DescribeConfigRulesFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EvaluationMode"].write(value.evaluationMode)
+    }
+}
+
+extension ConfigClientTypes.Evaluation {
+
+    static func write(value: ConfigClientTypes.Evaluation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Annotation"].write(value.annotation)
+        try writer["ComplianceResourceId"].write(value.complianceResourceId)
+        try writer["ComplianceResourceType"].write(value.complianceResourceType)
+        try writer["ComplianceType"].write(value.complianceType)
+        try writer["OrderingTimestamp"].writeTimestamp(value.orderingTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Evaluation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConfigStreamDeliveryInfo()
-        value.lastStatus = try reader["lastStatus"].readIfPresent()
-        value.lastErrorCode = try reader["lastErrorCode"].readIfPresent()
-        value.lastErrorMessage = try reader["lastErrorMessage"].readIfPresent()
-        value.lastStatusChangeTime = try reader["lastStatusChangeTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = ConfigClientTypes.Evaluation()
+        value.complianceResourceType = try reader["ComplianceResourceType"].readIfPresent() ?? ""
+        value.complianceResourceId = try reader["ComplianceResourceId"].readIfPresent() ?? ""
+        value.complianceType = try reader["ComplianceType"].readIfPresent() ?? .sdkUnknown("")
+        value.annotation = try reader["Annotation"].readIfPresent()
+        value.orderingTimestamp = try reader["OrderingTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
 
-extension ConfigClientTypes.ConfigExportDeliveryInfo {
+extension ConfigClientTypes.EvaluationContext {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigExportDeliveryInfo {
+    static func write(value: ConfigClientTypes.EvaluationContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EvaluationContextIdentifier"].write(value.evaluationContextIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConfigExportDeliveryInfo()
-        value.lastStatus = try reader["lastStatus"].readIfPresent()
-        value.lastErrorCode = try reader["lastErrorCode"].readIfPresent()
-        value.lastErrorMessage = try reader["lastErrorMessage"].readIfPresent()
-        value.lastAttemptTime = try reader["lastAttemptTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastSuccessfulTime = try reader["lastSuccessfulTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.nextDeliveryTime = try reader["nextDeliveryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = ConfigClientTypes.EvaluationContext()
+        value.evaluationContextIdentifier = try reader["EvaluationContextIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.EvaluationModeConfiguration {
+
+    static func write(value: ConfigClientTypes.EvaluationModeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Mode"].write(value.mode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationModeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.EvaluationModeConfiguration()
+        value.mode = try reader["Mode"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.EvaluationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.EvaluationResult()
+        value.evaluationResultIdentifier = try reader["EvaluationResultIdentifier"].readIfPresent(with: ConfigClientTypes.EvaluationResultIdentifier.read(from:))
+        value.complianceType = try reader["ComplianceType"].readIfPresent()
+        value.resultRecordedTime = try reader["ResultRecordedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.configRuleInvokedTime = try reader["ConfigRuleInvokedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.annotation = try reader["Annotation"].readIfPresent()
+        value.resultToken = try reader["ResultToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.EvaluationResultIdentifier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationResultIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.EvaluationResultIdentifier()
+        value.evaluationResultQualifier = try reader["EvaluationResultQualifier"].readIfPresent(with: ConfigClientTypes.EvaluationResultQualifier.read(from:))
+        value.orderingTimestamp = try reader["OrderingTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.resourceEvaluationId = try reader["ResourceEvaluationId"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.EvaluationResultQualifier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationResultQualifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.EvaluationResultQualifier()
+        value.configRuleName = try reader["ConfigRuleName"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceId = try reader["ResourceId"].readIfPresent()
+        value.evaluationMode = try reader["EvaluationMode"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.EvaluationStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.EvaluationStatus()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.ExclusionByResourceTypes {
+
+    static func write(value: ConfigClientTypes.ExclusionByResourceTypes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ExclusionByResourceTypes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ExclusionByResourceTypes()
+        value.resourceTypes = try reader["resourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConfigClientTypes.ExecutionControls {
+
+    static func write(value: ConfigClientTypes.ExecutionControls?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SsmControls"].write(value.ssmControls, with: ConfigClientTypes.SsmControls.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ExecutionControls {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ExecutionControls()
+        value.ssmControls = try reader["SsmControls"].readIfPresent(with: ConfigClientTypes.SsmControls.read(from:))
+        return value
+    }
+}
+
+extension ConfigClientTypes.ExternalEvaluation {
+
+    static func write(value: ConfigClientTypes.ExternalEvaluation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Annotation"].write(value.annotation)
+        try writer["ComplianceResourceId"].write(value.complianceResourceId)
+        try writer["ComplianceResourceType"].write(value.complianceResourceType)
+        try writer["ComplianceType"].write(value.complianceType)
+        try writer["OrderingTimestamp"].writeTimestamp(value.orderingTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension ConfigClientTypes.FailedDeleteRemediationExceptionsBatch {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.FailedDeleteRemediationExceptionsBatch {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.FailedDeleteRemediationExceptionsBatch()
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        value.failedItems = try reader["FailedItems"].readListIfPresent(memberReadingClosure: ConfigClientTypes.RemediationExceptionResourceKey.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConfigClientTypes.FailedRemediationBatch {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.FailedRemediationBatch {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.FailedRemediationBatch()
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        value.failedItems = try reader["FailedItems"].readListIfPresent(memberReadingClosure: ConfigClientTypes.RemediationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConfigClientTypes.FailedRemediationExceptionBatch {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.FailedRemediationExceptionBatch {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.FailedRemediationExceptionBatch()
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        value.failedItems = try reader["FailedItems"].readListIfPresent(memberReadingClosure: ConfigClientTypes.RemediationException.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConfigClientTypes.FieldInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.FieldInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.FieldInfo()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.GroupedResourceCount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.GroupedResourceCount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.GroupedResourceCount()
+        value.groupName = try reader["GroupName"].readIfPresent() ?? ""
+        value.resourceCount = try reader["ResourceCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ConfigClientTypes.MemberAccountStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.MemberAccountStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.MemberAccountStatus()
+        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
+        value.configRuleName = try reader["ConfigRuleName"].readIfPresent() ?? ""
+        value.memberAccountRuleStatus = try reader["MemberAccountRuleStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.OrganizationAggregationSource {
+
+    static func write(value: ConfigClientTypes.OrganizationAggregationSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllAwsRegions"].write(value.allAwsRegions)
+        try writer["AwsRegions"].writeList(value.awsRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationAggregationSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.OrganizationAggregationSource()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.awsRegions = try reader["AwsRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allAwsRegions = try reader["AllAwsRegions"].readIfPresent() ?? false
         return value
     }
 }
@@ -16642,6 +16866,83 @@ extension ConfigClientTypes.OrganizationConfigRule {
         value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.organizationCustomPolicyRuleMetadata = try reader["OrganizationCustomPolicyRuleMetadata"].readIfPresent(with: ConfigClientTypes.OrganizationCustomPolicyRuleMetadataNoPolicy.read(from:))
         return value
+    }
+}
+
+extension ConfigClientTypes.OrganizationConfigRuleStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConfigRuleStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.OrganizationConfigRuleStatus()
+        value.organizationConfigRuleName = try reader["OrganizationConfigRuleName"].readIfPresent() ?? ""
+        value.organizationRuleStatus = try reader["OrganizationRuleStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.OrganizationConformancePack {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConformancePack {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.OrganizationConformancePack()
+        value.organizationConformancePackName = try reader["OrganizationConformancePackName"].readIfPresent() ?? ""
+        value.organizationConformancePackArn = try reader["OrganizationConformancePackArn"].readIfPresent() ?? ""
+        value.deliveryS3Bucket = try reader["DeliveryS3Bucket"].readIfPresent()
+        value.deliveryS3KeyPrefix = try reader["DeliveryS3KeyPrefix"].readIfPresent()
+        value.conformancePackInputParameters = try reader["ConformancePackInputParameters"].readListIfPresent(memberReadingClosure: ConfigClientTypes.ConformancePackInputParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludedAccounts = try reader["ExcludedAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension ConfigClientTypes.OrganizationConformancePackDetailedStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConformancePackDetailedStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.OrganizationConformancePackDetailedStatus()
+        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
+        value.conformancePackName = try reader["ConformancePackName"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.OrganizationConformancePackStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConformancePackStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.OrganizationConformancePackStatus()
+        value.organizationConformancePackName = try reader["OrganizationConformancePackName"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.OrganizationCustomPolicyRuleMetadata {
+
+    static func write(value: ConfigClientTypes.OrganizationCustomPolicyRuleMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DebugLogDeliveryAccounts"].writeList(value.debugLogDeliveryAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["InputParameters"].write(value.inputParameters)
+        try writer["MaximumExecutionFrequency"].write(value.maximumExecutionFrequency)
+        try writer["OrganizationConfigRuleTriggerTypes"].writeList(value.organizationConfigRuleTriggerTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.OrganizationConfigRuleTriggerTypeNoSN>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PolicyRuntime"].write(value.policyRuntime)
+        try writer["PolicyText"].write(value.policyText)
+        try writer["ResourceIdScope"].write(value.resourceIdScope)
+        try writer["ResourceTypesScope"].writeList(value.resourceTypesScope, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TagKeyScope"].write(value.tagKeyScope)
+        try writer["TagValueScope"].write(value.tagValueScope)
     }
 }
 
@@ -16724,47 +17025,12 @@ extension ConfigClientTypes.OrganizationManagedRuleMetadata {
     }
 }
 
-extension ConfigClientTypes.OrganizationConfigRuleStatus {
+extension ConfigClientTypes.OrganizationResourceDetailedStatusFilters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConfigRuleStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.OrganizationConfigRuleStatus()
-        value.organizationConfigRuleName = try reader["OrganizationConfigRuleName"].readIfPresent() ?? ""
-        value.organizationRuleStatus = try reader["OrganizationRuleStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension ConfigClientTypes.OrganizationConformancePack {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConformancePack {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.OrganizationConformancePack()
-        value.organizationConformancePackName = try reader["OrganizationConformancePackName"].readIfPresent() ?? ""
-        value.organizationConformancePackArn = try reader["OrganizationConformancePackArn"].readIfPresent() ?? ""
-        value.deliveryS3Bucket = try reader["DeliveryS3Bucket"].readIfPresent()
-        value.deliveryS3KeyPrefix = try reader["DeliveryS3KeyPrefix"].readIfPresent()
-        value.conformancePackInputParameters = try reader["ConformancePackInputParameters"].readListIfPresent(memberReadingClosure: ConfigClientTypes.ConformancePackInputParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.excludedAccounts = try reader["ExcludedAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension ConfigClientTypes.OrganizationConformancePackStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConformancePackStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.OrganizationConformancePackStatus()
-        value.organizationConformancePackName = try reader["OrganizationConformancePackName"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
+    static func write(value: ConfigClientTypes.OrganizationResourceDetailedStatusFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+        try writer["Status"].write(value.status)
     }
 }
 
@@ -16775,6 +17041,103 @@ extension ConfigClientTypes.PendingAggregationRequest {
         var value = ConfigClientTypes.PendingAggregationRequest()
         value.requesterAccountId = try reader["RequesterAccountId"].readIfPresent()
         value.requesterAwsRegion = try reader["RequesterAwsRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.QueryInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.QueryInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.QueryInfo()
+        value.selectFields = try reader["SelectFields"].readListIfPresent(memberReadingClosure: ConfigClientTypes.FieldInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConfigClientTypes.RecordingGroup {
+
+    static func write(value: ConfigClientTypes.RecordingGroup?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allSupported"].write(value.allSupported)
+        try writer["exclusionByResourceTypes"].write(value.exclusionByResourceTypes, with: ConfigClientTypes.ExclusionByResourceTypes.write(value:to:))
+        try writer["includeGlobalResourceTypes"].write(value.includeGlobalResourceTypes)
+        try writer["recordingStrategy"].write(value.recordingStrategy, with: ConfigClientTypes.RecordingStrategy.write(value:to:))
+        try writer["resourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.RecordingGroup()
+        value.allSupported = try reader["allSupported"].readIfPresent() ?? false
+        value.includeGlobalResourceTypes = try reader["includeGlobalResourceTypes"].readIfPresent() ?? false
+        value.resourceTypes = try reader["resourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exclusionByResourceTypes = try reader["exclusionByResourceTypes"].readIfPresent(with: ConfigClientTypes.ExclusionByResourceTypes.read(from:))
+        value.recordingStrategy = try reader["recordingStrategy"].readIfPresent(with: ConfigClientTypes.RecordingStrategy.read(from:))
+        return value
+    }
+}
+
+extension ConfigClientTypes.RecordingMode {
+
+    static func write(value: ConfigClientTypes.RecordingMode?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["recordingFrequency"].write(value.recordingFrequency)
+        try writer["recordingModeOverrides"].writeList(value.recordingModeOverrides, memberWritingClosure: ConfigClientTypes.RecordingModeOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingMode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.RecordingMode()
+        value.recordingFrequency = try reader["recordingFrequency"].readIfPresent() ?? .sdkUnknown("")
+        value.recordingModeOverrides = try reader["recordingModeOverrides"].readListIfPresent(memberReadingClosure: ConfigClientTypes.RecordingModeOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConfigClientTypes.RecordingModeOverride {
+
+    static func write(value: ConfigClientTypes.RecordingModeOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["recordingFrequency"].write(value.recordingFrequency)
+        try writer["resourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingModeOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.RecordingModeOverride()
+        value.description = try reader["description"].readIfPresent()
+        value.resourceTypes = try reader["resourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.recordingFrequency = try reader["recordingFrequency"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ConfigClientTypes.RecordingStrategy {
+
+    static func write(value: ConfigClientTypes.RecordingStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["useOnly"].write(value.useOnly)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.RecordingStrategy()
+        value.useOnly = try reader["useOnly"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.Relationship {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Relationship {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.Relationship()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.resourceName = try reader["resourceName"].readIfPresent()
+        value.relationshipName = try reader["relationshipName"].readIfPresent()
         return value
     }
 }
@@ -16816,85 +17179,6 @@ extension ConfigClientTypes.RemediationConfiguration {
     }
 }
 
-extension ConfigClientTypes.ExecutionControls {
-
-    static func write(value: ConfigClientTypes.ExecutionControls?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SsmControls"].write(value.ssmControls, with: ConfigClientTypes.SsmControls.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ExecutionControls {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ExecutionControls()
-        value.ssmControls = try reader["SsmControls"].readIfPresent(with: ConfigClientTypes.SsmControls.read(from:))
-        return value
-    }
-}
-
-extension ConfigClientTypes.SsmControls {
-
-    static func write(value: ConfigClientTypes.SsmControls?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConcurrentExecutionRatePercentage"].write(value.concurrentExecutionRatePercentage)
-        try writer["ErrorPercentage"].write(value.errorPercentage)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.SsmControls {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.SsmControls()
-        value.concurrentExecutionRatePercentage = try reader["ConcurrentExecutionRatePercentage"].readIfPresent()
-        value.errorPercentage = try reader["ErrorPercentage"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.RemediationParameterValue {
-
-    static func write(value: ConfigClientTypes.RemediationParameterValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceValue"].write(value.resourceValue, with: ConfigClientTypes.ResourceValue.write(value:to:))
-        try writer["StaticValue"].write(value.staticValue, with: ConfigClientTypes.StaticValue.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RemediationParameterValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.RemediationParameterValue()
-        value.resourceValue = try reader["ResourceValue"].readIfPresent(with: ConfigClientTypes.ResourceValue.read(from:))
-        value.staticValue = try reader["StaticValue"].readIfPresent(with: ConfigClientTypes.StaticValue.read(from:))
-        return value
-    }
-}
-
-extension ConfigClientTypes.StaticValue {
-
-    static func write(value: ConfigClientTypes.StaticValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.StaticValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.StaticValue()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension ConfigClientTypes.ResourceValue {
-
-    static func write(value: ConfigClientTypes.ResourceValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ResourceValue()
-        value.value = try reader["Value"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
 extension ConfigClientTypes.RemediationException {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RemediationException {
@@ -16905,6 +17189,23 @@ extension ConfigClientTypes.RemediationException {
         value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
         value.message = try reader["Message"].readIfPresent()
         value.expirationTime = try reader["ExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.RemediationExceptionResourceKey {
+
+    static func write(value: ConfigClientTypes.RemediationExceptionResourceKey?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceId"].write(value.resourceId)
+        try writer["ResourceType"].write(value.resourceType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RemediationExceptionResourceKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.RemediationExceptionResourceKey()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceId = try reader["ResourceId"].readIfPresent()
         return value
     }
 }
@@ -16937,203 +17238,19 @@ extension ConfigClientTypes.RemediationExecutionStep {
     }
 }
 
-extension ConfigClientTypes.RetentionConfiguration {
+extension ConfigClientTypes.RemediationParameterValue {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RetentionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.RetentionConfiguration()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.retentionPeriodInDays = try reader["RetentionPeriodInDays"].readIfPresent() ?? 0
-        return value
+    static func write(value: ConfigClientTypes.RemediationParameterValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceValue"].write(value.resourceValue, with: ConfigClientTypes.ResourceValue.write(value:to:))
+        try writer["StaticValue"].write(value.staticValue, with: ConfigClientTypes.StaticValue.write(value:to:))
     }
-}
 
-extension ConfigClientTypes.AggregateEvaluationResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateEvaluationResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RemediationParameterValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregateEvaluationResult()
-        value.evaluationResultIdentifier = try reader["EvaluationResultIdentifier"].readIfPresent(with: ConfigClientTypes.EvaluationResultIdentifier.read(from:))
-        value.complianceType = try reader["ComplianceType"].readIfPresent()
-        value.resultRecordedTime = try reader["ResultRecordedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.configRuleInvokedTime = try reader["ConfigRuleInvokedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.annotation = try reader["Annotation"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.awsRegion = try reader["AwsRegion"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.EvaluationResultIdentifier {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationResultIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.EvaluationResultIdentifier()
-        value.evaluationResultQualifier = try reader["EvaluationResultQualifier"].readIfPresent(with: ConfigClientTypes.EvaluationResultQualifier.read(from:))
-        value.orderingTimestamp = try reader["OrderingTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.resourceEvaluationId = try reader["ResourceEvaluationId"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.EvaluationResultQualifier {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationResultQualifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.EvaluationResultQualifier()
-        value.configRuleName = try reader["ConfigRuleName"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.evaluationMode = try reader["EvaluationMode"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.AggregateComplianceCount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateComplianceCount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregateComplianceCount()
-        value.groupName = try reader["GroupName"].readIfPresent()
-        value.complianceSummary = try reader["ComplianceSummary"].readIfPresent(with: ConfigClientTypes.ComplianceSummary.read(from:))
-        return value
-    }
-}
-
-extension ConfigClientTypes.ComplianceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ComplianceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ComplianceSummary()
-        value.compliantResourceCount = try reader["CompliantResourceCount"].readIfPresent(with: ConfigClientTypes.ComplianceContributorCount.read(from:))
-        value.nonCompliantResourceCount = try reader["NonCompliantResourceCount"].readIfPresent(with: ConfigClientTypes.ComplianceContributorCount.read(from:))
-        value.complianceSummaryTimestamp = try reader["ComplianceSummaryTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension ConfigClientTypes.AggregateConformancePackComplianceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateConformancePackComplianceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregateConformancePackComplianceSummary()
-        value.complianceSummary = try reader["ComplianceSummary"].readIfPresent(with: ConfigClientTypes.AggregateConformancePackComplianceCount.read(from:))
-        value.groupName = try reader["GroupName"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.AggregateConformancePackComplianceCount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateConformancePackComplianceCount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregateConformancePackComplianceCount()
-        value.compliantConformancePackCount = try reader["CompliantConformancePackCount"].readIfPresent() ?? 0
-        value.nonCompliantConformancePackCount = try reader["NonCompliantConformancePackCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension ConfigClientTypes.GroupedResourceCount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.GroupedResourceCount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.GroupedResourceCount()
-        value.groupName = try reader["GroupName"].readIfPresent() ?? ""
-        value.resourceCount = try reader["ResourceCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension ConfigClientTypes.ConfigurationItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigurationItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConfigurationItem()
-        value.version = try reader["version"].readIfPresent()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.configurationItemCaptureTime = try reader["configurationItemCaptureTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.configurationItemStatus = try reader["configurationItemStatus"].readIfPresent()
-        value.configurationStateId = try reader["configurationStateId"].readIfPresent()
-        value.configurationItemMD5Hash = try reader["configurationItemMD5Hash"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent()
-        value.resourceName = try reader["resourceName"].readIfPresent()
-        value.awsRegion = try reader["awsRegion"].readIfPresent()
-        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
-        value.resourceCreationTime = try reader["resourceCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.relatedEvents = try reader["relatedEvents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.relationships = try reader["relationships"].readListIfPresent(memberReadingClosure: ConfigClientTypes.Relationship.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.configuration = try reader["configuration"].readIfPresent()
-        value.supplementaryConfiguration = try reader["supplementaryConfiguration"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.recordingFrequency = try reader["recordingFrequency"].readIfPresent()
-        value.configurationItemDeliveryTime = try reader["configurationItemDeliveryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension ConfigClientTypes.Relationship {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Relationship {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.Relationship()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent()
-        value.resourceName = try reader["resourceName"].readIfPresent()
-        value.relationshipName = try reader["relationshipName"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.EvaluationResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.EvaluationResult()
-        value.evaluationResultIdentifier = try reader["EvaluationResultIdentifier"].readIfPresent(with: ConfigClientTypes.EvaluationResultIdentifier.read(from:))
-        value.complianceType = try reader["ComplianceType"].readIfPresent()
-        value.resultRecordedTime = try reader["ResultRecordedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.configRuleInvokedTime = try reader["ConfigRuleInvokedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.annotation = try reader["Annotation"].readIfPresent()
-        value.resultToken = try reader["ResultToken"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.ComplianceSummaryByResourceType {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ComplianceSummaryByResourceType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ComplianceSummaryByResourceType()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.complianceSummary = try reader["ComplianceSummary"].readIfPresent(with: ConfigClientTypes.ComplianceSummary.read(from:))
-        return value
-    }
-}
-
-extension ConfigClientTypes.ConformancePackEvaluationResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackEvaluationResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConformancePackEvaluationResult()
-        value.complianceType = try reader["ComplianceType"].readIfPresent() ?? .sdkUnknown("")
-        value.evaluationResultIdentifier = try reader["EvaluationResultIdentifier"].readIfPresent(with: ConfigClientTypes.EvaluationResultIdentifier.read(from:))
-        value.configRuleInvokedTime = try reader["ConfigRuleInvokedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.resultRecordedTime = try reader["ResultRecordedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.annotation = try reader["Annotation"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.ConformancePackComplianceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackComplianceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConformancePackComplianceSummary()
-        value.conformancePackName = try reader["ConformancePackName"].readIfPresent() ?? ""
-        value.conformancePackComplianceStatus = try reader["ConformancePackComplianceStatus"].readIfPresent() ?? .sdkUnknown("")
+        var value = ConfigClientTypes.RemediationParameterValue()
+        value.resourceValue = try reader["ResourceValue"].readIfPresent(with: ConfigClientTypes.ResourceValue.read(from:))
+        value.staticValue = try reader["StaticValue"].readIfPresent(with: ConfigClientTypes.StaticValue.read(from:))
         return value
     }
 }
@@ -17149,59 +17266,13 @@ extension ConfigClientTypes.ResourceCount {
     }
 }
 
-extension ConfigClientTypes.MemberAccountStatus {
+extension ConfigClientTypes.ResourceCountFilters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.MemberAccountStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.MemberAccountStatus()
-        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
-        value.configRuleName = try reader["ConfigRuleName"].readIfPresent() ?? ""
-        value.memberAccountRuleStatus = try reader["MemberAccountRuleStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension ConfigClientTypes.OrganizationConformancePackDetailedStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConformancePackDetailedStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.OrganizationConformancePackDetailedStatus()
-        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
-        value.conformancePackName = try reader["ConformancePackName"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension ConfigClientTypes.EvaluationStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.EvaluationStatus()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.failureReason = try reader["FailureReason"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.EvaluationContext {
-
-    static func write(value: ConfigClientTypes.EvaluationContext?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConfigClientTypes.ResourceCountFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EvaluationContextIdentifier"].write(value.evaluationContextIdentifier)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationContext {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.EvaluationContext()
-        value.evaluationContextIdentifier = try reader["EvaluationContextIdentifier"].readIfPresent()
-        return value
+        try writer["AccountId"].write(value.accountId)
+        try writer["Region"].write(value.region)
+        try writer["ResourceType"].write(value.resourceType)
     }
 }
 
@@ -17226,6 +17297,197 @@ extension ConfigClientTypes.ResourceDetails {
     }
 }
 
+extension ConfigClientTypes.ResourceEvaluation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceEvaluation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ResourceEvaluation()
+        value.resourceEvaluationId = try reader["ResourceEvaluationId"].readIfPresent()
+        value.evaluationMode = try reader["EvaluationMode"].readIfPresent()
+        value.evaluationStartTimestamp = try reader["EvaluationStartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.ResourceEvaluationFilters {
+
+    static func write(value: ConfigClientTypes.ResourceEvaluationFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EvaluationContextIdentifier"].write(value.evaluationContextIdentifier)
+        try writer["EvaluationMode"].write(value.evaluationMode)
+        try writer["TimeWindow"].write(value.timeWindow, with: ConfigClientTypes.TimeWindow.write(value:to:))
+    }
+}
+
+extension ConfigClientTypes.ResourceFilters {
+
+    static func write(value: ConfigClientTypes.ResourceFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+        try writer["Region"].write(value.region)
+        try writer["ResourceId"].write(value.resourceId)
+        try writer["ResourceName"].write(value.resourceName)
+    }
+}
+
+extension ConfigClientTypes.ResourceIdentifier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ResourceIdentifier()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.resourceName = try reader["resourceName"].readIfPresent()
+        value.resourceDeletionTime = try reader["resourceDeletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.ResourceKey {
+
+    static func write(value: ConfigClientTypes.ResourceKey?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resourceId"].write(value.resourceId)
+        try writer["resourceType"].write(value.resourceType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ResourceKey()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConfigClientTypes.ResourceValue {
+
+    static func write(value: ConfigClientTypes.ResourceValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ResourceValue()
+        value.value = try reader["Value"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ConfigClientTypes.RetentionConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RetentionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.RetentionConfiguration()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.retentionPeriodInDays = try reader["RetentionPeriodInDays"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ConfigClientTypes.Scope {
+
+    static func write(value: ConfigClientTypes.Scope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComplianceResourceId"].write(value.complianceResourceId)
+        try writer["ComplianceResourceTypes"].writeList(value.complianceResourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TagKey"].write(value.tagKey)
+        try writer["TagValue"].write(value.tagValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Scope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.Scope()
+        value.complianceResourceTypes = try reader["ComplianceResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tagKey = try reader["TagKey"].readIfPresent()
+        value.tagValue = try reader["TagValue"].readIfPresent()
+        value.complianceResourceId = try reader["ComplianceResourceId"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.Source {
+
+    static func write(value: ConfigClientTypes.Source?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomPolicyDetails"].write(value.customPolicyDetails, with: ConfigClientTypes.CustomPolicyDetails.write(value:to:))
+        try writer["Owner"].write(value.owner)
+        try writer["SourceDetails"].writeList(value.sourceDetails, memberWritingClosure: ConfigClientTypes.SourceDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SourceIdentifier"].write(value.sourceIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Source {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.Source()
+        value.owner = try reader["Owner"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceIdentifier = try reader["SourceIdentifier"].readIfPresent()
+        value.sourceDetails = try reader["SourceDetails"].readListIfPresent(memberReadingClosure: ConfigClientTypes.SourceDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.customPolicyDetails = try reader["CustomPolicyDetails"].readIfPresent(with: ConfigClientTypes.CustomPolicyDetails.read(from:))
+        return value
+    }
+}
+
+extension ConfigClientTypes.SourceDetail {
+
+    static func write(value: ConfigClientTypes.SourceDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EventSource"].write(value.eventSource)
+        try writer["MaximumExecutionFrequency"].write(value.maximumExecutionFrequency)
+        try writer["MessageType"].write(value.messageType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.SourceDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.SourceDetail()
+        value.eventSource = try reader["EventSource"].readIfPresent()
+        value.messageType = try reader["MessageType"].readIfPresent()
+        value.maximumExecutionFrequency = try reader["MaximumExecutionFrequency"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.SsmControls {
+
+    static func write(value: ConfigClientTypes.SsmControls?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConcurrentExecutionRatePercentage"].write(value.concurrentExecutionRatePercentage)
+        try writer["ErrorPercentage"].write(value.errorPercentage)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.SsmControls {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.SsmControls()
+        value.concurrentExecutionRatePercentage = try reader["ConcurrentExecutionRatePercentage"].readIfPresent()
+        value.errorPercentage = try reader["ErrorPercentage"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.StaticValue {
+
+    static func write(value: ConfigClientTypes.StaticValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.StaticValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.StaticValue()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ConfigClientTypes.StatusDetailFilters {
+
+    static func write(value: ConfigClientTypes.StatusDetailFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+        try writer["MemberAccountRuleStatus"].write(value.memberAccountRuleStatus)
+    }
+}
+
 extension ConfigClientTypes.StoredQuery {
 
     static func write(value: ConfigClientTypes.StoredQuery?, to writer: SmithyJSON.Writer) throws {
@@ -17245,56 +17507,6 @@ extension ConfigClientTypes.StoredQuery {
         value.queryName = try reader["QueryName"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
         value.expression = try reader["Expression"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.ConfigurationRecorderSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigurationRecorderSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConfigurationRecorderSummary()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.servicePrincipal = try reader["servicePrincipal"].readIfPresent()
-        value.recordingScope = try reader["recordingScope"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension ConfigClientTypes.ConformancePackComplianceScore {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackComplianceScore {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConformancePackComplianceScore()
-        value.score = try reader["Score"].readIfPresent()
-        value.conformancePackName = try reader["ConformancePackName"].readIfPresent()
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension ConfigClientTypes.ResourceIdentifier {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ResourceIdentifier()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent()
-        value.resourceName = try reader["resourceName"].readIfPresent()
-        value.resourceDeletionTime = try reader["resourceDeletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension ConfigClientTypes.ResourceEvaluation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceEvaluation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ResourceEvaluation()
-        value.resourceEvaluationId = try reader["ResourceEvaluationId"].readIfPresent()
-        value.evaluationMode = try reader["EvaluationMode"].readIfPresent()
-        value.evaluationStartTimestamp = try reader["EvaluationStartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -17329,202 +17541,20 @@ extension ConfigClientTypes.Tag {
     }
 }
 
-extension ConfigClientTypes.Evaluation {
+extension ConfigClientTypes.TemplateSSMDocumentDetails {
 
-    static func write(value: ConfigClientTypes.Evaluation?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConfigClientTypes.TemplateSSMDocumentDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Annotation"].write(value.annotation)
-        try writer["ComplianceResourceId"].write(value.complianceResourceId)
-        try writer["ComplianceResourceType"].write(value.complianceResourceType)
-        try writer["ComplianceType"].write(value.complianceType)
-        try writer["OrderingTimestamp"].writeTimestamp(value.orderingTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["DocumentName"].write(value.documentName)
+        try writer["DocumentVersion"].write(value.documentVersion)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Evaluation {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.TemplateSSMDocumentDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.Evaluation()
-        value.complianceResourceType = try reader["ComplianceResourceType"].readIfPresent() ?? ""
-        value.complianceResourceId = try reader["ComplianceResourceId"].readIfPresent() ?? ""
-        value.complianceType = try reader["ComplianceType"].readIfPresent() ?? .sdkUnknown("")
-        value.annotation = try reader["Annotation"].readIfPresent()
-        value.orderingTimestamp = try reader["OrderingTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        var value = ConfigClientTypes.TemplateSSMDocumentDetails()
+        value.documentName = try reader["DocumentName"].readIfPresent() ?? ""
+        value.documentVersion = try reader["DocumentVersion"].readIfPresent()
         return value
-    }
-}
-
-extension ConfigClientTypes.FailedRemediationBatch {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.FailedRemediationBatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.FailedRemediationBatch()
-        value.failureMessage = try reader["FailureMessage"].readIfPresent()
-        value.failedItems = try reader["FailedItems"].readListIfPresent(memberReadingClosure: ConfigClientTypes.RemediationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ConfigClientTypes.FailedRemediationExceptionBatch {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.FailedRemediationExceptionBatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.FailedRemediationExceptionBatch()
-        value.failureMessage = try reader["FailureMessage"].readIfPresent()
-        value.failedItems = try reader["FailedItems"].readListIfPresent(memberReadingClosure: ConfigClientTypes.RemediationException.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ConfigClientTypes.QueryInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.QueryInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.QueryInfo()
-        value.selectFields = try reader["SelectFields"].readListIfPresent(memberReadingClosure: ConfigClientTypes.FieldInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ConfigClientTypes.FieldInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.FieldInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.FieldInfo()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.ConfigRuleComplianceFilters {
-
-    static func write(value: ConfigClientTypes.ConfigRuleComplianceFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["AwsRegion"].write(value.awsRegion)
-        try writer["ComplianceType"].write(value.complianceType)
-        try writer["ConfigRuleName"].write(value.configRuleName)
-    }
-}
-
-extension ConfigClientTypes.AggregateConformancePackComplianceFilters {
-
-    static func write(value: ConfigClientTypes.AggregateConformancePackComplianceFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["AwsRegion"].write(value.awsRegion)
-        try writer["ComplianceType"].write(value.complianceType)
-        try writer["ConformancePackName"].write(value.conformancePackName)
-    }
-}
-
-extension ConfigClientTypes.DescribeConfigRulesFilters {
-
-    static func write(value: ConfigClientTypes.DescribeConfigRulesFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EvaluationMode"].write(value.evaluationMode)
-    }
-}
-
-extension ConfigClientTypes.ConformancePackComplianceFilters {
-
-    static func write(value: ConfigClientTypes.ConformancePackComplianceFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComplianceType"].write(value.complianceType)
-        try writer["ConfigRuleNames"].writeList(value.configRuleNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ConfigClientTypes.ConfigRuleComplianceSummaryFilters {
-
-    static func write(value: ConfigClientTypes.ConfigRuleComplianceSummaryFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["AwsRegion"].write(value.awsRegion)
-    }
-}
-
-extension ConfigClientTypes.AggregateConformancePackComplianceSummaryFilters {
-
-    static func write(value: ConfigClientTypes.AggregateConformancePackComplianceSummaryFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["AwsRegion"].write(value.awsRegion)
-    }
-}
-
-extension ConfigClientTypes.ResourceCountFilters {
-
-    static func write(value: ConfigClientTypes.ResourceCountFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Region"].write(value.region)
-        try writer["ResourceType"].write(value.resourceType)
-    }
-}
-
-extension ConfigClientTypes.ConformancePackEvaluationFilters {
-
-    static func write(value: ConfigClientTypes.ConformancePackEvaluationFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComplianceType"].write(value.complianceType)
-        try writer["ConfigRuleNames"].writeList(value.configRuleNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ResourceIds"].writeList(value.resourceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ResourceType"].write(value.resourceType)
-    }
-}
-
-extension ConfigClientTypes.StatusDetailFilters {
-
-    static func write(value: ConfigClientTypes.StatusDetailFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["MemberAccountRuleStatus"].write(value.memberAccountRuleStatus)
-    }
-}
-
-extension ConfigClientTypes.OrganizationResourceDetailedStatusFilters {
-
-    static func write(value: ConfigClientTypes.OrganizationResourceDetailedStatusFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Status"].write(value.status)
-    }
-}
-
-extension ConfigClientTypes.ResourceFilters {
-
-    static func write(value: ConfigClientTypes.ResourceFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Region"].write(value.region)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceName"].write(value.resourceName)
-    }
-}
-
-extension ConfigClientTypes.ConfigurationRecorderFilter {
-
-    static func write(value: ConfigClientTypes.ConfigurationRecorderFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filterName"].write(value.filterName)
-        try writer["filterValue"].writeList(value.filterValue, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ConfigClientTypes.ConformancePackComplianceScoresFilters {
-
-    static func write(value: ConfigClientTypes.ConformancePackComplianceScoresFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConformancePackNames"].writeList(value.conformancePackNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ConfigClientTypes.ResourceEvaluationFilters {
-
-    static func write(value: ConfigClientTypes.ResourceEvaluationFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EvaluationContextIdentifier"].write(value.evaluationContextIdentifier)
-        try writer["EvaluationMode"].write(value.evaluationMode)
-        try writer["TimeWindow"].write(value.timeWindow, with: ConfigClientTypes.TimeWindow.write(value:to:))
     }
 }
 
@@ -17534,36 +17564,6 @@ extension ConfigClientTypes.TimeWindow {
         guard let value else { return }
         try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension ConfigClientTypes.ExternalEvaluation {
-
-    static func write(value: ConfigClientTypes.ExternalEvaluation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Annotation"].write(value.annotation)
-        try writer["ComplianceResourceId"].write(value.complianceResourceId)
-        try writer["ComplianceResourceType"].write(value.complianceResourceType)
-        try writer["ComplianceType"].write(value.complianceType)
-        try writer["OrderingTimestamp"].writeTimestamp(value.orderingTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension ConfigClientTypes.OrganizationCustomPolicyRuleMetadata {
-
-    static func write(value: ConfigClientTypes.OrganizationCustomPolicyRuleMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DebugLogDeliveryAccounts"].writeList(value.debugLogDeliveryAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Description"].write(value.description)
-        try writer["InputParameters"].write(value.inputParameters)
-        try writer["MaximumExecutionFrequency"].write(value.maximumExecutionFrequency)
-        try writer["OrganizationConfigRuleTriggerTypes"].writeList(value.organizationConfigRuleTriggerTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.OrganizationConfigRuleTriggerTypeNoSN>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PolicyRuntime"].write(value.policyRuntime)
-        try writer["PolicyText"].write(value.policyText)
-        try writer["ResourceIdScope"].write(value.resourceIdScope)
-        try writer["ResourceTypesScope"].writeList(value.resourceTypesScope, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TagKeyScope"].write(value.tagKeyScope)
-        try writer["TagValueScope"].write(value.tagValueScope)
     }
 }
 

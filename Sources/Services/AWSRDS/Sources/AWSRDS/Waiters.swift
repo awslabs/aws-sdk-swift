@@ -119,7 +119,7 @@ extension RDSClient {
                 guard case .success(let output) = result else { return false }
                 let dbClusters = output.dbClusters
                 let count = Double(dbClusters?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, ==, number)
                 return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, true)
             }),
@@ -298,7 +298,7 @@ extension RDSClient {
                 guard case .success(let output) = result else { return false }
                 let dbClusterSnapshots = output.dbClusterSnapshots
                 let count = Double(dbClusterSnapshots?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, ==, number)
                 return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, true)
             }),
@@ -477,7 +477,7 @@ extension RDSClient {
                 guard case .success(let output) = result else { return false }
                 let dbInstances = output.dbInstances
                 let count = Double(dbInstances?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, ==, number)
                 return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, true)
             }),
@@ -656,7 +656,7 @@ extension RDSClient {
                 guard case .success(let output) = result else { return false }
                 let dbSnapshots = output.dbSnapshots
                 let count = Double(dbSnapshots?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, ==, number)
                 return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, true)
             }),
@@ -811,7 +811,7 @@ extension RDSClient {
                 guard case .success(let output) = result else { return false }
                 let tenantDatabases = output.tenantDatabases
                 let count = Double(tenantDatabases?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, ==, number)
                 return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, true)
             }),

@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -261,6 +261,8 @@ extension WickrClientTypes {
 public struct ValidationError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// A message describing the validation error error that occurred.
+        public internal(set) var message: Swift.String? = nil
         /// A list of validation error details, where each item identifies a specific field that failed validation and explains the reason for the failure.
         public internal(set) var reasons: [WickrClientTypes.ErrorDetail]? = nil
     }
@@ -275,8 +277,10 @@ public struct ValidationError: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     public internal(set) var requestID: Swift.String?
 
     public init(
+        message: Swift.String? = nil,
         reasons: [WickrClientTypes.ErrorDetail]? = nil
     ) {
+        self.properties.message = message
         self.properties.reasons = reasons
     }
 }
@@ -2085,6 +2089,50 @@ public struct GetOidcInfoOutput: Swift.Sendable {
     }
 }
 
+public struct GetOpentdfConfigInput: Swift.Sendable {
+    /// The ID of the Wickr network for which OpenTDF integration will be retrieved.
+    /// This member is required.
+    public var networkId: Swift.String?
+
+    public init(
+        networkId: Swift.String? = nil
+    ) {
+        self.networkId = networkId
+    }
+}
+
+public struct GetOpentdfConfigOutput: Swift.Sendable {
+    /// The OIDC client ID used for authenticating with the OpenTDF provider.
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// The OIDC client secret used for authenticating with the OpenTDF provider.
+    /// This member is required.
+    public var clientSecret: Swift.String?
+    /// The domain of the OpenTDF server.
+    /// This member is required.
+    public var domain: Swift.String?
+    /// The provider of the OpenTDF platform.
+    /// This member is required.
+    public var provider: Swift.String?
+
+    public init(
+        clientId: Swift.String? = nil,
+        clientSecret: Swift.String? = nil,
+        domain: Swift.String? = nil,
+        provider: Swift.String? = nil
+    ) {
+        self.clientId = clientId
+        self.clientSecret = clientSecret
+        self.domain = domain
+        self.provider = provider
+    }
+}
+
+extension GetOpentdfConfigOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetOpentdfConfigOutput(clientId: \(Swift.String(describing: clientId)), domain: \(Swift.String(describing: domain)), provider: \(Swift.String(describing: provider)), clientSecret: \"CONTENT_REDACTED\")"}
+}
+
 public struct GetSecurityGroupInput: Swift.Sendable {
     /// The unique identifier of the security group to retrieve.
     /// This member is required.
@@ -2838,16 +2886,20 @@ extension WickrClientTypes {
         public var dataRetention: Swift.Bool?
         /// Allows Wickr clients to send anonymized performance and usage metrics to the Wickr backend server for service improvement and troubleshooting.
         public var enableClientMetrics: Swift.Bool?
+        /// Configuration for OpenTDF integration at the network level, enforcing ABAC decision making when operating in TDF enabled rooms.
+        public var enableTrustedDataFormat: Swift.Bool?
         /// Configuration for read receipts at the network level, controlling the default behavior for whether senders can see when their messages have been read.
         public var readReceiptConfig: WickrClientTypes.ReadReceiptConfig?
 
         public init(
             dataRetention: Swift.Bool? = nil,
             enableClientMetrics: Swift.Bool? = nil,
+            enableTrustedDataFormat: Swift.Bool? = nil,
             readReceiptConfig: WickrClientTypes.ReadReceiptConfig? = nil
         ) {
             self.dataRetention = dataRetention
             self.enableClientMetrics = enableClientMetrics
+            self.enableTrustedDataFormat = enableTrustedDataFormat
             self.readReceiptConfig = readReceiptConfig
         }
     }
@@ -3059,6 +3111,79 @@ public struct RegisterOidcConfigTestOutput: Swift.Sendable {
         self.tokenEndpointAuthMethodsSupported = tokenEndpointAuthMethodsSupported
         self.userinfoEndpoint = userinfoEndpoint
     }
+}
+
+public struct RegisterOpentdfConfigInput: Swift.Sendable {
+    /// The OIDC client ID used for authenticating with the OpenTDF provider.
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// The OIDC client secret used for authenticating with the OpenTDF provider
+    /// This member is required.
+    public var clientSecret: Swift.String?
+    /// The domain of the OpenTDF server.
+    /// This member is required.
+    public var domain: Swift.String?
+    /// Perform dry-run test connection of OpenTDF configuration (optional).
+    public var dryRun: Swift.Bool?
+    /// The ID of the Wickr network for which OpenTDF integration will be configured.
+    /// This member is required.
+    public var networkId: Swift.String?
+    /// The provider of the OpenTDF platform. Currently only Virtru is supported as the OpenTDF provider.
+    /// This member is required.
+    public var provider: Swift.String?
+
+    public init(
+        clientId: Swift.String? = nil,
+        clientSecret: Swift.String? = nil,
+        domain: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        networkId: Swift.String? = nil,
+        provider: Swift.String? = nil
+    ) {
+        self.clientId = clientId
+        self.clientSecret = clientSecret
+        self.domain = domain
+        self.dryRun = dryRun
+        self.networkId = networkId
+        self.provider = provider
+    }
+}
+
+extension RegisterOpentdfConfigInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RegisterOpentdfConfigInput(clientId: \(Swift.String(describing: clientId)), domain: \(Swift.String(describing: domain)), dryRun: \(Swift.String(describing: dryRun)), networkId: \(Swift.String(describing: networkId)), provider: \(Swift.String(describing: provider)), clientSecret: \"CONTENT_REDACTED\")"}
+}
+
+public struct RegisterOpentdfConfigOutput: Swift.Sendable {
+    /// The OIDC client ID used for authenticating with the OpenTDF provider.
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// The OIDC client secret used for authenticating with the OpenTDF provider.
+    /// This member is required.
+    public var clientSecret: Swift.String?
+    /// The domain of the OpenTDF server.
+    /// This member is required.
+    public var domain: Swift.String?
+    /// The provider of the OpenTDF platform.
+    /// This member is required.
+    public var provider: Swift.String?
+
+    public init(
+        clientId: Swift.String? = nil,
+        clientSecret: Swift.String? = nil,
+        domain: Swift.String? = nil,
+        provider: Swift.String? = nil
+    ) {
+        self.clientId = clientId
+        self.clientSecret = clientSecret
+        self.domain = domain
+        self.provider = provider
+    }
+}
+
+extension RegisterOpentdfConfigOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RegisterOpentdfConfigOutput(clientId: \(Swift.String(describing: clientId)), domain: \(Swift.String(describing: domain)), provider: \(Swift.String(describing: provider)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateBotInput: Swift.Sendable {
@@ -3772,6 +3897,16 @@ extension GetOidcInfoInput {
     }
 }
 
+extension GetOpentdfConfigInput {
+
+    static func urlPathProvider(_ value: GetOpentdfConfigInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
+            return nil
+        }
+        return "/networks/\(networkId.urlPercentEncoding())/tdf"
+    }
+}
+
 extension GetSecurityGroupInput {
 
     static func urlPathProvider(_ value: GetSecurityGroupInput) -> Swift.String? {
@@ -4171,6 +4306,28 @@ extension RegisterOidcConfigTestInput {
     }
 }
 
+extension RegisterOpentdfConfigInput {
+
+    static func urlPathProvider(_ value: RegisterOpentdfConfigInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
+            return nil
+        }
+        return "/networks/\(networkId.urlPercentEncoding())/tdf"
+    }
+}
+
+extension RegisterOpentdfConfigInput {
+
+    static func queryItemProvider(_ value: RegisterOpentdfConfigInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let dryRun = value.dryRun {
+            let dryRunQueryItem = Smithy.URIQueryItem(name: "dryRun".urlPercentEncoding(), value: Swift.String(dryRun).urlPercentEncoding())
+            items.append(dryRunQueryItem)
+        }
+        return items
+    }
+}
+
 extension UpdateBotInput {
 
     static func urlPathProvider(_ value: UpdateBotInput) -> Swift.String? {
@@ -4363,6 +4520,17 @@ extension RegisterOidcConfigTestInput {
         try writer["extraAuthParams"].write(value.extraAuthParams)
         try writer["issuer"].write(value.issuer)
         try writer["scopes"].write(value.scopes)
+    }
+}
+
+extension RegisterOpentdfConfigInput {
+
+    static func write(value: RegisterOpentdfConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientId"].write(value.clientId)
+        try writer["clientSecret"].write(value.clientSecret)
+        try writer["domain"].write(value.domain)
+        try writer["provider"].write(value.provider)
     }
 }
 
@@ -4738,6 +4906,21 @@ extension GetOidcInfoOutput {
     }
 }
 
+extension GetOpentdfConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetOpentdfConfigOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetOpentdfConfigOutput()
+        value.clientId = try reader["clientId"].readIfPresent() ?? ""
+        value.clientSecret = try reader["clientSecret"].readIfPresent() ?? ""
+        value.domain = try reader["domain"].readIfPresent() ?? ""
+        value.provider = try reader["provider"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension GetSecurityGroupOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSecurityGroupOutput {
@@ -4939,6 +5122,21 @@ extension RegisterOidcConfigTestOutput {
     }
 }
 
+extension RegisterOpentdfConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RegisterOpentdfConfigOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RegisterOpentdfConfigOutput()
+        value.clientId = try reader["clientId"].readIfPresent() ?? ""
+        value.clientSecret = try reader["clientSecret"].readIfPresent() ?? ""
+        value.domain = try reader["domain"].readIfPresent() ?? ""
+        value.provider = try reader["provider"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension UpdateBotOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateBotOutput {
@@ -5039,7 +5237,7 @@ enum BatchCreateUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5059,7 +5257,7 @@ enum BatchDeleteUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5079,7 +5277,7 @@ enum BatchLookupUserUnameOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5099,7 +5297,7 @@ enum BatchReinviteUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5119,7 +5317,7 @@ enum BatchResetDevicesForUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5139,7 +5337,7 @@ enum BatchToggleUserSuspendStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5159,7 +5357,7 @@ enum CreateBotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5179,7 +5377,7 @@ enum CreateDataRetentionBotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5199,7 +5397,7 @@ enum CreateDataRetentionBotChallengeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5219,7 +5417,7 @@ enum CreateNetworkOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5239,7 +5437,7 @@ enum CreateSecurityGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5259,7 +5457,7 @@ enum DeleteBotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5279,7 +5477,7 @@ enum DeleteDataRetentionBotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5299,7 +5497,7 @@ enum DeleteNetworkOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5319,7 +5517,7 @@ enum DeleteSecurityGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5339,7 +5537,7 @@ enum GetBotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5359,7 +5557,7 @@ enum GetBotsCountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5379,7 +5577,7 @@ enum GetDataRetentionBotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5399,7 +5597,7 @@ enum GetGuestUserHistoryCountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5419,7 +5617,7 @@ enum GetNetworkOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5439,7 +5637,7 @@ enum GetNetworkSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5459,7 +5657,27 @@ enum GetOidcInfoOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
+            case "ForbiddenError": return try ForbiddenError.makeError(baseError: baseError)
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "RateLimitError": return try RateLimitError.makeError(baseError: baseError)
+            case "ResourceNotFoundError": return try ResourceNotFoundError.makeError(baseError: baseError)
+            case "UnauthorizedError": return try UnauthorizedError.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationError.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetOpentdfConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5479,7 +5697,7 @@ enum GetSecurityGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5499,7 +5717,7 @@ enum GetUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5519,7 +5737,7 @@ enum GetUsersCountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5539,7 +5757,7 @@ enum ListBlockedGuestUsersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5559,7 +5777,7 @@ enum ListBotsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5579,7 +5797,7 @@ enum ListDevicesForUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5599,7 +5817,7 @@ enum ListGuestUsersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5619,7 +5837,7 @@ enum ListNetworksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5638,7 +5856,7 @@ enum ListSecurityGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5658,7 +5876,7 @@ enum ListSecurityGroupUsersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5678,7 +5896,7 @@ enum ListUsersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5698,7 +5916,7 @@ enum RegisterOidcConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5718,7 +5936,27 @@ enum RegisterOidcConfigTestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
+            case "ForbiddenError": return try ForbiddenError.makeError(baseError: baseError)
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "RateLimitError": return try RateLimitError.makeError(baseError: baseError)
+            case "ResourceNotFoundError": return try ResourceNotFoundError.makeError(baseError: baseError)
+            case "UnauthorizedError": return try UnauthorizedError.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationError.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RegisterOpentdfConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5738,7 +5976,7 @@ enum UpdateBotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5758,7 +5996,7 @@ enum UpdateDataRetentionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5778,7 +6016,7 @@ enum UpdateGuestUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5798,7 +6036,7 @@ enum UpdateNetworkOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5818,7 +6056,7 @@ enum UpdateNetworkSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5838,7 +6076,7 @@ enum UpdateSecurityGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5858,7 +6096,7 @@ enum UpdateUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
@@ -5875,7 +6113,7 @@ enum UpdateUserOutputError {
 
 extension BadRequestError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadRequestError {
         let reader = baseError.errorBodyReader
         var value = BadRequestError()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5888,7 +6126,7 @@ extension BadRequestError {
 
 extension ForbiddenError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ForbiddenError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ForbiddenError {
         let reader = baseError.errorBodyReader
         var value = ForbiddenError()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5901,7 +6139,7 @@ extension ForbiddenError {
 
 extension InternalServerError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerError {
         let reader = baseError.errorBodyReader
         var value = InternalServerError()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -5914,7 +6152,7 @@ extension InternalServerError {
 
 extension RateLimitError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RateLimitError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> RateLimitError {
         let reader = baseError.errorBodyReader
         var value = RateLimitError()
         value.properties.message = try reader["message"].readIfPresent() ?? "Too many requests sent"
@@ -5927,7 +6165,7 @@ extension RateLimitError {
 
 extension ResourceNotFoundError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundError {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundError()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5940,7 +6178,7 @@ extension ResourceNotFoundError {
 
 extension UnauthorizedError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnauthorizedError {
         let reader = baseError.errorBodyReader
         var value = UnauthorizedError()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5953,9 +6191,10 @@ extension UnauthorizedError {
 
 extension ValidationError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationError {
         let reader = baseError.errorBodyReader
         var value = ValidationError()
+        value.properties.message = try reader["message"].readIfPresent()
         value.properties.reasons = try reader["reasons"].readListIfPresent(memberReadingClosure: WickrClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5964,30 +6203,76 @@ extension ValidationError {
     }
 }
 
-extension WickrClientTypes.User {
+extension WickrClientTypes.BasicDeviceObject {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.User {
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BasicDeviceObject {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.User()
-        value.userId = try reader["userId"].readIfPresent()
-        value.firstName = try reader["firstName"].readIfPresent()
-        value.lastName = try reader["lastName"].readIfPresent()
-        value.username = try reader["username"].readIfPresent()
-        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isAdmin = try reader["isAdmin"].readIfPresent()
-        value.suspended = try reader["suspended"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.otpEnabled = try reader["otpEnabled"].readIfPresent()
-        value.scimId = try reader["scimId"].readIfPresent()
+        var value = WickrClientTypes.BasicDeviceObject()
+        value.appId = try reader["appId"].readIfPresent()
+        value.created = try reader["created"].readIfPresent()
+        value.lastLogin = try reader["lastLogin"].readIfPresent()
+        value.statusText = try reader["statusText"].readIfPresent()
+        value.suspend = try reader["suspend"].readIfPresent()
         value.type = try reader["type"].readIfPresent()
-        value.cell = try reader["cell"].readIfPresent()
-        value.countryCode = try reader["countryCode"].readIfPresent()
-        value.challengeFailures = try reader["challengeFailures"].readIfPresent()
-        value.isInviteExpired = try reader["isInviteExpired"].readIfPresent()
-        value.isUser = try reader["isUser"].readIfPresent()
-        value.inviteCode = try reader["inviteCode"].readIfPresent()
-        value.codeValidation = try reader["codeValidation"].readIfPresent()
-        value.uname = try reader["uname"].readIfPresent()
+        return value
+    }
+}
+
+extension WickrClientTypes.BatchCreateUserRequestItem {
+
+    static func write(value: WickrClientTypes.BatchCreateUserRequestItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["codeValidation"].write(value.codeValidation)
+        try writer["firstName"].write(value.firstName)
+        try writer["inviteCode"].write(value.inviteCode)
+        try writer["inviteCodeTtl"].write(value.inviteCodeTtl)
+        try writer["lastName"].write(value.lastName)
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["username"].write(value.username)
+    }
+}
+
+extension WickrClientTypes.BatchDeviceErrorResponseItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BatchDeviceErrorResponseItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.BatchDeviceErrorResponseItem()
+        value.field = try reader["field"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        value.appId = try reader["appId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WickrClientTypes.BatchDeviceSuccessResponseItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BatchDeviceSuccessResponseItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.BatchDeviceSuccessResponseItem()
+        value.appId = try reader["appId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WickrClientTypes.BatchUnameErrorResponseItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BatchUnameErrorResponseItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.BatchUnameErrorResponseItem()
+        value.field = try reader["field"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        value.uname = try reader["uname"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WickrClientTypes.BatchUnameSuccessResponseItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BatchUnameSuccessResponseItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.BatchUnameSuccessResponseItem()
+        value.uname = try reader["uname"].readIfPresent() ?? ""
+        value.username = try reader["username"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6014,48 +6299,204 @@ extension WickrClientTypes.BatchUserSuccessResponseItem {
     }
 }
 
-extension WickrClientTypes.BatchUnameSuccessResponseItem {
+extension WickrClientTypes.BlockedGuestUser {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BatchUnameSuccessResponseItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BlockedGuestUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.BatchUnameSuccessResponseItem()
-        value.uname = try reader["uname"].readIfPresent() ?? ""
+        var value = WickrClientTypes.BlockedGuestUser()
         value.username = try reader["username"].readIfPresent() ?? ""
+        value.admin = try reader["admin"].readIfPresent() ?? ""
+        value.modified = try reader["modified"].readIfPresent() ?? ""
+        value.usernameHash = try reader["usernameHash"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension WickrClientTypes.BatchUnameErrorResponseItem {
+extension WickrClientTypes.Bot {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BatchUnameErrorResponseItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.Bot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.BatchUnameErrorResponseItem()
+        var value = WickrClientTypes.Bot()
+        value.botId = try reader["botId"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.username = try reader["username"].readIfPresent()
+        value.uname = try reader["uname"].readIfPresent()
+        value.pubkey = try reader["pubkey"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.groupId = try reader["groupId"].readIfPresent()
+        value.hasChallenge = try reader["hasChallenge"].readIfPresent()
+        value.suspended = try reader["suspended"].readIfPresent()
+        value.lastLogin = try reader["lastLogin"].readIfPresent()
+        return value
+    }
+}
+
+extension WickrClientTypes.CallingSettings {
+
+    static func write(value: WickrClientTypes.CallingSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["canStart11Call"].write(value.canStart11Call)
+        try writer["canVideoCall"].write(value.canVideoCall)
+        try writer["forceTcpCall"].write(value.forceTcpCall)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.CallingSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.CallingSettings()
+        value.canStart11Call = try reader["canStart11Call"].readIfPresent()
+        value.canVideoCall = try reader["canVideoCall"].readIfPresent()
+        value.forceTcpCall = try reader["forceTcpCall"].readIfPresent()
+        return value
+    }
+}
+
+extension WickrClientTypes.ErrorDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.ErrorDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.ErrorDetail()
         value.field = try reader["field"].readIfPresent()
         value.reason = try reader["reason"].readIfPresent()
-        value.uname = try reader["uname"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension WickrClientTypes.BatchDeviceSuccessResponseItem {
+extension WickrClientTypes.GuestUser {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BatchDeviceSuccessResponseItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.GuestUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.BatchDeviceSuccessResponseItem()
-        value.appId = try reader["appId"].readIfPresent() ?? ""
+        var value = WickrClientTypes.GuestUser()
+        value.billingPeriod = try reader["billingPeriod"].readIfPresent() ?? ""
+        value.username = try reader["username"].readIfPresent() ?? ""
+        value.usernameHash = try reader["usernameHash"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension WickrClientTypes.BatchDeviceErrorResponseItem {
+extension WickrClientTypes.GuestUserHistoryCount {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BatchDeviceErrorResponseItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.GuestUserHistoryCount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.BatchDeviceErrorResponseItem()
-        value.field = try reader["field"].readIfPresent()
-        value.reason = try reader["reason"].readIfPresent()
-        value.appId = try reader["appId"].readIfPresent() ?? ""
+        var value = WickrClientTypes.GuestUserHistoryCount()
+        value.month = try reader["month"].readIfPresent() ?? ""
+        value.count = try reader["count"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension WickrClientTypes.Network {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.Network {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.Network()
+        value.networkId = try reader["networkId"].readIfPresent() ?? ""
+        value.networkName = try reader["networkName"].readIfPresent() ?? ""
+        value.accessLevel = try reader["accessLevel"].readIfPresent() ?? .sdkUnknown("")
+        value.awsAccountId = try reader["awsAccountId"].readIfPresent() ?? ""
+        value.networkArn = try reader["networkArn"].readIfPresent() ?? ""
+        value.standing = try reader["standing"].readIfPresent()
+        value.freeTrialExpiration = try reader["freeTrialExpiration"].readIfPresent()
+        value.migrationState = try reader["migrationState"].readIfPresent()
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension WickrClientTypes.NetworkSettings {
+
+    static func write(value: WickrClientTypes.NetworkSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataRetention"].write(value.dataRetention)
+        try writer["enableClientMetrics"].write(value.enableClientMetrics)
+        try writer["enableTrustedDataFormat"].write(value.enableTrustedDataFormat)
+        try writer["readReceiptConfig"].write(value.readReceiptConfig, with: WickrClientTypes.ReadReceiptConfig.write(value:to:))
+    }
+}
+
+extension WickrClientTypes.OidcConfigInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.OidcConfigInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.OidcConfigInfo()
+        value.applicationName = try reader["applicationName"].readIfPresent()
+        value.clientId = try reader["clientId"].readIfPresent()
+        value.companyId = try reader["companyId"].readIfPresent() ?? ""
+        value.scopes = try reader["scopes"].readIfPresent() ?? ""
+        value.issuer = try reader["issuer"].readIfPresent() ?? ""
+        value.clientSecret = try reader["clientSecret"].readIfPresent()
+        value.secret = try reader["secret"].readIfPresent()
+        value.redirectUrl = try reader["redirectUrl"].readIfPresent()
+        value.userId = try reader["userId"].readIfPresent()
+        value.customUsername = try reader["customUsername"].readIfPresent()
+        value.caCertificate = try reader["caCertificate"].readIfPresent()
+        value.applicationId = try reader["applicationId"].readIfPresent()
+        value.ssoTokenBufferMinutes = try reader["ssoTokenBufferMinutes"].readIfPresent()
+        value.extraAuthParams = try reader["extraAuthParams"].readIfPresent()
+        return value
+    }
+}
+
+extension WickrClientTypes.OidcTokenInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.OidcTokenInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.OidcTokenInfo()
+        value.codeVerifier = try reader["codeVerifier"].readIfPresent()
+        value.codeChallenge = try reader["codeChallenge"].readIfPresent()
+        value.accessToken = try reader["accessToken"].readIfPresent()
+        value.idToken = try reader["idToken"].readIfPresent()
+        value.refreshToken = try reader["refreshToken"].readIfPresent()
+        value.tokenType = try reader["tokenType"].readIfPresent()
+        value.expiresIn = try reader["expiresIn"].readIfPresent()
+        return value
+    }
+}
+
+extension WickrClientTypes.PasswordRequirements {
+
+    static func write(value: WickrClientTypes.PasswordRequirements?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["lowercase"].write(value.lowercase)
+        try writer["minLength"].write(value.minLength)
+        try writer["numbers"].write(value.numbers)
+        try writer["symbols"].write(value.symbols)
+        try writer["uppercase"].write(value.uppercase)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.PasswordRequirements {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.PasswordRequirements()
+        value.lowercase = try reader["lowercase"].readIfPresent()
+        value.minLength = try reader["minLength"].readIfPresent()
+        value.numbers = try reader["numbers"].readIfPresent()
+        value.symbols = try reader["symbols"].readIfPresent()
+        value.uppercase = try reader["uppercase"].readIfPresent()
+        return value
+    }
+}
+
+extension WickrClientTypes.PermittedWickrEnterpriseNetwork {
+
+    static func write(value: WickrClientTypes.PermittedWickrEnterpriseNetwork?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domain"].write(value.domain)
+        try writer["networkId"].write(value.networkId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.PermittedWickrEnterpriseNetwork {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.PermittedWickrEnterpriseNetwork()
+        value.domain = try reader["domain"].readIfPresent() ?? ""
+        value.networkId = try reader["networkId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WickrClientTypes.ReadReceiptConfig {
+
+    static func write(value: WickrClientTypes.ReadReceiptConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["status"].write(value.status)
     }
 }
 
@@ -6159,36 +6600,29 @@ extension WickrClientTypes.SecurityGroupSettings {
     }
 }
 
-extension WickrClientTypes.PermittedWickrEnterpriseNetwork {
+extension WickrClientTypes.SecurityGroupSettingsRequest {
 
-    static func write(value: WickrClientTypes.PermittedWickrEnterpriseNetwork?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WickrClientTypes.SecurityGroupSettingsRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["domain"].write(value.domain)
-        try writer["networkId"].write(value.networkId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.PermittedWickrEnterpriseNetwork {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.PermittedWickrEnterpriseNetwork()
-        value.domain = try reader["domain"].readIfPresent() ?? ""
-        value.networkId = try reader["networkId"].readIfPresent() ?? ""
-        return value
+        try writer["enableGuestFederation"].write(value.enableGuestFederation)
+        try writer["enableRestrictedGlobalFederation"].write(value.enableRestrictedGlobalFederation)
+        try writer["federationMode"].write(value.federationMode)
+        try writer["globalFederation"].write(value.globalFederation)
+        try writer["lockoutThreshold"].write(value.lockoutThreshold)
+        try writer["permittedNetworks"].writeList(value.permittedNetworks, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["permittedWickrAwsNetworks"].writeList(value.permittedWickrAwsNetworks, memberWritingClosure: WickrClientTypes.WickrAwsNetworks.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["permittedWickrEnterpriseNetworks"].writeList(value.permittedWickrEnterpriseNetworks, memberWritingClosure: WickrClientTypes.PermittedWickrEnterpriseNetwork.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension WickrClientTypes.WickrAwsNetworks {
+extension WickrClientTypes.Setting {
 
-    static func write(value: WickrClientTypes.WickrAwsNetworks?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["networkId"].write(value.networkId)
-        try writer["region"].write(value.region)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.WickrAwsNetworks {
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.Setting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.WickrAwsNetworks()
-        value.region = try reader["region"].readIfPresent() ?? ""
-        value.networkId = try reader["networkId"].readIfPresent() ?? ""
+        var value = WickrClientTypes.Setting()
+        value.optionName = try reader["optionName"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6210,245 +6644,6 @@ extension WickrClientTypes.ShredderSettings {
     }
 }
 
-extension WickrClientTypes.PasswordRequirements {
-
-    static func write(value: WickrClientTypes.PasswordRequirements?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lowercase"].write(value.lowercase)
-        try writer["minLength"].write(value.minLength)
-        try writer["numbers"].write(value.numbers)
-        try writer["symbols"].write(value.symbols)
-        try writer["uppercase"].write(value.uppercase)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.PasswordRequirements {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.PasswordRequirements()
-        value.lowercase = try reader["lowercase"].readIfPresent()
-        value.minLength = try reader["minLength"].readIfPresent()
-        value.numbers = try reader["numbers"].readIfPresent()
-        value.symbols = try reader["symbols"].readIfPresent()
-        value.uppercase = try reader["uppercase"].readIfPresent()
-        return value
-    }
-}
-
-extension WickrClientTypes.CallingSettings {
-
-    static func write(value: WickrClientTypes.CallingSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["canStart11Call"].write(value.canStart11Call)
-        try writer["canVideoCall"].write(value.canVideoCall)
-        try writer["forceTcpCall"].write(value.forceTcpCall)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.CallingSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.CallingSettings()
-        value.canStart11Call = try reader["canStart11Call"].readIfPresent()
-        value.canVideoCall = try reader["canVideoCall"].readIfPresent()
-        value.forceTcpCall = try reader["forceTcpCall"].readIfPresent()
-        return value
-    }
-}
-
-extension WickrClientTypes.GuestUserHistoryCount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.GuestUserHistoryCount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.GuestUserHistoryCount()
-        value.month = try reader["month"].readIfPresent() ?? ""
-        value.count = try reader["count"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WickrClientTypes.Setting {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.Setting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.Setting()
-        value.optionName = try reader["optionName"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WickrClientTypes.OidcConfigInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.OidcConfigInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.OidcConfigInfo()
-        value.applicationName = try reader["applicationName"].readIfPresent()
-        value.clientId = try reader["clientId"].readIfPresent()
-        value.companyId = try reader["companyId"].readIfPresent() ?? ""
-        value.scopes = try reader["scopes"].readIfPresent() ?? ""
-        value.issuer = try reader["issuer"].readIfPresent() ?? ""
-        value.clientSecret = try reader["clientSecret"].readIfPresent()
-        value.secret = try reader["secret"].readIfPresent()
-        value.redirectUrl = try reader["redirectUrl"].readIfPresent()
-        value.userId = try reader["userId"].readIfPresent()
-        value.customUsername = try reader["customUsername"].readIfPresent()
-        value.caCertificate = try reader["caCertificate"].readIfPresent()
-        value.applicationId = try reader["applicationId"].readIfPresent()
-        value.ssoTokenBufferMinutes = try reader["ssoTokenBufferMinutes"].readIfPresent()
-        value.extraAuthParams = try reader["extraAuthParams"].readIfPresent()
-        return value
-    }
-}
-
-extension WickrClientTypes.OidcTokenInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.OidcTokenInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.OidcTokenInfo()
-        value.codeVerifier = try reader["codeVerifier"].readIfPresent()
-        value.codeChallenge = try reader["codeChallenge"].readIfPresent()
-        value.accessToken = try reader["accessToken"].readIfPresent()
-        value.idToken = try reader["idToken"].readIfPresent()
-        value.refreshToken = try reader["refreshToken"].readIfPresent()
-        value.tokenType = try reader["tokenType"].readIfPresent()
-        value.expiresIn = try reader["expiresIn"].readIfPresent()
-        return value
-    }
-}
-
-extension WickrClientTypes.BlockedGuestUser {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BlockedGuestUser {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.BlockedGuestUser()
-        value.username = try reader["username"].readIfPresent() ?? ""
-        value.admin = try reader["admin"].readIfPresent() ?? ""
-        value.modified = try reader["modified"].readIfPresent() ?? ""
-        value.usernameHash = try reader["usernameHash"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WickrClientTypes.Bot {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.Bot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.Bot()
-        value.botId = try reader["botId"].readIfPresent()
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.username = try reader["username"].readIfPresent()
-        value.uname = try reader["uname"].readIfPresent()
-        value.pubkey = try reader["pubkey"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.groupId = try reader["groupId"].readIfPresent()
-        value.hasChallenge = try reader["hasChallenge"].readIfPresent()
-        value.suspended = try reader["suspended"].readIfPresent()
-        value.lastLogin = try reader["lastLogin"].readIfPresent()
-        return value
-    }
-}
-
-extension WickrClientTypes.BasicDeviceObject {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BasicDeviceObject {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.BasicDeviceObject()
-        value.appId = try reader["appId"].readIfPresent()
-        value.created = try reader["created"].readIfPresent()
-        value.lastLogin = try reader["lastLogin"].readIfPresent()
-        value.statusText = try reader["statusText"].readIfPresent()
-        value.suspend = try reader["suspend"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        return value
-    }
-}
-
-extension WickrClientTypes.GuestUser {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.GuestUser {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.GuestUser()
-        value.billingPeriod = try reader["billingPeriod"].readIfPresent() ?? ""
-        value.username = try reader["username"].readIfPresent() ?? ""
-        value.usernameHash = try reader["usernameHash"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WickrClientTypes.Network {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.Network {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.Network()
-        value.networkId = try reader["networkId"].readIfPresent() ?? ""
-        value.networkName = try reader["networkName"].readIfPresent() ?? ""
-        value.accessLevel = try reader["accessLevel"].readIfPresent() ?? .sdkUnknown("")
-        value.awsAccountId = try reader["awsAccountId"].readIfPresent() ?? ""
-        value.networkArn = try reader["networkArn"].readIfPresent() ?? ""
-        value.standing = try reader["standing"].readIfPresent()
-        value.freeTrialExpiration = try reader["freeTrialExpiration"].readIfPresent()
-        value.migrationState = try reader["migrationState"].readIfPresent()
-        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
-        return value
-    }
-}
-
-extension WickrClientTypes.ErrorDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.ErrorDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.ErrorDetail()
-        value.field = try reader["field"].readIfPresent()
-        value.reason = try reader["reason"].readIfPresent()
-        return value
-    }
-}
-
-extension WickrClientTypes.BatchCreateUserRequestItem {
-
-    static func write(value: WickrClientTypes.BatchCreateUserRequestItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["codeValidation"].write(value.codeValidation)
-        try writer["firstName"].write(value.firstName)
-        try writer["inviteCode"].write(value.inviteCode)
-        try writer["inviteCodeTtl"].write(value.inviteCodeTtl)
-        try writer["lastName"].write(value.lastName)
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["username"].write(value.username)
-    }
-}
-
-extension WickrClientTypes.SecurityGroupSettingsRequest {
-
-    static func write(value: WickrClientTypes.SecurityGroupSettingsRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enableGuestFederation"].write(value.enableGuestFederation)
-        try writer["enableRestrictedGlobalFederation"].write(value.enableRestrictedGlobalFederation)
-        try writer["federationMode"].write(value.federationMode)
-        try writer["globalFederation"].write(value.globalFederation)
-        try writer["lockoutThreshold"].write(value.lockoutThreshold)
-        try writer["permittedNetworks"].writeList(value.permittedNetworks, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["permittedWickrAwsNetworks"].writeList(value.permittedWickrAwsNetworks, memberWritingClosure: WickrClientTypes.WickrAwsNetworks.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["permittedWickrEnterpriseNetworks"].writeList(value.permittedWickrEnterpriseNetworks, memberWritingClosure: WickrClientTypes.PermittedWickrEnterpriseNetwork.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension WickrClientTypes.NetworkSettings {
-
-    static func write(value: WickrClientTypes.NetworkSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataRetention"].write(value.dataRetention)
-        try writer["enableClientMetrics"].write(value.enableClientMetrics)
-        try writer["readReceiptConfig"].write(value.readReceiptConfig, with: WickrClientTypes.ReadReceiptConfig.write(value:to:))
-    }
-}
-
-extension WickrClientTypes.ReadReceiptConfig {
-
-    static func write(value: WickrClientTypes.ReadReceiptConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
-}
-
 extension WickrClientTypes.UpdateUserDetails {
 
     static func write(value: WickrClientTypes.UpdateUserDetails?, to writer: SmithyJSON.Writer) throws {
@@ -6460,6 +6655,51 @@ extension WickrClientTypes.UpdateUserDetails {
         try writer["lastName"].write(value.lastName)
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["username"].write(value.username)
+    }
+}
+
+extension WickrClientTypes.User {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.User {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.User()
+        value.userId = try reader["userId"].readIfPresent()
+        value.firstName = try reader["firstName"].readIfPresent()
+        value.lastName = try reader["lastName"].readIfPresent()
+        value.username = try reader["username"].readIfPresent()
+        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isAdmin = try reader["isAdmin"].readIfPresent()
+        value.suspended = try reader["suspended"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.otpEnabled = try reader["otpEnabled"].readIfPresent()
+        value.scimId = try reader["scimId"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.cell = try reader["cell"].readIfPresent()
+        value.countryCode = try reader["countryCode"].readIfPresent()
+        value.challengeFailures = try reader["challengeFailures"].readIfPresent()
+        value.isInviteExpired = try reader["isInviteExpired"].readIfPresent()
+        value.isUser = try reader["isUser"].readIfPresent()
+        value.inviteCode = try reader["inviteCode"].readIfPresent()
+        value.codeValidation = try reader["codeValidation"].readIfPresent()
+        value.uname = try reader["uname"].readIfPresent()
+        return value
+    }
+}
+
+extension WickrClientTypes.WickrAwsNetworks {
+
+    static func write(value: WickrClientTypes.WickrAwsNetworks?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["networkId"].write(value.networkId)
+        try writer["region"].write(value.region)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.WickrAwsNetworks {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.WickrAwsNetworks()
+        value.region = try reader["region"].readIfPresent() ?? ""
+        value.networkId = try reader["networkId"].readIfPresent() ?? ""
+        return value
     }
 }
 

@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -1761,7 +1761,7 @@ enum DeleteSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -1779,7 +1779,7 @@ enum GetSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -1796,7 +1796,7 @@ enum PostContentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
@@ -1820,7 +1820,7 @@ enum PostTextOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
@@ -1841,7 +1841,7 @@ enum PutSessionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
@@ -1859,7 +1859,7 @@ enum PutSessionOutputError {
 
 extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1872,7 +1872,7 @@ extension BadRequestException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1885,7 +1885,7 @@ extension ConflictException {
 
 extension InternalFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalFailureException {
         let reader = baseError.errorBodyReader
         var value = InternalFailureException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1898,7 +1898,7 @@ extension InternalFailureException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = LimitExceededException()
@@ -1915,7 +1915,7 @@ extension LimitExceededException {
 
 extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1928,7 +1928,7 @@ extension NotFoundException {
 
 extension BadGatewayException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadGatewayException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadGatewayException {
         let reader = baseError.errorBodyReader
         var value = BadGatewayException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1941,7 +1941,7 @@ extension BadGatewayException {
 
 extension DependencyFailedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DependencyFailedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DependencyFailedException {
         let reader = baseError.errorBodyReader
         var value = DependencyFailedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1954,7 +1954,7 @@ extension DependencyFailedException {
 
 extension LoopDetectedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LoopDetectedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LoopDetectedException {
         let reader = baseError.errorBodyReader
         var value = LoopDetectedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -1967,7 +1967,7 @@ extension LoopDetectedException {
 
 extension NotAcceptableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotAcceptableException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotAcceptableException {
         let reader = baseError.errorBodyReader
         var value = NotAcceptableException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1980,7 +1980,7 @@ extension NotAcceptableException {
 
 extension RequestTimeoutException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RequestTimeoutException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> RequestTimeoutException {
         let reader = baseError.errorBodyReader
         var value = RequestTimeoutException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1993,67 +1993,13 @@ extension RequestTimeoutException {
 
 extension UnsupportedMediaTypeException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedMediaTypeException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnsupportedMediaTypeException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedMediaTypeException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension LexRuntimeClientTypes.IntentSummary {
-
-    static func write(value: LexRuntimeClientTypes.IntentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["checkpointLabel"].write(value.checkpointLabel)
-        try writer["confirmationStatus"].write(value.confirmationStatus)
-        try writer["dialogActionType"].write(value.dialogActionType)
-        try writer["fulfillmentState"].write(value.fulfillmentState)
-        try writer["intentName"].write(value.intentName)
-        try writer["slotToElicit"].write(value.slotToElicit)
-        try writer["slots"].writeMap(value.slots, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.IntentSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeClientTypes.IntentSummary()
-        value.intentName = try reader["intentName"].readIfPresent()
-        value.checkpointLabel = try reader["checkpointLabel"].readIfPresent()
-        value.slots = try reader["slots"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.confirmationStatus = try reader["confirmationStatus"].readIfPresent()
-        value.dialogActionType = try reader["dialogActionType"].readIfPresent() ?? .sdkUnknown("")
-        value.fulfillmentState = try reader["fulfillmentState"].readIfPresent()
-        value.slotToElicit = try reader["slotToElicit"].readIfPresent()
-        return value
-    }
-}
-
-extension LexRuntimeClientTypes.DialogAction {
-
-    static func write(value: LexRuntimeClientTypes.DialogAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fulfillmentState"].write(value.fulfillmentState)
-        try writer["intentName"].write(value.intentName)
-        try writer["message"].write(value.message)
-        try writer["messageFormat"].write(value.messageFormat)
-        try writer["slotToElicit"].write(value.slotToElicit)
-        try writer["slots"].writeMap(value.slots, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.DialogAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeClientTypes.DialogAction()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.intentName = try reader["intentName"].readIfPresent()
-        value.slots = try reader["slots"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.slotToElicit = try reader["slotToElicit"].readIfPresent()
-        value.fulfillmentState = try reader["fulfillmentState"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        value.messageFormat = try reader["messageFormat"].readIfPresent()
         return value
     }
 }
@@ -2094,47 +2040,40 @@ extension LexRuntimeClientTypes.ActiveContextTimeToLive {
     }
 }
 
-extension LexRuntimeClientTypes.IntentConfidence {
+extension LexRuntimeClientTypes.Button {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.IntentConfidence {
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.Button {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeClientTypes.IntentConfidence()
-        value.score = try reader["score"].readIfPresent() ?? 0
+        var value = LexRuntimeClientTypes.Button()
+        value.text = try reader["text"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension LexRuntimeClientTypes.PredictedIntent {
+extension LexRuntimeClientTypes.DialogAction {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.PredictedIntent {
+    static func write(value: LexRuntimeClientTypes.DialogAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fulfillmentState"].write(value.fulfillmentState)
+        try writer["intentName"].write(value.intentName)
+        try writer["message"].write(value.message)
+        try writer["messageFormat"].write(value.messageFormat)
+        try writer["slotToElicit"].write(value.slotToElicit)
+        try writer["slots"].writeMap(value.slots, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.DialogAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeClientTypes.PredictedIntent()
+        var value = LexRuntimeClientTypes.DialogAction()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.intentName = try reader["intentName"].readIfPresent()
-        value.nluIntentConfidence = try reader["nluIntentConfidence"].readIfPresent(with: LexRuntimeClientTypes.IntentConfidence.read(from:))
         value.slots = try reader["slots"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension LexRuntimeClientTypes.SentimentResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.SentimentResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeClientTypes.SentimentResponse()
-        value.sentimentLabel = try reader["sentimentLabel"].readIfPresent()
-        value.sentimentScore = try reader["sentimentScore"].readIfPresent()
-        return value
-    }
-}
-
-extension LexRuntimeClientTypes.ResponseCard {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.ResponseCard {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeClientTypes.ResponseCard()
-        value.version = try reader["version"].readIfPresent()
-        value.contentType = try reader["contentType"].readIfPresent()
-        value.genericAttachments = try reader["genericAttachments"].readListIfPresent(memberReadingClosure: LexRuntimeClientTypes.GenericAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.slotToElicit = try reader["slotToElicit"].readIfPresent()
+        value.fulfillmentState = try reader["fulfillmentState"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        value.messageFormat = try reader["messageFormat"].readIfPresent()
         return value
     }
 }
@@ -2153,13 +2092,74 @@ extension LexRuntimeClientTypes.GenericAttachment {
     }
 }
 
-extension LexRuntimeClientTypes.Button {
+extension LexRuntimeClientTypes.IntentConfidence {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.Button {
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.IntentConfidence {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeClientTypes.Button()
-        value.text = try reader["text"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
+        var value = LexRuntimeClientTypes.IntentConfidence()
+        value.score = try reader["score"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension LexRuntimeClientTypes.IntentSummary {
+
+    static func write(value: LexRuntimeClientTypes.IntentSummary?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["checkpointLabel"].write(value.checkpointLabel)
+        try writer["confirmationStatus"].write(value.confirmationStatus)
+        try writer["dialogActionType"].write(value.dialogActionType)
+        try writer["fulfillmentState"].write(value.fulfillmentState)
+        try writer["intentName"].write(value.intentName)
+        try writer["slotToElicit"].write(value.slotToElicit)
+        try writer["slots"].writeMap(value.slots, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.IntentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeClientTypes.IntentSummary()
+        value.intentName = try reader["intentName"].readIfPresent()
+        value.checkpointLabel = try reader["checkpointLabel"].readIfPresent()
+        value.slots = try reader["slots"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.confirmationStatus = try reader["confirmationStatus"].readIfPresent()
+        value.dialogActionType = try reader["dialogActionType"].readIfPresent() ?? .sdkUnknown("")
+        value.fulfillmentState = try reader["fulfillmentState"].readIfPresent()
+        value.slotToElicit = try reader["slotToElicit"].readIfPresent()
+        return value
+    }
+}
+
+extension LexRuntimeClientTypes.PredictedIntent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.PredictedIntent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeClientTypes.PredictedIntent()
+        value.intentName = try reader["intentName"].readIfPresent()
+        value.nluIntentConfidence = try reader["nluIntentConfidence"].readIfPresent(with: LexRuntimeClientTypes.IntentConfidence.read(from:))
+        value.slots = try reader["slots"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension LexRuntimeClientTypes.ResponseCard {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.ResponseCard {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeClientTypes.ResponseCard()
+        value.version = try reader["version"].readIfPresent()
+        value.contentType = try reader["contentType"].readIfPresent()
+        value.genericAttachments = try reader["genericAttachments"].readListIfPresent(memberReadingClosure: LexRuntimeClientTypes.GenericAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LexRuntimeClientTypes.SentimentResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.SentimentResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeClientTypes.SentimentResponse()
+        value.sentimentLabel = try reader["sentimentLabel"].readIfPresent()
+        value.sentimentScore = try reader["sentimentScore"].readIfPresent()
         return value
     }
 }

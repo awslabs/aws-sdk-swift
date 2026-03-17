@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 
 /// You don't have permissions to access the resource.
@@ -2257,7 +2257,7 @@ enum CreatePipelineOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2277,7 +2277,7 @@ enum CreatePipelineEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2296,7 +2296,7 @@ enum DeletePipelineOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2315,7 +2315,7 @@ enum DeletePipelineEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2332,7 +2332,7 @@ enum DeleteResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2351,7 +2351,7 @@ enum GetPipelineOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2369,7 +2369,7 @@ enum GetPipelineBlueprintOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2387,7 +2387,7 @@ enum GetPipelineChangeProgressOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2405,7 +2405,7 @@ enum GetResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2424,7 +2424,7 @@ enum ListPipelineBlueprintsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2442,7 +2442,7 @@ enum ListPipelineEndpointConnectionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2460,7 +2460,7 @@ enum ListPipelineEndpointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2478,7 +2478,7 @@ enum ListPipelinesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2496,7 +2496,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2514,7 +2514,7 @@ enum PutResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2533,7 +2533,7 @@ enum RevokePipelineEndpointConnectionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2551,7 +2551,7 @@ enum StartPipelineOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2570,7 +2570,7 @@ enum StopPipelineOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2589,7 +2589,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2608,7 +2608,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2626,7 +2626,7 @@ enum UpdatePipelineOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2645,7 +2645,7 @@ enum ValidatePipelineOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2659,7 +2659,7 @@ enum ValidatePipelineOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2672,7 +2672,7 @@ extension AccessDeniedException {
 
 extension DisabledOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DisabledOperationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DisabledOperationException {
         let reader = baseError.errorBodyReader
         var value = DisabledOperationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2685,7 +2685,7 @@ extension DisabledOperationException {
 
 extension InternalException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalException {
         let reader = baseError.errorBodyReader
         var value = InternalException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2698,7 +2698,7 @@ extension InternalException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2711,7 +2711,7 @@ extension LimitExceededException {
 
 extension ResourceAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = ResourceAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2724,7 +2724,7 @@ extension ResourceAlreadyExistsException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2737,7 +2737,7 @@ extension ResourceNotFoundException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2750,7 +2750,7 @@ extension ValidationException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2763,13 +2763,101 @@ extension ConflictException {
 
 extension InvalidPaginationTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidPaginationTokenException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidPaginationTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidPaginationTokenException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension OSISClientTypes.BufferOptions {
+
+    static func write(value: OSISClientTypes.BufferOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PersistentBufferEnabled"].write(value.persistentBufferEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.BufferOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OSISClientTypes.BufferOptions()
+        value.persistentBufferEnabled = try reader["PersistentBufferEnabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension OSISClientTypes.ChangeProgressStage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.ChangeProgressStage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OSISClientTypes.ChangeProgressStage()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension OSISClientTypes.ChangeProgressStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.ChangeProgressStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OSISClientTypes.ChangeProgressStatus()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.totalNumberOfStages = try reader["TotalNumberOfStages"].readIfPresent() ?? 0
+        value.changeProgressStages = try reader["ChangeProgressStages"].readListIfPresent(memberReadingClosure: OSISClientTypes.ChangeProgressStage.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OSISClientTypes.CloudWatchLogDestination {
+
+    static func write(value: OSISClientTypes.CloudWatchLogDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LogGroup"].write(value.logGroup)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.CloudWatchLogDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OSISClientTypes.CloudWatchLogDestination()
+        value.logGroup = try reader["LogGroup"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension OSISClientTypes.EncryptionAtRestOptions {
+
+    static func write(value: OSISClientTypes.EncryptionAtRestOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.EncryptionAtRestOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OSISClientTypes.EncryptionAtRestOptions()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension OSISClientTypes.LogPublishingOptions {
+
+    static func write(value: OSISClientTypes.LogPublishingOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CloudWatchLogDestination"].write(value.cloudWatchLogDestination, with: OSISClientTypes.CloudWatchLogDestination.write(value:to:))
+        try writer["IsLoggingEnabled"].write(value.isLoggingEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.LogPublishingOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OSISClientTypes.LogPublishingOptions()
+        value.isLoggingEnabled = try reader["IsLoggingEnabled"].readIfPresent()
+        value.cloudWatchLogDestination = try reader["CloudWatchLogDestination"].readIfPresent(with: OSISClientTypes.CloudWatchLogDestination.read(from:))
         return value
     }
 }
@@ -2802,6 +2890,131 @@ extension OSISClientTypes.Pipeline {
     }
 }
 
+extension OSISClientTypes.PipelineBlueprint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineBlueprint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OSISClientTypes.PipelineBlueprint()
+        value.blueprintName = try reader["BlueprintName"].readIfPresent()
+        value.pipelineConfigurationBody = try reader["PipelineConfigurationBody"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.displayDescription = try reader["DisplayDescription"].readIfPresent()
+        value.service = try reader["Service"].readIfPresent()
+        value.useCase = try reader["UseCase"].readIfPresent()
+        return value
+    }
+}
+
+extension OSISClientTypes.PipelineBlueprintSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineBlueprintSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OSISClientTypes.PipelineBlueprintSummary()
+        value.blueprintName = try reader["BlueprintName"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.displayDescription = try reader["DisplayDescription"].readIfPresent()
+        value.service = try reader["Service"].readIfPresent()
+        value.useCase = try reader["UseCase"].readIfPresent()
+        return value
+    }
+}
+
+extension OSISClientTypes.PipelineDestination {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OSISClientTypes.PipelineDestination()
+        value.serviceName = try reader["ServiceName"].readIfPresent()
+        value.endpoint = try reader["Endpoint"].readIfPresent()
+        return value
+    }
+}
+
+extension OSISClientTypes.PipelineEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OSISClientTypes.PipelineEndpoint()
+        value.pipelineArn = try reader["PipelineArn"].readIfPresent()
+        value.endpointId = try reader["EndpointId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.vpcOptions = try reader["VpcOptions"].readIfPresent(with: OSISClientTypes.PipelineEndpointVpcOptions.read(from:))
+        value.ingestEndpointUrl = try reader["IngestEndpointUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension OSISClientTypes.PipelineEndpointConnection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineEndpointConnection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OSISClientTypes.PipelineEndpointConnection()
+        value.pipelineArn = try reader["PipelineArn"].readIfPresent()
+        value.endpointId = try reader["EndpointId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.vpcEndpointOwner = try reader["VpcEndpointOwner"].readIfPresent()
+        return value
+    }
+}
+
+extension OSISClientTypes.PipelineEndpointVpcOptions {
+
+    static func write(value: OSISClientTypes.PipelineEndpointVpcOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineEndpointVpcOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OSISClientTypes.PipelineEndpointVpcOptions()
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OSISClientTypes.PipelineStatusReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineStatusReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OSISClientTypes.PipelineStatusReason()
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
+extension OSISClientTypes.PipelineSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OSISClientTypes.PipelineSummary()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent(with: OSISClientTypes.PipelineStatusReason.read(from:))
+        value.pipelineName = try reader["PipelineName"].readIfPresent()
+        value.pipelineArn = try reader["PipelineArn"].readIfPresent()
+        value.minUnits = try reader["MinUnits"].readIfPresent()
+        value.maxUnits = try reader["MaxUnits"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.destinations = try reader["Destinations"].readListIfPresent(memberReadingClosure: OSISClientTypes.PipelineDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: OSISClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OSISClientTypes.ServiceVpcEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.ServiceVpcEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OSISClientTypes.ServiceVpcEndpoint()
+        value.serviceName = try reader["ServiceName"].readIfPresent()
+        value.vpcEndpointId = try reader["VpcEndpointId"].readIfPresent()
+        return value
+    }
+}
+
 extension OSISClientTypes.Tag {
 
     static func write(value: OSISClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
@@ -2819,54 +3032,29 @@ extension OSISClientTypes.Tag {
     }
 }
 
-extension OSISClientTypes.PipelineDestination {
+extension OSISClientTypes.ValidationMessage {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineDestination {
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.ValidationMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OSISClientTypes.PipelineDestination()
-        value.serviceName = try reader["ServiceName"].readIfPresent()
-        value.endpoint = try reader["Endpoint"].readIfPresent()
+        var value = OSISClientTypes.ValidationMessage()
+        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }
 
-extension OSISClientTypes.ServiceVpcEndpoint {
+extension OSISClientTypes.VpcAttachmentOptions {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.ServiceVpcEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OSISClientTypes.ServiceVpcEndpoint()
-        value.serviceName = try reader["ServiceName"].readIfPresent()
-        value.vpcEndpointId = try reader["VpcEndpointId"].readIfPresent()
-        return value
-    }
-}
-
-extension OSISClientTypes.EncryptionAtRestOptions {
-
-    static func write(value: OSISClientTypes.EncryptionAtRestOptions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: OSISClientTypes.VpcAttachmentOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+        try writer["AttachToVpc"].write(value.attachToVpc)
+        try writer["CidrBlock"].write(value.cidrBlock)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.EncryptionAtRestOptions {
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.VpcAttachmentOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OSISClientTypes.EncryptionAtRestOptions()
-        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension OSISClientTypes.BufferOptions {
-
-    static func write(value: OSISClientTypes.BufferOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PersistentBufferEnabled"].write(value.persistentBufferEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.BufferOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OSISClientTypes.BufferOptions()
-        value.persistentBufferEnabled = try reader["PersistentBufferEnabled"].readIfPresent() ?? false
+        var value = OSISClientTypes.VpcAttachmentOptions()
+        value.attachToVpc = try reader["AttachToVpc"].readIfPresent() ?? false
+        value.cidrBlock = try reader["CidrBlock"].readIfPresent()
         return value
     }
 }
@@ -2900,194 +3088,6 @@ extension OSISClientTypes.VpcOptions {
         value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcAttachmentOptions = try reader["VpcAttachmentOptions"].readIfPresent(with: OSISClientTypes.VpcAttachmentOptions.read(from:))
         value.vpcEndpointManagement = try reader["VpcEndpointManagement"].readIfPresent()
-        return value
-    }
-}
-
-extension OSISClientTypes.VpcAttachmentOptions {
-
-    static func write(value: OSISClientTypes.VpcAttachmentOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttachToVpc"].write(value.attachToVpc)
-        try writer["CidrBlock"].write(value.cidrBlock)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.VpcAttachmentOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OSISClientTypes.VpcAttachmentOptions()
-        value.attachToVpc = try reader["AttachToVpc"].readIfPresent() ?? false
-        value.cidrBlock = try reader["CidrBlock"].readIfPresent()
-        return value
-    }
-}
-
-extension OSISClientTypes.LogPublishingOptions {
-
-    static func write(value: OSISClientTypes.LogPublishingOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CloudWatchLogDestination"].write(value.cloudWatchLogDestination, with: OSISClientTypes.CloudWatchLogDestination.write(value:to:))
-        try writer["IsLoggingEnabled"].write(value.isLoggingEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.LogPublishingOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OSISClientTypes.LogPublishingOptions()
-        value.isLoggingEnabled = try reader["IsLoggingEnabled"].readIfPresent()
-        value.cloudWatchLogDestination = try reader["CloudWatchLogDestination"].readIfPresent(with: OSISClientTypes.CloudWatchLogDestination.read(from:))
-        return value
-    }
-}
-
-extension OSISClientTypes.CloudWatchLogDestination {
-
-    static func write(value: OSISClientTypes.CloudWatchLogDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LogGroup"].write(value.logGroup)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.CloudWatchLogDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OSISClientTypes.CloudWatchLogDestination()
-        value.logGroup = try reader["LogGroup"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension OSISClientTypes.PipelineStatusReason {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineStatusReason {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OSISClientTypes.PipelineStatusReason()
-        value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
-extension OSISClientTypes.PipelineBlueprint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineBlueprint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OSISClientTypes.PipelineBlueprint()
-        value.blueprintName = try reader["BlueprintName"].readIfPresent()
-        value.pipelineConfigurationBody = try reader["PipelineConfigurationBody"].readIfPresent()
-        value.displayName = try reader["DisplayName"].readIfPresent()
-        value.displayDescription = try reader["DisplayDescription"].readIfPresent()
-        value.service = try reader["Service"].readIfPresent()
-        value.useCase = try reader["UseCase"].readIfPresent()
-        return value
-    }
-}
-
-extension OSISClientTypes.ChangeProgressStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.ChangeProgressStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OSISClientTypes.ChangeProgressStatus()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
-        value.totalNumberOfStages = try reader["TotalNumberOfStages"].readIfPresent() ?? 0
-        value.changeProgressStages = try reader["ChangeProgressStages"].readListIfPresent(memberReadingClosure: OSISClientTypes.ChangeProgressStage.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OSISClientTypes.ChangeProgressStage {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.ChangeProgressStage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OSISClientTypes.ChangeProgressStage()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension OSISClientTypes.PipelineBlueprintSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineBlueprintSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OSISClientTypes.PipelineBlueprintSummary()
-        value.blueprintName = try reader["BlueprintName"].readIfPresent()
-        value.displayName = try reader["DisplayName"].readIfPresent()
-        value.displayDescription = try reader["DisplayDescription"].readIfPresent()
-        value.service = try reader["Service"].readIfPresent()
-        value.useCase = try reader["UseCase"].readIfPresent()
-        return value
-    }
-}
-
-extension OSISClientTypes.PipelineEndpointConnection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineEndpointConnection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OSISClientTypes.PipelineEndpointConnection()
-        value.pipelineArn = try reader["PipelineArn"].readIfPresent()
-        value.endpointId = try reader["EndpointId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.vpcEndpointOwner = try reader["VpcEndpointOwner"].readIfPresent()
-        return value
-    }
-}
-
-extension OSISClientTypes.PipelineEndpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OSISClientTypes.PipelineEndpoint()
-        value.pipelineArn = try reader["PipelineArn"].readIfPresent()
-        value.endpointId = try reader["EndpointId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.vpcOptions = try reader["VpcOptions"].readIfPresent(with: OSISClientTypes.PipelineEndpointVpcOptions.read(from:))
-        value.ingestEndpointUrl = try reader["IngestEndpointUrl"].readIfPresent()
-        return value
-    }
-}
-
-extension OSISClientTypes.PipelineEndpointVpcOptions {
-
-    static func write(value: OSISClientTypes.PipelineEndpointVpcOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineEndpointVpcOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OSISClientTypes.PipelineEndpointVpcOptions()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OSISClientTypes.PipelineSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OSISClientTypes.PipelineSummary()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent(with: OSISClientTypes.PipelineStatusReason.read(from:))
-        value.pipelineName = try reader["PipelineName"].readIfPresent()
-        value.pipelineArn = try reader["PipelineArn"].readIfPresent()
-        value.minUnits = try reader["MinUnits"].readIfPresent()
-        value.maxUnits = try reader["MaxUnits"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.destinations = try reader["Destinations"].readListIfPresent(memberReadingClosure: OSISClientTypes.PipelineDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: OSISClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OSISClientTypes.ValidationMessage {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.ValidationMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OSISClientTypes.ValidationMessage()
-        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }

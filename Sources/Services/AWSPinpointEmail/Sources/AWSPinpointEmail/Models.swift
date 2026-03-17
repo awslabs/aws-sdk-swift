@@ -24,8 +24,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
@@ -3984,7 +3984,7 @@ enum CreateConfigurationSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -4003,7 +4003,7 @@ enum CreateConfigurationSetEventDestinationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -4021,7 +4021,7 @@ enum CreateDedicatedIpPoolOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -4039,7 +4039,7 @@ enum CreateDeliverabilityTestReportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccountSuspendedException": return try AccountSuspendedException.makeError(baseError: baseError)
@@ -4061,7 +4061,7 @@ enum CreateEmailIdentityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4078,7 +4078,7 @@ enum DeleteConfigurationSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4095,7 +4095,7 @@ enum DeleteConfigurationSetEventDestinationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4111,7 +4111,7 @@ enum DeleteDedicatedIpPoolOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4128,7 +4128,7 @@ enum DeleteEmailIdentityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4145,7 +4145,7 @@ enum GetAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4160,7 +4160,7 @@ enum GetBlacklistReportsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4176,7 +4176,7 @@ enum GetConfigurationSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4192,7 +4192,7 @@ enum GetConfigurationSetEventDestinationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4208,7 +4208,7 @@ enum GetDedicatedIpOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4224,7 +4224,7 @@ enum GetDedicatedIpsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4240,7 +4240,7 @@ enum GetDeliverabilityDashboardOptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4256,7 +4256,7 @@ enum GetDeliverabilityTestReportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4272,7 +4272,7 @@ enum GetDomainDeliverabilityCampaignOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4288,7 +4288,7 @@ enum GetDomainStatisticsReportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4304,7 +4304,7 @@ enum GetEmailIdentityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4320,7 +4320,7 @@ enum ListConfigurationSetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4335,7 +4335,7 @@ enum ListDedicatedIpPoolsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4350,7 +4350,7 @@ enum ListDeliverabilityTestReportsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4366,7 +4366,7 @@ enum ListDomainDeliverabilityCampaignsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4382,7 +4382,7 @@ enum ListEmailIdentitiesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4397,7 +4397,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4413,7 +4413,7 @@ enum PutAccountDedicatedIpWarmupAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4428,7 +4428,7 @@ enum PutAccountSendingAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4443,7 +4443,7 @@ enum PutConfigurationSetDeliveryOptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4459,7 +4459,7 @@ enum PutConfigurationSetReputationOptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4475,7 +4475,7 @@ enum PutConfigurationSetSendingOptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4491,7 +4491,7 @@ enum PutConfigurationSetTrackingOptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4507,7 +4507,7 @@ enum PutDedicatedIpInPoolOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4523,7 +4523,7 @@ enum PutDedicatedIpWarmupAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4539,7 +4539,7 @@ enum PutDeliverabilityDashboardOptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -4557,7 +4557,7 @@ enum PutEmailIdentityDkimAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4573,7 +4573,7 @@ enum PutEmailIdentityFeedbackAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4589,7 +4589,7 @@ enum PutEmailIdentityMailFromAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4605,7 +4605,7 @@ enum SendEmailOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccountSuspendedException": return try AccountSuspendedException.makeError(baseError: baseError)
@@ -4626,7 +4626,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4643,7 +4643,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4660,7 +4660,7 @@ enum UpdateConfigurationSetEventDestinationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4673,7 +4673,7 @@ enum UpdateConfigurationSetEventDestinationOutputError {
 
 extension AlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = AlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4686,7 +4686,7 @@ extension AlreadyExistsException {
 
 extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4699,7 +4699,7 @@ extension BadRequestException {
 
 extension ConcurrentModificationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConcurrentModificationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConcurrentModificationException {
         let reader = baseError.errorBodyReader
         var value = ConcurrentModificationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4712,7 +4712,7 @@ extension ConcurrentModificationException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4725,7 +4725,7 @@ extension LimitExceededException {
 
 extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4738,7 +4738,7 @@ extension NotFoundException {
 
 extension TooManyRequestsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4751,7 +4751,7 @@ extension TooManyRequestsException {
 
 extension AccountSuspendedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccountSuspendedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccountSuspendedException {
         let reader = baseError.errorBodyReader
         var value = AccountSuspendedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4764,7 +4764,7 @@ extension AccountSuspendedException {
 
 extension MailFromDomainNotVerifiedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MailFromDomainNotVerifiedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MailFromDomainNotVerifiedException {
         let reader = baseError.errorBodyReader
         var value = MailFromDomainNotVerifiedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4777,7 +4777,7 @@ extension MailFromDomainNotVerifiedException {
 
 extension MessageRejected {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MessageRejected {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MessageRejected {
         let reader = baseError.errorBodyReader
         var value = MessageRejected()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4790,37 +4790,13 @@ extension MessageRejected {
 
 extension SendingPausedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SendingPausedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SendingPausedException {
         let reader = baseError.errorBodyReader
         var value = SendingPausedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension PinpointEmailClientTypes.DkimAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.DkimAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointEmailClientTypes.DkimAttributes()
-        value.signingEnabled = try reader["SigningEnabled"].readIfPresent() ?? false
-        value.status = try reader["Status"].readIfPresent()
-        value.tokens = try reader["Tokens"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension PinpointEmailClientTypes.SendQuota {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.SendQuota {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointEmailClientTypes.SendQuota()
-        value.max24HourSend = try reader["Max24HourSend"].readIfPresent() ?? 0
-        value.maxSendRate = try reader["MaxSendRate"].readIfPresent() ?? 0
-        value.sentLast24Hours = try reader["SentLast24Hours"].readIfPresent() ?? 0
         return value
     }
 }
@@ -4837,130 +4813,12 @@ extension PinpointEmailClientTypes.BlacklistEntry {
     }
 }
 
-extension PinpointEmailClientTypes.TrackingOptions {
+extension PinpointEmailClientTypes.Body {
 
-    static func write(value: PinpointEmailClientTypes.TrackingOptions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PinpointEmailClientTypes.Body?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CustomRedirectDomain"].write(value.customRedirectDomain)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.TrackingOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointEmailClientTypes.TrackingOptions()
-        value.customRedirectDomain = try reader["CustomRedirectDomain"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension PinpointEmailClientTypes.DeliveryOptions {
-
-    static func write(value: PinpointEmailClientTypes.DeliveryOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SendingPoolName"].write(value.sendingPoolName)
-        try writer["TlsPolicy"].write(value.tlsPolicy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.DeliveryOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointEmailClientTypes.DeliveryOptions()
-        value.tlsPolicy = try reader["TlsPolicy"].readIfPresent()
-        value.sendingPoolName = try reader["SendingPoolName"].readIfPresent()
-        return value
-    }
-}
-
-extension PinpointEmailClientTypes.ReputationOptions {
-
-    static func write(value: PinpointEmailClientTypes.ReputationOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LastFreshStart"].writeTimestamp(value.lastFreshStart, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["ReputationMetricsEnabled"].write(value.reputationMetricsEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.ReputationOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointEmailClientTypes.ReputationOptions()
-        value.reputationMetricsEnabled = try reader["ReputationMetricsEnabled"].readIfPresent() ?? false
-        value.lastFreshStart = try reader["LastFreshStart"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension PinpointEmailClientTypes.SendingOptions {
-
-    static func write(value: PinpointEmailClientTypes.SendingOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SendingEnabled"].write(value.sendingEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.SendingOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointEmailClientTypes.SendingOptions()
-        value.sendingEnabled = try reader["SendingEnabled"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension PinpointEmailClientTypes.Tag {
-
-    static func write(value: PinpointEmailClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointEmailClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension PinpointEmailClientTypes.EventDestination {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.EventDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointEmailClientTypes.EventDestination()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        value.matchingEventTypes = try reader["MatchingEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointEmailClientTypes.EventType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.kinesisFirehoseDestination = try reader["KinesisFirehoseDestination"].readIfPresent(with: PinpointEmailClientTypes.KinesisFirehoseDestination.read(from:))
-        value.cloudWatchDestination = try reader["CloudWatchDestination"].readIfPresent(with: PinpointEmailClientTypes.CloudWatchDestination.read(from:))
-        value.snsDestination = try reader["SnsDestination"].readIfPresent(with: PinpointEmailClientTypes.SnsDestination.read(from:))
-        value.pinpointDestination = try reader["PinpointDestination"].readIfPresent(with: PinpointEmailClientTypes.PinpointDestination.read(from:))
-        return value
-    }
-}
-
-extension PinpointEmailClientTypes.PinpointDestination {
-
-    static func write(value: PinpointEmailClientTypes.PinpointDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationArn"].write(value.applicationArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.PinpointDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointEmailClientTypes.PinpointDestination()
-        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
-        return value
-    }
-}
-
-extension PinpointEmailClientTypes.SnsDestination {
-
-    static func write(value: PinpointEmailClientTypes.SnsDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TopicArn"].write(value.topicArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.SnsDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointEmailClientTypes.SnsDestination()
-        value.topicArn = try reader["TopicArn"].readIfPresent() ?? ""
-        return value
+        try writer["Html"].write(value.html, with: PinpointEmailClientTypes.Content.write(value:to:))
+        try writer["Text"].write(value.text, with: PinpointEmailClientTypes.Content.write(value:to:))
     }
 }
 
@@ -4998,19 +4856,23 @@ extension PinpointEmailClientTypes.CloudWatchDimensionConfiguration {
     }
 }
 
-extension PinpointEmailClientTypes.KinesisFirehoseDestination {
+extension PinpointEmailClientTypes.Content {
 
-    static func write(value: PinpointEmailClientTypes.KinesisFirehoseDestination?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PinpointEmailClientTypes.Content?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DeliveryStreamArn"].write(value.deliveryStreamArn)
-        try writer["IamRoleArn"].write(value.iamRoleArn)
+        try writer["Charset"].write(value.charset)
+        try writer["Data"].write(value.data)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.KinesisFirehoseDestination {
+extension PinpointEmailClientTypes.DailyVolume {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.DailyVolume {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointEmailClientTypes.KinesisFirehoseDestination()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
-        value.deliveryStreamArn = try reader["DeliveryStreamArn"].readIfPresent() ?? ""
+        var value = PinpointEmailClientTypes.DailyVolume()
+        value.startDate = try reader["StartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.volumeStatistics = try reader["VolumeStatistics"].readIfPresent(with: PinpointEmailClientTypes.VolumeStatistics.read(from:))
+        value.domainIspPlacements = try reader["DomainIspPlacements"].readListIfPresent(memberReadingClosure: PinpointEmailClientTypes.DomainIspPlacement.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5024,42 +4886,6 @@ extension PinpointEmailClientTypes.DedicatedIp {
         value.warmupStatus = try reader["WarmupStatus"].readIfPresent() ?? .sdkUnknown("")
         value.warmupPercentage = try reader["WarmupPercentage"].readIfPresent() ?? 0
         value.poolName = try reader["PoolName"].readIfPresent()
-        return value
-    }
-}
-
-extension PinpointEmailClientTypes.DomainDeliverabilityTrackingOption {
-
-    static func write(value: PinpointEmailClientTypes.DomainDeliverabilityTrackingOption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Domain"].write(value.domain)
-        try writer["InboxPlacementTrackingOption"].write(value.inboxPlacementTrackingOption, with: PinpointEmailClientTypes.InboxPlacementTrackingOption.write(value:to:))
-        try writer["SubscriptionStartDate"].writeTimestamp(value.subscriptionStartDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.DomainDeliverabilityTrackingOption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointEmailClientTypes.DomainDeliverabilityTrackingOption()
-        value.domain = try reader["Domain"].readIfPresent()
-        value.subscriptionStartDate = try reader["SubscriptionStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.inboxPlacementTrackingOption = try reader["InboxPlacementTrackingOption"].readIfPresent(with: PinpointEmailClientTypes.InboxPlacementTrackingOption.read(from:))
-        return value
-    }
-}
-
-extension PinpointEmailClientTypes.InboxPlacementTrackingOption {
-
-    static func write(value: PinpointEmailClientTypes.InboxPlacementTrackingOption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Global"].write(value.global)
-        try writer["TrackedIsps"].writeList(value.trackedIsps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.InboxPlacementTrackingOption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointEmailClientTypes.InboxPlacementTrackingOption()
-        value.global = try reader["Global"].readIfPresent() ?? false
-        value.trackedIsps = try reader["TrackedIsps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5079,27 +4905,41 @@ extension PinpointEmailClientTypes.DeliverabilityTestReport {
     }
 }
 
-extension PinpointEmailClientTypes.PlacementStatistics {
+extension PinpointEmailClientTypes.DeliveryOptions {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.PlacementStatistics {
+    static func write(value: PinpointEmailClientTypes.DeliveryOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SendingPoolName"].write(value.sendingPoolName)
+        try writer["TlsPolicy"].write(value.tlsPolicy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.DeliveryOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointEmailClientTypes.PlacementStatistics()
-        value.inboxPercentage = try reader["InboxPercentage"].readIfPresent()
-        value.spamPercentage = try reader["SpamPercentage"].readIfPresent()
-        value.missingPercentage = try reader["MissingPercentage"].readIfPresent()
-        value.spfPercentage = try reader["SpfPercentage"].readIfPresent()
-        value.dkimPercentage = try reader["DkimPercentage"].readIfPresent()
+        var value = PinpointEmailClientTypes.DeliveryOptions()
+        value.tlsPolicy = try reader["TlsPolicy"].readIfPresent()
+        value.sendingPoolName = try reader["SendingPoolName"].readIfPresent()
         return value
     }
 }
 
-extension PinpointEmailClientTypes.IspPlacement {
+extension PinpointEmailClientTypes.Destination {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.IspPlacement {
+    static func write(value: PinpointEmailClientTypes.Destination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BccAddresses"].writeList(value.bccAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CcAddresses"].writeList(value.ccAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ToAddresses"].writeList(value.toAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension PinpointEmailClientTypes.DkimAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.DkimAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointEmailClientTypes.IspPlacement()
-        value.ispName = try reader["IspName"].readIfPresent()
-        value.placementStatistics = try reader["PlacementStatistics"].readIfPresent(with: PinpointEmailClientTypes.PlacementStatistics.read(from:))
+        var value = PinpointEmailClientTypes.DkimAttributes()
+        value.signingEnabled = try reader["SigningEnabled"].readIfPresent() ?? false
+        value.status = try reader["Status"].readIfPresent()
+        value.tokens = try reader["Tokens"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5127,14 +4967,21 @@ extension PinpointEmailClientTypes.DomainDeliverabilityCampaign {
     }
 }
 
-extension PinpointEmailClientTypes.OverallVolume {
+extension PinpointEmailClientTypes.DomainDeliverabilityTrackingOption {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.OverallVolume {
+    static func write(value: PinpointEmailClientTypes.DomainDeliverabilityTrackingOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Domain"].write(value.domain)
+        try writer["InboxPlacementTrackingOption"].write(value.inboxPlacementTrackingOption, with: PinpointEmailClientTypes.InboxPlacementTrackingOption.write(value:to:))
+        try writer["SubscriptionStartDate"].writeTimestamp(value.subscriptionStartDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.DomainDeliverabilityTrackingOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointEmailClientTypes.OverallVolume()
-        value.volumeStatistics = try reader["VolumeStatistics"].readIfPresent(with: PinpointEmailClientTypes.VolumeStatistics.read(from:))
-        value.readRatePercent = try reader["ReadRatePercent"].readIfPresent()
-        value.domainIspPlacements = try reader["DomainIspPlacements"].readListIfPresent(memberReadingClosure: PinpointEmailClientTypes.DomainIspPlacement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = PinpointEmailClientTypes.DomainDeliverabilityTrackingOption()
+        value.domain = try reader["Domain"].readIfPresent()
+        value.subscriptionStartDate = try reader["SubscriptionStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.inboxPlacementTrackingOption = try reader["InboxPlacementTrackingOption"].readIfPresent(with: PinpointEmailClientTypes.InboxPlacementTrackingOption.read(from:))
         return value
     }
 }
@@ -5153,51 +5000,28 @@ extension PinpointEmailClientTypes.DomainIspPlacement {
     }
 }
 
-extension PinpointEmailClientTypes.VolumeStatistics {
+extension PinpointEmailClientTypes.EmailContent {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.VolumeStatistics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointEmailClientTypes.VolumeStatistics()
-        value.inboxRawCount = try reader["InboxRawCount"].readIfPresent()
-        value.spamRawCount = try reader["SpamRawCount"].readIfPresent()
-        value.projectedInbox = try reader["ProjectedInbox"].readIfPresent()
-        value.projectedSpam = try reader["ProjectedSpam"].readIfPresent()
-        return value
+    static func write(value: PinpointEmailClientTypes.EmailContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Raw"].write(value.raw, with: PinpointEmailClientTypes.RawMessage.write(value:to:))
+        try writer["Simple"].write(value.simple, with: PinpointEmailClientTypes.Message.write(value:to:))
+        try writer["Template"].write(value.template, with: PinpointEmailClientTypes.Template.write(value:to:))
     }
 }
 
-extension PinpointEmailClientTypes.DailyVolume {
+extension PinpointEmailClientTypes.EventDestination {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.DailyVolume {
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.EventDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointEmailClientTypes.DailyVolume()
-        value.startDate = try reader["StartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.volumeStatistics = try reader["VolumeStatistics"].readIfPresent(with: PinpointEmailClientTypes.VolumeStatistics.read(from:))
-        value.domainIspPlacements = try reader["DomainIspPlacements"].readListIfPresent(memberReadingClosure: PinpointEmailClientTypes.DomainIspPlacement.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension PinpointEmailClientTypes.MailFromAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.MailFromAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointEmailClientTypes.MailFromAttributes()
-        value.mailFromDomain = try reader["MailFromDomain"].readIfPresent() ?? ""
-        value.mailFromDomainStatus = try reader["MailFromDomainStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.behaviorOnMxFailure = try reader["BehaviorOnMxFailure"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension PinpointEmailClientTypes.IdentityInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.IdentityInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointEmailClientTypes.IdentityInfo()
-        value.identityType = try reader["IdentityType"].readIfPresent()
-        value.identityName = try reader["IdentityName"].readIfPresent()
-        value.sendingEnabled = try reader["SendingEnabled"].readIfPresent() ?? false
+        var value = PinpointEmailClientTypes.EventDestination()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.matchingEventTypes = try reader["MatchingEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointEmailClientTypes.EventType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.kinesisFirehoseDestination = try reader["KinesisFirehoseDestination"].readIfPresent(with: PinpointEmailClientTypes.KinesisFirehoseDestination.read(from:))
+        value.cloudWatchDestination = try reader["CloudWatchDestination"].readIfPresent(with: PinpointEmailClientTypes.CloudWatchDestination.read(from:))
+        value.snsDestination = try reader["SnsDestination"].readIfPresent(with: PinpointEmailClientTypes.SnsDestination.read(from:))
+        value.pinpointDestination = try reader["PinpointDestination"].readIfPresent(with: PinpointEmailClientTypes.PinpointDestination.read(from:))
         return value
     }
 }
@@ -5215,30 +5039,72 @@ extension PinpointEmailClientTypes.EventDestinationDefinition {
     }
 }
 
-extension PinpointEmailClientTypes.EmailContent {
+extension PinpointEmailClientTypes.IdentityInfo {
 
-    static func write(value: PinpointEmailClientTypes.EmailContent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Raw"].write(value.raw, with: PinpointEmailClientTypes.RawMessage.write(value:to:))
-        try writer["Simple"].write(value.simple, with: PinpointEmailClientTypes.Message.write(value:to:))
-        try writer["Template"].write(value.template, with: PinpointEmailClientTypes.Template.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.IdentityInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointEmailClientTypes.IdentityInfo()
+        value.identityType = try reader["IdentityType"].readIfPresent()
+        value.identityName = try reader["IdentityName"].readIfPresent()
+        value.sendingEnabled = try reader["SendingEnabled"].readIfPresent() ?? false
+        return value
     }
 }
 
-extension PinpointEmailClientTypes.Template {
+extension PinpointEmailClientTypes.InboxPlacementTrackingOption {
 
-    static func write(value: PinpointEmailClientTypes.Template?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PinpointEmailClientTypes.InboxPlacementTrackingOption?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["TemplateArn"].write(value.templateArn)
-        try writer["TemplateData"].write(value.templateData)
+        try writer["Global"].write(value.global)
+        try writer["TrackedIsps"].writeList(value.trackedIsps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.InboxPlacementTrackingOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointEmailClientTypes.InboxPlacementTrackingOption()
+        value.global = try reader["Global"].readIfPresent() ?? false
+        value.trackedIsps = try reader["TrackedIsps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
-extension PinpointEmailClientTypes.RawMessage {
+extension PinpointEmailClientTypes.IspPlacement {
 
-    static func write(value: PinpointEmailClientTypes.RawMessage?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.IspPlacement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointEmailClientTypes.IspPlacement()
+        value.ispName = try reader["IspName"].readIfPresent()
+        value.placementStatistics = try reader["PlacementStatistics"].readIfPresent(with: PinpointEmailClientTypes.PlacementStatistics.read(from:))
+        return value
+    }
+}
+
+extension PinpointEmailClientTypes.KinesisFirehoseDestination {
+
+    static func write(value: PinpointEmailClientTypes.KinesisFirehoseDestination?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Data"].write(value.data)
+        try writer["DeliveryStreamArn"].write(value.deliveryStreamArn)
+        try writer["IamRoleArn"].write(value.iamRoleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.KinesisFirehoseDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointEmailClientTypes.KinesisFirehoseDestination()
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
+        value.deliveryStreamArn = try reader["DeliveryStreamArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension PinpointEmailClientTypes.MailFromAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.MailFromAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointEmailClientTypes.MailFromAttributes()
+        value.mailFromDomain = try reader["MailFromDomain"].readIfPresent() ?? ""
+        value.mailFromDomainStatus = try reader["MailFromDomainStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.behaviorOnMxFailure = try reader["BehaviorOnMxFailure"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
@@ -5251,40 +5117,174 @@ extension PinpointEmailClientTypes.Message {
     }
 }
 
-extension PinpointEmailClientTypes.Body {
-
-    static func write(value: PinpointEmailClientTypes.Body?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Html"].write(value.html, with: PinpointEmailClientTypes.Content.write(value:to:))
-        try writer["Text"].write(value.text, with: PinpointEmailClientTypes.Content.write(value:to:))
-    }
-}
-
-extension PinpointEmailClientTypes.Content {
-
-    static func write(value: PinpointEmailClientTypes.Content?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Charset"].write(value.charset)
-        try writer["Data"].write(value.data)
-    }
-}
-
-extension PinpointEmailClientTypes.Destination {
-
-    static func write(value: PinpointEmailClientTypes.Destination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BccAddresses"].writeList(value.bccAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CcAddresses"].writeList(value.ccAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ToAddresses"].writeList(value.toAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
 extension PinpointEmailClientTypes.MessageTag {
 
     static func write(value: PinpointEmailClientTypes.MessageTag?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Value"].write(value.value)
+    }
+}
+
+extension PinpointEmailClientTypes.OverallVolume {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.OverallVolume {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointEmailClientTypes.OverallVolume()
+        value.volumeStatistics = try reader["VolumeStatistics"].readIfPresent(with: PinpointEmailClientTypes.VolumeStatistics.read(from:))
+        value.readRatePercent = try reader["ReadRatePercent"].readIfPresent()
+        value.domainIspPlacements = try reader["DomainIspPlacements"].readListIfPresent(memberReadingClosure: PinpointEmailClientTypes.DomainIspPlacement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PinpointEmailClientTypes.PinpointDestination {
+
+    static func write(value: PinpointEmailClientTypes.PinpointDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationArn"].write(value.applicationArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.PinpointDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointEmailClientTypes.PinpointDestination()
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        return value
+    }
+}
+
+extension PinpointEmailClientTypes.PlacementStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.PlacementStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointEmailClientTypes.PlacementStatistics()
+        value.inboxPercentage = try reader["InboxPercentage"].readIfPresent()
+        value.spamPercentage = try reader["SpamPercentage"].readIfPresent()
+        value.missingPercentage = try reader["MissingPercentage"].readIfPresent()
+        value.spfPercentage = try reader["SpfPercentage"].readIfPresent()
+        value.dkimPercentage = try reader["DkimPercentage"].readIfPresent()
+        return value
+    }
+}
+
+extension PinpointEmailClientTypes.RawMessage {
+
+    static func write(value: PinpointEmailClientTypes.RawMessage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Data"].write(value.data)
+    }
+}
+
+extension PinpointEmailClientTypes.ReputationOptions {
+
+    static func write(value: PinpointEmailClientTypes.ReputationOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LastFreshStart"].writeTimestamp(value.lastFreshStart, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["ReputationMetricsEnabled"].write(value.reputationMetricsEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.ReputationOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointEmailClientTypes.ReputationOptions()
+        value.reputationMetricsEnabled = try reader["ReputationMetricsEnabled"].readIfPresent() ?? false
+        value.lastFreshStart = try reader["LastFreshStart"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension PinpointEmailClientTypes.SendingOptions {
+
+    static func write(value: PinpointEmailClientTypes.SendingOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SendingEnabled"].write(value.sendingEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.SendingOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointEmailClientTypes.SendingOptions()
+        value.sendingEnabled = try reader["SendingEnabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension PinpointEmailClientTypes.SendQuota {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.SendQuota {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointEmailClientTypes.SendQuota()
+        value.max24HourSend = try reader["Max24HourSend"].readIfPresent() ?? 0
+        value.maxSendRate = try reader["MaxSendRate"].readIfPresent() ?? 0
+        value.sentLast24Hours = try reader["SentLast24Hours"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension PinpointEmailClientTypes.SnsDestination {
+
+    static func write(value: PinpointEmailClientTypes.SnsDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TopicArn"].write(value.topicArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.SnsDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointEmailClientTypes.SnsDestination()
+        value.topicArn = try reader["TopicArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension PinpointEmailClientTypes.Tag {
+
+    static func write(value: PinpointEmailClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointEmailClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension PinpointEmailClientTypes.Template {
+
+    static func write(value: PinpointEmailClientTypes.Template?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TemplateArn"].write(value.templateArn)
+        try writer["TemplateData"].write(value.templateData)
+    }
+}
+
+extension PinpointEmailClientTypes.TrackingOptions {
+
+    static func write(value: PinpointEmailClientTypes.TrackingOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomRedirectDomain"].write(value.customRedirectDomain)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.TrackingOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointEmailClientTypes.TrackingOptions()
+        value.customRedirectDomain = try reader["CustomRedirectDomain"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension PinpointEmailClientTypes.VolumeStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.VolumeStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointEmailClientTypes.VolumeStatistics()
+        value.inboxRawCount = try reader["InboxRawCount"].readIfPresent()
+        value.spamRawCount = try reader["SpamRawCount"].readIfPresent()
+        value.projectedInbox = try reader["ProjectedInbox"].readIfPresent()
+        value.projectedSpam = try reader["ProjectedSpam"].readIfPresent()
+        return value
     }
 }
 

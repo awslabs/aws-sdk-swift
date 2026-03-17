@@ -24,8 +24,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
@@ -2716,7 +2716,7 @@ enum CopyImageSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2736,7 +2736,7 @@ enum CreateDatastoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2756,7 +2756,7 @@ enum DeleteDatastoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2775,7 +2775,7 @@ enum DeleteImageSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2794,7 +2794,7 @@ enum GetDatastoreOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2812,7 +2812,7 @@ enum GetDICOMImportJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2831,7 +2831,7 @@ enum GetImageFrameOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2850,7 +2850,7 @@ enum GetImageSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2869,7 +2869,7 @@ enum GetImageSetMetadataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2888,7 +2888,7 @@ enum ListDatastoresOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2905,7 +2905,7 @@ enum ListDICOMImportJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2924,7 +2924,7 @@ enum ListImageSetVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2943,7 +2943,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2961,7 +2961,7 @@ enum SearchImageSetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -2980,7 +2980,7 @@ enum StartDICOMImportJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3000,7 +3000,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3018,7 +3018,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3036,7 +3036,7 @@ enum UpdateImageSetMetadataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3053,7 +3053,7 @@ enum UpdateImageSetMetadataOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3066,7 +3066,7 @@ extension AccessDeniedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3079,7 +3079,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3092,7 +3092,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3105,7 +3105,7 @@ extension ResourceNotFoundException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3118,7 +3118,7 @@ extension ServiceQuotaExceededException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3131,7 +3131,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3142,11 +3142,20 @@ extension ValidationException {
     }
 }
 
-extension MedicalImagingClientTypes.CopySourceImageSetProperties {
+extension MedicalImagingClientTypes.CopyDestinationImageSet {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.CopySourceImageSetProperties {
+    static func write(value: MedicalImagingClientTypes.CopyDestinationImageSet?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["imageSetId"].write(value.imageSetId)
+        try writer["latestVersionId"].write(value.latestVersionId)
+    }
+}
+
+extension MedicalImagingClientTypes.CopyDestinationImageSetProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.CopyDestinationImageSetProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MedicalImagingClientTypes.CopySourceImageSetProperties()
+        var value = MedicalImagingClientTypes.CopyDestinationImageSetProperties()
         value.imageSetId = try reader["imageSetId"].readIfPresent() ?? ""
         value.latestVersionId = try reader["latestVersionId"].readIfPresent() ?? ""
         value.imageSetState = try reader["imageSetState"].readIfPresent()
@@ -3158,11 +3167,29 @@ extension MedicalImagingClientTypes.CopySourceImageSetProperties {
     }
 }
 
-extension MedicalImagingClientTypes.CopyDestinationImageSetProperties {
+extension MedicalImagingClientTypes.CopyImageSetInformation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.CopyDestinationImageSetProperties {
+    static func write(value: MedicalImagingClientTypes.CopyImageSetInformation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationImageSet"].write(value.destinationImageSet, with: MedicalImagingClientTypes.CopyDestinationImageSet.write(value:to:))
+        try writer["sourceImageSet"].write(value.sourceImageSet, with: MedicalImagingClientTypes.CopySourceImageSetInformation.write(value:to:))
+    }
+}
+
+extension MedicalImagingClientTypes.CopySourceImageSetInformation {
+
+    static func write(value: MedicalImagingClientTypes.CopySourceImageSetInformation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DICOMCopies"].write(value.dicomCopies, with: MedicalImagingClientTypes.MetadataCopies.write(value:to:))
+        try writer["latestVersionId"].write(value.latestVersionId)
+    }
+}
+
+extension MedicalImagingClientTypes.CopySourceImageSetProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.CopySourceImageSetProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MedicalImagingClientTypes.CopyDestinationImageSetProperties()
+        var value = MedicalImagingClientTypes.CopySourceImageSetProperties()
         value.imageSetId = try reader["imageSetId"].readIfPresent() ?? ""
         value.latestVersionId = try reader["latestVersionId"].readIfPresent() ?? ""
         value.imageSetState = try reader["imageSetState"].readIfPresent()
@@ -3192,6 +3219,21 @@ extension MedicalImagingClientTypes.DatastoreProperties {
     }
 }
 
+extension MedicalImagingClientTypes.DatastoreSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.DatastoreSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MedicalImagingClientTypes.DatastoreSummary()
+        value.datastoreId = try reader["datastoreId"].readIfPresent() ?? ""
+        value.datastoreName = try reader["datastoreName"].readIfPresent() ?? ""
+        value.datastoreStatus = try reader["datastoreStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.datastoreArn = try reader["datastoreArn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension MedicalImagingClientTypes.DICOMImportJobProperties {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.DICOMImportJobProperties {
@@ -3211,31 +3253,6 @@ extension MedicalImagingClientTypes.DICOMImportJobProperties {
     }
 }
 
-extension MedicalImagingClientTypes.Overrides {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.Overrides {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MedicalImagingClientTypes.Overrides()
-        value.forced = try reader["forced"].readIfPresent()
-        return value
-    }
-}
-
-extension MedicalImagingClientTypes.DatastoreSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.DatastoreSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MedicalImagingClientTypes.DatastoreSummary()
-        value.datastoreId = try reader["datastoreId"].readIfPresent() ?? ""
-        value.datastoreName = try reader["datastoreName"].readIfPresent() ?? ""
-        value.datastoreStatus = try reader["datastoreStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.datastoreArn = try reader["datastoreArn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
 extension MedicalImagingClientTypes.DICOMImportJobSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.DICOMImportJobSummary {
@@ -3250,6 +3267,57 @@ extension MedicalImagingClientTypes.DICOMImportJobSummary {
         value.submittedAt = try reader["submittedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.message = try reader["message"].readIfPresent()
         return value
+    }
+}
+
+extension MedicalImagingClientTypes.DICOMStudyDateAndTime {
+
+    static func write(value: MedicalImagingClientTypes.DICOMStudyDateAndTime?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DICOMStudyDate"].write(value.dicomStudyDate)
+        try writer["DICOMStudyTime"].write(value.dicomStudyTime)
+    }
+}
+
+extension MedicalImagingClientTypes.DICOMTags {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.DICOMTags {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MedicalImagingClientTypes.DICOMTags()
+        value.dicomPatientId = try reader["DICOMPatientId"].readIfPresent()
+        value.dicomPatientName = try reader["DICOMPatientName"].readIfPresent()
+        value.dicomPatientBirthDate = try reader["DICOMPatientBirthDate"].readIfPresent()
+        value.dicomPatientSex = try reader["DICOMPatientSex"].readIfPresent()
+        value.dicomStudyInstanceUID = try reader["DICOMStudyInstanceUID"].readIfPresent()
+        value.dicomStudyId = try reader["DICOMStudyId"].readIfPresent()
+        value.dicomStudyDescription = try reader["DICOMStudyDescription"].readIfPresent()
+        value.dicomNumberOfStudyRelatedSeries = try reader["DICOMNumberOfStudyRelatedSeries"].readIfPresent() ?? 0
+        value.dicomNumberOfStudyRelatedInstances = try reader["DICOMNumberOfStudyRelatedInstances"].readIfPresent() ?? 0
+        value.dicomAccessionNumber = try reader["DICOMAccessionNumber"].readIfPresent()
+        value.dicomSeriesInstanceUID = try reader["DICOMSeriesInstanceUID"].readIfPresent()
+        value.dicomSeriesModality = try reader["DICOMSeriesModality"].readIfPresent()
+        value.dicomSeriesBodyPart = try reader["DICOMSeriesBodyPart"].readIfPresent()
+        value.dicomSeriesNumber = try reader["DICOMSeriesNumber"].readIfPresent()
+        value.dicomStudyDate = try reader["DICOMStudyDate"].readIfPresent()
+        value.dicomStudyTime = try reader["DICOMStudyTime"].readIfPresent()
+        return value
+    }
+}
+
+extension MedicalImagingClientTypes.DICOMUpdates {
+
+    static func write(value: MedicalImagingClientTypes.DICOMUpdates?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["removableAttributes"].write(value.removableAttributes)
+        try writer["updatableAttributes"].write(value.updatableAttributes)
+    }
+}
+
+extension MedicalImagingClientTypes.ImageFrameInformation {
+
+    static func write(value: MedicalImagingClientTypes.ImageFrameInformation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["imageFrameId"].write(value.imageFrameId)
     }
 }
 
@@ -3289,75 +3357,6 @@ extension MedicalImagingClientTypes.ImageSetsMetadataSummary {
     }
 }
 
-extension MedicalImagingClientTypes.DICOMTags {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.DICOMTags {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MedicalImagingClientTypes.DICOMTags()
-        value.dicomPatientId = try reader["DICOMPatientId"].readIfPresent()
-        value.dicomPatientName = try reader["DICOMPatientName"].readIfPresent()
-        value.dicomPatientBirthDate = try reader["DICOMPatientBirthDate"].readIfPresent()
-        value.dicomPatientSex = try reader["DICOMPatientSex"].readIfPresent()
-        value.dicomStudyInstanceUID = try reader["DICOMStudyInstanceUID"].readIfPresent()
-        value.dicomStudyId = try reader["DICOMStudyId"].readIfPresent()
-        value.dicomStudyDescription = try reader["DICOMStudyDescription"].readIfPresent()
-        value.dicomNumberOfStudyRelatedSeries = try reader["DICOMNumberOfStudyRelatedSeries"].readIfPresent() ?? 0
-        value.dicomNumberOfStudyRelatedInstances = try reader["DICOMNumberOfStudyRelatedInstances"].readIfPresent() ?? 0
-        value.dicomAccessionNumber = try reader["DICOMAccessionNumber"].readIfPresent()
-        value.dicomSeriesInstanceUID = try reader["DICOMSeriesInstanceUID"].readIfPresent()
-        value.dicomSeriesModality = try reader["DICOMSeriesModality"].readIfPresent()
-        value.dicomSeriesBodyPart = try reader["DICOMSeriesBodyPart"].readIfPresent()
-        value.dicomSeriesNumber = try reader["DICOMSeriesNumber"].readIfPresent()
-        value.dicomStudyDate = try reader["DICOMStudyDate"].readIfPresent()
-        value.dicomStudyTime = try reader["DICOMStudyTime"].readIfPresent()
-        return value
-    }
-}
-
-extension MedicalImagingClientTypes.Sort {
-
-    static func write(value: MedicalImagingClientTypes.Sort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sortField"].write(value.sortField)
-        try writer["sortOrder"].write(value.sortOrder)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.Sort {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MedicalImagingClientTypes.Sort()
-        value.sortOrder = try reader["sortOrder"].readIfPresent() ?? .sdkUnknown("")
-        value.sortField = try reader["sortField"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension MedicalImagingClientTypes.CopyImageSetInformation {
-
-    static func write(value: MedicalImagingClientTypes.CopyImageSetInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destinationImageSet"].write(value.destinationImageSet, with: MedicalImagingClientTypes.CopyDestinationImageSet.write(value:to:))
-        try writer["sourceImageSet"].write(value.sourceImageSet, with: MedicalImagingClientTypes.CopySourceImageSetInformation.write(value:to:))
-    }
-}
-
-extension MedicalImagingClientTypes.CopyDestinationImageSet {
-
-    static func write(value: MedicalImagingClientTypes.CopyDestinationImageSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["imageSetId"].write(value.imageSetId)
-        try writer["latestVersionId"].write(value.latestVersionId)
-    }
-}
-
-extension MedicalImagingClientTypes.CopySourceImageSetInformation {
-
-    static func write(value: MedicalImagingClientTypes.CopySourceImageSetInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DICOMCopies"].write(value.dicomCopies, with: MedicalImagingClientTypes.MetadataCopies.write(value:to:))
-        try writer["latestVersionId"].write(value.latestVersionId)
-    }
-}
-
 extension MedicalImagingClientTypes.MetadataCopies {
 
     static func write(value: MedicalImagingClientTypes.MetadataCopies?, to writer: SmithyJSON.Writer) throws {
@@ -3366,29 +3365,28 @@ extension MedicalImagingClientTypes.MetadataCopies {
     }
 }
 
-extension MedicalImagingClientTypes.ImageFrameInformation {
+extension MedicalImagingClientTypes.MetadataUpdates {
 
-    static func write(value: MedicalImagingClientTypes.ImageFrameInformation?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MedicalImagingClientTypes.MetadataUpdates?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["imageFrameId"].write(value.imageFrameId)
+        switch value {
+            case let .dicomupdates(dicomupdates):
+                try writer["DICOMUpdates"].write(dicomupdates, with: MedicalImagingClientTypes.DICOMUpdates.write(value:to:))
+            case let .reverttoversionid(reverttoversionid):
+                try writer["revertToVersionId"].write(reverttoversionid)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 
-extension MedicalImagingClientTypes.SearchCriteria {
+extension MedicalImagingClientTypes.Overrides {
 
-    static func write(value: MedicalImagingClientTypes.SearchCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filters"].writeList(value.filters, memberWritingClosure: MedicalImagingClientTypes.SearchFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["sort"].write(value.sort, with: MedicalImagingClientTypes.Sort.write(value:to:))
-    }
-}
-
-extension MedicalImagingClientTypes.SearchFilter {
-
-    static func write(value: MedicalImagingClientTypes.SearchFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["operator"].write(value.`operator`)
-        try writer["values"].writeList(value.values, memberWritingClosure: MedicalImagingClientTypes.SearchByAttributeValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.Overrides {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MedicalImagingClientTypes.Overrides()
+        value.forced = try reader["forced"].readIfPresent()
+        return value
     }
 }
 
@@ -3421,36 +3419,38 @@ extension MedicalImagingClientTypes.SearchByAttributeValue {
     }
 }
 
-extension MedicalImagingClientTypes.DICOMStudyDateAndTime {
+extension MedicalImagingClientTypes.SearchCriteria {
 
-    static func write(value: MedicalImagingClientTypes.DICOMStudyDateAndTime?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MedicalImagingClientTypes.SearchCriteria?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DICOMStudyDate"].write(value.dicomStudyDate)
-        try writer["DICOMStudyTime"].write(value.dicomStudyTime)
+        try writer["filters"].writeList(value.filters, memberWritingClosure: MedicalImagingClientTypes.SearchFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sort"].write(value.sort, with: MedicalImagingClientTypes.Sort.write(value:to:))
     }
 }
 
-extension MedicalImagingClientTypes.MetadataUpdates {
+extension MedicalImagingClientTypes.SearchFilter {
 
-    static func write(value: MedicalImagingClientTypes.MetadataUpdates?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MedicalImagingClientTypes.SearchFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .dicomupdates(dicomupdates):
-                try writer["DICOMUpdates"].write(dicomupdates, with: MedicalImagingClientTypes.DICOMUpdates.write(value:to:))
-            case let .reverttoversionid(reverttoversionid):
-                try writer["revertToVersionId"].write(reverttoversionid)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+        try writer["operator"].write(value.`operator`)
+        try writer["values"].writeList(value.values, memberWritingClosure: MedicalImagingClientTypes.SearchByAttributeValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension MedicalImagingClientTypes.DICOMUpdates {
+extension MedicalImagingClientTypes.Sort {
 
-    static func write(value: MedicalImagingClientTypes.DICOMUpdates?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MedicalImagingClientTypes.Sort?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["removableAttributes"].write(value.removableAttributes)
-        try writer["updatableAttributes"].write(value.updatableAttributes)
+        try writer["sortField"].write(value.sortField)
+        try writer["sortOrder"].write(value.sortOrder)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.Sort {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MedicalImagingClientTypes.Sort()
+        value.sortOrder = try reader["sortOrder"].readIfPresent() ?? .sdkUnknown("")
+        value.sortField = try reader["sortField"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
