@@ -1263,6 +1263,8 @@ extension ECSClientTypes {
         public var ec2InstanceProfileArn: Swift.String?
         /// Determines whether to enable FIPS 140-2 validated cryptographic modules on EC2 instances launched by the capacity provider. If true, instances use FIPS-compliant cryptographic algorithms and modules for enhanced security compliance. If false, instances use standard cryptographic implementations. If not specified, instances are launched with FIPS enabled in AWS GovCloud (US) regions and FIPS disabled in other regions.
         public var fipsEnabled: Swift.Bool?
+        /// Determines whether tags are propagated to the instance metadata service (IMDS) for Amazon EC2 instances launched by the Managed Instances capacity provider. When enabled, all tags associated with the instance are available through the instance metadata service. When disabled, tags are not propagated to IMDS. Disable this setting if your tags contain characters that are not compatible with IMDS, such as /. IMDS requires tag keys to match the pattern [0-9a-zA-Z\-_+=,.@:]{1,255}. The default value is true. For more information, see [Work with instance tags in instance metadata](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#work-with-tags-in-IMDS) in the Amazon EC2 User Guide.
+        public var instanceMetadataTagsPropagation: Swift.Bool?
         /// The instance requirements. You can specify:
         ///
         /// * The instance types
@@ -1285,6 +1287,7 @@ extension ECSClientTypes {
             capacityReservations: ECSClientTypes.CapacityReservationRequest? = nil,
             ec2InstanceProfileArn: Swift.String? = nil,
             fipsEnabled: Swift.Bool? = nil,
+            instanceMetadataTagsPropagation: Swift.Bool? = nil,
             instanceRequirements: ECSClientTypes.InstanceRequirementsRequest? = nil,
             monitoring: ECSClientTypes.ManagedInstancesMonitoringOptions? = nil,
             networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration? = nil,
@@ -1294,6 +1297,7 @@ extension ECSClientTypes {
             self.capacityReservations = capacityReservations
             self.ec2InstanceProfileArn = ec2InstanceProfileArn
             self.fipsEnabled = fipsEnabled
+            self.instanceMetadataTagsPropagation = instanceMetadataTagsPropagation
             self.instanceRequirements = instanceRequirements
             self.monitoring = monitoring
             self.networkConfiguration = networkConfiguration
@@ -1811,6 +1815,8 @@ extension ECSClientTypes {
         public var capacityReservations: ECSClientTypes.CapacityReservationRequest?
         /// The updated Amazon Resource Name (ARN) of the instance profile. The new instance profile must have the necessary permissions for your tasks. For more information, see [Amazon ECS instance profile for Managed Instances](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/managed-instances-instance-profile.html) in the Amazon ECS Developer Guide.
         public var ec2InstanceProfileArn: Swift.String?
+        /// Determines whether tags are propagated to the instance metadata service (IMDS) for Amazon EC2 instances launched by the Managed Instances capacity provider. When enabled, all tags associated with the instance are available through the instance metadata service. When disabled, tags are not propagated to IMDS. Disable this setting if your tags contain characters that are not compatible with IMDS, such as /. IMDS requires tag keys to match the pattern [0-9a-zA-Z\-_+=,.@:]{1,255}. The default value is true. For more information, see [Work with instance tags in instance metadata](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#work-with-tags-in-IMDS) in the Amazon EC2 User Guide.
+        public var instanceMetadataTagsPropagation: Swift.Bool?
         /// The updated instance requirements for attribute-based instance type selection. Changes to instance requirements affect which instance types Amazon ECS selects for new instances.
         public var instanceRequirements: ECSClientTypes.InstanceRequirementsRequest?
         /// CloudWatch provides two categories of monitoring: basic monitoring and detailed monitoring. By default, your managed instance is configured for basic monitoring. You can optionally enable detailed monitoring to help you more quickly identify and act on operational issues. You can enable or turn off detailed monitoring at launch or when the managed instance is running or stopped. For more information, see [Detailed monitoring for Amazon ECS Managed Instances](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/detailed-monitoring-managed-instances.html) in the Amazon ECS Developer Guide.
@@ -1823,6 +1829,7 @@ extension ECSClientTypes {
         public init(
             capacityReservations: ECSClientTypes.CapacityReservationRequest? = nil,
             ec2InstanceProfileArn: Swift.String? = nil,
+            instanceMetadataTagsPropagation: Swift.Bool? = nil,
             instanceRequirements: ECSClientTypes.InstanceRequirementsRequest? = nil,
             monitoring: ECSClientTypes.ManagedInstancesMonitoringOptions? = nil,
             networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration? = nil,
@@ -1830,6 +1837,7 @@ extension ECSClientTypes {
         ) {
             self.capacityReservations = capacityReservations
             self.ec2InstanceProfileArn = ec2InstanceProfileArn
+            self.instanceMetadataTagsPropagation = instanceMetadataTagsPropagation
             self.instanceRequirements = instanceRequirements
             self.monitoring = monitoring
             self.networkConfiguration = networkConfiguration
@@ -17514,6 +17522,7 @@ extension ECSClientTypes.InstanceLaunchTemplate {
         try writer["capacityReservations"].write(value.capacityReservations, with: ECSClientTypes.CapacityReservationRequest.write(value:to:))
         try writer["ec2InstanceProfileArn"].write(value.ec2InstanceProfileArn)
         try writer["fipsEnabled"].write(value.fipsEnabled)
+        try writer["instanceMetadataTagsPropagation"].write(value.instanceMetadataTagsPropagation)
         try writer["instanceRequirements"].write(value.instanceRequirements, with: ECSClientTypes.InstanceRequirementsRequest.write(value:to:))
         try writer["monitoring"].write(value.monitoring)
         try writer["networkConfiguration"].write(value.networkConfiguration, with: ECSClientTypes.ManagedInstancesNetworkConfiguration.write(value:to:))
@@ -17528,6 +17537,7 @@ extension ECSClientTypes.InstanceLaunchTemplate {
         value.storageConfiguration = try reader["storageConfiguration"].readIfPresent(with: ECSClientTypes.ManagedInstancesStorageConfiguration.read(from:))
         value.monitoring = try reader["monitoring"].readIfPresent()
         value.capacityOptionType = try reader["capacityOptionType"].readIfPresent()
+        value.instanceMetadataTagsPropagation = try reader["instanceMetadataTagsPropagation"].readIfPresent()
         value.instanceRequirements = try reader["instanceRequirements"].readIfPresent(with: ECSClientTypes.InstanceRequirementsRequest.read(from:))
         value.fipsEnabled = try reader["fipsEnabled"].readIfPresent()
         value.capacityReservations = try reader["capacityReservations"].readIfPresent(with: ECSClientTypes.CapacityReservationRequest.read(from:))
@@ -17541,6 +17551,7 @@ extension ECSClientTypes.InstanceLaunchTemplateUpdate {
         guard let value else { return }
         try writer["capacityReservations"].write(value.capacityReservations, with: ECSClientTypes.CapacityReservationRequest.write(value:to:))
         try writer["ec2InstanceProfileArn"].write(value.ec2InstanceProfileArn)
+        try writer["instanceMetadataTagsPropagation"].write(value.instanceMetadataTagsPropagation)
         try writer["instanceRequirements"].write(value.instanceRequirements, with: ECSClientTypes.InstanceRequirementsRequest.write(value:to:))
         try writer["monitoring"].write(value.monitoring)
         try writer["networkConfiguration"].write(value.networkConfiguration, with: ECSClientTypes.ManagedInstancesNetworkConfiguration.write(value:to:))
