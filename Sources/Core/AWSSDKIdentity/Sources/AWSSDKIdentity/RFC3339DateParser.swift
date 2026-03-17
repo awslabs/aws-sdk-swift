@@ -1,0 +1,21 @@
+// ISO8601DateFormatter isn't Sendable yet.
+@preconcurrency import Foundation
+
+public enum RFC3339DateParser {
+    private static let withFractional: ISO8601DateFormatter = {
+        let f = ISO8601DateFormatter()
+        f.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return f
+    }()
+
+    private static let withoutFractional: ISO8601DateFormatter = {
+        let f = ISO8601DateFormatter()
+        f.formatOptions = [.withInternetDateTime]
+        return f
+    }()
+
+    public static func parse(_ string: String) -> Date? {
+        withoutFractional.date(from: string)
+        ?? withFractional.date(from: string)
+    }
+}
