@@ -33,10 +33,19 @@ public struct SigV4AAuthScheme: AuthScheme {
         // Set resolved signing name and signing region flags
         let signingName = updatedSigningProperties.get(key: SigningPropertyKeys.signingName) ?? context.signingName
         updatedSigningProperties.set(key: SigningPropertyKeys.signingName, value: signingName)
-        updatedSigningProperties.set(
-            key: SigningPropertyKeys.signingRegion,
-            value: signingProperties.get(key: SigningPropertyKeys.signingRegion) ?? context.signingRegion
-        )
+
+        // For SigV4a, use the sigV4aSigningRegionSet if available, falling back to signingRegion
+        let sigV4aRegionSet = signingProperties.get(key: SigningPropertyKeys.sigV4aSigningRegionSet)
+            ?? context.sigV4aSigningRegionSet
+        let signingRegion: String
+        if let regionSet = sigV4aRegionSet, !regionSet.isEmpty {
+            signingRegion = regionSet.joined(separator: ",")
+        } else {
+            signingRegion = signingProperties.get(key: SigningPropertyKeys.signingRegion)
+                ?? context.signingRegion
+                ?? ""
+        }
+        updatedSigningProperties.set(key: SigningPropertyKeys.signingRegion, value: signingRegion)
 
         // Set expiration flag
         //

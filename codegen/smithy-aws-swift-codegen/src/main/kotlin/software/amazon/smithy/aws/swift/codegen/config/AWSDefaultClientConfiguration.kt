@@ -71,5 +71,6 @@ class AWSDefaultClientConfiguration : ClientConfiguration {
                 true,
             ),
             ConfigProperty("ignoreConfiguredEndpointURLs", SwiftTypes.Bool.toOptional()),
+            ConfigProperty("sigV4aSigningRegionSet", SwiftTypes.StringList.toOptional()),
         )
 }

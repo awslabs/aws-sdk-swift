@@ -17,6 +17,13 @@ public protocol AWSDefaultClientConfiguration {
 
     var authSchemePreference: [String]? { get set }
 
+    /// The set of signing regions to use for SigV4a signing.
+    ///
+    /// When set to `["*"]`, the SDK will use a universal signing region set,
+    /// allowing the signed request to be valid in any region.
+    /// If not set, the SDK defaults to using the configured region.
+    var sigV4aSigningRegionSet: [String]? { get set }
+
     /// Specifies whether FIPS endpoints should be used.
     var useFIPS: Bool? { get set }
 
