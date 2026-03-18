@@ -1,7 +1,6 @@
 {
     "service": "com.amazonaws.sso#SWBPortalService",
     "module": "InternalAWSSSO",
-    "moduleVersion": "1.6.63",
     "sdkId": "SSO",
     "internalClient": true,
     "operations": [

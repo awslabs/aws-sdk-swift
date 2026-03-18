@@ -93,7 +93,7 @@ class PresignerGenerator : SwiftIntegration {
                 FoundationTypes.TimeInterval,
                 SmithyHTTPAPITypes.HTTPRequest,
             ) {
-                writer.write("let serviceName = \$S", ctx.settings.sdkId)
+                writer.write("let serviceName = \$S", ctx.settings.sdkIdStrippingService)
                 writer.write("let input = self")
                 writer.openBlock(
                     "let client: (\$N, \$N) async throws -> \$N = { (_, _) in",

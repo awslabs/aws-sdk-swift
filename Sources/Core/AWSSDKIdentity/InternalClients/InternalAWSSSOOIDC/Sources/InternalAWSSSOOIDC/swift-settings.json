@@ -1,7 +1,6 @@
 {
     "service": "com.amazonaws.ssooidc#AWSSSOOIDCService",
     "module": "InternalAWSSSOOIDC",
-    "moduleVersion": "1.6.63",
     "sdkId": "SSO OIDC",
     "internalClient": true,
     "operations": [
