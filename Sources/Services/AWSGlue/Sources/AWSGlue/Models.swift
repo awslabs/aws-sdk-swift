@@ -11053,6 +11053,35 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    public enum OverwriteChildResourcePermissionsWithDefaultEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accept
+        case deny
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OverwriteChildResourcePermissionsWithDefaultEnum] {
+            return [
+                .accept,
+                .deny
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accept: return "Accept"
+            case .deny: return "Deny"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// A structure that describes a target catalog for resource linking.
     public struct TargetRedshiftCatalog: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the catalog resource.
@@ -11083,6 +11112,8 @@ extension GlueClientTypes {
         public var description: Swift.String?
         /// A FederatedCatalog object. A FederatedCatalog structure that references an entity outside the Glue Data Catalog, for example a Redshift database.
         public var federatedCatalog: GlueClientTypes.FederatedCatalog?
+        /// Overwrites existing Amazon Web Services Lake Formation permissions with CatalogInput$CreateTableDefaultPermissions and CatalogInput$CreateDatabaseDefaultPermissions for all child resources.
+        public var overwriteChildResourcePermissionsWithDefault: GlueClientTypes.OverwriteChildResourcePermissionsWithDefaultEnum?
         /// A map array of key-value pairs that define the parameters and properties of the catalog.
         public var parameters: [Swift.String: Swift.String]?
         /// A TargetRedshiftCatalog object that describes a target catalog for resource linking.
@@ -11095,6 +11126,7 @@ extension GlueClientTypes {
             createTableDefaultPermissions: [GlueClientTypes.PrincipalPermissions]? = nil,
             description: Swift.String? = nil,
             federatedCatalog: GlueClientTypes.FederatedCatalog? = nil,
+            overwriteChildResourcePermissionsWithDefault: GlueClientTypes.OverwriteChildResourcePermissionsWithDefaultEnum? = nil,
             parameters: [Swift.String: Swift.String]? = nil,
             targetRedshiftCatalog: GlueClientTypes.TargetRedshiftCatalog? = nil
         ) {
@@ -11104,6 +11136,7 @@ extension GlueClientTypes {
             self.createTableDefaultPermissions = createTableDefaultPermissions
             self.description = description
             self.federatedCatalog = federatedCatalog
+            self.overwriteChildResourcePermissionsWithDefault = overwriteChildResourcePermissionsWithDefault
             self.parameters = parameters
             self.targetRedshiftCatalog = targetRedshiftCatalog
         }
@@ -45008,6 +45041,7 @@ extension GlueClientTypes.CatalogInput {
         try writer["CreateTableDefaultPermissions"].writeList(value.createTableDefaultPermissions, memberWritingClosure: GlueClientTypes.PrincipalPermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Description"].write(value.description)
         try writer["FederatedCatalog"].write(value.federatedCatalog, with: GlueClientTypes.FederatedCatalog.write(value:to:))
+        try writer["OverwriteChildResourcePermissionsWithDefault"].write(value.overwriteChildResourcePermissionsWithDefault)
         try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TargetRedshiftCatalog"].write(value.targetRedshiftCatalog, with: GlueClientTypes.TargetRedshiftCatalog.write(value:to:))
     }

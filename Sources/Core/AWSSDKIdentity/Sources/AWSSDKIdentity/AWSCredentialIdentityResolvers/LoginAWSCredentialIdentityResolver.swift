@@ -143,17 +143,11 @@ public struct LoginAWSCredentialIdentityResolver: AWSCredentialIdentityResolver 
             decoder.dateDecodingStrategy = .custom { decoder in
                 let container = try decoder.singleValueContainer()
                 let dateString = try container.decode(String.self)
-                let formatter = ISO8601DateFormatter()
-                // Powershell saves expiration date with milliseconds.
-                formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-                if let date = formatter.date(from: dateString) {
-                    return date
-                }
-                // AWS CLI saves expiration date without milliseconds.
-                // Because setting .withFractionalSeconds is a strict requirement, must remove it for AWS CLI expiration date.
-                formatter.formatOptions = [.withInternetDateTime]
-                guard let date = formatter.date(from: dateString) else {
-                    throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid date format")
+                guard let date = RFC3339DateParser.parse(dateString) else {
+                    throw DecodingError.dataCorruptedError(
+                        in: container,
+                        debugDescription: "Invalid RFC3339 date format"
+                    )
                 }
                 return date
             }
