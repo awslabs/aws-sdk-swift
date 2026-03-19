@@ -49,16 +49,16 @@ class ErrorTypeMatcherTests: XCTestCase {
 
 private struct ServiceErrorThatMatches: ServiceError, Error {
     var typeName: String? { "MyError" }
-    var message: String? { "ServiceErrorThatMatches" }
+    var message: String? = "ServiceErrorThatMatches"
 }
 
 private struct ServiceErrorThatDoesntMatch: ServiceError, Error {
     var typeName: String? { "OtherError" }
-    var message: String? { "ServiceErrorThatDoesntMatch" }
+    var message: String? = "ServiceErrorThatDoesntMatch"
 }
 
 private struct NotAServiceError: Error {  // An error but not a ServiceError
     var typeName: String? { "MyError" }
-    var message: String? { "NotAServiceError" }
+    var message: String? = "NotAServiceError"
 }
 
