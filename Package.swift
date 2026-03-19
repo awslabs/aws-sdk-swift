@@ -2161,7 +2161,6 @@ extension Target.Dependency {
     // Smithy modules
     static var ClientRuntime: Self { .product(name: "ClientRuntime", package: "smithy-swift") }
     static var Smithy: Self { .product(name: "Smithy", package: "smithy-swift") }
-    static var SmithySerialization: Self { .product(name: "SmithySerialization", package: "smithy-swift") }
     static var SmithyRPCv2CBOR: Self { .product(name: "SmithyRPCv2CBOR", package: "smithy-swift") }
     static var SmithyCBOR: Self { .product(name: "SmithyCBOR", package: "smithy-swift") }
     static var SmithyChecksumsAPI: Self { .product(name: "SmithyChecksumsAPI", package: "smithy-swift") }
@@ -2370,9 +2369,7 @@ private var internalClientDependencies: [Target.Dependency] {
 }
 
 private var internalServiceTargets: [Target] {
-    serviceClientData.filter { $0.serviceType == .internalUse }.map {
-        .target(name: $0.name, dependencies: $0.dependencies, path: $0.sourcePath, plugins: [.SmithyCodeGeneratorPlugin])
-    }
+    serviceClientData.filter { $0.serviceType == .internalUse }.map(target(_:))
 }
 
 private var runtimeTestTargets: [Target] {
