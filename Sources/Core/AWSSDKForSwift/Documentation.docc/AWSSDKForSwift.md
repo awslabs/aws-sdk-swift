@@ -847,6 +847,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSimSpaceWeaver](../../../../../swift/api/awssimspaceweaver/latest)
 
+[AWSSimpleDBv2](../../../../../swift/api/awssimpledbv2/latest)
+
 [AWSSnowDeviceManagement](../../../../../swift/api/awssnowdevicemanagement/latest)
 
 [AWSSnowball](../../../../../swift/api/awssnowball/latest)
