@@ -3,10 +3,13 @@
   "dependencies": [
     "AWSClientRuntime",
     "AWSSDKChecksums",
+    "AWSSDKEventStreamsAuth",
     "AWSSDKHTTPAuth",
     "AWSSDKIdentity",
     "ClientRuntime",
     "Smithy",
+    "SmithyEventStreams",
+    "SmithyEventStreamsAPI",
     "SmithyHTTPAPI",
     "SmithyHTTPAuthAPI",
     "SmithyIdentity",
