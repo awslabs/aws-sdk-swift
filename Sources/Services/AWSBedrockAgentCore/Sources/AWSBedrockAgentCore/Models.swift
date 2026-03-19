@@ -837,6 +837,48 @@ public struct GetBrowserSessionInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// The Amazon Web Services Secrets Manager location configuration.
+    public struct SecretsManagerLocation: Swift.Sendable {
+        /// The ARN of the Amazon Web Services Secrets Manager secret containing the certificate.
+        /// This member is required.
+        public var secretArn: Swift.String?
+
+        public init(
+            secretArn: Swift.String? = nil
+        ) {
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The location from which to retrieve a certificate.
+    public enum CertificateLocation: Swift.Sendable {
+        /// The Amazon Web Services Secrets Manager location of the certificate.
+        case secretsmanager(BedrockAgentCoreClientTypes.SecretsManagerLocation)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A certificate to install in the browser or code interpreter session.
+    public struct Certificate: Swift.Sendable {
+        /// The location of the certificate.
+        /// This member is required.
+        public var location: BedrockAgentCoreClientTypes.CertificateLocation?
+
+        public init(
+            location: BedrockAgentCoreClientTypes.CertificateLocation? = nil
+        ) {
+            self.location = location
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// The Amazon S3 location configuration of a resource.
     public struct S3Location: Swift.Sendable {
         /// The name of the Amazon S3 bucket where the resource is stored.
@@ -867,6 +909,56 @@ extension BedrockAgentCoreClientTypes {
         /// The Amazon S3 location of the resource. Use this when the resource is stored in an Amazon S3 bucket.
         case s3(BedrockAgentCoreClientTypes.S3Location)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The type of browser enterprise policy. Available values are MANAGED and RECOMMENDED.
+    public enum BrowserEnterprisePolicyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case managed
+        case recommended
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BrowserEnterprisePolicyType] {
+            return [
+                .managed,
+                .recommended
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .managed: return "MANAGED"
+            case .recommended: return "RECOMMENDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Browser enterprise policy configuration.
+    public struct BrowserEnterprisePolicy: Swift.Sendable {
+        /// The location of the enterprise policy file.
+        /// This member is required.
+        public var location: BedrockAgentCoreClientTypes.ResourceLocation?
+        /// The enterprise policy type. See BrowserEnterprisePolicyType.
+        public var type: BedrockAgentCoreClientTypes.BrowserEnterprisePolicyType?
+
+        public init(
+            location: BedrockAgentCoreClientTypes.ResourceLocation? = nil,
+            type: BedrockAgentCoreClientTypes.BrowserEnterprisePolicyType? = nil
+        ) {
+            self.location = location
+            self.type = type
+        }
     }
 }
 
@@ -1141,9 +1233,13 @@ public struct GetBrowserSessionOutput: Swift.Sendable {
     /// The identifier of the browser.
     /// This member is required.
     public var browserIdentifier: Swift.String?
+    /// The list of certificates installed in the browser session.
+    public var certificates: [BedrockAgentCoreClientTypes.Certificate]?
     /// The time at which the browser session was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
+    /// A list of files containing enterprise policies for the browser session.
+    public var enterprisePolicies: [BedrockAgentCoreClientTypes.BrowserEnterprisePolicy]?
     /// The list of browser extensions that are configured in the browser session.
     public var extensions: [BedrockAgentCoreClientTypes.BrowserExtension]?
     /// The time at which the browser session was last updated.
@@ -1170,7 +1266,9 @@ public struct GetBrowserSessionOutput: Swift.Sendable {
 
     public init(
         browserIdentifier: Swift.String? = nil,
+        certificates: [BedrockAgentCoreClientTypes.Certificate]? = nil,
         createdAt: Foundation.Date? = nil,
+        enterprisePolicies: [BedrockAgentCoreClientTypes.BrowserEnterprisePolicy]? = nil,
         extensions: [BedrockAgentCoreClientTypes.BrowserExtension]? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
@@ -1184,7 +1282,9 @@ public struct GetBrowserSessionOutput: Swift.Sendable {
         viewPort: BedrockAgentCoreClientTypes.ViewPort? = nil
     ) {
         self.browserIdentifier = browserIdentifier
+        self.certificates = certificates
         self.createdAt = createdAt
+        self.enterprisePolicies = enterprisePolicies
         self.extensions = extensions
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
@@ -1282,8 +1382,12 @@ public struct StartBrowserSessionInput: Swift.Sendable {
     /// The unique identifier of the browser to use for this session. This identifier specifies which browser environment to initialize for the session.
     /// This member is required.
     public var browserIdentifier: Swift.String?
+    /// A list of certificates to install in the browser session.
+    public var certificates: [BedrockAgentCoreClientTypes.Certificate]?
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
     public var clientToken: Swift.String?
+    /// A list of files containing enterprise policies for the browser.
+    public var enterprisePolicies: [BedrockAgentCoreClientTypes.BrowserEnterprisePolicy]?
     /// A list of browser extensions to load into the browser session.
     public var extensions: [BedrockAgentCoreClientTypes.BrowserExtension]?
     /// The name of the browser session. This name helps you identify and manage the session. The name does not need to be unique.
@@ -1303,7 +1407,9 @@ public struct StartBrowserSessionInput: Swift.Sendable {
 
     public init(
         browserIdentifier: Swift.String? = nil,
+        certificates: [BedrockAgentCoreClientTypes.Certificate]? = nil,
         clientToken: Swift.String? = nil,
+        enterprisePolicies: [BedrockAgentCoreClientTypes.BrowserEnterprisePolicy]? = nil,
         extensions: [BedrockAgentCoreClientTypes.BrowserExtension]? = nil,
         name: Swift.String? = nil,
         profileConfiguration: BedrockAgentCoreClientTypes.BrowserProfileConfiguration? = nil,
@@ -1314,7 +1420,9 @@ public struct StartBrowserSessionInput: Swift.Sendable {
         viewPort: BedrockAgentCoreClientTypes.ViewPort? = nil
     ) {
         self.browserIdentifier = browserIdentifier
+        self.certificates = certificates
         self.clientToken = clientToken
+        self.enterprisePolicies = enterprisePolicies
         self.extensions = extensions
         self.name = name
         self.profileConfiguration = profileConfiguration
@@ -1528,6 +1636,8 @@ extension BedrockAgentCoreClientTypes {
 }
 
 public struct GetCodeInterpreterSessionOutput: Swift.Sendable {
+    /// The list of certificates installed in the code interpreter session.
+    public var certificates: [BedrockAgentCoreClientTypes.Certificate]?
     /// The identifier of the code interpreter.
     /// This member is required.
     public var codeInterpreterIdentifier: Swift.String?
@@ -1545,6 +1655,7 @@ public struct GetCodeInterpreterSessionOutput: Swift.Sendable {
     public var status: BedrockAgentCoreClientTypes.CodeInterpreterSessionStatus?
 
     public init(
+        certificates: [BedrockAgentCoreClientTypes.Certificate]? = nil,
         codeInterpreterIdentifier: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
@@ -1552,6 +1663,7 @@ public struct GetCodeInterpreterSessionOutput: Swift.Sendable {
         sessionTimeoutSeconds: Swift.Int? = nil,
         status: BedrockAgentCoreClientTypes.CodeInterpreterSessionStatus? = nil
     ) {
+        self.certificates = certificates
         self.codeInterpreterIdentifier = codeInterpreterIdentifier
         self.createdAt = createdAt
         self.name = name
@@ -1641,6 +1753,8 @@ public struct ListCodeInterpreterSessionsOutput: Swift.Sendable {
 }
 
 public struct StartCodeInterpreterSessionInput: Swift.Sendable {
+    /// A list of certificates to install in the code interpreter session.
+    public var certificates: [BedrockAgentCoreClientTypes.Certificate]?
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
     public var clientToken: Swift.String?
     /// The unique identifier of the code interpreter to use for this session. This identifier specifies which code interpreter environment to initialize for the session.
@@ -1656,6 +1770,7 @@ public struct StartCodeInterpreterSessionInput: Swift.Sendable {
     public var traceParent: Swift.String?
 
     public init(
+        certificates: [BedrockAgentCoreClientTypes.Certificate]? = nil,
         clientToken: Swift.String? = nil,
         codeInterpreterIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -1663,6 +1778,7 @@ public struct StartCodeInterpreterSessionInput: Swift.Sendable {
         traceId: Swift.String? = nil,
         traceParent: Swift.String? = nil
     ) {
+        self.certificates = certificates
         self.clientToken = clientToken
         self.codeInterpreterIdentifier = codeInterpreterIdentifier
         self.name = name
@@ -5052,7 +5168,9 @@ extension StartBrowserSessionInput {
 
     static func write(value: StartBrowserSessionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["certificates"].writeList(value.certificates, memberWritingClosure: BedrockAgentCoreClientTypes.Certificate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["clientToken"].write(value.clientToken)
+        try writer["enterprisePolicies"].writeList(value.enterprisePolicies, memberWritingClosure: BedrockAgentCoreClientTypes.BrowserEnterprisePolicy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["extensions"].writeList(value.extensions, memberWritingClosure: BedrockAgentCoreClientTypes.BrowserExtension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
         try writer["profileConfiguration"].write(value.profileConfiguration, with: BedrockAgentCoreClientTypes.BrowserProfileConfiguration.write(value:to:))
@@ -5066,6 +5184,7 @@ extension StartCodeInterpreterSessionInput {
 
     static func write(value: StartCodeInterpreterSessionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["certificates"].writeList(value.certificates, memberWritingClosure: BedrockAgentCoreClientTypes.Certificate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["clientToken"].write(value.clientToken)
         try writer["name"].write(value.name)
         try writer["sessionTimeoutSeconds"].write(value.sessionTimeoutSeconds)
@@ -5231,7 +5350,9 @@ extension GetBrowserSessionOutput {
         let reader = responseReader
         var value = GetBrowserSessionOutput()
         value.browserIdentifier = try reader["browserIdentifier"].readIfPresent() ?? ""
+        value.certificates = try reader["certificates"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.Certificate.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.enterprisePolicies = try reader["enterprisePolicies"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.BrowserEnterprisePolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.extensions = try reader["extensions"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.BrowserExtension.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent()
@@ -5254,6 +5375,7 @@ extension GetCodeInterpreterSessionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetCodeInterpreterSessionOutput()
+        value.certificates = try reader["certificates"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.Certificate.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.codeInterpreterIdentifier = try reader["codeInterpreterIdentifier"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.name = try reader["name"].readIfPresent()
@@ -6750,6 +6872,23 @@ extension BedrockAgentCoreClientTypes.BranchFilter {
     }
 }
 
+extension BedrockAgentCoreClientTypes.BrowserEnterprisePolicy {
+
+    static func write(value: BedrockAgentCoreClientTypes.BrowserEnterprisePolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["location"].write(value.location, with: BedrockAgentCoreClientTypes.ResourceLocation.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.BrowserEnterprisePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.BrowserEnterprisePolicy()
+        value.location = try reader["location"].readIfPresent(with: BedrockAgentCoreClientTypes.ResourceLocation.read(from:))
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.BrowserExtension {
 
     static func write(value: BedrockAgentCoreClientTypes.BrowserExtension?, to writer: SmithyJSON.Writer) throws {
@@ -6803,6 +6942,45 @@ extension BedrockAgentCoreClientTypes.BrowserSessionSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.Certificate {
+
+    static func write(value: BedrockAgentCoreClientTypes.Certificate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["location"].write(value.location, with: BedrockAgentCoreClientTypes.CertificateLocation.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.Certificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.Certificate()
+        value.location = try reader["location"].readIfPresent(with: BedrockAgentCoreClientTypes.CertificateLocation.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.CertificateLocation {
+
+    static func write(value: BedrockAgentCoreClientTypes.CertificateLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .secretsmanager(secretsmanager):
+                try writer["secretsManager"].write(secretsmanager, with: BedrockAgentCoreClientTypes.SecretsManagerLocation.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.CertificateLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "secretsManager":
+                return .secretsmanager(try reader["secretsManager"].read(with: BedrockAgentCoreClientTypes.SecretsManagerLocation.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -7515,6 +7693,21 @@ extension BedrockAgentCoreClientTypes.SearchCriteria {
         try writer["metadataFilters"].writeList(value.metadataFilters, memberWritingClosure: BedrockAgentCoreClientTypes.MemoryMetadataFilterExpression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["searchQuery"].write(value.searchQuery)
         try writer["topK"].write(value.topk)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.SecretsManagerLocation {
+
+    static func write(value: BedrockAgentCoreClientTypes.SecretsManagerLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["secretArn"].write(value.secretArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.SecretsManagerLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.SecretsManagerLocation()
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
+        return value
     }
 }
 

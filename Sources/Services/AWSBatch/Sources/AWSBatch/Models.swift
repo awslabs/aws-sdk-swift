@@ -16,6 +16,7 @@ import enum Smithy.ClientError
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
+@_spi(SmithyReadWrite) import func SmithyReadWrite.listReadingClosure
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
@@ -976,7 +977,7 @@ extension BatchClientTypes {
 
     /// Specifies an action that Batch will take after the job has remained at the head of the queue in the specified state for longer than the specified time.
     public struct JobStateTimeLimitAction: Swift.Sendable {
-        /// The action to take when a job is at the head of the job queue in the specified state for the specified period of time. The only supported value is CANCEL, which will cancel the job.
+        /// The action to take when a job is at the head of the job queue in the specified state for the specified period of time. For job queues connected to a ECS, FARGATE or EKS compute environment, the only supported value is CANCEL, which will cancel the job. For job queues connected to a SAGEMAKER_TRAINING service environment, the only supported value is TERMINATE, which will terminate the job.
         /// This member is required.
         public var action: BatchClientTypes.JobStateTimeLimitActionsAction?
         /// The approximate amount of time, in seconds, that must pass with the job in the specified state before the action is taken. The minimum value is 600 (10 minutes) and the maximum value is 86,400 (24 hours).
@@ -1118,6 +1119,208 @@ public struct CreateJobQueueOutput: Swift.Sendable {
 
 extension BatchClientTypes {
 
+    /// Defines the capacity limit for a quota share, or the type and maximum quantity of a particular resource that can be allocated to jobs in the quota share without borrowing.
+    public struct QuotaShareCapacityLimit: Swift.Sendable {
+        /// The unit of compute capacity for the capacityLimit. For example, ml.m5.large.
+        /// This member is required.
+        public var capacityUnit: Swift.String?
+        /// The maximum capacity available for the quota share. This value represents the maximum quantity of a resource that can be allocated to jobs in the quota share without borrowing.
+        /// This member is required.
+        public var maxCapacity: Swift.Int?
+
+        public init(
+            capacityUnit: Swift.String? = nil,
+            maxCapacity: Swift.Int? = nil
+        ) {
+            self.capacityUnit = capacityUnit
+            self.maxCapacity = maxCapacity
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    public enum QuotaShareInSharePreemptionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuotaShareInSharePreemptionState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Specifies the preemption behavior for jobs in a quota share.
+    public struct QuotaSharePreemptionConfiguration: Swift.Sendable {
+        /// Specifies whether jobs within a quota share can be preempted by another, higher priority job in the same quota share.
+        /// This member is required.
+        public var inSharePreemption: BatchClientTypes.QuotaShareInSharePreemptionState?
+
+        public init(
+            inSharePreemption: BatchClientTypes.QuotaShareInSharePreemptionState? = nil
+        ) {
+            self.inSharePreemption = inSharePreemption
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    public enum QuotaShareResourceSharingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lend
+        case lendAndBorrow
+        case reserve
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuotaShareResourceSharingStrategy] {
+            return [
+                .lend,
+                .lendAndBorrow,
+                .reserve
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lend: return "LEND"
+            case .lendAndBorrow: return "LEND_AND_BORROW"
+            case .reserve: return "RESERVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Specifies whether a quota share reserves, lends, or both lends and borrows idle compute capacity.
+    public struct QuotaShareResourceSharingConfiguration: Swift.Sendable {
+        /// The maximum percentage of additional capacity that the quota share can borrow from other shares. borrowLimit can only be applied to quota shares with a strategy of LEND_AND_BORROW. This value is expressed as a percentage of the quota share's configured [CapacityLimits](https://docs.aws.amazon.com/batch/latest/APIReference/API_QuotaShareCapacityLimit.html). The borrowLimit is applied uniformly across all capacity units. For example, if the borrowLimit is 200, the quota share can borrow up to 200% of its configured maxCapacity for each capacity unit. The default borrowLimit is -1, which indicates unlimited borrowing.
+        public var borrowLimit: Swift.Int?
+        /// The resource sharing strategy for the quota share. The RESERVE strategy allows a quota share to reserve idle capacity for itself. LEND configures the share to lend its idle capacity to another share in need of capacity. The LEND_AND_BORROW strategy configures the share to borrow idle capacity from an underutilized share, as well as lend to another share.
+        /// This member is required.
+        public var strategy: BatchClientTypes.QuotaShareResourceSharingStrategy?
+
+        public init(
+            borrowLimit: Swift.Int? = nil,
+            strategy: BatchClientTypes.QuotaShareResourceSharingStrategy? = nil
+        ) {
+            self.borrowLimit = borrowLimit
+            self.strategy = strategy
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    public enum QuotaShareState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuotaShareState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateQuotaShareInput: Swift.Sendable {
+    /// A list that specifies the quantity and type of compute capacity allocated to the quota share.
+    /// This member is required.
+    public var capacityLimits: [BatchClientTypes.QuotaShareCapacityLimit]?
+    /// The Batch job queue associated with the quota share. This can be the job queue name or ARN. A job queue must be in the VALID state before you can associate it with a quota share.
+    /// This member is required.
+    public var jobQueue: Swift.String?
+    /// Specifies the preemption behavior for jobs in a quota share.
+    /// This member is required.
+    public var preemptionConfiguration: BatchClientTypes.QuotaSharePreemptionConfiguration?
+    /// The name of the quota share. It can be up to 128 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
+    /// This member is required.
+    public var quotaShareName: Swift.String?
+    /// Specifies whether a quota share reserves, lends, or both lends and borrows idle compute capacity.
+    /// This member is required.
+    public var resourceSharingConfiguration: BatchClientTypes.QuotaShareResourceSharingConfiguration?
+    /// The state of the quota share. If the quota share is ENABLED, it is able to accept jobs. If the quota share is DISABLED, new jobs won't be accepted but jobs already submitted can finish. The default state is ENABLED.
+    public var state: BatchClientTypes.QuotaShareState?
+    /// The tags that you apply to the quota share to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging your Batch resources](https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html) in Batch User Guide.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        capacityLimits: [BatchClientTypes.QuotaShareCapacityLimit]? = nil,
+        jobQueue: Swift.String? = nil,
+        preemptionConfiguration: BatchClientTypes.QuotaSharePreemptionConfiguration? = nil,
+        quotaShareName: Swift.String? = nil,
+        resourceSharingConfiguration: BatchClientTypes.QuotaShareResourceSharingConfiguration? = nil,
+        state: BatchClientTypes.QuotaShareState? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.capacityLimits = capacityLimits
+        self.jobQueue = jobQueue
+        self.preemptionConfiguration = preemptionConfiguration
+        self.quotaShareName = quotaShareName
+        self.resourceSharingConfiguration = resourceSharingConfiguration
+        self.state = state
+        self.tags = tags
+    }
+}
+
+public struct CreateQuotaShareOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the quota share.
+    public var quotaShareArn: Swift.String?
+    /// The name of the quota share.
+    public var quotaShareName: Swift.String?
+
+    public init(
+        quotaShareArn: Swift.String? = nil,
+        quotaShareName: Swift.String? = nil
+    ) {
+        self.quotaShareArn = quotaShareArn
+        self.quotaShareName = quotaShareName
+    }
+}
+
+extension BatchClientTypes {
+
     /// Specifies the weights for the share identifiers for the fair-share policy. Share identifiers that aren't included have a default weight of 1.0.
     public struct ShareAttributes: Swift.Sendable {
         /// A share identifier or share identifier prefix. If the string ends with an asterisk (*), this entry specifies the weight factor to use for share identifiers that start with that prefix. The list of share identifiers in a fair-share policy can't overlap. For example, you can't have one that specifies a shareIdentifier of UserA* and another that specifies a shareIdentifier of UserA1. There can be no more than 500 share identifiers active in a job queue. The string is limited to 255 alphanumeric characters, and can be followed by an asterisk (*).
@@ -1159,23 +1362,69 @@ extension BatchClientTypes {
     }
 }
 
+extension BatchClientTypes {
+
+    public enum QuotaShareIdleResourceAssignmentStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fifo
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuotaShareIdleResourceAssignmentStrategy] {
+            return [
+                .fifo
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fifo: return "FIFO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The quota share scheduling policy details for a job queue.
+    public struct QuotaSharePolicy: Swift.Sendable {
+        /// The strategy that determines how idle resources are assigned to quota shares that are borrowing capacity. Currently, only FIFO is supported.
+        /// This member is required.
+        public var idleResourceAssignmentStrategy: BatchClientTypes.QuotaShareIdleResourceAssignmentStrategy?
+
+        public init(
+            idleResourceAssignmentStrategy: BatchClientTypes.QuotaShareIdleResourceAssignmentStrategy? = nil
+        ) {
+            self.idleResourceAssignmentStrategy = idleResourceAssignmentStrategy
+        }
+    }
+}
+
 /// Contains the parameters for CreateSchedulingPolicy.
 public struct CreateSchedulingPolicyInput: Swift.Sendable {
-    /// The fair-share scheduling policy details.
+    /// The fair-share scheduling policy details. Only one of fairsharePolicy or quotaSharePolicy can be set. Once set, this policy type cannot be removed or changed to a quotaSharePolicy.
     public var fairsharePolicy: BatchClientTypes.FairsharePolicy?
     /// The name of the fair-share scheduling policy. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
     /// This member is required.
     public var name: Swift.String?
+    /// The quota share scheduling policy details. Only one of fairsharePolicy or quotaSharePolicy can be set. Once set, this policy type cannot be removed or changed to a fairSharePolicy.
+    public var quotaSharePolicy: BatchClientTypes.QuotaSharePolicy?
     /// The tags that you apply to the scheduling policy to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in Amazon Web Services General Reference. These tags can be updated or removed using the [TagResource](https://docs.aws.amazon.com/batch/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/batch/latest/APIReference/API_UntagResource.html) API operations.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
         fairsharePolicy: BatchClientTypes.FairsharePolicy? = nil,
         name: Swift.String? = nil,
+        quotaSharePolicy: BatchClientTypes.QuotaSharePolicy? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.fairsharePolicy = fairsharePolicy
         self.name = name
+        self.quotaSharePolicy = quotaSharePolicy
         self.tags = tags
     }
 }
@@ -1199,11 +1448,11 @@ public struct CreateSchedulingPolicyOutput: Swift.Sendable {
 
 extension BatchClientTypes {
 
-    /// Defines the capacity limit for a service environment. This structure specifies the maximum amount of resources that can be used by service jobs in the environment.
+    /// Defines the type and maximum quantity of resources that can be allocated to service jobs in a service environment.
     public struct CapacityLimit: Swift.Sendable {
-        /// The unit of measure for the capacity limit. This defines how the maxCapacity value should be interpreted. For SAGEMAKER_TRAINING jobs, use NUM_INSTANCES.
+        /// The unit of measure for the capacity limit, which defines how maxCapacity is interpreted. For SAGEMAKER_TRAINING jobs in a quota management enabled service environment, specify the [instance type](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ResourceConfig.html#sagemaker-Type-ResourceConfig-InstanceType) (for example, ml.m5.large). Otherwise, use NUM_INSTANCES.
         public var capacityUnit: Swift.String?
-        /// The maximum capacity available for the service environment. This value represents the maximum amount of resources that can be allocated to service jobs. For example, maxCapacity=50, capacityUnit=NUM_INSTANCES. This indicates that the maximum number of instances that can be run on this service environment is 50. You could then run 5 SageMaker Training jobs that each use 10 instances. However, if you submit another job that requires 10 instances, it will wait in the queue.
+        /// The maximum capacity available for the service environment. For a quota management enabled service environment, this value represents the maximum quantity of a particular resource type (specified by capacityUnit) that can be allocated to service jobs. For other service environments, this value represents the maximum quantity of all resources that can be allocated to service jobs. For example, if maxCapacity=50 and capacityUnit=NUM_INSTANCES, you can run up to 50 instances concurrently. If you run 5 SageMaker Training jobs that each use 10 instances, a subsequent job requiring 10 instances waits in the queue until capacity is available. In a quota management enabled service environment with capacityUnit=ml.m5.large, only ml.m5.large instances count against this limit, and jobs requiring other instance types wait until a matching capacity limit is configured.
         public var maxCapacity: Swift.Int?
 
         public init(
@@ -1367,6 +1616,23 @@ public struct DeleteJobQueueInput: Swift.Sendable {
 }
 
 public struct DeleteJobQueueOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteQuotaShareInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the quota share.
+    /// This member is required.
+    public var quotaShareArn: Swift.String?
+
+    public init(
+        quotaShareArn: Swift.String? = nil
+    ) {
+        self.quotaShareArn = quotaShareArn
+    }
+}
+
+public struct DeleteQuotaShareOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -4244,6 +4510,99 @@ public struct DescribeJobsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeQuotaShareInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the quota share.
+    /// This member is required.
+    public var quotaShareArn: Swift.String?
+
+    public init(
+        quotaShareArn: Swift.String? = nil
+    ) {
+        self.quotaShareArn = quotaShareArn
+    }
+}
+
+extension BatchClientTypes {
+
+    public enum QuotaShareStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creating
+        case deleting
+        case invalid
+        case updating
+        case valid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuotaShareStatus] {
+            return [
+                .creating,
+                .deleting,
+                .invalid,
+                .updating,
+                .valid
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .invalid: return "INVALID"
+            case .updating: return "UPDATING"
+            case .valid: return "VALID"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeQuotaShareOutput: Swift.Sendable {
+    /// A list that specifies the quantity and type of compute capacity allocated to the quota share.
+    public var capacityLimits: [BatchClientTypes.QuotaShareCapacityLimit]?
+    /// The ARN of the job queue associated with the quota share.
+    public var jobQueueArn: Swift.String?
+    /// Specifies the preemption behavior for jobs in a quota share.
+    public var preemptionConfiguration: BatchClientTypes.QuotaSharePreemptionConfiguration?
+    /// The Amazon Resource Name (ARN) of the quota share.
+    public var quotaShareArn: Swift.String?
+    /// The name of the quota share.
+    public var quotaShareName: Swift.String?
+    /// Specifies whether a quota share reserves, lends, or both lends and borrows idle compute capacity.
+    public var resourceSharingConfiguration: BatchClientTypes.QuotaShareResourceSharingConfiguration?
+    /// The state of the quota share.
+    public var state: BatchClientTypes.QuotaShareState?
+    /// The current status of the quota share.
+    public var status: BatchClientTypes.QuotaShareStatus?
+    /// The tags applied to the quota share.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        capacityLimits: [BatchClientTypes.QuotaShareCapacityLimit]? = nil,
+        jobQueueArn: Swift.String? = nil,
+        preemptionConfiguration: BatchClientTypes.QuotaSharePreemptionConfiguration? = nil,
+        quotaShareArn: Swift.String? = nil,
+        quotaShareName: Swift.String? = nil,
+        resourceSharingConfiguration: BatchClientTypes.QuotaShareResourceSharingConfiguration? = nil,
+        state: BatchClientTypes.QuotaShareState? = nil,
+        status: BatchClientTypes.QuotaShareStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.capacityLimits = capacityLimits
+        self.jobQueueArn = jobQueueArn
+        self.preemptionConfiguration = preemptionConfiguration
+        self.quotaShareArn = quotaShareArn
+        self.quotaShareName = quotaShareName
+        self.resourceSharingConfiguration = resourceSharingConfiguration
+        self.state = state
+        self.status = status
+        self.tags = tags
+    }
+}
+
 /// Contains the parameters for DescribeSchedulingPolicies.
 public struct DescribeSchedulingPoliciesInput: Swift.Sendable {
     /// A list of up to 100 scheduling policy Amazon Resource Name (ARN) entries.
@@ -4269,6 +4628,8 @@ extension BatchClientTypes {
         /// The name of the fair-share scheduling policy.
         /// This member is required.
         public var name: Swift.String?
+        /// The quota share scheduling policy details.
+        public var quotaSharePolicy: BatchClientTypes.QuotaSharePolicy?
         /// The tags that you apply to the fair-share scheduling policy to categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in Amazon Web Services General Reference.
         public var tags: [Swift.String: Swift.String]?
 
@@ -4276,11 +4637,13 @@ extension BatchClientTypes {
             arn: Swift.String? = nil,
             fairsharePolicy: BatchClientTypes.FairsharePolicy? = nil,
             name: Swift.String? = nil,
+            quotaSharePolicy: BatchClientTypes.QuotaSharePolicy? = nil,
             tags: [Swift.String: Swift.String]? = nil
         ) {
             self.arn = arn
             self.fairsharePolicy = fairsharePolicy
             self.name = name
+            self.quotaSharePolicy = quotaSharePolicy
             self.tags = tags
         }
     }
@@ -4537,6 +4900,67 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    /// Specifies the service job behavior when preempted.
+    public struct ServiceJobPreemptionConfiguration: Swift.Sendable {
+        /// The number of times a service job can be retried after it is preempted. A job will be terminated when preemption retries have been exhausted. If this field is unset, preempted jobs will be requeued an unlimited number of times.
+        public var preemptionRetriesBeforeTermination: Swift.Int?
+
+        public init(
+            preemptionRetriesBeforeTermination: Swift.Int? = nil
+        ) {
+            self.preemptionRetriesBeforeTermination = preemptionRetriesBeforeTermination
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Detailed information about a preempted attempt of a service job.
+    public struct ServiceJobPreemptedAttempt: Swift.Sendable {
+        /// The service resource identifier associated with the service job attempt.
+        public var serviceResourceId: BatchClientTypes.ServiceResourceId?
+        /// The Unix timestamp (in milliseconds) for when the service job attempt was started.
+        public var startedAt: Swift.Int?
+        /// A string that provides additional details for the current status of the service job attempt.
+        public var statusReason: Swift.String?
+        /// The Unix timestamp (in milliseconds) for when the service job attempt stopped running.
+        public var stoppedAt: Swift.Int?
+
+        public init(
+            serviceResourceId: BatchClientTypes.ServiceResourceId? = nil,
+            startedAt: Swift.Int? = nil,
+            statusReason: Swift.String? = nil,
+            stoppedAt: Swift.Int? = nil
+        ) {
+            self.serviceResourceId = serviceResourceId
+            self.startedAt = startedAt
+            self.statusReason = statusReason
+            self.stoppedAt = stoppedAt
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Summarizes the preemptions of the service job. This field appears on a service job when it has been preempted.
+    public struct ServiceJobPreemptionSummary: Swift.Sendable {
+        /// The total number of times the service job has been preempted.
+        public var preemptedAttemptCount: Swift.Int?
+        /// A list of the most recent preemption attempts for the service job.
+        public var recentPreemptedAttempts: [BatchClientTypes.ServiceJobPreemptedAttempt]?
+
+        public init(
+            preemptedAttemptCount: Swift.Int? = nil,
+            recentPreemptedAttempts: [BatchClientTypes.ServiceJobPreemptedAttempt]? = nil
+        ) {
+            self.preemptedAttemptCount = preemptedAttemptCount
+            self.recentPreemptedAttempts = recentPreemptedAttempts
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     public enum ServiceJobRetryAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case exit
         case retry
@@ -4713,6 +5137,12 @@ public struct DescribeServiceJobOutput: Swift.Sendable {
     public var jobQueue: Swift.String?
     /// The latest attempt associated with the service job.
     public var latestAttempt: BatchClientTypes.LatestServiceJobAttempt?
+    /// Specifies the service job behavior when preempted.
+    public var preemptionConfiguration: BatchClientTypes.ServiceJobPreemptionConfiguration?
+    /// Summarizes the preemptions of the service job. This field appears on a service job when it has been preempted.
+    public var preemptionSummary: BatchClientTypes.ServiceJobPreemptionSummary?
+    /// The name of the quota share that the service job is associated with.
+    public var quotaShareName: Swift.String?
     /// The retry strategy to use for failed service jobs that are submitted with this service job.
     public var retryStrategy: BatchClientTypes.ServiceJobRetryStrategy?
     /// The Unix timestamp (in milliseconds) for when the service job was scheduled. This represents when the service job was dispatched to SageMaker and the service job transitioned to the SCHEDULED state.
@@ -4751,6 +5181,9 @@ public struct DescribeServiceJobOutput: Swift.Sendable {
         jobName: Swift.String? = nil,
         jobQueue: Swift.String? = nil,
         latestAttempt: BatchClientTypes.LatestServiceJobAttempt? = nil,
+        preemptionConfiguration: BatchClientTypes.ServiceJobPreemptionConfiguration? = nil,
+        preemptionSummary: BatchClientTypes.ServiceJobPreemptionSummary? = nil,
+        quotaShareName: Swift.String? = nil,
         retryStrategy: BatchClientTypes.ServiceJobRetryStrategy? = nil,
         scheduledAt: Swift.Int? = nil,
         schedulingPriority: Swift.Int? = nil,
@@ -4773,6 +5206,9 @@ public struct DescribeServiceJobOutput: Swift.Sendable {
         self.jobName = jobName
         self.jobQueue = jobQueue
         self.latestAttempt = latestAttempt
+        self.preemptionConfiguration = preemptionConfiguration
+        self.preemptionSummary = preemptionSummary
+        self.quotaShareName = quotaShareName
         self.retryStrategy = retryStrategy
         self.scheduledAt = scheduledAt
         self.schedulingPriority = schedulingPriority
@@ -4840,6 +5276,44 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    /// An object that represents summary details for the first RUNNABLE job in a quota share.
+    public struct FrontOfQuotaShareJobSummary: Swift.Sendable {
+        /// The Unix timestamp (in milliseconds) for when the job transitioned to its current position in the quota share.
+        public var earliestTimeAtPosition: Swift.Int?
+        /// The ARN for a job in a named quota share.
+        public var jobArn: Swift.String?
+
+        public init(
+            earliestTimeAtPosition: Swift.Int? = nil,
+            jobArn: Swift.String? = nil
+        ) {
+            self.earliestTimeAtPosition = earliestTimeAtPosition
+            self.jobArn = jobArn
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// An object that represents the details of the first RUNNABLE job in each named quota share associated with a single job queue.
+    public struct FrontOfQuotaSharesDetail: Swift.Sendable {
+        /// The Unix timestamp (in milliseconds) for when the first RUNNABLE job per quota share were all last updated.
+        public var lastUpdatedAt: Swift.Int?
+        /// Contains a list of the first RUNNABLE job in each named quota share.
+        public var quotaShares: [Swift.String: [BatchClientTypes.FrontOfQuotaShareJobSummary]]?
+
+        public init(
+            lastUpdatedAt: Swift.Int? = nil,
+            quotaShares: [Swift.String: [BatchClientTypes.FrontOfQuotaShareJobSummary]]? = nil
+        ) {
+            self.lastUpdatedAt = lastUpdatedAt
+            self.quotaShares = quotaShares
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     /// The capacity usage for a fairshare scheduling job queue.
     public struct FairshareCapacityUsage: Swift.Sendable {
         /// The unit of measure for the capacity usage. For compute jobs, this is VCPU for Amazon EC2 and cpu for Amazon EKS. For service jobs, this is the instance type.
@@ -4897,6 +5371,59 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    /// The capacity usage for a quota share, including units of compute capacity and quantity of resources being used.
+    public struct QuotaShareCapacityUsage: Swift.Sendable {
+        /// The unit of compute capacity for the capacity usage.
+        public var capacityUnit: Swift.String?
+        /// The quantity of capacity being used.
+        public var quantity: Swift.Double?
+
+        public init(
+            capacityUnit: Swift.String? = nil,
+            quantity: Swift.Double? = nil
+        ) {
+            self.capacityUnit = capacityUnit
+            self.quantity = quantity
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The capacity utilization for a specific quota share, including the quota share name and its current usage.
+    public struct QuotaShareCapacityUtilization: Swift.Sendable {
+        /// The capacity usage information for this quota share, including the units of compute capacity and quantity being used.
+        public var capacityUsage: [BatchClientTypes.QuotaShareCapacityUsage]?
+        /// The name of the quota share.
+        public var quotaShareName: Swift.String?
+
+        public init(
+            capacityUsage: [BatchClientTypes.QuotaShareCapacityUsage]? = nil,
+            quotaShareName: Swift.String? = nil
+        ) {
+            self.capacityUsage = capacityUsage
+            self.quotaShareName = quotaShareName
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// An object that represents the capacity utilization details of all quota shares associated with a single job queue.
+    public struct QuotaShareUtilizationDetail: Swift.Sendable {
+        /// A list of the top capacity utilizations across quota shares associated with a job queue.
+        public var topCapacityUtilization: [BatchClientTypes.QuotaShareCapacityUtilization]?
+
+        public init(
+            topCapacityUtilization: [BatchClientTypes.QuotaShareCapacityUtilization]? = nil
+        ) {
+            self.topCapacityUtilization = topCapacityUtilization
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     /// The configured capacity usage for a job queue snapshot, including the unit of measure and quantity of resources being used.
     public struct QueueSnapshotCapacityUsage: Swift.Sendable {
         /// The unit of measure for the capacity usage. For compute jobs, this is VCPU for Amazon EC2 and cpu for Amazon EKS. For service jobs, this is the instance type.
@@ -4916,38 +5443,46 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
-    /// The job queue utilization at a specific point in time, including total capacity usage and fairshare utilization breakdown.
+    /// The job queue utilization at a specific point in time, including total capacity usage, and quota share or fairshare utilization breakdown depending on the job queue scheduling policy.
     public struct QueueSnapshotUtilizationDetail: Swift.Sendable {
         /// The utilization information for a fairshare scheduling job queues, including active share count and top capacity utilization by share.
         public var fairshareUtilization: BatchClientTypes.FairshareUtilizationDetail?
         /// The Unix timestamp (in milliseconds) for when the queue utilization information was last updated.
         public var lastUpdatedAt: Swift.Int?
-        /// The total capacity usage for the entire job queue, for both first-in, first-out (FIFO) and fairshare scheduling job queue.
+        /// The utilization information for a job queue with a quota share scheduling policy.
+        public var quotaShareUtilization: BatchClientTypes.QuotaShareUtilizationDetail?
+        /// The total capacity usage for the entire job queue.
         public var totalCapacityUsage: [BatchClientTypes.QueueSnapshotCapacityUsage]?
 
         public init(
             fairshareUtilization: BatchClientTypes.FairshareUtilizationDetail? = nil,
             lastUpdatedAt: Swift.Int? = nil,
+            quotaShareUtilization: BatchClientTypes.QuotaShareUtilizationDetail? = nil,
             totalCapacityUsage: [BatchClientTypes.QueueSnapshotCapacityUsage]? = nil
         ) {
             self.fairshareUtilization = fairshareUtilization
             self.lastUpdatedAt = lastUpdatedAt
+            self.quotaShareUtilization = quotaShareUtilization
             self.totalCapacityUsage = totalCapacityUsage
         }
     }
 }
 
 public struct GetJobQueueSnapshotOutput: Swift.Sendable {
-    /// The list of the first 100 RUNNABLE jobs in each job queue. For first-in-first-out (FIFO) job queues, jobs are ordered based on their submission time. For fair-share scheduling (FSS) job queues, jobs are ordered based on their job priority and share usage.
+    /// The list of the first 100 RUNNABLE jobs in each job queue. For first-in-first-out (FIFO) job queues, jobs are ordered based on their submission time. For job queues with an attached fair-share scheduling (FSS) or quota-share policy, jobs are ordered based on their job priority and share usage.
     public var frontOfQueue: BatchClientTypes.FrontOfQueueDetail?
-    /// The job queue's capacity utilization, including total usage and breakdown by fairshare scheduling queue.
+    /// The first RUNNABLE job in each quota share. Jobs are ordered based on their job priority and share usage.
+    public var frontOfQuotaShares: BatchClientTypes.FrontOfQuotaSharesDetail?
+    /// The job queue's capacity utilization, including total usage and breakdown per given share.
     public var queueUtilization: BatchClientTypes.QueueSnapshotUtilizationDetail?
 
     public init(
         frontOfQueue: BatchClientTypes.FrontOfQueueDetail? = nil,
+        frontOfQuotaShares: BatchClientTypes.FrontOfQuotaSharesDetail? = nil,
         queueUtilization: BatchClientTypes.QueueSnapshotUtilizationDetail? = nil
     ) {
         self.frontOfQueue = frontOfQueue
+        self.frontOfQuotaShares = frontOfQuotaShares
         self.queueUtilization = queueUtilization
     }
 }
@@ -5359,6 +5894,84 @@ public struct ListJobsByConsumableResourceOutput: Swift.Sendable {
     }
 }
 
+public struct ListQuotaSharesInput: Swift.Sendable {
+    /// The name or full Amazon Resource Name (ARN) of the job queue used to list quota shares.
+    /// This member is required.
+    public var jobQueue: Swift.String?
+    /// The maximum number of results returned by ListQuotaShares in paginated output. When this parameter is used, ListQuotaShares only returns maxResults results in a single page and a nextToken response element. You can see the remaining results of the initial request by sending another ListQuotaShares request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, ListQuotaShares returns up to 100 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value that's returned from a previous paginated ListQuotaShares request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+
+    public init(
+        jobQueue: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.jobQueue = jobQueue
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Detailed information about a quota share, including its configuration, state, and capacity limits.
+    public struct QuotaShareDetail: Swift.Sendable {
+        /// A list that specifies the quantity and type of compute capacity allocated to the quota share.
+        public var capacityLimits: [BatchClientTypes.QuotaShareCapacityLimit]?
+        /// The Amazon Resource Name (ARN) of the job queue associated with the quota share.
+        public var jobQueueArn: Swift.String?
+        /// Specifies the preemption behavior for jobs in a quota share.
+        public var preemptionConfiguration: BatchClientTypes.QuotaSharePreemptionConfiguration?
+        /// The Amazon Resource Name (ARN) of the quota share.
+        public var quotaShareArn: Swift.String?
+        /// The name of the quota share.
+        public var quotaShareName: Swift.String?
+        /// Specifies whether a quota share reserves, lends, or both lends and borrows idle compute capacity.
+        public var resourceSharingConfiguration: BatchClientTypes.QuotaShareResourceSharingConfiguration?
+        /// The state of the quota share.
+        public var state: BatchClientTypes.QuotaShareState?
+        /// The current status of the quota share.
+        public var status: BatchClientTypes.QuotaShareStatus?
+
+        public init(
+            capacityLimits: [BatchClientTypes.QuotaShareCapacityLimit]? = nil,
+            jobQueueArn: Swift.String? = nil,
+            preemptionConfiguration: BatchClientTypes.QuotaSharePreemptionConfiguration? = nil,
+            quotaShareArn: Swift.String? = nil,
+            quotaShareName: Swift.String? = nil,
+            resourceSharingConfiguration: BatchClientTypes.QuotaShareResourceSharingConfiguration? = nil,
+            state: BatchClientTypes.QuotaShareState? = nil,
+            status: BatchClientTypes.QuotaShareStatus? = nil
+        ) {
+            self.capacityLimits = capacityLimits
+            self.jobQueueArn = jobQueueArn
+            self.preemptionConfiguration = preemptionConfiguration
+            self.quotaShareArn = quotaShareArn
+            self.quotaShareName = quotaShareName
+            self.resourceSharingConfiguration = resourceSharingConfiguration
+            self.state = state
+            self.status = status
+        }
+    }
+}
+
+public struct ListQuotaSharesOutput: Swift.Sendable {
+    /// The nextToken value to include in a future ListQuotaShares request. When the results of a ListQuotaShares request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// A list of quota shares that match the request.
+    public var quotaShares: [BatchClientTypes.QuotaShareDetail]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        quotaShares: [BatchClientTypes.QuotaShareDetail]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.quotaShares = quotaShares
+    }
+}
+
 /// Contains the parameters for ListSchedulingPolicies.
 public struct ListSchedulingPoliciesInput: Swift.Sendable {
     /// The maximum number of results that's returned by ListSchedulingPolicies in paginated output. When this parameter is used, ListSchedulingPolicies only returns maxResults results in a single page and a nextToken response element. You can see the remaining results of the initial request by sending another ListSchedulingPolicies request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, ListSchedulingPolicies returns up to 100 results and a nextToken value if applicable.
@@ -5470,6 +6083,8 @@ extension BatchClientTypes {
         public var jobName: Swift.String?
         /// Information about the latest attempt for the service job.
         public var latestAttempt: BatchClientTypes.LatestServiceJobAttempt?
+        /// The quota share for the service job.
+        public var quotaShareName: Swift.String?
         /// The Unix timestamp (in milliseconds) for when the service job was scheduled for execution.
         public var scheduledAt: Swift.Int?
         /// The type of service job. For SageMaker Training jobs, this value is SAGEMAKER_TRAINING.
@@ -5493,6 +6108,7 @@ extension BatchClientTypes {
             jobId: Swift.String? = nil,
             jobName: Swift.String? = nil,
             latestAttempt: BatchClientTypes.LatestServiceJobAttempt? = nil,
+            quotaShareName: Swift.String? = nil,
             scheduledAt: Swift.Int? = nil,
             serviceJobType: BatchClientTypes.ServiceJobType? = nil,
             shareIdentifier: Swift.String? = nil,
@@ -5507,6 +6123,7 @@ extension BatchClientTypes {
             self.jobId = jobId
             self.jobName = jobName
             self.latestAttempt = latestAttempt
+            self.quotaShareName = quotaShareName
             self.scheduledAt = scheduledAt
             self.serviceJobType = serviceJobType
             self.shareIdentifier = shareIdentifier
@@ -6019,6 +6636,10 @@ public struct SubmitServiceJobInput: Swift.Sendable {
     /// The job queue into which the service job is submitted. You can specify either the name or the ARN of the queue. The job queue must have the type SAGEMAKER_TRAINING.
     /// This member is required.
     public var jobQueue: Swift.String?
+    /// Specifies the service job behavior when preempted.
+    public var preemptionConfiguration: BatchClientTypes.ServiceJobPreemptionConfiguration?
+    /// The quota share for the service job. Don't specify this parameter if the job queue doesn't have a quota share scheduling policy. If the job queue has a quota share scheduling policy, then this parameter must be specified.
+    public var quotaShareName: Swift.String?
     /// The retry strategy to use for failed service jobs that are submitted with this service job request.
     public var retryStrategy: BatchClientTypes.ServiceJobRetryStrategy?
     /// The scheduling priority of the service job. Valid values are integers between 0 and 9999.
@@ -6040,6 +6661,8 @@ public struct SubmitServiceJobInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         jobName: Swift.String? = nil,
         jobQueue: Swift.String? = nil,
+        preemptionConfiguration: BatchClientTypes.ServiceJobPreemptionConfiguration? = nil,
+        quotaShareName: Swift.String? = nil,
         retryStrategy: BatchClientTypes.ServiceJobRetryStrategy? = nil,
         schedulingPriority: Swift.Int? = nil,
         serviceJobType: BatchClientTypes.ServiceJobType? = nil,
@@ -6051,6 +6674,8 @@ public struct SubmitServiceJobInput: Swift.Sendable {
         self.clientToken = clientToken
         self.jobName = jobName
         self.jobQueue = jobQueue
+        self.preemptionConfiguration = preemptionConfiguration
+        self.quotaShareName = quotaShareName
         self.retryStrategy = retryStrategy
         self.schedulingPriority = schedulingPriority
         self.serviceJobType = serviceJobType
@@ -6452,20 +7077,67 @@ public struct UpdateJobQueueOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateQuotaShareInput: Swift.Sendable {
+    /// A list that specifies the quantity and type of compute capacity allocated to the quota share.
+    public var capacityLimits: [BatchClientTypes.QuotaShareCapacityLimit]?
+    /// Specifies the preemption behavior for jobs in a quota share.
+    public var preemptionConfiguration: BatchClientTypes.QuotaSharePreemptionConfiguration?
+    /// The Amazon Resource Name (ARN) of the quota share to update.
+    /// This member is required.
+    public var quotaShareArn: Swift.String?
+    /// Specifies whether a quota share reserves, lends, or both lends and borrows idle compute capacity.
+    public var resourceSharingConfiguration: BatchClientTypes.QuotaShareResourceSharingConfiguration?
+    /// The state of the quota share. If the quota share is ENABLED, it is able to accept jobs. If the quota share is DISABLED, new jobs won't be accepted but jobs already submitted can finish.
+    public var state: BatchClientTypes.QuotaShareState?
+
+    public init(
+        capacityLimits: [BatchClientTypes.QuotaShareCapacityLimit]? = nil,
+        preemptionConfiguration: BatchClientTypes.QuotaSharePreemptionConfiguration? = nil,
+        quotaShareArn: Swift.String? = nil,
+        resourceSharingConfiguration: BatchClientTypes.QuotaShareResourceSharingConfiguration? = nil,
+        state: BatchClientTypes.QuotaShareState? = nil
+    ) {
+        self.capacityLimits = capacityLimits
+        self.preemptionConfiguration = preemptionConfiguration
+        self.quotaShareArn = quotaShareArn
+        self.resourceSharingConfiguration = resourceSharingConfiguration
+        self.state = state
+    }
+}
+
+public struct UpdateQuotaShareOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the quota share.
+    public var quotaShareArn: Swift.String?
+    /// The name of the quota share.
+    public var quotaShareName: Swift.String?
+
+    public init(
+        quotaShareArn: Swift.String? = nil,
+        quotaShareName: Swift.String? = nil
+    ) {
+        self.quotaShareArn = quotaShareArn
+        self.quotaShareName = quotaShareName
+    }
+}
+
 /// Contains the parameters for UpdateSchedulingPolicy.
 public struct UpdateSchedulingPolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the scheduling policy to update.
     /// This member is required.
     public var arn: Swift.String?
-    /// The fair-share policy scheduling details.
+    /// The fair-share policy scheduling details. Once set during creation, a fairsharePolicy cannot be removed or changed to a quotaSharePolicy.
     public var fairsharePolicy: BatchClientTypes.FairsharePolicy?
+    /// The quota share scheduling policy details. Once set during creation, a quotaSharePolicy cannot be removed or changed to a fairsharePolicy.
+    public var quotaSharePolicy: BatchClientTypes.QuotaSharePolicy?
 
     public init(
         arn: Swift.String? = nil,
-        fairsharePolicy: BatchClientTypes.FairsharePolicy? = nil
+        fairsharePolicy: BatchClientTypes.FairsharePolicy? = nil,
+        quotaSharePolicy: BatchClientTypes.QuotaSharePolicy? = nil
     ) {
         self.arn = arn
         self.fairsharePolicy = fairsharePolicy
+        self.quotaSharePolicy = quotaSharePolicy
     }
 }
 
@@ -6511,6 +7183,42 @@ public struct UpdateServiceEnvironmentOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateServiceJobInput: Swift.Sendable {
+    /// The Batch job ID of the job to update.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The scheduling priority for the job. This only affects jobs in job queues with a quota-share or fair-share scheduling policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority within a share. The minimum supported value is 0 and the maximum supported value is 9999.
+    /// This member is required.
+    public var schedulingPriority: Swift.Int?
+
+    public init(
+        jobId: Swift.String? = nil,
+        schedulingPriority: Swift.Int? = nil
+    ) {
+        self.jobId = jobId
+        self.schedulingPriority = schedulingPriority
+    }
+}
+
+public struct UpdateServiceJobOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) for the job.
+    public var jobArn: Swift.String?
+    /// The unique identifier for the job.
+    public var jobId: Swift.String?
+    /// The name of the job.
+    public var jobName: Swift.String?
+
+    public init(
+        jobArn: Swift.String? = nil,
+        jobId: Swift.String? = nil,
+        jobName: Swift.String? = nil
+    ) {
+        self.jobArn = jobArn
+        self.jobId = jobId
+        self.jobName = jobName
+    }
+}
+
 extension CancelJobInput {
 
     static func urlPathProvider(_ value: CancelJobInput) -> Swift.String? {
@@ -6536,6 +7244,13 @@ extension CreateJobQueueInput {
 
     static func urlPathProvider(_ value: CreateJobQueueInput) -> Swift.String? {
         return "/v1/createjobqueue"
+    }
+}
+
+extension CreateQuotaShareInput {
+
+    static func urlPathProvider(_ value: CreateQuotaShareInput) -> Swift.String? {
+        return "/v1/createquotashare"
     }
 }
 
@@ -6571,6 +7286,13 @@ extension DeleteJobQueueInput {
 
     static func urlPathProvider(_ value: DeleteJobQueueInput) -> Swift.String? {
         return "/v1/deletejobqueue"
+    }
+}
+
+extension DeleteQuotaShareInput {
+
+    static func urlPathProvider(_ value: DeleteQuotaShareInput) -> Swift.String? {
+        return "/v1/deletequotashare"
     }
 }
 
@@ -6630,6 +7352,13 @@ extension DescribeJobsInput {
     }
 }
 
+extension DescribeQuotaShareInput {
+
+    static func urlPathProvider(_ value: DescribeQuotaShareInput) -> Swift.String? {
+        return "/v1/describequotashare"
+    }
+}
+
 extension DescribeSchedulingPoliciesInput {
 
     static func urlPathProvider(_ value: DescribeSchedulingPoliciesInput) -> Swift.String? {
@@ -6676,6 +7405,13 @@ extension ListJobsByConsumableResourceInput {
 
     static func urlPathProvider(_ value: ListJobsByConsumableResourceInput) -> Swift.String? {
         return "/v1/listjobsbyconsumableresource"
+    }
+}
+
+extension ListQuotaSharesInput {
+
+    static func urlPathProvider(_ value: ListQuotaSharesInput) -> Swift.String? {
+        return "/v1/listquotashares"
     }
 }
 
@@ -6795,6 +7531,13 @@ extension UpdateJobQueueInput {
     }
 }
 
+extension UpdateQuotaShareInput {
+
+    static func urlPathProvider(_ value: UpdateQuotaShareInput) -> Swift.String? {
+        return "/v1/updatequotashare"
+    }
+}
+
 extension UpdateSchedulingPolicyInput {
 
     static func urlPathProvider(_ value: UpdateSchedulingPolicyInput) -> Swift.String? {
@@ -6806,6 +7549,13 @@ extension UpdateServiceEnvironmentInput {
 
     static func urlPathProvider(_ value: UpdateServiceEnvironmentInput) -> Swift.String? {
         return "/v1/updateserviceenvironment"
+    }
+}
+
+extension UpdateServiceJobInput {
+
+    static func urlPathProvider(_ value: UpdateServiceJobInput) -> Swift.String? {
+        return "/v1/updateservicejob"
     }
 }
 
@@ -6861,12 +7611,27 @@ extension CreateJobQueueInput {
     }
 }
 
+extension CreateQuotaShareInput {
+
+    static func write(value: CreateQuotaShareInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacityLimits"].writeList(value.capacityLimits, memberWritingClosure: BatchClientTypes.QuotaShareCapacityLimit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["jobQueue"].write(value.jobQueue)
+        try writer["preemptionConfiguration"].write(value.preemptionConfiguration, with: BatchClientTypes.QuotaSharePreemptionConfiguration.write(value:to:))
+        try writer["quotaShareName"].write(value.quotaShareName)
+        try writer["resourceSharingConfiguration"].write(value.resourceSharingConfiguration, with: BatchClientTypes.QuotaShareResourceSharingConfiguration.write(value:to:))
+        try writer["state"].write(value.state)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateSchedulingPolicyInput {
 
     static func write(value: CreateSchedulingPolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["fairsharePolicy"].write(value.fairsharePolicy, with: BatchClientTypes.FairsharePolicy.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["quotaSharePolicy"].write(value.quotaSharePolicy, with: BatchClientTypes.QuotaSharePolicy.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -6904,6 +7669,14 @@ extension DeleteJobQueueInput {
     static func write(value: DeleteJobQueueInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["jobQueue"].write(value.jobQueue)
+    }
+}
+
+extension DeleteQuotaShareInput {
+
+    static func write(value: DeleteQuotaShareInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["quotaShareArn"].write(value.quotaShareArn)
     }
 }
 
@@ -6979,6 +7752,14 @@ extension DescribeJobsInput {
     }
 }
 
+extension DescribeQuotaShareInput {
+
+    static func write(value: DescribeQuotaShareInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["quotaShareArn"].write(value.quotaShareArn)
+    }
+}
+
 extension DescribeSchedulingPoliciesInput {
 
     static func write(value: DescribeSchedulingPoliciesInput?, to writer: SmithyJSON.Writer) throws {
@@ -7043,6 +7824,16 @@ extension ListJobsByConsumableResourceInput {
         guard let value else { return }
         try writer["consumableResource"].write(value.consumableResource)
         try writer["filters"].writeList(value.filters, memberWritingClosure: BatchClientTypes.KeyValuesPair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListQuotaSharesInput {
+
+    static func write(value: ListQuotaSharesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jobQueue"].write(value.jobQueue)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
     }
@@ -7121,6 +7912,8 @@ extension SubmitServiceJobInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["jobName"].write(value.jobName)
         try writer["jobQueue"].write(value.jobQueue)
+        try writer["preemptionConfiguration"].write(value.preemptionConfiguration, with: BatchClientTypes.ServiceJobPreemptionConfiguration.write(value:to:))
+        try writer["quotaShareName"].write(value.quotaShareName)
         try writer["retryStrategy"].write(value.retryStrategy, with: BatchClientTypes.ServiceJobRetryStrategy.write(value:to:))
         try writer["schedulingPriority"].write(value.schedulingPriority)
         try writer["serviceJobType"].write(value.serviceJobType)
@@ -7196,12 +7989,25 @@ extension UpdateJobQueueInput {
     }
 }
 
+extension UpdateQuotaShareInput {
+
+    static func write(value: UpdateQuotaShareInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacityLimits"].writeList(value.capacityLimits, memberWritingClosure: BatchClientTypes.QuotaShareCapacityLimit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["preemptionConfiguration"].write(value.preemptionConfiguration, with: BatchClientTypes.QuotaSharePreemptionConfiguration.write(value:to:))
+        try writer["quotaShareArn"].write(value.quotaShareArn)
+        try writer["resourceSharingConfiguration"].write(value.resourceSharingConfiguration, with: BatchClientTypes.QuotaShareResourceSharingConfiguration.write(value:to:))
+        try writer["state"].write(value.state)
+    }
+}
+
 extension UpdateSchedulingPolicyInput {
 
     static func write(value: UpdateSchedulingPolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["arn"].write(value.arn)
         try writer["fairsharePolicy"].write(value.fairsharePolicy, with: BatchClientTypes.FairsharePolicy.write(value:to:))
+        try writer["quotaSharePolicy"].write(value.quotaSharePolicy, with: BatchClientTypes.QuotaSharePolicy.write(value:to:))
     }
 }
 
@@ -7212,6 +8018,15 @@ extension UpdateServiceEnvironmentInput {
         try writer["capacityLimits"].writeList(value.capacityLimits, memberWritingClosure: BatchClientTypes.CapacityLimit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["serviceEnvironment"].write(value.serviceEnvironment)
         try writer["state"].write(value.state)
+    }
+}
+
+extension UpdateServiceJobInput {
+
+    static func write(value: UpdateServiceJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jobId"].write(value.jobId)
+        try writer["schedulingPriority"].write(value.schedulingPriority)
     }
 }
 
@@ -7261,6 +8076,19 @@ extension CreateJobQueueOutput {
     }
 }
 
+extension CreateQuotaShareOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateQuotaShareOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateQuotaShareOutput()
+        value.quotaShareArn = try reader["quotaShareArn"].readIfPresent()
+        value.quotaShareName = try reader["quotaShareName"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateSchedulingPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateSchedulingPolicyOutput {
@@ -7305,6 +8133,13 @@ extension DeleteJobQueueOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteJobQueueOutput {
         return DeleteJobQueueOutput()
+    }
+}
+
+extension DeleteQuotaShareOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteQuotaShareOutput {
+        return DeleteQuotaShareOutput()
     }
 }
 
@@ -7399,6 +8234,26 @@ extension DescribeJobsOutput {
     }
 }
 
+extension DescribeQuotaShareOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeQuotaShareOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeQuotaShareOutput()
+        value.capacityLimits = try reader["capacityLimits"].readListIfPresent(memberReadingClosure: BatchClientTypes.QuotaShareCapacityLimit.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.jobQueueArn = try reader["jobQueueArn"].readIfPresent()
+        value.preemptionConfiguration = try reader["preemptionConfiguration"].readIfPresent(with: BatchClientTypes.QuotaSharePreemptionConfiguration.read(from:))
+        value.quotaShareArn = try reader["quotaShareArn"].readIfPresent()
+        value.quotaShareName = try reader["quotaShareName"].readIfPresent()
+        value.resourceSharingConfiguration = try reader["resourceSharingConfiguration"].readIfPresent(with: BatchClientTypes.QuotaShareResourceSharingConfiguration.read(from:))
+        value.state = try reader["state"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension DescribeSchedulingPoliciesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeSchedulingPoliciesOutput {
@@ -7440,6 +8295,9 @@ extension DescribeServiceJobOutput {
         value.jobName = try reader["jobName"].readIfPresent() ?? ""
         value.jobQueue = try reader["jobQueue"].readIfPresent() ?? ""
         value.latestAttempt = try reader["latestAttempt"].readIfPresent(with: BatchClientTypes.LatestServiceJobAttempt.read(from:))
+        value.preemptionConfiguration = try reader["preemptionConfiguration"].readIfPresent(with: BatchClientTypes.ServiceJobPreemptionConfiguration.read(from:))
+        value.preemptionSummary = try reader["preemptionSummary"].readIfPresent(with: BatchClientTypes.ServiceJobPreemptionSummary.read(from:))
+        value.quotaShareName = try reader["quotaShareName"].readIfPresent()
         value.retryStrategy = try reader["retryStrategy"].readIfPresent(with: BatchClientTypes.ServiceJobRetryStrategy.read(from:))
         value.scheduledAt = try reader["scheduledAt"].readIfPresent()
         value.schedulingPriority = try reader["schedulingPriority"].readIfPresent()
@@ -7464,6 +8322,7 @@ extension GetJobQueueSnapshotOutput {
         let reader = responseReader
         var value = GetJobQueueSnapshotOutput()
         value.frontOfQueue = try reader["frontOfQueue"].readIfPresent(with: BatchClientTypes.FrontOfQueueDetail.read(from:))
+        value.frontOfQuotaShares = try reader["frontOfQuotaShares"].readIfPresent(with: BatchClientTypes.FrontOfQuotaSharesDetail.read(from:))
         value.queueUtilization = try reader["queueUtilization"].readIfPresent(with: BatchClientTypes.QueueSnapshotUtilizationDetail.read(from:))
         return value
     }
@@ -7504,6 +8363,19 @@ extension ListJobsByConsumableResourceOutput {
         var value = ListJobsByConsumableResourceOutput()
         value.jobs = try reader["jobs"].readListIfPresent(memberReadingClosure: BatchClientTypes.ListJobsByConsumableResourceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListQuotaSharesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListQuotaSharesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListQuotaSharesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.quotaShares = try reader["quotaShares"].readListIfPresent(memberReadingClosure: BatchClientTypes.QuotaShareDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7656,6 +8528,19 @@ extension UpdateJobQueueOutput {
     }
 }
 
+extension UpdateQuotaShareOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateQuotaShareOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateQuotaShareOutput()
+        value.quotaShareArn = try reader["quotaShareArn"].readIfPresent()
+        value.quotaShareName = try reader["quotaShareName"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateSchedulingPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateSchedulingPolicyOutput {
@@ -7672,6 +8557,20 @@ extension UpdateServiceEnvironmentOutput {
         var value = UpdateServiceEnvironmentOutput()
         value.serviceEnvironmentArn = try reader["serviceEnvironmentArn"].readIfPresent() ?? ""
         value.serviceEnvironmentName = try reader["serviceEnvironmentName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateServiceJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateServiceJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateServiceJobOutput()
+        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.jobId = try reader["jobId"].readIfPresent()
+        value.jobName = try reader["jobName"].readIfPresent()
         return value
     }
 }
@@ -7722,6 +8621,21 @@ enum CreateConsumableResourceOutputError {
 }
 
 enum CreateJobQueueOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateQuotaShareOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -7797,6 +8711,21 @@ enum DeleteConsumableResourceOutputError {
 }
 
 enum DeleteJobQueueOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteQuotaShareOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -7931,6 +8860,21 @@ enum DescribeJobsOutputError {
     }
 }
 
+enum DescribeQuotaShareOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeSchedulingPoliciesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8022,6 +8966,21 @@ enum ListJobsOutputError {
 }
 
 enum ListJobsByConsumableResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListQuotaSharesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8231,6 +9190,21 @@ enum UpdateJobQueueOutputError {
     }
 }
 
+enum UpdateQuotaShareOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateSchedulingPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8247,6 +9221,21 @@ enum UpdateSchedulingPolicyOutputError {
 }
 
 enum UpdateServiceEnvironmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateServiceJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -9398,6 +10387,28 @@ extension BatchClientTypes.FrontOfQueueJobSummary {
     }
 }
 
+extension BatchClientTypes.FrontOfQuotaShareJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FrontOfQuotaShareJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.FrontOfQuotaShareJobSummary()
+        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.earliestTimeAtPosition = try reader["earliestTimeAtPosition"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.FrontOfQuotaSharesDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FrontOfQuotaSharesDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.FrontOfQuotaSharesDetail()
+        value.quotaShares = try reader["quotaShares"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: BatchClientTypes.FrontOfQuotaShareJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readIfPresent()
+        return value
+    }
+}
+
 extension BatchClientTypes.Host {
 
     static func write(value: BatchClientTypes.Host?, to writer: SmithyJSON.Writer) throws {
@@ -9902,7 +10913,121 @@ extension BatchClientTypes.QueueSnapshotUtilizationDetail {
         var value = BatchClientTypes.QueueSnapshotUtilizationDetail()
         value.totalCapacityUsage = try reader["totalCapacityUsage"].readListIfPresent(memberReadingClosure: BatchClientTypes.QueueSnapshotCapacityUsage.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.fairshareUtilization = try reader["fairshareUtilization"].readIfPresent(with: BatchClientTypes.FairshareUtilizationDetail.read(from:))
+        value.quotaShareUtilization = try reader["quotaShareUtilization"].readIfPresent(with: BatchClientTypes.QuotaShareUtilizationDetail.read(from:))
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.QuotaShareCapacityLimit {
+
+    static func write(value: BatchClientTypes.QuotaShareCapacityLimit?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacityUnit"].write(value.capacityUnit)
+        try writer["maxCapacity"].write(value.maxCapacity)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.QuotaShareCapacityLimit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.QuotaShareCapacityLimit()
+        value.maxCapacity = try reader["maxCapacity"].readIfPresent() ?? 0
+        value.capacityUnit = try reader["capacityUnit"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BatchClientTypes.QuotaShareCapacityUsage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.QuotaShareCapacityUsage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.QuotaShareCapacityUsage()
+        value.capacityUnit = try reader["capacityUnit"].readIfPresent()
+        value.quantity = try reader["quantity"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.QuotaShareCapacityUtilization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.QuotaShareCapacityUtilization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.QuotaShareCapacityUtilization()
+        value.quotaShareName = try reader["quotaShareName"].readIfPresent()
+        value.capacityUsage = try reader["capacityUsage"].readListIfPresent(memberReadingClosure: BatchClientTypes.QuotaShareCapacityUsage.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.QuotaShareDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.QuotaShareDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.QuotaShareDetail()
+        value.quotaShareName = try reader["quotaShareName"].readIfPresent()
+        value.quotaShareArn = try reader["quotaShareArn"].readIfPresent()
+        value.jobQueueArn = try reader["jobQueueArn"].readIfPresent()
+        value.capacityLimits = try reader["capacityLimits"].readListIfPresent(memberReadingClosure: BatchClientTypes.QuotaShareCapacityLimit.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceSharingConfiguration = try reader["resourceSharingConfiguration"].readIfPresent(with: BatchClientTypes.QuotaShareResourceSharingConfiguration.read(from:))
+        value.preemptionConfiguration = try reader["preemptionConfiguration"].readIfPresent(with: BatchClientTypes.QuotaSharePreemptionConfiguration.read(from:))
+        value.state = try reader["state"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.QuotaSharePolicy {
+
+    static func write(value: BatchClientTypes.QuotaSharePolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["idleResourceAssignmentStrategy"].write(value.idleResourceAssignmentStrategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.QuotaSharePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.QuotaSharePolicy()
+        value.idleResourceAssignmentStrategy = try reader["idleResourceAssignmentStrategy"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BatchClientTypes.QuotaSharePreemptionConfiguration {
+
+    static func write(value: BatchClientTypes.QuotaSharePreemptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inSharePreemption"].write(value.inSharePreemption)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.QuotaSharePreemptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.QuotaSharePreemptionConfiguration()
+        value.inSharePreemption = try reader["inSharePreemption"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BatchClientTypes.QuotaShareResourceSharingConfiguration {
+
+    static func write(value: BatchClientTypes.QuotaShareResourceSharingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["borrowLimit"].write(value.borrowLimit)
+        try writer["strategy"].write(value.strategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.QuotaShareResourceSharingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.QuotaShareResourceSharingConfiguration()
+        value.strategy = try reader["strategy"].readIfPresent() ?? .sdkUnknown("")
+        value.borrowLimit = try reader["borrowLimit"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.QuotaShareUtilizationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.QuotaShareUtilizationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.QuotaShareUtilizationDetail()
+        value.topCapacityUtilization = try reader["topCapacityUtilization"].readListIfPresent(memberReadingClosure: BatchClientTypes.QuotaShareCapacityUtilization.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9980,6 +11105,7 @@ extension BatchClientTypes.SchedulingPolicyDetail {
         var value = BatchClientTypes.SchedulingPolicyDetail()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.quotaSharePolicy = try reader["quotaSharePolicy"].readIfPresent(with: BatchClientTypes.QuotaSharePolicy.read(from:))
         value.fairsharePolicy = try reader["fairsharePolicy"].readIfPresent(with: BatchClientTypes.FairsharePolicy.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -10098,6 +11224,45 @@ extension BatchClientTypes.ServiceJobEvaluateOnExit {
     }
 }
 
+extension BatchClientTypes.ServiceJobPreemptedAttempt {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobPreemptedAttempt {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceJobPreemptedAttempt()
+        value.serviceResourceId = try reader["serviceResourceId"].readIfPresent(with: BatchClientTypes.ServiceResourceId.read(from:))
+        value.startedAt = try reader["startedAt"].readIfPresent()
+        value.stoppedAt = try reader["stoppedAt"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.ServiceJobPreemptionConfiguration {
+
+    static func write(value: BatchClientTypes.ServiceJobPreemptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["preemptionRetriesBeforeTermination"].write(value.preemptionRetriesBeforeTermination)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobPreemptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceJobPreemptionConfiguration()
+        value.preemptionRetriesBeforeTermination = try reader["preemptionRetriesBeforeTermination"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.ServiceJobPreemptionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobPreemptionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceJobPreemptionSummary()
+        value.preemptedAttemptCount = try reader["preemptedAttemptCount"].readIfPresent()
+        value.recentPreemptedAttempts = try reader["recentPreemptedAttempts"].readListIfPresent(memberReadingClosure: BatchClientTypes.ServiceJobPreemptedAttempt.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension BatchClientTypes.ServiceJobRetryStrategy {
 
     static func write(value: BatchClientTypes.ServiceJobRetryStrategy?, to writer: SmithyJSON.Writer) throws {
@@ -10129,6 +11294,7 @@ extension BatchClientTypes.ServiceJobSummary {
         value.scheduledAt = try reader["scheduledAt"].readIfPresent()
         value.serviceJobType = try reader["serviceJobType"].readIfPresent() ?? .sdkUnknown("")
         value.shareIdentifier = try reader["shareIdentifier"].readIfPresent()
+        value.quotaShareName = try reader["quotaShareName"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.startedAt = try reader["startedAt"].readIfPresent()
