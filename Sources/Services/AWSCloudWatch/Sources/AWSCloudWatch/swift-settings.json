@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.cloudwatch#GraniteServiceVersion20100801",
+    "module": "AWSCloudWatch",
+    "sdkId": "CloudWatch",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/cloudwatch.json"
+}
