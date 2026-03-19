@@ -60,8 +60,10 @@ class S3XCTestCase: XCTestCase {
     /// - Returns: The data and optional http response, or empty data if the response has no body.
     /// - Throws: Any error returned by the data task, or `HTTPError` if the request completes and the HTTP status code is not 200 series.
     func perform(urlRequest: URLRequest) async throws -> (Data, HTTPURLResponse?) {
-        try await withCheckedThrowingContinuation { continuation in
-            let task = URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
+        let session = URLSession(configuration: .ephemeral)
+        defer { session.finishTasksAndInvalidate() }
+        return try await withCheckedThrowingContinuation { continuation in
+            let task = session.dataTask(with: urlRequest) { data, urlResponse, error in
                 if let error = error {
                     continuation.resume(throwing: error)
                 } else if let code = (urlResponse as? HTTPURLResponse)?.statusCode, !(200...299).contains(code) {
