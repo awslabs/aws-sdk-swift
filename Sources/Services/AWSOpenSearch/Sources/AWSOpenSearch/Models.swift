@@ -728,6 +728,27 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// Configuration details for a Prometheus data source that can be used for direct queries.
+    public struct PrometheusDirectQueryDataSource: Swift.Sendable {
+        /// The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// The unique identifier of the Amazon Managed Prometheus Workspace that is associated with the specified data source.
+        /// This member is required.
+        public var workspaceArn: Swift.String?
+
+        public init(
+            roleArn: Swift.String? = nil,
+            workspaceArn: Swift.String? = nil
+        ) {
+            self.roleArn = roleArn
+            self.workspaceArn = workspaceArn
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// Configuration details for a Security Lake data source that can be used for direct queries.
     public struct SecurityLakeDirectQueryDataSource: Swift.Sendable {
         /// The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source.
@@ -750,6 +771,8 @@ extension OpenSearchClientTypes {
         case cloudwatchlog(OpenSearchClientTypes.CloudWatchDirectQueryDataSource)
         /// Specifies Security Lake as a type of data source for direct queries.
         case securitylake(OpenSearchClientTypes.SecurityLakeDirectQueryDataSource)
+        /// Specifies Prometheus as a type of data source for direct queries.
+        case prometheus(OpenSearchClientTypes.PrometheusDirectQueryDataSource)
         case sdkUnknown(Swift.String)
     }
 }
@@ -786,8 +809,7 @@ public struct AddDirectQueryDataSourceInput: Swift.Sendable {
     public var dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType?
     /// An optional text field for providing additional context and details about the data source.
     public var description: Swift.String?
-    /// A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
-    /// This member is required.
+    /// An optional list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source. This field is required for CloudWatchLogs and SecurityLake datasource types.
     public var openSearchArns: [Swift.String]?
     /// A list of tags attached to a domain.
     public var tagList: [OpenSearchClientTypes.Tag]?
@@ -9091,8 +9113,7 @@ public struct UpdateDirectQueryDataSourceInput: Swift.Sendable {
     public var dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType?
     /// An optional text field for providing additional context and details about the data source.
     public var description: Swift.String?
-    /// A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
-    /// This member is required.
+    /// An optional list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source. This field is required for CloudWatchLogs and SecurityLake datasource types.
     public var openSearchArns: [Swift.String]?
 
     public init(
@@ -14436,6 +14457,8 @@ extension OpenSearchClientTypes.DirectQueryDataSourceType {
         switch value {
             case let .cloudwatchlog(cloudwatchlog):
                 try writer["CloudWatchLog"].write(cloudwatchlog, with: OpenSearchClientTypes.CloudWatchDirectQueryDataSource.write(value:to:))
+            case let .prometheus(prometheus):
+                try writer["Prometheus"].write(prometheus, with: OpenSearchClientTypes.PrometheusDirectQueryDataSource.write(value:to:))
             case let .securitylake(securitylake):
                 try writer["SecurityLake"].write(securitylake, with: OpenSearchClientTypes.SecurityLakeDirectQueryDataSource.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -14451,6 +14474,8 @@ extension OpenSearchClientTypes.DirectQueryDataSourceType {
                 return .cloudwatchlog(try reader["CloudWatchLog"].read(with: OpenSearchClientTypes.CloudWatchDirectQueryDataSource.read(from:)))
             case "SecurityLake":
                 return .securitylake(try reader["SecurityLake"].read(with: OpenSearchClientTypes.SecurityLakeDirectQueryDataSource.read(from:)))
+            case "Prometheus":
+                return .prometheus(try reader["Prometheus"].read(with: OpenSearchClientTypes.PrometheusDirectQueryDataSource.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -15341,6 +15366,23 @@ extension OpenSearchClientTypes.PluginProperties {
         value.version = try reader["Version"].readIfPresent()
         value.className = try reader["ClassName"].readIfPresent()
         value.uncompressedSizeInBytes = try reader["UncompressedSizeInBytes"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.PrometheusDirectQueryDataSource {
+
+    static func write(value: OpenSearchClientTypes.PrometheusDirectQueryDataSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RoleArn"].write(value.roleArn)
+        try writer["WorkspaceArn"].write(value.workspaceArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.PrometheusDirectQueryDataSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.PrometheusDirectQueryDataSource()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.workspaceArn = try reader["WorkspaceArn"].readIfPresent() ?? ""
         return value
     }
 }

@@ -78,6 +78,35 @@ extension VerifiedPermissionsClientTypes.ActionIdentifier: Swift.CustomDebugStri
 
 extension VerifiedPermissionsClientTypes {
 
+    public enum AliasState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case pendingDeletion
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AliasState] {
+            return [
+                .active,
+                .pendingDeletion
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .pendingDeletion: return "PendingDeletion"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+
     /// Contains the identifier of an entity, including its ID and type. This data type is used as a request parameter for [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) operation, and as a response parameter for the [CreatePolicy](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicy.html), [GetPolicy](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetPolicy.html), and [UpdatePolicy](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicy.html) operations. Example: {"entityId":"string","entityType":"string"}
     public struct EntityIdentifier: Swift.Sendable {
         /// The identifier of an entity. "entityId":"identifier"
@@ -106,7 +135,11 @@ extension VerifiedPermissionsClientTypes {
 
     /// Information about a policy that you include in a BatchGetPolicy API request.
     public struct BatchGetPolicyInputItem: Swift.Sendable {
-        /// The identifier of the policy you want information about.
+        /// The identifier of the policy you want information about. You can use the policy name in place of the policy ID. When using a name, prefix it with name/. For example:
+        ///
+        /// * ID: SPEXAMPLEabcdefg111111
+        ///
+        /// * Name: name/example-policy
         /// This member is required.
         public var policyId: Swift.String?
         /// The identifier of the policy store where the policy you want information about is stored.
@@ -139,12 +172,14 @@ extension VerifiedPermissionsClientTypes {
 
     public enum BatchGetPolicyErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case policyNotFound
+        case policyStoreAliasNotFound
         case policyStoreNotFound
         case sdkUnknown(Swift.String)
 
         public static var allCases: [BatchGetPolicyErrorCode] {
             return [
                 .policyNotFound,
+                .policyStoreAliasNotFound,
                 .policyStoreNotFound
             ]
         }
@@ -157,6 +192,7 @@ extension VerifiedPermissionsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .policyNotFound: return "POLICY_NOT_FOUND"
+            case .policyStoreAliasNotFound: return "POLICY_STORE_ALIAS_NOT_FOUND"
             case .policyStoreNotFound: return "POLICY_STORE_NOT_FOUND"
             case let .sdkUnknown(s): return s
             }
@@ -298,6 +334,8 @@ extension VerifiedPermissionsClientTypes {
         /// The date and time the policy was most recently updated.
         /// This member is required.
         public var lastUpdatedDate: Foundation.Date?
+        /// The name of the policy, if one was assigned when the policy was created or last updated.
+        public var name: Swift.String?
         /// The identifier of the policy you want information about.
         /// This member is required.
         public var policyId: Swift.String?
@@ -316,6 +354,7 @@ extension VerifiedPermissionsClientTypes {
             createdDate: Foundation.Date? = nil,
             definition: VerifiedPermissionsClientTypes.PolicyDefinitionDetail? = nil,
             lastUpdatedDate: Foundation.Date? = nil,
+            name: Swift.String? = nil,
             policyId: Swift.String? = nil,
             policyStoreId: Swift.String? = nil,
             policyType: VerifiedPermissionsClientTypes.PolicyType? = nil
@@ -323,6 +362,7 @@ extension VerifiedPermissionsClientTypes {
             self.createdDate = createdDate
             self.definition = definition
             self.lastUpdatedDate = lastUpdatedDate
+            self.name = name
             self.policyId = policyId
             self.policyStoreId = policyStoreId
             self.policyType = policyType
@@ -353,6 +393,7 @@ extension VerifiedPermissionsClientTypes {
         case identitySource
         case policy
         case policyStore
+        case policyStoreAlias
         case policyTemplate
         case schema
         case sdkUnknown(Swift.String)
@@ -362,6 +403,7 @@ extension VerifiedPermissionsClientTypes {
                 .identitySource,
                 .policy,
                 .policyStore,
+                .policyStoreAlias,
                 .policyTemplate,
                 .schema
             ]
@@ -377,6 +419,7 @@ extension VerifiedPermissionsClientTypes {
             case .identitySource: return "IDENTITY_SOURCE"
             case .policy: return "POLICY"
             case .policyStore: return "POLICY_STORE"
+            case .policyStoreAlias: return "POLICY_STORE_ALIAS"
             case .policyTemplate: return "POLICY_TEMPLATE"
             case .schema: return "SCHEMA"
             case let .sdkUnknown(s): return s
@@ -1092,7 +1135,7 @@ extension VerifiedPermissionsClientTypes {
     }
 }
 
-/// The request failed because another request to modify a resource occurred at the same.
+/// The request failed because another request to modify a resource occurred at the same time.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1168,7 +1211,14 @@ public struct CreateIdentitySourceInput: Swift.Sendable {
     /// Specifies the details required to communicate with the identity provider (IdP) associated with this identity source.
     /// This member is required.
     public var configuration: VerifiedPermissionsClientTypes.Configuration?
-    /// Specifies the ID of the policy store in which you want to store this identity source. Only policies and requests made using this policy store can reference identities from the identity provider configured in the new identity source.
+    /// Specifies the ID of the policy store in which you want to store this identity source. Only policies and requests made using this policy store can reference identities from the identity provider configured in the new identity source. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
     /// Specifies the namespace and data type of the principals generated for identities authenticated by the new identity source.
@@ -1286,17 +1336,28 @@ public struct CreatePolicyInput: Swift.Sendable {
     /// A structure that specifies the policy type and content to use for the new policy. You must include either a static or a templateLinked element. The policy content must be written in the Cedar policy language.
     /// This member is required.
     public var definition: VerifiedPermissionsClientTypes.PolicyDefinition?
-    /// Specifies the PolicyStoreId of the policy store you want to store the policy in.
+    /// Specifies a name for the policy that is unique among all policies within the policy store. You can use the name in place of the policy ID in API operations that reference the policy. The name must be prefixed with name/. If you specify a name that is already associated with another policy in the policy store, you receive a ConflictException error.
+    public var name: Swift.String?
+    /// Specifies the PolicyStoreId of the policy store you want to store the policy in. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
         definition: VerifiedPermissionsClientTypes.PolicyDefinition? = nil,
+        name: Swift.String? = nil,
         policyStoreId: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.definition = definition
+        self.name = name
         self.policyStoreId = policyStoreId
     }
 }
@@ -1563,12 +1624,65 @@ public struct CreatePolicyStoreOutput: Swift.Sendable {
     }
 }
 
+public struct CreatePolicyStoreAliasInput: Swift.Sendable {
+    /// Specifies the name of the policy store alias to create. The name must be unique within your Amazon Web Services account and Amazon Web Services Region. The alias name must always be prefixed with policy-store-alias/.
+    /// This member is required.
+    public var aliasName: Swift.String?
+    /// Specifies the ID of the policy store to associate with the alias. The associated policy store must be specified using its ID. The alias name cannot be used.
+    /// This member is required.
+    public var policyStoreId: Swift.String?
+
+    public init(
+        aliasName: Swift.String? = nil,
+        policyStoreId: Swift.String? = nil
+    ) {
+        self.aliasName = aliasName
+        self.policyStoreId = policyStoreId
+    }
+}
+
+public struct CreatePolicyStoreAliasOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the policy store alias.
+    /// This member is required.
+    public var aliasArn: Swift.String?
+    /// The name of the policy store alias.
+    /// This member is required.
+    public var aliasName: Swift.String?
+    /// The date and time the policy store alias was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The ID of the policy store associated with the alias.
+    /// This member is required.
+    public var policyStoreId: Swift.String?
+
+    public init(
+        aliasArn: Swift.String? = nil,
+        aliasName: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        policyStoreId: Swift.String? = nil
+    ) {
+        self.aliasArn = aliasArn
+        self.aliasName = aliasName
+        self.createdAt = createdAt
+        self.policyStoreId = policyStoreId
+    }
+}
+
 public struct CreatePolicyTemplateInput: Swift.Sendable {
     /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken.
     public var clientToken: Swift.String?
     /// Specifies a description for the policy template.
     public var description: Swift.String?
-    /// The ID of the policy store in which to create the policy template.
+    /// Specifies a name for the policy template that is unique among all policy templates within the policy store. You can use the name in place of the policy template ID in API operations that reference the policy template. The name must be prefixed with name/. If you specify a name that is already associated with another policy template in the policy store, you receive a ConflictException error.
+    public var name: Swift.String?
+    /// The ID of the policy store in which to create the policy template. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
     /// Specifies the content that you want to use for the new policy template, written in the Cedar policy language.
@@ -1578,11 +1692,13 @@ public struct CreatePolicyTemplateInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        name: Swift.String? = nil,
         policyStoreId: Swift.String? = nil,
         statement: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.description = description
+        self.name = name
         self.policyStoreId = policyStoreId
         self.statement = statement
     }
@@ -1590,7 +1706,7 @@ public struct CreatePolicyTemplateInput: Swift.Sendable {
 
 extension CreatePolicyTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreatePolicyTemplateInput(clientToken: \(Swift.String(describing: clientToken)), policyStoreId: \(Swift.String(describing: policyStoreId)), description: \"CONTENT_REDACTED\", statement: \"CONTENT_REDACTED\")"}
+        "CreatePolicyTemplateInput(clientToken: \(Swift.String(describing: clientToken)), name: \(Swift.String(describing: name)), policyStoreId: \(Swift.String(describing: policyStoreId)), description: \"CONTENT_REDACTED\", statement: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreatePolicyTemplateOutput: Swift.Sendable {
@@ -1624,7 +1740,14 @@ public struct DeleteIdentitySourceInput: Swift.Sendable {
     /// Specifies the ID of the identity source that you want to delete.
     /// This member is required.
     public var identitySourceId: Swift.String?
-    /// Specifies the ID of the policy store that contains the identity source that you want to delete.
+    /// Specifies the ID of the policy store that contains the identity source that you want to delete. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
 
@@ -1643,10 +1766,21 @@ public struct DeleteIdentitySourceOutput: Swift.Sendable {
 }
 
 public struct DeletePolicyInput: Swift.Sendable {
-    /// Specifies the ID of the policy that you want to delete.
+    /// Specifies the ID of the policy that you want to delete. You can use the policy name in place of the policy ID. When using a name, prefix it with name/. For example:
+    ///
+    /// * ID: SPEXAMPLEabcdefg111111
+    ///
+    /// * Name: name/example-policy
     /// This member is required.
     public var policyId: Swift.String?
-    /// Specifies the ID of the policy store that contains the policy that you want to delete.
+    /// Specifies the ID of the policy store that contains the policy that you want to delete. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
 
@@ -1689,7 +1823,7 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 public struct DeletePolicyStoreInput: Swift.Sendable {
-    /// Specifies the ID of the policy store that you want to delete.
+    /// Specifies the ID of the policy store that you want to delete. To specify a policy store, the alias name cannot be used. Only the ID can be used.
     /// This member is required.
     public var policyStoreId: Swift.String?
 
@@ -1705,11 +1839,39 @@ public struct DeletePolicyStoreOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeletePolicyStoreAliasInput: Swift.Sendable {
+    /// Specifies the name of the policy store alias that you want to delete. The alias name must always be prefixed with policy-store-alias/.
+    /// This member is required.
+    public var aliasName: Swift.String?
+
+    public init(
+        aliasName: Swift.String? = nil
+    ) {
+        self.aliasName = aliasName
+    }
+}
+
+public struct DeletePolicyStoreAliasOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeletePolicyTemplateInput: Swift.Sendable {
-    /// Specifies the ID of the policy store that contains the policy template that you want to delete.
+    /// Specifies the ID of the policy store that contains the policy template that you want to delete. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
-    /// Specifies the ID of the policy template that you want to delete.
+    /// Specifies the ID of the policy template that you want to delete. You can use the policy template name in place of the policy template ID. When using a name, prefix it with name/. For example:
+    ///
+    /// * ID: PTEXAMPLEabcdefg111111
+    ///
+    /// * Name: name/example-policy-template
     /// This member is required.
     public var policyTemplateId: Swift.String?
 
@@ -1776,7 +1938,14 @@ public struct GetIdentitySourceInput: Swift.Sendable {
     /// Specifies the ID of the identity source you want information about.
     /// This member is required.
     public var identitySourceId: Swift.String?
-    /// Specifies the ID of the policy store that contains the identity source you want information about.
+    /// Specifies the ID of the policy store that contains the identity source you want information about. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
 
@@ -1899,10 +2068,21 @@ extension GetIdentitySourceOutput: Swift.CustomDebugStringConvertible {
 }
 
 public struct GetPolicyInput: Swift.Sendable {
-    /// Specifies the ID of the policy you want information about.
+    /// Specifies the ID of the policy you want information about. You can use the policy name in place of the policy ID. When using a name, prefix it with name/. For example:
+    ///
+    /// * ID: SPEXAMPLEabcdefg111111
+    ///
+    /// * Name: name/example-policy
     /// This member is required.
     public var policyId: Swift.String?
-    /// Specifies the ID of the policy store that contains the policy that you want information about.
+    /// Specifies the ID of the policy store that contains the policy that you want information about. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
 
@@ -1929,6 +2109,8 @@ public struct GetPolicyOutput: Swift.Sendable {
     /// The date and time that the policy was last updated.
     /// This member is required.
     public var lastUpdatedDate: Foundation.Date?
+    /// The name of the policy, if one was assigned when the policy was created or last updated.
+    public var name: Swift.String?
     /// The unique ID of the policy that you want information about.
     /// This member is required.
     public var policyId: Swift.String?
@@ -1949,6 +2131,7 @@ public struct GetPolicyOutput: Swift.Sendable {
         definition: VerifiedPermissionsClientTypes.PolicyDefinitionDetail? = nil,
         effect: VerifiedPermissionsClientTypes.PolicyEffect? = nil,
         lastUpdatedDate: Foundation.Date? = nil,
+        name: Swift.String? = nil,
         policyId: Swift.String? = nil,
         policyStoreId: Swift.String? = nil,
         policyType: VerifiedPermissionsClientTypes.PolicyType? = nil,
@@ -1960,6 +2143,7 @@ public struct GetPolicyOutput: Swift.Sendable {
         self.definition = definition
         self.effect = effect
         self.lastUpdatedDate = lastUpdatedDate
+        self.name = name
         self.policyId = policyId
         self.policyStoreId = policyStoreId
         self.policyType = policyType
@@ -1969,7 +2153,14 @@ public struct GetPolicyOutput: Swift.Sendable {
 }
 
 public struct GetPolicyStoreInput: Swift.Sendable {
-    /// Specifies the ID of the policy store that you want information about.
+    /// Specifies the policy store that you want information about. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
     /// Specifies whether to return the tags that are attached to the policy store. If this parameter is included in the API call, the tags are returned, otherwise they are not returned. If this parameter is included in the API call but there are no tags attached to the policy store, the tags response parameter is omitted from the response.
@@ -2041,11 +2232,66 @@ extension GetPolicyStoreOutput: Swift.CustomDebugStringConvertible {
         "GetPolicyStoreOutput(arn: \(Swift.String(describing: arn)), cedarVersion: \(Swift.String(describing: cedarVersion)), createdDate: \(Swift.String(describing: createdDate)), deletionProtection: \(Swift.String(describing: deletionProtection)), encryptionState: \(Swift.String(describing: encryptionState)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), tags: \(Swift.String(describing: tags)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
 }
 
-public struct GetPolicyTemplateInput: Swift.Sendable {
-    /// Specifies the ID of the policy store that contains the policy template that you want information about.
+public struct GetPolicyStoreAliasInput: Swift.Sendable {
+    /// Specifies the name of the policy store alias that you want information about. The alias name must always be prefixed with policy-store-alias/.
+    /// This member is required.
+    public var aliasName: Swift.String?
+
+    public init(
+        aliasName: Swift.String? = nil
+    ) {
+        self.aliasName = aliasName
+    }
+}
+
+public struct GetPolicyStoreAliasOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the policy store alias.
+    /// This member is required.
+    public var aliasArn: Swift.String?
+    /// The name of the policy store alias.
+    /// This member is required.
+    public var aliasName: Swift.String?
+    /// The date and time the policy store alias was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The ID of the policy store associated with the alias.
     /// This member is required.
     public var policyStoreId: Swift.String?
-    /// Specifies the ID of the policy template that you want information about.
+    /// The state of the policy store alias. Policy Store Aliases in the Active state can be used normally. When a policy store alias is deleted, it enters the PendingDeletion state. Policy Store Aliases in the PendingDeletion cannot be used, and creating a policy store alias with the same alias name will fail.
+    /// This member is required.
+    public var state: VerifiedPermissionsClientTypes.AliasState?
+
+    public init(
+        aliasArn: Swift.String? = nil,
+        aliasName: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        policyStoreId: Swift.String? = nil,
+        state: VerifiedPermissionsClientTypes.AliasState? = nil
+    ) {
+        self.aliasArn = aliasArn
+        self.aliasName = aliasName
+        self.createdAt = createdAt
+        self.policyStoreId = policyStoreId
+        self.state = state
+    }
+}
+
+public struct GetPolicyTemplateInput: Swift.Sendable {
+    /// Specifies the ID of the policy store that contains the policy template that you want information about. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
+    /// This member is required.
+    public var policyStoreId: Swift.String?
+    /// Specifies the ID of the policy template that you want information about. You can use the policy template name in place of the policy template ID. When using a name, prefix it with name/. For example:
+    ///
+    /// * ID: PTEXAMPLEabcdefg111111
+    ///
+    /// * Name: name/example-policy-template
     /// This member is required.
     public var policyTemplateId: Swift.String?
 
@@ -2067,6 +2313,8 @@ public struct GetPolicyTemplateOutput: Swift.Sendable {
     /// The date and time that the policy template was most recently updated.
     /// This member is required.
     public var lastUpdatedDate: Foundation.Date?
+    /// The name of the policy template, if one was assigned when the policy template was created or last updated.
+    public var name: Swift.String?
     /// The ID of the policy store that contains the policy template.
     /// This member is required.
     public var policyStoreId: Swift.String?
@@ -2081,6 +2329,7 @@ public struct GetPolicyTemplateOutput: Swift.Sendable {
         createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         lastUpdatedDate: Foundation.Date? = nil,
+        name: Swift.String? = nil,
         policyStoreId: Swift.String? = nil,
         policyTemplateId: Swift.String? = nil,
         statement: Swift.String? = nil
@@ -2088,6 +2337,7 @@ public struct GetPolicyTemplateOutput: Swift.Sendable {
         self.createdDate = createdDate
         self.description = description
         self.lastUpdatedDate = lastUpdatedDate
+        self.name = name
         self.policyStoreId = policyStoreId
         self.policyTemplateId = policyTemplateId
         self.statement = statement
@@ -2096,11 +2346,18 @@ public struct GetPolicyTemplateOutput: Swift.Sendable {
 
 extension GetPolicyTemplateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetPolicyTemplateOutput(createdDate: \(Swift.String(describing: createdDate)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), policyTemplateId: \(Swift.String(describing: policyTemplateId)), description: \"CONTENT_REDACTED\", statement: \"CONTENT_REDACTED\")"}
+        "GetPolicyTemplateOutput(createdDate: \(Swift.String(describing: createdDate)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), name: \(Swift.String(describing: name)), policyStoreId: \(Swift.String(describing: policyStoreId)), policyTemplateId: \(Swift.String(describing: policyTemplateId)), description: \"CONTENT_REDACTED\", statement: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetSchemaInput: Swift.Sendable {
-    /// Specifies the ID of the policy store that contains the schema.
+    /// Specifies the ID of the policy store that contains the schema. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
 
@@ -2174,7 +2431,14 @@ public struct ListIdentitySourcesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     public var nextToken: Swift.String?
-    /// Specifies the ID of the policy store that contains the identity sources that you want to list.
+    /// Specifies the ID of the policy store that contains the identity sources that you want to list. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
 
@@ -2480,7 +2744,14 @@ public struct UpdateIdentitySourceInput: Swift.Sendable {
     /// Specifies the ID of the identity source that you want to update.
     /// This member is required.
     public var identitySourceId: Swift.String?
-    /// Specifies the ID of the policy store that contains the identity source that you want to update.
+    /// Specifies the ID of the policy store that contains the identity source that you want to update. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
     /// Specifies the data type of principals generated for identities authenticated by the identity source.
@@ -2650,7 +2921,14 @@ public struct ListPoliciesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     public var nextToken: Swift.String?
-    /// Specifies the ID of the policy store you want to list policies from.
+    /// Specifies the ID of the policy store you want to list policies from. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
 
@@ -2740,6 +3018,8 @@ extension VerifiedPermissionsClientTypes {
         /// The date and time the policy was most recently updated.
         /// This member is required.
         public var lastUpdatedDate: Foundation.Date?
+        /// The name of the policy, if one was assigned when the policy was created or last updated.
+        public var name: Swift.String?
         /// The identifier of the policy you want information about.
         /// This member is required.
         public var policyId: Swift.String?
@@ -2764,6 +3044,7 @@ extension VerifiedPermissionsClientTypes {
             definition: VerifiedPermissionsClientTypes.PolicyDefinitionItem? = nil,
             effect: VerifiedPermissionsClientTypes.PolicyEffect? = nil,
             lastUpdatedDate: Foundation.Date? = nil,
+            name: Swift.String? = nil,
             policyId: Swift.String? = nil,
             policyStoreId: Swift.String? = nil,
             policyType: VerifiedPermissionsClientTypes.PolicyType? = nil,
@@ -2775,6 +3056,7 @@ extension VerifiedPermissionsClientTypes {
             self.definition = definition
             self.effect = effect
             self.lastUpdatedDate = lastUpdatedDate
+            self.name = name
             self.policyId = policyId
             self.policyStoreId = policyStoreId
             self.policyType = policyType
@@ -2797,6 +3079,92 @@ public struct ListPoliciesOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.policies = policies
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+
+    /// Contains filters for the ListPolicyStoreAliases operation.
+    public struct PolicyStoreAliasFilter: Swift.Sendable {
+        /// The ID of the policy store to filter by. Only policy store aliases associated with this policy store are returned.
+        public var policyStoreId: Swift.String?
+
+        public init(
+            policyStoreId: Swift.String? = nil
+        ) {
+            self.policyStoreId = policyStoreId
+        }
+    }
+}
+
+public struct ListPolicyStoreAliasesInput: Swift.Sendable {
+    /// Specifies a filter to narrow the results. You can filter by policyStoreId to list only the policy store aliases associated with a specific policy store.
+    public var filter: VerifiedPermissionsClientTypes.PolicyStoreAliasFilter?
+    /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 5 policy store aliases per response. You can specify a maximum of 50 policy store aliases per response.
+    public var maxResults: Swift.Int?
+    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        filter: VerifiedPermissionsClientTypes.PolicyStoreAliasFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+
+    /// Contains information about a policy store alias. This data type is used as a response parameter for the [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html) operation.
+    public struct PolicyStoreAliasItem: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the policy store alias.
+        /// This member is required.
+        public var aliasArn: Swift.String?
+        /// The name of the policy store alias.
+        /// This member is required.
+        public var aliasName: Swift.String?
+        /// The date and time the policy store alias was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The ID of the policy store associated with the alias.
+        /// This member is required.
+        public var policyStoreId: Swift.String?
+        /// The state of the policy store alias. Policy Store Aliases in the Active state can be used normally. When a policy store alias is deleted, it enters the PendingDeletion state. Policy Store Aliases in the PendingDeletion state cannot be used, and creating a policy store alias with the same alias name will fail.
+        /// This member is required.
+        public var state: VerifiedPermissionsClientTypes.AliasState?
+
+        public init(
+            aliasArn: Swift.String? = nil,
+            aliasName: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            policyStoreId: Swift.String? = nil,
+            state: VerifiedPermissionsClientTypes.AliasState? = nil
+        ) {
+            self.aliasArn = aliasArn
+            self.aliasName = aliasName
+            self.createdAt = createdAt
+            self.policyStoreId = policyStoreId
+            self.state = state
+        }
+    }
+}
+
+public struct ListPolicyStoreAliasesOutput: Swift.Sendable {
+    /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
+    public var nextToken: Swift.String?
+    /// The list of policy store aliases in the account.
+    /// This member is required.
+    public var policyStoreAliases: [VerifiedPermissionsClientTypes.PolicyStoreAliasItem]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        policyStoreAliases: [VerifiedPermissionsClientTypes.PolicyStoreAliasItem]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.policyStoreAliases = policyStoreAliases
     }
 }
 
@@ -2875,7 +3243,14 @@ public struct ListPolicyTemplatesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     public var nextToken: Swift.String?
-    /// Specifies the ID of the policy store that contains the policy templates you want to list.
+    /// Specifies the ID of the policy store that contains the policy templates you want to list. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
 
@@ -2902,6 +3277,8 @@ extension VerifiedPermissionsClientTypes {
         /// The date and time that the policy template was most recently updated.
         /// This member is required.
         public var lastUpdatedDate: Foundation.Date?
+        /// The name of the policy template, if one was assigned when the policy template was created or last updated.
+        public var name: Swift.String?
         /// The unique identifier of the policy store that contains the template.
         /// This member is required.
         public var policyStoreId: Swift.String?
@@ -2913,12 +3290,14 @@ extension VerifiedPermissionsClientTypes {
             createdDate: Foundation.Date? = nil,
             description: Swift.String? = nil,
             lastUpdatedDate: Foundation.Date? = nil,
+            name: Swift.String? = nil,
             policyStoreId: Swift.String? = nil,
             policyTemplateId: Swift.String? = nil
         ) {
             self.createdDate = createdDate
             self.description = description
             self.lastUpdatedDate = lastUpdatedDate
+            self.name = name
             self.policyStoreId = policyStoreId
             self.policyTemplateId = policyTemplateId
         }
@@ -2927,7 +3306,7 @@ extension VerifiedPermissionsClientTypes {
 
 extension VerifiedPermissionsClientTypes.PolicyTemplateItem: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PolicyTemplateItem(createdDate: \(Swift.String(describing: createdDate)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), policyTemplateId: \(Swift.String(describing: policyTemplateId)), description: \"CONTENT_REDACTED\")"}
+        "PolicyTemplateItem(createdDate: \(Swift.String(describing: createdDate)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), name: \(Swift.String(describing: name)), policyStoreId: \(Swift.String(describing: policyStoreId)), policyTemplateId: \(Swift.String(describing: policyTemplateId)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListPolicyTemplatesOutput: Swift.Sendable {
@@ -3052,7 +3431,7 @@ extension VerifiedPermissionsClientTypes {
 }
 
 public struct UpdatePolicyInput: Swift.Sendable {
-    /// Specifies the updated policy content that you want to replace on the specified policy. The content must be valid Cedar policy language text. You can change only the following elements from the policy definition:
+    /// Specifies the updated policy content that you want to replace on the specified policy. The content must be valid Cedar policy language text. If you don't specify this parameter, the existing policy definition remains unchanged. You can change only the following elements from the policy definition:
     ///
     /// * The action referenced by the policy.
     ///
@@ -3069,19 +3448,34 @@ public struct UpdatePolicyInput: Swift.Sendable {
     ///
     /// * The resource referenced by the policy.
     public var definition: VerifiedPermissionsClientTypes.UpdatePolicyDefinition?
-    /// Specifies the ID of the policy that you want to update. To find this value, you can use [ListPolicies](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html).
+    /// Specifies a name for the policy that is unique among all policies within the policy store. You can use the name in place of the policy ID in API operations that reference the policy. The name must be prefixed with name/. If you don't include the name in an update request, the existing name is unchanged. To remove a name, set it to an empty string (""). If you specify a name that is already associated with another policy in the policy store, you receive a ConflictException error.
+    public var name: Swift.String?
+    /// Specifies the ID of the policy that you want to update. To find this value, you can use [ListPolicies](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html). You can use the policy name in place of the policy ID. When using a name, prefix it with name/. For example:
+    ///
+    /// * ID: SPEXAMPLEabcdefg111111
+    ///
+    /// * Name: name/example-policy
     /// This member is required.
     public var policyId: Swift.String?
-    /// Specifies the ID of the policy store that contains the policy that you want to update.
+    /// Specifies the ID of the policy store that contains the policy that you want to update. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
 
     public init(
         definition: VerifiedPermissionsClientTypes.UpdatePolicyDefinition? = nil,
+        name: Swift.String? = nil,
         policyId: Swift.String? = nil,
         policyStoreId: Swift.String? = nil
     ) {
         self.definition = definition
+        self.name = name
         self.policyId = policyId
         self.policyStoreId = policyStoreId
     }
@@ -3138,10 +3532,23 @@ public struct UpdatePolicyOutput: Swift.Sendable {
 public struct UpdatePolicyTemplateInput: Swift.Sendable {
     /// Specifies a new description to apply to the policy template.
     public var description: Swift.String?
-    /// Specifies the ID of the policy store that contains the policy template that you want to update.
+    /// Specifies a name for the policy template that is unique among all policy templates within the policy store. You can use the name in place of the policy template ID in API operations that reference the policy template. The name must be prefixed with name/. If you don't include the name in an update request, the existing name is unchanged. To remove a name, set it to an empty string (""). If you specify a name that is already associated with another policy template in the policy store, you receive a ConflictException error.
+    public var name: Swift.String?
+    /// Specifies the ID of the policy store that contains the policy template that you want to update. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
-    /// Specifies the ID of the policy template that you want to update.
+    /// Specifies the ID of the policy template that you want to update. You can use the policy template name in place of the policy template ID. When using a name, prefix it with name/. For example:
+    ///
+    /// * ID: PTEXAMPLEabcdefg111111
+    ///
+    /// * Name: name/example-policy-template
     /// This member is required.
     public var policyTemplateId: Swift.String?
     /// Specifies new statement content written in Cedar policy language to replace the current body of the policy template. You can change only the following elements of the policy body:
@@ -3163,11 +3570,13 @@ public struct UpdatePolicyTemplateInput: Swift.Sendable {
 
     public init(
         description: Swift.String? = nil,
+        name: Swift.String? = nil,
         policyStoreId: Swift.String? = nil,
         policyTemplateId: Swift.String? = nil,
         statement: Swift.String? = nil
     ) {
         self.description = description
+        self.name = name
         self.policyStoreId = policyStoreId
         self.policyTemplateId = policyTemplateId
         self.statement = statement
@@ -3176,7 +3585,7 @@ public struct UpdatePolicyTemplateInput: Swift.Sendable {
 
 extension UpdatePolicyTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdatePolicyTemplateInput(policyStoreId: \(Swift.String(describing: policyStoreId)), policyTemplateId: \(Swift.String(describing: policyTemplateId)), description: \"CONTENT_REDACTED\", statement: \"CONTENT_REDACTED\")"}
+        "UpdatePolicyTemplateInput(name: \(Swift.String(describing: name)), policyStoreId: \(Swift.String(describing: policyStoreId)), policyTemplateId: \(Swift.String(describing: policyTemplateId)), description: \"CONTENT_REDACTED\", statement: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdatePolicyTemplateOutput: Swift.Sendable {
@@ -3220,7 +3629,14 @@ public struct PutSchemaInput: Swift.Sendable {
     /// Specifies the definition of the schema to be stored. The schema definition must be written in Cedar schema JSON.
     /// This member is required.
     public var definition: VerifiedPermissionsClientTypes.SchemaDefinition?
-    /// Specifies the ID of the policy store in which to place the schema.
+    /// Specifies the ID of the policy store in which to place the schema. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
 
@@ -3270,7 +3686,14 @@ public struct UpdatePolicyStoreInput: Swift.Sendable {
     public var deletionProtection: VerifiedPermissionsClientTypes.DeletionProtection?
     /// Descriptive text that you can provide to help with identification of the current policy store.
     public var description: Swift.String?
-    /// Specifies the ID of the policy store that you want to update
+    /// Specifies the ID of the policy store that you want to update To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
     /// A structure that defines the validation settings that want to enable for the policy store.
@@ -3727,7 +4150,14 @@ public struct IsAuthorizedInput: Swift.Sendable {
     public var context: VerifiedPermissionsClientTypes.ContextDefinition?
     /// (Optional) Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies. These additional entities and their attributes can be referenced and checked by conditional elements in the policies in the specified policy store. You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
     public var entities: VerifiedPermissionsClientTypes.EntitiesDefinition?
-    /// Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input.
+    /// Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
     /// Specifies the principal for which the authorization decision is to be made.
@@ -3767,7 +4197,14 @@ public struct IsAuthorizedWithTokenInput: Swift.Sendable {
     public var entities: VerifiedPermissionsClientTypes.EntitiesDefinition?
     /// Specifies an identity token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an accessToken, an identityToken, or both. Must be an ID token. Verified Permissions returns an error if the token_use claim in the submitted token isn't id.
     public var identityToken: Swift.String?
-    /// Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input.
+    /// Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
     /// Specifies the resource for which the authorization decision is made. For example, is the principal allowed to perform the action on the resource?
@@ -3800,7 +4237,14 @@ extension IsAuthorizedWithTokenInput: Swift.CustomDebugStringConvertible {
 public struct BatchIsAuthorizedInput: Swift.Sendable {
     /// (Optional) Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies. These additional entities and their attributes can be referenced and checked by conditional elements in the policies in the specified policy store. You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
     public var entities: VerifiedPermissionsClientTypes.EntitiesDefinition?
-    /// Specifies the ID of the policy store. Policies in this policy store will be used to make the authorization decisions for the input.
+    /// Specifies the ID of the policy store. Policies in this policy store will be used to make the authorization decisions for the input. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
     /// An array of up to 30 requests that you want Verified Permissions to evaluate.
@@ -3829,7 +4273,14 @@ public struct BatchIsAuthorizedWithTokenInput: Swift.Sendable {
     public var entities: VerifiedPermissionsClientTypes.EntitiesDefinition?
     /// Specifies an identity (ID) token for the principal that you want to authorize in each request. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an accessToken, an identityToken, or both. Must be an ID token. Verified Permissions returns an error if the token_use claim in the submitted token isn't id.
     public var identityToken: Swift.String?
-    /// Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input.
+    /// Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:
+    ///
+    /// * ID: PSEXAMPLEabcdefg111111
+    ///
+    /// * Alias name: policy-store-alias/example-policy-store
+    ///
+    ///
+    /// To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
     /// This member is required.
     public var policyStoreId: Swift.String?
     /// An array of up to 30 requests that you want Verified Permissions to evaluate.
@@ -3898,6 +4349,13 @@ extension CreatePolicyStoreInput {
     }
 }
 
+extension CreatePolicyStoreAliasInput {
+
+    static func urlPathProvider(_ value: CreatePolicyStoreAliasInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreatePolicyTemplateInput {
 
     static func urlPathProvider(_ value: CreatePolicyTemplateInput) -> Swift.String? {
@@ -3926,6 +4384,13 @@ extension DeletePolicyStoreInput {
     }
 }
 
+extension DeletePolicyStoreAliasInput {
+
+    static func urlPathProvider(_ value: DeletePolicyStoreAliasInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeletePolicyTemplateInput {
 
     static func urlPathProvider(_ value: DeletePolicyTemplateInput) -> Swift.String? {
@@ -3950,6 +4415,13 @@ extension GetPolicyInput {
 extension GetPolicyStoreInput {
 
     static func urlPathProvider(_ value: GetPolicyStoreInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetPolicyStoreAliasInput {
+
+    static func urlPathProvider(_ value: GetPolicyStoreAliasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3992,6 +4464,13 @@ extension ListIdentitySourcesInput {
 extension ListPoliciesInput {
 
     static func urlPathProvider(_ value: ListPoliciesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListPolicyStoreAliasesInput {
+
+    static func urlPathProvider(_ value: ListPolicyStoreAliasesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4113,6 +4592,7 @@ extension CreatePolicyInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["definition"].write(value.definition, with: VerifiedPermissionsClientTypes.PolicyDefinition.write(value:to:))
+        try writer["name"].write(value.name)
         try writer["policyStoreId"].write(value.policyStoreId)
     }
 }
@@ -4130,12 +4610,22 @@ extension CreatePolicyStoreInput {
     }
 }
 
+extension CreatePolicyStoreAliasInput {
+
+    static func write(value: CreatePolicyStoreAliasInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["aliasName"].write(value.aliasName)
+        try writer["policyStoreId"].write(value.policyStoreId)
+    }
+}
+
 extension CreatePolicyTemplateInput {
 
     static func write(value: CreatePolicyTemplateInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
         try writer["policyStoreId"].write(value.policyStoreId)
         try writer["statement"].write(value.statement)
     }
@@ -4164,6 +4654,14 @@ extension DeletePolicyStoreInput {
     static func write(value: DeletePolicyStoreInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["policyStoreId"].write(value.policyStoreId)
+    }
+}
+
+extension DeletePolicyStoreAliasInput {
+
+    static func write(value: DeletePolicyStoreAliasInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["aliasName"].write(value.aliasName)
     }
 }
 
@@ -4200,6 +4698,14 @@ extension GetPolicyStoreInput {
         guard let value else { return }
         try writer["policyStoreId"].write(value.policyStoreId)
         try writer["tags"].write(value.tags)
+    }
+}
+
+extension GetPolicyStoreAliasInput {
+
+    static func write(value: GetPolicyStoreAliasInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["aliasName"].write(value.aliasName)
     }
 }
 
@@ -4266,6 +4772,16 @@ extension ListPoliciesInput {
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
         try writer["policyStoreId"].write(value.policyStoreId)
+    }
+}
+
+extension ListPolicyStoreAliasesInput {
+
+    static func write(value: ListPolicyStoreAliasesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filter"].write(value.filter, with: VerifiedPermissionsClientTypes.PolicyStoreAliasFilter.write(value:to:))
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -4339,6 +4855,7 @@ extension UpdatePolicyInput {
     static func write(value: UpdatePolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["definition"].write(value.definition, with: VerifiedPermissionsClientTypes.UpdatePolicyDefinition.write(value:to:))
+        try writer["name"].write(value.name)
         try writer["policyId"].write(value.policyId)
         try writer["policyStoreId"].write(value.policyStoreId)
     }
@@ -4360,6 +4877,7 @@ extension UpdatePolicyTemplateInput {
     static func write(value: UpdatePolicyTemplateInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
         try writer["policyStoreId"].write(value.policyStoreId)
         try writer["policyTemplateId"].write(value.policyTemplateId)
         try writer["statement"].write(value.statement)
@@ -4454,6 +4972,21 @@ extension CreatePolicyStoreOutput {
     }
 }
 
+extension CreatePolicyStoreAliasOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePolicyStoreAliasOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePolicyStoreAliasOutput()
+        value.aliasArn = try reader["aliasArn"].readIfPresent() ?? ""
+        value.aliasName = try reader["aliasName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.policyStoreId = try reader["policyStoreId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreatePolicyTemplateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePolicyTemplateOutput {
@@ -4487,6 +5020,13 @@ extension DeletePolicyStoreOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePolicyStoreOutput {
         return DeletePolicyStoreOutput()
+    }
+}
+
+extension DeletePolicyStoreAliasOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePolicyStoreAliasOutput {
+        return DeletePolicyStoreAliasOutput()
     }
 }
 
@@ -4527,6 +5067,7 @@ extension GetPolicyOutput {
         value.definition = try reader["definition"].readIfPresent(with: VerifiedPermissionsClientTypes.PolicyDefinitionDetail.read(from:))
         value.effect = try reader["effect"].readIfPresent()
         value.lastUpdatedDate = try reader["lastUpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent()
         value.policyId = try reader["policyId"].readIfPresent() ?? ""
         value.policyStoreId = try reader["policyStoreId"].readIfPresent() ?? ""
         value.policyType = try reader["policyType"].readIfPresent() ?? .sdkUnknown("")
@@ -4557,6 +5098,22 @@ extension GetPolicyStoreOutput {
     }
 }
 
+extension GetPolicyStoreAliasOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPolicyStoreAliasOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPolicyStoreAliasOutput()
+        value.aliasArn = try reader["aliasArn"].readIfPresent() ?? ""
+        value.aliasName = try reader["aliasName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.policyStoreId = try reader["policyStoreId"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension GetPolicyTemplateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPolicyTemplateOutput {
@@ -4567,6 +5124,7 @@ extension GetPolicyTemplateOutput {
         value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.lastUpdatedDate = try reader["lastUpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent()
         value.policyStoreId = try reader["policyStoreId"].readIfPresent() ?? ""
         value.policyTemplateId = try reader["policyTemplateId"].readIfPresent() ?? ""
         value.statement = try reader["statement"].readIfPresent() ?? ""
@@ -4641,6 +5199,19 @@ extension ListPoliciesOutput {
         var value = ListPoliciesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.policies = try reader["policies"].readListIfPresent(memberReadingClosure: VerifiedPermissionsClientTypes.PolicyItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListPolicyStoreAliasesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPolicyStoreAliasesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPolicyStoreAliasesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.policyStoreAliases = try reader["policyStoreAliases"].readListIfPresent(memberReadingClosure: VerifiedPermissionsClientTypes.PolicyStoreAliasItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4881,6 +5452,23 @@ enum CreatePolicyStoreOutputError {
     }
 }
 
+enum CreatePolicyStoreAliasOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreatePolicyTemplateOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4945,6 +5533,21 @@ enum DeletePolicyStoreOutputError {
     }
 }
 
+enum DeletePolicyStoreAliasOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "InvalidStateException": return try InvalidStateException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeletePolicyTemplateOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4992,6 +5595,21 @@ enum GetPolicyOutputError {
 }
 
 enum GetPolicyStoreOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetPolicyStoreAliasOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5091,6 +5709,20 @@ enum ListPoliciesOutputError {
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListPolicyStoreAliasesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5500,6 +6132,7 @@ extension VerifiedPermissionsClientTypes.BatchGetPolicyOutputItem {
         value.definition = try reader["definition"].readIfPresent(with: VerifiedPermissionsClientTypes.PolicyDefinitionDetail.read(from:))
         value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdatedDate = try reader["lastUpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent()
         return value
     }
 }
@@ -6169,6 +6802,29 @@ extension VerifiedPermissionsClientTypes.PolicyItem {
         value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdatedDate = try reader["lastUpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.effect = try reader["effect"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.PolicyStoreAliasFilter {
+
+    static func write(value: VerifiedPermissionsClientTypes.PolicyStoreAliasFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["policyStoreId"].write(value.policyStoreId)
+    }
+}
+
+extension VerifiedPermissionsClientTypes.PolicyStoreAliasItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.PolicyStoreAliasItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.PolicyStoreAliasItem()
+        value.aliasName = try reader["aliasName"].readIfPresent() ?? ""
+        value.policyStoreId = try reader["policyStoreId"].readIfPresent() ?? ""
+        value.aliasArn = try reader["aliasArn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -6197,6 +6853,7 @@ extension VerifiedPermissionsClientTypes.PolicyTemplateItem {
         value.description = try reader["description"].readIfPresent()
         value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdatedDate = try reader["lastUpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent()
         return value
     }
 }
