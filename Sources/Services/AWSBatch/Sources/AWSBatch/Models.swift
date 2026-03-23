@@ -404,8 +404,20 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
-    /// Provides information used to select Amazon Machine Images (AMIs) for instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2 ([Amazon Linux 2](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami)). This object isn't applicable to jobs that are running on Fargate resources.
+    /// Provides information used to select Amazon Machine Images (AMIs) for instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2 ([Amazon ECS-optimized Amazon Linux 2](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami)) for EC2 (ECS) compute environments and EKS_AL2023 ([Amazon EKS-optimized Amazon Linux 2023 AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html)) for EKS compute environments. This object isn't applicable to jobs that are running on Fargate resources.
     public struct Ec2Configuration: Swift.Sendable {
+        /// The status of the Batch-provided default AMIs associated with the imageType. The field only appears after the compute environment has begun scaling instances using the imageType. The field is not present when an image is specified in ComputeResources.imageId (deprecated), the default launch template, or Ec2Configuration.imageIdOverride. The field is also not present when the compute environment has a launch template override. For more information on image selection, see [AMI selection order](https://docs.aws.amazon.com/batch/latest/userguide/ami-selection-order.html). This field is read-only and only appears in the [DescribeComputeEnvironments](https://docs.aws.amazon.com/batch/latest/APIReference/API_DescribeComputeEnvironments.html) response.
+        ///
+        /// * LATEST − Using the most recent AMI supported
+        ///
+        /// * UPDATE_AVAILABLE − An updated AMI is available
+        ///
+        /// * If a compute environment has multiple AMIs for the imageType and any one AMI has UPDATE_AVAILABLE, the status shows UPDATE_AVAILABLE.
+        ///
+        /// * For compute environments that use BEST_FIT as their allocation strategy, you can perform a [blue/green update](https://docs.aws.amazon.com/batch/latest/userguide/blue-green-updates.html) to update the AMI.
+        ///
+        /// * For all other compute environments, you can perform an [AMI version update](https://docs.aws.amazon.com/batch/latest/userguide/managing-ami-versions.html#updating-ami-versions) to update the AMI to the latest version.
+        public var batchImageStatus: Swift.String?
         /// The AMI ID used for instances launched in the compute environment that match the image type. This setting overrides the imageId set in the computeResource object. The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2 AMI. For more information, see [Amazon ECS-optimized Amazon Linux 2 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html) in the Amazon Elastic Container Service Developer Guide.
         public var imageIdOverride: Swift.String?
         /// The Kubernetes version for the compute environment. If you don't specify a value, the latest version that Batch supports is used.
@@ -415,10 +427,12 @@ extension BatchClientTypes {
         public var imageType: Swift.String?
 
         public init(
+            batchImageStatus: Swift.String? = nil,
             imageIdOverride: Swift.String? = nil,
             imageKubernetesVersion: Swift.String? = nil,
             imageType: Swift.String? = nil
         ) {
+            self.batchImageStatus = batchImageStatus
             self.imageIdOverride = imageIdOverride
             self.imageKubernetesVersion = imageKubernetesVersion
             self.imageType = imageType
@@ -591,7 +605,7 @@ extension BatchClientTypes {
         public var bidPercentage: Swift.Int?
         /// The desired number of vCPUS in the compute environment. Batch modifies this value between the minimum and maximum values based on job queue demand. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var desiredvCpus: Swift.Int?
-        /// Provides information that's used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2. One or two values can be provided. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        /// Provides information that's used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2 for EC2 (ECS) compute environments and EKS_AL2023 for EKS compute environments. One or two values can be provided. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var ec2Configuration: [BatchClientTypes.Ec2Configuration]?
         /// The Amazon EC2 key pair that's used for instances launched in the compute environment. You can use this key pair to log in to your instances with SSH. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var ec2KeyPair: Swift.String?
@@ -6840,7 +6854,7 @@ extension BatchClientTypes {
         public var bidPercentage: Swift.Int?
         /// The desired number of vCPUS in the compute environment. Batch modifies this value between the minimum and maximum values based on job queue demand. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. Batch doesn't support changing the desired number of vCPUs of an existing compute environment. Don't specify this parameter for compute environments using Amazon EKS clusters. When you update the desiredvCpus setting, the value must be between the minvCpus and maxvCpus values. Additionally, the updated desiredvCpus value must be greater than or equal to the current desiredvCpus value. For more information, see [Troubleshooting Batch](https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#error-desired-vcpus-update) in the Batch User Guide.
         public var desiredvCpus: Swift.Int?
-        /// Provides information used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. To remove the Amazon EC2 configuration and any custom AMI ID specified in imageIdOverride, set this value to an empty string. One or two values can be provided. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        /// Provides information used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2 for EC2 (ECS) compute environments and EKS_AL2023 for EKS compute environments. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. To remove the Amazon EC2 configuration and any custom AMI ID specified in imageIdOverride, set this value to an empty string. One or two values can be provided. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var ec2Configuration: [BatchClientTypes.Ec2Configuration]?
         /// The Amazon EC2 key pair that's used for instances launched in the compute environment. You can use this key pair to log in to your instances with SSH. To remove the Amazon EC2 key pair, set this value to an empty string. When updating a compute environment, changing the Amazon EC2 key pair requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var ec2KeyPair: Swift.String?
@@ -9706,6 +9720,7 @@ extension BatchClientTypes.Ec2Configuration {
 
     static func write(value: BatchClientTypes.Ec2Configuration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["batchImageStatus"].write(value.batchImageStatus)
         try writer["imageIdOverride"].write(value.imageIdOverride)
         try writer["imageKubernetesVersion"].write(value.imageKubernetesVersion)
         try writer["imageType"].write(value.imageType)
@@ -9716,6 +9731,7 @@ extension BatchClientTypes.Ec2Configuration {
         var value = BatchClientTypes.Ec2Configuration()
         value.imageType = try reader["imageType"].readIfPresent() ?? ""
         value.imageIdOverride = try reader["imageIdOverride"].readIfPresent()
+        value.batchImageStatus = try reader["batchImageStatus"].readIfPresent()
         value.imageKubernetesVersion = try reader["imageKubernetesVersion"].readIfPresent()
         return value
     }
