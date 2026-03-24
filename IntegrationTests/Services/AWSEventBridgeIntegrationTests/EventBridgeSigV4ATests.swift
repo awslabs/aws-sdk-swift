@@ -23,7 +23,7 @@ class EventBridgeSigV4ATests: XCTestCase {
     // The Route 53 client used to create a healthcheck, a parameter to EventBridge::createEndpoint
     private var route53Client: Route53Client!
 
-    private var eventBridgeConfig: EventBridgeClient.EventBridgeClientConfiguration!
+    private var eventBridgeConfig: EventBridgeClient.EventBridgeClientConfig!
     private let primaryRegion = "us-west-2"
     private let secondaryRegion = "us-east-1"
 
@@ -42,7 +42,7 @@ class EventBridgeSigV4ATests: XCTestCase {
         primaryRegionEventBridgeClient = try EventBridgeClient(region: primaryRegion)
         secondaryRegionEventBridgeClient = try EventBridgeClient(region: secondaryRegion)
 
-        eventBridgeConfig = try await EventBridgeClient.EventBridgeClientConfiguration(region: primaryRegion)
+        eventBridgeConfig = try await EventBridgeClient.EventBridgeClientConfig(region: primaryRegion)
         eventBridgeConfig.authSchemes = [SigV4AAuthScheme()]
         sigv4aEventBridgeClient = EventBridgeClient(config: eventBridgeConfig)
 
