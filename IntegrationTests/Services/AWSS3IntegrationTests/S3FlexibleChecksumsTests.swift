@@ -12,7 +12,7 @@ import SmithyHTTPAPI
 @testable import ClientRuntime
 import AWSIntegrationTestUtils
 import class SmithyStreams.BufferedStream
-import class SmithyChecksums.ValidatingBufferedStream
+@_spi(SmithyChecksums) import class SmithyChecksums.ValidatingBufferedStream
 
 final class S3FlexibleChecksumsTests: S3XCTestCase {
     var originalData: Data!

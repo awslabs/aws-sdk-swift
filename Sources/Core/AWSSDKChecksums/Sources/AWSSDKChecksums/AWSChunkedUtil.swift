@@ -9,7 +9,7 @@ import struct AwsCommonRuntimeKit.SigningConfig
 import enum Smithy.ByteStream
 import enum Smithy.ClientError
 import class Smithy.Context
-import class SmithyChecksums.ChunkedStream
+@_spi(SmithyChecksums) import class SmithyChecksums.ChunkedStream
 import struct SmithyHTTPAPI.Headers
 import class SmithyHTTPAPI.HTTPRequestBuilder
 

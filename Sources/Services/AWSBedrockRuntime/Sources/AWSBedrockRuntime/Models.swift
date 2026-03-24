@@ -10,7 +10,7 @@
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
 import SmithyJSON
-import class SmithyEventStreams.DefaultMessageDecoder
+@_spi(SmithyEventStreams) import class SmithyEventStreams.DefaultMessageDecoder
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
@@ -31,7 +31,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.Document
 import struct Smithy.URIQueryItem
-import struct SmithyEventStreams.DefaultMessageDecoderStream
+@_spi(SmithyEventStreams) import struct SmithyEventStreams.DefaultMessageDecoderStream
 import struct SmithyEventStreamsAPI.Header
 import struct SmithyEventStreamsAPI.Message
 import struct SmithyHTTPAPI.Header
