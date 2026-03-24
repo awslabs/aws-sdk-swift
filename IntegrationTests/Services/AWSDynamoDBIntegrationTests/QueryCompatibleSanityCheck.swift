@@ -40,7 +40,7 @@ final class QueryCompatibleTest: XCTestCase {
         let credentials = AWSCredentialIdentity(accessKey: "test", secret: "test")
         let resolver = StaticAWSCredentialIdentityResolver(credentials)
 
-        let config = try await DynamoDBClient.Config(
+        let config = try await DynamoDBClient.DynamoDBClientConfig(
             awsCredentialIdentityResolver: resolver,
             region: "us-east-1",
             httpClientEngine: mockHTTPClient
@@ -65,8 +65,8 @@ final class QueryCompatibleTest: XCTestCase {
 
 // Mock HTTP Client Implementation
 
-private class MockHTTPClient: HTTPClient {
-    private let handler: (HTTPRequest) async throws -> HTTPResponse
+private final class MockHTTPClient: HTTPClient {
+    private let handler: @Sendable (HTTPRequest) async throws -> HTTPResponse
 
     init(handler: @escaping (HTTPRequest) -> HTTPResponse) {
         self.handler = { request in

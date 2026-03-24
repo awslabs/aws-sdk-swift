@@ -6085,7 +6085,7 @@ extension GameLiftClientTypes {
     public struct UDPEndpoint: Swift.Sendable {
         /// The domain name of the UDP endpoint.
         public var domain: Swift.String?
-        /// The port number of the UDP endpoint.
+        /// The port number of the UDP endpoint. For Amazon GameLift Servers ping beacons, this is typically port 7770.
         public var port: Swift.Int?
 
         public init(
@@ -6102,7 +6102,7 @@ extension GameLiftClientTypes {
 
     /// Information about a UDP ping beacon that can be used to measure network latency between a player device and an Amazon GameLift Servers hosting location.
     public struct PingBeacon: Swift.Sendable {
-        /// The domain name and port of the UDP ping beacon.
+        /// The domain name and port of the UDP ping beacon. Your game client can send UDP messages to this endpoint and receive responses to measure network latency.
         public var udpEndpoint: GameLiftClientTypes.UDPEndpoint?
 
         public init(
@@ -6121,7 +6121,7 @@ extension GameLiftClientTypes {
         public var locationArn: Swift.String?
         /// The location's name.
         public var locationName: Swift.String?
-        /// Information about the UDP ping beacon for this location.
+        /// Information about the UDP ping beacon for this location. Ping beacons are fixed endpoints that you can use to measure network latency between a player device and an Amazon GameLift Servers hosting location.
         public var pingBeacon: GameLiftClientTypes.PingBeacon?
 
         public init(

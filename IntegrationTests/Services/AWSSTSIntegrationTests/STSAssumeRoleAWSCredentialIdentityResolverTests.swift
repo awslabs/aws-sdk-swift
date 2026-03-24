@@ -21,7 +21,7 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
 
     // STS client with only the STSAssumeRoleAWSCredentialIdentityResolver configured.
     private var assumeRoleStsClient: STSClient!
-    private var assumeRoleStsConfig: STSClient.STSClientConfiguration!
+    private var assumeRoleStsConfig: STSClient.STSClientConfig!
 
     // Used to create temporary role assumed by STS assume role credentials provider.
     private var iamClient: IAMClient!
@@ -98,8 +98,7 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
     // OpenTelemetry Tracing works as expected
     func testGetCallerIdentityWithOTelTracing() async throws {
         let inMemoryExporter = InMemoryExporter()
-
-        let config = try await STSClient.STSClientConfiguration(
+        let config = try await STSClient.STSClientConfig(
             region: "us-west-2",
             telemetryProvider: OpenTelemetrySwift.provider(spanExporter: inMemoryExporter)
         )
@@ -151,7 +150,7 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
             roleArn: roleArn,
             sessionName: roleSessionName
         )
-        assumeRoleStsConfig = try await STSClient.STSClientConfiguration(
+        assumeRoleStsConfig = try await STSClient.STSClientConfig(
             awsCredentialIdentityResolver: assumeRoleAWSCredentialIdentityResolver,
             region: region
         )

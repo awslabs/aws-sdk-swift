@@ -16,11 +16,11 @@ import class SmithyStreams.BufferedStream
 
 /// Tests toggle unsigned payload using S3.
 class S3ToggleUnsignedPayloadTests: S3XCTestCase {
-    private var s3Config: S3Client.S3ClientConfiguration!
+    private var s3Config: S3Client.S3ClientConfig!
 
     override func setUp() async throws {
         try await super.setUp()
-        s3Config = try await S3Client.S3ClientConfiguration(region: region)
+        s3Config = try await S3Client.S3ClientConfig(region: region)
         s3Config.authSchemes = [SigV4AuthScheme(requestUnsignedBody: true)]
     }
 
