@@ -7,6 +7,7 @@
 
 import Foundation
 import XCTest
+import AWSClientRuntime
 import AWSSTS
 import AWSIAM
 import AWSSDKIdentity
@@ -60,7 +61,9 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
     // Confirm STS assume role credentials provider works by validating response.
     func testGetCallerIdentity() async throws {
         // Retry with exponential backoff to handle IAM eventual consistency
+        // Only retry on errors indicating credentials aren't propagated yet
         // Worst-case wait: 5+10+20+20 = 55s
+        let retryableErrorCodes: Set<String> = ["InvalidClientTokenId", "AccessDenied"]
         var lastError: Error?
         let totalRetries = 5
         for attempt in 0..<totalRetries {
@@ -78,6 +81,11 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
                 XCTAssertNotEqual(arn, "")
                 return
             } catch {
+                guard let serviceError = error as? AWSServiceError,
+                      let code = serviceError.errorCode,
+                      retryableErrorCodes.contains(code) else {
+                    throw error
+                }
                 lastError = error
                 if attempt < (totalRetries-1) {
                     // Exponential backoff: 5s, 10s, 20s, 20s
