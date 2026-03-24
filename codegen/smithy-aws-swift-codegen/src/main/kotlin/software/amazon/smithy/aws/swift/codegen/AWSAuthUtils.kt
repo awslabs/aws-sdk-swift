@@ -90,6 +90,9 @@ open class AWSAuthUtils(
 
         val updatedAuthSchemeList = authSchemeList
 
+        if (effectiveAuthSchemes.contains(SigV4Trait.ID)) {
+            updatedAuthSchemeList += writer.format("\$N()", AWSSDKHTTPAuthTypes.SigV4AuthScheme)
+        }
         if (effectiveAuthSchemes.contains(SigV4ATrait.ID) || endpointRulesSigV4AServices.contains(ctx.service.sdkId)) {
             updatedAuthSchemeList += writer.format("\$N()", AWSSDKHTTPAuthTypes.SigV4AAuthScheme)
         }
