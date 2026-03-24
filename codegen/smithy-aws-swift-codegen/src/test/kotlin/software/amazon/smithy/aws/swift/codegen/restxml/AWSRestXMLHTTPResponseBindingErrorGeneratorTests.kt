@@ -90,6 +90,7 @@ public struct ComplexXMLError: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
+
     public init(
         header: Swift.String? = nil,
         nested: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData? = nil,
