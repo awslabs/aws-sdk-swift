@@ -60,8 +60,9 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
     // Confirm STS assume role credentials provider works by validating response.
     func testGetCallerIdentity() async throws {
         // Retry with exponential backoff to handle IAM eventual consistency
+        // Worst-case wait: 5+10+20+20 = 55s
         var lastError: Error?
-        let totalRetries = 8
+        let totalRetries = 5
         for attempt in 0..<totalRetries {
             do {
                 let response = try await assumeRoleStsClient.getCallerIdentity(
@@ -79,8 +80,8 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
             } catch {
                 lastError = error
                 if attempt < (totalRetries-1) {
-                    // Exponential backoff: 5s, 10s, 20s, 40s, 60s, 60s, 60s
-                    let delay = min(5_000_000_000 * UInt64(1 << attempt), 60_000_000_000)
+                    // Exponential backoff: 5s, 10s, 20s, 20s
+                    let delay = min(5_000_000_000 * UInt64(1 << attempt), 20_000_000_000)
                     try await Task.sleep(nanoseconds: delay)
                 }
             }
