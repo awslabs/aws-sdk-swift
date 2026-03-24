@@ -46,7 +46,7 @@ private let serviceClientData: [ServiceClientData] = [
     .init(
         "AWSARCRegionswitch",
         "arc-region-switch.json",
-        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyCBOR, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps, .SmithyWaitersAPI]
+        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRPCv2CBOR, .SmithyRetries, .SmithyRetriesAPI, .SmithyWaitersAPI]
     ),
     .init(
         "AWSARCZonalShift",
@@ -401,7 +401,7 @@ private let serviceClientData: [ServiceClientData] = [
     .init(
         "AWSCloudWatch",
         "cloudwatch.json",
-        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyCBOR, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps, .SmithyWaitersAPI]
+        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRPCv2CBOR, .SmithyRetries, .SmithyRetriesAPI, .SmithyWaitersAPI]
     ),
     .init(
         "AWSCloudWatchEvents",
@@ -2161,6 +2161,7 @@ extension Target.Dependency {
     // Smithy modules
     static var ClientRuntime: Self { .product(name: "ClientRuntime", package: "smithy-swift") }
     static var Smithy: Self { .product(name: "Smithy", package: "smithy-swift") }
+    static var SmithyRPCv2CBOR: Self { .product(name: "SmithyRPCv2CBOR", package: "smithy-swift") }
     static var SmithyCBOR: Self { .product(name: "SmithyCBOR", package: "smithy-swift") }
     static var SmithyChecksumsAPI: Self { .product(name: "SmithyChecksumsAPI", package: "smithy-swift") }
     static var SmithyChecksums: Self { .product(name: "SmithyChecksums", package: "smithy-swift") }

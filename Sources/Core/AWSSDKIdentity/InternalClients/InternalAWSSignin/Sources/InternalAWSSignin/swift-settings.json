@@ -1,7 +1,6 @@
 {
     "service": "com.amazonaws.signin#Signin",
     "module": "InternalAWSSignin",
-    "moduleVersion": "1.6.63",
     "sdkId": "Signin",
     "internalClient": true,
     "operations": [
