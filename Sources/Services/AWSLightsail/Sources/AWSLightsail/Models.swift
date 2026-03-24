@@ -3639,6 +3639,8 @@ extension LightsailClientTypes {
         public var status: LightsailClientTypes.ContactMethodStatus?
         /// The support code. Include this code in your email to support when you have questions about your Lightsail contact method. This code enables our support team to look up your Lightsail information more easily.
         public var supportCode: Swift.String?
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
+        public var tags: [LightsailClientTypes.Tag]?
 
         public init(
             arn: Swift.String? = nil,
@@ -3649,7 +3651,8 @@ extension LightsailClientTypes {
             `protocol`: LightsailClientTypes.ContactProtocol? = nil,
             resourceType: LightsailClientTypes.ResourceType? = nil,
             status: LightsailClientTypes.ContactMethodStatus? = nil,
-            supportCode: Swift.String? = nil
+            supportCode: Swift.String? = nil,
+            tags: [LightsailClientTypes.Tag]? = nil
         ) {
             self.arn = arn
             self.contactEndpoint = contactEndpoint
@@ -3660,6 +3663,7 @@ extension LightsailClientTypes {
             self.resourceType = resourceType
             self.status = status
             self.supportCode = supportCode
+            self.tags = tags
         }
     }
 }
@@ -4814,13 +4818,17 @@ public struct CreateContactMethodInput: Swift.Sendable {
     /// For a list of countries/regions where SMS text messages can be sent, and the latest Amazon Web Services Regions where SMS text messaging is supported, see [Supported Regions and Countries](https://docs.aws.amazon.com/sns/latest/dg/sns-supported-regions-countries.html) in the Amazon SNS Developer Guide. For more information about notifications in Amazon Lightsail, see [Notifications in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-notifications).
     /// This member is required.
     public var `protocol`: LightsailClientTypes.ContactProtocol?
+    /// The tag keys and optional values to add to the contact method during create. Use the TagResource action to tag a resource after it's created.
+    public var tags: [LightsailClientTypes.Tag]?
 
     public init(
         contactEndpoint: Swift.String? = nil,
-        `protocol`: LightsailClientTypes.ContactProtocol? = nil
+        `protocol`: LightsailClientTypes.ContactProtocol? = nil,
+        tags: [LightsailClientTypes.Tag]? = nil
     ) {
         self.contactEndpoint = contactEndpoint
         self.`protocol` = `protocol`
+        self.tags = tags
     }
 }
 
@@ -14922,6 +14930,7 @@ extension CreateContactMethodInput {
         guard let value else { return }
         try writer["contactEndpoint"].write(value.contactEndpoint)
         try writer["protocol"].write(value.`protocol`)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: LightsailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -22189,6 +22198,7 @@ extension LightsailClientTypes.ContactMethod {
         value.location = try reader["location"].readIfPresent(with: LightsailClientTypes.ResourceLocation.read(from:))
         value.resourceType = try reader["resourceType"].readIfPresent()
         value.supportCode = try reader["supportCode"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: LightsailClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
