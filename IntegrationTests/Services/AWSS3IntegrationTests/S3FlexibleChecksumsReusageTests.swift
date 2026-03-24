@@ -11,7 +11,7 @@ import AWSIntegrationTestUtils
 import SmithyHTTPAPI
 import Smithy
 import SmithyStreams
-import SmithyChecksums
+@_spi(SmithyChecksums) import SmithyChecksums
 import struct Foundation.URL
 import struct Foundation.Data
 
