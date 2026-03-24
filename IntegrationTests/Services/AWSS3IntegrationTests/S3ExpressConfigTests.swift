@@ -38,11 +38,11 @@ final class S3ExpressConfigTests: XCTestCase {
     // This bucket name fits the S3 Express / directory bucket name pattern
     let s3ExpressBucket = "testbucket--use1-az1--x-s3"
 
-    var config: S3Client.S3ClientConfiguration!
+    var config: S3Client.S3ClientConfig!
 
     override func setUp() async throws {
         try await super.setUp()
-        self.config = try await S3Client.Config(
+        self.config = try await S3Client.S3ClientConfig(
             s3ExpressIdentityResolver: MockS3ExpressIdentityResolver(),
             region: region,
             httpClientEngine: ProtocolTestClient()

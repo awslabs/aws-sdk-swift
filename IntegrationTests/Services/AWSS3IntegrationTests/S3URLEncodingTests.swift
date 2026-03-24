@@ -32,7 +32,7 @@ final class S3URLEncodingTests: S3XCTestCase {
     }
 
     func test_presignedURL_putObject_putsAllKeysWithMetadata() async throws {
-        let config = try await S3Client.S3ClientConfiguration(region: region)
+        let config = try await S3Client.S3ClientConfig(region: region)
         for key in keys {
             let input = PutObjectInput(body: .data(Data()), bucket: bucketName, key: key, metadata: ["filename": key])
             let presignedURLOrNil = try await input.presignURL(config: config, expiration: 30.0)
