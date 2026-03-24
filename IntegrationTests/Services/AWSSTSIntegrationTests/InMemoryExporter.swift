@@ -5,7 +5,6 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-#if canImport(OpenTelemetrySdk)
 import Foundation
 import OpenTelemetrySdk
 
@@ -45,4 +44,3 @@ public class InMemoryExporter: SpanExporter {
     isRunning = false
   }
 }
-#endif
