@@ -282,6 +282,7 @@ extension PutObjectInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutObjectInput, PutObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()

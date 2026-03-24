@@ -15,7 +15,7 @@ import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyEventStreams.DefaultMessageDecoder
+@_spi(SmithyEventStreams) import class SmithyEventStreams.DefaultMessageDecoder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPRequestBuilder
 import class SmithyHTTPAPI.HTTPResponse
@@ -62,7 +62,7 @@ import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.AttributeKey
 import struct Smithy.Attributes
 import struct Smithy.URIQueryItem
-import struct SmithyEventStreams.DefaultMessageDecoderStream
+@_spi(SmithyEventStreams) import struct SmithyEventStreams.DefaultMessageDecoderStream
 import struct SmithyEventStreamsAPI.Message
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -24349,6 +24349,7 @@ extension GetObjectInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetObjectInput, GetObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
@@ -24499,6 +24500,7 @@ extension PutObjectInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutObjectInput, PutObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
@@ -24590,6 +24592,7 @@ extension UploadPartInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UploadPartInput, UploadPartOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
@@ -24660,6 +24663,7 @@ extension GetObjectInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetObjectInput, GetObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
@@ -24733,6 +24737,7 @@ extension PutObjectInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutObjectInput, PutObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
@@ -24810,6 +24815,7 @@ extension UploadPartInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UploadPartInput, UploadPartOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()

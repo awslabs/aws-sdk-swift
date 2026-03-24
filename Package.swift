@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.192.0"
+let clientRuntimeVersion: Version = "0.193.0"
 let crtVersion: Version = "0.58.1"
 
 let excludeRuntimeUnitTests = false
@@ -1541,7 +1541,7 @@ private let serviceClientData: [ServiceClientData] = [
     .init(
         "AWSPolly",
         "polly.json",
-        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps]
+        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKEventStreamsAuth, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyEventStreams, .SmithyEventStreamsAPI, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps]
     ),
     .init(
         "AWSPricing",
