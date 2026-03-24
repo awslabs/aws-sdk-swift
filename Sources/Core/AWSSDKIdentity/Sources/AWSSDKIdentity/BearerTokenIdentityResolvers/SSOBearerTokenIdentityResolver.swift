@@ -236,10 +236,8 @@ struct SSOToken: Codable {
         // Required fields.
 
         accessToken = try container.decode(String.self, forKey: .accessToken)
-        let dateFormatter = ISO8601DateFormatter()
-        dateFormatter.formatOptions = [.withInternetDateTime]
         let expiresAtString = try container.decode(String.self, forKey: .expiresAt)
-        guard let expiresAtDate = dateFormatter.date(from: expiresAtString) else {
+        guard let expiresAtDate = RFC3339DateParser.parse(expiresAtString) else {
             throw DecodingError.dataCorruptedError(
                 forKey: .expiresAt,
                 in: container,
@@ -259,7 +257,7 @@ struct SSOToken: Codable {
             String.self,
             forKey: .registrationExpiresAt
         ) {
-            registrationExpiresAt = dateFormatter.date(from: registrationExpiresAtString)
+            registrationExpiresAt = RFC3339DateParser.parse(registrationExpiresAtString)
         } else {
             registrationExpiresAt = nil
         }

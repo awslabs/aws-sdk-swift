@@ -68,6 +68,18 @@ open class AWSAuthUtils(
             val auth = ServiceIndex.of(model).getEffectiveAuthSchemes(service.id, operation.id)
             return auth.containsKey(SigV4Trait.ID) && !operation.hasTrait<OptionalAuthTrait>()
         }
+
+        /**
+         * Returns if the service supports SigV4a signing, either via the model trait
+         * or because the service's endpoint rules return sigv4a auth schemes.
+         */
+        fun serviceUsesSigV4A(ctx: ProtocolGenerator.GenerationContext): Boolean {
+            val effectiveAuthSchemes = ServiceIndex(ctx.model).getEffectiveAuthSchemes(ctx.service)
+            val sdkId = AuthSchemeResolverGenerator.getSdkId(ctx)
+            // Services whose endpoint rules return sigv4a auth schemes
+            val endpointRulesSigV4AServices = arrayOf("S3", "EventBridge", "CloudFrontKeyValueStore", "SESv2")
+            return effectiveAuthSchemes.contains(SigV4ATrait.ID) || endpointRulesSigV4AServices.contains(sdkId)
+        }
     }
 
     override fun addAdditionalSchemes(

@@ -325,11 +325,11 @@ extension ObservabilityAdminClientTypes {
         ///
         /// * ${source.logGroup} — The original log group name from the source account.
         ///
-        /// * ${source.accountId} — The AWS account ID where the log originated.
+        /// * ${source.accountId} — The Amazon Web Services account ID where the log originated.
         ///
-        /// * ${source.region} — The AWS Region where the log originated.
+        /// * ${source.region} — The Amazon Web Services Region where the log originated.
         ///
-        /// * ${source.org.id} — The AWS Organization ID of the source account.
+        /// * ${source.org.id} — The Amazon Web Services Organization ID of the source account.
         ///
         /// * ${source.org.ouId} — The organizational unit ID of the source account.
         ///
@@ -509,17 +509,20 @@ extension ObservabilityAdminClientTypes {
 
     /// Configuration for selecting and handling source log groups for centralization.
     public struct SourceLogsConfiguration: Swift.Sendable {
+        /// The selection criteria that specifies which data sources to centralize. The selection criteria uses the same filter expression format as LogGroupSelectionCriteria, but operates on DataSourceName and DataSourceType operands. When both LogGroupSelectionCriteria and DataSourceSelectionCriteria are specified, a log event must match both criteria to be centralized.
+        public var dataSourceSelectionCriteria: Swift.String?
         /// A strategy determining whether to centralize source log groups that are encrypted with customer managed KMS keys (CMK). ALLOW will consider CMK encrypted source log groups for centralization while SKIP will skip CMK encrypted source log groups from centralization.
         /// This member is required.
         public var encryptedLogGroupStrategy: ObservabilityAdminClientTypes.EncryptedLogGroupStrategy?
         /// The selection criteria that specifies which source log groups to centralize. The selection criteria uses the same format as OAM link filters.
-        /// This member is required.
         public var logGroupSelectionCriteria: Swift.String?
 
         public init(
+            dataSourceSelectionCriteria: Swift.String? = nil,
             encryptedLogGroupStrategy: ObservabilityAdminClientTypes.EncryptedLogGroupStrategy? = nil,
-            logGroupSelectionCriteria: Swift.String? = nil
+            logGroupSelectionCriteria: Swift.String? = "*"
         ) {
+            self.dataSourceSelectionCriteria = dataSourceSelectionCriteria
             self.encryptedLogGroupStrategy = encryptedLogGroupStrategy
             self.logGroupSelectionCriteria = logGroupSelectionCriteria
         }
@@ -5378,6 +5381,7 @@ extension ObservabilityAdminClientTypes.SourceLogsConfiguration {
 
     static func write(value: ObservabilityAdminClientTypes.SourceLogsConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DataSourceSelectionCriteria"].write(value.dataSourceSelectionCriteria)
         try writer["EncryptedLogGroupStrategy"].write(value.encryptedLogGroupStrategy)
         try writer["LogGroupSelectionCriteria"].write(value.logGroupSelectionCriteria)
     }
@@ -5385,7 +5389,8 @@ extension ObservabilityAdminClientTypes.SourceLogsConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.SourceLogsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ObservabilityAdminClientTypes.SourceLogsConfiguration()
-        value.logGroupSelectionCriteria = try reader["LogGroupSelectionCriteria"].readIfPresent() ?? ""
+        value.logGroupSelectionCriteria = try reader["LogGroupSelectionCriteria"].readIfPresent() ?? "*"
+        value.dataSourceSelectionCriteria = try reader["DataSourceSelectionCriteria"].readIfPresent()
         value.encryptedLogGroupStrategy = try reader["EncryptedLogGroupStrategy"].readIfPresent() ?? .sdkUnknown("")
         return value
     }

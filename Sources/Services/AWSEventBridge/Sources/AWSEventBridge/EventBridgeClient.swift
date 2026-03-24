@@ -123,6 +123,7 @@ extension EventBridgeClient {
         public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
         public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
         public var ignoreConfiguredEndpointURLs: Swift.Bool?
+        public var sigV4aSigningRegionSet: [String]?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
         public var endpointResolver: EndpointResolver
@@ -169,6 +170,7 @@ extension EventBridgeClient {
             requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            sigV4aSigningRegionSet: [String]? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -195,6 +197,7 @@ extension EventBridgeClient {
             self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
             self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
             self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.sigV4aSigningRegionSet = sigV4aSigningRegionSet
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
@@ -224,6 +227,7 @@ extension EventBridgeClient {
             requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            sigV4aSigningRegionSet: [String]? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -250,6 +254,7 @@ extension EventBridgeClient {
             self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
             self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
             self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.sigV4aSigningRegionSet = sigV4aSigningRegionSet
             self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
@@ -280,6 +285,7 @@ extension EventBridgeClient {
                 requestChecksumCalculation: nil,
                 responseChecksumValidation: nil,
                 ignoreConfiguredEndpointURLs: nil,
+                sigV4aSigningRegionSet: nil,
                 region: nil,
                 signingRegion: nil,
                 endpointResolver: nil,
@@ -310,6 +316,7 @@ extension EventBridgeClient {
                 requestChecksumCalculation: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
                 responseChecksumValidation: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
                 ignoreConfiguredEndpointURLs: nil,
+                sigV4aSigningRegionSet: nil,
                 region: region,
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
@@ -354,6 +361,7 @@ extension EventBridgeClient {
         public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
         public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
         public var ignoreConfiguredEndpointURLs: Swift.Bool?
+        public var sigV4aSigningRegionSet: [String]?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
         public var endpointResolver: EndpointResolver
@@ -400,6 +408,7 @@ extension EventBridgeClient {
             requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            sigV4aSigningRegionSet: [String]? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -426,6 +435,7 @@ extension EventBridgeClient {
             self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
             self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
             self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.sigV4aSigningRegionSet = sigV4aSigningRegionSet
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
@@ -455,6 +465,7 @@ extension EventBridgeClient {
             requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            sigV4aSigningRegionSet: [String]? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -481,6 +492,7 @@ extension EventBridgeClient {
             self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
             self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
             self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.sigV4aSigningRegionSet = sigV4aSigningRegionSet
             self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
@@ -511,6 +523,7 @@ extension EventBridgeClient {
                 requestChecksumCalculation: nil,
                 responseChecksumValidation: nil,
                 ignoreConfiguredEndpointURLs: nil,
+                sigV4aSigningRegionSet: nil,
                 region: nil,
                 signingRegion: nil,
                 endpointResolver: nil,
@@ -541,6 +554,7 @@ extension EventBridgeClient {
                 requestChecksumCalculation: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
                 responseChecksumValidation: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
                 ignoreConfiguredEndpointURLs: nil,
+                sigV4aSigningRegionSet: nil,
                 region: region,
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
@@ -575,6 +589,7 @@ extension EventBridgeClient {
                 requestChecksumCalculation: self.requestChecksumCalculation,
                 responseChecksumValidation: self.responseChecksumValidation,
                 ignoreConfiguredEndpointURLs: self.ignoreConfiguredEndpointURLs,
+                sigV4aSigningRegionSet: self.sigV4aSigningRegionSet,
                 region: self.region,
                 signingRegion: self.signingRegion,
                 endpointResolver: self.endpointResolver,
@@ -643,6 +658,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ActivateEventSourceInput, ActivateEventSourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -716,6 +732,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CancelReplayInput, CancelReplayOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -789,6 +806,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateApiDestinationInput, CreateApiDestinationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -864,6 +882,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateArchiveInput, CreateArchiveOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -939,6 +958,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateConnectionInput, CreateConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1011,6 +1031,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateEndpointInput, CreateEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1087,6 +1108,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateEventBusInput, CreateEventBusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1170,6 +1192,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreatePartnerEventSourceInput, CreatePartnerEventSourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1244,6 +1267,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeactivateEventSourceInput, DeactivateEventSourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1316,6 +1340,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeauthorizeConnectionInput, DeauthorizeConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1388,6 +1413,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteApiDestinationInput, DeleteApiDestinationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1460,6 +1486,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteArchiveInput, DeleteArchiveOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1532,6 +1559,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteConnectionInput, DeleteConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1604,6 +1632,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteEndpointInput, DeleteEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1675,6 +1704,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteEventBusInput, DeleteEventBusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1747,6 +1777,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeletePartnerEventSourceInput, DeletePartnerEventSourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1820,6 +1851,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteRuleInput, DeleteRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1891,6 +1923,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DescribeApiDestinationInput, DescribeApiDestinationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1963,6 +1996,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DescribeArchiveInput, DescribeArchiveOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2034,6 +2068,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DescribeConnectionInput, DescribeConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2105,6 +2140,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DescribeEndpointInput, DescribeEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2176,6 +2212,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DescribeEventBusInput, DescribeEventBusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2248,6 +2285,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DescribeEventSourceInput, DescribeEventSourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2320,6 +2358,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DescribePartnerEventSourceInput, DescribePartnerEventSourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2391,6 +2430,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DescribeReplayInput, DescribeReplayOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2462,6 +2502,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DescribeRuleInput, DescribeRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2535,6 +2576,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DisableRuleInput, DisableRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2608,6 +2650,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<EnableRuleInput, EnableRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2678,6 +2721,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListApiDestinationsInput, ListApiDestinationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2749,6 +2793,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListArchivesInput, ListArchivesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2819,6 +2864,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListConnectionsInput, ListConnectionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2889,6 +2935,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListEndpointsInput, ListEndpointsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2959,6 +3006,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListEventBusesInput, ListEventBusesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3030,6 +3078,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListEventSourcesInput, ListEventSourcesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3102,6 +3151,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListPartnerEventSourceAccountsInput, ListPartnerEventSourceAccountsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3173,6 +3223,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListPartnerEventSourcesInput, ListPartnerEventSourcesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3243,6 +3294,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListReplaysInput, ListReplaysOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3314,6 +3366,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListRuleNamesByTargetInput, ListRuleNamesByTargetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3385,6 +3438,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListRulesInput, ListRulesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3456,6 +3510,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3527,6 +3582,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListTargetsByRuleInput, ListTargetsByRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3597,6 +3653,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutEventsInput, PutEventsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3668,6 +3725,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutPartnerEventsInput, PutPartnerEventsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3742,6 +3800,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutPermissionInput, PutPermissionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3817,6 +3876,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutRuleInput, PutRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3920,6 +3980,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutTargetsInput, PutTargetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3993,6 +4054,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<RemovePermissionInput, RemovePermissionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4066,6 +4128,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<RemoveTargetsInput, RemoveTargetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4140,6 +4203,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<StartReplayInput, StartReplayOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4213,6 +4277,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4284,6 +4349,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<TestEventPatternInput, TestEventPatternOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4357,6 +4423,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4430,6 +4497,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UpdateApiDestinationInput, UpdateApiDestinationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4504,6 +4572,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UpdateArchiveInput, UpdateArchiveOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4579,6 +4648,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UpdateConnectionInput, UpdateConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4651,6 +4721,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UpdateEndpointInput, UpdateEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4724,6 +4795,7 @@ extension EventBridgeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UpdateEventBusInput, UpdateEventBusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in

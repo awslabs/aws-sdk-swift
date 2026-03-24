@@ -9,7 +9,7 @@ import Smithy
 import SmithyIdentity
 import SmithyIdentityAPI
 import SmithyEventStreamsAPI
-import SmithyEventStreams
+@_spi(SmithyEventStreams) import SmithyEventStreams
 import SmithyHTTPAuth
 import AWSSDKHTTPAuth
 import AWSSDKEventStreamsAuth

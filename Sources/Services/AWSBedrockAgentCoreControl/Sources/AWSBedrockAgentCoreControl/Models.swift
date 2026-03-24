@@ -2341,6 +2341,107 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// The Amazon Web Services Secrets Manager location configuration.
+    public struct SecretsManagerLocation: Swift.Sendable {
+        /// The ARN of the Amazon Web Services Secrets Manager secret containing the certificate.
+        /// This member is required.
+        public var secretArn: Swift.String?
+
+        public init(
+            secretArn: Swift.String? = nil
+        ) {
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The location from which to retrieve a certificate.
+    public enum CertificateLocation: Swift.Sendable {
+        /// The Amazon Web Services Secrets Manager location of the certificate.
+        case secretsmanager(BedrockAgentCoreControlClientTypes.SecretsManagerLocation)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A certificate to install in the browser or code interpreter.
+    public struct Certificate: Swift.Sendable {
+        /// The location of the certificate.
+        /// This member is required.
+        public var location: BedrockAgentCoreControlClientTypes.CertificateLocation?
+
+        public init(
+            location: BedrockAgentCoreControlClientTypes.CertificateLocation? = nil
+        ) {
+            self.location = location
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The location of a resource.
+    public enum ResourceLocation: Swift.Sendable {
+        /// The Amazon S3 location for storing data. This structure defines where in Amazon S3 data is stored.
+        case s3(BedrockAgentCoreControlClientTypes.S3Location)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum BrowserEnterprisePolicyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case managed
+        case recommended
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BrowserEnterprisePolicyType] {
+            return [
+                .managed,
+                .recommended
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .managed: return "MANAGED"
+            case .recommended: return "RECOMMENDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Browser enterprise policy configuration.
+    public struct BrowserEnterprisePolicy: Swift.Sendable {
+        /// The location of the enterprise policy file.
+        /// This member is required.
+        public var location: BedrockAgentCoreControlClientTypes.ResourceLocation?
+        /// The type of browser enterprise policy. Available values are MANAGED and RECOMMENDED.
+        public var type: BedrockAgentCoreControlClientTypes.BrowserEnterprisePolicyType?
+
+        public init(
+            location: BedrockAgentCoreControlClientTypes.ResourceLocation? = nil,
+            type: BedrockAgentCoreControlClientTypes.BrowserEnterprisePolicyType? = nil
+        ) {
+            self.location = location
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     public enum BrowserNetworkMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `public`
         case vpc
@@ -2410,10 +2511,14 @@ extension BedrockAgentCoreControlClientTypes {
 public struct CreateBrowserInput: Swift.Sendable {
     /// The browser signing configuration that enables cryptographic agent identification using HTTP message signatures for web bot authentication.
     public var browserSigning: BedrockAgentCoreControlClientTypes.BrowserSigningConfigInput?
+    /// A list of certificates to install in the browser.
+    public var certificates: [BedrockAgentCoreControlClientTypes.Certificate]?
     /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request but does not return an error.
     public var clientToken: Swift.String?
     /// The description of the browser.
     public var description: Swift.String?
+    /// A list of enterprise policy files for the browser.
+    public var enterprisePolicies: [BedrockAgentCoreControlClientTypes.BrowserEnterprisePolicy]?
     /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the browser to access Amazon Web Services services.
     public var executionRoleArn: Swift.String?
     /// The name of the browser. The name must be unique within your account.
@@ -2429,8 +2534,10 @@ public struct CreateBrowserInput: Swift.Sendable {
 
     public init(
         browserSigning: BedrockAgentCoreControlClientTypes.BrowserSigningConfigInput? = nil,
+        certificates: [BedrockAgentCoreControlClientTypes.Certificate]? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        enterprisePolicies: [BedrockAgentCoreControlClientTypes.BrowserEnterprisePolicy]? = nil,
         executionRoleArn: Swift.String? = nil,
         name: Swift.String? = nil,
         networkConfiguration: BedrockAgentCoreControlClientTypes.BrowserNetworkConfiguration? = nil,
@@ -2438,8 +2545,10 @@ public struct CreateBrowserInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.browserSigning = browserSigning
+        self.certificates = certificates
         self.clientToken = clientToken
         self.description = description
+        self.enterprisePolicies = enterprisePolicies
         self.executionRoleArn = executionRoleArn
         self.name = name
         self.networkConfiguration = networkConfiguration
@@ -2450,7 +2559,7 @@ public struct CreateBrowserInput: Swift.Sendable {
 
 extension CreateBrowserInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateBrowserInput(browserSigning: \(Swift.String(describing: browserSigning)), clientToken: \(Swift.String(describing: clientToken)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), recording: \(Swift.String(describing: recording)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+        "CreateBrowserInput(browserSigning: \(Swift.String(describing: browserSigning)), certificates: \(Swift.String(describing: certificates)), clientToken: \(Swift.String(describing: clientToken)), enterprisePolicies: \(Swift.String(describing: enterprisePolicies)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), recording: \(Swift.String(describing: recording)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -2596,11 +2705,15 @@ public struct GetBrowserOutput: Swift.Sendable {
     public var browserId: Swift.String?
     /// The browser signing configuration that shows whether cryptographic agent identification is enabled for web bot authentication.
     public var browserSigning: BedrockAgentCoreControlClientTypes.BrowserSigningConfigOutput?
+    /// The list of certificates configured for the browser.
+    public var certificates: [BedrockAgentCoreControlClientTypes.Certificate]?
     /// The timestamp when the browser was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
     /// The description of the browser.
     public var description: Swift.String?
+    /// The list of enterprise policy files configured for the browser.
+    public var enterprisePolicies: [BedrockAgentCoreControlClientTypes.BrowserEnterprisePolicy]?
     /// The IAM role ARN that provides permissions for the browser.
     public var executionRoleArn: Swift.String?
     /// The reason for failure if the browser is in a failed state.
@@ -2624,8 +2737,10 @@ public struct GetBrowserOutput: Swift.Sendable {
         browserArn: Swift.String? = nil,
         browserId: Swift.String? = nil,
         browserSigning: BedrockAgentCoreControlClientTypes.BrowserSigningConfigOutput? = nil,
+        certificates: [BedrockAgentCoreControlClientTypes.Certificate]? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
+        enterprisePolicies: [BedrockAgentCoreControlClientTypes.BrowserEnterprisePolicy]? = nil,
         executionRoleArn: Swift.String? = nil,
         failureReason: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
@@ -2637,8 +2752,10 @@ public struct GetBrowserOutput: Swift.Sendable {
         self.browserArn = browserArn
         self.browserId = browserId
         self.browserSigning = browserSigning
+        self.certificates = certificates
         self.createdAt = createdAt
         self.description = description
+        self.enterprisePolicies = enterprisePolicies
         self.executionRoleArn = executionRoleArn
         self.failureReason = failureReason
         self.lastUpdatedAt = lastUpdatedAt
@@ -2651,7 +2768,7 @@ public struct GetBrowserOutput: Swift.Sendable {
 
 extension GetBrowserOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetBrowserOutput(browserArn: \(Swift.String(describing: browserArn)), browserId: \(Swift.String(describing: browserId)), browserSigning: \(Swift.String(describing: browserSigning)), createdAt: \(Swift.String(describing: createdAt)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), failureReason: \(Swift.String(describing: failureReason)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), recording: \(Swift.String(describing: recording)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\")"}
+        "GetBrowserOutput(browserArn: \(Swift.String(describing: browserArn)), browserId: \(Swift.String(describing: browserId)), browserSigning: \(Swift.String(describing: browserSigning)), certificates: \(Swift.String(describing: certificates)), createdAt: \(Swift.String(describing: createdAt)), enterprisePolicies: \(Swift.String(describing: enterprisePolicies)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), failureReason: \(Swift.String(describing: failureReason)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), recording: \(Swift.String(describing: recording)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -2819,6 +2936,8 @@ extension BedrockAgentCoreControlClientTypes {
 }
 
 public struct CreateCodeInterpreterInput: Swift.Sendable {
+    /// A list of certificates to install in the code interpreter.
+    public var certificates: [BedrockAgentCoreControlClientTypes.Certificate]?
     /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request but does not return an error.
     public var clientToken: Swift.String?
     /// The description of the code interpreter.
@@ -2835,6 +2954,7 @@ public struct CreateCodeInterpreterInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        certificates: [BedrockAgentCoreControlClientTypes.Certificate]? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
@@ -2842,6 +2962,7 @@ public struct CreateCodeInterpreterInput: Swift.Sendable {
         networkConfiguration: BedrockAgentCoreControlClientTypes.CodeInterpreterNetworkConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.certificates = certificates
         self.clientToken = clientToken
         self.description = description
         self.executionRoleArn = executionRoleArn
@@ -2853,7 +2974,7 @@ public struct CreateCodeInterpreterInput: Swift.Sendable {
 
 extension CreateCodeInterpreterInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateCodeInterpreterInput(clientToken: \(Swift.String(describing: clientToken)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+        "CreateCodeInterpreterInput(certificates: \(Swift.String(describing: certificates)), clientToken: \(Swift.String(describing: clientToken)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -2975,6 +3096,8 @@ public struct GetCodeInterpreterInput: Swift.Sendable {
 }
 
 public struct GetCodeInterpreterOutput: Swift.Sendable {
+    /// The list of certificates configured for the code interpreter.
+    public var certificates: [BedrockAgentCoreControlClientTypes.Certificate]?
     /// The Amazon Resource Name (ARN) of the code interpreter.
     /// This member is required.
     public var codeInterpreterArn: Swift.String?
@@ -3004,6 +3127,7 @@ public struct GetCodeInterpreterOutput: Swift.Sendable {
     public var status: BedrockAgentCoreControlClientTypes.CodeInterpreterStatus?
 
     public init(
+        certificates: [BedrockAgentCoreControlClientTypes.Certificate]? = nil,
         codeInterpreterArn: Swift.String? = nil,
         codeInterpreterId: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
@@ -3015,6 +3139,7 @@ public struct GetCodeInterpreterOutput: Swift.Sendable {
         networkConfiguration: BedrockAgentCoreControlClientTypes.CodeInterpreterNetworkConfiguration? = nil,
         status: BedrockAgentCoreControlClientTypes.CodeInterpreterStatus? = nil
     ) {
+        self.certificates = certificates
         self.codeInterpreterArn = codeInterpreterArn
         self.codeInterpreterId = codeInterpreterId
         self.createdAt = createdAt
@@ -3030,7 +3155,7 @@ public struct GetCodeInterpreterOutput: Swift.Sendable {
 
 extension GetCodeInterpreterOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetCodeInterpreterOutput(codeInterpreterArn: \(Swift.String(describing: codeInterpreterArn)), codeInterpreterId: \(Swift.String(describing: codeInterpreterId)), createdAt: \(Swift.String(describing: createdAt)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), failureReason: \(Swift.String(describing: failureReason)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\")"}
+        "GetCodeInterpreterOutput(certificates: \(Swift.String(describing: certificates)), codeInterpreterArn: \(Swift.String(describing: codeInterpreterArn)), codeInterpreterId: \(Swift.String(describing: codeInterpreterId)), createdAt: \(Swift.String(describing: createdAt)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), failureReason: \(Swift.String(describing: failureReason)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListCodeInterpretersInput: Swift.Sendable {
@@ -5519,16 +5644,21 @@ extension BedrockAgentCoreControlClientTypes {
         /// The model ID to use for the reflection step of the episodic memory strategy.
         /// This member is required.
         public var modelId: Swift.String?
+        /// The namespaceTemplates to use for episodic reflection. Can be less nested than the episodic namespaces.
+        public var namespaceTemplates: [Swift.String]?
         /// The namespaces to use for episodic reflection. Can be less nested than the episodic namespaces.
+        @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
 
         public init(
             appendToPrompt: Swift.String? = nil,
             modelId: Swift.String? = nil,
+            namespaceTemplates: [Swift.String]? = nil,
             namespaces: [Swift.String]? = nil
         ) {
             self.appendToPrompt = appendToPrompt
             self.modelId = modelId
+            self.namespaceTemplates = namespaceTemplates
             self.namespaces = namespaces
         }
     }
@@ -5536,7 +5666,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.EpisodicOverrideReflectionConfigurationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EpisodicOverrideReflectionConfigurationInput(modelId: \(Swift.String(describing: modelId)), namespaces: \(Swift.String(describing: namespaces)), appendToPrompt: \"CONTENT_REDACTED\")"}
+        "EpisodicOverrideReflectionConfigurationInput(modelId: \(Swift.String(describing: modelId)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), appendToPrompt: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -5878,18 +6008,23 @@ extension BedrockAgentCoreControlClientTypes {
         /// The name of the custom memory strategy.
         /// This member is required.
         public var name: Swift.String?
+        /// The namespaceTemplates associated with the custom memory strategy.
+        public var namespaceTemplates: [Swift.String]?
         /// The namespaces associated with the custom memory strategy.
+        @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
 
         public init(
             configuration: BedrockAgentCoreControlClientTypes.CustomConfigurationInput? = nil,
             description: Swift.String? = nil,
             name: Swift.String? = nil,
+            namespaceTemplates: [Swift.String]? = nil,
             namespaces: [Swift.String]? = nil
         ) {
             self.configuration = configuration
             self.description = description
             self.name = name
+            self.namespaceTemplates = namespaceTemplates
             self.namespaces = namespaces
         }
     }
@@ -5897,20 +6032,24 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.CustomMemoryStrategyInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CustomMemoryStrategyInput(configuration: \(Swift.String(describing: configuration)), name: \(Swift.String(describing: name)), namespaces: \(Swift.String(describing: namespaces)), description: \"CONTENT_REDACTED\")"}
+        "CustomMemoryStrategyInput(configuration: \(Swift.String(describing: configuration)), name: \(Swift.String(describing: name)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
 
     /// An episodic reflection configuration input.
     public struct EpisodicReflectionConfigurationInput: Swift.Sendable {
+        /// The namespaceTemplates over which to create reflections. Can be less nested than episode namespaces.
+        public var namespaceTemplates: [Swift.String]?
         /// The namespaces over which to create reflections. Can be less nested than episode namespaces.
-        /// This member is required.
+        @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
 
         public init(
+            namespaceTemplates: [Swift.String]? = nil,
             namespaces: [Swift.String]? = nil
         ) {
+            self.namespaceTemplates = namespaceTemplates
             self.namespaces = namespaces
         }
     }
@@ -5925,7 +6064,10 @@ extension BedrockAgentCoreControlClientTypes {
         /// The name of the episodic memory strategy.
         /// This member is required.
         public var name: Swift.String?
+        /// The namespaceTemplates for which to create episodes.
+        public var namespaceTemplates: [Swift.String]?
         /// The namespaces for which to create episodes.
+        @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
         /// The configuration for the reflections created with the episodic memory strategy.
         public var reflectionConfiguration: BedrockAgentCoreControlClientTypes.EpisodicReflectionConfigurationInput?
@@ -5933,11 +6075,13 @@ extension BedrockAgentCoreControlClientTypes {
         public init(
             description: Swift.String? = nil,
             name: Swift.String? = nil,
+            namespaceTemplates: [Swift.String]? = nil,
             namespaces: [Swift.String]? = nil,
             reflectionConfiguration: BedrockAgentCoreControlClientTypes.EpisodicReflectionConfigurationInput? = nil
         ) {
             self.description = description
             self.name = name
+            self.namespaceTemplates = namespaceTemplates
             self.namespaces = namespaces
             self.reflectionConfiguration = reflectionConfiguration
         }
@@ -5946,7 +6090,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.EpisodicMemoryStrategyInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EpisodicMemoryStrategyInput(name: \(Swift.String(describing: name)), namespaces: \(Swift.String(describing: namespaces)), reflectionConfiguration: \(Swift.String(describing: reflectionConfiguration)), description: \"CONTENT_REDACTED\")"}
+        "EpisodicMemoryStrategyInput(name: \(Swift.String(describing: name)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), reflectionConfiguration: \(Swift.String(describing: reflectionConfiguration)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -5958,16 +6102,21 @@ extension BedrockAgentCoreControlClientTypes {
         /// The name of the semantic memory strategy.
         /// This member is required.
         public var name: Swift.String?
+        /// The namespaceTemplates associated with the semantic memory strategy.
+        public var namespaceTemplates: [Swift.String]?
         /// The namespaces associated with the semantic memory strategy.
+        @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
 
         public init(
             description: Swift.String? = nil,
             name: Swift.String? = nil,
+            namespaceTemplates: [Swift.String]? = nil,
             namespaces: [Swift.String]? = nil
         ) {
             self.description = description
             self.name = name
+            self.namespaceTemplates = namespaceTemplates
             self.namespaces = namespaces
         }
     }
@@ -5975,7 +6124,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.SemanticMemoryStrategyInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SemanticMemoryStrategyInput(name: \(Swift.String(describing: name)), namespaces: \(Swift.String(describing: namespaces)), description: \"CONTENT_REDACTED\")"}
+        "SemanticMemoryStrategyInput(name: \(Swift.String(describing: name)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -5987,16 +6136,21 @@ extension BedrockAgentCoreControlClientTypes {
         /// The name of the summary memory strategy.
         /// This member is required.
         public var name: Swift.String?
+        /// The namespaceTemplates associated with the summary memory strategy.
+        public var namespaceTemplates: [Swift.String]?
         /// The namespaces associated with the summary memory strategy.
+        @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
 
         public init(
             description: Swift.String? = nil,
             name: Swift.String? = nil,
+            namespaceTemplates: [Swift.String]? = nil,
             namespaces: [Swift.String]? = nil
         ) {
             self.description = description
             self.name = name
+            self.namespaceTemplates = namespaceTemplates
             self.namespaces = namespaces
         }
     }
@@ -6004,7 +6158,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.SummaryMemoryStrategyInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SummaryMemoryStrategyInput(name: \(Swift.String(describing: name)), namespaces: \(Swift.String(describing: namespaces)), description: \"CONTENT_REDACTED\")"}
+        "SummaryMemoryStrategyInput(name: \(Swift.String(describing: name)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -6016,16 +6170,21 @@ extension BedrockAgentCoreControlClientTypes {
         /// The name of the user preference memory strategy.
         /// This member is required.
         public var name: Swift.String?
+        /// The namespaceTemplates associated with the user preference memory strategy.
+        public var namespaceTemplates: [Swift.String]?
         /// The namespaces associated with the user preference memory strategy.
+        @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
 
         public init(
             description: Swift.String? = nil,
             name: Swift.String? = nil,
+            namespaceTemplates: [Swift.String]? = nil,
             namespaces: [Swift.String]? = nil
         ) {
             self.description = description
             self.name = name
+            self.namespaceTemplates = namespaceTemplates
             self.namespaces = namespaces
         }
     }
@@ -6033,7 +6192,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.UserPreferenceMemoryStrategyInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UserPreferenceMemoryStrategyInput(name: \(Swift.String(describing: name)), namespaces: \(Swift.String(describing: namespaces)), description: \"CONTENT_REDACTED\")"}
+        "UserPreferenceMemoryStrategyInput(name: \(Swift.String(describing: name)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -6503,16 +6662,21 @@ extension BedrockAgentCoreControlClientTypes {
         /// The model ID used for the reflection step of the episodic memory strategy.
         /// This member is required.
         public var modelId: Swift.String?
+        /// The namespaceTemplates over which reflections were created. Can be less nested than the episodic namespaces.
+        public var namespaceTemplates: [Swift.String]?
         /// The namespaces over which reflections were created. Can be less nested than the episodic namespaces.
+        @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
 
         public init(
             appendToPrompt: Swift.String? = nil,
             modelId: Swift.String? = nil,
+            namespaceTemplates: [Swift.String]? = nil,
             namespaces: [Swift.String]? = nil
         ) {
             self.appendToPrompt = appendToPrompt
             self.modelId = modelId
+            self.namespaceTemplates = namespaceTemplates
             self.namespaces = namespaces
         }
     }
@@ -6520,7 +6684,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.EpisodicReflectionOverride: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EpisodicReflectionOverride(modelId: \(Swift.String(describing: modelId)), namespaces: \(Swift.String(describing: namespaces)), appendToPrompt: \"CONTENT_REDACTED\")"}
+        "EpisodicReflectionOverride(modelId: \(Swift.String(describing: modelId)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), appendToPrompt: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -6537,13 +6701,17 @@ extension BedrockAgentCoreControlClientTypes {
 
     /// The configuration for the reflections created with the episodic memory strategy.
     public struct EpisodicReflectionConfiguration: Swift.Sendable {
+        /// The namespaceTemplates for which to create reflections. Can be less nested than the episodic namespaces.
+        public var namespaceTemplates: [Swift.String]?
         /// The namespaces for which to create reflections. Can be less nested than the episodic namespaces.
-        /// This member is required.
+        @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
 
         public init(
+            namespaceTemplates: [Swift.String]? = nil,
             namespaces: [Swift.String]? = nil
         ) {
+            self.namespaceTemplates = namespaceTemplates
             self.namespaces = namespaces
         }
     }
@@ -6822,8 +6990,12 @@ extension BedrockAgentCoreControlClientTypes {
         /// The name of the memory strategy.
         /// This member is required.
         public var name: Swift.String?
+        /// The namespaceTemplates associated with the memory strategy.
+        /// This member is required.
+        public var namespaceTemplates: [Swift.String]?
         /// The namespaces associated with the memory strategy.
         /// This member is required.
+        @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
         /// The current status of the memory strategy.
         public var status: BedrockAgentCoreControlClientTypes.MemoryStrategyStatus?
@@ -6841,6 +7013,7 @@ extension BedrockAgentCoreControlClientTypes {
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             name: Swift.String? = nil,
+            namespaceTemplates: [Swift.String]? = nil,
             namespaces: [Swift.String]? = nil,
             status: BedrockAgentCoreControlClientTypes.MemoryStrategyStatus? = nil,
             strategyId: Swift.String? = nil,
@@ -6851,6 +7024,7 @@ extension BedrockAgentCoreControlClientTypes {
             self.createdAt = createdAt
             self.description = description
             self.name = name
+            self.namespaceTemplates = namespaceTemplates
             self.namespaces = namespaces
             self.status = status
             self.strategyId = strategyId
@@ -6862,7 +7036,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.MemoryStrategy: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "MemoryStrategy(configuration: \(Swift.String(describing: configuration)), createdAt: \(Swift.String(describing: createdAt)), name: \(Swift.String(describing: name)), namespaces: \(Swift.String(describing: namespaces)), status: \(Swift.String(describing: status)), strategyId: \(Swift.String(describing: strategyId)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "MemoryStrategy(configuration: \(Swift.String(describing: configuration)), createdAt: \(Swift.String(describing: createdAt)), name: \(Swift.String(describing: name)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), status: \(Swift.String(describing: status)), strategyId: \(Swift.String(describing: strategyId)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -7272,18 +7446,23 @@ extension BedrockAgentCoreControlClientTypes {
         /// The unique identifier of the memory strategy to modify.
         /// This member is required.
         public var memoryStrategyId: Swift.String?
+        /// The updated namespaceTemplates for the memory strategy.
+        public var namespaceTemplates: [Swift.String]?
         /// The updated namespaces for the memory strategy.
+        @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
 
         public init(
             configuration: BedrockAgentCoreControlClientTypes.ModifyStrategyConfiguration? = nil,
             description: Swift.String? = nil,
             memoryStrategyId: Swift.String? = nil,
+            namespaceTemplates: [Swift.String]? = nil,
             namespaces: [Swift.String]? = nil
         ) {
             self.configuration = configuration
             self.description = description
             self.memoryStrategyId = memoryStrategyId
+            self.namespaceTemplates = namespaceTemplates
             self.namespaces = namespaces
         }
     }
@@ -7291,7 +7470,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.ModifyMemoryStrategyInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ModifyMemoryStrategyInput(configuration: \(Swift.String(describing: configuration)), memoryStrategyId: \(Swift.String(describing: memoryStrategyId)), namespaces: \(Swift.String(describing: namespaces)), description: \"CONTENT_REDACTED\")"}
+        "ModifyMemoryStrategyInput(configuration: \(Swift.String(describing: configuration)), memoryStrategyId: \(Swift.String(describing: memoryStrategyId)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -12419,8 +12598,10 @@ extension CreateBrowserInput {
     static func write(value: CreateBrowserInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["browserSigning"].write(value.browserSigning, with: BedrockAgentCoreControlClientTypes.BrowserSigningConfigInput.write(value:to:))
+        try writer["certificates"].writeList(value.certificates, memberWritingClosure: BedrockAgentCoreControlClientTypes.Certificate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
+        try writer["enterprisePolicies"].writeList(value.enterprisePolicies, memberWritingClosure: BedrockAgentCoreControlClientTypes.BrowserEnterprisePolicy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["executionRoleArn"].write(value.executionRoleArn)
         try writer["name"].write(value.name)
         try writer["networkConfiguration"].write(value.networkConfiguration, with: BedrockAgentCoreControlClientTypes.BrowserNetworkConfiguration.write(value:to:))
@@ -12444,6 +12625,7 @@ extension CreateCodeInterpreterInput {
 
     static func write(value: CreateCodeInterpreterInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["certificates"].writeList(value.certificates, memberWritingClosure: BedrockAgentCoreControlClientTypes.Certificate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
         try writer["executionRoleArn"].write(value.executionRoleArn)
@@ -13405,8 +13587,10 @@ extension GetBrowserOutput {
         value.browserArn = try reader["browserArn"].readIfPresent() ?? ""
         value.browserId = try reader["browserId"].readIfPresent() ?? ""
         value.browserSigning = try reader["browserSigning"].readIfPresent(with: BedrockAgentCoreControlClientTypes.BrowserSigningConfigOutput.read(from:))
+        value.certificates = try reader["certificates"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.Certificate.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
+        value.enterprisePolicies = try reader["enterprisePolicies"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.BrowserEnterprisePolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
         value.failureReason = try reader["failureReason"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -13446,6 +13630,7 @@ extension GetCodeInterpreterOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetCodeInterpreterOutput()
+        value.certificates = try reader["certificates"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.Certificate.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.codeInterpreterArn = try reader["codeInterpreterArn"].readIfPresent() ?? ""
         value.codeInterpreterId = try reader["codeInterpreterId"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -16305,6 +16490,23 @@ extension BedrockAgentCoreControlClientTypes.BedrockEvaluatorModelConfig {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.BrowserEnterprisePolicy {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.BrowserEnterprisePolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["location"].write(value.location, with: BedrockAgentCoreControlClientTypes.ResourceLocation.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.BrowserEnterprisePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.BrowserEnterprisePolicy()
+        value.location = try reader["location"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ResourceLocation.read(from:))
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.BrowserNetworkConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.BrowserNetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -16404,6 +16606,45 @@ extension BedrockAgentCoreControlClientTypes.CedarPolicy {
         var value = BedrockAgentCoreControlClientTypes.CedarPolicy()
         value.statement = try reader["statement"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.Certificate {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.Certificate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["location"].write(value.location, with: BedrockAgentCoreControlClientTypes.CertificateLocation.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Certificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.Certificate()
+        value.location = try reader["location"].readIfPresent(with: BedrockAgentCoreControlClientTypes.CertificateLocation.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.CertificateLocation {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.CertificateLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .secretsmanager(secretsmanager):
+                try writer["secretsManager"].write(secretsmanager, with: BedrockAgentCoreControlClientTypes.SecretsManagerLocation.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CertificateLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "secretsManager":
+                return .secretsmanager(try reader["secretsManager"].read(with: BedrockAgentCoreControlClientTypes.SecretsManagerLocation.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -16786,6 +17027,7 @@ extension BedrockAgentCoreControlClientTypes.CustomMemoryStrategyInput {
         try writer["configuration"].write(value.configuration, with: BedrockAgentCoreControlClientTypes.CustomConfigurationInput.write(value:to:))
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
+        try writer["namespaceTemplates"].writeList(value.namespaceTemplates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -16898,6 +17140,7 @@ extension BedrockAgentCoreControlClientTypes.EpisodicMemoryStrategyInput {
         guard let value else { return }
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
+        try writer["namespaceTemplates"].writeList(value.namespaceTemplates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["reflectionConfiguration"].write(value.reflectionConfiguration, with: BedrockAgentCoreControlClientTypes.EpisodicReflectionConfigurationInput.write(value:to:))
     }
@@ -16937,6 +17180,7 @@ extension BedrockAgentCoreControlClientTypes.EpisodicOverrideReflectionConfigura
         guard let value else { return }
         try writer["appendToPrompt"].write(value.appendToPrompt)
         try writer["modelId"].write(value.modelId)
+        try writer["namespaceTemplates"].writeList(value.namespaceTemplates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -16946,7 +17190,8 @@ extension BedrockAgentCoreControlClientTypes.EpisodicReflectionConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.EpisodicReflectionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreControlClientTypes.EpisodicReflectionConfiguration()
-        value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.namespaceTemplates = try reader["namespaceTemplates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -16955,6 +17200,7 @@ extension BedrockAgentCoreControlClientTypes.EpisodicReflectionConfigurationInpu
 
     static func write(value: BedrockAgentCoreControlClientTypes.EpisodicReflectionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["namespaceTemplates"].writeList(value.namespaceTemplates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -16967,6 +17213,7 @@ extension BedrockAgentCoreControlClientTypes.EpisodicReflectionOverride {
         value.appendToPrompt = try reader["appendToPrompt"].readIfPresent() ?? ""
         value.modelId = try reader["modelId"].readIfPresent() ?? ""
         value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.namespaceTemplates = try reader["namespaceTemplates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -17629,6 +17876,7 @@ extension BedrockAgentCoreControlClientTypes.MemoryStrategy {
         value.configuration = try reader["configuration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.StrategyConfiguration.read(from:))
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.namespaceTemplates = try reader["namespaceTemplates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.status = try reader["status"].readIfPresent()
@@ -17781,6 +18029,7 @@ extension BedrockAgentCoreControlClientTypes.ModifyMemoryStrategyInput {
         try writer["configuration"].write(value.configuration, with: BedrockAgentCoreControlClientTypes.ModifyStrategyConfiguration.write(value:to:))
         try writer["description"].write(value.description)
         try writer["memoryStrategyId"].write(value.memoryStrategyId)
+        try writer["namespaceTemplates"].writeList(value.namespaceTemplates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -18270,6 +18519,30 @@ extension BedrockAgentCoreControlClientTypes.Resource {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.ResourceLocation {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ResourceLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .s3(s3):
+                try writer["s3"].write(s3, with: BedrockAgentCoreControlClientTypes.S3Location.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ResourceLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3":
+                return .s3(try reader["s3"].read(with: BedrockAgentCoreControlClientTypes.S3Location.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.Rule {
 
     static func write(value: BedrockAgentCoreControlClientTypes.Rule?, to writer: SmithyJSON.Writer) throws {
@@ -18408,6 +18681,21 @@ extension BedrockAgentCoreControlClientTypes.Secret {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.SecretsManagerLocation {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.SecretsManagerLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["secretArn"].write(value.secretArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SecretsManagerLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.SecretsManagerLocation()
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.SelfManagedConfiguration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SelfManagedConfiguration {
@@ -18458,6 +18746,7 @@ extension BedrockAgentCoreControlClientTypes.SemanticMemoryStrategyInput {
         guard let value else { return }
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
+        try writer["namespaceTemplates"].writeList(value.namespaceTemplates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -18594,6 +18883,7 @@ extension BedrockAgentCoreControlClientTypes.SummaryMemoryStrategyInput {
         guard let value else { return }
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
+        try writer["namespaceTemplates"].writeList(value.namespaceTemplates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -18810,6 +19100,7 @@ extension BedrockAgentCoreControlClientTypes.UserPreferenceMemoryStrategyInput {
         guard let value else { return }
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
+        try writer["namespaceTemplates"].writeList(value.namespaceTemplates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }

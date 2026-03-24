@@ -124,6 +124,10 @@ class RulesBasedAuthSchemeResolverGenerator {
                             "sigV4Option.signingProperties.set(key: \$N.signingRegion, value: param.signingRegionSet?[0])",
                             SmithyHTTPAuthAPITypes.SigningPropertyKeys,
                         )
+                        write(
+                            "sigV4Option.signingProperties.set(key: \$N.sigV4aSigningRegionSet, value: param.signingRegionSet)",
+                            SmithyHTTPAuthAPITypes.SigningPropertyKeys,
+                        )
                         write("validAuthOptions.append(sigV4Option)")
                         dedent()
                         // sigv4-s3express case
