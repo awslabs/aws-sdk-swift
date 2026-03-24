@@ -1150,7 +1150,7 @@ extension PCSClientTypes {
         /// The software PCS uses to manage cluster scaling and job scheduling.
         /// This member is required.
         public var type: PCSClientTypes.SchedulerType?
-        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
+        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 24.11 | 25.05
         /// This member is required.
         public var version: Swift.String?
 
@@ -1192,6 +1192,48 @@ extension PCSClientTypes {
             case .small: return "SMALL"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// Additional settings that directly map to Cgroup settings. PCS supports a subset of Cgroup settings. For more information, see [Configuring custom Cgroup settings in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/cgroup-custom-settings.html) in the PCS User Guide.
+    public struct CgroupCustomSetting: Swift.Sendable {
+        /// PCS supports custom Cgroup settings for clusters. For more information, see [Configuring custom Cgroup settings in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/cgroup-custom-settings.html) in the PCS User Guide.
+        /// This member is required.
+        public var parameterName: Swift.String?
+        /// The values for the configured Cgroup settings.
+        /// This member is required.
+        public var parameterValue: Swift.String?
+
+        public init(
+            parameterName: Swift.String? = nil,
+            parameterValue: Swift.String? = nil
+        ) {
+            self.parameterName = parameterName
+            self.parameterValue = parameterValue
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// Additional settings that directly map to SlurmDBD settings. PCS supports a subset of SlurmDBD settings. For more information, see [Configuring custom SlurmDBD settings in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurmdbd-custom-settings.html) in the PCS User Guide.
+    public struct SlurmdbdCustomSetting: Swift.Sendable {
+        /// PCS supports custom SlurmDBD settings for clusters. For more information, see [Configuring custom SlurmDBD settings in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurmdbd-custom-settings.html) in the PCS User Guide.
+        /// This member is required.
+        public var parameterName: Swift.String?
+        /// The values for the configured SlurmDBD settings.
+        /// This member is required.
+        public var parameterValue: Swift.String?
+
+        public init(
+            parameterName: Swift.String? = nil,
+            parameterValue: Swift.String? = nil
+        ) {
+            self.parameterName = parameterName
+            self.parameterValue = parameterValue
         }
     }
 }
@@ -1247,23 +1289,31 @@ extension PCSClientTypes {
     public struct ClusterSlurmConfigurationRequest: Swift.Sendable {
         /// The accounting configuration includes configurable settings for Slurm accounting.
         public var accounting: PCSClientTypes.AccountingRequest?
+        /// Additional Cgroup-specific configuration that directly maps to Cgroup settings.
+        public var cgroupCustomSettings: [PCSClientTypes.CgroupCustomSetting]?
         /// The time (in seconds) before an idle node is scaled down. Default: 600
         public var scaleDownIdleTimeInSeconds: Swift.Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
         /// The Slurm REST API configuration for the cluster.
         public var slurmRest: PCSClientTypes.SlurmRestRequest?
+        /// Additional SlurmDBD-specific configuration that directly maps to SlurmDBD settings.
+        public var slurmdbdCustomSettings: [PCSClientTypes.SlurmdbdCustomSetting]?
 
         public init(
             accounting: PCSClientTypes.AccountingRequest? = nil,
+            cgroupCustomSettings: [PCSClientTypes.CgroupCustomSetting]? = nil,
             scaleDownIdleTimeInSeconds: Swift.Int? = nil,
             slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil,
-            slurmRest: PCSClientTypes.SlurmRestRequest? = nil
+            slurmRest: PCSClientTypes.SlurmRestRequest? = nil,
+            slurmdbdCustomSettings: [PCSClientTypes.SlurmdbdCustomSetting]? = nil
         ) {
             self.accounting = accounting
+            self.cgroupCustomSettings = cgroupCustomSettings
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
             self.slurmRest = slurmRest
+            self.slurmdbdCustomSettings = slurmdbdCustomSettings
         }
     }
 }
@@ -1439,7 +1489,7 @@ extension PCSClientTypes {
         /// The software PCS uses to manage cluster scaling and job scheduling.
         /// This member is required.
         public var type: PCSClientTypes.SchedulerType?
-        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
+        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11 | 25.05
         /// This member is required.
         public var version: Swift.String?
 
@@ -1534,6 +1584,8 @@ extension PCSClientTypes {
         public var accounting: PCSClientTypes.Accounting?
         /// The shared Slurm key for authentication, also known as the cluster secret.
         public var authKey: PCSClientTypes.SlurmAuthKey?
+        /// Additional Cgroup-specific configuration that directly maps to Cgroup settings.
+        public var cgroupCustomSettings: [PCSClientTypes.CgroupCustomSetting]?
         /// The JWT authentication configuration for Slurm REST API access.
         public var jwtAuth: PCSClientTypes.JwtAuth?
         /// The time (in seconds) before an idle node is scaled down. Default: 600
@@ -1542,21 +1594,27 @@ extension PCSClientTypes {
         public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
         /// The Slurm REST API configuration for the cluster.
         public var slurmRest: PCSClientTypes.SlurmRest?
+        /// Additional SlurmDBD-specific configuration that directly maps to SlurmDBD settings.
+        public var slurmdbdCustomSettings: [PCSClientTypes.SlurmdbdCustomSetting]?
 
         public init(
             accounting: PCSClientTypes.Accounting? = nil,
             authKey: PCSClientTypes.SlurmAuthKey? = nil,
+            cgroupCustomSettings: [PCSClientTypes.CgroupCustomSetting]? = nil,
             jwtAuth: PCSClientTypes.JwtAuth? = nil,
             scaleDownIdleTimeInSeconds: Swift.Int? = nil,
             slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil,
-            slurmRest: PCSClientTypes.SlurmRest? = nil
+            slurmRest: PCSClientTypes.SlurmRest? = nil,
+            slurmdbdCustomSettings: [PCSClientTypes.SlurmdbdCustomSetting]? = nil
         ) {
             self.accounting = accounting
             self.authKey = authKey
+            self.cgroupCustomSettings = cgroupCustomSettings
             self.jwtAuth = jwtAuth
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
             self.slurmRest = slurmRest
+            self.slurmdbdCustomSettings = slurmdbdCustomSettings
         }
     }
 }
@@ -2291,23 +2349,31 @@ extension PCSClientTypes {
     public struct UpdateClusterSlurmConfigurationRequest: Swift.Sendable {
         /// The accounting configuration includes configurable settings for Slurm accounting.
         public var accounting: PCSClientTypes.UpdateAccountingRequest?
+        /// Additional Cgroup-specific configuration that directly maps to Cgroup settings.
+        public var cgroupCustomSettings: [PCSClientTypes.CgroupCustomSetting]?
         /// The time (in seconds) before an idle node is scaled down. Default: 600
         public var scaleDownIdleTimeInSeconds: Swift.Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
         /// The Slurm REST API configuration for the cluster.
         public var slurmRest: PCSClientTypes.UpdateSlurmRestRequest?
+        /// Additional SlurmDBD-specific configuration that directly maps to SlurmDBD settings.
+        public var slurmdbdCustomSettings: [PCSClientTypes.SlurmdbdCustomSetting]?
 
         public init(
             accounting: PCSClientTypes.UpdateAccountingRequest? = nil,
+            cgroupCustomSettings: [PCSClientTypes.CgroupCustomSetting]? = nil,
             scaleDownIdleTimeInSeconds: Swift.Int? = nil,
             slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil,
-            slurmRest: PCSClientTypes.UpdateSlurmRestRequest? = nil
+            slurmRest: PCSClientTypes.UpdateSlurmRestRequest? = nil,
+            slurmdbdCustomSettings: [PCSClientTypes.SlurmdbdCustomSetting]? = nil
         ) {
             self.accounting = accounting
+            self.cgroupCustomSettings = cgroupCustomSettings
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
             self.slurmRest = slurmRest
+            self.slurmdbdCustomSettings = slurmdbdCustomSettings
         }
     }
 }
@@ -3429,6 +3495,23 @@ extension PCSClientTypes.AccountingRequest {
     }
 }
 
+extension PCSClientTypes.CgroupCustomSetting {
+
+    static func write(value: PCSClientTypes.CgroupCustomSetting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["parameterName"].write(value.parameterName)
+        try writer["parameterValue"].write(value.parameterValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.CgroupCustomSetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.CgroupCustomSetting()
+        value.parameterName = try reader["parameterName"].readIfPresent() ?? ""
+        value.parameterValue = try reader["parameterValue"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension PCSClientTypes.Cluster {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.Cluster {
@@ -3457,6 +3540,8 @@ extension PCSClientTypes.ClusterSlurmConfiguration {
         var value = PCSClientTypes.ClusterSlurmConfiguration()
         value.scaleDownIdleTimeInSeconds = try reader["scaleDownIdleTimeInSeconds"].readIfPresent()
         value.slurmCustomSettings = try reader["slurmCustomSettings"].readListIfPresent(memberReadingClosure: PCSClientTypes.SlurmCustomSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.slurmdbdCustomSettings = try reader["slurmdbdCustomSettings"].readListIfPresent(memberReadingClosure: PCSClientTypes.SlurmdbdCustomSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cgroupCustomSettings = try reader["cgroupCustomSettings"].readListIfPresent(memberReadingClosure: PCSClientTypes.CgroupCustomSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.authKey = try reader["authKey"].readIfPresent(with: PCSClientTypes.SlurmAuthKey.read(from:))
         value.jwtAuth = try reader["jwtAuth"].readIfPresent(with: PCSClientTypes.JwtAuth.read(from:))
         value.accounting = try reader["accounting"].readIfPresent(with: PCSClientTypes.Accounting.read(from:))
@@ -3470,9 +3555,11 @@ extension PCSClientTypes.ClusterSlurmConfigurationRequest {
     static func write(value: PCSClientTypes.ClusterSlurmConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["accounting"].write(value.accounting, with: PCSClientTypes.AccountingRequest.write(value:to:))
+        try writer["cgroupCustomSettings"].writeList(value.cgroupCustomSettings, memberWritingClosure: PCSClientTypes.CgroupCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["scaleDownIdleTimeInSeconds"].write(value.scaleDownIdleTimeInSeconds)
         try writer["slurmCustomSettings"].writeList(value.slurmCustomSettings, memberWritingClosure: PCSClientTypes.SlurmCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["slurmRest"].write(value.slurmRest, with: PCSClientTypes.SlurmRestRequest.write(value:to:))
+        try writer["slurmdbdCustomSettings"].writeList(value.slurmdbdCustomSettings, memberWritingClosure: PCSClientTypes.SlurmdbdCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -3787,6 +3874,23 @@ extension PCSClientTypes.SlurmCustomSetting {
     }
 }
 
+extension PCSClientTypes.SlurmdbdCustomSetting {
+
+    static func write(value: PCSClientTypes.SlurmdbdCustomSetting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["parameterName"].write(value.parameterName)
+        try writer["parameterValue"].write(value.parameterValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.SlurmdbdCustomSetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.SlurmdbdCustomSetting()
+        value.parameterName = try reader["parameterName"].readIfPresent() ?? ""
+        value.parameterValue = try reader["parameterValue"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension PCSClientTypes.SlurmRest {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.SlurmRest {
@@ -3834,9 +3938,11 @@ extension PCSClientTypes.UpdateClusterSlurmConfigurationRequest {
     static func write(value: PCSClientTypes.UpdateClusterSlurmConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["accounting"].write(value.accounting, with: PCSClientTypes.UpdateAccountingRequest.write(value:to:))
+        try writer["cgroupCustomSettings"].writeList(value.cgroupCustomSettings, memberWritingClosure: PCSClientTypes.CgroupCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["scaleDownIdleTimeInSeconds"].write(value.scaleDownIdleTimeInSeconds)
         try writer["slurmCustomSettings"].writeList(value.slurmCustomSettings, memberWritingClosure: PCSClientTypes.SlurmCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["slurmRest"].write(value.slurmRest, with: PCSClientTypes.UpdateSlurmRestRequest.write(value:to:))
+        try writer["slurmdbdCustomSettings"].writeList(value.slurmdbdCustomSettings, memberWritingClosure: PCSClientTypes.SlurmdbdCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

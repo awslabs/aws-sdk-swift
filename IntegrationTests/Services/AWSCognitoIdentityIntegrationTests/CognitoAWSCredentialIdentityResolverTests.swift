@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import AWSClientRuntime
 import AWSCognitoIdentity
 import AWSIAM
 import AWSSDKIdentity
@@ -96,7 +97,10 @@ class CognitoAWSCredentialIdentityResolverTests: XCTestCase {
         )
         let cognitoStsClient = STSClient(config: cognitoStsConfig)
 
-        // Retry to handle IAM eventual consistency
+        // Retry with exponential backoff to handle IAM eventual consistency
+        // Only retry on errors indicating credentials aren't propagated yet
+        // Worst-case wait: 5+10+20+20 = 55s
+        let retryableErrorCodes: Set<String> = ["InvalidClientTokenId", "AccessDenied"]
         var lastError: Error?
         let totalRetries = 5
         for attempt in 0..<totalRetries {
@@ -114,9 +118,16 @@ class CognitoAWSCredentialIdentityResolverTests: XCTestCase {
                 XCTAssertTrue(arn.contains(roleName))
                 return
             } catch {
+                guard let serviceError = error as? AWSServiceError,
+                      let code = serviceError.errorCode,
+                      retryableErrorCodes.contains(code) else {
+                    throw error
+                }
                 lastError = error
                 if attempt < (totalRetries-1) {
-                    try await Task.sleep(nanoseconds: 3_000_000_000) // 3 seconds
+                    // Exponential backoff: 5s, 10s, 20s, 20s
+                    let delay = min(5_000_000_000 * UInt64(1 << attempt), 20_000_000_000)
+                    try await Task.sleep(nanoseconds: delay)
                 }
             }
         }
