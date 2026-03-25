@@ -12,7 +12,9 @@ import AWSSTS
 import AWSIAM
 import AWSSDKIdentity
 import ClientRuntime
+#if canImport(SmithyOpenTelemetry)
 import SmithyOpenTelemetry
+#endif
 
 class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
     private let region = "us-east-1"
@@ -95,6 +97,7 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
         throw lastError!
     }
 
+    #if canImport(SmithyOpenTelemetry)
     // OpenTelemetry Tracing works as expected
     func testGetCallerIdentityWithOTelTracing() async throws {
         let inMemoryExporter = InMemoryExporter()
@@ -117,6 +120,7 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
             "Expected STS.GetCallerIdentity span not found"
         )
     }
+    #endif
 
     // MARK: - Setup & teardown
 
