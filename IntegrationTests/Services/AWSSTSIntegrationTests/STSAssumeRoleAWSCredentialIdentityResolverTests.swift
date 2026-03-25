@@ -97,18 +97,10 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
         throw lastError!
     }
 
-    // Right now opentelemetry-swift doesnt support linux
     #if canImport(SmithyOpenTelemetry)
     // OpenTelemetry Tracing works as expected
     func testGetCallerIdentityWithOTelTracing() async throws {
         let inMemoryExporter = InMemoryExporter()
-
-        // TODO: Uncomment below and import at top of file when linux is supported by opentelemetry-swift
-        //#if os(Linux)
-        // On Apple platforms, the default is the activity based context manager. We want to opt-in to the structured concurrency based context manager instead.
-        // OpenTelemetry.registerDefaultConcurrencyContextManager()
-        //#endif
-
         let config = try await STSClient.STSClientConfig(
             region: "us-west-2",
             telemetryProvider: OpenTelemetrySwift.provider(spanExporter: inMemoryExporter)
