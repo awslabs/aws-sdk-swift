@@ -23,7 +23,7 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
 
     // STS client with only the STSAssumeRoleAWSCredentialIdentityResolver configured.
     private var assumeRoleStsClient: STSClient!
-    private var assumeRoleStsConfig: STSClient.STSClientConfiguration!
+    private var assumeRoleStsConfig: STSClient.STSClientConfig!
 
     // Used to create temporary role assumed by STS assume role credentials provider.
     private var iamClient: IAMClient!
@@ -97,19 +97,11 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
         throw lastError!
     }
 
-    // Right now opentelemetry-swift doesnt support linux
     #if canImport(SmithyOpenTelemetry)
     // OpenTelemetry Tracing works as expected
     func testGetCallerIdentityWithOTelTracing() async throws {
         let inMemoryExporter = InMemoryExporter()
-
-        // TODO: Uncomment below and import at top of file when linux is supported by opentelemetry-swift
-        //#if os(Linux)
-        // On Apple platforms, the default is the activity based context manager. We want to opt-in to the structured concurrency based context manager instead.
-        // OpenTelemetry.registerDefaultConcurrencyContextManager()
-        //#endif
-
-        let config = try await STSClient.STSClientConfiguration(
+        let config = try await STSClient.STSClientConfig(
             region: "us-west-2",
             telemetryProvider: OpenTelemetrySwift.provider(spanExporter: inMemoryExporter)
         )
@@ -162,7 +154,7 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
             roleArn: roleArn,
             sessionName: roleSessionName
         )
-        assumeRoleStsConfig = try await STSClient.STSClientConfiguration(
+        assumeRoleStsConfig = try await STSClient.STSClientConfig(
             awsCredentialIdentityResolver: assumeRoleAWSCredentialIdentityResolver,
             region: region
         )
