@@ -803,6 +803,73 @@ extension MarketplaceAgreementClientTypes {
     }
 }
 
+extension MarketplaceAgreementClientTypes {
+
+    public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agreement
+        case charge
+        case paymentRequest
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceType] {
+            return [
+                .agreement,
+                .charge,
+                .paymentRequest
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .agreement: return "Agreement"
+            case .charge: return "Charge"
+            case .paymentRequest: return "PaymentRequest"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The request could not be completed due to a conflict with the current state of the resource.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The unique identifier for the error.
+        public internal(set) var requestId: Swift.String? = nil
+        /// The unique identifier for the resource.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of resource.
+        public internal(set) var resourceType: MarketplaceAgreementClientTypes.ResourceType? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: MarketplaceAgreementClientTypes.ResourceType? = nil
+    ) {
+        self.properties.message = message
+        self.properties.requestId = requestId
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
 /// Unexpected error during processing of request.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -827,32 +894,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     ) {
         self.properties.message = message
         self.properties.requestId = requestId
-    }
-}
-
-extension MarketplaceAgreementClientTypes {
-
-    public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case agreement
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ResourceType] {
-            return [
-                .agreement
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .agreement: return "Agreement"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -944,13 +985,26 @@ extension MarketplaceAgreementClientTypes {
     public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case invalidAgreementId
         case invalidCatalog
+        case invalidChargeAmount
+        case invalidDescription
         case invalidFilterName
         case invalidFilterValues
         case invalidMaxResults
+        case invalidName
         case invalidNextToken
+        case invalidPartyType
+        case invalidPaymentRequestId
+        case invalidPaymentRequestStatus
+        case invalidRejectionReason
         case invalidSortBy
         case invalidSortOrder
+        case invalidTermId
         case missingAgreementId
+        case missingChargeAmount
+        case missingName
+        case missingPartyType
+        case missingPaymentRequestId
+        case missingTermId
         case other
         case unsupportedFilters
         case sdkUnknown(Swift.String)
@@ -959,13 +1013,26 @@ extension MarketplaceAgreementClientTypes {
             return [
                 .invalidAgreementId,
                 .invalidCatalog,
+                .invalidChargeAmount,
+                .invalidDescription,
                 .invalidFilterName,
                 .invalidFilterValues,
                 .invalidMaxResults,
+                .invalidName,
                 .invalidNextToken,
+                .invalidPartyType,
+                .invalidPaymentRequestId,
+                .invalidPaymentRequestStatus,
+                .invalidRejectionReason,
                 .invalidSortBy,
                 .invalidSortOrder,
+                .invalidTermId,
                 .missingAgreementId,
+                .missingChargeAmount,
+                .missingName,
+                .missingPartyType,
+                .missingPaymentRequestId,
+                .missingTermId,
                 .other,
                 .unsupportedFilters
             ]
@@ -980,13 +1047,26 @@ extension MarketplaceAgreementClientTypes {
             switch self {
             case .invalidAgreementId: return "INVALID_AGREEMENT_ID"
             case .invalidCatalog: return "INVALID_CATALOG"
+            case .invalidChargeAmount: return "INVALID_CHARGE_AMOUNT"
+            case .invalidDescription: return "INVALID_DESCRIPTION"
             case .invalidFilterName: return "INVALID_FILTER_NAME"
             case .invalidFilterValues: return "INVALID_FILTER_VALUES"
             case .invalidMaxResults: return "INVALID_MAX_RESULTS"
+            case .invalidName: return "INVALID_NAME"
             case .invalidNextToken: return "INVALID_NEXT_TOKEN"
+            case .invalidPartyType: return "INVALID_PARTY_TYPE"
+            case .invalidPaymentRequestId: return "INVALID_PAYMENT_REQUEST_ID"
+            case .invalidPaymentRequestStatus: return "INVALID_PAYMENT_REQUEST_STATUS"
+            case .invalidRejectionReason: return "INVALID_REJECTION_REASON"
             case .invalidSortBy: return "INVALID_SORT_BY"
             case .invalidSortOrder: return "INVALID_SORT_ORDER"
+            case .invalidTermId: return "INVALID_TERM_ID"
             case .missingAgreementId: return "MISSING_AGREEMENT_ID"
+            case .missingChargeAmount: return "MISSING_CHARGE_AMOUNT"
+            case .missingName: return "MISSING_NAME"
+            case .missingPartyType: return "MISSING_PARTY_TYPE"
+            case .missingPaymentRequestId: return "MISSING_PAYMENT_REQUEST_ID"
+            case .missingTermId: return "MISSING_TERM_ID"
             case .other: return "OTHER"
             case .unsupportedFilters: return "UNSUPPORTED_FILTERS"
             case let .sdkUnknown(s): return s
@@ -1028,6 +1108,112 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         self.properties.reason = reason
         self.properties.requestId = requestId
     }
+}
+
+public struct CancelAgreementPaymentRequestInput: Swift.Sendable {
+    /// The unique identifier of the agreement associated with the payment request.
+    /// This member is required.
+    public var agreementId: Swift.String?
+    /// The unique identifier of the payment request to cancel.
+    /// This member is required.
+    public var paymentRequestId: Swift.String?
+
+    public init(
+        agreementId: Swift.String? = nil,
+        paymentRequestId: Swift.String? = nil
+    ) {
+        self.agreementId = agreementId
+        self.paymentRequestId = paymentRequestId
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    public enum PaymentRequestStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approved
+        case cancelled
+        case pendingApproval
+        case rejected
+        case validating
+        case validationFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PaymentRequestStatus] {
+            return [
+                .approved,
+                .cancelled,
+                .pendingApproval,
+                .rejected,
+                .validating,
+                .validationFailed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approved: return "APPROVED"
+            case .cancelled: return "CANCELLED"
+            case .pendingApproval: return "PENDING_APPROVAL"
+            case .rejected: return "REJECTED"
+            case .validating: return "VALIDATING"
+            case .validationFailed: return "VALIDATION_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CancelAgreementPaymentRequestOutput: Swift.Sendable {
+    /// The unique identifier of the agreement associated with this payment request.
+    public var agreementId: Swift.String?
+    /// The amount that was requested to be charged.
+    public var chargeAmount: Swift.String?
+    /// The date and time when the payment request was originally created, in ISO 8601 format.
+    public var createdAt: Foundation.Date?
+    /// The currency code for the charge amount.
+    public var currencyCode: Swift.String?
+    /// The detailed description of the payment request, if provided.
+    public var description: Swift.String?
+    /// The descriptive name of the payment request.
+    public var name: Swift.String?
+    /// The unique identifier of the cancelled payment request.
+    public var paymentRequestId: Swift.String?
+    /// The updated status of the payment request, which is CANCELLED.
+    public var status: MarketplaceAgreementClientTypes.PaymentRequestStatus?
+    /// The date and time when the payment request was cancelled, in ISO 8601 format.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        agreementId: Swift.String? = nil,
+        chargeAmount: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        currencyCode: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        paymentRequestId: Swift.String? = nil,
+        status: MarketplaceAgreementClientTypes.PaymentRequestStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.agreementId = agreementId
+        self.chargeAmount = chargeAmount
+        self.createdAt = createdAt
+        self.currencyCode = currencyCode
+        self.description = description
+        self.name = name
+        self.paymentRequestId = paymentRequestId
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
+extension CancelAgreementPaymentRequestOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CancelAgreementPaymentRequestOutput(agreementId: \(Swift.String(describing: agreementId)), chargeAmount: \(Swift.String(describing: chargeAmount)), createdAt: \(Swift.String(describing: createdAt)), currencyCode: \(Swift.String(describing: currencyCode)), name: \(Swift.String(describing: name)), paymentRequestId: \(Swift.String(describing: paymentRequestId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeAgreementInput: Swift.Sendable {
@@ -1122,6 +1308,91 @@ public struct DescribeAgreementOutput: Swift.Sendable {
     }
 }
 
+public struct GetAgreementPaymentRequestInput: Swift.Sendable {
+    /// The unique identifier of the agreement associated with the payment request.
+    /// This member is required.
+    public var agreementId: Swift.String?
+    /// The identifier of the payment request.
+    /// This member is required.
+    public var paymentRequestId: Swift.String?
+
+    public init(
+        agreementId: Swift.String? = nil,
+        paymentRequestId: Swift.String? = nil
+    ) {
+        self.agreementId = agreementId
+        self.paymentRequestId = paymentRequestId
+    }
+}
+
+public struct GetAgreementPaymentRequestOutput: Swift.Sendable {
+    /// The unique identifier of the agreement associated with this payment request. Use DescribeAgreement to retrieve full agreement details.
+    public var agreementId: Swift.String?
+    /// The amount charged or to be charged to the buyer.
+    public var chargeAmount: Swift.String?
+    /// The unique identifier of the charge created after the payment request is approved. This field is only present for approved payment requests and follows the pattern ch-[a-zA-Z0-9]+.
+    public var chargeId: Swift.String?
+    /// The date and time when the payment request was created, in ISO 8601 format.
+    public var createdAt: Foundation.Date?
+    /// The currency code for the charge amount.
+    public var currencyCode: Swift.String?
+    /// The detailed description of the payment request, if provided.
+    public var description: Swift.String?
+    /// The descriptive name of the payment request.
+    public var name: Swift.String?
+    /// The unique identifier of the payment request.
+    public var paymentRequestId: Swift.String?
+    /// The current status of the payment request. Possible values include:
+    ///
+    /// * VALIDATING – The payment request is being validated against agreement terms.
+    ///
+    /// * VALIDATION_FAILED – The payment request failed validation.
+    ///
+    /// * PENDING_APPROVAL – The payment request is awaiting buyer action.
+    ///
+    /// * APPROVED – The buyer has approved the payment request.
+    ///
+    /// * REJECTED – The buyer has rejected the payment request.
+    ///
+    /// * CANCELLED – The seller has cancelled the payment request.
+    public var status: MarketplaceAgreementClientTypes.PaymentRequestStatus?
+    /// An optional message providing additional context about the payment request status, such as a rejection reason or validation failure details.
+    public var statusMessage: Swift.String?
+    /// The date and time when the payment request was last updated, in ISO 8601 format.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        agreementId: Swift.String? = nil,
+        chargeAmount: Swift.String? = nil,
+        chargeId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        currencyCode: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        paymentRequestId: Swift.String? = nil,
+        status: MarketplaceAgreementClientTypes.PaymentRequestStatus? = nil,
+        statusMessage: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.agreementId = agreementId
+        self.chargeAmount = chargeAmount
+        self.chargeId = chargeId
+        self.createdAt = createdAt
+        self.currencyCode = currencyCode
+        self.description = description
+        self.name = name
+        self.paymentRequestId = paymentRequestId
+        self.status = status
+        self.statusMessage = statusMessage
+        self.updatedAt = updatedAt
+    }
+}
+
+extension GetAgreementPaymentRequestOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetAgreementPaymentRequestOutput(agreementId: \(Swift.String(describing: agreementId)), chargeAmount: \(Swift.String(describing: chargeAmount)), chargeId: \(Swift.String(describing: chargeId)), createdAt: \(Swift.String(describing: createdAt)), currencyCode: \(Swift.String(describing: currencyCode)), name: \(Swift.String(describing: name)), paymentRequestId: \(Swift.String(describing: paymentRequestId)), status: \(Swift.String(describing: status)), statusMessage: \(Swift.String(describing: statusMessage)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+}
+
 public struct GetAgreementTermsInput: Swift.Sendable {
     /// The unique identifier of the agreement.
     /// This member is required.
@@ -1153,6 +1424,105 @@ public struct GetAgreementTermsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.acceptedTerms = acceptedTerms
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAgreementPaymentRequestsInput: Swift.Sendable {
+    /// An optional parameter to list payment requests for a specific agreement.
+    public var agreementId: Swift.String?
+    /// An optional parameter to list payment requests by agreement type (e.g., PurchaseAgreement).
+    public var agreementType: Swift.String?
+    /// An optional parameter to list payment requests by catalog (e.g., AWSMarketplace).
+    public var catalog: Swift.String?
+    /// The maximum number of payment requests to return in a single response (1-50). Default is 50.
+    public var maxResults: Swift.Int?
+    /// A token to specify where to start pagination. Use the nextToken value from a previous response to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The party type for the payment requests. Required parameter. Use Proposer to list payment requests where you are the seller, or Acceptor to list payment requests where you are the buyer.
+    /// This member is required.
+    public var partyType: Swift.String?
+    /// An optional parameter to list payment requests by status. Valid values include VALIDATING, VALIDATION_FAILED, PENDING_APPROVAL, APPROVED, REJECTED, and CANCELLED.
+    public var status: MarketplaceAgreementClientTypes.PaymentRequestStatus?
+
+    public init(
+        agreementId: Swift.String? = nil,
+        agreementType: Swift.String? = nil,
+        catalog: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        partyType: Swift.String? = nil,
+        status: MarketplaceAgreementClientTypes.PaymentRequestStatus? = nil
+    ) {
+        self.agreementId = agreementId
+        self.agreementType = agreementType
+        self.catalog = catalog
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.partyType = partyType
+        self.status = status
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// Summary view of a payment request.
+    public struct PaymentRequestSummary: Swift.Sendable {
+        /// The unique identifier of the agreement associated with this payment request.
+        public var agreementId: Swift.String?
+        /// The amount charged or to be charged to the buyer.
+        public var chargeAmount: Swift.String?
+        /// The unique identifier of the charge created after the payment request is approved. This field is only present for approved payment requests.
+        public var chargeId: Swift.String?
+        /// The date and time when the payment request was created, in ISO 8601 format.
+        public var createdAt: Foundation.Date?
+        /// The currency code for the charge amount.
+        public var currencyCode: Swift.String?
+        /// The descriptive name of the payment request.
+        public var name: Swift.String?
+        /// The unique identifier of the payment request.
+        public var paymentRequestId: Swift.String?
+        /// The current status of the payment request. Possible values include VALIDATING, VALIDATION_FAILED, PENDING_APPROVAL, APPROVED, REJECTED, and CANCELLED.
+        public var status: MarketplaceAgreementClientTypes.PaymentRequestStatus?
+        /// The date and time when the payment request was last updated, in ISO 8601 format.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            agreementId: Swift.String? = nil,
+            chargeAmount: Swift.String? = nil,
+            chargeId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            currencyCode: Swift.String? = nil,
+            name: Swift.String? = nil,
+            paymentRequestId: Swift.String? = nil,
+            status: MarketplaceAgreementClientTypes.PaymentRequestStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.agreementId = agreementId
+            self.chargeAmount = chargeAmount
+            self.chargeId = chargeId
+            self.createdAt = createdAt
+            self.currencyCode = currencyCode
+            self.name = name
+            self.paymentRequestId = paymentRequestId
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListAgreementPaymentRequestsOutput: Swift.Sendable {
+    /// An array of PaymentRequestSummary objects containing summary information about each payment request.
+    /// This member is required.
+    public var items: [MarketplaceAgreementClientTypes.PaymentRequestSummary]?
+    /// A token to retrieve the next page of results. If null, there are no more results to retrieve.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [MarketplaceAgreementClientTypes.PaymentRequestSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
         self.nextToken = nextToken
     }
 }
@@ -1286,9 +1656,107 @@ public struct SearchAgreementsOutput: Swift.Sendable {
     }
 }
 
+public struct SendAgreementPaymentRequestInput: Swift.Sendable {
+    /// The unique identifier of the agreement for which the payment request is being submitted. Use GetAgreementTerms to retrieve agreement term details.
+    /// This member is required.
+    public var agreementId: Swift.String?
+    /// The amount requested to be charged to the buyer, positive decimal value in the currency of the accepted term. A ValidationException is returned if the chargeAmount exceeds the available balance, if the agreement doesn't have an active VariablePaymentTerm, or if the termId is invalid.
+    /// This member is required.
+    public var chargeAmount: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// An optional detailed description of the payment request (1-2000 characters).
+    public var description: Swift.String?
+    /// A descriptive name for the payment request (5-64 characters).
+    /// This member is required.
+    public var name: Swift.String?
+    /// The unique identifier of the VariablePaymentTerm for the agreement that the payment request is being sent for.
+    /// This member is required.
+    public var termId: Swift.String?
+
+    public init(
+        agreementId: Swift.String? = nil,
+        chargeAmount: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        termId: Swift.String? = nil
+    ) {
+        self.agreementId = agreementId
+        self.chargeAmount = chargeAmount
+        self.clientToken = clientToken
+        self.description = description
+        self.name = name
+        self.termId = termId
+    }
+}
+
+extension SendAgreementPaymentRequestInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SendAgreementPaymentRequestInput(agreementId: \(Swift.String(describing: agreementId)), chargeAmount: \(Swift.String(describing: chargeAmount)), clientToken: \(Swift.String(describing: clientToken)), name: \(Swift.String(describing: name)), termId: \(Swift.String(describing: termId)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct SendAgreementPaymentRequestOutput: Swift.Sendable {
+    /// The agreement identifier for this payment request.
+    public var agreementId: Swift.String?
+    /// The amount being charged to the buyer.
+    public var chargeAmount: Swift.String?
+    /// The time when the payment request was created, in ISO 8601 format.
+    public var createdAt: Foundation.Date?
+    /// The currency code for the charge amount (e.g., USD).
+    public var currencyCode: Swift.String?
+    /// The detailed description of the payment request, if provided.
+    public var description: Swift.String?
+    /// The descriptive name of the payment request.
+    public var name: Swift.String?
+    /// The unique identifier for the sent payment request.
+    public var paymentRequestId: Swift.String?
+    /// The current status of the payment request. The initial status is PENDING_APPROVAL.
+    public var status: MarketplaceAgreementClientTypes.PaymentRequestStatus?
+
+    public init(
+        agreementId: Swift.String? = nil,
+        chargeAmount: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        currencyCode: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        paymentRequestId: Swift.String? = nil,
+        status: MarketplaceAgreementClientTypes.PaymentRequestStatus? = nil
+    ) {
+        self.agreementId = agreementId
+        self.chargeAmount = chargeAmount
+        self.createdAt = createdAt
+        self.currencyCode = currencyCode
+        self.description = description
+        self.name = name
+        self.paymentRequestId = paymentRequestId
+        self.status = status
+    }
+}
+
+extension SendAgreementPaymentRequestOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SendAgreementPaymentRequestOutput(agreementId: \(Swift.String(describing: agreementId)), chargeAmount: \(Swift.String(describing: chargeAmount)), createdAt: \(Swift.String(describing: createdAt)), currencyCode: \(Swift.String(describing: currencyCode)), name: \(Swift.String(describing: name)), paymentRequestId: \(Swift.String(describing: paymentRequestId)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension CancelAgreementPaymentRequestInput {
+
+    static func urlPathProvider(_ value: CancelAgreementPaymentRequestInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeAgreementInput {
 
     static func urlPathProvider(_ value: DescribeAgreementInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetAgreementPaymentRequestInput {
+
+    static func urlPathProvider(_ value: GetAgreementPaymentRequestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1300,10 +1768,33 @@ extension GetAgreementTermsInput {
     }
 }
 
+extension ListAgreementPaymentRequestsInput {
+
+    static func urlPathProvider(_ value: ListAgreementPaymentRequestsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension SearchAgreementsInput {
 
     static func urlPathProvider(_ value: SearchAgreementsInput) -> Swift.String? {
         return "/"
+    }
+}
+
+extension SendAgreementPaymentRequestInput {
+
+    static func urlPathProvider(_ value: SendAgreementPaymentRequestInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CancelAgreementPaymentRequestInput {
+
+    static func write(value: CancelAgreementPaymentRequestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agreementId"].write(value.agreementId)
+        try writer["paymentRequestId"].write(value.paymentRequestId)
     }
 }
 
@@ -1312,6 +1803,15 @@ extension DescribeAgreementInput {
     static func write(value: DescribeAgreementInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["agreementId"].write(value.agreementId)
+    }
+}
+
+extension GetAgreementPaymentRequestInput {
+
+    static func write(value: GetAgreementPaymentRequestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agreementId"].write(value.agreementId)
+        try writer["paymentRequestId"].write(value.paymentRequestId)
     }
 }
 
@@ -1325,6 +1825,20 @@ extension GetAgreementTermsInput {
     }
 }
 
+extension ListAgreementPaymentRequestsInput {
+
+    static func write(value: ListAgreementPaymentRequestsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agreementId"].write(value.agreementId)
+        try writer["agreementType"].write(value.agreementType)
+        try writer["catalog"].write(value.catalog)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["partyType"].write(value.partyType)
+        try writer["status"].write(value.status)
+    }
+}
+
 extension SearchAgreementsInput {
 
     static func write(value: SearchAgreementsInput?, to writer: SmithyJSON.Writer) throws {
@@ -1334,6 +1848,39 @@ extension SearchAgreementsInput {
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
         try writer["sort"].write(value.sort, with: MarketplaceAgreementClientTypes.Sort.write(value:to:))
+    }
+}
+
+extension SendAgreementPaymentRequestInput {
+
+    static func write(value: SendAgreementPaymentRequestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agreementId"].write(value.agreementId)
+        try writer["chargeAmount"].write(value.chargeAmount)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["termId"].write(value.termId)
+    }
+}
+
+extension CancelAgreementPaymentRequestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelAgreementPaymentRequestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CancelAgreementPaymentRequestOutput()
+        value.agreementId = try reader["agreementId"].readIfPresent()
+        value.chargeAmount = try reader["chargeAmount"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.currencyCode = try reader["currencyCode"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.paymentRequestId = try reader["paymentRequestId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
     }
 }
 
@@ -1358,6 +1905,28 @@ extension DescribeAgreementOutput {
     }
 }
 
+extension GetAgreementPaymentRequestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAgreementPaymentRequestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAgreementPaymentRequestOutput()
+        value.agreementId = try reader["agreementId"].readIfPresent()
+        value.chargeAmount = try reader["chargeAmount"].readIfPresent()
+        value.chargeId = try reader["chargeId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.currencyCode = try reader["currencyCode"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.paymentRequestId = try reader["paymentRequestId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension GetAgreementTermsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAgreementTermsOutput {
@@ -1366,6 +1935,19 @@ extension GetAgreementTermsOutput {
         let reader = responseReader
         var value = GetAgreementTermsOutput()
         value.acceptedTerms = try reader["acceptedTerms"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.AcceptedTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAgreementPaymentRequestsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAgreementPaymentRequestsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAgreementPaymentRequestsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.PaymentRequestSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -1384,7 +1966,63 @@ extension SearchAgreementsOutput {
     }
 }
 
+extension SendAgreementPaymentRequestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendAgreementPaymentRequestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SendAgreementPaymentRequestOutput()
+        value.agreementId = try reader["agreementId"].readIfPresent()
+        value.chargeAmount = try reader["chargeAmount"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.currencyCode = try reader["currencyCode"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.paymentRequestId = try reader["paymentRequestId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+enum CancelAgreementPaymentRequestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeAgreementOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAgreementPaymentRequestOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -1420,6 +2058,23 @@ enum GetAgreementTermsOutputError {
     }
 }
 
+enum ListAgreementPaymentRequestsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum SearchAgreementsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1437,6 +2092,25 @@ enum SearchAgreementsOutputError {
     }
 }
 
+enum SendAgreementPaymentRequestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension AccessDeniedException {
 
     static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
@@ -1444,6 +2118,22 @@ extension AccessDeniedException {
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.resourceId = try reader["resourceId"].readIfPresent()
+        value.properties.resourceType = try reader["resourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1719,6 +2409,24 @@ extension MarketplaceAgreementClientTypes.LegalTerm {
         var value = MarketplaceAgreementClientTypes.LegalTerm()
         value.type = try reader["type"].readIfPresent()
         value.documents = try reader["documents"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.DocumentItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.PaymentRequestSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.PaymentRequestSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.PaymentRequestSummary()
+        value.paymentRequestId = try reader["paymentRequestId"].readIfPresent()
+        value.agreementId = try reader["agreementId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.chargeId = try reader["chargeId"].readIfPresent()
+        value.chargeAmount = try reader["chargeAmount"].readIfPresent()
+        value.currencyCode = try reader["currencyCode"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }

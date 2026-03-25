@@ -889,6 +889,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSTrustedAdvisor](/sdk-for-swift/latest/api/awstrustedadvisor/documentation/awstrustedadvisor)
 
+[AWSUxc](/sdk-for-swift/latest/api/awsuxc/documentation/awsuxc)
+
 [AWSVPCLattice](/sdk-for-swift/latest/api/awsvpclattice/documentation/awsvpclattice)
 
 [AWSVerifiedPermissions](/sdk-for-swift/latest/api/awsverifiedpermissions/documentation/awsverifiedpermissions)
