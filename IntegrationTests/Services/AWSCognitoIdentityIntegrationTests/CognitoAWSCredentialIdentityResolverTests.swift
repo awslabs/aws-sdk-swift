@@ -91,7 +91,7 @@ class CognitoAWSCredentialIdentityResolverTests: XCTestCase {
         )
 
         // Configure STS client with Cognito credentials
-        let cognitoStsConfig = try await STSClient.STSClientConfiguration(
+        let cognitoStsConfig = try await STSClient.STSClientConfig(
             awsCredentialIdentityResolver: cognitoCredentialResolver,
             region: "us-east-1" // different from cognito pool region
         )

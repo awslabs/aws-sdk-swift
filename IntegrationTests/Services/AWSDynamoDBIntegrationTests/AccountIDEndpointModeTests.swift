@@ -138,7 +138,7 @@ final class AccountIDEndpointModeTests: XCTestCase {
         let accountID = setAccountID ? self.accountID : nil
         let credentials = AWSCredentialIdentity(accessKey: "abc", secret: "def", accountID: accountID)
         let resolver = StaticAWSCredentialIdentityResolver(credentials)
-        let config = try await DynamoDBClient.Config(
+        let config = try await DynamoDBClient.DynamoDBClientConfig(
             awsCredentialIdentityResolver: resolver,
             region: "us-east-1",
             accountIdEndpointMode: accountIDEndpointMode,

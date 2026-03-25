@@ -4592,6 +4592,8 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var tags: [RDSClientTypes.Tag]?
     /// A list of EC2 VPC security groups to associate with this DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var vpcSecurityGroupIds: [Swift.String]?
+    /// Specifies to create an Aurora DB Cluster with express configuration in seconds. Express configuration provides a cluster with a writer instance and feature specific values set to all other input parameters of this API. Valid for Cluster Type: Aurora DB clusters
+    public var withExpressConfiguration: Swift.Bool?
 
     public init(
         allocatedStorage: Swift.Int? = nil,
@@ -4651,7 +4653,8 @@ public struct CreateDBClusterInput: Swift.Sendable {
         storageType: Swift.String? = nil,
         tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
-        vpcSecurityGroupIds: [Swift.String]? = nil
+        vpcSecurityGroupIds: [Swift.String]? = nil,
+        withExpressConfiguration: Swift.Bool? = nil
     ) {
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -4711,12 +4714,13 @@ public struct CreateDBClusterInput: Swift.Sendable {
         self.tagSpecifications = tagSpecifications
         self.tags = tags
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
+        self.withExpressConfiguration = withExpressConfiguration
     }
 }
 
 extension CreateDBClusterInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDBClusterInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZones: \(Swift.String(describing: availabilityZones)), backtrackWindow: \(Swift.String(describing: backtrackWindow)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), characterSetName: \(Swift.String(describing: characterSetName)), clusterScalabilityType: \(Swift.String(describing: clusterScalabilityType)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), databaseName: \(Swift.String(describing: databaseName)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbClusterInstanceClass: \(Swift.String(describing: dbClusterInstanceClass)), dbClusterParameterGroupName: \(Swift.String(describing: dbClusterParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dbSystemId: \(Swift.String(describing: dbSystemId)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableGlobalWriteForwarding: \(Swift.String(describing: enableGlobalWriteForwarding)), enableHttpEndpoint: \(Swift.String(describing: enableHttpEndpoint)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enableLimitlessDatabase: \(Swift.String(describing: enableLimitlessDatabase)), enableLocalWriteForwarding: \(Swift.String(describing: enableLocalWriteForwarding)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineMode: \(Swift.String(describing: engineMode)), engineVersion: \(Swift.String(describing: engineVersion)), globalClusterIdentifier: \(Swift.String(describing: globalClusterIdentifier)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), rdsCustomClusterConfiguration: \(Swift.String(describing: rdsCustomClusterConfiguration)), replicationSourceIdentifier: \(Swift.String(describing: replicationSourceIdentifier)), scalingConfiguration: \(Swift.String(describing: scalingConfiguration)), serverlessV2ScalingConfiguration: \(Swift.String(describing: serverlessV2ScalingConfiguration)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\", preSignedUrl: \"CONTENT_REDACTED\")"}
+        "CreateDBClusterInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZones: \(Swift.String(describing: availabilityZones)), backtrackWindow: \(Swift.String(describing: backtrackWindow)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), characterSetName: \(Swift.String(describing: characterSetName)), clusterScalabilityType: \(Swift.String(describing: clusterScalabilityType)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), databaseName: \(Swift.String(describing: databaseName)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbClusterInstanceClass: \(Swift.String(describing: dbClusterInstanceClass)), dbClusterParameterGroupName: \(Swift.String(describing: dbClusterParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dbSystemId: \(Swift.String(describing: dbSystemId)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableGlobalWriteForwarding: \(Swift.String(describing: enableGlobalWriteForwarding)), enableHttpEndpoint: \(Swift.String(describing: enableHttpEndpoint)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enableLimitlessDatabase: \(Swift.String(describing: enableLimitlessDatabase)), enableLocalWriteForwarding: \(Swift.String(describing: enableLocalWriteForwarding)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineMode: \(Swift.String(describing: engineMode)), engineVersion: \(Swift.String(describing: engineVersion)), globalClusterIdentifier: \(Swift.String(describing: globalClusterIdentifier)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), rdsCustomClusterConfiguration: \(Swift.String(describing: rdsCustomClusterConfiguration)), replicationSourceIdentifier: \(Swift.String(describing: replicationSourceIdentifier)), scalingConfiguration: \(Swift.String(describing: scalingConfiguration)), serverlessV2ScalingConfiguration: \(Swift.String(describing: serverlessV2ScalingConfiguration)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), withExpressConfiguration: \(Swift.String(describing: withExpressConfiguration)), masterUserPassword: \"CONTENT_REDACTED\", preSignedUrl: \"CONTENT_REDACTED\")"}
 }
 
 extension RDSClientTypes {
@@ -5323,6 +5327,8 @@ extension RDSClientTypes {
         public var httpEndpointEnabled: Swift.Bool?
         /// Indicates whether the mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled.
         public var iamDatabaseAuthenticationEnabled: Swift.Bool?
+        /// Indicates whether the DB cluster has internet-based connectivity enabled through an internet access gateway. This setting is applicable only for Aurora PostgreSQL clusters created through express configuration.
+        public var internetAccessGatewayEnabled: Swift.Bool?
         /// The next time you can modify the DB cluster to use the aurora-iopt1 storage type. This setting is only for Aurora DB clusters.
         public var ioOptimizedNextAllowedModificationTime: Foundation.Date?
         /// The Provisioned IOPS (I/O operations per second) value. This setting is only for non-Aurora Multi-AZ DB clusters.
@@ -5416,6 +5422,8 @@ extension RDSClientTypes {
         ///
         /// * [last] - Usually reserved for production environments.
         public var upgradeRolloutOrder: RDSClientTypes.UpgradeRolloutOrder?
+        /// Indicates whether the DB cluster uses VPC-based networking. This setting is applicable only for Aurora PostgreSQL clusters created through express configuration.
+        public var vpcNetworkingEnabled: Swift.Bool?
         /// The list of VPC security groups that the DB cluster belongs to.
         public var vpcSecurityGroups: [RDSClientTypes.VpcSecurityGroupMembership]?
 
@@ -5469,6 +5477,7 @@ extension RDSClientTypes {
             hostedZoneId: Swift.String? = nil,
             httpEndpointEnabled: Swift.Bool? = nil,
             iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
+            internetAccessGatewayEnabled: Swift.Bool? = nil,
             ioOptimizedNextAllowedModificationTime: Foundation.Date? = nil,
             iops: Swift.Int? = nil,
             kmsKeyId: Swift.String? = nil,
@@ -5505,6 +5514,7 @@ extension RDSClientTypes {
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
             upgradeRolloutOrder: RDSClientTypes.UpgradeRolloutOrder? = nil,
+            vpcNetworkingEnabled: Swift.Bool? = nil,
             vpcSecurityGroups: [RDSClientTypes.VpcSecurityGroupMembership]? = nil
         ) {
             self.activityStreamKinesisStreamName = activityStreamKinesisStreamName
@@ -5556,6 +5566,7 @@ extension RDSClientTypes {
             self.hostedZoneId = hostedZoneId
             self.httpEndpointEnabled = httpEndpointEnabled
             self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
+            self.internetAccessGatewayEnabled = internetAccessGatewayEnabled
             self.ioOptimizedNextAllowedModificationTime = ioOptimizedNextAllowedModificationTime
             self.iops = iops
             self.kmsKeyId = kmsKeyId
@@ -5592,6 +5603,7 @@ extension RDSClientTypes {
             self.storageType = storageType
             self.tagList = tagList
             self.upgradeRolloutOrder = upgradeRolloutOrder
+            self.vpcNetworkingEnabled = vpcNetworkingEnabled
             self.vpcSecurityGroups = vpcSecurityGroups
         }
     }
@@ -20518,8 +20530,12 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     public var enableCloudwatchLogsExports: [Swift.String]?
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon Aurora User Guide or [ IAM database authentication for MariaDB, MySQL, and PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon RDS User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var enableIAMDatabaseAuthentication: Swift.Bool?
+    /// Specifies that the restored DB cluster should use internet-based connectivity through an internet access gateway. This allows clients to connect to the cluster over the internet without requiring a VPC. This parameter must be used together with EnableVPCNetworking set to false. When both parameters are specified, IAM database authentication is required. You must also specify EnableIAMDatabaseAuthentication. Valid for Cluster Type: Aurora PostgreSQL clusters
+    public var enableInternetAccessGateway: Swift.Bool?
     /// Specifies whether to turn on Performance Insights for the DB cluster.
     public var enablePerformanceInsights: Swift.Bool?
+    /// Specifies whether to enable VPC networking for the restored DB cluster. Set this parameter to false to create a cluster without the VPC network interface (ENI). This parameter must be used together with EnableInternetAccessGateway. When both parameters are specified, IAM database authentication is required. You must also specify EnableIAMDatabaseAuthentication. Valid for Cluster Type: Aurora PostgreSQL clusters
+    public var enableVPCNetworking: Swift.Bool?
     /// The database engine to use for the new DB cluster. Default: The same as source Constraint: Must be compatible with the engine of the source Valid for: Aurora DB clusters and Multi-AZ DB clusters
     /// This member is required.
     public var engine: Swift.String?
@@ -20643,7 +20659,9 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         domainIAMRoleName: Swift.String? = nil,
         enableCloudwatchLogsExports: [Swift.String]? = nil,
         enableIAMDatabaseAuthentication: Swift.Bool? = nil,
+        enableInternetAccessGateway: Swift.Bool? = nil,
         enablePerformanceInsights: Swift.Bool? = nil,
+        enableVPCNetworking: Swift.Bool? = nil,
         engine: Swift.String? = nil,
         engineLifecycleSupport: Swift.String? = nil,
         engineMode: Swift.String? = nil,
@@ -20682,7 +20700,9 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         self.domainIAMRoleName = domainIAMRoleName
         self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
         self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
+        self.enableInternetAccessGateway = enableInternetAccessGateway
         self.enablePerformanceInsights = enablePerformanceInsights
+        self.enableVPCNetworking = enableVPCNetworking
         self.engine = engine
         self.engineLifecycleSupport = engineLifecycleSupport
         self.engineMode = engineMode
@@ -20774,8 +20794,12 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     public var enableCloudwatchLogsExports: [Swift.String]?
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon Aurora User Guide or [ IAM database authentication for MariaDB, MySQL, and PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon RDS User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var enableIAMDatabaseAuthentication: Swift.Bool?
+    /// Specifies that the restored DB cluster should use internet-based connectivity through an internet access gateway. This allows clients to connect to the cluster over the internet without requiring a VPC. This parameter must be used together with EnableVPCNetworking set to false. When both parameters are specified, IAM database authentication is required. You must also specify EnableIAMDatabaseAuthentication. Valid for Cluster Type: Aurora PostgreSQL clusters
+    public var enableInternetAccessGateway: Swift.Bool?
     /// Specifies whether to turn on Performance Insights for the DB cluster.
     public var enablePerformanceInsights: Swift.Bool?
+    /// Specifies whether to enable VPC networking for the restored DB cluster. Set this parameter to false to create a cluster without the VPC network interface (ENI). This parameter must be used together with EnableInternetAccessGateway. When both parameters are specified, IAM database authentication is required. You must also specify EnableIAMDatabaseAuthentication. Valid for Cluster Type: Aurora PostgreSQL clusters
+    public var enableVPCNetworking: Swift.Bool?
     /// The life cycle type for this DB cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:
     ///
     /// * Amazon Aurora - [Amazon RDS Extended Support with Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
@@ -20917,7 +20941,9 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         domainIAMRoleName: Swift.String? = nil,
         enableCloudwatchLogsExports: [Swift.String]? = nil,
         enableIAMDatabaseAuthentication: Swift.Bool? = nil,
+        enableInternetAccessGateway: Swift.Bool? = nil,
         enablePerformanceInsights: Swift.Bool? = nil,
+        enableVPCNetworking: Swift.Bool? = nil,
         engineLifecycleSupport: Swift.String? = nil,
         engineMode: Swift.String? = nil,
         iops: Swift.Int? = nil,
@@ -20956,7 +20982,9 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         self.domainIAMRoleName = domainIAMRoleName
         self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
         self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
+        self.enableInternetAccessGateway = enableInternetAccessGateway
         self.enablePerformanceInsights = enablePerformanceInsights
+        self.enableVPCNetworking = enableVPCNetworking
         self.engineLifecycleSupport = engineLifecycleSupport
         self.engineMode = engineMode
         self.iops = iops
@@ -24169,6 +24197,7 @@ extension CreateDBClusterInput {
         try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "VpcSecurityGroupId", isFlattened: false)
+        try writer["WithExpressConfiguration"].write(value.withExpressConfiguration)
         try writer["Action"].write("CreateDBCluster")
         try writer["Version"].write("2014-10-31")
     }
@@ -26112,7 +26141,9 @@ extension RestoreDBClusterFromSnapshotInput {
         try writer["DomainIAMRoleName"].write(value.domainIAMRoleName)
         try writer["EnableCloudwatchLogsExports"].writeList(value.enableCloudwatchLogsExports, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EnableIAMDatabaseAuthentication"].write(value.enableIAMDatabaseAuthentication)
+        try writer["EnableInternetAccessGateway"].write(value.enableInternetAccessGateway)
         try writer["EnablePerformanceInsights"].write(value.enablePerformanceInsights)
+        try writer["EnableVPCNetworking"].write(value.enableVPCNetworking)
         try writer["Engine"].write(value.engine)
         try writer["EngineLifecycleSupport"].write(value.engineLifecycleSupport)
         try writer["EngineMode"].write(value.engineMode)
@@ -26157,7 +26188,9 @@ extension RestoreDBClusterToPointInTimeInput {
         try writer["DomainIAMRoleName"].write(value.domainIAMRoleName)
         try writer["EnableCloudwatchLogsExports"].writeList(value.enableCloudwatchLogsExports, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EnableIAMDatabaseAuthentication"].write(value.enableIAMDatabaseAuthentication)
+        try writer["EnableInternetAccessGateway"].write(value.enableInternetAccessGateway)
         try writer["EnablePerformanceInsights"].write(value.enablePerformanceInsights)
+        try writer["EnableVPCNetworking"].write(value.enableVPCNetworking)
         try writer["EngineLifecycleSupport"].write(value.engineLifecycleSupport)
         try writer["EngineMode"].write(value.engineMode)
         try writer["Iops"].write(value.iops)
@@ -33783,6 +33816,8 @@ extension RDSClientTypes.DBCluster {
         value.clusterScalabilityType = try reader["ClusterScalabilityType"].readIfPresent()
         value.certificateDetails = try reader["CertificateDetails"].readIfPresent(with: RDSClientTypes.CertificateDetails.read(from:))
         value.engineLifecycleSupport = try reader["EngineLifecycleSupport"].readIfPresent()
+        value.vpcNetworkingEnabled = try reader["VPCNetworkingEnabled"].readIfPresent()
+        value.internetAccessGatewayEnabled = try reader["InternetAccessGatewayEnabled"].readIfPresent()
         return value
     }
 }

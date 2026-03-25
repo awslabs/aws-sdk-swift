@@ -996,6 +996,32 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// Configuration for a session storage filesystem mounted into the AgentCore Runtime. Session storage provides persistent storage that is preserved across AgentCore Runtime session invocations.
+    public struct SessionStorageConfiguration: Swift.Sendable {
+        /// The mount path for the session storage filesystem inside the AgentCore Runtime. The path must be under /mnt with exactly one subdirectory level (for example, /mnt/data).
+        /// This member is required.
+        public var mountPath: Swift.String?
+
+        public init(
+            mountPath: Swift.String? = nil
+        ) {
+            self.mountPath = mountPath
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for a filesystem that can be mounted into the AgentCore Runtime.
+    public enum FilesystemConfiguration: Swift.Sendable {
+        /// Configuration for session storage. Session storage provides persistent storage that is preserved across AgentCore Runtime session invocations.
+        case sessionstorage(BedrockAgentCoreControlClientTypes.SessionStorageConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// LifecycleConfiguration lets you manage the lifecycle of runtime sessions and resources in AgentCore Runtime. This configuration helps optimize resource utilization by automatically cleaning up idle sessions and preventing long-running instances from consuming resources indefinitely.
     public struct LifecycleConfiguration: Swift.Sendable {
         /// Timeout in seconds for idle runtime sessions. When a session remains idle for this duration, it will be automatically terminated. Default: 900 seconds (15 minutes).
@@ -1159,6 +1185,8 @@ public struct CreateAgentRuntimeInput: Swift.Sendable {
     public var description: Swift.String?
     /// Environment variables to set in the AgentCore Runtime environment.
     public var environmentVariables: [Swift.String: Swift.String]?
+    /// The filesystem configurations to mount into the AgentCore Runtime. Use filesystem configurations to provide persistent storage to your AgentCore Runtime sessions.
+    public var filesystemConfigurations: [BedrockAgentCoreControlClientTypes.FilesystemConfiguration]?
     /// The life cycle configuration for the AgentCore Runtime.
     public var lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration?
     /// The network configuration for the AgentCore Runtime.
@@ -1181,6 +1209,7 @@ public struct CreateAgentRuntimeInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         environmentVariables: [Swift.String: Swift.String]? = nil,
+        filesystemConfigurations: [BedrockAgentCoreControlClientTypes.FilesystemConfiguration]? = nil,
         lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration? = nil,
         networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration? = nil,
         protocolConfiguration: BedrockAgentCoreControlClientTypes.ProtocolConfiguration? = nil,
@@ -1194,6 +1223,7 @@ public struct CreateAgentRuntimeInput: Swift.Sendable {
         self.clientToken = clientToken
         self.description = description
         self.environmentVariables = environmentVariables
+        self.filesystemConfigurations = filesystemConfigurations
         self.lifecycleConfiguration = lifecycleConfiguration
         self.networkConfiguration = networkConfiguration
         self.protocolConfiguration = protocolConfiguration
@@ -1205,7 +1235,7 @@ public struct CreateAgentRuntimeInput: Swift.Sendable {
 
 extension CreateAgentRuntimeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAgentRuntimeInput(agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeName: \(Swift.String(describing: agentRuntimeName)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), clientToken: \(Swift.String(describing: clientToken)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
+        "CreateAgentRuntimeInput(agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeName: \(Swift.String(describing: agentRuntimeName)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), clientToken: \(Swift.String(describing: clientToken)), filesystemConfigurations: \(Swift.String(describing: filesystemConfigurations)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -1391,6 +1421,8 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
     public var environmentVariables: [Swift.String: Swift.String]?
     /// The reason for failure if the AgentCore Runtime is in a failed state.
     public var failureReason: Swift.String?
+    /// The filesystem configurations mounted into the AgentCore Runtime.
+    public var filesystemConfigurations: [BedrockAgentCoreControlClientTypes.FilesystemConfiguration]?
     /// The timestamp when the AgentCore Runtime was last updated.
     /// This member is required.
     public var lastUpdatedAt: Foundation.Date?
@@ -1426,6 +1458,7 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
         description: Swift.String? = nil,
         environmentVariables: [Swift.String: Swift.String]? = nil,
         failureReason: Swift.String? = nil,
+        filesystemConfigurations: [BedrockAgentCoreControlClientTypes.FilesystemConfiguration]? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration? = nil,
         metadataConfiguration: BedrockAgentCoreControlClientTypes.RuntimeMetadataConfiguration? = nil,
@@ -1446,6 +1479,7 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
         self.description = description
         self.environmentVariables = environmentVariables
         self.failureReason = failureReason
+        self.filesystemConfigurations = filesystemConfigurations
         self.lastUpdatedAt = lastUpdatedAt
         self.lifecycleConfiguration = lifecycleConfiguration
         self.metadataConfiguration = metadataConfiguration
@@ -1460,7 +1494,7 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
 
 extension GetAgentRuntimeOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetAgentRuntimeOutput(agentRuntimeArn: \(Swift.String(describing: agentRuntimeArn)), agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), agentRuntimeName: \(Swift.String(describing: agentRuntimeName)), agentRuntimeVersion: \(Swift.String(describing: agentRuntimeVersion)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), createdAt: \(Swift.String(describing: createdAt)), failureReason: \(Swift.String(describing: failureReason)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
+        "GetAgentRuntimeOutput(agentRuntimeArn: \(Swift.String(describing: agentRuntimeArn)), agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), agentRuntimeName: \(Swift.String(describing: agentRuntimeName)), agentRuntimeVersion: \(Swift.String(describing: agentRuntimeVersion)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), createdAt: \(Swift.String(describing: createdAt)), failureReason: \(Swift.String(describing: failureReason)), filesystemConfigurations: \(Swift.String(describing: filesystemConfigurations)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListAgentRuntimesInput: Swift.Sendable {
@@ -1596,6 +1630,8 @@ public struct UpdateAgentRuntimeInput: Swift.Sendable {
     public var description: Swift.String?
     /// Updated environment variables to set in the AgentCore Runtime environment.
     public var environmentVariables: [Swift.String: Swift.String]?
+    /// The updated filesystem configurations to mount into the AgentCore Runtime.
+    public var filesystemConfigurations: [BedrockAgentCoreControlClientTypes.FilesystemConfiguration]?
     /// The updated life cycle configuration for the AgentCore Runtime.
     public var lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration?
     /// The updated configuration for microVM Metadata Service (MMDS) settings for the AgentCore Runtime.
@@ -1618,6 +1654,7 @@ public struct UpdateAgentRuntimeInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         environmentVariables: [Swift.String: Swift.String]? = nil,
+        filesystemConfigurations: [BedrockAgentCoreControlClientTypes.FilesystemConfiguration]? = nil,
         lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration? = nil,
         metadataConfiguration: BedrockAgentCoreControlClientTypes.RuntimeMetadataConfiguration? = nil,
         networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration? = nil,
@@ -1631,6 +1668,7 @@ public struct UpdateAgentRuntimeInput: Swift.Sendable {
         self.clientToken = clientToken
         self.description = description
         self.environmentVariables = environmentVariables
+        self.filesystemConfigurations = filesystemConfigurations
         self.lifecycleConfiguration = lifecycleConfiguration
         self.metadataConfiguration = metadataConfiguration
         self.networkConfiguration = networkConfiguration
@@ -1642,7 +1680,7 @@ public struct UpdateAgentRuntimeInput: Swift.Sendable {
 
 extension UpdateAgentRuntimeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateAgentRuntimeInput(agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), clientToken: \(Swift.String(describing: clientToken)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
+        "UpdateAgentRuntimeInput(agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), clientToken: \(Swift.String(describing: clientToken)), filesystemConfigurations: \(Swift.String(describing: filesystemConfigurations)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateAgentRuntimeOutput: Swift.Sendable {
@@ -2233,14 +2271,18 @@ extension GetBrowserProfileOutput: Swift.CustomDebugStringConvertible {
 public struct ListBrowserProfilesInput: Swift.Sendable {
     /// The maximum number of results to return in the response.
     public var maxResults: Swift.Int?
+    /// The name of the browser profile to filter results by.
+    public var name: Swift.String?
     /// A token to retrieve the next page of results.
     public var nextToken: Swift.String?
 
     public init(
         maxResults: Swift.Int? = nil,
+        name: Swift.String? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.maxResults = maxResults
+        self.name = name
         self.nextToken = nextToken
     }
 }
@@ -9478,7 +9520,7 @@ public struct ListPolicyEnginesOutput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Respresents an optional value that can be provided to update the human-readable description of the resource. If the field is omitted from the request, it will leave the current decription value unchanged.
+    /// Wrapper for updating an optional Description field with PATCH semantics. When present in an update request, the description is replaced with optionalValue. When absent, the description is left unchanged. To unset the description, include the wrapper with optionalValue set to null.
     public struct UpdatedDescription: Swift.Sendable {
         /// Represents an optional value that is used to update the human-readable description of the resource. If set to null, it will clear the current description of the resource.
         public var optionalValue: Swift.String?
@@ -12562,6 +12604,7 @@ extension CreateAgentRuntimeInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
         try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["filesystemConfigurations"].writeList(value.filesystemConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.FilesystemConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["lifecycleConfiguration"].write(value.lifecycleConfiguration, with: BedrockAgentCoreControlClientTypes.LifecycleConfiguration.write(value:to:))
         try writer["networkConfiguration"].write(value.networkConfiguration, with: BedrockAgentCoreControlClientTypes.NetworkConfiguration.write(value:to:))
         try writer["protocolConfiguration"].write(value.protocolConfiguration, with: BedrockAgentCoreControlClientTypes.ProtocolConfiguration.write(value:to:))
@@ -12823,6 +12866,14 @@ extension ListApiKeyCredentialProvidersInput {
     }
 }
 
+extension ListBrowserProfilesInput {
+
+    static func write(value: ListBrowserProfilesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+    }
+}
+
 extension ListMemoriesInput {
 
     static func write(value: ListMemoriesInput?, to writer: SmithyJSON.Writer) throws {
@@ -12903,6 +12954,7 @@ extension UpdateAgentRuntimeInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
         try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["filesystemConfigurations"].writeList(value.filesystemConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.FilesystemConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["lifecycleConfiguration"].write(value.lifecycleConfiguration, with: BedrockAgentCoreControlClientTypes.LifecycleConfiguration.write(value:to:))
         try writer["metadataConfiguration"].write(value.metadataConfiguration, with: BedrockAgentCoreControlClientTypes.RuntimeMetadataConfiguration.write(value:to:))
         try writer["networkConfiguration"].write(value.networkConfiguration, with: BedrockAgentCoreControlClientTypes.NetworkConfiguration.write(value:to:))
@@ -13526,6 +13578,7 @@ extension GetAgentRuntimeOutput {
         value.description = try reader["description"].readIfPresent()
         value.environmentVariables = try reader["environmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.failureReason = try reader["failureReason"].readIfPresent()
+        value.filesystemConfigurations = try reader["filesystemConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.FilesystemConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lifecycleConfiguration = try reader["lifecycleConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.LifecycleConfiguration.read(from:))
         value.metadataConfiguration = try reader["metadataConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.RuntimeMetadataConfiguration.read(from:))
@@ -17323,6 +17376,30 @@ extension BedrockAgentCoreControlClientTypes.ExtractionConfiguration {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.FilesystemConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.FilesystemConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .sessionstorage(sessionstorage):
+                try writer["sessionStorage"].write(sessionstorage, with: BedrockAgentCoreControlClientTypes.SessionStorageConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.FilesystemConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "sessionStorage":
+                return .sessionstorage(try reader["sessionStorage"].read(with: BedrockAgentCoreControlClientTypes.SessionStorageConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.Filter {
 
     static func write(value: BedrockAgentCoreControlClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
@@ -18789,6 +18866,21 @@ extension BedrockAgentCoreControlClientTypes.SessionConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreControlClientTypes.SessionConfig()
         value.sessionTimeoutMinutes = try reader["sessionTimeoutMinutes"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SessionStorageConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.SessionStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mountPath"].write(value.mountPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SessionStorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.SessionStorageConfiguration()
+        value.mountPath = try reader["mountPath"].readIfPresent() ?? ""
         return value
     }
 }
