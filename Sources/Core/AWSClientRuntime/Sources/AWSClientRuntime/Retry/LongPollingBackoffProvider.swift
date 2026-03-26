@@ -11,7 +11,7 @@ import SmithyHTTPAPI
 import struct SmithyRetriesAPI.RetryErrorInfo
 import struct SmithyRetries.ExponentialBackoffStrategy
 
-/// Retries SEP 2.1: Provides long-polling backoff for operations that should
+/// Provides long-polling backoff for operations that should
 /// back off even when the retry token bucket is empty.
 public enum LongPollingBackoffProvider {
 

@@ -128,7 +128,7 @@ public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
         try retryStrategyOptions(retryMode, maxAttempts, sdkID: nil)
     }
 
-    /// Retries SEP 2.1: DynamoDB and DynamoDB Streams get max_attempts=4 in standard/adaptive mode.
+    /// DynamoDB and DynamoDB Streams get max_attempts=4 in standard/adaptive mode.
     public static func retryStrategyOptions(
         _ retryMode: AWSRetryMode? = nil,
         _ maxAttempts: Int? = nil,
@@ -146,7 +146,7 @@ public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
             resolvedRateLimitingMode = .adaptive
         }
 
-        // Retries SEP 2.1: DynamoDB/DynamoDB Streams get max_attempts=4 in standard/adaptive mode
+        // DynamoDB/DynamoDB Streams get max_attempts=4 in standard/adaptive mode
         // only when the customer hasn't explicitly set max_attempts
         if maxAttempts == nil, resolvedRetryMode != .legacy,
            let sdkID, Self.isDynamoDB(sdkID: sdkID) {
@@ -160,7 +160,7 @@ public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
         )
     }
 
-    /// Retries SEP 2.1: Returns true if the service is DynamoDB or DynamoDB Streams.
+    /// Returns true if the service is DynamoDB or DynamoDB Streams.
     static func isDynamoDB(sdkID: String) -> Bool {
         sdkID == "DynamoDB" || sdkID == "DynamoDB Streams"
     }

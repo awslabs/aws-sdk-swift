@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-/// Retries SEP 2.1: Identifies long-polling operations that should back off
+/// Identifies long-polling operations that should back off
 /// even when the retry token bucket is empty.
 ///
 /// These are hard-coded until the `aws.api#longPoll` Smithy trait is available.

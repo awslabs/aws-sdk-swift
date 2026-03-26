@@ -20,6 +20,8 @@ import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyXML.Reader
 import enum AWSClientRuntime.AWSClockSkewProvider
+import enum AWSClientRuntime.AWSRetryErrorInfoProvider
+import enum AWSClientRuntime.LongPollingBackoffProvider
 import enum ClientRuntime.ErrorFault
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import enum Smithy.ClientError
