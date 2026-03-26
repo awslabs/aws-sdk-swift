@@ -22,7 +22,6 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyXML.Reader
 @_spi(SmithyReadWrite) import class SmithyXML.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
-import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum ClientRuntime.ErrorFault
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import enum Smithy.ByteStream
@@ -741,22 +740,12 @@ extension S3ClientTypes {
         public var checksumCRC32: Swift.String?
         /// The Base64 encoded, 32-bit CRC32C checksum of the part. This checksum is present if the multipart upload request was created with the CRC32C checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumCRC32C: Swift.String?
-        /// The Base64 encoded, 64-bit CRC64NVME checksum of the part. This checksum is present if the multipart upload request was created with the CRC64NVME checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+        /// The Base64 encoded, 64-bit CRC64NVME checksum of the part. This checksum is present if the multipart upload request was created with the CRC64NVME checksum algorithm to the uploaded object). For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumCRC64NVME: Swift.String?
-        /// The Base64 encoded, 128-bit MD5 digest of the part. This checksum is present if the multipart upload request was created with the MD5 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumMD5: Swift.String?
         /// The Base64 encoded, 160-bit SHA1 checksum of the part. This checksum is present if the multipart upload request was created with the SHA1 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumSHA1: Swift.String?
         /// The Base64 encoded, 256-bit SHA256 checksum of the part. This checksum is present if the multipart upload request was created with the SHA256 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumSHA256: Swift.String?
-        /// The Base64 encoded, 512-bit SHA512 digest of the part. This checksum is present if the multipart upload request was created with the SHA512 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumSHA512: Swift.String?
-        /// The Base64 encoded, 128-bit XXHASH128 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH128 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumXXHASH128: Swift.String?
-        /// The Base64 encoded, 64-bit XXHASH3 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH3 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumXXHASH3: Swift.String?
-        /// The Base64 encoded, 64-bit XXHASH64 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH64 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumXXHASH64: Swift.String?
         /// Entity tag returned when the part was uploaded.
         public var eTag: Swift.String?
         /// Part number that identifies the part. This is a positive integer between 1 and 10,000.
@@ -770,26 +759,16 @@ extension S3ClientTypes {
             checksumCRC32: Swift.String? = nil,
             checksumCRC32C: Swift.String? = nil,
             checksumCRC64NVME: Swift.String? = nil,
-            checksumMD5: Swift.String? = nil,
             checksumSHA1: Swift.String? = nil,
             checksumSHA256: Swift.String? = nil,
-            checksumSHA512: Swift.String? = nil,
-            checksumXXHASH128: Swift.String? = nil,
-            checksumXXHASH3: Swift.String? = nil,
-            checksumXXHASH64: Swift.String? = nil,
             eTag: Swift.String? = nil,
             partNumber: Swift.Int? = nil
         ) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumCRC64NVME = checksumCRC64NVME
-            self.checksumMD5 = checksumMD5
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
-            self.checksumSHA512 = checksumSHA512
-            self.checksumXXHASH128 = checksumXXHASH128
-            self.checksumXXHASH3 = checksumXXHASH3
-            self.checksumXXHASH64 = checksumXXHASH64
             self.eTag = eTag
             self.partNumber = partNumber
         }
@@ -821,22 +800,12 @@ public struct CompleteMultipartUploadInput: Swift.Sendable {
     public var checksumCRC32C: Swift.String?
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the object. The CRC64NVME checksum is always a full object checksum. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
     public var checksumCRC64NVME: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 128-bit MD5 digest of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumMD5: Swift.String?
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 160-bit SHA1 digest of the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumSHA1: Swift.String?
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 256-bit SHA256 digest of the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumSHA256: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 512-bit SHA512 digest of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumSHA512: Swift.String?
     /// This header specifies the checksum type of the object, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. You can use this header as a data integrity check to verify that the checksum type that is received is the same checksum that was specified. If the checksum type doesn’t match the checksum type that was specified for the object during the CreateMultipartUpload request, it’ll result in a BadDigest error. For more information, see Checking object integrity in the Amazon S3 User Guide.
     public var checksumType: S3ClientTypes.ChecksumType?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 128-bit XXHASH128 checksum of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumXXHASH128: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit XXHASH3 checksum of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumXXHASH3: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit XXHASH64 checksum of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumXXHASH64: Swift.String?
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
     /// Uploads the object only if the ETag (entity tag) value provided during the WRITE operation matches the ETag of the object in S3. If the ETag values do not match, the operation returns a 412 Precondition Failed error. If a conflicting operation occurs during the upload S3 returns a 409 ConditionalRequestConflict response. On a 409 failure you should fetch the object's ETag, re-initiate the multipart upload with CreateMultipartUpload, and re-upload each part. Expects the ETag value as a string. For more information about conditional requests, see [RFC 7232](https://tools.ietf.org/html/rfc7232), or [Conditional requests](https://docs.aws.amazon.com/AmazonS3/latest/userguide/conditional-requests.html) in the Amazon S3 User Guide.
@@ -867,14 +836,9 @@ public struct CompleteMultipartUploadInput: Swift.Sendable {
         checksumCRC32: Swift.String? = nil,
         checksumCRC32C: Swift.String? = nil,
         checksumCRC64NVME: Swift.String? = nil,
-        checksumMD5: Swift.String? = nil,
         checksumSHA1: Swift.String? = nil,
         checksumSHA256: Swift.String? = nil,
-        checksumSHA512: Swift.String? = nil,
         checksumType: S3ClientTypes.ChecksumType? = nil,
-        checksumXXHASH128: Swift.String? = nil,
-        checksumXXHASH3: Swift.String? = nil,
-        checksumXXHASH64: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         ifMatch: Swift.String? = nil,
         ifNoneMatch: Swift.String? = nil,
@@ -891,14 +855,9 @@ public struct CompleteMultipartUploadInput: Swift.Sendable {
         self.checksumCRC32 = checksumCRC32
         self.checksumCRC32C = checksumCRC32C
         self.checksumCRC64NVME = checksumCRC64NVME
-        self.checksumMD5 = checksumMD5
         self.checksumSHA1 = checksumSHA1
         self.checksumSHA256 = checksumSHA256
-        self.checksumSHA512 = checksumSHA512
         self.checksumType = checksumType
-        self.checksumXXHASH128 = checksumXXHASH128
-        self.checksumXXHASH3 = checksumXXHASH3
-        self.checksumXXHASH64 = checksumXXHASH64
         self.expectedBucketOwner = expectedBucketOwner
         self.ifMatch = ifMatch
         self.ifNoneMatch = ifNoneMatch
@@ -915,7 +874,7 @@ public struct CompleteMultipartUploadInput: Swift.Sendable {
 
 extension CompleteMultipartUploadInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CompleteMultipartUploadInput(bucket: \(Swift.String(describing: bucket)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumMD5: \(Swift.String(describing: checksumMD5)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumSHA512: \(Swift.String(describing: checksumSHA512)), checksumType: \(Swift.String(describing: checksumType)), checksumXXHASH128: \(Swift.String(describing: checksumXXHASH128)), checksumXXHASH3: \(Swift.String(describing: checksumXXHASH3)), checksumXXHASH64: \(Swift.String(describing: checksumXXHASH64)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), ifMatch: \(Swift.String(describing: ifMatch)), ifNoneMatch: \(Swift.String(describing: ifNoneMatch)), key: \(Swift.String(describing: key)), mpuObjectSize: \(Swift.String(describing: mpuObjectSize)), multipartUpload: \(Swift.String(describing: multipartUpload)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), uploadId: \(Swift.String(describing: uploadId)), sseCustomerKey: \"CONTENT_REDACTED\")"}
+        "CompleteMultipartUploadInput(bucket: \(Swift.String(describing: bucket)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumType: \(Swift.String(describing: checksumType)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), ifMatch: \(Swift.String(describing: ifMatch)), ifNoneMatch: \(Swift.String(describing: ifNoneMatch)), key: \(Swift.String(describing: key)), mpuObjectSize: \(Swift.String(describing: mpuObjectSize)), multipartUpload: \(Swift.String(describing: multipartUpload)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), uploadId: \(Swift.String(describing: uploadId)), sseCustomerKey: \"CONTENT_REDACTED\")"}
 }
 
 extension S3ClientTypes {
@@ -964,22 +923,12 @@ public struct CompleteMultipartUploadOutput: Swift.Sendable {
     public var checksumCRC32C: Swift.String?
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the object. The CRC64NVME checksum is always a full object checksum. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
     public var checksumCRC64NVME: Swift.String?
-    /// The Base64 encoded, 128-bit MD5 digest of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumMD5: Swift.String?
     /// The Base64 encoded, 160-bit SHA1 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumSHA1: Swift.String?
     /// The Base64 encoded, 256-bit SHA256 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumSHA256: Swift.String?
-    /// The Base64 encoded, 512-bit SHA512 digest of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumSHA512: Swift.String?
     /// The checksum type, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. You can use this header as a data integrity check to verify that the checksum type that is received is the same checksum type that was specified during the CreateMultipartUpload request. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
     public var checksumType: S3ClientTypes.ChecksumType?
-    /// The Base64 encoded, 128-bit XXHASH128 checksum of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumXXHASH128: Swift.String?
-    /// The Base64 encoded, 64-bit XXHASH3 checksum of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumXXHASH3: Swift.String?
-    /// The Base64 encoded, 64-bit XXHASH64 checksum of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumXXHASH64: Swift.String?
     /// Entity tag that identifies the newly created object's data. Objects with different object data will have different entity tags. The entity tag is an opaque string. The entity tag may or may not be an MD5 digest of the object data. If the entity tag is not an MD5 digest of the object data, it will contain one or more nonhexadecimal characters and/or will consist of less than 32 or more than 32 hexadecimal digits. For more information about how the entity tag is calculated, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var eTag: Swift.String?
     /// If the object expiration is configured, this will contain the expiration date (expiry-date) and rule ID (rule-id). The value of rule-id is URL-encoded. This functionality is not supported for directory buckets.
@@ -1003,14 +952,9 @@ public struct CompleteMultipartUploadOutput: Swift.Sendable {
         checksumCRC32: Swift.String? = nil,
         checksumCRC32C: Swift.String? = nil,
         checksumCRC64NVME: Swift.String? = nil,
-        checksumMD5: Swift.String? = nil,
         checksumSHA1: Swift.String? = nil,
         checksumSHA256: Swift.String? = nil,
-        checksumSHA512: Swift.String? = nil,
         checksumType: S3ClientTypes.ChecksumType? = nil,
-        checksumXXHASH128: Swift.String? = nil,
-        checksumXXHASH3: Swift.String? = nil,
-        checksumXXHASH64: Swift.String? = nil,
         eTag: Swift.String? = nil,
         expiration: Swift.String? = nil,
         key: Swift.String? = nil,
@@ -1025,14 +969,9 @@ public struct CompleteMultipartUploadOutput: Swift.Sendable {
         self.checksumCRC32 = checksumCRC32
         self.checksumCRC32C = checksumCRC32C
         self.checksumCRC64NVME = checksumCRC64NVME
-        self.checksumMD5 = checksumMD5
         self.checksumSHA1 = checksumSHA1
         self.checksumSHA256 = checksumSHA256
-        self.checksumSHA512 = checksumSHA512
         self.checksumType = checksumType
-        self.checksumXXHASH128 = checksumXXHASH128
-        self.checksumXXHASH3 = checksumXXHASH3
-        self.checksumXXHASH64 = checksumXXHASH64
         self.eTag = eTag
         self.expiration = expiration
         self.key = key
@@ -1046,7 +985,7 @@ public struct CompleteMultipartUploadOutput: Swift.Sendable {
 
 extension CompleteMultipartUploadOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CompleteMultipartUploadOutput(bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumMD5: \(Swift.String(describing: checksumMD5)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumSHA512: \(Swift.String(describing: checksumSHA512)), checksumType: \(Swift.String(describing: checksumType)), checksumXXHASH128: \(Swift.String(describing: checksumXXHASH128)), checksumXXHASH3: \(Swift.String(describing: checksumXXHASH3)), checksumXXHASH64: \(Swift.String(describing: checksumXXHASH64)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), key: \(Swift.String(describing: key)), location: \(Swift.String(describing: location)), requestCharged: \(Swift.String(describing: requestCharged)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), versionId: \(Swift.String(describing: versionId)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
+        "CompleteMultipartUploadOutput(bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumType: \(Swift.String(describing: checksumType)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), key: \(Swift.String(describing: key)), location: \(Swift.String(describing: location)), requestCharged: \(Swift.String(describing: requestCharged)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), versionId: \(Swift.String(describing: versionId)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
 /// The source object of the COPY action is not in the active tier and is only stored in Amazon S3 Glacier.
@@ -1113,13 +1052,8 @@ extension S3ClientTypes {
         case crc32
         case crc32c
         case crc64nvme
-        case md5
         case sha1
         case sha256
-        case sha512
-        case xxhash128
-        case xxhash3
-        case xxhash64
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ChecksumAlgorithm] {
@@ -1127,13 +1061,8 @@ extension S3ClientTypes {
                 .crc32,
                 .crc32c,
                 .crc64nvme,
-                .md5,
                 .sha1,
-                .sha256,
-                .sha512,
-                .xxhash128,
-                .xxhash3,
-                .xxhash64
+                .sha256
             ]
         }
 
@@ -1147,13 +1076,8 @@ extension S3ClientTypes {
             case .crc32: return "CRC32"
             case .crc32c: return "CRC32C"
             case .crc64nvme: return "CRC64NVME"
-            case .md5: return "MD5"
             case .sha1: return "SHA1"
             case .sha256: return "SHA256"
-            case .sha512: return "SHA512"
-            case .xxhash128: return "XXHASH128"
-            case .xxhash3: return "XXHASH3"
-            case .xxhash64: return "XXHASH64"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1648,22 +1572,12 @@ extension S3ClientTypes {
         public var checksumCRC32C: Swift.String?
         /// The Base64 encoded, 64-bit CRC64NVME checksum of the object. This checksum is present if the object being copied was uploaded with the CRC64NVME checksum algorithm, or if the object was uploaded without a checksum (and Amazon S3 added the default checksum, CRC64NVME, to the uploaded object). For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumCRC64NVME: Swift.String?
-        /// The Base64 encoded, 128-bit MD5 digest of the object. This checksum is only present if the object was uploaded with the MD5 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumMD5: Swift.String?
         /// The Base64 encoded, 160-bit SHA1 digest of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumSHA1: Swift.String?
         /// The Base64 encoded, 256-bit SHA256 digest of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumSHA256: Swift.String?
-        /// The Base64 encoded, 512-bit SHA512 digest of the object. This checksum is only present if the object was uploaded with the SHA512 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumSHA512: Swift.String?
         /// The checksum type that is used to calculate the object’s checksum value. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumType: S3ClientTypes.ChecksumType?
-        /// The Base64 encoded, 128-bit XXHASH128 checksum of the object. This checksum is only present if the object was uploaded with the XXHASH128 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumXXHASH128: Swift.String?
-        /// The Base64 encoded, 64-bit XXHASH3 checksum of the object. This checksum is only present if the object was uploaded with the XXHASH3 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumXXHASH3: Swift.String?
-        /// The Base64 encoded, 64-bit XXHASH64 checksum of the object. This checksum is only present if the object was uploaded with the XXHASH64 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumXXHASH64: Swift.String?
         /// Returns the ETag of the new object. The ETag reflects only changes to the contents of an object, not its metadata.
         public var eTag: Swift.String?
         /// Creation date of the object.
@@ -1673,28 +1587,18 @@ extension S3ClientTypes {
             checksumCRC32: Swift.String? = nil,
             checksumCRC32C: Swift.String? = nil,
             checksumCRC64NVME: Swift.String? = nil,
-            checksumMD5: Swift.String? = nil,
             checksumSHA1: Swift.String? = nil,
             checksumSHA256: Swift.String? = nil,
-            checksumSHA512: Swift.String? = nil,
             checksumType: S3ClientTypes.ChecksumType? = nil,
-            checksumXXHASH128: Swift.String? = nil,
-            checksumXXHASH3: Swift.String? = nil,
-            checksumXXHASH64: Swift.String? = nil,
             eTag: Swift.String? = nil,
             lastModified: Foundation.Date? = nil
         ) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumCRC64NVME = checksumCRC64NVME
-            self.checksumMD5 = checksumMD5
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
-            self.checksumSHA512 = checksumSHA512
             self.checksumType = checksumType
-            self.checksumXXHASH128 = checksumXXHASH128
-            self.checksumXXHASH3 = checksumXXHASH3
-            self.checksumXXHASH64 = checksumXXHASH64
             self.eTag = eTag
             self.lastModified = lastModified
         }
@@ -1977,7 +1881,6 @@ extension S3ClientTypes {
         case eu
         case afSouth1
         case apEast1
-        case apEast2
         case apNortheast1
         case apNortheast2
         case apNortheast3
@@ -1988,10 +1891,7 @@ extension S3ClientTypes {
         case apSoutheast3
         case apSoutheast4
         case apSoutheast5
-        case apSoutheast6
-        case apSoutheast7
         case caCentral1
-        case caWest1
         case cnNorth1
         case cnNorthwest1
         case euCentral1
@@ -2005,7 +1905,6 @@ extension S3ClientTypes {
         case ilCentral1
         case meCentral1
         case meSouth1
-        case mxCentral1
         case saEast1
         case usEast2
         case usGovEast1
@@ -2019,7 +1918,6 @@ extension S3ClientTypes {
                 .eu,
                 .afSouth1,
                 .apEast1,
-                .apEast2,
                 .apNortheast1,
                 .apNortheast2,
                 .apNortheast3,
@@ -2030,10 +1928,7 @@ extension S3ClientTypes {
                 .apSoutheast3,
                 .apSoutheast4,
                 .apSoutheast5,
-                .apSoutheast6,
-                .apSoutheast7,
                 .caCentral1,
-                .caWest1,
                 .cnNorth1,
                 .cnNorthwest1,
                 .euCentral1,
@@ -2047,7 +1942,6 @@ extension S3ClientTypes {
                 .ilCentral1,
                 .meCentral1,
                 .meSouth1,
-                .mxCentral1,
                 .saEast1,
                 .usEast2,
                 .usGovEast1,
@@ -2067,7 +1961,6 @@ extension S3ClientTypes {
             case .eu: return "EU"
             case .afSouth1: return "af-south-1"
             case .apEast1: return "ap-east-1"
-            case .apEast2: return "ap-east-2"
             case .apNortheast1: return "ap-northeast-1"
             case .apNortheast2: return "ap-northeast-2"
             case .apNortheast3: return "ap-northeast-3"
@@ -2078,10 +1971,7 @@ extension S3ClientTypes {
             case .apSoutheast3: return "ap-southeast-3"
             case .apSoutheast4: return "ap-southeast-4"
             case .apSoutheast5: return "ap-southeast-5"
-            case .apSoutheast6: return "ap-southeast-6"
-            case .apSoutheast7: return "ap-southeast-7"
             case .caCentral1: return "ca-central-1"
-            case .caWest1: return "ca-west-1"
             case .cnNorth1: return "cn-north-1"
             case .cnNorthwest1: return "cn-northwest-1"
             case .euCentral1: return "eu-central-1"
@@ -2095,7 +1985,6 @@ extension S3ClientTypes {
             case .ilCentral1: return "il-central-1"
             case .meCentral1: return "me-central-1"
             case .meSouth1: return "me-south-1"
-            case .mxCentral1: return "mx-central-1"
             case .saEast1: return "sa-east-1"
             case .usEast2: return "us-east-2"
             case .usGovEast1: return "us-gov-east-1"
@@ -3124,10 +3013,10 @@ public struct DeleteBucketIntelligentTieringConfigurationInput: Swift.Sendable {
 }
 
 public struct DeleteBucketInventoryConfigurationInput: Swift.Sendable {
-    /// The name of the bucket containing the inventory configuration to delete. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide
+    /// The name of the bucket containing the inventory configuration to delete.
     /// This member is required.
     public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied). For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code 501 Not Implemented.
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
     /// The ID used to identify the inventory configuration.
     /// This member is required.
@@ -3193,10 +3082,10 @@ public struct DeleteBucketMetadataTableConfigurationInput: Swift.Sendable {
 }
 
 public struct DeleteBucketMetricsConfigurationInput: Swift.Sendable {
-    /// The name of the bucket containing the metrics configuration to delete. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide
+    /// The name of the bucket containing the metrics configuration to delete.
     /// This member is required.
     public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied). For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code 501 Not Implemented.
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
     /// The ID used to identify the metrics configuration. The ID has a 64 character limit and can only contain letters, numbers, periods, dashes, and underscores.
     /// This member is required.
@@ -3427,19 +3316,9 @@ public struct DeleteObjectsInput: Swift.Sendable {
     ///
     /// * CRC64NVME
     ///
-    /// * MD5
-    ///
     /// * SHA1
     ///
     /// * SHA256
-    ///
-    /// * SHA512
-    ///
-    /// * XXHASH3
-    ///
-    /// * XXHASH64
-    ///
-    /// * XXHASH128
     ///
     ///
     /// For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide. If the individual checksum value you provide through x-amz-checksum-algorithm  doesn't match the checksum algorithm you set through x-amz-sdk-checksum-algorithm, Amazon S3 fails the request with a BadDigest error. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
@@ -5396,10 +5275,10 @@ public struct GetBucketIntelligentTieringConfigurationOutput: Swift.Sendable {
 }
 
 public struct GetBucketInventoryConfigurationInput: Swift.Sendable {
-    /// The name of the bucket containing the inventory configuration to retrieve. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide
+    /// The name of the bucket containing the inventory configuration to retrieve.
     /// This member is required.
     public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied). For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code 501 Not Implemented.
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
     /// The ID used to identify the inventory configuration.
     /// This member is required.
@@ -5725,7 +5604,7 @@ extension S3ClientTypes {
         /// Specifies whether the inventory is enabled or disabled. If set to True, an inventory list is generated. If set to False, no inventory list is generated.
         /// This member is required.
         public var isEnabled: Swift.Bool?
-        /// Contains the optional fields that are included in the inventory results. The following optional fields are supported for directory buckets Size | LastModifiedDate | StorageClass | ETag | IsMultipartUploaded | EncryptionStatus | BucketKeyStatus | ChecksumAlgorithm | LifecycleExpirationDate. Throws MalformedXML error if unsupported optional field is provided.
+        /// Contains the optional fields that are included in the inventory results.
         public var optionalFields: [S3ClientTypes.InventoryOptionalField]?
         /// Specifies the schedule for generating inventory results.
         /// This member is required.
@@ -6686,10 +6565,10 @@ public struct GetBucketMetadataTableConfigurationOutput: Swift.Sendable {
 }
 
 public struct GetBucketMetricsConfigurationInput: Swift.Sendable {
-    /// The name of the bucket containing the metrics configuration to retrieve. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide
+    /// The name of the bucket containing the metrics configuration to retrieve.
     /// This member is required.
     public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied). For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code 501 Not Implemented.
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
     /// The ID used to identify the metrics configuration. The ID has a 64 character limit and can only contain letters, numbers, periods, dashes, and underscores.
     /// This member is required.
@@ -6714,7 +6593,7 @@ extension S3ClientTypes {
         public var accessPointArn: Swift.String?
         /// The prefix used when evaluating an AND predicate.
         public var `prefix`: Swift.String?
-        /// The list of tags used when evaluating an AND predicate. Tag filters are not supported for directory buckets.
+        /// The list of tags used when evaluating an AND predicate.
         public var tags: [S3ClientTypes.Tag]?
 
         public init(
@@ -6735,7 +6614,7 @@ extension S3ClientTypes {
     public enum MetricsFilter: Swift.Sendable {
         /// The prefix used when evaluating a metrics filter.
         case `prefix`(Swift.String)
-        /// The tag used when evaluating a metrics filter. Tag filters are not supported for directory buckets.
+        /// The tag used when evaluating a metrics filter.
         case tag(S3ClientTypes.Tag)
         /// The access point ARN used when evaluating a metrics filter.
         case accesspointarn(Swift.String)
@@ -6749,7 +6628,7 @@ extension S3ClientTypes {
 
     /// Specifies a metrics configuration for the CloudWatch request metrics (specified by the metrics configuration ID) from an Amazon S3 bucket. If you're updating an existing metrics configuration, note that this is a full replacement of the existing metrics configuration. If you don't include the elements you want to keep, they are erased. For more information, see [PutBucketMetricsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTMetricConfiguration.html).
     public struct MetricsConfiguration: Swift.Sendable {
-        /// Specifies a metrics configuration filter. The metrics configuration will only include objects that meet the filter's criteria. A filter must be a prefix, an object tag, an access point ARN, or a conjunction (MetricsAndOperator). Metrics configurations for directory buckets do not support tag filters.
+        /// Specifies a metrics configuration filter. The metrics configuration will only include objects that meet the filter's criteria. A filter must be a prefix, an object tag, an access point ARN, or a conjunction (MetricsAndOperator).
         public var filter: S3ClientTypes.MetricsFilter?
         /// The ID used to identify the metrics configuration. The ID has a 64 character limit and can only contain letters, numbers, periods, dashes, and underscores.
         /// This member is required.
@@ -8384,22 +8263,12 @@ public struct GetObjectOutput: Swift.Sendable {
     public var checksumCRC32C: Swift.String?
     /// The Base64 encoded, 64-bit CRC64NVME checksum of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
     public var checksumCRC64NVME: Swift.String?
-    /// The Base64 encoded, 128-bit MD5 digest of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumMD5: Swift.String?
     /// The Base64 encoded, 160-bit SHA1 digest of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumSHA1: Swift.String?
     /// The Base64 encoded, 256-bit SHA256 digest of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumSHA256: Swift.String?
-    /// The Base64 encoded, 512-bit SHA512 digest of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumSHA512: Swift.String?
     /// The checksum type, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. You can use this header response to verify that the checksum type that is received is the same checksum type that was specified in the CreateMultipartUpload request. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumType: S3ClientTypes.ChecksumType?
-    /// The Base64 encoded, 128-bit XXHASH128 checksum of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumXXHASH128: Swift.String?
-    /// The Base64 encoded, 64-bit XXHASH3 checksum of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumXXHASH3: Swift.String?
-    /// The Base64 encoded, 64-bit XXHASH64 checksum of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumXXHASH64: Swift.String?
     /// Specifies presentational information for the object.
     public var contentDisposition: Swift.String?
     /// Indicates what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
@@ -8469,14 +8338,9 @@ public struct GetObjectOutput: Swift.Sendable {
         checksumCRC32: Swift.String? = nil,
         checksumCRC32C: Swift.String? = nil,
         checksumCRC64NVME: Swift.String? = nil,
-        checksumMD5: Swift.String? = nil,
         checksumSHA1: Swift.String? = nil,
         checksumSHA256: Swift.String? = nil,
-        checksumSHA512: Swift.String? = nil,
         checksumType: S3ClientTypes.ChecksumType? = nil,
-        checksumXXHASH128: Swift.String? = nil,
-        checksumXXHASH3: Swift.String? = nil,
-        checksumXXHASH64: Swift.String? = nil,
         contentDisposition: Swift.String? = nil,
         contentEncoding: Swift.String? = nil,
         contentLanguage: Swift.String? = nil,
@@ -8513,14 +8377,9 @@ public struct GetObjectOutput: Swift.Sendable {
         self.checksumCRC32 = checksumCRC32
         self.checksumCRC32C = checksumCRC32C
         self.checksumCRC64NVME = checksumCRC64NVME
-        self.checksumMD5 = checksumMD5
         self.checksumSHA1 = checksumSHA1
         self.checksumSHA256 = checksumSHA256
-        self.checksumSHA512 = checksumSHA512
         self.checksumType = checksumType
-        self.checksumXXHASH128 = checksumXXHASH128
-        self.checksumXXHASH3 = checksumXXHASH3
-        self.checksumXXHASH64 = checksumXXHASH64
         self.contentDisposition = contentDisposition
         self.contentEncoding = contentEncoding
         self.contentLanguage = contentLanguage
@@ -8554,7 +8413,7 @@ public struct GetObjectOutput: Swift.Sendable {
 
 extension GetObjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetObjectOutput(acceptRanges: \(Swift.String(describing: acceptRanges)), body: \(Swift.String(describing: body)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumMD5: \(Swift.String(describing: checksumMD5)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumSHA512: \(Swift.String(describing: checksumSHA512)), checksumType: \(Swift.String(describing: checksumType)), checksumXXHASH128: \(Swift.String(describing: checksumXXHASH128)), checksumXXHASH3: \(Swift.String(describing: checksumXXHASH3)), checksumXXHASH64: \(Swift.String(describing: checksumXXHASH64)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentRange: \(Swift.String(describing: contentRange)), contentType: \(Swift.String(describing: contentType)), deleteMarker: \(Swift.String(describing: deleteMarker)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), expires: \(Swift.String(describing: expires)), lastModified: \(Swift.String(describing: lastModified)), metadata: \(Swift.String(describing: metadata)), missingMeta: \(Swift.String(describing: missingMeta)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), partsCount: \(Swift.String(describing: partsCount)), replicationStatus: \(Swift.String(describing: replicationStatus)), requestCharged: \(Swift.String(describing: requestCharged)), restore: \(Swift.String(describing: restore)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagCount: \(Swift.String(describing: tagCount)), versionId: \(Swift.String(describing: versionId)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
+        "GetObjectOutput(acceptRanges: \(Swift.String(describing: acceptRanges)), body: \(Swift.String(describing: body)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumType: \(Swift.String(describing: checksumType)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentRange: \(Swift.String(describing: contentRange)), contentType: \(Swift.String(describing: contentType)), deleteMarker: \(Swift.String(describing: deleteMarker)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), expires: \(Swift.String(describing: expires)), lastModified: \(Swift.String(describing: lastModified)), metadata: \(Swift.String(describing: metadata)), missingMeta: \(Swift.String(describing: missingMeta)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), partsCount: \(Swift.String(describing: partsCount)), replicationStatus: \(Swift.String(describing: replicationStatus)), requestCharged: \(Swift.String(describing: requestCharged)), restore: \(Swift.String(describing: restore)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagCount: \(Swift.String(describing: tagCount)), versionId: \(Swift.String(describing: versionId)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetObjectAclInput: Swift.Sendable {
@@ -8712,47 +8571,27 @@ extension S3ClientTypes {
         public var checksumCRC32C: Swift.String?
         /// The Base64 encoded, 64-bit CRC64NVME checksum of the object. This checksum is present if the object was uploaded with the CRC64NVME checksum algorithm, or if the object was uploaded without a checksum (and Amazon S3 added the default checksum, CRC64NVME, to the uploaded object). For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumCRC64NVME: Swift.String?
-        /// The Base64 encoded, 128-bit MD5 digest of the object. This checksum is present if the object was uploaded with the MD5 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumMD5: Swift.String?
         /// The Base64 encoded, 160-bit SHA1 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
         public var checksumSHA1: Swift.String?
         /// The Base64 encoded, 256-bit SHA256 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
         public var checksumSHA256: Swift.String?
-        /// The Base64 encoded, 512-bit SHA512 digest of the object. This checksum is present if the object was uploaded with the SHA512 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumSHA512: Swift.String?
         /// The checksum type that is used to calculate the object’s checksum value. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumType: S3ClientTypes.ChecksumType?
-        /// The Base64 encoded, 128-bit XXHASH128 checksum of the object. This checksum is present if the object was uploaded with the XXHASH128 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumXXHASH128: Swift.String?
-        /// The Base64 encoded, 64-bit XXHASH3 checksum of the object. This checksum is present if the object was uploaded with the XXHASH3 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumXXHASH3: Swift.String?
-        /// The Base64 encoded, 64-bit XXHASH64 checksum of the object. This checksum is present if the object was uploaded with the XXHASH64 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumXXHASH64: Swift.String?
 
         public init(
             checksumCRC32: Swift.String? = nil,
             checksumCRC32C: Swift.String? = nil,
             checksumCRC64NVME: Swift.String? = nil,
-            checksumMD5: Swift.String? = nil,
             checksumSHA1: Swift.String? = nil,
             checksumSHA256: Swift.String? = nil,
-            checksumSHA512: Swift.String? = nil,
-            checksumType: S3ClientTypes.ChecksumType? = nil,
-            checksumXXHASH128: Swift.String? = nil,
-            checksumXXHASH3: Swift.String? = nil,
-            checksumXXHASH64: Swift.String? = nil
+            checksumType: S3ClientTypes.ChecksumType? = nil
         ) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumCRC64NVME = checksumCRC64NVME
-            self.checksumMD5 = checksumMD5
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
-            self.checksumSHA512 = checksumSHA512
             self.checksumType = checksumType
-            self.checksumXXHASH128 = checksumXXHASH128
-            self.checksumXXHASH3 = checksumXXHASH3
-            self.checksumXXHASH64 = checksumXXHASH64
         }
     }
 }
@@ -8767,20 +8606,10 @@ extension S3ClientTypes {
         public var checksumCRC32C: Swift.String?
         /// The Base64 encoded, 64-bit CRC64NVME checksum of the part. This checksum is present if the multipart upload request was created with the CRC64NVME checksum algorithm, or if the object was uploaded without a checksum (and Amazon S3 added the default checksum, CRC64NVME, to the uploaded object). For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumCRC64NVME: Swift.String?
-        /// The Base64 encoded, 128-bit MD5 digest of the part. This checksum is present if the multipart upload request was created with the MD5 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumMD5: Swift.String?
         /// The Base64 encoded, 160-bit SHA1 checksum of the part. This checksum is present if the multipart upload request was created with the SHA1 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumSHA1: Swift.String?
         /// The Base64 encoded, 256-bit SHA256 checksum of the part. This checksum is present if the multipart upload request was created with the SHA256 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumSHA256: Swift.String?
-        /// The Base64 encoded, 512-bit SHA512 digest of the part. This checksum is present if the multipart upload request was created with the SHA512 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumSHA512: Swift.String?
-        /// The Base64 encoded, 128-bit XXHASH128 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH128 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumXXHASH128: Swift.String?
-        /// The Base64 encoded, 64-bit XXHASH3 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH3 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumXXHASH3: Swift.String?
-        /// The Base64 encoded, 64-bit XXHASH64 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH64 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumXXHASH64: Swift.String?
         /// The part number identifying the part. This value is a positive integer between 1 and 10,000.
         public var partNumber: Swift.Int?
         /// The size of the uploaded part in bytes.
@@ -8790,26 +8619,16 @@ extension S3ClientTypes {
             checksumCRC32: Swift.String? = nil,
             checksumCRC32C: Swift.String? = nil,
             checksumCRC64NVME: Swift.String? = nil,
-            checksumMD5: Swift.String? = nil,
             checksumSHA1: Swift.String? = nil,
             checksumSHA256: Swift.String? = nil,
-            checksumSHA512: Swift.String? = nil,
-            checksumXXHASH128: Swift.String? = nil,
-            checksumXXHASH3: Swift.String? = nil,
-            checksumXXHASH64: Swift.String? = nil,
             partNumber: Swift.Int? = nil,
             size: Swift.Int? = nil
         ) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumCRC64NVME = checksumCRC64NVME
-            self.checksumMD5 = checksumMD5
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
-            self.checksumSHA512 = checksumSHA512
-            self.checksumXXHASH128 = checksumXXHASH128
-            self.checksumXXHASH3 = checksumXXHASH3
-            self.checksumXXHASH64 = checksumXXHASH64
             self.partNumber = partNumber
             self.size = size
         }
@@ -9530,22 +9349,12 @@ public struct HeadObjectOutput: Swift.Sendable {
     public var checksumCRC32C: Swift.String?
     /// The Base64 encoded, 64-bit CRC64NVME checksum of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
     public var checksumCRC64NVME: Swift.String?
-    /// The Base64 encoded, 128-bit MD5 digest of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumMD5: Swift.String?
     /// The Base64 encoded, 160-bit SHA1 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumSHA1: Swift.String?
     /// The Base64 encoded, 256-bit SHA256 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumSHA256: Swift.String?
-    /// The Base64 encoded, 512-bit SHA512 digest of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumSHA512: Swift.String?
     /// The checksum type, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. You can use this header response to verify that the checksum type that is received is the same checksum type that was specified in CreateMultipartUpload request. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
     public var checksumType: S3ClientTypes.ChecksumType?
-    /// The Base64 encoded, 128-bit XXHASH128 checksum of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumXXHASH128: Swift.String?
-    /// The Base64 encoded, 64-bit XXHASH3 checksum of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumXXHASH3: Swift.String?
-    /// The Base64 encoded, 64-bit XXHASH64 checksum of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumXXHASH64: Swift.String?
     /// Specifies presentational information for the object.
     public var contentDisposition: Swift.String?
     /// Indicates what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
@@ -9620,14 +9429,9 @@ public struct HeadObjectOutput: Swift.Sendable {
         checksumCRC32: Swift.String? = nil,
         checksumCRC32C: Swift.String? = nil,
         checksumCRC64NVME: Swift.String? = nil,
-        checksumMD5: Swift.String? = nil,
         checksumSHA1: Swift.String? = nil,
         checksumSHA256: Swift.String? = nil,
-        checksumSHA512: Swift.String? = nil,
         checksumType: S3ClientTypes.ChecksumType? = nil,
-        checksumXXHASH128: Swift.String? = nil,
-        checksumXXHASH3: Swift.String? = nil,
-        checksumXXHASH64: Swift.String? = nil,
         contentDisposition: Swift.String? = nil,
         contentEncoding: Swift.String? = nil,
         contentLanguage: Swift.String? = nil,
@@ -9664,14 +9468,9 @@ public struct HeadObjectOutput: Swift.Sendable {
         self.checksumCRC32 = checksumCRC32
         self.checksumCRC32C = checksumCRC32C
         self.checksumCRC64NVME = checksumCRC64NVME
-        self.checksumMD5 = checksumMD5
         self.checksumSHA1 = checksumSHA1
         self.checksumSHA256 = checksumSHA256
-        self.checksumSHA512 = checksumSHA512
         self.checksumType = checksumType
-        self.checksumXXHASH128 = checksumXXHASH128
-        self.checksumXXHASH3 = checksumXXHASH3
-        self.checksumXXHASH64 = checksumXXHASH64
         self.contentDisposition = contentDisposition
         self.contentEncoding = contentEncoding
         self.contentLanguage = contentLanguage
@@ -9705,7 +9504,7 @@ public struct HeadObjectOutput: Swift.Sendable {
 
 extension HeadObjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "HeadObjectOutput(acceptRanges: \(Swift.String(describing: acceptRanges)), archiveStatus: \(Swift.String(describing: archiveStatus)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumMD5: \(Swift.String(describing: checksumMD5)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumSHA512: \(Swift.String(describing: checksumSHA512)), checksumType: \(Swift.String(describing: checksumType)), checksumXXHASH128: \(Swift.String(describing: checksumXXHASH128)), checksumXXHASH3: \(Swift.String(describing: checksumXXHASH3)), checksumXXHASH64: \(Swift.String(describing: checksumXXHASH64)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentRange: \(Swift.String(describing: contentRange)), contentType: \(Swift.String(describing: contentType)), deleteMarker: \(Swift.String(describing: deleteMarker)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), expires: \(Swift.String(describing: expires)), lastModified: \(Swift.String(describing: lastModified)), metadata: \(Swift.String(describing: metadata)), missingMeta: \(Swift.String(describing: missingMeta)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), partsCount: \(Swift.String(describing: partsCount)), replicationStatus: \(Swift.String(describing: replicationStatus)), requestCharged: \(Swift.String(describing: requestCharged)), restore: \(Swift.String(describing: restore)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagCount: \(Swift.String(describing: tagCount)), versionId: \(Swift.String(describing: versionId)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
+        "HeadObjectOutput(acceptRanges: \(Swift.String(describing: acceptRanges)), archiveStatus: \(Swift.String(describing: archiveStatus)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumType: \(Swift.String(describing: checksumType)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentRange: \(Swift.String(describing: contentRange)), contentType: \(Swift.String(describing: contentType)), deleteMarker: \(Swift.String(describing: deleteMarker)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), expires: \(Swift.String(describing: expires)), lastModified: \(Swift.String(describing: lastModified)), metadata: \(Swift.String(describing: metadata)), missingMeta: \(Swift.String(describing: missingMeta)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), partsCount: \(Swift.String(describing: partsCount)), replicationStatus: \(Swift.String(describing: replicationStatus)), requestCharged: \(Swift.String(describing: requestCharged)), restore: \(Swift.String(describing: restore)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagCount: \(Swift.String(describing: tagCount)), versionId: \(Swift.String(describing: versionId)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListBucketAnalyticsConfigurationsInput: Swift.Sendable {
@@ -9795,12 +9594,12 @@ public struct ListBucketIntelligentTieringConfigurationsOutput: Swift.Sendable {
 }
 
 public struct ListBucketInventoryConfigurationsInput: Swift.Sendable {
-    /// The name of the bucket containing the inventory configurations to retrieve. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide
+    /// The name of the bucket containing the inventory configurations to retrieve.
     /// This member is required.
     public var bucket: Swift.String?
     /// The marker used to continue an inventory configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
     public var continuationToken: Swift.String?
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied). For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code 501 Not Implemented.
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
 
     public init(
@@ -9838,12 +9637,12 @@ public struct ListBucketInventoryConfigurationsOutput: Swift.Sendable {
 }
 
 public struct ListBucketMetricsConfigurationsInput: Swift.Sendable {
-    /// The name of the bucket containing the metrics configurations to retrieve. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide
+    /// The name of the bucket containing the metrics configurations to retrieve.
     /// This member is required.
     public var bucket: Swift.String?
     /// The marker that is used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
     public var continuationToken: Swift.String?
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied). For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code 501 Not Implemented.
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
 
     public init(
@@ -10859,20 +10658,10 @@ extension S3ClientTypes {
         public var checksumCRC32C: Swift.String?
         /// The Base64 encoded, 64-bit CRC64NVME checksum of the part. This checksum is present if the multipart upload request was created with the CRC64NVME checksum algorithm, or if the object was uploaded without a checksum (and Amazon S3 added the default checksum, CRC64NVME, to the uploaded object). For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumCRC64NVME: Swift.String?
-        /// The Base64 encoded, 128-bit MD5 digest of the part. This checksum is present if the multipart upload request was created with the MD5 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumMD5: Swift.String?
         /// The Base64 encoded, 160-bit SHA1 checksum of the part. This checksum is present if the object was uploaded with the SHA1 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumSHA1: Swift.String?
         /// The Base64 encoded, 256-bit SHA256 checksum of the part. This checksum is present if the object was uploaded with the SHA256 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumSHA256: Swift.String?
-        /// The Base64 encoded, 512-bit SHA512 digest of the part. This checksum is present if the multipart upload request was created with the SHA512 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumSHA512: Swift.String?
-        /// The Base64 encoded, 128-bit XXHASH128 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH128 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumXXHASH128: Swift.String?
-        /// The Base64 encoded, 64-bit XXHASH3 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH3 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumXXHASH3: Swift.String?
-        /// The Base64 encoded, 64-bit XXHASH64 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH64 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumXXHASH64: Swift.String?
         /// Entity tag returned when the part was uploaded.
         public var eTag: Swift.String?
         /// Date and time at which the part was uploaded.
@@ -10886,13 +10675,8 @@ extension S3ClientTypes {
             checksumCRC32: Swift.String? = nil,
             checksumCRC32C: Swift.String? = nil,
             checksumCRC64NVME: Swift.String? = nil,
-            checksumMD5: Swift.String? = nil,
             checksumSHA1: Swift.String? = nil,
             checksumSHA256: Swift.String? = nil,
-            checksumSHA512: Swift.String? = nil,
-            checksumXXHASH128: Swift.String? = nil,
-            checksumXXHASH3: Swift.String? = nil,
-            checksumXXHASH64: Swift.String? = nil,
             eTag: Swift.String? = nil,
             lastModified: Foundation.Date? = nil,
             partNumber: Swift.Int? = nil,
@@ -10901,13 +10685,8 @@ extension S3ClientTypes {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumCRC64NVME = checksumCRC64NVME
-            self.checksumMD5 = checksumMD5
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
-            self.checksumSHA512 = checksumSHA512
-            self.checksumXXHASH128 = checksumXXHASH128
-            self.checksumXXHASH3 = checksumXXHASH3
-            self.checksumXXHASH64 = checksumXXHASH64
             self.eTag = eTag
             self.lastModified = lastModified
             self.partNumber = partNumber
@@ -11220,10 +10999,10 @@ public struct PutBucketIntelligentTieringConfigurationInput: Swift.Sendable {
 }
 
 public struct PutBucketInventoryConfigurationInput: Swift.Sendable {
-    /// The name of the bucket where the inventory configuration will be stored. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide
+    /// The name of the bucket where the inventory configuration will be stored.
     /// This member is required.
     public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied). For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code 501 Not Implemented.
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
     /// The ID used to identify the inventory configuration.
     /// This member is required.
@@ -11359,10 +11138,10 @@ public struct PutBucketLoggingInput: Swift.Sendable {
 }
 
 public struct PutBucketMetricsConfigurationInput: Swift.Sendable {
-    /// The name of the bucket for which the metrics configuration is set. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide
+    /// The name of the bucket for which the metrics configuration is set.
     /// This member is required.
     public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied). For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code 501 Not Implemented.
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
     /// The ID used to identify the metrics configuration. The ID has a 64 character limit and can only contain letters, numbers, periods, dashes, and underscores.
     /// This member is required.
@@ -11477,19 +11256,9 @@ public struct PutBucketPolicyInput: Swift.Sendable {
     ///
     /// * CRC64NVME
     ///
-    /// * MD5
-    ///
     /// * SHA1
     ///
     /// * SHA256
-    ///
-    /// * SHA512
-    ///
-    /// * XXHASH3
-    ///
-    /// * XXHASH64
-    ///
-    /// * XXHASH128
     ///
     ///
     /// For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide. If the individual checksum value you provide through x-amz-checksum-algorithm  doesn't match the checksum algorithm you set through x-amz-sdk-checksum-algorithm, Amazon S3 fails the request with a BadDigest error. For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default checksum algorithm that's used for performance.
@@ -11861,19 +11630,9 @@ public struct PutObjectInput: Swift.Sendable {
     ///
     /// * CRC64NVME
     ///
-    /// * MD5
-    ///
     /// * SHA1
     ///
     /// * SHA256
-    ///
-    /// * SHA512
-    ///
-    /// * XXHASH3
-    ///
-    /// * XXHASH64
-    ///
-    /// * XXHASH128
     ///
     ///
     /// For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide. If the individual checksum value you provide through x-amz-checksum-algorithm  doesn't match the checksum algorithm you set through x-amz-sdk-checksum-algorithm, Amazon S3 fails the request with a BadDigest error. The Content-MD5 or x-amz-sdk-checksum-algorithm header is required for any request to upload an object with a retention period configured using Amazon S3 Object Lock. For more information, see [Uploading objects to an Object Lock enabled bucket ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock-managing.html#object-lock-put-object) in the Amazon S3 User Guide. For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default checksum algorithm that's used for performance.
@@ -11884,20 +11643,10 @@ public struct PutObjectInput: Swift.Sendable {
     public var checksumCRC32C: Swift.String?
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the object. The CRC64NVME checksum is always a full object checksum. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
     public var checksumCRC64NVME: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 128-bit MD5 digest of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumMD5: Swift.String?
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 160-bit SHA1 digest of the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumSHA1: Swift.String?
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 256-bit SHA256 digest of the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumSHA256: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 512-bit SHA512 digest of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumSHA512: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 128-bit XXHASH128 checksum of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumXXHASH128: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit XXHASH3 checksum of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumXXHASH3: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit XXHASH64 checksum of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumXXHASH64: Swift.String?
     /// Specifies presentational information for the object. For more information, see [https://www.rfc-editor.org/rfc/rfc6266#section-4](https://www.rfc-editor.org/rfc/rfc6266#section-4).
     public var contentDisposition: Swift.String?
     /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field. For more information, see [https://www.rfc-editor.org/rfc/rfc9110.html#field.content-encoding](https://www.rfc-editor.org/rfc/rfc9110.html#field.content-encoding).
@@ -11996,13 +11745,8 @@ public struct PutObjectInput: Swift.Sendable {
         checksumCRC32: Swift.String? = nil,
         checksumCRC32C: Swift.String? = nil,
         checksumCRC64NVME: Swift.String? = nil,
-        checksumMD5: Swift.String? = nil,
         checksumSHA1: Swift.String? = nil,
         checksumSHA256: Swift.String? = nil,
-        checksumSHA512: Swift.String? = nil,
-        checksumXXHASH128: Swift.String? = nil,
-        checksumXXHASH3: Swift.String? = nil,
-        checksumXXHASH64: Swift.String? = nil,
         contentDisposition: Swift.String? = nil,
         contentEncoding: Swift.String? = nil,
         contentLanguage: Swift.String? = nil,
@@ -12043,13 +11787,8 @@ public struct PutObjectInput: Swift.Sendable {
         self.checksumCRC32 = checksumCRC32
         self.checksumCRC32C = checksumCRC32C
         self.checksumCRC64NVME = checksumCRC64NVME
-        self.checksumMD5 = checksumMD5
         self.checksumSHA1 = checksumSHA1
         self.checksumSHA256 = checksumSHA256
-        self.checksumSHA512 = checksumSHA512
-        self.checksumXXHASH128 = checksumXXHASH128
-        self.checksumXXHASH3 = checksumXXHASH3
-        self.checksumXXHASH64 = checksumXXHASH64
         self.contentDisposition = contentDisposition
         self.contentEncoding = contentEncoding
         self.contentLanguage = contentLanguage
@@ -12085,7 +11824,7 @@ public struct PutObjectInput: Swift.Sendable {
 
 extension PutObjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PutObjectInput(acl: \(Swift.String(describing: acl)), body: \(Swift.String(describing: body)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumMD5: \(Swift.String(describing: checksumMD5)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumSHA512: \(Swift.String(describing: checksumSHA512)), checksumXXHASH128: \(Swift.String(describing: checksumXXHASH128)), checksumXXHASH3: \(Swift.String(describing: checksumXXHASH3)), checksumXXHASH64: \(Swift.String(describing: checksumXXHASH64)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentMD5: \(Swift.String(describing: contentMD5)), contentType: \(Swift.String(describing: contentType)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expires: \(Swift.String(describing: expires)), grantFullControl: \(Swift.String(describing: grantFullControl)), grantRead: \(Swift.String(describing: grantRead)), grantReadACP: \(Swift.String(describing: grantReadACP)), grantWriteACP: \(Swift.String(describing: grantWriteACP)), ifMatch: \(Swift.String(describing: ifMatch)), ifNoneMatch: \(Swift.String(describing: ifNoneMatch)), key: \(Swift.String(describing: key)), metadata: \(Swift.String(describing: metadata)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), requestPayer: \(Swift.String(describing: requestPayer)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagging: \(Swift.String(describing: tagging)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), writeOffsetBytes: \(Swift.String(describing: writeOffsetBytes)), sseCustomerKey: \"CONTENT_REDACTED\", ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
+        "PutObjectInput(acl: \(Swift.String(describing: acl)), body: \(Swift.String(describing: body)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentMD5: \(Swift.String(describing: contentMD5)), contentType: \(Swift.String(describing: contentType)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expires: \(Swift.String(describing: expires)), grantFullControl: \(Swift.String(describing: grantFullControl)), grantRead: \(Swift.String(describing: grantRead)), grantReadACP: \(Swift.String(describing: grantReadACP)), grantWriteACP: \(Swift.String(describing: grantWriteACP)), ifMatch: \(Swift.String(describing: ifMatch)), ifNoneMatch: \(Swift.String(describing: ifNoneMatch)), key: \(Swift.String(describing: key)), metadata: \(Swift.String(describing: metadata)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), requestPayer: \(Swift.String(describing: requestPayer)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagging: \(Swift.String(describing: tagging)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), writeOffsetBytes: \(Swift.String(describing: writeOffsetBytes)), sseCustomerKey: \"CONTENT_REDACTED\", ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
 public struct PutObjectOutput: Swift.Sendable {
@@ -12097,22 +11836,12 @@ public struct PutObjectOutput: Swift.Sendable {
     public var checksumCRC32C: Swift.String?
     /// The Base64 encoded, 64-bit CRC64NVME checksum of the object. This header is present if the object was uploaded with the CRC64NVME checksum algorithm, or if it was uploaded without a checksum (and Amazon S3 added the default checksum, CRC64NVME, to the uploaded object). For more information about how checksums are calculated with multipart uploads, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
     public var checksumCRC64NVME: Swift.String?
-    /// The Base64 encoded, 128-bit MD5 digest of the object. This header is present if the object was uploaded with the MD5 checksum algorithm. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumMD5: Swift.String?
     /// The Base64 encoded, 160-bit SHA1 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumSHA1: Swift.String?
     /// The Base64 encoded, 256-bit SHA256 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumSHA256: Swift.String?
-    /// The Base64 encoded, 512-bit SHA512 digest of the object. This header is present if the object was uploaded with the SHA512 checksum algorithm. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumSHA512: Swift.String?
     /// This header specifies the checksum type of the object, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. For PutObject uploads, the checksum type is always FULL_OBJECT. You can use this header as a data integrity check to verify that the checksum type that is received is the same checksum that was specified. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumType: S3ClientTypes.ChecksumType?
-    /// The Base64 encoded, 128-bit XXHASH128 checksum of the object. This header is present if the object was uploaded with the XXHASH128 checksum algorithm. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumXXHASH128: Swift.String?
-    /// The Base64 encoded, 64-bit XXHASH3 checksum of the object. This header is present if the object was uploaded with the XXHASH3 checksum algorithm. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumXXHASH3: Swift.String?
-    /// The Base64 encoded, 64-bit XXHASH64 checksum of the object. This header is present if the object was uploaded with the XXHASH64 checksum algorithm. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
-    public var checksumXXHASH64: Swift.String?
     /// Entity tag for the uploaded object. General purpose buckets - To ensure that data is not corrupted traversing the network, for objects where the ETag is the MD5 digest of the object, you can calculate the MD5 while putting an object to Amazon S3 and compare the returned ETag to the calculated MD5 value. Directory buckets - The ETag for the object in a directory bucket isn't the MD5 digest of the object.
     public var eTag: Swift.String?
     /// If the expiration is configured for the object (see [PutBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html)) in the Amazon S3 User Guide, the response includes this header. It includes the expiry-date and rule-id key-value pairs that provide information about object expiration. The value of the rule-id is URL-encoded. Object expiration information is not returned in directory buckets and this header returns the value "NotImplemented" in all responses for directory buckets.
@@ -12139,14 +11868,9 @@ public struct PutObjectOutput: Swift.Sendable {
         checksumCRC32: Swift.String? = nil,
         checksumCRC32C: Swift.String? = nil,
         checksumCRC64NVME: Swift.String? = nil,
-        checksumMD5: Swift.String? = nil,
         checksumSHA1: Swift.String? = nil,
         checksumSHA256: Swift.String? = nil,
-        checksumSHA512: Swift.String? = nil,
         checksumType: S3ClientTypes.ChecksumType? = nil,
-        checksumXXHASH128: Swift.String? = nil,
-        checksumXXHASH3: Swift.String? = nil,
-        checksumXXHASH64: Swift.String? = nil,
         eTag: Swift.String? = nil,
         expiration: Swift.String? = nil,
         requestCharged: S3ClientTypes.RequestCharged? = nil,
@@ -12162,14 +11886,9 @@ public struct PutObjectOutput: Swift.Sendable {
         self.checksumCRC32 = checksumCRC32
         self.checksumCRC32C = checksumCRC32C
         self.checksumCRC64NVME = checksumCRC64NVME
-        self.checksumMD5 = checksumMD5
         self.checksumSHA1 = checksumSHA1
         self.checksumSHA256 = checksumSHA256
-        self.checksumSHA512 = checksumSHA512
         self.checksumType = checksumType
-        self.checksumXXHASH128 = checksumXXHASH128
-        self.checksumXXHASH3 = checksumXXHASH3
-        self.checksumXXHASH64 = checksumXXHASH64
         self.eTag = eTag
         self.expiration = expiration
         self.requestCharged = requestCharged
@@ -12185,7 +11904,7 @@ public struct PutObjectOutput: Swift.Sendable {
 
 extension PutObjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PutObjectOutput(bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumMD5: \(Swift.String(describing: checksumMD5)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumSHA512: \(Swift.String(describing: checksumSHA512)), checksumType: \(Swift.String(describing: checksumType)), checksumXXHASH128: \(Swift.String(describing: checksumXXHASH128)), checksumXXHASH3: \(Swift.String(describing: checksumXXHASH3)), checksumXXHASH64: \(Swift.String(describing: checksumXXHASH64)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), requestCharged: \(Swift.String(describing: requestCharged)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), size: \(Swift.String(describing: size)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), versionId: \(Swift.String(describing: versionId)), ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
+        "PutObjectOutput(bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumType: \(Swift.String(describing: checksumType)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), requestCharged: \(Swift.String(describing: requestCharged)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), size: \(Swift.String(describing: size)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), versionId: \(Swift.String(describing: versionId)), ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
 public struct PutObjectAclInput: Swift.Sendable {
@@ -13650,20 +13369,10 @@ public struct UploadPartInput: Swift.Sendable {
     public var checksumCRC32C: Swift.String?
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the part. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumCRC64NVME: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 128-bit MD5 digest of the part. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumMD5: Swift.String?
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 160-bit SHA1 digest of the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumSHA1: Swift.String?
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 256-bit SHA256 digest of the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumSHA256: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 512-bit SHA512 digest of the part. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumSHA512: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 128-bit XXHASH128 checksum of the part. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumXXHASH128: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit XXHASH3 checksum of the part. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumXXHASH3: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit XXHASH64 checksum of the part. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumXXHASH64: Swift.String?
     /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
     public var contentLength: Swift.Int?
     /// The Base64 encoded 128-bit MD5 digest of the part data. This parameter is auto-populated when using the command from the CLI. This parameter is required if object lock parameters are specified. This functionality is not supported for directory buckets.
@@ -13695,13 +13404,8 @@ public struct UploadPartInput: Swift.Sendable {
         checksumCRC32: Swift.String? = nil,
         checksumCRC32C: Swift.String? = nil,
         checksumCRC64NVME: Swift.String? = nil,
-        checksumMD5: Swift.String? = nil,
         checksumSHA1: Swift.String? = nil,
         checksumSHA256: Swift.String? = nil,
-        checksumSHA512: Swift.String? = nil,
-        checksumXXHASH128: Swift.String? = nil,
-        checksumXXHASH3: Swift.String? = nil,
-        checksumXXHASH64: Swift.String? = nil,
         contentLength: Swift.Int? = nil,
         contentMD5: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
@@ -13719,13 +13423,8 @@ public struct UploadPartInput: Swift.Sendable {
         self.checksumCRC32 = checksumCRC32
         self.checksumCRC32C = checksumCRC32C
         self.checksumCRC64NVME = checksumCRC64NVME
-        self.checksumMD5 = checksumMD5
         self.checksumSHA1 = checksumSHA1
         self.checksumSHA256 = checksumSHA256
-        self.checksumSHA512 = checksumSHA512
-        self.checksumXXHASH128 = checksumXXHASH128
-        self.checksumXXHASH3 = checksumXXHASH3
-        self.checksumXXHASH64 = checksumXXHASH64
         self.contentLength = contentLength
         self.contentMD5 = contentMD5
         self.expectedBucketOwner = expectedBucketOwner
@@ -13741,32 +13440,22 @@ public struct UploadPartInput: Swift.Sendable {
 
 extension UploadPartInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UploadPartInput(body: \(Swift.String(describing: body)), bucket: \(Swift.String(describing: bucket)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumMD5: \(Swift.String(describing: checksumMD5)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumSHA512: \(Swift.String(describing: checksumSHA512)), checksumXXHASH128: \(Swift.String(describing: checksumXXHASH128)), checksumXXHASH3: \(Swift.String(describing: checksumXXHASH3)), checksumXXHASH64: \(Swift.String(describing: checksumXXHASH64)), contentLength: \(Swift.String(describing: contentLength)), contentMD5: \(Swift.String(describing: contentMD5)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), key: \(Swift.String(describing: key)), partNumber: \(Swift.String(describing: partNumber)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), uploadId: \(Swift.String(describing: uploadId)), sseCustomerKey: \"CONTENT_REDACTED\")"}
+        "UploadPartInput(body: \(Swift.String(describing: body)), bucket: \(Swift.String(describing: bucket)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), contentLength: \(Swift.String(describing: contentLength)), contentMD5: \(Swift.String(describing: contentMD5)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), key: \(Swift.String(describing: key)), partNumber: \(Swift.String(describing: partNumber)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), uploadId: \(Swift.String(describing: uploadId)), sseCustomerKey: \"CONTENT_REDACTED\")"}
 }
 
 public struct UploadPartOutput: Swift.Sendable {
     /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
     public var bucketKeyEnabled: Swift.Bool?
-    /// The Base64 encoded, 32-bit CRC32 checksum of the part. This will only be present if the checksum was provided in the request. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+    /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumCRC32: Swift.String?
-    /// The Base64 encoded, 32-bit CRC32C checksum of the part. This will only be present if the checksum was provided in the request. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+    /// The Base64 encoded, 32-bit CRC32C checksum of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumCRC32C: Swift.String?
-    /// The Base64 encoded, 64-bit CRC64NVME checksum of the part. This will only be present if the checksum was provided in the request. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the part. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumCRC64NVME: Swift.String?
-    /// The Base64 encoded, 128-bit MD5 checksum of the part. This will only be present if the checksum was provided in the request. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumMD5: Swift.String?
-    /// The Base64 encoded, 160-bit SHA1 checksum of the part. This will only be present if the checksum was provided in the request. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+    /// The Base64 encoded, 160-bit SHA1 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumSHA1: Swift.String?
-    /// The Base64 encoded, 256-bit SHA256 checksum of the part. This will only be present if the checksum was provided in the request. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+    /// The Base64 encoded, 256-bit SHA256 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumSHA256: Swift.String?
-    /// The Base64 encoded, 512-bit SHA512 checksum of the part. This will only be present if the checksum was provided in the request. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumSHA512: Swift.String?
-    /// The Base64 encoded, 128-bit XXHASH128 checksum of the part. This will only be present if the checksum was provided in the request. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumXXHASH128: Swift.String?
-    /// The Base64 encoded, 64-bit XXHASH3 checksum of the part. This will only be present if the checksum was provided in the request. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumXXHASH3: Swift.String?
-    /// The Base64 encoded, 64-bit XXHASH64 checksum of the part. This will only be present if the checksum was provided in the request. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumXXHASH64: Swift.String?
     /// Entity tag for the uploaded object.
     public var eTag: Swift.String?
     /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
@@ -13785,13 +13474,8 @@ public struct UploadPartOutput: Swift.Sendable {
         checksumCRC32: Swift.String? = nil,
         checksumCRC32C: Swift.String? = nil,
         checksumCRC64NVME: Swift.String? = nil,
-        checksumMD5: Swift.String? = nil,
         checksumSHA1: Swift.String? = nil,
         checksumSHA256: Swift.String? = nil,
-        checksumSHA512: Swift.String? = nil,
-        checksumXXHASH128: Swift.String? = nil,
-        checksumXXHASH3: Swift.String? = nil,
-        checksumXXHASH64: Swift.String? = nil,
         eTag: Swift.String? = nil,
         requestCharged: S3ClientTypes.RequestCharged? = nil,
         serverSideEncryption: S3ClientTypes.ServerSideEncryption? = nil,
@@ -13803,13 +13487,8 @@ public struct UploadPartOutput: Swift.Sendable {
         self.checksumCRC32 = checksumCRC32
         self.checksumCRC32C = checksumCRC32C
         self.checksumCRC64NVME = checksumCRC64NVME
-        self.checksumMD5 = checksumMD5
         self.checksumSHA1 = checksumSHA1
         self.checksumSHA256 = checksumSHA256
-        self.checksumSHA512 = checksumSHA512
-        self.checksumXXHASH128 = checksumXXHASH128
-        self.checksumXXHASH3 = checksumXXHASH3
-        self.checksumXXHASH64 = checksumXXHASH64
         self.eTag = eTag
         self.requestCharged = requestCharged
         self.serverSideEncryption = serverSideEncryption
@@ -13821,7 +13500,7 @@ public struct UploadPartOutput: Swift.Sendable {
 
 extension UploadPartOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UploadPartOutput(bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumMD5: \(Swift.String(describing: checksumMD5)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumSHA512: \(Swift.String(describing: checksumSHA512)), checksumXXHASH128: \(Swift.String(describing: checksumXXHASH128)), checksumXXHASH3: \(Swift.String(describing: checksumXXHASH3)), checksumXXHASH64: \(Swift.String(describing: checksumXXHASH64)), eTag: \(Swift.String(describing: eTag)), requestCharged: \(Swift.String(describing: requestCharged)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
+        "UploadPartOutput(bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), eTag: \(Swift.String(describing: eTag)), requestCharged: \(Swift.String(describing: requestCharged)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
 public struct UploadPartCopyInput: Swift.Sendable {
@@ -13935,26 +13614,16 @@ extension S3ClientTypes {
 
     /// Container for all response elements.
     public struct CopyPartResult: Swift.Sendable {
-        /// The Base64 encoded, 32-bit CRC32 checksum of the part. This checksum is present if the multipart upload request was created with the CRC32 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 32-bit CRC32 checksum of the part. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumCRC32: Swift.String?
-        /// The Base64 encoded, 32-bit CRC32C checksum of the part. This checksum is present if the multipart upload request was created with the CRC32C checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 32-bit CRC32C checksum of the part. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumCRC32C: Swift.String?
-        /// The Base64 encoded, 64-bit CRC64NVME checksum of the part. This checksum is present if the multipart upload request was created with the CRC64NVME checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+        /// The Base64 encoded, 64-bit CRC64NVME checksum of the part. This checksum is present if the multipart upload request was created with the CRC64NVME checksum algorithm to the uploaded object). For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumCRC64NVME: Swift.String?
-        /// The Base64 encoded, 128-bit MD5 digest of the part. This checksum is present if the multipart upload request was created with the MD5 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumMD5: Swift.String?
-        /// The Base64 encoded, 160-bit SHA1 digest of the part. This checksum is present if the multipart upload request was created with the SHA1 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 160-bit SHA1 checksum of the part. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumSHA1: Swift.String?
-        /// The Base64 encoded, 256-bit SHA256 digest of the part. This checksum is present if the multipart upload request was created with the SHA256 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 256-bit SHA256 checksum of the part. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumSHA256: Swift.String?
-        /// The Base64 encoded, 512-bit SHA512 digest of the part. This checksum is present if the multipart upload request was created with the SHA512 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumSHA512: Swift.String?
-        /// The Base64 encoded, 128-bit XXHASH128 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH128 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumXXHASH128: Swift.String?
-        /// The Base64 encoded, 64-bit XXHASH3 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH3 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumXXHASH3: Swift.String?
-        /// The Base64 encoded, 64-bit XXHASH64 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH64 checksum algorithm. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-        public var checksumXXHASH64: Swift.String?
         /// Entity tag of the object.
         public var eTag: Swift.String?
         /// Date and time at which the object was uploaded.
@@ -13964,26 +13633,16 @@ extension S3ClientTypes {
             checksumCRC32: Swift.String? = nil,
             checksumCRC32C: Swift.String? = nil,
             checksumCRC64NVME: Swift.String? = nil,
-            checksumMD5: Swift.String? = nil,
             checksumSHA1: Swift.String? = nil,
             checksumSHA256: Swift.String? = nil,
-            checksumSHA512: Swift.String? = nil,
-            checksumXXHASH128: Swift.String? = nil,
-            checksumXXHASH3: Swift.String? = nil,
-            checksumXXHASH64: Swift.String? = nil,
             eTag: Swift.String? = nil,
             lastModified: Foundation.Date? = nil
         ) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumCRC64NVME = checksumCRC64NVME
-            self.checksumMD5 = checksumMD5
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
-            self.checksumSHA512 = checksumSHA512
-            self.checksumXXHASH128 = checksumXXHASH128
-            self.checksumXXHASH3 = checksumXXHASH3
-            self.checksumXXHASH64 = checksumXXHASH64
             self.eTag = eTag
             self.lastModified = lastModified
         }
@@ -14049,20 +13708,10 @@ public struct WriteGetObjectResponseInput: Swift.Sendable {
     public var checksumCRC32C: Swift.String?
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the part. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumCRC64NVME: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 128-bit MD5 digest of the part. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumMD5: Swift.String?
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This specifies the Base64 encoded, 160-bit SHA1 digest of the object returned by the Object Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon S3 will perform validation of the checksum values only when the original GetObject request required checksum validation. For more information about checksums, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide. Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
     public var checksumSHA1: Swift.String?
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This specifies the Base64 encoded, 256-bit SHA256 digest of the object returned by the Object Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon S3 will perform validation of the checksum values only when the original GetObject request required checksum validation. For more information about checksums, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide. Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
     public var checksumSHA256: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 512-bit SHA512 digest of the part. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumSHA512: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 128-bit XXHASH128 checksum of the part. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumXXHASH128: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit XXHASH3 checksum of the part. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumXXHASH3: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit XXHASH64 checksum of the part. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumXXHASH64: Swift.String?
     /// Specifies presentational information for the object.
     public var contentDisposition: Swift.String?
     /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
@@ -14166,13 +13815,8 @@ public struct WriteGetObjectResponseInput: Swift.Sendable {
         checksumCRC32: Swift.String? = nil,
         checksumCRC32C: Swift.String? = nil,
         checksumCRC64NVME: Swift.String? = nil,
-        checksumMD5: Swift.String? = nil,
         checksumSHA1: Swift.String? = nil,
         checksumSHA256: Swift.String? = nil,
-        checksumSHA512: Swift.String? = nil,
-        checksumXXHASH128: Swift.String? = nil,
-        checksumXXHASH3: Swift.String? = nil,
-        checksumXXHASH64: Swift.String? = nil,
         contentDisposition: Swift.String? = nil,
         contentEncoding: Swift.String? = nil,
         contentLanguage: Swift.String? = nil,
@@ -14213,13 +13857,8 @@ public struct WriteGetObjectResponseInput: Swift.Sendable {
         self.checksumCRC32 = checksumCRC32
         self.checksumCRC32C = checksumCRC32C
         self.checksumCRC64NVME = checksumCRC64NVME
-        self.checksumMD5 = checksumMD5
         self.checksumSHA1 = checksumSHA1
         self.checksumSHA256 = checksumSHA256
-        self.checksumSHA512 = checksumSHA512
-        self.checksumXXHASH128 = checksumXXHASH128
-        self.checksumXXHASH3 = checksumXXHASH3
-        self.checksumXXHASH64 = checksumXXHASH64
         self.contentDisposition = contentDisposition
         self.contentEncoding = contentEncoding
         self.contentLanguage = contentLanguage
@@ -14257,7 +13896,7 @@ public struct WriteGetObjectResponseInput: Swift.Sendable {
 
 extension WriteGetObjectResponseInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "WriteGetObjectResponseInput(acceptRanges: \(Swift.String(describing: acceptRanges)), body: \(Swift.String(describing: body)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumMD5: \(Swift.String(describing: checksumMD5)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumSHA512: \(Swift.String(describing: checksumSHA512)), checksumXXHASH128: \(Swift.String(describing: checksumXXHASH128)), checksumXXHASH3: \(Swift.String(describing: checksumXXHASH3)), checksumXXHASH64: \(Swift.String(describing: checksumXXHASH64)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentRange: \(Swift.String(describing: contentRange)), contentType: \(Swift.String(describing: contentType)), deleteMarker: \(Swift.String(describing: deleteMarker)), eTag: \(Swift.String(describing: eTag)), errorCode: \(Swift.String(describing: errorCode)), errorMessage: \(Swift.String(describing: errorMessage)), expiration: \(Swift.String(describing: expiration)), expires: \(Swift.String(describing: expires)), lastModified: \(Swift.String(describing: lastModified)), metadata: \(Swift.String(describing: metadata)), missingMeta: \(Swift.String(describing: missingMeta)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), partsCount: \(Swift.String(describing: partsCount)), replicationStatus: \(Swift.String(describing: replicationStatus)), requestCharged: \(Swift.String(describing: requestCharged)), requestRoute: \(Swift.String(describing: requestRoute)), requestToken: \(Swift.String(describing: requestToken)), restore: \(Swift.String(describing: restore)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), statusCode: \(Swift.String(describing: statusCode)), storageClass: \(Swift.String(describing: storageClass)), tagCount: \(Swift.String(describing: tagCount)), versionId: \(Swift.String(describing: versionId)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
+        "WriteGetObjectResponseInput(acceptRanges: \(Swift.String(describing: acceptRanges)), body: \(Swift.String(describing: body)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentRange: \(Swift.String(describing: contentRange)), contentType: \(Swift.String(describing: contentType)), deleteMarker: \(Swift.String(describing: deleteMarker)), eTag: \(Swift.String(describing: eTag)), errorCode: \(Swift.String(describing: errorCode)), errorMessage: \(Swift.String(describing: errorMessage)), expiration: \(Swift.String(describing: expiration)), expires: \(Swift.String(describing: expires)), lastModified: \(Swift.String(describing: lastModified)), metadata: \(Swift.String(describing: metadata)), missingMeta: \(Swift.String(describing: missingMeta)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), partsCount: \(Swift.String(describing: partsCount)), replicationStatus: \(Swift.String(describing: replicationStatus)), requestCharged: \(Swift.String(describing: requestCharged)), requestRoute: \(Swift.String(describing: requestRoute)), requestToken: \(Swift.String(describing: requestToken)), restore: \(Swift.String(describing: restore)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), statusCode: \(Swift.String(describing: statusCode)), storageClass: \(Swift.String(describing: storageClass)), tagCount: \(Swift.String(describing: tagCount)), versionId: \(Swift.String(describing: versionId)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
 extension AbortMultipartUploadInput {
@@ -14325,29 +13964,14 @@ extension CompleteMultipartUploadInput {
         if let checksumCRC64NVME = value.checksumCRC64NVME {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-crc64nvme", value: Swift.String(checksumCRC64NVME)))
         }
-        if let checksumMD5 = value.checksumMD5 {
-            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-md5", value: Swift.String(checksumMD5)))
-        }
         if let checksumSHA1 = value.checksumSHA1 {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-sha1", value: Swift.String(checksumSHA1)))
         }
         if let checksumSHA256 = value.checksumSHA256 {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-sha256", value: Swift.String(checksumSHA256)))
         }
-        if let checksumSHA512 = value.checksumSHA512 {
-            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-sha512", value: Swift.String(checksumSHA512)))
-        }
         if let checksumType = value.checksumType {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-type", value: Swift.String(checksumType.rawValue)))
-        }
-        if let checksumXXHASH128 = value.checksumXXHASH128 {
-            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-xxhash128", value: Swift.String(checksumXXHASH128)))
-        }
-        if let checksumXXHASH3 = value.checksumXXHASH3 {
-            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-xxhash3", value: Swift.String(checksumXXHASH3)))
-        }
-        if let checksumXXHASH64 = value.checksumXXHASH64 {
-            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-xxhash64", value: Swift.String(checksumXXHASH64)))
         }
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
@@ -17690,26 +17314,11 @@ extension PutObjectInput {
         if let checksumCRC64NVME = value.checksumCRC64NVME {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-crc64nvme", value: Swift.String(checksumCRC64NVME)))
         }
-        if let checksumMD5 = value.checksumMD5 {
-            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-md5", value: Swift.String(checksumMD5)))
-        }
         if let checksumSHA1 = value.checksumSHA1 {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-sha1", value: Swift.String(checksumSHA1)))
         }
         if let checksumSHA256 = value.checksumSHA256 {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-sha256", value: Swift.String(checksumSHA256)))
-        }
-        if let checksumSHA512 = value.checksumSHA512 {
-            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-sha512", value: Swift.String(checksumSHA512)))
-        }
-        if let checksumXXHASH128 = value.checksumXXHASH128 {
-            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-xxhash128", value: Swift.String(checksumXXHASH128)))
-        }
-        if let checksumXXHASH3 = value.checksumXXHASH3 {
-            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-xxhash3", value: Swift.String(checksumXXHASH3)))
-        }
-        if let checksumXXHASH64 = value.checksumXXHASH64 {
-            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-xxhash64", value: Swift.String(checksumXXHASH64)))
         }
         if let contentDisposition = value.contentDisposition {
             items.add(SmithyHTTPAPI.Header(name: "Content-Disposition", value: Swift.String(contentDisposition)))
@@ -18351,26 +17960,11 @@ extension UploadPartInput {
         if let checksumCRC64NVME = value.checksumCRC64NVME {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-crc64nvme", value: Swift.String(checksumCRC64NVME)))
         }
-        if let checksumMD5 = value.checksumMD5 {
-            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-md5", value: Swift.String(checksumMD5)))
-        }
         if let checksumSHA1 = value.checksumSHA1 {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-sha1", value: Swift.String(checksumSHA1)))
         }
         if let checksumSHA256 = value.checksumSHA256 {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-sha256", value: Swift.String(checksumSHA256)))
-        }
-        if let checksumSHA512 = value.checksumSHA512 {
-            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-sha512", value: Swift.String(checksumSHA512)))
-        }
-        if let checksumXXHASH128 = value.checksumXXHASH128 {
-            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-xxhash128", value: Swift.String(checksumXXHASH128)))
-        }
-        if let checksumXXHASH3 = value.checksumXXHASH3 {
-            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-xxhash3", value: Swift.String(checksumXXHASH3)))
-        }
-        if let checksumXXHASH64 = value.checksumXXHASH64 {
-            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-xxhash64", value: Swift.String(checksumXXHASH64)))
         }
         if let contentLength = value.contentLength {
             items.add(SmithyHTTPAPI.Header(name: "Content-Length", value: Swift.String(contentLength)))
@@ -18531,26 +18125,11 @@ extension WriteGetObjectResponseInput {
         if let checksumCRC64NVME = value.checksumCRC64NVME {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-fwd-header-x-amz-checksum-crc64nvme", value: Swift.String(checksumCRC64NVME)))
         }
-        if let checksumMD5 = value.checksumMD5 {
-            items.add(SmithyHTTPAPI.Header(name: "x-amz-fwd-header-x-amz-checksum-md5", value: Swift.String(checksumMD5)))
-        }
         if let checksumSHA1 = value.checksumSHA1 {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-fwd-header-x-amz-checksum-sha1", value: Swift.String(checksumSHA1)))
         }
         if let checksumSHA256 = value.checksumSHA256 {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-fwd-header-x-amz-checksum-sha256", value: Swift.String(checksumSHA256)))
-        }
-        if let checksumSHA512 = value.checksumSHA512 {
-            items.add(SmithyHTTPAPI.Header(name: "x-amz-fwd-header-x-amz-checksum-sha512", value: Swift.String(checksumSHA512)))
-        }
-        if let checksumXXHASH128 = value.checksumXXHASH128 {
-            items.add(SmithyHTTPAPI.Header(name: "x-amz-fwd-header-x-amz-checksum-xxhash128", value: Swift.String(checksumXXHASH128)))
-        }
-        if let checksumXXHASH3 = value.checksumXXHASH3 {
-            items.add(SmithyHTTPAPI.Header(name: "x-amz-fwd-header-x-amz-checksum-xxhash3", value: Swift.String(checksumXXHASH3)))
-        }
-        if let checksumXXHASH64 = value.checksumXXHASH64 {
-            items.add(SmithyHTTPAPI.Header(name: "x-amz-fwd-header-x-amz-checksum-xxhash64", value: Swift.String(checksumXXHASH64)))
         }
         if let contentDisposition = value.contentDisposition {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-fwd-header-Content-Disposition", value: Swift.String(contentDisposition)))
@@ -19004,14 +18583,9 @@ extension CompleteMultipartUploadOutput {
         value.checksumCRC32 = try reader["ChecksumCRC32"].readIfPresent()
         value.checksumCRC32C = try reader["ChecksumCRC32C"].readIfPresent()
         value.checksumCRC64NVME = try reader["ChecksumCRC64NVME"].readIfPresent()
-        value.checksumMD5 = try reader["ChecksumMD5"].readIfPresent()
         value.checksumSHA1 = try reader["ChecksumSHA1"].readIfPresent()
         value.checksumSHA256 = try reader["ChecksumSHA256"].readIfPresent()
-        value.checksumSHA512 = try reader["ChecksumSHA512"].readIfPresent()
         value.checksumType = try reader["ChecksumType"].readIfPresent()
-        value.checksumXXHASH128 = try reader["ChecksumXXHASH128"].readIfPresent()
-        value.checksumXXHASH3 = try reader["ChecksumXXHASH3"].readIfPresent()
-        value.checksumXXHASH64 = try reader["ChecksumXXHASH64"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
         value.key = try reader["Key"].readIfPresent()
         value.location = try reader["Location"].readIfPresent()
@@ -19627,29 +19201,14 @@ extension GetObjectOutput {
         if let checksumCRC64NVMEHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc64nvme") {
             value.checksumCRC64NVME = checksumCRC64NVMEHeaderValue
         }
-        if let checksumMD5HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-md5") {
-            value.checksumMD5 = checksumMD5HeaderValue
-        }
         if let checksumSHA1HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha1") {
             value.checksumSHA1 = checksumSHA1HeaderValue
         }
         if let checksumSHA256HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha256") {
             value.checksumSHA256 = checksumSHA256HeaderValue
         }
-        if let checksumSHA512HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha512") {
-            value.checksumSHA512 = checksumSHA512HeaderValue
-        }
         if let checksumTypeHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-type") {
             value.checksumType = S3ClientTypes.ChecksumType(rawValue: checksumTypeHeaderValue)
-        }
-        if let checksumXXHASH128HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-xxhash128") {
-            value.checksumXXHASH128 = checksumXXHASH128HeaderValue
-        }
-        if let checksumXXHASH3HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-xxhash3") {
-            value.checksumXXHASH3 = checksumXXHASH3HeaderValue
-        }
-        if let checksumXXHASH64HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-xxhash64") {
-            value.checksumXXHASH64 = checksumXXHASH64HeaderValue
         }
         if let contentDispositionHeaderValue = httpResponse.headers.value(for: "Content-Disposition") {
             value.contentDisposition = contentDispositionHeaderValue
@@ -19930,29 +19489,14 @@ extension HeadObjectOutput {
         if let checksumCRC64NVMEHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc64nvme") {
             value.checksumCRC64NVME = checksumCRC64NVMEHeaderValue
         }
-        if let checksumMD5HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-md5") {
-            value.checksumMD5 = checksumMD5HeaderValue
-        }
         if let checksumSHA1HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha1") {
             value.checksumSHA1 = checksumSHA1HeaderValue
         }
         if let checksumSHA256HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha256") {
             value.checksumSHA256 = checksumSHA256HeaderValue
         }
-        if let checksumSHA512HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha512") {
-            value.checksumSHA512 = checksumSHA512HeaderValue
-        }
         if let checksumTypeHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-type") {
             value.checksumType = S3ClientTypes.ChecksumType(rawValue: checksumTypeHeaderValue)
-        }
-        if let checksumXXHASH128HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-xxhash128") {
-            value.checksumXXHASH128 = checksumXXHASH128HeaderValue
-        }
-        if let checksumXXHASH3HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-xxhash3") {
-            value.checksumXXHASH3 = checksumXXHASH3HeaderValue
-        }
-        if let checksumXXHASH64HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-xxhash64") {
-            value.checksumXXHASH64 = checksumXXHASH64HeaderValue
         }
         if let contentDispositionHeaderValue = httpResponse.headers.value(for: "Content-Disposition") {
             value.contentDisposition = contentDispositionHeaderValue
@@ -20428,29 +19972,14 @@ extension PutObjectOutput {
         if let checksumCRC64NVMEHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc64nvme") {
             value.checksumCRC64NVME = checksumCRC64NVMEHeaderValue
         }
-        if let checksumMD5HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-md5") {
-            value.checksumMD5 = checksumMD5HeaderValue
-        }
         if let checksumSHA1HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha1") {
             value.checksumSHA1 = checksumSHA1HeaderValue
         }
         if let checksumSHA256HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha256") {
             value.checksumSHA256 = checksumSHA256HeaderValue
         }
-        if let checksumSHA512HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha512") {
-            value.checksumSHA512 = checksumSHA512HeaderValue
-        }
         if let checksumTypeHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-type") {
             value.checksumType = S3ClientTypes.ChecksumType(rawValue: checksumTypeHeaderValue)
-        }
-        if let checksumXXHASH128HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-xxhash128") {
-            value.checksumXXHASH128 = checksumXXHASH128HeaderValue
-        }
-        if let checksumXXHASH3HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-xxhash3") {
-            value.checksumXXHASH3 = checksumXXHASH3HeaderValue
-        }
-        if let checksumXXHASH64HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-xxhash64") {
-            value.checksumXXHASH64 = checksumXXHASH64HeaderValue
         }
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             value.eTag = eTagHeaderValue
@@ -20623,26 +20152,11 @@ extension UploadPartOutput {
         if let checksumCRC64NVMEHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc64nvme") {
             value.checksumCRC64NVME = checksumCRC64NVMEHeaderValue
         }
-        if let checksumMD5HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-md5") {
-            value.checksumMD5 = checksumMD5HeaderValue
-        }
         if let checksumSHA1HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha1") {
             value.checksumSHA1 = checksumSHA1HeaderValue
         }
         if let checksumSHA256HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha256") {
             value.checksumSHA256 = checksumSHA256HeaderValue
-        }
-        if let checksumSHA512HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha512") {
-            value.checksumSHA512 = checksumSHA512HeaderValue
-        }
-        if let checksumXXHASH128HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-xxhash128") {
-            value.checksumXXHASH128 = checksumXXHASH128HeaderValue
-        }
-        if let checksumXXHASH3HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-xxhash3") {
-            value.checksumXXHASH3 = checksumXXHASH3HeaderValue
-        }
-        if let checksumXXHASH64HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-xxhash64") {
-            value.checksumXXHASH64 = checksumXXHASH64HeaderValue
         }
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             value.eTag = eTagHeaderValue
@@ -22695,11 +22209,6 @@ extension S3ClientTypes.Checksum {
         value.checksumCRC64NVME = try reader["ChecksumCRC64NVME"].readIfPresent()
         value.checksumSHA1 = try reader["ChecksumSHA1"].readIfPresent()
         value.checksumSHA256 = try reader["ChecksumSHA256"].readIfPresent()
-        value.checksumSHA512 = try reader["ChecksumSHA512"].readIfPresent()
-        value.checksumMD5 = try reader["ChecksumMD5"].readIfPresent()
-        value.checksumXXHASH64 = try reader["ChecksumXXHASH64"].readIfPresent()
-        value.checksumXXHASH3 = try reader["ChecksumXXHASH3"].readIfPresent()
-        value.checksumXXHASH128 = try reader["ChecksumXXHASH128"].readIfPresent()
         value.checksumType = try reader["ChecksumType"].readIfPresent()
         return value
     }
@@ -22730,13 +22239,8 @@ extension S3ClientTypes.CompletedPart {
         try writer["ChecksumCRC32"].write(value.checksumCRC32)
         try writer["ChecksumCRC32C"].write(value.checksumCRC32C)
         try writer["ChecksumCRC64NVME"].write(value.checksumCRC64NVME)
-        try writer["ChecksumMD5"].write(value.checksumMD5)
         try writer["ChecksumSHA1"].write(value.checksumSHA1)
         try writer["ChecksumSHA256"].write(value.checksumSHA256)
-        try writer["ChecksumSHA512"].write(value.checksumSHA512)
-        try writer["ChecksumXXHASH128"].write(value.checksumXXHASH128)
-        try writer["ChecksumXXHASH3"].write(value.checksumXXHASH3)
-        try writer["ChecksumXXHASH64"].write(value.checksumXXHASH64)
         try writer["ETag"].write(value.eTag)
         try writer["PartNumber"].write(value.partNumber)
     }
@@ -22780,11 +22284,6 @@ extension S3ClientTypes.CopyObjectResult {
         value.checksumCRC64NVME = try reader["ChecksumCRC64NVME"].readIfPresent()
         value.checksumSHA1 = try reader["ChecksumSHA1"].readIfPresent()
         value.checksumSHA256 = try reader["ChecksumSHA256"].readIfPresent()
-        value.checksumSHA512 = try reader["ChecksumSHA512"].readIfPresent()
-        value.checksumMD5 = try reader["ChecksumMD5"].readIfPresent()
-        value.checksumXXHASH64 = try reader["ChecksumXXHASH64"].readIfPresent()
-        value.checksumXXHASH3 = try reader["ChecksumXXHASH3"].readIfPresent()
-        value.checksumXXHASH128 = try reader["ChecksumXXHASH128"].readIfPresent()
         return value
     }
 }
@@ -22801,11 +22300,6 @@ extension S3ClientTypes.CopyPartResult {
         value.checksumCRC64NVME = try reader["ChecksumCRC64NVME"].readIfPresent()
         value.checksumSHA1 = try reader["ChecksumSHA1"].readIfPresent()
         value.checksumSHA256 = try reader["ChecksumSHA256"].readIfPresent()
-        value.checksumSHA512 = try reader["ChecksumSHA512"].readIfPresent()
-        value.checksumMD5 = try reader["ChecksumMD5"].readIfPresent()
-        value.checksumXXHASH64 = try reader["ChecksumXXHASH64"].readIfPresent()
-        value.checksumXXHASH3 = try reader["ChecksumXXHASH3"].readIfPresent()
-        value.checksumXXHASH128 = try reader["ChecksumXXHASH128"].readIfPresent()
         return value
     }
 }
@@ -23965,11 +23459,6 @@ extension S3ClientTypes.ObjectPart {
         value.checksumCRC64NVME = try reader["ChecksumCRC64NVME"].readIfPresent()
         value.checksumSHA1 = try reader["ChecksumSHA1"].readIfPresent()
         value.checksumSHA256 = try reader["ChecksumSHA256"].readIfPresent()
-        value.checksumSHA512 = try reader["ChecksumSHA512"].readIfPresent()
-        value.checksumMD5 = try reader["ChecksumMD5"].readIfPresent()
-        value.checksumXXHASH64 = try reader["ChecksumXXHASH64"].readIfPresent()
-        value.checksumXXHASH3 = try reader["ChecksumXXHASH3"].readIfPresent()
-        value.checksumXXHASH128 = try reader["ChecksumXXHASH128"].readIfPresent()
         return value
     }
 }
@@ -24080,11 +23569,6 @@ extension S3ClientTypes.Part {
         value.checksumCRC64NVME = try reader["ChecksumCRC64NVME"].readIfPresent()
         value.checksumSHA1 = try reader["ChecksumSHA1"].readIfPresent()
         value.checksumSHA256 = try reader["ChecksumSHA256"].readIfPresent()
-        value.checksumSHA512 = try reader["ChecksumSHA512"].readIfPresent()
-        value.checksumMD5 = try reader["ChecksumMD5"].readIfPresent()
-        value.checksumXXHASH64 = try reader["ChecksumXXHASH64"].readIfPresent()
-        value.checksumXXHASH3 = try reader["ChecksumXXHASH3"].readIfPresent()
-        value.checksumXXHASH128 = try reader["ChecksumXXHASH128"].readIfPresent()
         return value
     }
 }
@@ -24879,8 +24363,6 @@ extension GetObjectInput {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectOutput>(GetObjectOutput.httpOutput(from:), GetObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectInput, GetObjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -24889,7 +24371,10 @@ extension GetObjectInput {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetObjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetObjectOutput>())
-        builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsResponseMiddleware<GetObjectInput, GetObjectOutput>(validationMode: input.checksumMode?.rawValue ?? "unset", algosSupportedByOperation: ["CRC64NVME", "CRC32", "CRC32C", "SHA256", "SHA1", "SHA512", "MD5", "XXHASH64", "XXHASH3", "XXHASH128"]))
+        builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsResponseMiddleware<GetObjectInput, GetObjectOutput>(validationMode: input.checksumMode?.rawValue ?? "unset", algosSupportedByOperation: ["CRC64NVME", "CRC32", "CRC32C", "SHA256", "SHA1"]))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.serialize(GetObjectInputGETQueryItemMiddleware())
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
@@ -25030,8 +24515,6 @@ extension PutObjectInput {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectOutput>(PutObjectOutput.httpOutput(from:), PutObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectInput, PutObjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutObjectOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -25042,6 +24525,9 @@ extension PutObjectInput {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutObjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectInput, PutObjectOutput>())
         builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsRequestMiddleware<PutObjectInput, PutObjectOutput>(requestChecksumRequired: false, checksumAlgorithm: input.checksumAlgorithm?.rawValue, checksumAlgoHeaderName: "x-amz-sdk-checksum-algorithm"))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.serialize(PutObjectPresignedURLMiddleware())
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
@@ -25122,8 +24608,6 @@ extension UploadPartInput {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadPartOutput>(UploadPartOutput.httpOutput(from:), UploadPartOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadPartInput, UploadPartOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UploadPartOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -25134,6 +24618,9 @@ extension UploadPartInput {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UploadPartOutput>())
         builder.interceptors.add(AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<UploadPartInput, UploadPartOutput>())
         builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsRequestMiddleware<UploadPartInput, UploadPartOutput>(requestChecksumRequired: false, checksumAlgorithm: input.checksumAlgorithm?.rawValue, checksumAlgoHeaderName: "x-amz-sdk-checksum-algorithm"))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.serialize(ClientRuntime.QueryItemMiddleware<UploadPartInput, UploadPartOutput>(UploadPartInput.queryItemProvider(_:)))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
@@ -25195,8 +24682,6 @@ extension GetObjectInput {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectOutput>(GetObjectOutput.httpOutput(from:), GetObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectInput, GetObjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -25205,9 +24690,12 @@ extension GetObjectInput {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetObjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetObjectOutput>())
-        builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsResponseMiddleware<GetObjectInput, GetObjectOutput>(validationMode: input.checksumMode?.rawValue ?? "unset", algosSupportedByOperation: ["CRC64NVME", "CRC32", "CRC32C", "SHA256", "SHA1", "SHA512", "MD5", "XXHASH64", "XXHASH3", "XXHASH128"]))
+        builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsResponseMiddleware<GetObjectInput, GetObjectOutput>(validationMode: input.checksumMode?.rawValue ?? "unset", algosSupportedByOperation: ["CRC64NVME", "CRC32", "CRC32C", "SHA256", "SHA1"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetObjectInput, GetObjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetObjectInput, GetObjectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetObjectInput, GetObjectOutput>(serviceID: serviceName, version: S3Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
@@ -25272,8 +24760,6 @@ extension PutObjectInput {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectOutput>(PutObjectOutput.httpOutput(from:), PutObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectInput, PutObjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutObjectOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -25286,6 +24772,9 @@ extension PutObjectInput {
         builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsRequestMiddleware<PutObjectInput, PutObjectOutput>(requestChecksumRequired: false, checksumAlgorithm: input.checksumAlgorithm?.rawValue, checksumAlgoHeaderName: "x-amz-sdk-checksum-algorithm"))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutObjectInput, PutObjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutObjectInput, PutObjectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutObjectInput, PutObjectOutput>(serviceID: serviceName, version: S3Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
@@ -25350,8 +24839,6 @@ extension UploadPartInput {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadPartOutput>(UploadPartOutput.httpOutput(from:), UploadPartOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadPartInput, UploadPartOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UploadPartOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -25364,6 +24851,9 @@ extension UploadPartInput {
         builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsRequestMiddleware<UploadPartInput, UploadPartOutput>(requestChecksumRequired: false, checksumAlgorithm: input.checksumAlgorithm?.rawValue, checksumAlgoHeaderName: "x-amz-sdk-checksum-algorithm"))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UploadPartInput, UploadPartOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UploadPartInput, UploadPartOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UploadPartInput, UploadPartOutput>(serviceID: serviceName, version: S3Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
