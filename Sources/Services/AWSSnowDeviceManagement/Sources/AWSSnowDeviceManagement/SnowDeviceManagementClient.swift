@@ -24,7 +24,6 @@ import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
-import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
@@ -198,7 +197,7 @@ extension SnowDeviceManagementClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Snow Device Management")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -253,7 +252,7 @@ extension SnowDeviceManagementClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Snow Device Management")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -429,7 +428,7 @@ extension SnowDeviceManagementClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Snow Device Management")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -484,7 +483,7 @@ extension SnowDeviceManagementClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Snow Device Management")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -655,8 +654,6 @@ extension SnowDeviceManagementClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelTaskOutput>(CancelTaskOutput.httpOutput(from:), CancelTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelTaskInput, CancelTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelTaskOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Snow Device Management", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -666,6 +663,9 @@ extension SnowDeviceManagementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelTaskInput, CancelTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelTaskInput, CancelTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Snow Device Management"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelTaskInput, CancelTaskOutput>(serviceID: serviceName, version: SnowDeviceManagementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SnowDeviceManagement")
@@ -729,8 +729,6 @@ extension SnowDeviceManagementClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTaskOutput>(CreateTaskOutput.httpOutput(from:), CreateTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTaskInput, CreateTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTaskOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Snow Device Management", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -740,6 +738,9 @@ extension SnowDeviceManagementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTaskInput, CreateTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTaskInput, CreateTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Snow Device Management"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTaskInput, CreateTaskOutput>(serviceID: serviceName, version: SnowDeviceManagementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SnowDeviceManagement")
@@ -798,8 +799,6 @@ extension SnowDeviceManagementClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDeviceOutput>(DescribeDeviceOutput.httpOutput(from:), DescribeDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDeviceInput, DescribeDeviceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeviceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Snow Device Management", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -809,6 +808,9 @@ extension SnowDeviceManagementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDeviceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDeviceInput, DescribeDeviceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDeviceInput, DescribeDeviceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Snow Device Management"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDeviceInput, DescribeDeviceOutput>(serviceID: serviceName, version: SnowDeviceManagementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SnowDeviceManagement")
@@ -870,8 +872,6 @@ extension SnowDeviceManagementClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDeviceEc2InstancesOutput>(DescribeDeviceEc2InstancesOutput.httpOutput(from:), DescribeDeviceEc2InstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDeviceEc2InstancesInput, DescribeDeviceEc2InstancesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeviceEc2InstancesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Snow Device Management", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -881,6 +881,9 @@ extension SnowDeviceManagementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDeviceEc2InstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDeviceEc2InstancesInput, DescribeDeviceEc2InstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDeviceEc2InstancesInput, DescribeDeviceEc2InstancesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Snow Device Management"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDeviceEc2InstancesInput, DescribeDeviceEc2InstancesOutput>(serviceID: serviceName, version: SnowDeviceManagementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SnowDeviceManagement")
@@ -939,8 +942,6 @@ extension SnowDeviceManagementClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeExecutionOutput>(DescribeExecutionOutput.httpOutput(from:), DescribeExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeExecutionInput, DescribeExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeExecutionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Snow Device Management", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -950,6 +951,9 @@ extension SnowDeviceManagementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeExecutionInput, DescribeExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeExecutionInput, DescribeExecutionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Snow Device Management"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeExecutionInput, DescribeExecutionOutput>(serviceID: serviceName, version: SnowDeviceManagementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SnowDeviceManagement")
@@ -1008,8 +1012,6 @@ extension SnowDeviceManagementClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTaskOutput>(DescribeTaskOutput.httpOutput(from:), DescribeTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTaskInput, DescribeTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTaskOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Snow Device Management", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1019,6 +1021,9 @@ extension SnowDeviceManagementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTaskInput, DescribeTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeTaskInput, DescribeTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Snow Device Management"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTaskInput, DescribeTaskOutput>(serviceID: serviceName, version: SnowDeviceManagementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SnowDeviceManagement")
@@ -1078,8 +1083,6 @@ extension SnowDeviceManagementClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeviceResourcesOutput>(ListDeviceResourcesOutput.httpOutput(from:), ListDeviceResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeviceResourcesInput, ListDeviceResourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeviceResourcesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Snow Device Management", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1089,6 +1092,9 @@ extension SnowDeviceManagementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDeviceResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDeviceResourcesInput, ListDeviceResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDeviceResourcesInput, ListDeviceResourcesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Snow Device Management"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDeviceResourcesInput, ListDeviceResourcesOutput>(serviceID: serviceName, version: SnowDeviceManagementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SnowDeviceManagement")
@@ -1147,8 +1153,6 @@ extension SnowDeviceManagementClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDevicesOutput>(ListDevicesOutput.httpOutput(from:), ListDevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDevicesInput, ListDevicesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDevicesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Snow Device Management", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1158,6 +1162,9 @@ extension SnowDeviceManagementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDevicesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDevicesInput, ListDevicesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDevicesInput, ListDevicesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Snow Device Management"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDevicesInput, ListDevicesOutput>(serviceID: serviceName, version: SnowDeviceManagementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SnowDeviceManagement")
@@ -1217,8 +1224,6 @@ extension SnowDeviceManagementClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExecutionsOutput>(ListExecutionsOutput.httpOutput(from:), ListExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExecutionsInput, ListExecutionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExecutionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Snow Device Management", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1228,6 +1233,9 @@ extension SnowDeviceManagementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListExecutionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListExecutionsInput, ListExecutionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListExecutionsInput, ListExecutionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Snow Device Management"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListExecutionsInput, ListExecutionsOutput>(serviceID: serviceName, version: SnowDeviceManagementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SnowDeviceManagement")
@@ -1284,8 +1292,6 @@ extension SnowDeviceManagementClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Snow Device Management", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1295,6 +1301,9 @@ extension SnowDeviceManagementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Snow Device Management"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: SnowDeviceManagementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SnowDeviceManagement")
@@ -1353,8 +1362,6 @@ extension SnowDeviceManagementClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTasksOutput>(ListTasksOutput.httpOutput(from:), ListTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTasksInput, ListTasksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTasksOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Snow Device Management", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1364,6 +1371,9 @@ extension SnowDeviceManagementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTasksInput, ListTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTasksInput, ListTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Snow Device Management"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTasksInput, ListTasksOutput>(serviceID: serviceName, version: SnowDeviceManagementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SnowDeviceManagement")
@@ -1423,8 +1433,6 @@ extension SnowDeviceManagementClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Snow Device Management", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1434,6 +1442,9 @@ extension SnowDeviceManagementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Snow Device Management"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: SnowDeviceManagementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SnowDeviceManagement")
@@ -1491,8 +1502,6 @@ extension SnowDeviceManagementClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Snow Device Management", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1502,6 +1511,9 @@ extension SnowDeviceManagementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Snow Device Management"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: SnowDeviceManagementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SnowDeviceManagement")

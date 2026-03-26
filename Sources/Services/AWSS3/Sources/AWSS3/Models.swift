@@ -22,7 +22,6 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyXML.Reader
 @_spi(SmithyReadWrite) import class SmithyXML.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
-import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum ClientRuntime.ErrorFault
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import enum Smithy.ByteStream
@@ -24364,8 +24363,6 @@ extension GetObjectInput {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectOutput>(GetObjectOutput.httpOutput(from:), GetObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectInput, GetObjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -24375,6 +24372,9 @@ extension GetObjectInput {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetObjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetObjectOutput>())
         builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsResponseMiddleware<GetObjectInput, GetObjectOutput>(validationMode: input.checksumMode?.rawValue ?? "unset", algosSupportedByOperation: ["CRC64NVME", "CRC32", "CRC32C", "SHA256", "SHA1"]))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.serialize(GetObjectInputGETQueryItemMiddleware())
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
@@ -24515,8 +24515,6 @@ extension PutObjectInput {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectOutput>(PutObjectOutput.httpOutput(from:), PutObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectInput, PutObjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutObjectOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -24527,6 +24525,9 @@ extension PutObjectInput {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutObjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectInput, PutObjectOutput>())
         builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsRequestMiddleware<PutObjectInput, PutObjectOutput>(requestChecksumRequired: false, checksumAlgorithm: input.checksumAlgorithm?.rawValue, checksumAlgoHeaderName: "x-amz-sdk-checksum-algorithm"))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.serialize(PutObjectPresignedURLMiddleware())
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
@@ -24607,8 +24608,6 @@ extension UploadPartInput {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadPartOutput>(UploadPartOutput.httpOutput(from:), UploadPartOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadPartInput, UploadPartOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UploadPartOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -24619,6 +24618,9 @@ extension UploadPartInput {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UploadPartOutput>())
         builder.interceptors.add(AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<UploadPartInput, UploadPartOutput>())
         builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsRequestMiddleware<UploadPartInput, UploadPartOutput>(requestChecksumRequired: false, checksumAlgorithm: input.checksumAlgorithm?.rawValue, checksumAlgoHeaderName: "x-amz-sdk-checksum-algorithm"))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.serialize(ClientRuntime.QueryItemMiddleware<UploadPartInput, UploadPartOutput>(UploadPartInput.queryItemProvider(_:)))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
@@ -24680,8 +24682,6 @@ extension GetObjectInput {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectOutput>(GetObjectOutput.httpOutput(from:), GetObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectInput, GetObjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -24693,6 +24693,9 @@ extension GetObjectInput {
         builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsResponseMiddleware<GetObjectInput, GetObjectOutput>(validationMode: input.checksumMode?.rawValue ?? "unset", algosSupportedByOperation: ["CRC64NVME", "CRC32", "CRC32C", "SHA256", "SHA1"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetObjectInput, GetObjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetObjectInput, GetObjectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetObjectInput, GetObjectOutput>(serviceID: serviceName, version: S3Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
@@ -24757,8 +24760,6 @@ extension PutObjectInput {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectOutput>(PutObjectOutput.httpOutput(from:), PutObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectInput, PutObjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutObjectOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -24771,6 +24772,9 @@ extension PutObjectInput {
         builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsRequestMiddleware<PutObjectInput, PutObjectOutput>(requestChecksumRequired: false, checksumAlgorithm: input.checksumAlgorithm?.rawValue, checksumAlgoHeaderName: "x-amz-sdk-checksum-algorithm"))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutObjectInput, PutObjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutObjectInput, PutObjectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutObjectInput, PutObjectOutput>(serviceID: serviceName, version: S3Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
@@ -24835,8 +24839,6 @@ extension UploadPartInput {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadPartOutput>(UploadPartOutput.httpOutput(from:), UploadPartOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadPartInput, UploadPartOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UploadPartOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -24849,6 +24851,9 @@ extension UploadPartInput {
         builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsRequestMiddleware<UploadPartInput, UploadPartOutput>(requestChecksumRequired: false, checksumAlgorithm: input.checksumAlgorithm?.rawValue, checksumAlgoHeaderName: "x-amz-sdk-checksum-algorithm"))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UploadPartInput, UploadPartOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UploadPartInput, UploadPartOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UploadPartInput, UploadPartOutput>(serviceID: serviceName, version: S3Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")

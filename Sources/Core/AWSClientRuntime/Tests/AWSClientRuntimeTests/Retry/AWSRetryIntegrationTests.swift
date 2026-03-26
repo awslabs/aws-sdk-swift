@@ -77,9 +77,9 @@ final class RetryIntegrationTests: XCTestCase {
     func test_case1() async throws {
         await setUp(availableCapacity: 500, maxCapacity: 500, maxRetriesBase: 2, maxBackoff: 20.0)
         next.testSteps = [
-            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 495, delay: 1.0),
-            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 490, delay: 2.0),
-            TestStep(response: .success, expectedOutcome: .success, retryQuota: 495, delay: nil)
+            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 486, delay: 0.05),
+            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 472, delay: 0.1),
+            TestStep(response: .success, expectedOutcome: .success, retryQuota: 486, delay: nil)
         ]
         try await runTest()
     }
@@ -87,17 +87,17 @@ final class RetryIntegrationTests: XCTestCase {
     func test_case2() async throws {
         await setUp(availableCapacity: 500, maxCapacity: 500, maxRetriesBase: 2, maxBackoff: 20.0)
         next.testSteps = [
-            TestStep(response: .httpError(502), expectedOutcome: .retryRequest, retryQuota: 495, delay: 1.0),
-            TestStep(response: .httpError(502), expectedOutcome: .retryRequest, retryQuota: 490, delay: 2.0),
-            TestStep(response: .httpError(502), expectedOutcome: .maxAttemptsExceeded, retryQuota: 490, delay: nil)
+            TestStep(response: .httpError(502), expectedOutcome: .retryRequest, retryQuota: 486, delay: 0.05),
+            TestStep(response: .httpError(502), expectedOutcome: .retryRequest, retryQuota: 472, delay: 0.1),
+            TestStep(response: .httpError(502), expectedOutcome: .maxAttemptsExceeded, retryQuota: 472, delay: nil)
         ]
         try await runTest()
     }
 
     func test_case3() async throws {
-        await setUp(availableCapacity: 5, maxCapacity: 500, maxRetriesBase: 2, maxBackoff: 20.0)
+        await setUp(availableCapacity: 14, maxCapacity: 500, maxRetriesBase: 2, maxBackoff: 20.0)
         next.testSteps = [
-            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 0, delay: 1.0),
+            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 0, delay: 0.05),
             TestStep(response: .httpError(502), expectedOutcome: .retryQuotaExceeded, retryQuota: 0, delay: nil)
         ]
         try await runTest()
@@ -114,11 +114,11 @@ final class RetryIntegrationTests: XCTestCase {
     func test_case5() async throws {
         await setUp(availableCapacity: 500, maxCapacity: 500, maxRetriesBase: 4, maxBackoff: 20.0)
         next.testSteps = [
-            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 495, delay: 1.0),
-            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 490, delay: 2.0),
-            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 485, delay: 4.0),
-            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 480, delay: 8.0),
-            TestStep(response: .httpError(500), expectedOutcome: .maxAttemptsExceeded, retryQuota: 480, delay: nil)
+            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 486, delay: 0.05),
+            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 472, delay: 0.1),
+            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 458, delay: 0.2),
+            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 444, delay: 0.4),
+            TestStep(response: .httpError(500), expectedOutcome: .maxAttemptsExceeded, retryQuota: 444, delay: nil)
         ]
         try await runTest()
     }
@@ -126,11 +126,11 @@ final class RetryIntegrationTests: XCTestCase {
     func test_case6() async throws {
         await setUp(availableCapacity: 500, maxCapacity: 500, maxRetriesBase: 4, maxBackoff: 3.0)
         next.testSteps = [
-            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 495, delay: 1.0),
-            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 490, delay: 2.0),
-            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 485, delay: 3.0),
-            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 480, delay: 3.0),
-            TestStep(response: .httpError(500), expectedOutcome: .maxAttemptsExceeded, retryQuota: 480, delay: nil)
+            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 486, delay: 0.05),
+            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 472, delay: 0.1),
+            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 458, delay: 0.2),
+            TestStep(response: .httpError(500), expectedOutcome: .retryRequest, retryQuota: 444, delay: 0.4),
+            TestStep(response: .httpError(500), expectedOutcome: .maxAttemptsExceeded, retryQuota: 444, delay: nil)
         ]
         try await runTest()
     }

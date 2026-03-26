@@ -27,7 +27,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 import enum AWSClientRuntime.AWSClockSkewProvider
-import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
@@ -203,7 +202,7 @@ extension STSClient {
             self.useGlobalEndpoint = useGlobalEndpoint
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "STS")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -260,7 +259,7 @@ extension STSClient {
             self.useGlobalEndpoint = useGlobalEndpoint
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "STS")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -441,7 +440,7 @@ extension STSClient {
             self.useGlobalEndpoint = useGlobalEndpoint
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "STS")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -498,7 +497,7 @@ extension STSClient {
             self.useGlobalEndpoint = useGlobalEndpoint
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "STS")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -679,8 +678,6 @@ extension STSClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssumeRoleOutput>(AssumeRoleOutput.httpOutput(from:), AssumeRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssumeRoleInput, AssumeRoleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssumeRoleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("STS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -692,6 +689,9 @@ extension STSClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssumeRoleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssumeRoleInput, AssumeRoleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssumeRoleInput, AssumeRoleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "STS"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssumeRoleInput, AssumeRoleOutput>(serviceID: serviceName, version: STSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "STS")
@@ -758,8 +758,6 @@ extension STSClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssumeRoleWithSAMLOutput>(AssumeRoleWithSAMLOutput.httpOutput(from:), AssumeRoleWithSAMLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssumeRoleWithSAMLInput, AssumeRoleWithSAMLOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssumeRoleWithSAMLOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("STS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -771,6 +769,9 @@ extension STSClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssumeRoleWithSAMLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssumeRoleWithSAMLInput, AssumeRoleWithSAMLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssumeRoleWithSAMLInput, AssumeRoleWithSAMLOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "STS"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssumeRoleWithSAMLInput, AssumeRoleWithSAMLOutput>(serviceID: serviceName, version: STSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "STS")
@@ -834,8 +835,6 @@ extension STSClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssumeRoleWithWebIdentityOutput>(AssumeRoleWithWebIdentityOutput.httpOutput(from:), AssumeRoleWithWebIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssumeRoleWithWebIdentityInput, AssumeRoleWithWebIdentityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssumeRoleWithWebIdentityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("STS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -847,6 +846,9 @@ extension STSClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssumeRoleWithWebIdentityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssumeRoleWithWebIdentityInput, AssumeRoleWithWebIdentityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssumeRoleWithWebIdentityInput, AssumeRoleWithWebIdentityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "STS"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssumeRoleWithWebIdentityInput, AssumeRoleWithWebIdentityOutput>(serviceID: serviceName, version: STSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "STS")
@@ -903,8 +905,6 @@ extension STSClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssumeRootOutput>(AssumeRootOutput.httpOutput(from:), AssumeRootOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssumeRootInput, AssumeRootOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssumeRootOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("STS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -916,6 +916,9 @@ extension STSClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssumeRootOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssumeRootInput, AssumeRootOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssumeRootInput, AssumeRootOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "STS"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssumeRootInput, AssumeRootOutput>(serviceID: serviceName, version: STSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "STS")
@@ -981,8 +984,6 @@ extension STSClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DecodeAuthorizationMessageOutput>(DecodeAuthorizationMessageOutput.httpOutput(from:), DecodeAuthorizationMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DecodeAuthorizationMessageInput, DecodeAuthorizationMessageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DecodeAuthorizationMessageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("STS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -994,6 +995,9 @@ extension STSClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DecodeAuthorizationMessageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DecodeAuthorizationMessageInput, DecodeAuthorizationMessageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DecodeAuthorizationMessageInput, DecodeAuthorizationMessageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "STS"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DecodeAuthorizationMessageInput, DecodeAuthorizationMessageOutput>(serviceID: serviceName, version: STSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "STS")
@@ -1044,8 +1048,6 @@ extension STSClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessKeyInfoOutput>(GetAccessKeyInfoOutput.httpOutput(from:), GetAccessKeyInfoOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessKeyInfoInput, GetAccessKeyInfoOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessKeyInfoOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("STS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1057,6 +1059,9 @@ extension STSClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAccessKeyInfoOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAccessKeyInfoInput, GetAccessKeyInfoOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAccessKeyInfoInput, GetAccessKeyInfoOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "STS"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAccessKeyInfoInput, GetAccessKeyInfoOutput>(serviceID: serviceName, version: STSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "STS")
@@ -1107,8 +1112,6 @@ extension STSClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCallerIdentityOutput>(GetCallerIdentityOutput.httpOutput(from:), GetCallerIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCallerIdentityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("STS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1120,6 +1123,9 @@ extension STSClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCallerIdentityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "STS"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(serviceID: serviceName, version: STSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "STS")
@@ -1177,8 +1183,6 @@ extension STSClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDelegatedAccessTokenOutput>(GetDelegatedAccessTokenOutput.httpOutput(from:), GetDelegatedAccessTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDelegatedAccessTokenInput, GetDelegatedAccessTokenOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDelegatedAccessTokenOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("STS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1190,6 +1194,9 @@ extension STSClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDelegatedAccessTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDelegatedAccessTokenInput, GetDelegatedAccessTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDelegatedAccessTokenInput, GetDelegatedAccessTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "STS"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDelegatedAccessTokenInput, GetDelegatedAccessTokenOutput>(serviceID: serviceName, version: STSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "STS")
@@ -1254,8 +1261,6 @@ extension STSClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFederationTokenOutput>(GetFederationTokenOutput.httpOutput(from:), GetFederationTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFederationTokenInput, GetFederationTokenOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFederationTokenOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("STS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1267,6 +1272,9 @@ extension STSClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFederationTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFederationTokenInput, GetFederationTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFederationTokenInput, GetFederationTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "STS"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFederationTokenInput, GetFederationTokenOutput>(serviceID: serviceName, version: STSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "STS")
@@ -1329,8 +1337,6 @@ extension STSClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSessionTokenOutput>(GetSessionTokenOutput.httpOutput(from:), GetSessionTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSessionTokenInput, GetSessionTokenOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSessionTokenOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("STS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1342,6 +1348,9 @@ extension STSClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSessionTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSessionTokenInput, GetSessionTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSessionTokenInput, GetSessionTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "STS"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSessionTokenInput, GetSessionTokenOutput>(serviceID: serviceName, version: STSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "STS")
@@ -1399,8 +1408,6 @@ extension STSClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWebIdentityTokenOutput>(GetWebIdentityTokenOutput.httpOutput(from:), GetWebIdentityTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWebIdentityTokenInput, GetWebIdentityTokenOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWebIdentityTokenOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("STS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1412,6 +1419,9 @@ extension STSClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWebIdentityTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetWebIdentityTokenInput, GetWebIdentityTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetWebIdentityTokenInput, GetWebIdentityTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "STS"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetWebIdentityTokenInput, GetWebIdentityTokenOutput>(serviceID: serviceName, version: STSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "STS")

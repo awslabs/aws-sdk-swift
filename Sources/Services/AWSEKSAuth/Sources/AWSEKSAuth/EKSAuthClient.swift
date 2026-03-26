@@ -23,7 +23,6 @@ import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
-import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
@@ -195,7 +194,7 @@ extension EKSAuthClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "EKS Auth")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -250,7 +249,7 @@ extension EKSAuthClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "EKS Auth")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -426,7 +425,7 @@ extension EKSAuthClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "EKS Auth")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -481,7 +480,7 @@ extension EKSAuthClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "EKS Auth")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -659,8 +658,6 @@ extension EKSAuthClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssumeRoleForPodIdentityOutput>(AssumeRoleForPodIdentityOutput.httpOutput(from:), AssumeRoleForPodIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssumeRoleForPodIdentityInput, AssumeRoleForPodIdentityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssumeRoleForPodIdentityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EKS Auth", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -670,6 +667,9 @@ extension EKSAuthClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssumeRoleForPodIdentityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssumeRoleForPodIdentityInput, AssumeRoleForPodIdentityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssumeRoleForPodIdentityInput, AssumeRoleForPodIdentityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EKS Auth"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssumeRoleForPodIdentityInput, AssumeRoleForPodIdentityOutput>(serviceID: serviceName, version: EKSAuthClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EKSAuth")

@@ -24,7 +24,6 @@ import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
-import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
@@ -197,7 +196,7 @@ extension ARCZonalShiftClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "ARC Zonal Shift")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -252,7 +251,7 @@ extension ARCZonalShiftClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "ARC Zonal Shift")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -428,7 +427,7 @@ extension ARCZonalShiftClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "ARC Zonal Shift")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -483,7 +482,7 @@ extension ARCZonalShiftClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "ARC Zonal Shift")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -655,8 +654,6 @@ extension ARCZonalShiftClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelPracticeRunOutput>(CancelPracticeRunOutput.httpOutput(from:), CancelPracticeRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelPracticeRunInput, CancelPracticeRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelPracticeRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ARC Zonal Shift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -666,6 +663,9 @@ extension ARCZonalShiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelPracticeRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelPracticeRunInput, CancelPracticeRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelPracticeRunInput, CancelPracticeRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ARC Zonal Shift"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelPracticeRunInput, CancelPracticeRunOutput>(serviceID: serviceName, version: ARCZonalShiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ARCZonalShift")
@@ -725,8 +725,6 @@ extension ARCZonalShiftClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelZonalShiftOutput>(CancelZonalShiftOutput.httpOutput(from:), CancelZonalShiftOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelZonalShiftInput, CancelZonalShiftOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelZonalShiftOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ARC Zonal Shift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -736,6 +734,9 @@ extension ARCZonalShiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelZonalShiftOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelZonalShiftInput, CancelZonalShiftOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelZonalShiftInput, CancelZonalShiftOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ARC Zonal Shift"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelZonalShiftInput, CancelZonalShiftOutput>(serviceID: serviceName, version: ARCZonalShiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ARCZonalShift")
@@ -798,8 +799,6 @@ extension ARCZonalShiftClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePracticeRunConfigurationOutput>(CreatePracticeRunConfigurationOutput.httpOutput(from:), CreatePracticeRunConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePracticeRunConfigurationInput, CreatePracticeRunConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePracticeRunConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ARC Zonal Shift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -809,6 +808,9 @@ extension ARCZonalShiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePracticeRunConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePracticeRunConfigurationInput, CreatePracticeRunConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePracticeRunConfigurationInput, CreatePracticeRunConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ARC Zonal Shift"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePracticeRunConfigurationInput, CreatePracticeRunConfigurationOutput>(serviceID: serviceName, version: ARCZonalShiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ARCZonalShift")
@@ -868,8 +870,6 @@ extension ARCZonalShiftClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePracticeRunConfigurationOutput>(DeletePracticeRunConfigurationOutput.httpOutput(from:), DeletePracticeRunConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePracticeRunConfigurationInput, DeletePracticeRunConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePracticeRunConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ARC Zonal Shift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -879,6 +879,9 @@ extension ARCZonalShiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePracticeRunConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePracticeRunConfigurationInput, DeletePracticeRunConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePracticeRunConfigurationInput, DeletePracticeRunConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ARC Zonal Shift"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePracticeRunConfigurationInput, DeletePracticeRunConfigurationOutput>(serviceID: serviceName, version: ARCZonalShiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ARCZonalShift")
@@ -935,8 +938,6 @@ extension ARCZonalShiftClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAutoshiftObserverNotificationStatusOutput>(GetAutoshiftObserverNotificationStatusOutput.httpOutput(from:), GetAutoshiftObserverNotificationStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutoshiftObserverNotificationStatusInput, GetAutoshiftObserverNotificationStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAutoshiftObserverNotificationStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ARC Zonal Shift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -946,6 +947,9 @@ extension ARCZonalShiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAutoshiftObserverNotificationStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAutoshiftObserverNotificationStatusInput, GetAutoshiftObserverNotificationStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAutoshiftObserverNotificationStatusInput, GetAutoshiftObserverNotificationStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ARC Zonal Shift"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAutoshiftObserverNotificationStatusInput, GetAutoshiftObserverNotificationStatusOutput>(serviceID: serviceName, version: ARCZonalShiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ARCZonalShift")
@@ -1004,8 +1008,6 @@ extension ARCZonalShiftClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetManagedResourceOutput>(GetManagedResourceOutput.httpOutput(from:), GetManagedResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetManagedResourceInput, GetManagedResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetManagedResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ARC Zonal Shift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1015,6 +1017,9 @@ extension ARCZonalShiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetManagedResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetManagedResourceInput, GetManagedResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetManagedResourceInput, GetManagedResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ARC Zonal Shift"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetManagedResourceInput, GetManagedResourceOutput>(serviceID: serviceName, version: ARCZonalShiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ARCZonalShift")
@@ -1073,8 +1078,6 @@ extension ARCZonalShiftClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutoshiftsOutput>(ListAutoshiftsOutput.httpOutput(from:), ListAutoshiftsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutoshiftsInput, ListAutoshiftsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutoshiftsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ARC Zonal Shift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1084,6 +1087,9 @@ extension ARCZonalShiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutoshiftsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAutoshiftsInput, ListAutoshiftsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAutoshiftsInput, ListAutoshiftsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ARC Zonal Shift"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAutoshiftsInput, ListAutoshiftsOutput>(serviceID: serviceName, version: ARCZonalShiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ARCZonalShift")
@@ -1142,8 +1148,6 @@ extension ARCZonalShiftClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedResourcesOutput>(ListManagedResourcesOutput.httpOutput(from:), ListManagedResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedResourcesInput, ListManagedResourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedResourcesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ARC Zonal Shift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1153,6 +1157,9 @@ extension ARCZonalShiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListManagedResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListManagedResourcesInput, ListManagedResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListManagedResourcesInput, ListManagedResourcesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ARC Zonal Shift"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListManagedResourcesInput, ListManagedResourcesOutput>(serviceID: serviceName, version: ARCZonalShiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ARCZonalShift")
@@ -1211,8 +1218,6 @@ extension ARCZonalShiftClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListZonalShiftsOutput>(ListZonalShiftsOutput.httpOutput(from:), ListZonalShiftsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListZonalShiftsInput, ListZonalShiftsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListZonalShiftsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ARC Zonal Shift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1222,6 +1227,9 @@ extension ARCZonalShiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListZonalShiftsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListZonalShiftsInput, ListZonalShiftsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListZonalShiftsInput, ListZonalShiftsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ARC Zonal Shift"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListZonalShiftsInput, ListZonalShiftsOutput>(serviceID: serviceName, version: ARCZonalShiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ARCZonalShift")
@@ -1284,8 +1292,6 @@ extension ARCZonalShiftClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartPracticeRunOutput>(StartPracticeRunOutput.httpOutput(from:), StartPracticeRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartPracticeRunInput, StartPracticeRunOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartPracticeRunOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ARC Zonal Shift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1295,6 +1301,9 @@ extension ARCZonalShiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartPracticeRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartPracticeRunInput, StartPracticeRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartPracticeRunInput, StartPracticeRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ARC Zonal Shift"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartPracticeRunInput, StartPracticeRunOutput>(serviceID: serviceName, version: ARCZonalShiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ARCZonalShift")
@@ -1368,8 +1377,6 @@ extension ARCZonalShiftClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartZonalShiftOutput>(StartZonalShiftOutput.httpOutput(from:), StartZonalShiftOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartZonalShiftInput, StartZonalShiftOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartZonalShiftOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ARC Zonal Shift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1379,6 +1386,9 @@ extension ARCZonalShiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartZonalShiftOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartZonalShiftInput, StartZonalShiftOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartZonalShiftInput, StartZonalShiftOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ARC Zonal Shift"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartZonalShiftInput, StartZonalShiftOutput>(serviceID: serviceName, version: ARCZonalShiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ARCZonalShift")
@@ -1439,8 +1449,6 @@ extension ARCZonalShiftClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAutoshiftObserverNotificationStatusOutput>(UpdateAutoshiftObserverNotificationStatusOutput.httpOutput(from:), UpdateAutoshiftObserverNotificationStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAutoshiftObserverNotificationStatusInput, UpdateAutoshiftObserverNotificationStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAutoshiftObserverNotificationStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ARC Zonal Shift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1450,6 +1458,9 @@ extension ARCZonalShiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAutoshiftObserverNotificationStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAutoshiftObserverNotificationStatusInput, UpdateAutoshiftObserverNotificationStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAutoshiftObserverNotificationStatusInput, UpdateAutoshiftObserverNotificationStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ARC Zonal Shift"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAutoshiftObserverNotificationStatusInput, UpdateAutoshiftObserverNotificationStatusOutput>(serviceID: serviceName, version: ARCZonalShiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ARCZonalShift")
@@ -1512,8 +1523,6 @@ extension ARCZonalShiftClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePracticeRunConfigurationOutput>(UpdatePracticeRunConfigurationOutput.httpOutput(from:), UpdatePracticeRunConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePracticeRunConfigurationInput, UpdatePracticeRunConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePracticeRunConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ARC Zonal Shift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1523,6 +1532,9 @@ extension ARCZonalShiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePracticeRunConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePracticeRunConfigurationInput, UpdatePracticeRunConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePracticeRunConfigurationInput, UpdatePracticeRunConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ARC Zonal Shift"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePracticeRunConfigurationInput, UpdatePracticeRunConfigurationOutput>(serviceID: serviceName, version: ARCZonalShiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ARCZonalShift")
@@ -1585,8 +1597,6 @@ extension ARCZonalShiftClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateZonalAutoshiftConfigurationOutput>(UpdateZonalAutoshiftConfigurationOutput.httpOutput(from:), UpdateZonalAutoshiftConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateZonalAutoshiftConfigurationInput, UpdateZonalAutoshiftConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateZonalAutoshiftConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ARC Zonal Shift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1596,6 +1606,9 @@ extension ARCZonalShiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateZonalAutoshiftConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateZonalAutoshiftConfigurationInput, UpdateZonalAutoshiftConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateZonalAutoshiftConfigurationInput, UpdateZonalAutoshiftConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ARC Zonal Shift"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateZonalAutoshiftConfigurationInput, UpdateZonalAutoshiftConfigurationOutput>(serviceID: serviceName, version: ARCZonalShiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ARCZonalShift")
@@ -1658,8 +1671,6 @@ extension ARCZonalShiftClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateZonalShiftOutput>(UpdateZonalShiftOutput.httpOutput(from:), UpdateZonalShiftOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateZonalShiftInput, UpdateZonalShiftOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateZonalShiftOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ARC Zonal Shift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1669,6 +1680,9 @@ extension ARCZonalShiftClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateZonalShiftOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateZonalShiftInput, UpdateZonalShiftOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateZonalShiftInput, UpdateZonalShiftOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ARC Zonal Shift"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateZonalShiftInput, UpdateZonalShiftOutput>(serviceID: serviceName, version: ARCZonalShiftClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ARCZonalShift")

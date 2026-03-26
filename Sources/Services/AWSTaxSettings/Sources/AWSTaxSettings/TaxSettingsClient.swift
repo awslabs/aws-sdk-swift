@@ -23,7 +23,6 @@ import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
-import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
@@ -195,7 +194,7 @@ extension TaxSettingsClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "TaxSettings")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -250,7 +249,7 @@ extension TaxSettingsClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "TaxSettings")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -426,7 +425,7 @@ extension TaxSettingsClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "TaxSettings")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -481,7 +480,7 @@ extension TaxSettingsClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "TaxSettings")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -653,8 +652,6 @@ extension TaxSettingsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteTaxRegistrationOutput>(BatchDeleteTaxRegistrationOutput.httpOutput(from:), BatchDeleteTaxRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteTaxRegistrationInput, BatchDeleteTaxRegistrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteTaxRegistrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("TaxSettings", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -664,6 +661,9 @@ extension TaxSettingsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteTaxRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteTaxRegistrationInput, BatchDeleteTaxRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteTaxRegistrationInput, BatchDeleteTaxRegistrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "TaxSettings"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteTaxRegistrationInput, BatchDeleteTaxRegistrationOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
@@ -723,8 +723,6 @@ extension TaxSettingsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetTaxExemptionsOutput>(BatchGetTaxExemptionsOutput.httpOutput(from:), BatchGetTaxExemptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetTaxExemptionsInput, BatchGetTaxExemptionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetTaxExemptionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("TaxSettings", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -734,6 +732,9 @@ extension TaxSettingsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetTaxExemptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetTaxExemptionsInput, BatchGetTaxExemptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetTaxExemptionsInput, BatchGetTaxExemptionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "TaxSettings"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetTaxExemptionsInput, BatchGetTaxExemptionsOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
@@ -899,8 +900,6 @@ extension TaxSettingsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchPutTaxRegistrationOutput>(BatchPutTaxRegistrationOutput.httpOutput(from:), BatchPutTaxRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchPutTaxRegistrationInput, BatchPutTaxRegistrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchPutTaxRegistrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("TaxSettings", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -910,6 +909,9 @@ extension TaxSettingsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchPutTaxRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchPutTaxRegistrationInput, BatchPutTaxRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchPutTaxRegistrationInput, BatchPutTaxRegistrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "TaxSettings"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchPutTaxRegistrationInput, BatchPutTaxRegistrationOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
@@ -970,8 +972,6 @@ extension TaxSettingsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSupplementalTaxRegistrationOutput>(DeleteSupplementalTaxRegistrationOutput.httpOutput(from:), DeleteSupplementalTaxRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSupplementalTaxRegistrationInput, DeleteSupplementalTaxRegistrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSupplementalTaxRegistrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("TaxSettings", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -981,6 +981,9 @@ extension TaxSettingsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSupplementalTaxRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSupplementalTaxRegistrationInput, DeleteSupplementalTaxRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSupplementalTaxRegistrationInput, DeleteSupplementalTaxRegistrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "TaxSettings"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSupplementalTaxRegistrationInput, DeleteSupplementalTaxRegistrationOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
@@ -1041,8 +1044,6 @@ extension TaxSettingsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTaxRegistrationOutput>(DeleteTaxRegistrationOutput.httpOutput(from:), DeleteTaxRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTaxRegistrationInput, DeleteTaxRegistrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTaxRegistrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("TaxSettings", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1052,6 +1053,9 @@ extension TaxSettingsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTaxRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTaxRegistrationInput, DeleteTaxRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTaxRegistrationInput, DeleteTaxRegistrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "TaxSettings"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTaxRegistrationInput, DeleteTaxRegistrationOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
@@ -1108,8 +1112,6 @@ extension TaxSettingsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTaxExemptionTypesOutput>(GetTaxExemptionTypesOutput.httpOutput(from:), GetTaxExemptionTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTaxExemptionTypesInput, GetTaxExemptionTypesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTaxExemptionTypesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("TaxSettings", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1119,6 +1121,9 @@ extension TaxSettingsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTaxExemptionTypesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTaxExemptionTypesInput, GetTaxExemptionTypesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTaxExemptionTypesInput, GetTaxExemptionTypesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "TaxSettings"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTaxExemptionTypesInput, GetTaxExemptionTypesOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
@@ -1175,8 +1180,6 @@ extension TaxSettingsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTaxInheritanceOutput>(GetTaxInheritanceOutput.httpOutput(from:), GetTaxInheritanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTaxInheritanceInput, GetTaxInheritanceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTaxInheritanceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("TaxSettings", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1186,6 +1189,9 @@ extension TaxSettingsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTaxInheritanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTaxInheritanceInput, GetTaxInheritanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTaxInheritanceInput, GetTaxInheritanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "TaxSettings"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTaxInheritanceInput, GetTaxInheritanceOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
@@ -1245,8 +1251,6 @@ extension TaxSettingsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTaxRegistrationOutput>(GetTaxRegistrationOutput.httpOutput(from:), GetTaxRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTaxRegistrationInput, GetTaxRegistrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTaxRegistrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("TaxSettings", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1256,6 +1260,9 @@ extension TaxSettingsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTaxRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTaxRegistrationInput, GetTaxRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTaxRegistrationInput, GetTaxRegistrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "TaxSettings"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTaxRegistrationInput, GetTaxRegistrationOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
@@ -1314,8 +1321,6 @@ extension TaxSettingsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTaxRegistrationDocumentOutput>(GetTaxRegistrationDocumentOutput.httpOutput(from:), GetTaxRegistrationDocumentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTaxRegistrationDocumentInput, GetTaxRegistrationDocumentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTaxRegistrationDocumentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("TaxSettings", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1325,6 +1330,9 @@ extension TaxSettingsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTaxRegistrationDocumentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTaxRegistrationDocumentInput, GetTaxRegistrationDocumentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTaxRegistrationDocumentInput, GetTaxRegistrationDocumentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "TaxSettings"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTaxRegistrationDocumentInput, GetTaxRegistrationDocumentOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
@@ -1384,8 +1392,6 @@ extension TaxSettingsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSupplementalTaxRegistrationsOutput>(ListSupplementalTaxRegistrationsOutput.httpOutput(from:), ListSupplementalTaxRegistrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSupplementalTaxRegistrationsInput, ListSupplementalTaxRegistrationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSupplementalTaxRegistrationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("TaxSettings", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1395,6 +1401,9 @@ extension TaxSettingsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSupplementalTaxRegistrationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSupplementalTaxRegistrationsInput, ListSupplementalTaxRegistrationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSupplementalTaxRegistrationsInput, ListSupplementalTaxRegistrationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "TaxSettings"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSupplementalTaxRegistrationsInput, ListSupplementalTaxRegistrationsOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
@@ -1454,8 +1463,6 @@ extension TaxSettingsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTaxExemptionsOutput>(ListTaxExemptionsOutput.httpOutput(from:), ListTaxExemptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTaxExemptionsInput, ListTaxExemptionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTaxExemptionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("TaxSettings", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1465,6 +1472,9 @@ extension TaxSettingsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTaxExemptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTaxExemptionsInput, ListTaxExemptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTaxExemptionsInput, ListTaxExemptionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "TaxSettings"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTaxExemptionsInput, ListTaxExemptionsOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
@@ -1524,8 +1534,6 @@ extension TaxSettingsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTaxRegistrationsOutput>(ListTaxRegistrationsOutput.httpOutput(from:), ListTaxRegistrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTaxRegistrationsInput, ListTaxRegistrationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTaxRegistrationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("TaxSettings", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1535,6 +1543,9 @@ extension TaxSettingsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTaxRegistrationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTaxRegistrationsInput, ListTaxRegistrationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTaxRegistrationsInput, ListTaxRegistrationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "TaxSettings"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTaxRegistrationsInput, ListTaxRegistrationsOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
@@ -1594,8 +1605,6 @@ extension TaxSettingsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSupplementalTaxRegistrationOutput>(PutSupplementalTaxRegistrationOutput.httpOutput(from:), PutSupplementalTaxRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSupplementalTaxRegistrationInput, PutSupplementalTaxRegistrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSupplementalTaxRegistrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("TaxSettings", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1605,6 +1614,9 @@ extension TaxSettingsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutSupplementalTaxRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutSupplementalTaxRegistrationInput, PutSupplementalTaxRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutSupplementalTaxRegistrationInput, PutSupplementalTaxRegistrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "TaxSettings"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutSupplementalTaxRegistrationInput, PutSupplementalTaxRegistrationOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
@@ -1667,8 +1679,6 @@ extension TaxSettingsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTaxExemptionOutput>(PutTaxExemptionOutput.httpOutput(from:), PutTaxExemptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTaxExemptionInput, PutTaxExemptionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutTaxExemptionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("TaxSettings", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1678,6 +1688,9 @@ extension TaxSettingsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutTaxExemptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutTaxExemptionInput, PutTaxExemptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutTaxExemptionInput, PutTaxExemptionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "TaxSettings"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutTaxExemptionInput, PutTaxExemptionOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
@@ -1738,8 +1751,6 @@ extension TaxSettingsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTaxInheritanceOutput>(PutTaxInheritanceOutput.httpOutput(from:), PutTaxInheritanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTaxInheritanceInput, PutTaxInheritanceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutTaxInheritanceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("TaxSettings", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1749,6 +1760,9 @@ extension TaxSettingsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutTaxInheritanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutTaxInheritanceInput, PutTaxInheritanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutTaxInheritanceInput, PutTaxInheritanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "TaxSettings"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutTaxInheritanceInput, PutTaxInheritanceOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
@@ -1914,8 +1928,6 @@ extension TaxSettingsClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTaxRegistrationOutput>(PutTaxRegistrationOutput.httpOutput(from:), PutTaxRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTaxRegistrationInput, PutTaxRegistrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutTaxRegistrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("TaxSettings", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1925,6 +1937,9 @@ extension TaxSettingsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutTaxRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutTaxRegistrationInput, PutTaxRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutTaxRegistrationInput, PutTaxRegistrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "TaxSettings"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutTaxRegistrationInput, PutTaxRegistrationOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")

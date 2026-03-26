@@ -78,10 +78,11 @@ class AWSHttpProtocolServiceClient(
                     }
                 }
                 "retryStrategyOptions" -> {
+                    val sdkId = ctx.service.sdkId
                     ConfigProperty(
                         "retryStrategyOptions",
                         SmithyRetriesAPITypes.RetryStrategyOptions,
-                        { it.format("AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)") },
+                        { it.format("AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: \"$sdkId\")") },
                         true,
                     )
                 }
