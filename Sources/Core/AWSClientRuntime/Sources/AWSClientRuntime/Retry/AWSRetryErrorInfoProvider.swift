@@ -54,7 +54,7 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
     // HTTP status codes should be treated as timeouts.
     private static let timeoutStatusCodes = [408, 504]
 
-    /// Retries SEP 2.1: Returns an error info provider closure that is aware of the service name.
+    /// Returns an error info provider closure that is aware of the service name.
     /// For DynamoDB/DynamoDB Streams, sets `backoffMultiplier = 0.025` for non-throttling errors.
     public static func errorInfoProvider(sdkID: String) -> (Error) -> RetryErrorInfo? {
         let isDynamoDB = sdkID == "DynamoDB" || sdkID == "DynamoDB Streams"
@@ -126,7 +126,7 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
         return DefaultRetryErrorInfoProvider.errorInfo(for: error)
     }
 
-    /// Retries SEP 2.1: Parses `x-amz-retry-after` header (milliseconds) and sets retryAfterHint.
+    /// Parses `x-amz-retry-after` header (milliseconds) and sets retryAfterHint.
     /// The strategy will apply min/max bounds (t_i minimum, 5+t_i maximum).
     /// Invalid values are ignored and fall back to exponential backoff.
     private static func applyRetryAfterHeader(info: RetryErrorInfo, error: Error) -> RetryErrorInfo {

@@ -30,6 +30,7 @@ object AWSClientRuntimeTypes {
         val AWSClockSkewProvider = runtimeSymbol("AWSClockSkewProvider", SwiftDeclaration.ENUM)
         val AWSRetryErrorInfoProvider = runtimeSymbol("AWSRetryErrorInfoProvider", SwiftDeclaration.ENUM)
         val AWSRetryMode = runtimeSymbol("AWSRetryMode", SwiftDeclaration.ENUM)
+        val LongPollingBackoffProvider = runtimeSymbol("LongPollingBackoffProvider", SwiftDeclaration.ENUM)
         val AWSPartitionDefinition = runtimeSymbol("awsPartitionJSON", SwiftDeclaration.LET)
         val AWSDefaultClientConfiguration = runtimeSymbol("AWSDefaultClientConfiguration", SwiftDeclaration.PROTOCOL)
         val AWSRegionClientConfiguration = runtimeSymbol("AWSRegionClientConfiguration", SwiftDeclaration.PROTOCOL)

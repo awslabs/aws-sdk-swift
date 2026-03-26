@@ -34,7 +34,7 @@ class AWSRetryConfigTests: XCTestCase {
     }
 
     func test_retryMode_defaultsToStandard() throws {
-        // Retries SEP 2.1: default changed from legacy to standard
+        // default changed from legacy to standard
         let subject = AWSRetryConfig.retryMode(configValue: nil, profileName: "no-such-profile", fileBasedConfig: fileBasedConfig)
         XCTAssertEqual(subject, .standard)
     }
