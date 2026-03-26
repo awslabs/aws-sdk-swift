@@ -8,8 +8,8 @@
 import struct Foundation.TimeInterval
 import class Smithy.Context
 import SmithyHTTPAPI
-import struct SmithyRetriesAPI.RetryErrorInfo
 import struct SmithyRetries.ExponentialBackoffStrategy
+import struct SmithyRetriesAPI.RetryErrorInfo
 
 /// Provides long-polling backoff for operations that should
 /// back off even when the retry token bucket is empty.

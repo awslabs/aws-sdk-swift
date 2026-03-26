@@ -37,9 +37,10 @@ class AWSRetryCustomizationIntegration : SwiftIntegration {
                 },
                 longPollingBackoffExpression =
                     "AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:)",
-                additionalImportSymbols = listOf(
-                    AWSClientRuntimeTypes.Core.LongPollingBackoffProvider,
-                ),
+                additionalImportSymbols =
+                    listOf(
+                        AWSClientRuntimeTypes.Core.LongPollingBackoffProvider,
+                    ),
             ),
         )
     }
