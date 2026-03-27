@@ -403,6 +403,26 @@ extension ApplicationSignalsClientTypes {
 
 extension ApplicationSignalsClientTypes {
 
+    /// Identifies the metric source for SLOs on resources other than Application Signals services.
+    public struct MetricSource: Swift.Sendable {
+        /// Additional attributes for the metric source.
+        public var metricSourceAttributes: [Swift.String: Swift.String]?
+        /// Key attributes that identify the metric source.
+        /// This member is required.
+        public var metricSourceKeyAttributes: [Swift.String: Swift.String]?
+
+        public init(
+            metricSourceAttributes: [Swift.String: Swift.String]? = nil,
+            metricSourceKeyAttributes: [Swift.String: Swift.String]? = nil
+        ) {
+            self.metricSourceAttributes = metricSourceAttributes
+            self.metricSourceKeyAttributes = metricSourceKeyAttributes
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
     public enum ServiceLevelIndicatorMetricType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case availability
         case latency
@@ -684,6 +704,8 @@ extension ApplicationSignalsClientTypes {
         ///
         /// * Environment specifies the location where this object is hosted, or what it belongs to.
         public var keyAttributes: [Swift.String: Swift.String]?
+        /// Identifies the metric source for SLOs on resources other than Application Signals services.
+        public var metricSource: ApplicationSignalsClientTypes.MetricSource?
         /// If the SLO monitors either the LATENCY or AVAILABILITY metric that Application Signals collects, this field displays which of those metrics is used.
         public var metricType: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricType?
         /// This structure defines the metric that is used as the "good request" or "bad request" value for a request-based SLO. This value observed for the metric defined in TotalRequestCountMetric is divided by the number found for MonitoredRequestCountMetric to determine the percentage of successful requests that this SLO tracks.
@@ -698,6 +720,7 @@ extension ApplicationSignalsClientTypes {
         public init(
             dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig? = nil,
             keyAttributes: [Swift.String: Swift.String]? = nil,
+            metricSource: ApplicationSignalsClientTypes.MetricSource? = nil,
             metricType: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricType? = nil,
             monitoredRequestCountMetric: ApplicationSignalsClientTypes.MonitoredRequestCountMetricDataQueries? = nil,
             operationName: Swift.String? = nil,
@@ -705,6 +728,7 @@ extension ApplicationSignalsClientTypes {
         ) {
             self.dependencyConfig = dependencyConfig
             self.keyAttributes = keyAttributes
+            self.metricSource = metricSource
             self.metricType = metricType
             self.monitoredRequestCountMetric = monitoredRequestCountMetric
             self.operationName = operationName
@@ -758,6 +782,8 @@ extension ApplicationSignalsClientTypes {
         /// If this SLO monitors a CloudWatch metric or the result of a CloudWatch metric math expression, this structure includes the information about that metric or expression.
         /// This member is required.
         public var metricDataQueries: [ApplicationSignalsClientTypes.MetricDataQuery]?
+        /// Identifies the metric source for SLOs on resources other than Application Signals services.
+        public var metricSource: ApplicationSignalsClientTypes.MetricSource?
         /// If the SLO monitors either the LATENCY or AVAILABILITY metric that Application Signals collects, this field displays which of those metrics is used.
         public var metricType: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricType?
         /// If the SLO monitors a specific operation of the service, this field displays that operation name.
@@ -767,12 +793,14 @@ extension ApplicationSignalsClientTypes {
             dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig? = nil,
             keyAttributes: [Swift.String: Swift.String]? = nil,
             metricDataQueries: [ApplicationSignalsClientTypes.MetricDataQuery]? = nil,
+            metricSource: ApplicationSignalsClientTypes.MetricSource? = nil,
             metricType: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricType? = nil,
             operationName: Swift.String? = nil
         ) {
             self.dependencyConfig = dependencyConfig
             self.keyAttributes = keyAttributes
             self.metricDataQueries = metricDataQueries
+            self.metricSource = metricSource
             self.metricType = metricType
             self.operationName = operationName
         }
@@ -2725,6 +2753,10 @@ extension ApplicationSignalsClientTypes {
         ///
         /// * Environment specifies the location where this object is hosted, or what it belongs to.
         public var keyAttributes: [Swift.String: Swift.String]?
+        /// The name of the metric for SLOs on resources other than Application Signals services.
+        public var metricName: Swift.String?
+        /// Identifies the metric source for SLOs on resources other than Application Signals services.
+        public var metricSource: ApplicationSignalsClientTypes.MetricSource?
         /// If the SLO is to monitor either the LATENCY or AVAILABILITY metric that Application Signals collects, use this field to specify which of those metrics is used.
         public var metricType: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricType?
         /// Use this structure to define the metric that you want to use as the "good request" or "bad request" value for a request-based SLO. This value observed for the metric defined in TotalRequestCountMetric will be divided by the number found for MonitoredRequestCountMetric to determine the percentage of successful requests that this SLO tracks.
@@ -2737,6 +2769,8 @@ extension ApplicationSignalsClientTypes {
         public init(
             dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig? = nil,
             keyAttributes: [Swift.String: Swift.String]? = nil,
+            metricName: Swift.String? = nil,
+            metricSource: ApplicationSignalsClientTypes.MetricSource? = nil,
             metricType: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricType? = nil,
             monitoredRequestCountMetric: ApplicationSignalsClientTypes.MonitoredRequestCountMetricDataQueries? = nil,
             operationName: Swift.String? = nil,
@@ -2744,6 +2778,8 @@ extension ApplicationSignalsClientTypes {
         ) {
             self.dependencyConfig = dependencyConfig
             self.keyAttributes = keyAttributes
+            self.metricName = metricName
+            self.metricSource = metricSource
             self.metricType = metricType
             self.monitoredRequestCountMetric = monitoredRequestCountMetric
             self.operationName = operationName
@@ -2798,6 +2834,8 @@ extension ApplicationSignalsClientTypes {
         public var metricDataQueries: [ApplicationSignalsClientTypes.MetricDataQuery]?
         /// The name of the CloudWatch metric to use for the SLO, when using a custom metric rather than Application Signals standard metrics.
         public var metricName: Swift.String?
+        /// Identifies the metric source for SLOs on resources other than Application Signals services.
+        public var metricSource: ApplicationSignalsClientTypes.MetricSource?
         /// If the SLO is to monitor either the LATENCY or AVAILABILITY metric that Application Signals collects, use this field to specify which of those metrics is used.
         public var metricType: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricType?
         /// If the SLO is to monitor a specific operation of the service, use this field to specify the name of that operation.
@@ -2812,6 +2850,7 @@ extension ApplicationSignalsClientTypes {
             keyAttributes: [Swift.String: Swift.String]? = nil,
             metricDataQueries: [ApplicationSignalsClientTypes.MetricDataQuery]? = nil,
             metricName: Swift.String? = nil,
+            metricSource: ApplicationSignalsClientTypes.MetricSource? = nil,
             metricType: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricType? = nil,
             operationName: Swift.String? = nil,
             periodSeconds: Swift.Int? = nil,
@@ -2821,6 +2860,7 @@ extension ApplicationSignalsClientTypes {
             self.keyAttributes = keyAttributes
             self.metricDataQueries = metricDataQueries
             self.metricName = metricName
+            self.metricSource = metricSource
             self.metricType = metricType
             self.operationName = operationName
             self.periodSeconds = periodSeconds
@@ -2894,14 +2934,20 @@ public struct CreateServiceLevelObjectiveInput: Swift.Sendable {
 extension ApplicationSignalsClientTypes {
 
     public enum MetricSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case appmonitor
+        case canary
         case cloudwatchMetric
+        case service
         case serviceDependency
         case serviceOperation
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MetricSourceType] {
             return [
+                .appmonitor,
+                .canary,
                 .cloudwatchMetric,
+                .service,
                 .serviceDependency,
                 .serviceOperation
             ]
@@ -2914,7 +2960,10 @@ extension ApplicationSignalsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .appmonitor: return "AppMonitor"
+            case .canary: return "Canary"
             case .cloudwatchMetric: return "CloudWatchMetric"
+            case .service: return "Service"
             case .serviceDependency: return "ServiceDependency"
             case .serviceOperation: return "ServiceOperation"
             case let .sdkUnknown(s): return s
@@ -2951,7 +3000,13 @@ extension ApplicationSignalsClientTypes {
         ///
         /// * Service dependency
         ///
+        /// * Service
+        ///
         /// * CloudWatch metric
+        ///
+        /// * AppMonitor
+        ///
+        /// * Canary
         public var metricSourceType: ApplicationSignalsClientTypes.MetricSourceType?
         /// The name of this SLO.
         /// This member is required.
@@ -3061,13 +3116,21 @@ public struct ListServiceLevelObjectivesInput: Swift.Sendable {
     public var keyAttributes: [Swift.String: Swift.String]?
     /// The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
     public var maxResults: Swift.Int?
+    /// Identifies the metric source to filter SLOs by.
+    public var metricSource: ApplicationSignalsClientTypes.MetricSource?
     /// Use this optional field to only include SLOs with the specified metric source types in the output. Supported types are:
     ///
     /// * Service operation
     ///
     /// * Service dependency
     ///
+    /// * Service
+    ///
     /// * CloudWatch metric
+    ///
+    /// * AppMonitor
+    ///
+    /// * Canary
     public var metricSourceTypes: [ApplicationSignalsClientTypes.MetricSourceType]?
     /// Include this value, if it was returned by the previous operation, to get the next set of service level objectives.
     public var nextToken: Swift.String?
@@ -3081,6 +3144,7 @@ public struct ListServiceLevelObjectivesInput: Swift.Sendable {
         includeLinkedAccounts: Swift.Bool? = nil,
         keyAttributes: [Swift.String: Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
+        metricSource: ApplicationSignalsClientTypes.MetricSource? = nil,
         metricSourceTypes: [ApplicationSignalsClientTypes.MetricSourceType]? = nil,
         nextToken: Swift.String? = nil,
         operationName: Swift.String? = nil,
@@ -3090,6 +3154,7 @@ public struct ListServiceLevelObjectivesInput: Swift.Sendable {
         self.includeLinkedAccounts = includeLinkedAccounts
         self.keyAttributes = keyAttributes
         self.maxResults = maxResults
+        self.metricSource = metricSource
         self.metricSourceTypes = metricSourceTypes
         self.nextToken = nextToken
         self.operationName = operationName
@@ -3122,13 +3187,21 @@ extension ApplicationSignalsClientTypes {
         ///
         /// * Environment specifies the location where this object is hosted, or what it belongs to.
         public var keyAttributes: [Swift.String: Swift.String]?
+        /// Identifies the metric source for SLOs on resources other than Application Signals services.
+        public var metricSource: ApplicationSignalsClientTypes.MetricSource?
         /// Displays the SLI metric source type for this SLO. Supported types are:
         ///
         /// * Service operation
         ///
         /// * Service dependency
         ///
+        /// * Service
+        ///
         /// * CloudWatch metric
+        ///
+        /// * AppMonitor
+        ///
+        /// * Canary
         public var metricSourceType: ApplicationSignalsClientTypes.MetricSourceType?
         /// The name of the service level objective.
         /// This member is required.
@@ -3142,6 +3215,7 @@ extension ApplicationSignalsClientTypes {
             dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig? = nil,
             evaluationType: ApplicationSignalsClientTypes.EvaluationType? = nil,
             keyAttributes: [Swift.String: Swift.String]? = nil,
+            metricSource: ApplicationSignalsClientTypes.MetricSource? = nil,
             metricSourceType: ApplicationSignalsClientTypes.MetricSourceType? = nil,
             name: Swift.String? = nil,
             operationName: Swift.String? = nil
@@ -3151,6 +3225,7 @@ extension ApplicationSignalsClientTypes {
             self.dependencyConfig = dependencyConfig
             self.evaluationType = evaluationType
             self.keyAttributes = keyAttributes
+            self.metricSource = metricSource
             self.metricSourceType = metricSourceType
             self.name = name
             self.operationName = operationName
@@ -3783,6 +3858,7 @@ extension ListServiceLevelObjectivesInput {
         guard let value else { return }
         try writer["DependencyConfig"].write(value.dependencyConfig, with: ApplicationSignalsClientTypes.DependencyConfig.write(value:to:))
         try writer["KeyAttributes"].writeMap(value.keyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["MetricSource"].write(value.metricSource, with: ApplicationSignalsClientTypes.MetricSource.write(value:to:))
         try writer["MetricSourceTypes"].writeList(value.metricSourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ApplicationSignalsClientTypes.MetricSourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -4939,6 +5015,23 @@ extension ApplicationSignalsClientTypes.MetricReference {
     }
 }
 
+extension ApplicationSignalsClientTypes.MetricSource {
+
+    static func write(value: ApplicationSignalsClientTypes.MetricSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MetricSourceAttributes"].writeMap(value.metricSourceAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["MetricSourceKeyAttributes"].writeMap(value.metricSourceKeyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.MetricSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.MetricSource()
+        value.metricSourceKeyAttributes = try reader["MetricSourceKeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.metricSourceAttributes = try reader["MetricSourceAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension ApplicationSignalsClientTypes.MetricStat {
 
     static func write(value: ApplicationSignalsClientTypes.MetricStat?, to writer: SmithyJSON.Writer) throws {
@@ -5052,6 +5145,7 @@ extension ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetric 
         value.totalRequestCountMetric = try reader["TotalRequestCountMetric"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.monitoredRequestCountMetric = try reader["MonitoredRequestCountMetric"].readIfPresent(with: ApplicationSignalsClientTypes.MonitoredRequestCountMetricDataQueries.read(from:))
         value.dependencyConfig = try reader["DependencyConfig"].readIfPresent(with: ApplicationSignalsClientTypes.DependencyConfig.read(from:))
+        value.metricSource = try reader["MetricSource"].readIfPresent(with: ApplicationSignalsClientTypes.MetricSource.read(from:))
         return value
     }
 }
@@ -5062,6 +5156,8 @@ extension ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetricC
         guard let value else { return }
         try writer["DependencyConfig"].write(value.dependencyConfig, with: ApplicationSignalsClientTypes.DependencyConfig.write(value:to:))
         try writer["KeyAttributes"].writeMap(value.keyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["MetricName"].write(value.metricName)
+        try writer["MetricSource"].write(value.metricSource, with: ApplicationSignalsClientTypes.MetricSource.write(value:to:))
         try writer["MetricType"].write(value.metricType)
         try writer["MonitoredRequestCountMetric"].write(value.monitoredRequestCountMetric, with: ApplicationSignalsClientTypes.MonitoredRequestCountMetricDataQueries.write(value:to:))
         try writer["OperationName"].write(value.operationName)
@@ -5182,6 +5278,7 @@ extension ApplicationSignalsClientTypes.ServiceLevelIndicatorMetric {
         value.metricType = try reader["MetricType"].readIfPresent()
         value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.dependencyConfig = try reader["DependencyConfig"].readIfPresent(with: ApplicationSignalsClientTypes.DependencyConfig.read(from:))
+        value.metricSource = try reader["MetricSource"].readIfPresent(with: ApplicationSignalsClientTypes.MetricSource.read(from:))
         return value
     }
 }
@@ -5194,6 +5291,7 @@ extension ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricConfig {
         try writer["KeyAttributes"].writeMap(value.keyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["MetricDataQueries"].writeList(value.metricDataQueries, memberWritingClosure: ApplicationSignalsClientTypes.MetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MetricName"].write(value.metricName)
+        try writer["MetricSource"].write(value.metricSource, with: ApplicationSignalsClientTypes.MetricSource.write(value:to:))
         try writer["MetricType"].write(value.metricType)
         try writer["OperationName"].write(value.operationName)
         try writer["PeriodSeconds"].write(value.periodSeconds)
@@ -5277,6 +5375,7 @@ extension ApplicationSignalsClientTypes.ServiceLevelObjectiveSummary {
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.evaluationType = try reader["EvaluationType"].readIfPresent()
         value.metricSourceType = try reader["MetricSourceType"].readIfPresent()
+        value.metricSource = try reader["MetricSource"].readIfPresent(with: ApplicationSignalsClientTypes.MetricSource.read(from:))
         return value
     }
 }
