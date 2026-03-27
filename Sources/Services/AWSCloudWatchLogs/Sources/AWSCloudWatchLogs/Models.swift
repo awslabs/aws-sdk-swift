@@ -1773,15 +1773,23 @@ extension CloudWatchLogsClientTypes {
         /// The Amazon S3 URI where query results are delivered. Must be a valid S3 URI format.
         /// This member is required.
         public var destinationIdentifier: Swift.String?
+        /// The Amazon Resource Name (ARN) of the KMS encryption key. Must belong to the same AWS Region as the destination Amazon S3 bucket.
+        public var kmsKeyId: Swift.String?
+        /// The AWS accountId for the bucket owning account.
+        public var ownerAccountId: Swift.String?
         /// The ARN of the IAM role that grants permissions to write query results to the specified Amazon S3 destination.
         /// This member is required.
         public var roleArn: Swift.String?
 
         public init(
             destinationIdentifier: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil,
+            ownerAccountId: Swift.String? = nil,
             roleArn: Swift.String? = nil
         ) {
             self.destinationIdentifier = destinationIdentifier
+            self.kmsKeyId = kmsKeyId
+            self.ownerAccountId = ownerAccountId
             self.roleArn = roleArn
         }
     }
@@ -1877,7 +1885,7 @@ public struct CreateScheduledQueryInput: Swift.Sendable {
     /// The name of the scheduled query. The name must be unique within your account and region. Valid characters are alphanumeric characters, hyphens, underscores, and periods. Length must be between 1 and 255 characters.
     /// This member is required.
     public var name: Swift.String?
-    /// The query language to use for the scheduled query. Valid values are LogsQL, PPL, and SQL.
+    /// The query language to use for the scheduled query. Valid values are CWLI, PPL, and SQL.
     /// This member is required.
     public var queryLanguage: CloudWatchLogsClientTypes.QueryLanguage?
     /// The query string to execute. This is the same query syntax used in CloudWatch Logs Insights. Maximum length is 10,000 characters.
@@ -3928,6 +3936,30 @@ public struct DescribeQueryDefinitionsInput: Swift.Sendable {
 
 extension CloudWatchLogsClientTypes {
 
+    /// This structure defines a query parameter for a saved CloudWatch Logs Insights query definition. Query parameters are supported only for Logs Insights QL queries. They are placeholder variables that you can reference in a query string using the {{parameterName}} syntax. Each parameter can include a default value and a description.
+    public struct QueryParameter: Swift.Sendable {
+        /// The default value to use for this query parameter if no value is supplied at execution time.
+        public var defaultValue: Swift.String?
+        /// A description of the query parameter that explains its purpose or expected values.
+        public var description: Swift.String?
+        /// The name of the query parameter. A query parameter name must start with a letter or underscore, and contain only letters, digits, and underscores.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            defaultValue: Swift.String? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.defaultValue = defaultValue
+            self.description = description
+            self.name = name
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
     /// This structure contains details about a saved CloudWatch Logs Insights query definition.
     public struct QueryDefinition: Swift.Sendable {
         /// The date that the query definition was most recently modified.
@@ -3936,6 +3968,8 @@ extension CloudWatchLogsClientTypes {
         public var logGroupNames: [Swift.String]?
         /// The name of the query definition.
         public var name: Swift.String?
+        /// If this query definition contains a list of query parameters that define placeholder variables for the query string, that list appears here.
+        public var parameters: [CloudWatchLogsClientTypes.QueryParameter]?
         /// The unique ID of the query definition.
         public var queryDefinitionId: Swift.String?
         /// The query language used for this query. For more information about the query languages that CloudWatch Logs supports, see [Supported query languages](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData_Languages.html).
@@ -3947,6 +3981,7 @@ extension CloudWatchLogsClientTypes {
             lastModified: Swift.Int? = nil,
             logGroupNames: [Swift.String]? = nil,
             name: Swift.String? = nil,
+            parameters: [CloudWatchLogsClientTypes.QueryParameter]? = nil,
             queryDefinitionId: Swift.String? = nil,
             queryLanguage: CloudWatchLogsClientTypes.QueryLanguage? = nil,
             queryString: Swift.String? = nil
@@ -3954,6 +3989,7 @@ extension CloudWatchLogsClientTypes {
             self.lastModified = lastModified
             self.logGroupNames = logGroupNames
             self.name = name
+            self.parameters = parameters
             self.queryDefinitionId = queryDefinitionId
             self.queryLanguage = queryLanguage
             self.queryString = queryString
@@ -7331,6 +7367,8 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For Amazon Bedrock AgentCore Identity, the valid values are APPLICATION_LOGS and TRACES.
     ///
+    /// * For Amazon Bedrock AgentCore Memory, the valid values are APPLICATION_LOGS and TRACES.
+    ///
     /// * For Amazon Bedrock AgentCore Gateway, the valid values are APPLICATION_LOGS and TRACES.
     ///
     /// * For CloudFront, the valid value is ACCESS_LOGS.
@@ -7340,6 +7378,8 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     /// * For Elemental MediaPackage, the valid values are EGRESS_ACCESS_LOGS and INGRESS_ACCESS_LOGS.
     ///
     /// * For Elemental MediaTailor, the valid values are AD_DECISION_SERVER_LOGS, MANIFEST_SERVICE_LOGS, and TRANSCODE_LOGS.
+    ///
+    /// * For Amazon EKS Auto Mode, the valid values are AUTO_MODE_BLOCK_STORAGE_LOGS, AUTO_MODE_COMPUTE_LOGS, AUTO_MODE_IPAM_LOGS, and AUTO_MODE_LOAD_BALANCING_LOGS.
     ///
     /// * For Entity Resolution, the valid value is WORKFLOW_LOGS.
     ///
@@ -7351,7 +7391,7 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For PCS, the valid values are PCS_SCHEDULER_LOGS and PCS_JOBCOMP_LOGS.
     ///
-    /// * For Quick Suite, the valid values are CHAT_LOGS and FEEDBACK_LOGS.
+    /// * For Quick, the valid values are CHAT_LOGS and FEEDBACK_LOGS.
     ///
     /// * For Amazon Web Services RTB Fabric, the valid values is APPLICATION_LOGS.
     ///
@@ -7739,6 +7779,8 @@ public struct PutQueryDefinitionInput: Swift.Sendable {
     /// A name for the query definition. If you are saving numerous query definitions, we recommend that you name them. This way, you can find the ones you want by using the first part of the name as a filter in the queryDefinitionNamePrefix parameter of [DescribeQueryDefinitions](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeQueryDefinitions.html).
     /// This member is required.
     public var name: Swift.String?
+    /// Use this parameter to include specific query parameters as part of your query definition. Query parameters are supported only for Logs Insights QL queries. Query parameters allow you to use placeholder variables in your query string that are substituted with values at execution time. Use the {{parameterName}} syntax in your query string to reference a parameter.
+    public var parameters: [CloudWatchLogsClientTypes.QueryParameter]?
     /// If you are updating a query definition, use this parameter to specify the ID of the query definition that you want to update. You can use [DescribeQueryDefinitions](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeQueryDefinitions.html) to retrieve the IDs of your saved query definitions. If you are creating a query definition, do not specify this parameter. CloudWatch generates a unique ID for the new query definition and include it in the response to this operation.
     public var queryDefinitionId: Swift.String?
     /// Specify the query language to use for this query. The options are Logs Insights QL, OpenSearch PPL, and OpenSearch SQL. For more information about the query languages that CloudWatch Logs supports, see [Supported query languages](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData_Languages.html).
@@ -7751,6 +7793,7 @@ public struct PutQueryDefinitionInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         logGroupNames: [Swift.String]? = nil,
         name: Swift.String? = nil,
+        parameters: [CloudWatchLogsClientTypes.QueryParameter]? = nil,
         queryDefinitionId: Swift.String? = nil,
         queryLanguage: CloudWatchLogsClientTypes.QueryLanguage? = nil,
         queryString: Swift.String? = nil
@@ -7758,6 +7801,7 @@ public struct PutQueryDefinitionInput: Swift.Sendable {
         self.clientToken = clientToken
         self.logGroupNames = logGroupNames
         self.name = name
+        self.parameters = parameters
         self.queryDefinitionId = queryDefinitionId
         self.queryLanguage = queryLanguage
         self.queryString = queryString
@@ -10376,6 +10420,7 @@ extension PutQueryDefinitionInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["logGroupNames"].writeList(value.logGroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
+        try writer["parameters"].writeList(value.parameters, memberWritingClosure: CloudWatchLogsClientTypes.QueryParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["queryDefinitionId"].write(value.queryDefinitionId)
         try writer["queryLanguage"].write(value.queryLanguage)
         try writer["queryString"].write(value.queryString)
@@ -15217,6 +15262,7 @@ extension CloudWatchLogsClientTypes.QueryDefinition {
         value.queryString = try reader["queryString"].readIfPresent()
         value.lastModified = try reader["lastModified"].readIfPresent()
         value.logGroupNames = try reader["logGroupNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.parameters = try reader["parameters"].readListIfPresent(memberReadingClosure: CloudWatchLogsClientTypes.QueryParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -15232,6 +15278,25 @@ extension CloudWatchLogsClientTypes.QueryInfo {
         value.status = try reader["status"].readIfPresent()
         value.createTime = try reader["createTime"].readIfPresent()
         value.logGroupName = try reader["logGroupName"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchLogsClientTypes.QueryParameter {
+
+    static func write(value: CloudWatchLogsClientTypes.QueryParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultValue"].write(value.defaultValue)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.QueryParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchLogsClientTypes.QueryParameter()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.defaultValue = try reader["defaultValue"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
         return value
     }
 }
@@ -15362,6 +15427,8 @@ extension CloudWatchLogsClientTypes.S3Configuration {
     static func write(value: CloudWatchLogsClientTypes.S3Configuration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["destinationIdentifier"].write(value.destinationIdentifier)
+        try writer["kmsKeyId"].write(value.kmsKeyId)
+        try writer["ownerAccountId"].write(value.ownerAccountId)
         try writer["roleArn"].write(value.roleArn)
     }
 
@@ -15370,6 +15437,8 @@ extension CloudWatchLogsClientTypes.S3Configuration {
         var value = CloudWatchLogsClientTypes.S3Configuration()
         value.destinationIdentifier = try reader["destinationIdentifier"].readIfPresent() ?? ""
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.ownerAccountId = try reader["ownerAccountId"].readIfPresent()
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
         return value
     }
 }
