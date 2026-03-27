@@ -1064,7 +1064,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `CreateEvaluator` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Creates a custom evaluator for agent quality assessment. Custom evaluators use LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings to evaluate agent performance at tool call, trace, or session levels.
+    /// Creates a custom evaluator for agent quality assessment. Custom evaluators can use either LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings, or code-based configurations with customer-managed Lambda functions to evaluate agent performance at tool call, trace, or session levels.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateEvaluatorInput`)
     ///
