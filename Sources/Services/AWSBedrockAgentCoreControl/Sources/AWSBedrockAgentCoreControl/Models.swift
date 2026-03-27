@@ -3302,6 +3302,36 @@ public struct DeleteResourcePolicyOutput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// Configuration for a Lambda function used as a code-based evaluator.
+    public struct LambdaEvaluatorConfig: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Lambda function that implements the evaluation logic.
+        /// This member is required.
+        public var lambdaArn: Swift.String?
+        /// The timeout in seconds for the Lambda function invocation. Defaults to 60. Must be between 1 and 300.
+        public var lambdaTimeoutInSeconds: Swift.Int?
+
+        public init(
+            lambdaArn: Swift.String? = nil,
+            lambdaTimeoutInSeconds: Swift.Int? = nil
+        ) {
+            self.lambdaArn = lambdaArn
+            self.lambdaTimeoutInSeconds = lambdaTimeoutInSeconds
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for a code-based evaluator. Specify the Lambda function to use for evaluation.
+    public enum CodeBasedEvaluatorConfig: Swift.Sendable {
+        /// The Lambda function configuration for code-based evaluation.
+        case lambdaconfig(BedrockAgentCoreControlClientTypes.LambdaEvaluatorConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// The configuration parameters that control how the foundation model behaves during evaluation, including response generation settings.
     public struct InferenceConfiguration: Swift.Sendable {
         /// The maximum number of tokens to generate in the model response during evaluation.
@@ -3457,6 +3487,8 @@ extension BedrockAgentCoreControlClientTypes {
     public enum EvaluatorConfig: Swift.Sendable {
         /// The LLM-as-a-Judge configuration that uses a language model to evaluate agent performance based on custom instructions and rating scales.
         case llmasajudge(BedrockAgentCoreControlClientTypes.LlmAsAJudgeEvaluatorConfig)
+        /// Configuration for a code-based evaluator that uses a customer-managed Lambda function to programmatically assess agent performance.
+        case codebased(BedrockAgentCoreControlClientTypes.CodeBasedEvaluatorConfig)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3498,7 +3530,7 @@ public struct CreateEvaluatorInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The description of the evaluator that explains its purpose and evaluation criteria.
     public var description: Swift.String?
-    /// The configuration for the evaluator, including LLM-as-a-Judge settings with instructions, rating scale, and model configuration.
+    /// The configuration for the evaluator. Specify either LLM-as-a-Judge settings with instructions, rating scale, and model configuration, or code-based settings with a customer-managed Lambda function.
     /// This member is required.
     public var evaluatorConfig: BedrockAgentCoreControlClientTypes.EvaluatorConfig?
     /// The name of the evaluator. Must be unique within your account.
@@ -3655,7 +3687,7 @@ public struct GetEvaluatorOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the evaluator.
     /// This member is required.
     public var evaluatorArn: Swift.String?
-    /// The configuration of the evaluator, including LLM-as-a-Judge settings for custom evaluators.
+    /// The configuration of the evaluator, including LLM-as-a-Judge or code-based settings.
     /// This member is required.
     public var evaluatorConfig: BedrockAgentCoreControlClientTypes.EvaluatorConfig?
     /// The unique identifier of the evaluator.
@@ -3725,12 +3757,14 @@ extension BedrockAgentCoreControlClientTypes {
 
     public enum EvaluatorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case builtin
+        case code
         case custom
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EvaluatorType] {
             return [
                 .builtin,
+                .code,
                 .custom
             ]
         }
@@ -3743,6 +3777,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .builtin: return "Builtin"
+            case .code: return "CustomCode"
             case .custom: return "Custom"
             case let .sdkUnknown(s): return s
             }
@@ -3834,7 +3869,7 @@ public struct UpdateEvaluatorInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The updated description of the evaluator.
     public var description: Swift.String?
-    /// The updated configuration for the evaluator, including LLM-as-a-Judge settings with instructions, rating scale, and model configuration.
+    /// The updated configuration for the evaluator. Specify either LLM-as-a-Judge settings with instructions, rating scale, and model configuration, or code-based settings with a customer-managed Lambda function.
     public var evaluatorConfig: BedrockAgentCoreControlClientTypes.EvaluatorConfig?
     /// The unique identifier of the evaluator to update.
     /// This member is required.
@@ -9520,9 +9555,9 @@ public struct ListPolicyEnginesOutput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Wrapper for updating an optional Description field with PATCH semantics. When present in an update request, the description is replaced with optionalValue. When absent, the description is left unchanged. To unset the description, include the wrapper with optionalValue set to null.
+    /// Wrapper for updating an optional Description field with PATCH semantics. When present in an update request, the description is replaced with optionalValue. When absent, the description is left unchanged. To unset the description, include the wrapper with optionalValue not specified.
     public struct UpdatedDescription: Swift.Sendable {
-        /// Represents an optional value that is used to update the human-readable description of the resource. If set to null, it will clear the current description of the resource.
+        /// Represents an optional value that is used to update the human-readable description of the resource. If not specified, it will clear the current description of the resource.
         public var optionalValue: Swift.String?
 
         public init(
@@ -16780,6 +16815,30 @@ extension BedrockAgentCoreControlClientTypes.Code {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.CodeBasedEvaluatorConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.CodeBasedEvaluatorConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .lambdaconfig(lambdaconfig):
+                try writer["lambdaConfig"].write(lambdaconfig, with: BedrockAgentCoreControlClientTypes.LambdaEvaluatorConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CodeBasedEvaluatorConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "lambdaConfig":
+                return .lambdaconfig(try reader["lambdaConfig"].read(with: BedrockAgentCoreControlClientTypes.LambdaEvaluatorConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.CodeConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.CodeConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -17276,6 +17335,8 @@ extension BedrockAgentCoreControlClientTypes.EvaluatorConfig {
     static func write(value: BedrockAgentCoreControlClientTypes.EvaluatorConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .codebased(codebased):
+                try writer["codeBased"].write(codebased, with: BedrockAgentCoreControlClientTypes.CodeBasedEvaluatorConfig.write(value:to:))
             case let .llmasajudge(llmasajudge):
                 try writer["llmAsAJudge"].write(llmasajudge, with: BedrockAgentCoreControlClientTypes.LlmAsAJudgeEvaluatorConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -17289,6 +17350,8 @@ extension BedrockAgentCoreControlClientTypes.EvaluatorConfig {
         switch name {
             case "llmAsAJudge":
                 return .llmasajudge(try reader["llmAsAJudge"].read(with: BedrockAgentCoreControlClientTypes.LlmAsAJudgeEvaluatorConfig.read(from:)))
+            case "codeBased":
+                return .codebased(try reader["codeBased"].read(with: BedrockAgentCoreControlClientTypes.CodeBasedEvaluatorConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -17754,6 +17817,23 @@ extension BedrockAgentCoreControlClientTypes.KmsConfiguration {
         var value = BedrockAgentCoreControlClientTypes.KmsConfiguration()
         value.keyType = try reader["keyType"].readIfPresent() ?? .sdkUnknown("")
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.LambdaEvaluatorConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.LambdaEvaluatorConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["lambdaArn"].write(value.lambdaArn)
+        try writer["lambdaTimeoutInSeconds"].write(value.lambdaTimeoutInSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.LambdaEvaluatorConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.LambdaEvaluatorConfig()
+        value.lambdaArn = try reader["lambdaArn"].readIfPresent() ?? ""
+        value.lambdaTimeoutInSeconds = try reader["lambdaTimeoutInSeconds"].readIfPresent()
         return value
     }
 }

@@ -33,6 +33,41 @@ extension GetAgreementTermsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension MarketplaceAgreementClient {
+    /// Paginate over `[ListAgreementPaymentRequestsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAgreementPaymentRequestsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAgreementPaymentRequestsOutput`
+    public func listAgreementPaymentRequestsPaginated(input: ListAgreementPaymentRequestsInput) -> ClientRuntime.PaginatorSequence<ListAgreementPaymentRequestsInput, ListAgreementPaymentRequestsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAgreementPaymentRequestsInput, ListAgreementPaymentRequestsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAgreementPaymentRequests(input:))
+    }
+}
+
+extension ListAgreementPaymentRequestsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAgreementPaymentRequestsInput {
+        return ListAgreementPaymentRequestsInput(
+            agreementId: self.agreementId,
+            agreementType: self.agreementType,
+            catalog: self.catalog,
+            maxResults: self.maxResults,
+            nextToken: token,
+            partyType: self.partyType,
+            status: self.status
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAgreementPaymentRequestsInput, OperationStackOutput == ListAgreementPaymentRequestsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAgreementPaymentRequestsPaginated`
+    /// to access the nested member `[MarketplaceAgreementClientTypes.PaymentRequestSummary]`
+    /// - Returns: `[MarketplaceAgreementClientTypes.PaymentRequestSummary]`
+    public func items() async throws -> [MarketplaceAgreementClientTypes.PaymentRequestSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension MarketplaceAgreementClient {
     /// Paginate over `[SearchAgreementsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

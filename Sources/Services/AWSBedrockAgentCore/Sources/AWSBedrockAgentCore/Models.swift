@@ -1946,7 +1946,7 @@ public struct EvaluateInput: Swift.Sendable {
     public var evaluationInput: BedrockAgentCoreClientTypes.EvaluationInput?
     /// The specific trace or span IDs to evaluate within the provided input. Allows targeting evaluation at different levels: individual tool calls, single request-response interactions (traces), or entire conversation sessions.
     public var evaluationTarget: BedrockAgentCoreClientTypes.EvaluationTarget?
-    /// The unique identifier of the evaluator to use for scoring. Can be a built-in evaluator (e.g., Builtin.Helpfulness, Builtin.Correctness) or a custom evaluator ARN created through the control plane API.
+    /// The unique identifier of the evaluator to use for scoring. Can be a built-in evaluator (e.g., Builtin.Helpfulness, Builtin.Correctness) or a custom evaluator Id created through the control plane API.
     /// This member is required.
     public var evaluatorId: Swift.String?
 
@@ -2432,6 +2432,38 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    public enum LanguageRuntime: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deno
+        case nodejs
+        case python
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LanguageRuntime] {
+            return [
+                .deno,
+                .nodejs,
+                .python
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deno: return "deno"
+            case .nodejs: return "nodejs"
+            case .python: return "python"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// The collection of arguments that specify the operation to perform and its parameters when invoking a tool in Amazon Bedrock AgentCore. Different tools require different arguments, and this structure provides a flexible way to pass the appropriate arguments to each tool type.
     public struct ToolArguments: Swift.Sendable {
         /// Whether to clear the context for the tool.
@@ -2444,12 +2476,14 @@ extension BedrockAgentCoreClientTypes {
         public var content: [BedrockAgentCoreClientTypes.InputContentBlock]?
         /// The directory path for the tool operation.
         public var directoryPath: Swift.String?
-        /// The programming language of the code to execute. This tells the code interpreter which language runtime to use for execution. Common values include 'python', 'javascript', and 'r'.
+        /// The programming language of the code to execute. This tells the code interpreter which language runtime to use for execution.
         public var language: BedrockAgentCoreClientTypes.ProgrammingLanguage?
         /// The path for the tool operation.
         public var path: Swift.String?
         /// The paths for the tool operation.
         public var paths: [Swift.String]?
+        /// The runtime environment to use for code execution. If not specified, defaults to deno for JavaScript and TypeScript.
+        public var runtime: BedrockAgentCoreClientTypes.LanguageRuntime?
         /// The identifier of the task for the tool operation.
         public var taskId: Swift.String?
 
@@ -2462,6 +2496,7 @@ extension BedrockAgentCoreClientTypes {
             language: BedrockAgentCoreClientTypes.ProgrammingLanguage? = nil,
             path: Swift.String? = nil,
             paths: [Swift.String]? = nil,
+            runtime: BedrockAgentCoreClientTypes.LanguageRuntime? = nil,
             taskId: Swift.String? = nil
         ) {
             self.clearContext = clearContext
@@ -2472,6 +2507,7 @@ extension BedrockAgentCoreClientTypes {
             self.language = language
             self.path = path
             self.paths = paths
+            self.runtime = runtime
             self.taskId = taskId
         }
     }
@@ -7792,6 +7828,7 @@ extension BedrockAgentCoreClientTypes.ToolArguments {
         try writer["language"].write(value.language)
         try writer["path"].write(value.path)
         try writer["paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["runtime"].write(value.runtime)
         try writer["taskId"].write(value.taskId)
     }
 }
