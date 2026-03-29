@@ -17,6 +17,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [Smithy](/sdk-for-swift/latest/api/smithy/documentation/smithy)
 
+[SmithyAWSJSON](/sdk-for-swift/latest/api/smithyawsjson/documentation/smithyawsjson)
+
 [SmithyCBOR](/sdk-for-swift/latest/api/smithycbor/documentation/smithycbor)
 
 [SmithyChecksums](/sdk-for-swift/latest/api/smithychecksums/documentation/smithychecksums)

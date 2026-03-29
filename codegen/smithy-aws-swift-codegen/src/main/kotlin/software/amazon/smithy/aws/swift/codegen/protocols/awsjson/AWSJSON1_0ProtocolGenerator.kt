@@ -12,7 +12,7 @@ import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTyp
 @Suppress("ktlint:standard:class-naming")
 class AWSJSON1_0ProtocolGenerator :
     software.amazon.smithy.swift.codegen.aws.protocols.awsjson.AWSJSON1_0ProtocolGenerator(
-        customizations = AWSJSONCustomizations(),
+        customizations = AWSJSONCustomizations("1_0"),
         operationEndpointResolverMiddlewareFactory = { ctx, sym -> AWSOperationEndpointResolverMiddleware(ctx, sym) },
         userAgentMiddlewareFactory = { ctx -> UserAgentMiddleware(ctx.settings) },
         serviceErrorProtocolSymbolOverride = AWSClientRuntimeTypes.Core.AWSServiceError,
