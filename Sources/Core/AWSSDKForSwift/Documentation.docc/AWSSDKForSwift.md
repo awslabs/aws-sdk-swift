@@ -333,6 +333,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSDetective](../../../../../swift/api/awsdetective/latest)
 
+[AWSDevOpsAgent](../../../../../swift/api/awsdevopsagent/latest)
+
 [AWSDevOpsGuru](../../../../../swift/api/awsdevopsguru/latest)
 
 [AWSDeviceFarm](../../../../../swift/api/awsdevicefarm/latest)

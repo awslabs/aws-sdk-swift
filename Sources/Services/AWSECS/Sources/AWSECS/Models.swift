@@ -1173,6 +1173,21 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The local storage configuration for Amazon ECS Managed Instances. This defines how ECS uses and configures instance store volumes available on container instance.
+    public struct ManagedInstancesLocalStorageConfiguration: Swift.Sendable {
+        /// Use instance store volumes for data storage when available. EBS volumes are not provisioned for data storage. If the container instance has multiple instance store volumes, a single data volume is created. Consider defining instance store requirements using the localStorage, localStorageTypes and totalLocalStorageGB properties.
+        public var useLocalStorage: Swift.Bool
+
+        public init(
+            useLocalStorage: Swift.Bool = false
+        ) {
+            self.useLocalStorage = useLocalStorage
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     public enum ManagedInstancesMonitoringOptions: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case basic
         case detailed
@@ -1221,9 +1236,9 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// The storage configuration for Amazon ECS Managed Instances. This defines the root volume configuration for the instances.
+    /// The storage configuration for Amazon ECS Managed Instances. This defines the data volume configuration for the instances.
     public struct ManagedInstancesStorageConfiguration: Swift.Sendable {
-        /// The size of the tasks volume.
+        /// The size of the data volume.
         public var storageSizeGiB: Swift.Int?
 
         public init(
@@ -1274,12 +1289,14 @@ extension ECSClientTypes {
         ///
         /// Amazon ECS automatically selects the instances that match the specified criteria.
         public var instanceRequirements: ECSClientTypes.InstanceRequirementsRequest?
+        /// The local storage configuration for Amazon ECS Managed Instances. This defines how ECS uses instance store volumes available on the container instance.
+        public var localStorageConfiguration: ECSClientTypes.ManagedInstancesLocalStorageConfiguration?
         /// CloudWatch provides two categories of monitoring: basic monitoring and detailed monitoring. By default, your managed instance is configured for basic monitoring. You can optionally enable detailed monitoring to help you more quickly identify and act on operational issues. You can enable or turn off detailed monitoring at launch or when the managed instance is running or stopped. For more information, see [Detailed monitoring for Amazon ECS Managed Instances](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/detailed-monitoring-managed-instances.html) in the Amazon ECS Developer Guide.
         public var monitoring: ECSClientTypes.ManagedInstancesMonitoringOptions?
         /// The network configuration for Amazon ECS Managed Instances. This specifies the subnets and security groups that instances use for network connectivity.
         /// This member is required.
         public var networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration?
-        /// The storage configuration for Amazon ECS Managed Instances. This defines the root volume size and type for the instances.
+        /// The storage configuration for Amazon ECS Managed Instances. This defines the data volume properties for the instances.
         public var storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration?
 
         public init(
@@ -1289,6 +1306,7 @@ extension ECSClientTypes {
             fipsEnabled: Swift.Bool? = nil,
             instanceMetadataTagsPropagation: Swift.Bool? = nil,
             instanceRequirements: ECSClientTypes.InstanceRequirementsRequest? = nil,
+            localStorageConfiguration: ECSClientTypes.ManagedInstancesLocalStorageConfiguration? = nil,
             monitoring: ECSClientTypes.ManagedInstancesMonitoringOptions? = nil,
             networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration? = nil,
             storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration? = nil
@@ -1299,6 +1317,7 @@ extension ECSClientTypes {
             self.fipsEnabled = fipsEnabled
             self.instanceMetadataTagsPropagation = instanceMetadataTagsPropagation
             self.instanceRequirements = instanceRequirements
+            self.localStorageConfiguration = localStorageConfiguration
             self.monitoring = monitoring
             self.networkConfiguration = networkConfiguration
             self.storageConfiguration = storageConfiguration
@@ -1819,6 +1838,8 @@ extension ECSClientTypes {
         public var instanceMetadataTagsPropagation: Swift.Bool?
         /// The updated instance requirements for attribute-based instance type selection. Changes to instance requirements affect which instance types Amazon ECS selects for new instances.
         public var instanceRequirements: ECSClientTypes.InstanceRequirementsRequest?
+        /// The updated local storage configuration for Amazon ECS Managed Instances. Changes to local storage settings apply to new instances launched after the update.
+        public var localStorageConfiguration: ECSClientTypes.ManagedInstancesLocalStorageConfiguration?
         /// CloudWatch provides two categories of monitoring: basic monitoring and detailed monitoring. By default, your managed instance is configured for basic monitoring. You can optionally enable detailed monitoring to help you more quickly identify and act on operational issues. You can enable or turn off detailed monitoring at launch or when the managed instance is running or stopped. For more information, see [Detailed monitoring for Amazon ECS Managed Instances](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/detailed-monitoring-managed-instances.html) in the Amazon ECS Developer Guide.
         public var monitoring: ECSClientTypes.ManagedInstancesMonitoringOptions?
         /// The updated network configuration for Amazon ECS Managed Instances. Changes to subnets and security groups affect new instances launched after the update.
@@ -1831,6 +1852,7 @@ extension ECSClientTypes {
             ec2InstanceProfileArn: Swift.String? = nil,
             instanceMetadataTagsPropagation: Swift.Bool? = nil,
             instanceRequirements: ECSClientTypes.InstanceRequirementsRequest? = nil,
+            localStorageConfiguration: ECSClientTypes.ManagedInstancesLocalStorageConfiguration? = nil,
             monitoring: ECSClientTypes.ManagedInstancesMonitoringOptions? = nil,
             networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration? = nil,
             storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration? = nil
@@ -1839,6 +1861,7 @@ extension ECSClientTypes {
             self.ec2InstanceProfileArn = ec2InstanceProfileArn
             self.instanceMetadataTagsPropagation = instanceMetadataTagsPropagation
             self.instanceRequirements = instanceRequirements
+            self.localStorageConfiguration = localStorageConfiguration
             self.monitoring = monitoring
             self.networkConfiguration = networkConfiguration
             self.storageConfiguration = storageConfiguration
@@ -17524,6 +17547,7 @@ extension ECSClientTypes.InstanceLaunchTemplate {
         try writer["fipsEnabled"].write(value.fipsEnabled)
         try writer["instanceMetadataTagsPropagation"].write(value.instanceMetadataTagsPropagation)
         try writer["instanceRequirements"].write(value.instanceRequirements, with: ECSClientTypes.InstanceRequirementsRequest.write(value:to:))
+        try writer["localStorageConfiguration"].write(value.localStorageConfiguration, with: ECSClientTypes.ManagedInstancesLocalStorageConfiguration.write(value:to:))
         try writer["monitoring"].write(value.monitoring)
         try writer["networkConfiguration"].write(value.networkConfiguration, with: ECSClientTypes.ManagedInstancesNetworkConfiguration.write(value:to:))
         try writer["storageConfiguration"].write(value.storageConfiguration, with: ECSClientTypes.ManagedInstancesStorageConfiguration.write(value:to:))
@@ -17535,6 +17559,7 @@ extension ECSClientTypes.InstanceLaunchTemplate {
         value.ec2InstanceProfileArn = try reader["ec2InstanceProfileArn"].readIfPresent() ?? ""
         value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: ECSClientTypes.ManagedInstancesNetworkConfiguration.read(from:))
         value.storageConfiguration = try reader["storageConfiguration"].readIfPresent(with: ECSClientTypes.ManagedInstancesStorageConfiguration.read(from:))
+        value.localStorageConfiguration = try reader["localStorageConfiguration"].readIfPresent(with: ECSClientTypes.ManagedInstancesLocalStorageConfiguration.read(from:))
         value.monitoring = try reader["monitoring"].readIfPresent()
         value.capacityOptionType = try reader["capacityOptionType"].readIfPresent()
         value.instanceMetadataTagsPropagation = try reader["instanceMetadataTagsPropagation"].readIfPresent()
@@ -17553,6 +17578,7 @@ extension ECSClientTypes.InstanceLaunchTemplateUpdate {
         try writer["ec2InstanceProfileArn"].write(value.ec2InstanceProfileArn)
         try writer["instanceMetadataTagsPropagation"].write(value.instanceMetadataTagsPropagation)
         try writer["instanceRequirements"].write(value.instanceRequirements, with: ECSClientTypes.InstanceRequirementsRequest.write(value:to:))
+        try writer["localStorageConfiguration"].write(value.localStorageConfiguration, with: ECSClientTypes.ManagedInstancesLocalStorageConfiguration.write(value:to:))
         try writer["monitoring"].write(value.monitoring)
         try writer["networkConfiguration"].write(value.networkConfiguration, with: ECSClientTypes.ManagedInstancesNetworkConfiguration.write(value:to:))
         try writer["storageConfiguration"].write(value.storageConfiguration, with: ECSClientTypes.ManagedInstancesStorageConfiguration.write(value:to:))
@@ -17818,6 +17844,21 @@ extension ECSClientTypes.ManagedIngressPath {
         value.listener = try reader["listener"].readIfPresent(with: ECSClientTypes.ManagedListener.read(from:))
         value.rule = try reader["rule"].readIfPresent(with: ECSClientTypes.ManagedListenerRule.read(from:))
         value.targetGroups = try reader["targetGroups"].readListIfPresent(memberReadingClosure: ECSClientTypes.ManagedTargetGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedInstancesLocalStorageConfiguration {
+
+    static func write(value: ECSClientTypes.ManagedInstancesLocalStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["useLocalStorage"].write(value.useLocalStorage)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedInstancesLocalStorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedInstancesLocalStorageConfiguration()
+        value.useLocalStorage = try reader["useLocalStorage"].readIfPresent() ?? false
         return value
     }
 }
