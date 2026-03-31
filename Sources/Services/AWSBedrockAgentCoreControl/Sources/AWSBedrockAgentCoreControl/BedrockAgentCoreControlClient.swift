@@ -1064,7 +1064,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `CreateEvaluator` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Creates a custom evaluator for agent quality assessment. Custom evaluators use LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings to evaluate agent performance at tool call, trace, or session levels.
+    /// Creates a custom evaluator for agent quality assessment. Custom evaluators can use either LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings, or code-based configurations with customer-managed Lambda functions to evaluate agent performance at tool call, trace, or session levels.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateEvaluatorInput`)
     ///
@@ -4456,6 +4456,9 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListBrowserProfilesInput, ListBrowserProfilesOutput>(ListBrowserProfilesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBrowserProfilesInput, ListBrowserProfilesOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBrowserProfilesInput, ListBrowserProfilesOutput>(ListBrowserProfilesInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBrowserProfilesInput, ListBrowserProfilesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListBrowserProfilesInput, ListBrowserProfilesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBrowserProfilesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBrowserProfilesInput, ListBrowserProfilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBrowserProfilesOutput>(ListBrowserProfilesOutput.httpOutput(from:), ListBrowserProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBrowserProfilesInput, ListBrowserProfilesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())

@@ -802,6 +802,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared member fields for Associate inputs and {Resource}Member response structures. principalId is excluded because it has @httpLabel on inputs but not on responses.
 public struct AssociateMemberToFarmInput: Swift.Sendable {
     /// The ID of the farm to associate with the member.
     /// This member is required.
@@ -839,6 +840,7 @@ public struct AssociateMemberToFarmOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Shared member fields for Associate inputs and {Resource}Member response structures. principalId is excluded because it has @httpLabel on inputs but not on responses.
 public struct AssociateMemberToFleetInput: Swift.Sendable {
     /// The farm ID of the fleet to associate with the member.
     /// This member is required.
@@ -881,6 +883,7 @@ public struct AssociateMemberToFleetOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Shared member fields for Associate inputs and {Resource}Member response structures. principalId is excluded because it has @httpLabel on inputs but not on responses.
 public struct AssociateMemberToJobInput: Swift.Sendable {
     /// The farm ID of the job to associate with the member.
     /// This member is required.
@@ -928,6 +931,7 @@ public struct AssociateMemberToJobOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Shared member fields for Associate inputs and {Resource}Member response structures. principalId is excluded because it has @httpLabel on inputs but not on responses.
 public struct AssociateMemberToQueueInput: Swift.Sendable {
     /// The farm ID of the queue to associate with the member.
     /// This member is required.
@@ -1024,6 +1028,7 @@ extension DeadlineClientTypes.AwsCredentials: Swift.CustomDebugStringConvertible
     }
 }
 
+/// Shared response body for AssumeRole operations where credentials are required. AssumeQueueRoleForWorkerResponse is excluded because credentials is optional there because Queue.roleArn is optional, so the mixin's @required trait would be incorrect.
 public struct AssumeFleetRoleForReadOutput: Swift.Sendable {
     /// The credentials for the fleet role.
     /// This member is required.
@@ -1145,6 +1150,7 @@ public struct AssumeFleetRoleForWorkerInput: Swift.Sendable {
     }
 }
 
+/// Shared response body for AssumeRole operations where credentials are required. AssumeQueueRoleForWorkerResponse is excluded because credentials is optional there because Queue.roleArn is optional, so the mixin's @required trait would be incorrect.
 public struct AssumeFleetRoleForWorkerOutput: Swift.Sendable {
     /// The credentials for the worker.
     /// This member is required.
@@ -1180,6 +1186,7 @@ public struct AssumeQueueRoleForReadInput: Swift.Sendable {
     }
 }
 
+/// Shared response body for AssumeRole operations where credentials are required. AssumeQueueRoleForWorkerResponse is excluded because credentials is optional there because Queue.roleArn is optional, so the mixin's @required trait would be incorrect.
 public struct AssumeQueueRoleForReadOutput: Swift.Sendable {
     /// The credentials for the queue role.
     /// This member is required.
@@ -1215,6 +1222,7 @@ public struct AssumeQueueRoleForUserInput: Swift.Sendable {
     }
 }
 
+/// Shared response body for AssumeRole operations where credentials are required. AssumeQueueRoleForWorkerResponse is excluded because credentials is optional there because Queue.roleArn is optional, so the mixin's @required trait would be incorrect.
 public struct AssumeQueueRoleForUserOutput: Swift.Sendable {
     /// The credentials for the queue role that a user has access to.
     /// This member is required.
@@ -2219,6 +2227,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared displayName + description for Create operations where both are present. displayName is @required here - this mixin is Create-only by design (Update has optional displayName).
 public struct CreateBudgetInput: Swift.Sendable {
     /// The budget actions to specify what happens when the budget runs out.
     /// This member is required.
@@ -2273,6 +2282,7 @@ extension CreateBudgetInput: Swift.CustomDebugStringConvertible {
         "CreateBudgetInput(actions: \(Swift.String(describing: actions)), approximateDollarLimit: \(Swift.String(describing: approximateDollarLimit)), clientToken: \(Swift.String(describing: clientToken)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), schedule: \(Swift.String(describing: schedule)), tags: \(Swift.String(describing: tags)), usageTrackingResource: \(Swift.String(describing: usageTrackingResource)), description: \"CONTENT_REDACTED\")"}
 }
 
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct CreateBudgetOutput: Swift.Sendable {
     /// The budget ID.
     /// This member is required.
@@ -2399,6 +2409,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct GetBudgetOutput: Swift.Sendable {
     /// The budget actions for the budget.
     /// This member is required.
@@ -2481,6 +2492,7 @@ extension GetBudgetOutput: Swift.CustomDebugStringConvertible {
         "GetBudgetOutput(actions: \(Swift.String(describing: actions)), approximateDollarLimit: \(Swift.String(describing: approximateDollarLimit)), budgetId: \(Swift.String(describing: budgetId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), queueStoppedAt: \(Swift.String(describing: queueStoppedAt)), schedule: \(Swift.String(describing: schedule)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), usageTrackingResource: \(Swift.String(describing: usageTrackingResource)), usages: \(Swift.String(describing: usages)), description: \"CONTENT_REDACTED\")"}
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListBudgetsInput: Swift.Sendable {
     /// The farm ID associated with the budgets.
     /// This member is required.
@@ -2578,6 +2590,7 @@ extension DeadlineClientTypes.BudgetSummary: Swift.CustomDebugStringConvertible 
         "BudgetSummary(approximateDollarLimit: \(Swift.String(describing: approximateDollarLimit)), budgetId: \(Swift.String(describing: budgetId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), usageTrackingResource: \(Swift.String(describing: usageTrackingResource)), usages: \(Swift.String(describing: usages)), description: \"CONTENT_REDACTED\")"}
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListBudgetsOutput: Swift.Sendable {
     /// The budgets to include on the list.
     /// This member is required.
@@ -2860,10 +2873,11 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared displayName + description for Create operations where both are present. displayName is @required here - this mixin is Create-only by design (Update has optional displayName).
 public struct CreateFarmInput: Swift.Sendable {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
-    /// The cost scale factor to apply on the farm.
+    /// A multiplier applied to the farm's calculated costs for usage data and budget tracking. A value less than 1 represents a discount, a value greater than 1 represents a premium, and a value of 1 represents no adjustment. The default value is 1.
     public var costScaleFactor: Swift.Float?
     /// The description of the farm. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var description: Swift.String?
@@ -2897,6 +2911,7 @@ extension CreateFarmInput: Swift.CustomDebugStringConvertible {
         "CreateFarmInput(clientToken: \(Swift.String(describing: clientToken)), costScaleFactor: \(Swift.String(describing: costScaleFactor)), displayName: \(Swift.String(describing: displayName)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct CreateFarmOutput: Swift.Sendable {
     /// The farm ID.
     /// This member is required.
@@ -2906,6 +2921,29 @@ public struct CreateFarmOutput: Swift.Sendable {
         farmId: Swift.String? = nil
     ) {
         self.farmId = farmId
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The auto scaling configuration options for a customer managed fleet.
+    public struct CustomerManagedAutoScalingConfiguration: Swift.Sendable {
+        /// The number of workers that can be scaled out per minute.
+        public var scaleOutWorkersPerMinute: Swift.Int?
+        /// The number of standby workers to maintain for the fleet.
+        public var standbyWorkerCount: Swift.Int?
+        /// The duration in seconds that a worker can be idle before it is scaled down.
+        public var workerIdleDurationSeconds: Swift.Int?
+
+        public init(
+            scaleOutWorkersPerMinute: Swift.Int? = nil,
+            standbyWorkerCount: Swift.Int? = nil,
+            workerIdleDurationSeconds: Swift.Int? = 300
+        ) {
+            self.scaleOutWorkersPerMinute = scaleOutWorkersPerMinute
+            self.standbyWorkerCount = standbyWorkerCount
+            self.workerIdleDurationSeconds = workerIdleDurationSeconds
+        }
     }
 }
 
@@ -3111,6 +3149,8 @@ extension DeadlineClientTypes {
 
     /// The configuration details for a customer managed fleet.
     public struct CustomerManagedFleetConfiguration: Swift.Sendable {
+        /// The auto scaling configuration options for the customer managed fleet.
+        public var autoScalingConfiguration: DeadlineClientTypes.CustomerManagedAutoScalingConfiguration?
         /// The Auto Scaling mode for the customer managed fleet.
         /// This member is required.
         public var mode: DeadlineClientTypes.AutoScalingMode?
@@ -3123,15 +3163,40 @@ extension DeadlineClientTypes {
         public var workerCapabilities: DeadlineClientTypes.CustomerManagedWorkerCapabilities?
 
         public init(
+            autoScalingConfiguration: DeadlineClientTypes.CustomerManagedAutoScalingConfiguration? = nil,
             mode: DeadlineClientTypes.AutoScalingMode? = nil,
             storageProfileId: Swift.String? = nil,
             tagPropagationMode: DeadlineClientTypes.TagPropagationMode? = nil,
             workerCapabilities: DeadlineClientTypes.CustomerManagedWorkerCapabilities? = nil
         ) {
+            self.autoScalingConfiguration = autoScalingConfiguration
             self.mode = mode
             self.storageProfileId = storageProfileId
             self.tagPropagationMode = tagPropagationMode
             self.workerCapabilities = workerCapabilities
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The auto scaling configuration options for a service managed EC2 fleet.
+    public struct ServiceManagedEc2AutoScalingConfiguration: Swift.Sendable {
+        /// The number of workers that can be scaled out per minute.
+        public var scaleOutWorkersPerMinute: Swift.Int?
+        /// The number of standby workers to maintain for the fleet.
+        public var standbyWorkerCount: Swift.Int?
+        /// The duration in seconds that a worker can be idle before it is scaled down.
+        public var workerIdleDurationSeconds: Swift.Int?
+
+        public init(
+            scaleOutWorkersPerMinute: Swift.Int? = nil,
+            standbyWorkerCount: Swift.Int? = nil,
+            workerIdleDurationSeconds: Swift.Int? = 300
+        ) {
+            self.scaleOutWorkersPerMinute = scaleOutWorkersPerMinute
+            self.standbyWorkerCount = standbyWorkerCount
+            self.workerIdleDurationSeconds = workerIdleDurationSeconds
         }
     }
 }
@@ -3310,6 +3375,8 @@ extension DeadlineClientTypes {
 
     /// The configuration details for a service managed EC2 fleet.
     public struct ServiceManagedEc2FleetConfiguration: Swift.Sendable {
+        /// The auto scaling configuration options for the service managed EC2 fleet.
+        public var autoScalingConfiguration: DeadlineClientTypes.ServiceManagedEc2AutoScalingConfiguration?
         /// The instance capabilities for the service managed EC2 fleet.
         /// This member is required.
         public var instanceCapabilities: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities?
@@ -3322,11 +3389,13 @@ extension DeadlineClientTypes {
         public var vpcConfiguration: DeadlineClientTypes.VpcConfiguration?
 
         public init(
+            autoScalingConfiguration: DeadlineClientTypes.ServiceManagedEc2AutoScalingConfiguration? = nil,
             instanceCapabilities: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities? = nil,
             instanceMarketOptions: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions? = nil,
             storageProfileId: Swift.String? = nil,
             vpcConfiguration: DeadlineClientTypes.VpcConfiguration? = nil
         ) {
+            self.autoScalingConfiguration = autoScalingConfiguration
             self.instanceCapabilities = instanceCapabilities
             self.instanceMarketOptions = instanceMarketOptions
             self.storageProfileId = storageProfileId
@@ -3372,6 +3441,7 @@ extension DeadlineClientTypes.HostConfiguration: Swift.CustomDebugStringConverti
         "HostConfiguration(scriptTimeoutSeconds: \(Swift.String(describing: scriptTimeoutSeconds)), scriptBody: \"CONTENT_REDACTED\")"}
 }
 
+/// Shared displayName + description for Create operations where both are present. displayName is @required here - this mixin is Create-only by design (Update has optional displayName).
 public struct CreateFleetInput: Swift.Sendable {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
@@ -3429,6 +3499,7 @@ extension CreateFleetInput: Swift.CustomDebugStringConvertible {
         "CreateFleetInput(clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), hostConfiguration: \(Swift.String(describing: hostConfiguration)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct CreateFleetOutput: Swift.Sendable {
     /// The fleet ID.
     /// This member is required.
@@ -3553,6 +3624,7 @@ extension CreateJobInput: Swift.CustomDebugStringConvertible {
         "CreateJobInput(attachments: \(Swift.String(describing: attachments)), clientToken: \(Swift.String(describing: clientToken)), farmId: \(Swift.String(describing: farmId)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), nameOverride: \(Swift.String(describing: nameOverride)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), storageProfileId: \(Swift.String(describing: storageProfileId)), tags: \(Swift.String(describing: tags)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), templateType: \(Swift.String(describing: templateType)), descriptionOverride: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\", template: \"CONTENT_REDACTED\")"}
 }
 
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct CreateJobOutput: Swift.Sendable {
     /// The job ID.
     /// This member is required.
@@ -3595,6 +3667,7 @@ public struct CreateLicenseEndpointInput: Swift.Sendable {
     }
 }
 
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct CreateLicenseEndpointOutput: Swift.Sendable {
     /// The license endpoint ID.
     /// This member is required.
@@ -3694,6 +3767,7 @@ public struct CreateMonitorInput: Swift.Sendable {
     }
 }
 
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct CreateMonitorOutput: Swift.Sendable {
     /// The Amazon Resource Name that IAM Identity Center assigns to the monitor.
     /// This member is required.
@@ -3743,6 +3817,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared displayName + description for Create operations where both are present. displayName is @required here - this mixin is Create-only by design (Update has optional displayName).
 public struct CreateQueueInput: Swift.Sendable {
     /// The storage profile IDs to include in the queue.
     public var allowedStorageProfileIds: [Swift.String]?
@@ -3801,6 +3876,7 @@ extension CreateQueueInput: Swift.CustomDebugStringConvertible {
         "CreateQueueInput(allowedStorageProfileIds: \(Swift.String(describing: allowedStorageProfileIds)), clientToken: \(Swift.String(describing: clientToken)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), requiredFileSystemLocationNames: \(Swift.String(describing: requiredFileSystemLocationNames)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct CreateQueueOutput: Swift.Sendable {
     /// The queue ID.
     /// This member is required.
@@ -4156,6 +4232,7 @@ public struct CreateWorkerInput: Swift.Sendable {
     }
 }
 
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct CreateWorkerOutput: Swift.Sendable {
     /// The worker ID.
     /// This member is required.
@@ -4194,6 +4271,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Identifier mixin for queue-fleet association operations. Composes QueueIdentifierMixin (farmId + queueId) and adds fleetId.
 public struct DeleteQueueFleetAssociationInput: Swift.Sendable {
     /// The farm ID of the farm that holds the queue-fleet association.
     /// This member is required.
@@ -4461,6 +4539,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct GetFleetOutput: Swift.Sendable {
     /// The Auto Scaling status of the fleet. Either GROWING, STEADY, or SHRINKING.
     public var autoScalingStatus: DeadlineClientTypes.AutoScalingStatus?
@@ -4560,6 +4639,7 @@ extension GetFleetOutput: Swift.CustomDebugStringConvertible {
         "GetFleetOutput(autoScalingStatus: \(Swift.String(describing: autoScalingStatus)), capabilities: \(Swift.String(describing: capabilities)), configuration: \(Swift.String(describing: configuration)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), fleetId: \(Swift.String(describing: fleetId)), hostConfiguration: \(Swift.String(describing: hostConfiguration)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), statusMessage: \(Swift.String(describing: statusMessage)), targetWorkerCount: \(Swift.String(describing: targetWorkerCount)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), workerCount: \(Swift.String(describing: workerCount)), description: \"CONTENT_REDACTED\")"}
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListFleetMembersInput: Swift.Sendable {
     /// The farm ID of the fleet.
     /// This member is required.
@@ -4626,6 +4706,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListFleetMembersOutput: Swift.Sendable {
     /// The members on the list.
     /// This member is required.
@@ -4642,6 +4723,7 @@ public struct ListFleetMembersOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListFleetsInput: Swift.Sendable {
     /// The display names of a list of fleets. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var displayName: Swift.String?
@@ -4755,6 +4837,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListFleetsOutput: Swift.Sendable {
     /// The fleets on the list.
     /// This member is required.
@@ -4953,6 +5036,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct GetWorkerOutput: Swift.Sendable {
     /// The date and time the resource was created.
     /// This member is required.
@@ -5006,6 +5090,7 @@ public struct GetWorkerOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListSessionsForWorkerInput: Swift.Sendable {
     /// The farm ID for the session.
     /// This member is required.
@@ -5144,6 +5229,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListSessionsForWorkerOutput: Swift.Sendable {
     /// The token for the next set of results, or null to start from the beginning.
     public var nextToken: Swift.String?
@@ -5160,6 +5246,7 @@ public struct ListSessionsForWorkerOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListWorkersInput: Swift.Sendable {
     /// The farm ID connected to the workers.
     /// This member is required.
@@ -5242,6 +5329,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListWorkersOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -5559,8 +5647,9 @@ public struct GetFarmInput: Swift.Sendable {
     }
 }
 
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct GetFarmOutput: Swift.Sendable {
-    /// The cost scale factor applied on the farm.
+    /// A multiplier applied to the farm's calculated costs for usage data and budget tracking. A value less than 1 represents a discount, a value greater than 1 represents a premium, and a value of 1 represents no adjustment.
     /// This member is required.
     public var costScaleFactor: Swift.Float?
     /// The date and time the resource was created.
@@ -5629,6 +5718,7 @@ public struct GetLimitInput: Swift.Sendable {
     }
 }
 
+/// Domain fields for Limit summary/response shapes, ordered before timestamps.
 public struct GetLimitOutput: Swift.Sendable {
     /// The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement.
     /// This member is required.
@@ -5759,6 +5849,7 @@ extension GetStorageProfileOutput: Swift.CustomDebugStringConvertible {
         "GetStorageProfileOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), osFamily: \(Swift.String(describing: osFamily)), storageProfileId: \(Swift.String(describing: storageProfileId)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), fileSystemLocations: \"CONTENT_REDACTED\")"}
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListFarmMembersInput: Swift.Sendable {
     /// The farm ID.
     /// This member is required.
@@ -5815,6 +5906,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListFarmMembersOutput: Swift.Sendable {
     /// The members on the list.
     /// This member is required.
@@ -5831,6 +5923,7 @@ public struct ListFarmMembersOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListFarmsInput: Swift.Sendable {
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var maxResults: Swift.Int?
@@ -5893,6 +5986,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListFarmsOutput: Swift.Sendable {
     /// Farms on the list.
     /// This member is required.
@@ -5909,6 +6003,7 @@ public struct ListFarmsOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListLimitsInput: Swift.Sendable {
     /// The unique identifier of the farm that contains the limits.
     /// This member is required.
@@ -5988,6 +6083,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListLimitsOutput: Swift.Sendable {
     /// A list of limits that the farm contains.
     /// This member is required.
@@ -6004,6 +6100,7 @@ public struct ListLimitsOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListStorageProfilesInput: Swift.Sendable {
     /// The farm ID of the storage profile.
     /// This member is required.
@@ -6050,6 +6147,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListStorageProfilesOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -6220,6 +6318,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct GetQueueOutput: Swift.Sendable {
     /// The storage profile IDs for the queue.
     public var allowedStorageProfileIds: [Swift.String]?
@@ -6643,6 +6742,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct GetJobOutput: Swift.Sendable {
     /// The attachments for the job.
     public var attachments: DeadlineClientTypes.Attachments?
@@ -6781,6 +6881,7 @@ public struct GetSessionInput: Swift.Sendable {
     }
 }
 
+/// Session lifecycle/status fields, ordered after IDs in session shapes.
 public struct GetSessionOutput: Swift.Sendable {
     /// The date and time the resource ended running.
     public var endedAt: Foundation.Date?
@@ -7673,6 +7774,7 @@ extension GetTaskOutput: Swift.CustomDebugStringConvertible {
         "GetTaskOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), failureRetryCount: \(Swift.String(describing: failureRetryCount)), latestSessionActionId: \(Swift.String(describing: latestSessionActionId)), runStatus: \(Swift.String(describing: runStatus)), startedAt: \(Swift.String(describing: startedAt)), targetRunStatus: \(Swift.String(describing: targetRunStatus)), taskId: \(Swift.String(describing: taskId)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), parameters: \"CONTENT_REDACTED\")"}
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListJobMembersInput: Swift.Sendable {
     /// The farm ID of the job to list.
     /// This member is required.
@@ -7749,6 +7851,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListJobMembersOutput: Swift.Sendable {
     /// The members on the list.
     /// This member is required.
@@ -7765,6 +7868,7 @@ public struct ListJobMembersOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListJobParameterDefinitionsInput: Swift.Sendable {
     /// The farm ID of the job to list.
     /// This member is required.
@@ -7795,6 +7899,7 @@ public struct ListJobParameterDefinitionsInput: Swift.Sendable {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListJobParameterDefinitionsOutput: Swift.Sendable {
     /// Lists parameter definitions of a job.
     /// This member is required.
@@ -7811,6 +7916,7 @@ public struct ListJobParameterDefinitionsOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListJobsInput: Swift.Sendable {
     /// The farm ID for the jobs.
     /// This member is required.
@@ -7954,6 +8060,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListJobsOutput: Swift.Sendable {
     /// The jobs on the list.
     /// This member is required.
@@ -7970,6 +8077,7 @@ public struct ListJobsOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListSessionActionsInput: Swift.Sendable {
     /// The farm ID for the session actions list.
     /// This member is required.
@@ -8146,6 +8254,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListSessionActionsOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -8162,6 +8271,7 @@ public struct ListSessionActionsOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListSessionsInput: Swift.Sendable {
     /// The farm ID for the list of sessions.
     /// This member is required.
@@ -8244,6 +8354,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListSessionsOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -8345,6 +8456,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListStepConsumersOutput: Swift.Sendable {
     /// The consumers on the list.
     /// This member is required.
@@ -8417,6 +8529,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListStepDependenciesOutput: Swift.Sendable {
     /// The dependencies on the list.
     /// This member is required.
@@ -8433,6 +8546,7 @@ public struct ListStepDependenciesOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListStepsInput: Swift.Sendable {
     /// The farm ID to include on the list of steps.
     /// This member is required.
@@ -8561,6 +8675,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListStepsOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -8577,6 +8692,7 @@ public struct ListStepsOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListTasksInput: Swift.Sendable {
     /// The farm ID connected to the tasks.
     /// This member is required.
@@ -8680,6 +8796,7 @@ extension DeadlineClientTypes.TaskSummary: Swift.CustomDebugStringConvertible {
         "TaskSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), failureRetryCount: \(Swift.String(describing: failureRetryCount)), latestSessionActionId: \(Swift.String(describing: latestSessionActionId)), runStatus: \(Swift.String(describing: runStatus)), startedAt: \(Swift.String(describing: startedAt)), targetRunStatus: \(Swift.String(describing: targetRunStatus)), taskId: \(Swift.String(describing: taskId)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), parameters: \"CONTENT_REDACTED\")"}
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListTasksOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -8918,6 +9035,7 @@ public struct UpdateTaskOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListQueueEnvironmentsInput: Swift.Sendable {
     /// The farm ID for the queue environment list.
     /// This member is required.
@@ -8969,6 +9087,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListQueueEnvironmentsOutput: Swift.Sendable {
     /// The environments to include in the queue environments list.
     /// This member is required.
@@ -8985,6 +9104,7 @@ public struct ListQueueEnvironmentsOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListQueueMembersInput: Swift.Sendable {
     /// The farm ID for the queue.
     /// This member is required.
@@ -9051,6 +9171,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListQueueMembersOutput: Swift.Sendable {
     /// The members on the list.
     /// This member is required.
@@ -9067,6 +9188,7 @@ public struct ListQueueMembersOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListQueuesInput: Swift.Sendable {
     /// The farm ID of the queue.
     /// This member is required.
@@ -9159,6 +9281,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListQueuesOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -9175,6 +9298,7 @@ public struct ListQueuesOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListStorageProfilesForQueueInput: Swift.Sendable {
     /// The farm ID of the queue's storage profile.
     /// This member is required.
@@ -9200,6 +9324,7 @@ public struct ListStorageProfilesForQueueInput: Swift.Sendable {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListStorageProfilesForQueueOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -9336,7 +9461,7 @@ public struct UpdateQueueEnvironmentOutput: Swift.Sendable {
 }
 
 public struct UpdateFarmInput: Swift.Sendable {
-    /// The cost scale factor of the farm to update.
+    /// A multiplier applied to the farm's calculated costs for usage data and budget tracking. A value less than 1 represents a discount, a value greater than 1 represents a premium, and a value of 1 represents no adjustment.
     public var costScaleFactor: Swift.Float?
     /// The description of the farm to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var description: Swift.String?
@@ -9455,6 +9580,7 @@ public struct UpdateStorageProfileOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Identifier mixin for queue-fleet association operations. Composes QueueIdentifierMixin (farmId + queueId) and adds fleetId.
 public struct GetQueueFleetAssociationInput: Swift.Sendable {
     /// The farm ID of the farm that contains the queue-fleet association.
     /// This member is required.
@@ -9512,6 +9638,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Domain fields for QueueFleetAssociation summary/response shapes, ordered before timestamps.
 public struct GetQueueFleetAssociationOutput: Swift.Sendable {
     /// The date and time the resource was created.
     /// This member is required.
@@ -9609,6 +9736,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Domain fields for QueueLimitAssociation summary/response shapes, ordered before timestamps.
 public struct GetQueueLimitAssociationOutput: Swift.Sendable {
     /// The Unix timestamp of the date and time that the association was created.
     /// This member is required.
@@ -9649,6 +9777,7 @@ public struct GetQueueLimitAssociationOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct GetSessionsStatisticsAggregationInput: Swift.Sendable {
     /// The identifier returned by the StartSessionsStatisticsAggregation operation that identifies the aggregated statistics.
     /// This member is required.
@@ -9831,6 +9960,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct GetSessionsStatisticsAggregationOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -9941,6 +10071,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct GetLicenseEndpointOutput: Swift.Sendable {
     /// The DNS name.
     public var dnsName: Swift.String?
@@ -9979,6 +10110,7 @@ public struct GetLicenseEndpointOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListLicenseEndpointsInput: Swift.Sendable {
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var maxResults: Swift.Int?
@@ -10021,6 +10153,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListLicenseEndpointsOutput: Swift.Sendable {
     /// The license endpoints.
     /// This member is required.
@@ -10037,6 +10170,7 @@ public struct ListLicenseEndpointsOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListMeteredProductsInput: Swift.Sendable {
     /// The license endpoint ID to include on the list of metered products.
     /// This member is required.
@@ -10088,6 +10222,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListMeteredProductsOutput: Swift.Sendable {
     /// The metered products to list.
     /// This member is required.
@@ -10126,6 +10261,7 @@ public struct PutMeteredProductOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListAvailableMeteredProductsInput: Swift.Sendable {
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var maxResults: Swift.Int?
@@ -10141,6 +10277,7 @@ public struct ListAvailableMeteredProductsInput: Swift.Sendable {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListAvailableMeteredProductsOutput: Swift.Sendable {
     /// The metered products.
     /// This member is required.
@@ -10157,6 +10294,7 @@ public struct ListAvailableMeteredProductsOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListQueueFleetAssociationsInput: Swift.Sendable {
     /// The farm ID for the queue-fleet association list.
     /// This member is required.
@@ -10237,6 +10375,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListQueueFleetAssociationsOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -10253,6 +10392,7 @@ public struct ListQueueFleetAssociationsOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListQueueLimitAssociationsInput: Swift.Sendable {
     /// The unique identifier of the farm that contains the limits and associations.
     /// This member is required.
@@ -10333,6 +10473,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListQueueLimitAssociationsOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -10401,6 +10542,7 @@ public struct GetMonitorInput: Swift.Sendable {
     }
 }
 
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct GetMonitorOutput: Swift.Sendable {
     /// The UNIX timestamp of the date and time that the monitor was created.
     /// This member is required.
@@ -10461,6 +10603,7 @@ public struct GetMonitorOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListMonitorsInput: Swift.Sendable {
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var maxResults: Swift.Int?
@@ -10540,6 +10683,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListMonitorsOutput: Swift.Sendable {
     /// A list of MonitorSummary objects that describe your monitors in the Deadline Cloud.
     /// This member is required.
@@ -10966,6 +11110,7 @@ extension DeadlineClientTypes.JobSearchSummary: Swift.CustomDebugStringConvertib
         "JobSearchSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskFailureRetryCount: \(Swift.String(describing: taskFailureRetryCount)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), jobParameters: \"CONTENT_REDACTED\")"}
 }
 
+/// Shared output fields for all Search operations (nextItemOffset, totalResults).
 public struct SearchJobsOutput: Swift.Sendable {
     /// The jobs in the search.
     /// This member is required.
@@ -11086,6 +11231,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared output fields for all Search operations (nextItemOffset, totalResults).
 public struct SearchStepsOutput: Swift.Sendable {
     /// The next item offset for the search results.
     public var nextItemOffset: Swift.Int?
@@ -11175,6 +11321,7 @@ extension DeadlineClientTypes.TaskSearchSummary: Swift.CustomDebugStringConverti
         "TaskSearchSummary(endedAt: \(Swift.String(describing: endedAt)), failureRetryCount: \(Swift.String(describing: failureRetryCount)), jobId: \(Swift.String(describing: jobId)), latestSessionActionId: \(Swift.String(describing: latestSessionActionId)), queueId: \(Swift.String(describing: queueId)), runStatus: \(Swift.String(describing: runStatus)), startedAt: \(Swift.String(describing: startedAt)), stepId: \(Swift.String(describing: stepId)), targetRunStatus: \(Swift.String(describing: targetRunStatus)), taskId: \(Swift.String(describing: taskId)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), parameters: \"CONTENT_REDACTED\")"}
 }
 
+/// Shared output fields for all Search operations (nextItemOffset, totalResults).
 public struct SearchTasksOutput: Swift.Sendable {
     /// The next item offset for the search results.
     public var nextItemOffset: Swift.Int?
@@ -11239,6 +11386,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared output fields for all Search operations (nextItemOffset, totalResults).
 public struct SearchWorkersOutput: Swift.Sendable {
     /// The next item offset for the search results.
     public var nextItemOffset: Swift.Int?
@@ -11518,6 +11666,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Identifier mixin for queue-fleet association operations. Composes QueueIdentifierMixin (farmId + queueId) and adds fleetId.
 public struct UpdateQueueFleetAssociationInput: Swift.Sendable {
     /// The farm ID to update.
     /// This member is required.
@@ -11655,6 +11804,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared input fields for all Search operations (filterExpressions, sortExpressions, itemOffset, pageSize).
 public struct SearchJobsInput: Swift.Sendable {
     /// The farm ID of the job.
     /// This member is required.
@@ -11689,6 +11839,7 @@ public struct SearchJobsInput: Swift.Sendable {
     }
 }
 
+/// Shared input fields for all Search operations (filterExpressions, sortExpressions, itemOffset, pageSize).
 public struct SearchStepsInput: Swift.Sendable {
     /// The farm ID to use for the step search.
     /// This member is required.
@@ -11727,6 +11878,7 @@ public struct SearchStepsInput: Swift.Sendable {
     }
 }
 
+/// Shared input fields for all Search operations (filterExpressions, sortExpressions, itemOffset, pageSize).
 public struct SearchTasksInput: Swift.Sendable {
     /// The farm ID of the task.
     /// This member is required.
@@ -11765,6 +11917,7 @@ public struct SearchTasksInput: Swift.Sendable {
     }
 }
 
+/// Shared input fields for all Search operations (filterExpressions, sortExpressions, itemOffset, pageSize).
 public struct SearchWorkersInput: Swift.Sendable {
     /// The farm ID in the workers search.
     /// This member is required.
@@ -12676,13 +12829,13 @@ extension GetSessionsStatisticsAggregationInput {
 
     static func queryItemProvider(_ value: GetSessionsStatisticsAggregationInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        if let maxResults = value.maxResults {
-            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
         guard let aggregationId = value.aggregationId else {
             let message = "Creating a URL Query Item failed. aggregationId is required and must not be nil."
@@ -12929,10 +13082,6 @@ extension ListFleetsInput {
 
     static func queryItemProvider(_ value: ListFleetsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        if let displayName = value.displayName {
-            let displayNameQueryItem = Smithy.URIQueryItem(name: "displayName".urlPercentEncoding(), value: Swift.String(displayName).urlPercentEncoding())
-            items.append(displayNameQueryItem)
-        }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
@@ -12940,6 +13089,10 @@ extension ListFleetsInput {
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
+        }
+        if let displayName = value.displayName {
+            let displayNameQueryItem = Smithy.URIQueryItem(name: "displayName".urlPercentEncoding(), value: Swift.String(displayName).urlPercentEncoding())
+            items.append(displayNameQueryItem)
         }
         if let principalId = value.principalId {
             let principalIdQueryItem = Smithy.URIQueryItem(name: "principalId".urlPercentEncoding(), value: Swift.String(principalId).urlPercentEncoding())
@@ -18353,13 +18506,13 @@ extension DeadlineClientTypes.BudgetSummary {
         value.usageTrackingResource = try reader["usageTrackingResource"].readIfPresent(with: DeadlineClientTypes.UsageTrackingResource.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.displayName = try reader["displayName"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
         value.approximateDollarLimit = try reader["approximateDollarLimit"].readIfPresent() ?? 0.0
         value.usages = try reader["usages"].readIfPresent(with: DeadlineClientTypes.ConsumedUsages.read(from:))
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.description = try reader["description"].readIfPresent()
         return value
     }
 }
@@ -18374,10 +18527,30 @@ extension DeadlineClientTypes.ConsumedUsages {
     }
 }
 
+extension DeadlineClientTypes.CustomerManagedAutoScalingConfiguration {
+
+    static func write(value: DeadlineClientTypes.CustomerManagedAutoScalingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scaleOutWorkersPerMinute"].write(value.scaleOutWorkersPerMinute)
+        try writer["standbyWorkerCount"].write(value.standbyWorkerCount)
+        try writer["workerIdleDurationSeconds"].write(value.workerIdleDurationSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.CustomerManagedAutoScalingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.CustomerManagedAutoScalingConfiguration()
+        value.standbyWorkerCount = try reader["standbyWorkerCount"].readIfPresent()
+        value.workerIdleDurationSeconds = try reader["workerIdleDurationSeconds"].readIfPresent() ?? 300
+        value.scaleOutWorkersPerMinute = try reader["scaleOutWorkersPerMinute"].readIfPresent()
+        return value
+    }
+}
+
 extension DeadlineClientTypes.CustomerManagedFleetConfiguration {
 
     static func write(value: DeadlineClientTypes.CustomerManagedFleetConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["autoScalingConfiguration"].write(value.autoScalingConfiguration, with: DeadlineClientTypes.CustomerManagedAutoScalingConfiguration.write(value:to:))
         try writer["mode"].write(value.mode)
         try writer["storageProfileId"].write(value.storageProfileId)
         try writer["tagPropagationMode"].write(value.tagPropagationMode)
@@ -18388,6 +18561,7 @@ extension DeadlineClientTypes.CustomerManagedFleetConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeadlineClientTypes.CustomerManagedFleetConfiguration()
         value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        value.autoScalingConfiguration = try reader["autoScalingConfiguration"].readIfPresent(with: DeadlineClientTypes.CustomerManagedAutoScalingConfiguration.read(from:))
         value.workerCapabilities = try reader["workerCapabilities"].readIfPresent(with: DeadlineClientTypes.CustomerManagedWorkerCapabilities.read(from:))
         value.storageProfileId = try reader["storageProfileId"].readIfPresent()
         value.tagPropagationMode = try reader["tagPropagationMode"].readIfPresent()
@@ -19079,16 +19253,16 @@ extension DeadlineClientTypes.LimitSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.LimitSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeadlineClientTypes.LimitSummary()
-        value.displayName = try reader["displayName"].readIfPresent() ?? ""
-        value.amountRequirementName = try reader["amountRequirementName"].readIfPresent() ?? ""
-        value.maxCount = try reader["maxCount"].readIfPresent() ?? 0
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.limitId = try reader["limitId"].readIfPresent() ?? ""
+        value.currentCount = try reader["currentCount"].readIfPresent() ?? 0
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
-        value.farmId = try reader["farmId"].readIfPresent() ?? ""
-        value.limitId = try reader["limitId"].readIfPresent() ?? ""
-        value.currentCount = try reader["currentCount"].readIfPresent() ?? 0
+        value.displayName = try reader["displayName"].readIfPresent() ?? ""
+        value.amountRequirementName = try reader["amountRequirementName"].readIfPresent() ?? ""
+        value.maxCount = try reader["maxCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -19273,13 +19447,13 @@ extension DeadlineClientTypes.QueueLimitAssociationSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.QueueLimitAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeadlineClientTypes.QueueLimitAssociationSummary()
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.limitId = try reader["limitId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
-        value.queueId = try reader["queueId"].readIfPresent() ?? ""
-        value.limitId = try reader["limitId"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -19397,10 +19571,30 @@ extension DeadlineClientTypes.SearchTermFilterExpression {
     }
 }
 
+extension DeadlineClientTypes.ServiceManagedEc2AutoScalingConfiguration {
+
+    static func write(value: DeadlineClientTypes.ServiceManagedEc2AutoScalingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scaleOutWorkersPerMinute"].write(value.scaleOutWorkersPerMinute)
+        try writer["standbyWorkerCount"].write(value.standbyWorkerCount)
+        try writer["workerIdleDurationSeconds"].write(value.workerIdleDurationSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.ServiceManagedEc2AutoScalingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.ServiceManagedEc2AutoScalingConfiguration()
+        value.standbyWorkerCount = try reader["standbyWorkerCount"].readIfPresent()
+        value.workerIdleDurationSeconds = try reader["workerIdleDurationSeconds"].readIfPresent() ?? 300
+        value.scaleOutWorkersPerMinute = try reader["scaleOutWorkersPerMinute"].readIfPresent()
+        return value
+    }
+}
+
 extension DeadlineClientTypes.ServiceManagedEc2FleetConfiguration {
 
     static func write(value: DeadlineClientTypes.ServiceManagedEc2FleetConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["autoScalingConfiguration"].write(value.autoScalingConfiguration, with: DeadlineClientTypes.ServiceManagedEc2AutoScalingConfiguration.write(value:to:))
         try writer["instanceCapabilities"].write(value.instanceCapabilities, with: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities.write(value:to:))
         try writer["instanceMarketOptions"].write(value.instanceMarketOptions, with: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions.write(value:to:))
         try writer["storageProfileId"].write(value.storageProfileId)
@@ -19414,6 +19608,7 @@ extension DeadlineClientTypes.ServiceManagedEc2FleetConfiguration {
         value.instanceMarketOptions = try reader["instanceMarketOptions"].readIfPresent(with: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions.read(from:))
         value.vpcConfiguration = try reader["vpcConfiguration"].readIfPresent(with: DeadlineClientTypes.VpcConfiguration.read(from:))
         value.storageProfileId = try reader["storageProfileId"].readIfPresent()
+        value.autoScalingConfiguration = try reader["autoScalingConfiguration"].readIfPresent(with: DeadlineClientTypes.ServiceManagedEc2AutoScalingConfiguration.read(from:))
         return value
     }
 }
@@ -19517,8 +19712,8 @@ extension DeadlineClientTypes.SessionActionSummary {
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.workerUpdatedAt = try reader["workerUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.progressPercent = try reader["progressPercent"].readIfPresent()
-        value.definition = try reader["definition"].readIfPresent(with: DeadlineClientTypes.SessionActionDefinitionSummary.read(from:))
         value.manifests = try reader["manifests"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.TaskRunManifestPropertiesResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.definition = try reader["definition"].readIfPresent(with: DeadlineClientTypes.SessionActionDefinitionSummary.read(from:))
         return value
     }
 }
@@ -19549,9 +19744,9 @@ extension DeadlineClientTypes.SessionSummary {
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lifecycleStatus = try reader["lifecycleStatus"].readIfPresent() ?? .sdkUnknown("")
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.targetLifecycleStatus = try reader["targetLifecycleStatus"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
-        value.targetLifecycleStatus = try reader["targetLifecycleStatus"].readIfPresent()
         return value
     }
 }
@@ -19910,12 +20105,12 @@ extension DeadlineClientTypes.TaskSummary {
         value.runStatus = try reader["runStatus"].readIfPresent() ?? .sdkUnknown("")
         value.targetRunStatus = try reader["targetRunStatus"].readIfPresent()
         value.failureRetryCount = try reader["failureRetryCount"].readIfPresent()
-        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.TaskParameterValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         value.latestSessionActionId = try reader["latestSessionActionId"].readIfPresent()
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.TaskParameterValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -20092,11 +20287,11 @@ extension DeadlineClientTypes.WorkerSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.WorkerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeadlineClientTypes.WorkerSummary()
-        value.workerId = try reader["workerId"].readIfPresent() ?? ""
         value.farmId = try reader["farmId"].readIfPresent() ?? ""
         value.fleetId = try reader["fleetId"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.workerId = try reader["workerId"].readIfPresent() ?? ""
         value.hostProperties = try reader["hostProperties"].readIfPresent(with: DeadlineClientTypes.HostPropertiesResponse.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.log = try reader["log"].readIfPresent(with: DeadlineClientTypes.LogConfiguration.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""

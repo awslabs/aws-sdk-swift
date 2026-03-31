@@ -728,6 +728,27 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// Configuration details for a Prometheus data source that can be used for direct queries.
+    public struct PrometheusDirectQueryDataSource: Swift.Sendable {
+        /// The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// The unique identifier of the Amazon Managed Prometheus Workspace that is associated with the specified data source.
+        /// This member is required.
+        public var workspaceArn: Swift.String?
+
+        public init(
+            roleArn: Swift.String? = nil,
+            workspaceArn: Swift.String? = nil
+        ) {
+            self.roleArn = roleArn
+            self.workspaceArn = workspaceArn
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// Configuration details for a Security Lake data source that can be used for direct queries.
     public struct SecurityLakeDirectQueryDataSource: Swift.Sendable {
         /// The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source.
@@ -750,6 +771,8 @@ extension OpenSearchClientTypes {
         case cloudwatchlog(OpenSearchClientTypes.CloudWatchDirectQueryDataSource)
         /// Specifies Security Lake as a type of data source for direct queries.
         case securitylake(OpenSearchClientTypes.SecurityLakeDirectQueryDataSource)
+        /// Specifies Prometheus as a type of data source for direct queries.
+        case prometheus(OpenSearchClientTypes.PrometheusDirectQueryDataSource)
         case sdkUnknown(Swift.String)
     }
 }
@@ -786,8 +809,7 @@ public struct AddDirectQueryDataSourceInput: Swift.Sendable {
     public var dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType?
     /// An optional text field for providing additional context and details about the data source.
     public var description: Swift.String?
-    /// A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
-    /// This member is required.
+    /// An optional list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source. This field is required for CloudWatchLogs and SecurityLake datasource types.
     public var openSearchArns: [Swift.String]?
     /// A list of tags attached to a domain.
     public var tagList: [OpenSearchClientTypes.Tag]?
@@ -6603,6 +6625,147 @@ public struct DescribeInboundConnectionsOutput: Swift.Sendable {
     }
 }
 
+extension OpenSearchClientTypes {
+
+    /// The type of entity for which to retrieve insights. Possible values are Account and DomainName.
+    public enum InsightEntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case account
+        case domain
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightEntityType] {
+            return [
+                .account,
+                .domain
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "Account"
+            case .domain: return "DomainName"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Specifies the entity for which to retrieve insights. An entity can be an Amazon OpenSearch Service domain or an Amazon Web Services account.
+    public struct InsightEntity: Swift.Sendable {
+        /// The type of the entity. Possible values are Account and DomainName.
+        /// This member is required.
+        public var type: OpenSearchClientTypes.InsightEntityType?
+        /// The value of the entity. For DomainName, this is the domain name. For Account, this is the Amazon Web Services account ID.
+        public var value: Swift.String?
+
+        public init(
+            type: OpenSearchClientTypes.InsightEntityType? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+/// Container for the parameters to the DescribeInsightDetails operation.
+public struct DescribeInsightDetailsInput: Swift.Sendable {
+    /// The entity for which to retrieve insight details. Specifies the type and value of the entity, such as a domain name or Amazon Web Services account ID.
+    /// This member is required.
+    public var entity: OpenSearchClientTypes.InsightEntity?
+    /// The unique identifier of the insight to describe.
+    /// This member is required.
+    public var insightId: Swift.String?
+    /// Specifies whether to show response with HTML content in response or not.
+    public var showHtmlContent: Swift.Bool?
+
+    public init(
+        entity: OpenSearchClientTypes.InsightEntity? = nil,
+        insightId: Swift.String? = nil,
+        showHtmlContent: Swift.Bool? = nil
+    ) {
+        self.entity = entity
+        self.insightId = insightId
+        self.showHtmlContent = showHtmlContent
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The type of an insight field. Possible values are text and metric.
+    public enum InsightFieldType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case metric
+        case text
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightFieldType] {
+            return [
+                .metric,
+                .text
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .metric: return "metric"
+            case .text: return "text"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Represents a field in the detailed view of an insight, returned by the DescribeInsightDetails operation.
+    public struct InsightField: Swift.Sendable {
+        /// The name of the insight field.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The type of the insight field. Possible values are text and metric.
+        /// This member is required.
+        public var type: OpenSearchClientTypes.InsightFieldType?
+        /// The value of the insight field.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            type: OpenSearchClientTypes.InsightFieldType? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+/// The result of a DescribeInsightDetails request. Contains the detailed fields associated with the specified insight.
+public struct DescribeInsightDetailsOutput: Swift.Sendable {
+    /// The list of fields that contain detailed information about the insight.
+    /// This member is required.
+    public var fields: [OpenSearchClientTypes.InsightField]?
+
+    public init(
+        fields: [OpenSearchClientTypes.InsightField]? = nil
+    ) {
+        self.fields = fields
+    }
+}
+
 /// Container for the parameters to the DescribeInstanceTypeLimits operation.
 public struct DescribeInstanceTypeLimitsInput: Swift.Sendable {
     /// The name of the domain. Only specify if you need the limits for an existing domain.
@@ -8343,6 +8506,244 @@ public struct ListDomainsForPackageOutput: Swift.Sendable {
     }
 }
 
+extension OpenSearchClientTypes {
+
+    /// The sort order for listing insights. Possible values are ASC (ascending) and DESC (descending).
+    public enum InsightSortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case asc
+        case desc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightSortOrder] {
+            return [
+                .asc,
+                .desc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .asc: return "ASC"
+            case .desc: return "DESC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Specifies the time range for filtering insights.
+    public struct InsightTimeRange: Swift.Sendable {
+        /// The start of the time range, in epoch milliseconds.
+        /// This member is required.
+        public var from: Swift.Int?
+        /// The end of the time range, in epoch milliseconds.
+        /// This member is required.
+        public var to: Swift.Int?
+
+        public init(
+            from: Swift.Int? = nil,
+            to: Swift.Int? = nil
+        ) {
+            self.from = from
+            self.to = to
+        }
+    }
+}
+
+/// Container for the parameters to the ListInsights operation.
+public struct ListInsightsInput: Swift.Sendable {
+    /// The entity for which to list insights. Specifies the type and value of the entity, such as a domain name or Amazon Web Services account ID.
+    /// This member is required.
+    public var entity: OpenSearchClientTypes.InsightEntity?
+    /// An optional parameter that specifies the maximum number of results to return. You can use NextToken to get the next page of results. Valid values are 1 to 500.
+    public var maxResults: Swift.Int?
+    /// If your initial ListInsights operation returns a NextToken, include the returned NextToken in subsequent ListInsights operations to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The sort order for the results. Possible values are ASC (ascending) and DESC (descending).
+    public var sortOrder: OpenSearchClientTypes.InsightSortOrder?
+    /// The time range for filtering insights, specified as epoch millisecond timestamps.
+    public var timeRange: OpenSearchClientTypes.InsightTimeRange?
+
+    public init(
+        entity: OpenSearchClientTypes.InsightEntity? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortOrder: OpenSearchClientTypes.InsightSortOrder? = nil,
+        timeRange: OpenSearchClientTypes.InsightTimeRange? = nil
+    ) {
+        self.entity = entity
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortOrder = sortOrder
+        self.timeRange = timeRange
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The priority level of an insight. Possible values are CRITICAL, HIGH, MEDIUM, and LOW.
+    public enum InsightPriorityLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case critical
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightPriorityLevel] {
+            return [
+                .critical,
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .critical: return "CRITICAL"
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The status of an insight. Possible values are ACTIVE, RESOLVED, and DISMISSED.
+    public enum InsightStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case dismissed
+        case resolved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightStatus] {
+            return [
+                .active,
+                .dismissed,
+                .resolved
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .dismissed: return "DISMISSED"
+            case .resolved: return "RESOLVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The type of an insight. Possible values are EVENT and RECOMMENDATION.
+    public enum InsightType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case event
+        case recommendation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightType] {
+            return [
+                .event,
+                .recommendation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .event: return "EVENT"
+            case .recommendation: return "RECOMMENDATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Represents an insight returned by the ListInsights operation. An insight is a notification about a domain event or recommendation that helps you optimize your Amazon OpenSearch Service domain.
+    public struct Insight: Swift.Sendable {
+        /// The timestamp when the insight was created, in epoch milliseconds.
+        public var creationTime: Foundation.Date?
+        /// The display name of the insight.
+        public var displayName: Swift.String?
+        /// The unique identifier of the insight.
+        public var insightId: Swift.String?
+        /// Indicates whether the insight is experimental.
+        public var isExperimental: Swift.Bool?
+        /// The priority level of the insight. Possible values are CRITICAL, HIGH, MEDIUM, and LOW.
+        public var priority: OpenSearchClientTypes.InsightPriorityLevel?
+        /// The current status of the insight. Possible values are ACTIVE, RESOLVED, and DISMISSED.
+        public var status: OpenSearchClientTypes.InsightStatus?
+        /// The type of the insight. Possible values are EVENT and RECOMMENDATION.
+        public var type: OpenSearchClientTypes.InsightType?
+        /// The timestamp when the insight was last updated, in epoch milliseconds.
+        public var updateTime: Foundation.Date?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            displayName: Swift.String? = nil,
+            insightId: Swift.String? = nil,
+            isExperimental: Swift.Bool? = nil,
+            priority: OpenSearchClientTypes.InsightPriorityLevel? = nil,
+            status: OpenSearchClientTypes.InsightStatus? = nil,
+            type: OpenSearchClientTypes.InsightType? = nil,
+            updateTime: Foundation.Date? = nil
+        ) {
+            self.creationTime = creationTime
+            self.displayName = displayName
+            self.insightId = insightId
+            self.isExperimental = isExperimental
+            self.priority = priority
+            self.status = status
+            self.type = type
+            self.updateTime = updateTime
+        }
+    }
+}
+
+/// The result of a ListInsights request. Contains the list of insights and a pagination token for retrieving the next page of results.
+public struct ListInsightsOutput: Swift.Sendable {
+    /// The list of insights returned for the specified entity.
+    public var insights: [OpenSearchClientTypes.Insight]?
+    /// When NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        insights: [OpenSearchClientTypes.Insight]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.insights = insights
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListInstanceTypeDetailsInput: Swift.Sendable {
     /// The name of the domain.
     public var domainName: Swift.String?
@@ -9091,8 +9492,7 @@ public struct UpdateDirectQueryDataSourceInput: Swift.Sendable {
     public var dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType?
     /// An optional text field for providing additional context and details about the data source.
     public var description: Swift.String?
-    /// A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
-    /// This member is required.
+    /// An optional list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source. This field is required for CloudWatchLogs and SecurityLake datasource types.
     public var openSearchArns: [Swift.String]?
 
     public init(
@@ -9947,6 +10347,13 @@ extension DescribeInboundConnectionsInput {
     }
 }
 
+extension DescribeInsightDetailsInput {
+
+    static func urlPathProvider(_ value: DescribeInsightDetailsInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/insight-details"
+    }
+}
+
 extension DescribeInstanceTypeLimitsInput {
 
     static func urlPathProvider(_ value: DescribeInstanceTypeLimitsInput) -> Swift.String? {
@@ -10359,6 +10766,13 @@ extension ListDomainsForPackageInput {
             items.append(maxResultsQueryItem)
         }
         return items
+    }
+}
+
+extension ListInsightsInput {
+
+    static func urlPathProvider(_ value: ListInsightsInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/insights"
     }
 }
 
@@ -10893,6 +11307,16 @@ extension DescribeInboundConnectionsInput {
     }
 }
 
+extension DescribeInsightDetailsInput {
+
+    static func write(value: DescribeInsightDetailsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Entity"].write(value.entity, with: OpenSearchClientTypes.InsightEntity.write(value:to:))
+        try writer["InsightId"].write(value.insightId)
+        try writer["ShowHtmlContent"].write(value.showHtmlContent)
+    }
+}
+
 extension DescribeOutboundConnectionsInput {
 
     static func write(value: DescribeOutboundConnectionsInput?, to writer: SmithyJSON.Writer) throws {
@@ -10927,6 +11351,18 @@ extension DissociatePackagesInput {
         guard let value else { return }
         try writer["DomainName"].write(value.domainName)
         try writer["PackageList"].writeList(value.packageList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ListInsightsInput {
+
+    static func write(value: ListInsightsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Entity"].write(value.entity, with: OpenSearchClientTypes.InsightEntity.write(value:to:))
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SortOrder"].write(value.sortOrder)
+        try writer["TimeRange"].write(value.timeRange, with: OpenSearchClientTypes.InsightTimeRange.write(value:to:))
     }
 }
 
@@ -11519,6 +11955,18 @@ extension DescribeInboundConnectionsOutput {
     }
 }
 
+extension DescribeInsightDetailsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeInsightDetailsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeInsightDetailsOutput()
+        value.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.InsightField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension DescribeInstanceTypeLimitsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeInstanceTypeLimitsOutput {
@@ -11839,6 +12287,19 @@ extension ListDomainsForPackageOutput {
         let reader = responseReader
         var value = ListDomainsForPackageOutput()
         value.domainPackageDetailsList = try reader["DomainPackageDetailsList"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.DomainPackageDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListInsightsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListInsightsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListInsightsOutput()
+        value.insights = try reader["Insights"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.Insight.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -12752,6 +13213,25 @@ enum DescribeInboundConnectionsOutputError {
     }
 }
 
+enum DescribeInsightDetailsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeInstanceTypeLimitsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13176,6 +13656,25 @@ enum ListDomainsForPackageOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListInsightsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -14436,6 +14935,8 @@ extension OpenSearchClientTypes.DirectQueryDataSourceType {
         switch value {
             case let .cloudwatchlog(cloudwatchlog):
                 try writer["CloudWatchLog"].write(cloudwatchlog, with: OpenSearchClientTypes.CloudWatchDirectQueryDataSource.write(value:to:))
+            case let .prometheus(prometheus):
+                try writer["Prometheus"].write(prometheus, with: OpenSearchClientTypes.PrometheusDirectQueryDataSource.write(value:to:))
             case let .securitylake(securitylake):
                 try writer["SecurityLake"].write(securitylake, with: OpenSearchClientTypes.SecurityLakeDirectQueryDataSource.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -14451,6 +14952,8 @@ extension OpenSearchClientTypes.DirectQueryDataSourceType {
                 return .cloudwatchlog(try reader["CloudWatchLog"].read(with: OpenSearchClientTypes.CloudWatchDirectQueryDataSource.read(from:)))
             case "SecurityLake":
                 return .securitylake(try reader["SecurityLake"].read(with: OpenSearchClientTypes.SecurityLakeDirectQueryDataSource.read(from:)))
+            case "Prometheus":
+                return .prometheus(try reader["Prometheus"].read(with: OpenSearchClientTypes.PrometheusDirectQueryDataSource.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -14884,6 +15387,53 @@ extension OpenSearchClientTypes.InboundConnectionStatus {
         value.statusCode = try reader["StatusCode"].readIfPresent()
         value.message = try reader["Message"].readIfPresent()
         return value
+    }
+}
+
+extension OpenSearchClientTypes.Insight {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.Insight {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.Insight()
+        value.insightId = try reader["InsightId"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.priority = try reader["Priority"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.isExperimental = try reader["IsExperimental"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.InsightEntity {
+
+    static func write(value: OpenSearchClientTypes.InsightEntity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension OpenSearchClientTypes.InsightField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.InsightField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.InsightField()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.InsightTimeRange {
+
+    static func write(value: OpenSearchClientTypes.InsightTimeRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["From"].write(value.from)
+        try writer["To"].write(value.to)
     }
 }
 
@@ -15341,6 +15891,23 @@ extension OpenSearchClientTypes.PluginProperties {
         value.version = try reader["Version"].readIfPresent()
         value.className = try reader["ClassName"].readIfPresent()
         value.uncompressedSizeInBytes = try reader["UncompressedSizeInBytes"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.PrometheusDirectQueryDataSource {
+
+    static func write(value: OpenSearchClientTypes.PrometheusDirectQueryDataSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RoleArn"].write(value.roleArn)
+        try writer["WorkspaceArn"].write(value.workspaceArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.PrometheusDirectQueryDataSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.PrometheusDirectQueryDataSource()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.workspaceArn = try reader["WorkspaceArn"].readIfPresent() ?? ""
         return value
     }
 }

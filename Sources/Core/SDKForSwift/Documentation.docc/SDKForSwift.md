@@ -333,6 +333,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSDetective](/sdk-for-swift/latest/api/awsdetective/documentation/awsdetective)
 
+[AWSDevOpsAgent](/sdk-for-swift/latest/api/awsdevopsagent/documentation/awsdevopsagent)
+
 [AWSDevOpsGuru](/sdk-for-swift/latest/api/awsdevopsguru/documentation/awsdevopsguru)
 
 [AWSDeviceFarm](/sdk-for-swift/latest/api/awsdevicefarm/documentation/awsdevicefarm)
@@ -888,6 +890,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSTranslate](/sdk-for-swift/latest/api/awstranslate/documentation/awstranslate)
 
 [AWSTrustedAdvisor](/sdk-for-swift/latest/api/awstrustedadvisor/documentation/awstrustedadvisor)
+
+[AWSUxc](/sdk-for-swift/latest/api/awsuxc/documentation/awsuxc)
 
 [AWSVPCLattice](/sdk-for-swift/latest/api/awsvpclattice/documentation/awsvpclattice)
 

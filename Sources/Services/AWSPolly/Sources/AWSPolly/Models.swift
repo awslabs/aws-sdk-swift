@@ -15,6 +15,7 @@ import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class Smithy.Context
 import class Smithy.ContextBuilder
+@_spi(SmithyEventStreams) import class SmithyEventStreams.DefaultMessageDecoder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPRequestBuilder
 import class SmithyHTTPAPI.HTTPResponse
@@ -26,10 +27,12 @@ import enum ClientRuntime.ErrorFault
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import enum Smithy.ByteStream
 import enum Smithy.ClientError
+import enum SmithyEventStreamsAPI.MessageType
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
+import func ClientRuntime.quoteHeaderValue
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
@@ -52,9 +55,40 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct Smithy.URIQueryItem
+@_spi(SmithyEventStreams) import struct SmithyEventStreams.DefaultMessageDecoderStream
+import struct SmithyEventStreamsAPI.Header
+import struct SmithyEventStreamsAPI.Message
+import struct SmithyHTTPAPI.Header
+import struct SmithyHTTPAPI.Headers
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 import struct SmithyRetries.DefaultRetryStrategy
+import typealias SmithyEventStreamsAPI.MarshalClosure
+import typealias SmithyEventStreamsAPI.UnmarshalClosure
+
+extension PollyClientTypes {
+
+    /// Contains a chunk of synthesized audio data.
+    public struct AudioEvent: Swift.Sendable {
+        /// A chunk of synthesized audio data encoded in the format specified by the OutputFormat parameter.
+        public var audioChunk: Foundation.Data?
+
+        public init(
+            audioChunk: Foundation.Data? = nil
+        ) {
+            self.audioChunk = audioChunk
+        }
+    }
+}
+
+extension PollyClientTypes {
+
+    /// Indicates the end of the input stream. After sending this event, the input stream will be closed and all audio will be returned.
+    public struct CloseStreamEvent: Swift.Sendable {
+
+        public init() { }
+    }
+}
 
 /// Amazon Polly can't find the specified lexicon. This could be caused by a lexicon that is missing, its name is misspelled or specifying a lexicon that is in a different region. Verify that the lexicon exists, is in the region (see [ListLexicons]) and that you spelled its name is spelled correctly. Then try again.
 public struct LexiconNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -796,6 +830,21 @@ public struct EngineNotSupportedException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
+extension PollyClientTypes {
+
+    /// Configuration that controls when synthesized audio data is sent on the output stream.
+    public struct FlushStreamConfiguration: Swift.Sendable {
+        /// Specifies whether to force the synthesis engine to immediately write buffered audio data to the output stream.
+        public var force: Swift.Bool
+
+        public init(
+            force: Swift.Bool = false
+        ) {
+            self.force = force
+        }
+    }
+}
+
 public struct GetLexiconInput: Swift.Sendable {
     /// Name of the lexicon.
     /// This member is required.
@@ -943,8 +992,10 @@ public struct GetSpeechSynthesisTaskInput: Swift.Sendable {
 extension PollyClientTypes {
 
     public enum OutputFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alaw
         case json
         case mp3
+        case mulaw
         case oggOpus
         case oggVorbis
         case pcm
@@ -952,8 +1003,10 @@ extension PollyClientTypes {
 
         public static var allCases: [OutputFormat] {
             return [
+                .alaw,
                 .json,
                 .mp3,
+                .mulaw,
                 .oggOpus,
                 .oggVorbis,
                 .pcm
@@ -967,8 +1020,10 @@ extension PollyClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .alaw: return "alaw"
             case .json: return "json"
             case .mp3: return "mp3"
+            case .mulaw: return "mulaw"
             case .oggOpus: return "ogg_opus"
             case .oggVorbis: return "ogg_vorbis"
             case .pcm: return "pcm"
@@ -1089,13 +1144,13 @@ extension PollyClientTypes {
         public var languageCode: PollyClientTypes.LanguageCode?
         /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice.
         public var lexiconNames: [Swift.String]?
-        /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.
+        /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law, or pcm. For speech marks, this will be json.
         public var outputFormat: PollyClientTypes.OutputFormat?
         /// Pathway for the output speech file.
         public var outputUri: Swift.String?
         /// Number of billable characters synthesized.
         public var requestCharacters: Swift.Int
-        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The default value for generative voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
+        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The default value for generative voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000". Valid value for ogg_opus is "48000". Valid value for mu-law and a-law is "8000".
         public var sampleRate: Swift.String?
         /// ARN for the SNS topic optionally used for providing status notification for a speech synthesis task.
         public var snsTopicArn: Swift.String?
@@ -1564,6 +1619,342 @@ public struct PutLexiconOutput: Swift.Sendable {
     public init() { }
 }
 
+extension PollyClientTypes {
+
+    public enum QuotaCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inputStreamInboundEventTimeout
+        case inputStreamTimeout
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuotaCode] {
+            return [
+                .inputStreamInboundEventTimeout,
+                .inputStreamTimeout
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inputStreamInboundEventTimeout: return "input-stream-inbound-event-timeout"
+            case .inputStreamTimeout: return "input-stream-timeout"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PollyClientTypes {
+
+    public enum ServiceCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case polly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceCode] {
+            return [
+                .polly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .polly: return "polly"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The request would cause a service quota to be exceeded.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The quota code identifying the specific quota.
+        /// This member is required.
+        public internal(set) var quotaCode: PollyClientTypes.QuotaCode? = nil
+        /// The service code identifying the originating service.
+        /// This member is required.
+        public internal(set) var serviceCode: PollyClientTypes.ServiceCode? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        quotaCode: PollyClientTypes.QuotaCode? = nil,
+        serviceCode: PollyClientTypes.ServiceCode? = nil
+    ) {
+        self.properties.message = message
+        self.properties.quotaCode = quotaCode
+        self.properties.serviceCode = serviceCode
+    }
+}
+
+extension PollyClientTypes {
+
+    /// Provides information about a specific throttling reason.
+    public struct ThrottlingReason: Swift.Sendable {
+        /// The reason code explaining why the request was throttled.
+        public var reason: Swift.String?
+        /// The resource that caused the throttling.
+        public var resource: Swift.String?
+
+        public init(
+            reason: Swift.String? = nil,
+            resource: Swift.String? = nil
+        ) {
+            self.reason = reason
+            self.resource = resource
+        }
+    }
+}
+
+/// The request was denied because of request throttling.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// A list of reasons explaining why the request was throttled.
+        public internal(set) var throttlingReasons: [PollyClientTypes.ThrottlingReason]? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "Throttling" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        throttlingReasons: [PollyClientTypes.ThrottlingReason]? = nil
+    ) {
+        self.properties.message = message
+        self.properties.throttlingReasons = throttlingReasons
+    }
+}
+
+extension PollyClientTypes {
+
+    /// Information about a field that failed validation.
+    public struct ValidationExceptionField: Swift.Sendable {
+        /// A message describing why the field failed validation.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The name of the field that failed validation.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            message: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.message = message
+            self.name = name
+        }
+    }
+}
+
+extension PollyClientTypes {
+
+    public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fieldValidationFailed
+        case invalidInboundEvent
+        case other
+        case unsupportedOperation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidationExceptionReason] {
+            return [
+                .fieldValidationFailed,
+                .invalidInboundEvent,
+                .other,
+                .unsupportedOperation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fieldValidationFailed: return "fieldValidationFailed"
+            case .invalidInboundEvent: return "invalidInboundEvent"
+            case .other: return "other"
+            case .unsupportedOperation: return "unsupportedOperation"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The input fails to satisfy the constraints specified by the service.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The fields that caused the validation error.
+        public internal(set) var fields: [PollyClientTypes.ValidationExceptionField]? = nil
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The reason the request failed validation.
+        /// This member is required.
+        public internal(set) var reason: PollyClientTypes.ValidationExceptionReason? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        fields: [PollyClientTypes.ValidationExceptionField]? = nil,
+        message: Swift.String? = nil,
+        reason: PollyClientTypes.ValidationExceptionReason? = nil
+    ) {
+        self.properties.fields = fields
+        self.properties.message = message
+        self.properties.reason = reason
+    }
+}
+
+extension PollyClientTypes {
+
+    /// Contains text content to be synthesized into speech.
+    public struct TextEvent: Swift.Sendable {
+        /// Configuration for controlling when synthesized audio flushes to the output stream.
+        public var flushStreamConfiguration: PollyClientTypes.FlushStreamConfiguration?
+        /// The text content to synthesize. If you specify ssml as the TextType, follow the SSML format for the input text.
+        /// This member is required.
+        public var text: Swift.String?
+        /// Specifies whether the input text is plain text or SSML. Default: plain text.
+        public var textType: PollyClientTypes.TextType?
+
+        public init(
+            flushStreamConfiguration: PollyClientTypes.FlushStreamConfiguration? = nil,
+            text: Swift.String? = nil,
+            textType: PollyClientTypes.TextType? = nil
+        ) {
+            self.flushStreamConfiguration = flushStreamConfiguration
+            self.text = text
+            self.textType = textType
+        }
+    }
+}
+
+extension PollyClientTypes {
+
+    /// Inbound event stream for sending input and control events to manage bidirectional speech synthesis.
+    public enum StartSpeechSynthesisStreamActionStream: Swift.Sendable {
+        /// A text event containing content to be synthesized.
+        case textevent(PollyClientTypes.TextEvent)
+        /// An event indicating the end of the input stream.
+        case closestreamevent(PollyClientTypes.CloseStreamEvent)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct StartSpeechSynthesisStreamInput: Swift.Sendable {
+    /// The input event stream that contains text events and stream control events.
+    public var actionStream: AsyncThrowingStream<PollyClientTypes.StartSpeechSynthesisStreamActionStream, Swift.Error>?
+    /// Specifies the engine for Amazon Polly to use when processing input text for speech synthesis. Currently, only the generative engine is supported. If you specify a voice that the selected engine doesn't support, Amazon Polly returns an error.
+    /// This member is required.
+    public var engine: PollyClientTypes.Engine?
+    /// An optional parameter that sets the language code for the speech synthesis request. Specify this parameter only when using a bilingual voice. If a bilingual voice is used and no language code is specified, Amazon Polly uses the default language of the bilingual voice.
+    public var languageCode: PollyClientTypes.LanguageCode?
+    /// The names of one or more pronunciation lexicons for the service to apply during synthesis. Amazon Polly applies lexicons only when the lexicon language matches the voice language.
+    public var lexiconNames: [Swift.String]?
+    /// The audio format for the synthesized speech. Currently, Amazon Polly does not support JSON speech marks.
+    /// This member is required.
+    public var outputFormat: PollyClientTypes.OutputFormat?
+    /// The audio frequency, specified in Hz.
+    public var sampleRate: Swift.String?
+    /// The voice to use in synthesis. To get a list of available voice IDs, use the [DescribeVoices](https://docs.aws.amazon.com/polly/latest/API/API_DescribeVoices.html) operation.
+    /// This member is required.
+    public var voiceId: PollyClientTypes.VoiceId?
+
+    public init(
+        actionStream: AsyncThrowingStream<PollyClientTypes.StartSpeechSynthesisStreamActionStream, Swift.Error>? = nil,
+        engine: PollyClientTypes.Engine? = nil,
+        languageCode: PollyClientTypes.LanguageCode? = nil,
+        lexiconNames: [Swift.String]? = nil,
+        outputFormat: PollyClientTypes.OutputFormat? = nil,
+        sampleRate: Swift.String? = nil,
+        voiceId: PollyClientTypes.VoiceId? = nil
+    ) {
+        self.actionStream = actionStream
+        self.engine = engine
+        self.languageCode = languageCode
+        self.lexiconNames = lexiconNames
+        self.outputFormat = outputFormat
+        self.sampleRate = sampleRate
+        self.voiceId = voiceId
+    }
+}
+
+extension PollyClientTypes {
+
+    /// Indicates that the synthesis stream is closed and provides summary information.
+    public struct StreamClosedEvent: Swift.Sendable {
+        /// The total number of characters synthesized during the streaming session.
+        public var requestCharacters: Swift.Int
+
+        public init(
+            requestCharacters: Swift.Int = 0
+        ) {
+            self.requestCharacters = requestCharacters
+        }
+    }
+}
+
+extension PollyClientTypes {
+
+    /// Outbound event stream that contains synthesized audio data and stream status events.
+    public enum StartSpeechSynthesisStreamEventStream: Swift.Sendable {
+        /// An audio event containing synthesized speech.
+        case audioevent(PollyClientTypes.AudioEvent)
+        /// An event, with summary information, indicating the stream has closed.
+        case streamclosedevent(PollyClientTypes.StreamClosedEvent)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct StartSpeechSynthesisStreamOutput: Swift.Sendable {
+    /// The output event stream that contains synthesized audio events and stream status events.
+    public var eventStream: AsyncThrowingStream<PollyClientTypes.StartSpeechSynthesisStreamEventStream, Swift.Error>?
+
+    public init(
+        eventStream: AsyncThrowingStream<PollyClientTypes.StartSpeechSynthesisStreamEventStream, Swift.Error>? = nil
+    ) {
+        self.eventStream = eventStream
+    }
+}
+
 /// SSML speech marks are not supported for plain text-type input.
 public struct SsmlMarksNotSupportedForTextTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1617,7 +2008,7 @@ public struct StartSpeechSynthesisTaskInput: Swift.Sendable {
     public var languageCode: PollyClientTypes.LanguageCode?
     /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice.
     public var lexiconNames: [Swift.String]?
-    /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.
+    /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law, or pcm. For speech marks, this will be json.
     /// This member is required.
     public var outputFormat: PollyClientTypes.OutputFormat?
     /// Amazon S3 bucket name to which the output file will be saved.
@@ -1625,7 +2016,7 @@ public struct StartSpeechSynthesisTaskInput: Swift.Sendable {
     public var outputS3BucketName: Swift.String?
     /// The Amazon S3 key prefix for the output speech file.
     public var outputS3KeyPrefix: Swift.String?
-    /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The default value for generative voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
+    /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The default value for generative voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000". Valid value for ogg_opus is "48000". Valid value for mu-law and a-law is "8000".
     public var sampleRate: Swift.String?
     /// ARN for the SNS topic optionally used for providing status notification for a speech synthesis task.
     public var snsTopicArn: Swift.String?
@@ -1687,10 +2078,10 @@ public struct SynthesizeSpeechInput: Swift.Sendable {
     public var languageCode: PollyClientTypes.LanguageCode?
     /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice. For information about storing lexicons, see [PutLexicon](https://docs.aws.amazon.com/polly/latest/dg/API_PutLexicon.html).
     public var lexiconNames: [Swift.String]?
-    /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json. When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.
+    /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law or pcm. For speech marks, this will be json. When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.
     /// This member is required.
     public var outputFormat: PollyClientTypes.OutputFormat?
-    /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", "24000", "44100" and "48000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The default value for generative voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
+    /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", "24000", "44100" and "48000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The default value for generative voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000". Valid value for ogg_opus is "48000". Valid value for mu-law and a-law is "8000".
     public var sampleRate: Swift.String?
     /// The type of speech marks returned for the input text.
     public var speechMarkTypes: [PollyClientTypes.SpeechMarkType]?
@@ -1735,7 +2126,13 @@ public struct SynthesizeSpeechOutput: Swift.Sendable {
     ///
     /// * If you request ogg_vorbis as the OutputFormat, the ContentType returned is audio/ogg.
     ///
+    /// * If you request ogg_opus as the OutputFormat, the ContentType returned is audio/ogg.
+    ///
     /// * If you request pcm as the OutputFormat, the ContentType returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.
+    ///
+    /// * If you request mu-law as the OutputFormat, the ContentType returned is audio/mulaw.
+    ///
+    /// * If you request a-law as the OutputFormat, the ContentType returned is audio/alaw.
     ///
     /// * If you request json as the OutputFormat, the ContentType returned is application/x-json-stream.
     public var contentType: Swift.String?
@@ -1867,6 +2264,44 @@ extension PutLexiconInput {
             return nil
         }
         return "/v1/lexicons/\(name.urlPercentEncoding())"
+    }
+}
+
+extension StartSpeechSynthesisStreamInput {
+
+    static func urlPathProvider(_ value: StartSpeechSynthesisStreamInput) -> Swift.String? {
+        return "/v1/synthesisStream"
+    }
+}
+
+extension StartSpeechSynthesisStreamInput {
+
+    static func headerProvider(_ value: StartSpeechSynthesisStreamInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let engine = value.engine {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-Engine", value: Swift.String(engine.rawValue)))
+        }
+        if let languageCode = value.languageCode {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-LanguageCode", value: Swift.String(languageCode.rawValue)))
+        }
+        if let lexiconNames = value.lexiconNames {
+            if lexiconNames.isEmpty {
+                items.add(name: "x-amzn-LexiconNames", value: "")
+            }
+            lexiconNames.forEach { headerValue in
+                items.add(SmithyHTTPAPI.Header(name: "x-amzn-LexiconNames", value: ClientRuntime.quoteHeaderValue(Swift.String(headerValue))))
+            }
+        }
+        if let outputFormat = value.outputFormat {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-OutputFormat", value: Swift.String(outputFormat.rawValue)))
+        }
+        if let sampleRate = value.sampleRate {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-SampleRate", value: Swift.String(sampleRate)))
+        }
+        if let voiceId = value.voiceId {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-VoiceId", value: Swift.String(voiceId.rawValue)))
+        }
+        return items
     }
 }
 
@@ -2002,6 +2437,19 @@ extension PutLexiconOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutLexiconOutput {
         return PutLexiconOutput()
+    }
+}
+
+extension StartSpeechSynthesisStreamOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartSpeechSynthesisStreamOutput {
+        var value = StartSpeechSynthesisStreamOutput()
+        if case .stream(let stream) = httpResponse.body {
+            let messageDecoder = SmithyEventStreams.DefaultMessageDecoder()
+            let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: PollyClientTypes.StartSpeechSynthesisStreamEventStream.unmarshal)
+            value.eventStream = decoderStream.toAsyncStream()
+        }
+        return value
     }
 }
 
@@ -2145,6 +2593,23 @@ enum PutLexiconOutputError {
             case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
             case "UnsupportedPlsAlphabetException": return try UnsupportedPlsAlphabetException.makeError(baseError: baseError)
             case "UnsupportedPlsLanguageException": return try UnsupportedPlsLanguageException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartSpeechSynthesisStreamOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2340,6 +2805,50 @@ extension UnsupportedPlsLanguageException {
     }
 }
 
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? .sdkUnknown("")
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? .sdkUnknown("")
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.throttlingReasons = try reader["throttlingReasons"].readListIfPresent(memberReadingClosure: PollyClientTypes.ThrottlingReason.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
+        value.properties.fields = try reader["fields"].readListIfPresent(memberReadingClosure: PollyClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension EngineNotSupportedException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> EngineNotSupportedException {
@@ -2470,6 +2979,104 @@ extension TextLengthExceededException {
     }
 }
 
+extension PollyClientTypes.StartSpeechSynthesisStreamActionStream {
+    static var marshal: SmithyEventStreamsAPI.MarshalClosure<PollyClientTypes.StartSpeechSynthesisStreamActionStream> {
+        { (self) in
+            var headers: [SmithyEventStreamsAPI.Header] = [.init(name: ":message-type", value: .string("event"))]
+            var payload: Foundation.Data? = nil
+            switch self {
+            case .textevent(let value):
+                headers.append(.init(name: ":event-type", value: .string("TextEvent")))
+                headers.append(.init(name: ":content-type", value: .string("application/json")))
+                let writer = SmithyJSON.Writer(nodeInfo: "")
+                try writer["Text"].write(value.text, with: SmithyReadWrite.WritingClosures.writeString(value:to:))
+                try writer["TextType"].write(value.textType, with: SmithyReadWrite.WritingClosureBox<PollyClientTypes.TextType>().write(value:to:))
+                try writer["FlushStreamConfiguration"].write(value.flushStreamConfiguration, with: PollyClientTypes.FlushStreamConfiguration.write(value:to:))
+                payload = try writer.data()
+            case .closestreamevent:
+                headers.append(.init(name: ":event-type", value: .string("CloseStreamEvent")))
+            case .sdkUnknown(_):
+                throw Smithy.ClientError.unknownError("cannot serialize the unknown event type!")
+            }
+            return SmithyEventStreamsAPI.Message(headers: headers, payload: payload ?? .init())
+        }
+    }
+}
+
+extension PollyClientTypes.StartSpeechSynthesisStreamEventStream {
+    static var unmarshal: SmithyEventStreamsAPI.UnmarshalClosure<PollyClientTypes.StartSpeechSynthesisStreamEventStream> {
+        { message in
+            switch try message.type() {
+            case .event(let params):
+                switch params.eventType {
+                case "AudioEvent":
+                    var event = PollyClientTypes.AudioEvent()
+                    event.audioChunk = message.payload
+                    return .audioevent(event)
+                case "StreamClosedEvent":
+                    let value = try SmithyJSON.Reader.readFrom(message.payload, with: PollyClientTypes.StreamClosedEvent.read(from:))
+                    return .streamclosedevent(value)
+                default:
+                    return .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
+                }
+            case .exception(let params):
+                let makeError: (SmithyEventStreamsAPI.Message, SmithyEventStreamsAPI.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                    switch params.exceptionType {
+                    case "ValidationException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: ValidationException.read(from:))
+                        return value
+                    case "ServiceQuotaExceededException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: ServiceQuotaExceededException.read(from:))
+                        return value
+                    case "ServiceFailureException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: ServiceFailureException.read(from:))
+                        return value
+                    case "ThrottlingException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: ThrottlingException.read(from:))
+                        return value
+                    default:
+                        let httpResponse = SmithyHTTPAPI.HTTPResponse(body: .data(message.payload), statusCode: .ok)
+                        return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
+                    }
+                }
+                let error = try makeError(message, params)
+                throw error
+            case .error(let params):
+                let httpResponse = SmithyHTTPAPI.HTTPResponse(body: .data(message.payload), statusCode: .ok)
+                throw AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
+            case .unknown(messageType: let messageType):
+                throw Smithy.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
+            }
+        }
+    }
+}
+
+extension PollyClientTypes.AudioEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.AudioEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PollyClientTypes.AudioEvent()
+        value.audioChunk = try reader["AudioChunk"].readIfPresent()
+        return value
+    }
+}
+
+extension PollyClientTypes.CloseStreamEvent {
+
+    static func write(value: PollyClientTypes.CloseStreamEvent?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+}
+
+extension PollyClientTypes.FlushStreamConfiguration {
+
+    static func write(value: PollyClientTypes.FlushStreamConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Force"].write(value.force)
+    }
+}
+
 extension PollyClientTypes.Lexicon {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.Lexicon {
@@ -2507,6 +3114,38 @@ extension PollyClientTypes.LexiconDescription {
     }
 }
 
+extension ServiceFailureException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceFailureException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceFailureException()
+        value.properties.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotaExceededException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? .sdkUnknown("")
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension PollyClientTypes.StreamClosedEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.StreamClosedEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PollyClientTypes.StreamClosedEvent()
+        value.requestCharacters = try reader["RequestCharacters"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension PollyClientTypes.SynthesisTask {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.SynthesisTask {
@@ -2527,6 +3166,61 @@ extension PollyClientTypes.SynthesisTask {
         value.textType = try reader["TextType"].readIfPresent()
         value.voiceId = try reader["VoiceId"].readIfPresent()
         value.languageCode = try reader["LanguageCode"].readIfPresent()
+        return value
+    }
+}
+
+extension PollyClientTypes.TextEvent {
+
+    static func write(value: PollyClientTypes.TextEvent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FlushStreamConfiguration"].write(value.flushStreamConfiguration, with: PollyClientTypes.FlushStreamConfiguration.write(value:to:))
+        try writer["Text"].write(value.text)
+        try writer["TextType"].write(value.textType)
+    }
+}
+
+extension ThrottlingException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ThrottlingException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ThrottlingException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.throttlingReasons = try reader["throttlingReasons"].readListIfPresent(memberReadingClosure: PollyClientTypes.ThrottlingReason.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PollyClientTypes.ThrottlingReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.ThrottlingReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PollyClientTypes.ThrottlingReason()
+        value.reason = try reader["reason"].readIfPresent()
+        value.resource = try reader["resource"].readIfPresent()
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ValidationException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ValidationException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
+        value.properties.fields = try reader["fields"].readListIfPresent(memberReadingClosure: PollyClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PollyClientTypes.ValidationExceptionField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PollyClientTypes.ValidationExceptionField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

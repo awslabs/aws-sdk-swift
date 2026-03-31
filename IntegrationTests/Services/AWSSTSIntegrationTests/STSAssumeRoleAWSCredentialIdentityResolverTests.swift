@@ -7,6 +7,7 @@
 
 import Foundation
 import XCTest
+import AWSClientRuntime
 import AWSSTS
 import AWSIAM
 import AWSSDKIdentity
@@ -22,7 +23,7 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
 
     // STS client with only the STSAssumeRoleAWSCredentialIdentityResolver configured.
     private var assumeRoleStsClient: STSClient!
-    private var assumeRoleStsConfig: STSClient.STSClientConfiguration!
+    private var assumeRoleStsConfig: STSClient.STSClientConfig!
 
     // Used to create temporary role assumed by STS assume role credentials provider.
     private var iamClient: IAMClient!
@@ -59,7 +60,10 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
 
     // Confirm STS assume role credentials provider works by validating response.
     func testGetCallerIdentity() async throws {
-        // Retry to handle IAM eventual consistency
+        // Retry with exponential backoff to handle IAM eventual consistency
+        // Only retry on errors indicating credentials aren't propagated yet
+        // Worst-case wait: 5+10+20+20 = 55s
+        let retryableErrorCodes: Set<String> = ["InvalidClientTokenId", "AccessDenied"]
         var lastError: Error?
         let totalRetries = 5
         for attempt in 0..<totalRetries {
@@ -77,28 +81,27 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
                 XCTAssertNotEqual(arn, "")
                 return
             } catch {
+                guard let serviceError = error as? AWSServiceError,
+                      let code = serviceError.errorCode,
+                      retryableErrorCodes.contains(code) else {
+                    throw error
+                }
                 lastError = error
                 if attempt < (totalRetries-1) {
-                    try await Task.sleep(nanoseconds: 3_000_000_000) // 3 seconds
+                    // Exponential backoff: 5s, 10s, 20s, 20s
+                    let delay = min(5_000_000_000 * UInt64(1 << attempt), 20_000_000_000)
+                    try await Task.sleep(nanoseconds: delay)
                 }
             }
         }
         throw lastError!
     }
 
-    // Right now opentelemetry-swift doesnt support linux
     #if canImport(SmithyOpenTelemetry)
     // OpenTelemetry Tracing works as expected
     func testGetCallerIdentityWithOTelTracing() async throws {
         let inMemoryExporter = InMemoryExporter()
-
-        // TODO: Uncomment below and import at top of file when linux is supported by opentelemetry-swift
-        //#if os(Linux)
-        // On Apple platforms, the default is the activity based context manager. We want to opt-in to the structured concurrency based context manager instead.
-        // OpenTelemetry.registerDefaultConcurrencyContextManager()
-        //#endif
-
-        let config = try await STSClient.STSClientConfiguration(
+        let config = try await STSClient.STSClientConfig(
             region: "us-west-2",
             telemetryProvider: OpenTelemetrySwift.provider(spanExporter: inMemoryExporter)
         )
@@ -151,7 +154,7 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
             roleArn: roleArn,
             sessionName: roleSessionName
         )
-        assumeRoleStsConfig = try await STSClient.STSClientConfiguration(
+        assumeRoleStsConfig = try await STSClient.STSClientConfig(
             awsCredentialIdentityResolver: assumeRoleAWSCredentialIdentityResolver,
             region: region
         )
