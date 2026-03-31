@@ -1342,6 +1342,82 @@ extension OmicsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateConfiguration` operation on the `Omics` service.
+    ///
+    /// Create a new configuration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    public func createConfiguration(input: CreateConfigurationInput) async throws -> CreateConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "omics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateConfigurationInput, CreateConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateConfigurationInput, CreateConfigurationOutput>(keyPath: \.requestId))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateConfigurationInput, CreateConfigurationOutput>(CreateConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateConfigurationInput, CreateConfigurationOutput>(hostPrefix: "workflows-"))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateConfigurationInput, CreateConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateConfigurationInput, CreateConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConfigurationInput, CreateConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfigurationOutput>(CreateConfigurationOutput.httpOutput(from:), CreateConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfigurationInput, CreateConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Omics", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateConfigurationInput, CreateConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateConfigurationInput, CreateConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateConfigurationInput, CreateConfigurationOutput>(serviceID: serviceName, version: OmicsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Omics")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateMultipartReadSetUpload` operation on the `Omics` service.
     ///
     /// Initiates a multipart read set upload for uploading partitioned source files into a sequence store. You can directly import source files from an EC2 instance and other local compute, or from an S3 bucket. To separate these source files into parts, use the split operation. Each part cannot be larger than 100 MB. If the operation is successful, it provides an uploadId which is required by the UploadReadSetPart API operation to upload parts into a sequence store. To continue uploading a multipart read set into your sequence store, you must use the UploadReadSetPart API operation to upload each part individually following the steps below:
@@ -2263,6 +2339,78 @@ extension OmicsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Omics")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteBatch")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteConfiguration` operation on the `Omics` service.
+    ///
+    /// Delete an existing configuration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    public func deleteConfiguration(input: DeleteConfigurationInput) async throws -> DeleteConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "omics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteConfigurationInput, DeleteConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteConfigurationInput, DeleteConfigurationOutput>(DeleteConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConfigurationInput, DeleteConfigurationOutput>(hostPrefix: "workflows-"))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfigurationOutput>(DeleteConfigurationOutput.httpOutput(from:), DeleteConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfigurationInput, DeleteConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Omics", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConfigurationInput, DeleteConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConfigurationInput, DeleteConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConfigurationInput, DeleteConfigurationOutput>(serviceID: serviceName, version: OmicsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Omics")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3413,6 +3561,78 @@ extension OmicsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Omics")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetBatch")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetConfiguration` operation on the `Omics` service.
+    ///
+    /// Retrieve configuration details for specified name.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    public func getConfiguration(input: GetConfigurationInput) async throws -> GetConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "omics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetConfigurationInput, GetConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetConfigurationInput, GetConfigurationOutput>(GetConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConfigurationInput, GetConfigurationOutput>(hostPrefix: "workflows-"))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfigurationOutput>(GetConfigurationOutput.httpOutput(from:), GetConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfigurationInput, GetConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Omics", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetConfigurationInput, GetConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetConfigurationInput, GetConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConfigurationInput, GetConfigurationOutput>(serviceID: serviceName, version: OmicsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Omics")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5124,6 +5344,79 @@ extension OmicsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Omics")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListBatch")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListConfigurations` operation on the `Omics` service.
+    ///
+    /// List all configurations for the account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListConfigurationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    public func listConfigurations(input: ListConfigurationsInput) async throws -> ListConfigurationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listConfigurations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "omics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListConfigurationsInput, ListConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListConfigurationsInput, ListConfigurationsOutput>(ListConfigurationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListConfigurationsInput, ListConfigurationsOutput>(hostPrefix: "workflows-"))
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListConfigurationsInput, ListConfigurationsOutput>(ListConfigurationsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfigurationsOutput>(ListConfigurationsOutput.httpOutput(from:), ListConfigurationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigurationsInput, ListConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListConfigurationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Omics", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConfigurationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConfigurationsInput, ListConfigurationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListConfigurationsInput, ListConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListConfigurationsInput, ListConfigurationsOutput>(serviceID: serviceName, version: OmicsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Omics")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListConfigurations")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

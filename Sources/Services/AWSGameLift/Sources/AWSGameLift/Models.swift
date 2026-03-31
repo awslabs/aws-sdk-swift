@@ -6085,7 +6085,7 @@ extension GameLiftClientTypes {
     public struct UDPEndpoint: Swift.Sendable {
         /// The domain name of the UDP endpoint.
         public var domain: Swift.String?
-        /// The port number of the UDP endpoint.
+        /// The port number of the UDP endpoint. For Amazon GameLift Servers ping beacons, this is typically port 7770.
         public var port: Swift.Int?
 
         public init(
@@ -6102,7 +6102,7 @@ extension GameLiftClientTypes {
 
     /// Information about a UDP ping beacon that can be used to measure network latency between a player device and an Amazon GameLift Servers hosting location.
     public struct PingBeacon: Swift.Sendable {
-        /// The domain name and port of the UDP ping beacon.
+        /// The domain name and port of the UDP ping beacon. Your game client can send UDP messages to this endpoint and receive responses to measure network latency.
         public var udpEndpoint: GameLiftClientTypes.UDPEndpoint?
 
         public init(
@@ -6121,7 +6121,7 @@ extension GameLiftClientTypes {
         public var locationArn: Swift.String?
         /// The location's name.
         public var locationName: Swift.String?
-        /// Information about the UDP ping beacon for this location.
+        /// Information about the UDP ping beacon for this location. Ping beacons are fixed endpoints that you can use to measure network latency between a player device and an Amazon GameLift Servers hosting location.
         public var pingBeacon: GameLiftClientTypes.PingBeacon?
 
         public init(
@@ -6659,7 +6659,7 @@ public struct CreatePlayerSessionsOutput: Swift.Sendable {
 public struct CreateScriptInput: Swift.Sendable {
     /// A descriptive label that is associated with a script. Script names do not need to be unique. You can use [UpdateScript](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateScript.html) to change this value later.
     public var name: Swift.String?
-    /// The Node.js version used for execution of your Realtime script. The valid values are 10.x | 24.x. By default, NodeJsVersion is 10.x. This value cannot be updated later.
+    /// The Node.js version used for execution of your Realtime script. The valid values are 10.x | 24.x. By default, NodeJsVersion is 10.x. This value cannot be updated later. Node.js 10 will reach end of support on September 30, 2026. See more details in the [Node.js 10 FAQs](http://aws.amazon.com/gamelift/faq/nodejs10/). For migration guidance, see [ Migrating from Node.js 10 to 24](https://docs.aws.amazon.com/gamelift/latest/realtimeguide/realtime-script.html#realtime-script-nodejs-migration).
     public var nodeJsVersion: Swift.String?
     /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift Servers to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon GameLift Servers uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version.
     public var storageLocation: GameLiftClientTypes.S3Location?
@@ -6695,7 +6695,7 @@ extension GameLiftClientTypes {
         public var creationTime: Foundation.Date?
         /// A descriptive label that is associated with a script. Script names do not need to be unique.
         public var name: Swift.String?
-        /// The Node.js version used for execution of your Realtime script. The valid values are 10.x | 24.x. By default, NodeJsVersion is 10.x. This value cannot be updated later.
+        /// The Node.js version used for execution of your Realtime script. The valid values are 10.x | 24.x. By default, NodeJsVersion is 10.x. This value cannot be updated later. Node.js 10 will reach end of support on September 30, 2026. See more details in the [Node.js 10 FAQs](http://aws.amazon.com/gamelift/faq/nodejs10/). For migration guidance, see [ Migrating from Node.js 10 to 24](https://docs.aws.amazon.com/gamelift/latest/realtimeguide/realtime-script.html#realtime-script-nodejs-migration).
         public var nodeJsVersion: Swift.String?
         /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift Servers script resource and uniquely identifies it. ARNs are unique across all Regions. In a GameLift script ARN, the resource ID matches the ScriptId value.
         public var scriptArn: Swift.String?
@@ -9216,7 +9216,7 @@ extension GameLiftClientTypes {
     public struct MatchedPlayerSession: Swift.Sendable {
         /// A unique identifier for a player
         public var playerId: Swift.String?
-        /// A unique identifier for a player session
+        /// A unique identifier for a player session. PlayerSessionId will only be populated for player sessions that are in ACTIVE or RESERVED status when the ticket is completed.
         public var playerSessionId: Swift.String?
 
         public init(

@@ -2289,6 +2289,20 @@
                 "smithy.api#documentation": "<p>The source code configuration that specifies the location and details of the code to be executed.</p>"
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#CodeBasedEvaluatorConfig": {
+            "type": "union",
+            "members": {
+                "lambdaConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#LambdaEvaluatorConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The Lambda function configuration for code-based evaluation. </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p> Configuration for a code-based evaluator. Specify the Lambda function to use for evaluation. </p>"
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#CodeConfiguration": {
             "type": "structure",
             "members": {
@@ -2881,6 +2895,12 @@
                         "smithy.api#documentation": "<p>Environment variables to set in the AgentCore Runtime environment.</p>"
                     }
                 },
+                "filesystemConfigurations": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#FilesystemConfigurations",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The filesystem configurations to mount into the AgentCore Runtime. Use filesystem configurations to provide persistent storage to your AgentCore Runtime sessions.</p>"
+                    }
+                },
                 "tags": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#TagsMap",
                     "traits": {
@@ -3463,7 +3483,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p> Creates a custom evaluator for agent quality assessment. Custom evaluators use LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings to evaluate agent performance at tool call, trace, or session levels. </p>",
+                "smithy.api#documentation": "<p> Creates a custom evaluator for agent quality assessment. Custom evaluators can use either LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings, or code-based configurations with customer-managed Lambda functions to evaluate agent performance at tool call, trace, or session levels. </p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/evaluators/create",
@@ -3497,7 +3517,7 @@
                 "evaluatorConfig": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#EvaluatorConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p> The configuration for the evaluator, including LLM-as-a-Judge settings with instructions, rating scale, and model configuration. </p>",
+                        "smithy.api#documentation": "<p> The configuration for the evaluator. Specify either LLM-as-a-Judge settings with instructions, rating scale, and model configuration, or code-based settings with a customer-managed Lambda function. </p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -7341,6 +7361,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p> The LLM-as-a-Judge configuration that uses a language model to evaluate agent performance based on custom instructions and rating scales. </p>"
                     }
+                },
+                "codeBased": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#CodeBasedEvaluatorConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p> Configuration for a code-based evaluator that uses a customer-managed Lambda function to programmatically assess agent performance. </p>"
+                    }
                 }
             },
             "traits": {
@@ -7577,6 +7603,12 @@
                     "traits": {
                         "smithy.api#enumValue": "Custom"
                     }
+                },
+                "CODE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CustomCode"
+                    }
                 }
             }
         },
@@ -7603,6 +7635,32 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Contains extraction configuration information for a memory strategy.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#FilesystemConfiguration": {
+            "type": "union",
+            "members": {
+                "sessionStorage": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SessionStorageConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Configuration for session storage. Session storage provides persistent storage that is preserved across AgentCore Runtime session invocations.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Configuration for a filesystem that can be mounted into the AgentCore Runtime.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#FilesystemConfigurations": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#FilesystemConfiguration"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 1
+                }
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#Filter": {
@@ -8615,6 +8673,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Configuration for microVM Metadata Service (MMDS) settings for the AgentCore Runtime.</p>"
                     }
+                },
+                "filesystemConfigurations": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#FilesystemConfigurations",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The filesystem configurations mounted into the AgentCore Runtime.</p>"
+                    }
                 }
             },
             "traits": {
@@ -9206,7 +9270,7 @@
                 "evaluatorConfig": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#EvaluatorConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p> The configuration of the evaluator, including LLM-as-a-Judge settings for custom evaluators. </p>",
+                        "smithy.api#documentation": "<p> The configuration of the evaluator, including LLM-as-a-Judge or code-based settings. </p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -11237,6 +11301,37 @@
                 "smithy.api#pattern": "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$"
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#LambdaArn": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^arn:(aws[a-zA-Z-]*)?:lambda:([a-z]{2}(-gov)?-[a-z]+-\\d{1}):(\\d{12}):function:([a-zA-Z0-9-_.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#LambdaEvaluatorConfig": {
+            "type": "structure",
+            "members": {
+                "lambdaArn": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#LambdaArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The Amazon Resource Name (ARN) of the Lambda function that implements the evaluation logic. </p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "lambdaTimeoutInSeconds": {
+                    "target": "smithy.api#Integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The timeout in seconds for the Lambda function invocation. Defaults to 60. Must be between 1 and 300. </p>",
+                        "smithy.api#range": {
+                            "min": 1,
+                            "max": 300
+                        }
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p> Configuration for a Lambda function used as a code-based evaluator. </p>"
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#LambdaFunctionArn": {
             "type": "string",
             "traits": {
@@ -11733,6 +11828,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>A token to retrieve the next page of results.</p>",
                         "smithy.api#httpQuery": "nextToken"
+                    }
+                },
+                "name": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#BrowserProfileName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the browser profile to filter results by.</p>"
                     }
                 }
             },
@@ -13936,6 +14037,16 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Contains information for modifying a strategy configuration.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#MountPath": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 6,
+                    "max": 200
+                },
+                "smithy.api#pattern": "^/mnt/[a-zA-Z0-9._-]+/?$"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#Name": {
@@ -16361,6 +16472,21 @@
                 "smithy.api#documentation": "<p> The configuration that defines how agent sessions are detected and when they are considered complete for evaluation. </p>"
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#SessionStorageConfiguration": {
+            "type": "structure",
+            "members": {
+                "mountPath": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#MountPath",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The mount path for the session storage filesystem inside the AgentCore Runtime. The path must be under <code>/mnt</code> with exactly one subdirectory level (for example, <code>/mnt/data</code>).</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Configuration for a session storage filesystem mounted into the AgentCore Runtime. Session storage provides persistent storage that is preserved across AgentCore Runtime session invocations.</p>"
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#SetTokenVaultCMK": {
             "type": "operation",
             "input": {
@@ -17869,6 +17995,12 @@
                         "smithy.api#documentation": "<p>Updated environment variables to set in the AgentCore Runtime environment.</p>"
                     }
                 },
+                "filesystemConfigurations": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#FilesystemConfigurations",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The updated filesystem configurations to mount into the AgentCore Runtime.</p>"
+                    }
+                },
                 "clientToken": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#ClientToken",
                     "traits": {
@@ -18121,7 +18253,7 @@
                 "evaluatorConfig": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#EvaluatorConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p> The updated configuration for the evaluator, including LLM-as-a-Judge settings with instructions, rating scale, and model configuration. </p>"
+                        "smithy.api#documentation": "<p> The updated configuration for the evaluator. Specify either LLM-as-a-Judge settings with instructions, rating scale, and model configuration, or code-based settings with a customer-managed Lambda function. </p>"
                     }
                 },
                 "level": {
@@ -19416,12 +19548,12 @@
                 "optionalValue": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#Description",
                     "traits": {
-                        "smithy.api#documentation": "<p>Represents an optional value that is used to update the human-readable description of the resource. If set to null, it will clear the current description of the resource.</p>"
+                        "smithy.api#documentation": "<p>Represents an optional value that is used to update the human-readable description of the resource. If not specified, it will clear the current description of the resource.</p>"
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Respresents an optional value that can be provided to update the human-readable description of the resource. If the field is omitted from the request, it will leave the current decription value unchanged.</p>"
+                "smithy.api#documentation": "Wrapper for updating an optional Description field with PATCH semantics.\nWhen present in an update request, the description is replaced with optionalValue.\nWhen absent, the description is left unchanged.\nTo unset the description, include the wrapper with optionalValue not specified."
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#UserPreferenceConsolidationOverride": {

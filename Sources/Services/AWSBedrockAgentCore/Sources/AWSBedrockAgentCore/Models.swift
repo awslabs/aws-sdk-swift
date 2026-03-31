@@ -446,12 +446,12 @@ extension InvokeAgentRuntimeOutput: Swift.CustomDebugStringConvertible {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Request body for InvokeAgentRuntimeCommand
+    /// The request body structure for the InvokeAgentRuntimeCommand operation, containing the command to execute and optional configuration parameters.
     public struct InvokeAgentRuntimeCommandRequestBody: Swift.Sendable {
-        /// The command to execute in the runtime container
+        /// The shell command to execute on the agent runtime. This command is executed in the runtime environment and its output is streamed back to the caller.
         /// This member is required.
         public var command: Swift.String?
-        /// Command timeout in seconds (default: 300, min:1, max: 3600)
+        /// The maximum duration in seconds to wait for the command to complete. If the command execution exceeds this timeout, it will be terminated. Default is 300 seconds. Minimum is 1 second. Maximum is 3600 seconds.
         public var timeout: Swift.Int?
 
         public init(
@@ -464,25 +464,25 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
-/// Request for InvokeAgentRuntimeCommand operation
+/// Request for InvokeAgentRuntimeCommand operation.
 public struct InvokeAgentRuntimeCommandInput: Swift.Sendable {
     /// The desired MIME type for the response from the agent runtime command. This tells the agent runtime what format to use for the response data. Common values include application/json for JSON data.
     public var accept: Swift.String?
-    /// Account ID (12 digits)
+    /// The identifier of the Amazon Web Services account for the agent runtime resource. This parameter is required when you specify an agent ID instead of the full ARN for agentRuntimeArn.
     public var accountId: Swift.String?
-    /// ARN of the agent runtime
+    /// The Amazon Resource Name (ARN) of the agent runtime on which to execute the command. This identifies the specific agent runtime environment where the command will run.
     /// This member is required.
     public var agentRuntimeArn: Swift.String?
     /// Additional context information for distributed tracing.
     public var baggage: Swift.String?
-    /// Request body containing command and timeout
+    /// The request body containing the command to execute and optional configuration parameters such as timeout settings.
     /// This member is required.
     public var body: BedrockAgentCoreClientTypes.InvokeAgentRuntimeCommandRequestBody?
     /// The MIME type of the input data in the request payload. This tells the agent runtime how to interpret the payload data. Common values include application/json for JSON data.
     public var contentType: Swift.String?
-    /// Version or alias qualifier
+    /// The qualifier to use for the agent runtime. This is an endpoint name that points to a specific version. If not specified, Amazon Bedrock AgentCore uses the default endpoint of the agent runtime.
     public var qualifier: Swift.String?
-    /// Runtime session identifier
+    /// The unique identifier of the runtime session in which to execute the command. This session ID is used to maintain state and context across multiple command invocations.
     public var runtimeSessionId: Swift.String?
     /// The trace identifier for request tracking.
     public var traceId: Swift.String?
@@ -520,11 +520,11 @@ public struct InvokeAgentRuntimeCommandInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Content event containing stdout or stderr output
+    /// An event that contains incremental output from a command execution. This event streams standard output and standard error content as it becomes available during command execution.
     public struct ContentDeltaEvent: Swift.Sendable {
-        /// Standard error content
+        /// The standard error content from the command execution. This field contains the incremental output written to stderr by the executing command.
         public var stderr: Swift.String?
-        /// Standard output content
+        /// The standard output content from the command execution. This field contains the incremental output written to stdout by the executing command.
         public var stdout: Swift.String?
 
         public init(
@@ -539,7 +539,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// First event indicating command execution has started
+    /// An event that signals the start of content streaming from a command execution. This event is sent when the command begins producing output.
     public struct ContentStartEvent: Swift.Sendable {
 
         public init() { }
@@ -577,12 +577,12 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Final event indicating command execution has completed
+    /// An event that signals the completion of a command execution. This event contains the final status and exit code of the executed command.
     public struct ContentStopEvent: Swift.Sendable {
-        /// Exit code: 0 = success, -1 = platform error, >0 = command error
+        /// The exit code returned by the executed command. An exit code of 0 indicates successful execution, -1 indicates a platform error, and values greater than 0 indicate command-specific errors.
         /// This member is required.
         public var exitCode: Swift.Int?
-        /// Execution status
+        /// The final status of the command execution. Valid values are COMPLETED for successful completion or TIMED_OUT if the command exceeded the specified timeout.
         /// This member is required.
         public var status: BedrockAgentCoreClientTypes.CommandExecutionStatus?
 
@@ -598,13 +598,13 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Response chunk containing exactly one of: contentStart, contentDelta, or contentStop
+    /// A structure representing a response chunk that contains exactly one of the possible event types: contentStart, contentDelta, or contentStop.
     public struct ResponseChunk: Swift.Sendable {
-        /// Middle chunks - stdout/stderr output
+        /// An event containing incremental output (stdout or stderr) from the command execution. These are the middle chunks.
         public var contentDelta: BedrockAgentCoreClientTypes.ContentDeltaEvent?
-        /// First chunk - indicates command execution has started
+        /// An event indicating the start of content streaming from the command execution. This is the first chunk received.
         public var contentStart: BedrockAgentCoreClientTypes.ContentStartEvent?
-        /// Last chunk - indicates command execution has completed
+        /// An event indicating the completion of the command execution, including the exit code and final status. This is the last chunk received.
         public var contentStop: BedrockAgentCoreClientTypes.ContentStopEvent?
 
         public init(
@@ -621,26 +621,26 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Streaming output for InvokeAgentRuntimeCommand operation Delivers typed events: contentStart (first), contentDelta (middle), contentStop (last)
+    /// The streaming output union for the InvokeAgentRuntimeCommand operation. This union delivers typed events: contentStart (first), contentDelta (middle), and contentStop (last).
     public enum InvokeAgentRuntimeCommandStreamOutput: Swift.Sendable {
-        /// Response chunk containing command execution events
+        /// A response chunk containing command execution events such as content start, content delta, or content stop events.
         case chunk(BedrockAgentCoreClientTypes.ResponseChunk)
         case sdkUnknown(Swift.String)
     }
 }
 
-/// Response for InvokeAgentRuntimeCommand operation
+/// Response for InvokeAgentRuntimeCommand operation.
 public struct InvokeAgentRuntimeCommandOutput: Swift.Sendable {
     /// Additional context information for distributed tracing.
     public var baggage: Swift.String?
     /// The MIME type of the response data. This indicates how to interpret the response data. Common values include application/json for JSON data.
     /// This member is required.
     public var contentType: Swift.String?
-    /// Runtime session identifier
+    /// The unique identifier of the runtime session in which the command was executed.
     public var runtimeSessionId: Swift.String?
     /// The HTTP status code of the response. A status code of 200 indicates a successful operation. Other status codes indicate various error conditions.
     public var statusCode: Swift.Int?
-    /// Streaming output containing command execution events
+    /// The streaming output from the command execution. This stream contains events that provide real-time updates including standard output, standard error, and completion status.
     /// This member is required.
     public var stream: AsyncThrowingStream<BedrockAgentCoreClientTypes.InvokeAgentRuntimeCommandStreamOutput, Swift.Error>?
     /// The trace identifier for request tracking.
@@ -1930,34 +1930,11 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// The specification of which trace or span IDs to evaluate within the provided input data. Allows precise targeting of evaluation at different levels: tool calls, traces, or sessions.
-    public enum EvaluationTarget: Swift.Sendable {
-        /// The list of specific span IDs to evaluate within the provided traces. Used to target evaluation at individual tool calls or specific operations within the agent's execution flow.
-        case spanids([Swift.String])
-        /// The list of trace IDs to evaluate, representing complete request-response interactions. Used to evaluate entire conversation turns or specific agent interactions within a session.
-        case traceids([Swift.String])
+    /// A content block for ground truth data in evaluation reference inputs. Supports text content for expected responses and assertions.
+    public enum EvaluationContent: Swift.Sendable {
+        /// The text content of the ground truth data. Used for expected response text and assertion statements.
+        case text(Swift.String)
         case sdkUnknown(Swift.String)
-    }
-}
-
-public struct EvaluateInput: Swift.Sendable {
-    /// The input data containing agent session spans to be evaluated. Includes a list of spans in OpenTelemetry format from supported frameworks like Strands (AgentCore Runtime) or LangGraph with OpenInference instrumentation.
-    /// This member is required.
-    public var evaluationInput: BedrockAgentCoreClientTypes.EvaluationInput?
-    /// The specific trace or span IDs to evaluate within the provided input. Allows targeting evaluation at different levels: individual tool calls, single request-response interactions (traces), or entire conversation sessions.
-    public var evaluationTarget: BedrockAgentCoreClientTypes.EvaluationTarget?
-    /// The unique identifier of the evaluator to use for scoring. Can be a built-in evaluator (e.g., Builtin.Helpfulness, Builtin.Correctness) or a custom evaluator ARN created through the control plane API.
-    /// This member is required.
-    public var evaluatorId: Swift.String?
-
-    public init(
-        evaluationInput: BedrockAgentCoreClientTypes.EvaluationInput? = nil,
-        evaluationTarget: BedrockAgentCoreClientTypes.EvaluationTarget? = nil,
-        evaluatorId: Swift.String? = nil
-    ) {
-        self.evaluationInput = evaluationInput
-        self.evaluationTarget = evaluationTarget
-        self.evaluatorId = evaluatorId
     }
 }
 
@@ -1993,6 +1970,91 @@ extension BedrockAgentCoreClientTypes {
         case spancontext(BedrockAgentCoreClientTypes.SpanContext)
         case sdkUnknown(Swift.String)
     }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The expected tool call trajectory for trajectory-based evaluation.
+    public struct EvaluationExpectedTrajectory: Swift.Sendable {
+        /// The list of tool names representing the expected tool call sequence.
+        public var toolNames: [Swift.String]?
+
+        public init(
+            toolNames: [Swift.String]? = nil
+        ) {
+            self.toolNames = toolNames
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A reference input containing ground truth data for evaluation, scoped to a specific context level (session or trace) through its span context.
+    public struct EvaluationReferenceInput: Swift.Sendable {
+        /// A list of assertion statements for session-level evaluation. Each assertion describes an expected behavior or outcome the agent should demonstrate during the session.
+        public var assertions: [BedrockAgentCoreClientTypes.EvaluationContent]?
+        /// The contextual information associated with an evaluation, including span context details that identify the specific traces and sessions being evaluated within the agent's execution flow.
+        /// This member is required.
+        public var context: BedrockAgentCoreClientTypes.Context?
+        /// The expected response for trace-level evaluation. Built-in evaluators that support this field compare the agent's actual response against this value for assessment. Custom evaluators can access it through the {expected_response} placeholder in their instructions.
+        public var expectedResponse: BedrockAgentCoreClientTypes.EvaluationContent?
+        /// The expected tool call sequence for session-level trajectory evaluation. Contains a list of tool names representing the tools the agent is expected to invoke.
+        public var expectedTrajectory: BedrockAgentCoreClientTypes.EvaluationExpectedTrajectory?
+
+        public init(
+            assertions: [BedrockAgentCoreClientTypes.EvaluationContent]? = nil,
+            context: BedrockAgentCoreClientTypes.Context? = nil,
+            expectedResponse: BedrockAgentCoreClientTypes.EvaluationContent? = nil,
+            expectedTrajectory: BedrockAgentCoreClientTypes.EvaluationExpectedTrajectory? = nil
+        ) {
+            self.assertions = assertions
+            self.context = context
+            self.expectedResponse = expectedResponse
+            self.expectedTrajectory = expectedTrajectory
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The specification of which trace or span IDs to evaluate within the provided input data. Allows precise targeting of evaluation at different levels: tool calls, traces, or sessions.
+    public enum EvaluationTarget: Swift.Sendable {
+        /// The list of specific span IDs to evaluate within the provided traces. Used to target evaluation at individual tool calls or specific operations within the agent's execution flow.
+        case spanids([Swift.String])
+        /// The list of trace IDs to evaluate, representing complete request-response interactions. Used to evaluate entire conversation turns or specific agent interactions within a session.
+        case traceids([Swift.String])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct EvaluateInput: Swift.Sendable {
+    /// The input data containing agent session spans to be evaluated. Includes a list of spans in OpenTelemetry format from supported frameworks like Strands (AgentCore Runtime) or LangGraph with OpenInference instrumentation.
+    /// This member is required.
+    public var evaluationInput: BedrockAgentCoreClientTypes.EvaluationInput?
+    /// Ground truth data to compare against agent responses during evaluation. Allows to provide expected responses, assertions, and expected tool trajectories at different evaluation levels. Session-level reference inputs apply to the entire conversation, while trace-level reference inputs target specific request-response interactions identified by trace ID.
+    public var evaluationReferenceInputs: [BedrockAgentCoreClientTypes.EvaluationReferenceInput]?
+    /// The specific trace or span IDs to evaluate within the provided input. Allows targeting evaluation at different levels: individual tool calls, single request-response interactions (traces), or entire conversation sessions.
+    public var evaluationTarget: BedrockAgentCoreClientTypes.EvaluationTarget?
+    /// The unique identifier of the evaluator to use for scoring. Can be a built-in evaluator (e.g., Builtin.Helpfulness, Builtin.Correctness) or a custom evaluator Id created through the control plane API.
+    /// This member is required.
+    public var evaluatorId: Swift.String?
+
+    public init(
+        evaluationInput: BedrockAgentCoreClientTypes.EvaluationInput? = nil,
+        evaluationReferenceInputs: [BedrockAgentCoreClientTypes.EvaluationReferenceInput]? = nil,
+        evaluationTarget: BedrockAgentCoreClientTypes.EvaluationTarget? = nil,
+        evaluatorId: Swift.String? = nil
+    ) {
+        self.evaluationInput = evaluationInput
+        self.evaluationReferenceInputs = evaluationReferenceInputs
+        self.evaluationTarget = evaluationTarget
+        self.evaluatorId = evaluatorId
+    }
+}
+
+extension EvaluateInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EvaluateInput(evaluationInput: \(Swift.String(describing: evaluationInput)), evaluationTarget: \(Swift.String(describing: evaluationTarget)), evaluatorId: \(Swift.String(describing: evaluatorId)), evaluationReferenceInputs: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreClientTypes {
@@ -2040,6 +2102,8 @@ extension BedrockAgentCoreClientTypes {
         public var evaluatorName: Swift.String?
         /// The detailed explanation provided by the evaluator describing the reasoning behind the assigned score. This qualitative feedback helps understand why specific ratings were given and provides actionable insights for improvement.
         public var explanation: Swift.String?
+        /// The list of reference input field names that were provided but not used by the evaluator. Helps identify which ground truth data was not consumed during evaluation.
+        public var ignoredReferenceInputFields: [Swift.String]?
         /// The categorical label assigned by the evaluator when using a categorical rating scale. This provides a human-readable description of the evaluation result (e.g., "Excellent", "Good", "Poor") corresponding to the numerical value. For numerical scales, this field is optional and provides a natural language explanation of what the value means (e.g., value 0.5 = "Somewhat Helpful").
         public var label: Swift.String?
         /// The token consumption statistics for this evaluation, including input tokens, output tokens, and total tokens used by the underlying language model during the evaluation process.
@@ -2055,6 +2119,7 @@ extension BedrockAgentCoreClientTypes {
             evaluatorId: Swift.String? = nil,
             evaluatorName: Swift.String? = nil,
             explanation: Swift.String? = nil,
+            ignoredReferenceInputFields: [Swift.String]? = nil,
             label: Swift.String? = nil,
             tokenUsage: BedrockAgentCoreClientTypes.TokenUsage? = nil,
             value: Swift.Double? = nil
@@ -2066,6 +2131,7 @@ extension BedrockAgentCoreClientTypes {
             self.evaluatorId = evaluatorId
             self.evaluatorName = evaluatorName
             self.explanation = explanation
+            self.ignoredReferenceInputFields = ignoredReferenceInputFields
             self.label = label
             self.tokenUsage = tokenUsage
             self.value = value
@@ -2075,7 +2141,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes.EvaluationResultContent: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EvaluationResultContent(context: \(Swift.String(describing: context)), errorCode: \(Swift.String(describing: errorCode)), errorMessage: \(Swift.String(describing: errorMessage)), evaluatorArn: \(Swift.String(describing: evaluatorArn)), evaluatorId: \(Swift.String(describing: evaluatorId)), evaluatorName: \(Swift.String(describing: evaluatorName)), label: \(Swift.String(describing: label)), tokenUsage: \(Swift.String(describing: tokenUsage)), value: \(Swift.String(describing: value)), explanation: \"CONTENT_REDACTED\")"}
+        "EvaluationResultContent(context: \(Swift.String(describing: context)), errorCode: \(Swift.String(describing: errorCode)), errorMessage: \(Swift.String(describing: errorMessage)), evaluatorArn: \(Swift.String(describing: evaluatorArn)), evaluatorId: \(Swift.String(describing: evaluatorId)), evaluatorName: \(Swift.String(describing: evaluatorName)), ignoredReferenceInputFields: \(Swift.String(describing: ignoredReferenceInputFields)), label: \(Swift.String(describing: label)), tokenUsage: \(Swift.String(describing: tokenUsage)), value: \(Swift.String(describing: value)), explanation: \"CONTENT_REDACTED\")"}
 }
 
 public struct EvaluateOutput: Swift.Sendable {
@@ -2432,6 +2498,38 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    public enum LanguageRuntime: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deno
+        case nodejs
+        case python
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LanguageRuntime] {
+            return [
+                .deno,
+                .nodejs,
+                .python
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deno: return "deno"
+            case .nodejs: return "nodejs"
+            case .python: return "python"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// The collection of arguments that specify the operation to perform and its parameters when invoking a tool in Amazon Bedrock AgentCore. Different tools require different arguments, and this structure provides a flexible way to pass the appropriate arguments to each tool type.
     public struct ToolArguments: Swift.Sendable {
         /// Whether to clear the context for the tool.
@@ -2444,12 +2542,14 @@ extension BedrockAgentCoreClientTypes {
         public var content: [BedrockAgentCoreClientTypes.InputContentBlock]?
         /// The directory path for the tool operation.
         public var directoryPath: Swift.String?
-        /// The programming language of the code to execute. This tells the code interpreter which language runtime to use for execution. Common values include 'python', 'javascript', and 'r'.
+        /// The programming language of the code to execute. This tells the code interpreter which language runtime to use for execution.
         public var language: BedrockAgentCoreClientTypes.ProgrammingLanguage?
         /// The path for the tool operation.
         public var path: Swift.String?
         /// The paths for the tool operation.
         public var paths: [Swift.String]?
+        /// The runtime environment to use for code execution. If not specified, defaults to deno for JavaScript and TypeScript.
+        public var runtime: BedrockAgentCoreClientTypes.LanguageRuntime?
         /// The identifier of the task for the tool operation.
         public var taskId: Swift.String?
 
@@ -2462,6 +2562,7 @@ extension BedrockAgentCoreClientTypes {
             language: BedrockAgentCoreClientTypes.ProgrammingLanguage? = nil,
             path: Swift.String? = nil,
             paths: [Swift.String]? = nil,
+            runtime: BedrockAgentCoreClientTypes.LanguageRuntime? = nil,
             taskId: Swift.String? = nil
         ) {
             self.clearContext = clearContext
@@ -2472,6 +2573,7 @@ extension BedrockAgentCoreClientTypes {
             self.language = language
             self.path = path
             self.paths = paths
+            self.runtime = runtime
             self.taskId = taskId
         }
     }
@@ -4993,6 +5095,7 @@ extension EvaluateInput {
     static func write(value: EvaluateInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["evaluationInput"].write(value.evaluationInput, with: BedrockAgentCoreClientTypes.EvaluationInput.write(value:to:))
+        try writer["evaluationReferenceInputs"].writeList(value.evaluationReferenceInputs, memberWritingClosure: BedrockAgentCoreClientTypes.EvaluationReferenceInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["evaluationTarget"].write(value.evaluationTarget, with: BedrockAgentCoreClientTypes.EvaluationTarget.write(value:to:))
     }
 }
@@ -7095,6 +7198,16 @@ extension BedrockAgentCoreClientTypes.ContentStopEvent {
 
 extension BedrockAgentCoreClientTypes.Context {
 
+    static func write(value: BedrockAgentCoreClientTypes.Context?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .spancontext(spancontext):
+                try writer["spanContext"].write(spancontext, with: BedrockAgentCoreClientTypes.SpanContext.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.Context {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -7124,6 +7237,27 @@ extension BedrockAgentCoreClientTypes.Conversational {
     }
 }
 
+extension BedrockAgentCoreClientTypes.EvaluationContent {
+
+    static func write(value: BedrockAgentCoreClientTypes.EvaluationContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .text(text):
+                try writer["text"].write(text)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.EvaluationExpectedTrajectory {
+
+    static func write(value: BedrockAgentCoreClientTypes.EvaluationExpectedTrajectory?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["toolNames"].writeList(value.toolNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension BedrockAgentCoreClientTypes.EvaluationInput {
 
     static func write(value: BedrockAgentCoreClientTypes.EvaluationInput?, to writer: SmithyJSON.Writer) throws {
@@ -7134,6 +7268,17 @@ extension BedrockAgentCoreClientTypes.EvaluationInput {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.EvaluationReferenceInput {
+
+    static func write(value: BedrockAgentCoreClientTypes.EvaluationReferenceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assertions"].writeList(value.assertions, memberWritingClosure: BedrockAgentCoreClientTypes.EvaluationContent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["context"].write(value.context, with: BedrockAgentCoreClientTypes.Context.write(value:to:))
+        try writer["expectedResponse"].write(value.expectedResponse, with: BedrockAgentCoreClientTypes.EvaluationContent.write(value:to:))
+        try writer["expectedTrajectory"].write(value.expectedTrajectory, with: BedrockAgentCoreClientTypes.EvaluationExpectedTrajectory.write(value:to:))
     }
 }
 
@@ -7152,6 +7297,7 @@ extension BedrockAgentCoreClientTypes.EvaluationResultContent {
         value.tokenUsage = try reader["tokenUsage"].readIfPresent(with: BedrockAgentCoreClientTypes.TokenUsage.read(from:))
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         value.errorCode = try reader["errorCode"].readIfPresent()
+        value.ignoredReferenceInputFields = try reader["ignoredReferenceInputFields"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7735,6 +7881,13 @@ extension BedrockAgentCoreClientTypes.SessionSummary {
 
 extension BedrockAgentCoreClientTypes.SpanContext {
 
+    static func write(value: BedrockAgentCoreClientTypes.SpanContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sessionId"].write(value.sessionId)
+        try writer["spanId"].write(value.spanId)
+        try writer["traceId"].write(value.traceId)
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.SpanContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreClientTypes.SpanContext()
@@ -7792,6 +7945,7 @@ extension BedrockAgentCoreClientTypes.ToolArguments {
         try writer["language"].write(value.language)
         try writer["path"].write(value.path)
         try writer["paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["runtime"].write(value.runtime)
         try writer["taskId"].write(value.taskId)
     }
 }

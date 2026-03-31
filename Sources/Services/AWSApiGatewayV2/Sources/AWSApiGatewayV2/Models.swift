@@ -1371,6 +1371,8 @@ extension ApiGatewayV2ClientTypes {
     /// Represents a publish status.
     public enum PublishStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
+        case disableFailed
+        case disableInProgress
         case published
         case publishFailed
         case publishInProgress
@@ -1379,6 +1381,8 @@ extension ApiGatewayV2ClientTypes {
         public static var allCases: [PublishStatus] {
             return [
                 .disabled,
+                .disableFailed,
+                .disableInProgress,
                 .published,
                 .publishFailed,
                 .publishInProgress
@@ -1393,6 +1397,8 @@ extension ApiGatewayV2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .disabled: return "DISABLED"
+            case .disableFailed: return "DISABLE_FAILED"
+            case .disableInProgress: return "DISABLE_IN_PROGRESS"
             case .published: return "PUBLISHED"
             case .publishFailed: return "PUBLISH_FAILED"
             case .publishInProgress: return "PUBLISH_IN_PROGRESS"

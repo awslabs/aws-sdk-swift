@@ -105,6 +105,11 @@ public struct DeleteLogStreamOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteLookupTableOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteMetricFilterOutput: Swift.Sendable {
 
     public init() { }
@@ -1766,6 +1771,50 @@ public struct CreateLogStreamInput: Swift.Sendable {
     }
 }
 
+public struct CreateLookupTableInput: Swift.Sendable {
+    /// A description of the lookup table. The description can be up to 1024 characters long.
+    public var description: Swift.String?
+    /// The ARN of the KMS key to use to encrypt the lookup table data. If you don't specify a key, the data is encrypted with an Amazon Web Services-owned key.
+    public var kmsKeyId: Swift.String?
+    /// The name of the lookup table. The name must be unique within your account and Region. The name can contain only alphanumeric characters and underscores, and can be up to 256 characters long.
+    /// This member is required.
+    public var lookupTableName: Swift.String?
+    /// The CSV content of the lookup table. The first row must be a header row with column names. The content must use UTF-8 encoding and not exceed 10 MB.
+    /// This member is required.
+    public var tableBody: Swift.String?
+    /// A list of key-value pairs to associate with the lookup table. You can associate as many as 50 tags with a lookup table. Tags can help you organize and categorize your resources.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        description: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        lookupTableName: Swift.String? = nil,
+        tableBody: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.description = description
+        self.kmsKeyId = kmsKeyId
+        self.lookupTableName = lookupTableName
+        self.tableBody = tableBody
+        self.tags = tags
+    }
+}
+
+public struct CreateLookupTableOutput: Swift.Sendable {
+    /// The time when the lookup table was created, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+    public var createdAt: Swift.Int?
+    /// The ARN of the lookup table that was created.
+    public var lookupTableArn: Swift.String?
+
+    public init(
+        createdAt: Swift.Int? = nil,
+        lookupTableArn: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.lookupTableArn = lookupTableArn
+    }
+}
+
 extension CloudWatchLogsClientTypes {
 
     /// Configuration for Amazon S3 destination where scheduled query results are delivered.
@@ -1773,15 +1822,23 @@ extension CloudWatchLogsClientTypes {
         /// The Amazon S3 URI where query results are delivered. Must be a valid S3 URI format.
         /// This member is required.
         public var destinationIdentifier: Swift.String?
+        /// The Amazon Resource Name (ARN) of the KMS encryption key. Must belong to the same AWS Region as the destination Amazon S3 bucket.
+        public var kmsKeyId: Swift.String?
+        /// The AWS accountId for the bucket owning account.
+        public var ownerAccountId: Swift.String?
         /// The ARN of the IAM role that grants permissions to write query results to the specified Amazon S3 destination.
         /// This member is required.
         public var roleArn: Swift.String?
 
         public init(
             destinationIdentifier: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil,
+            ownerAccountId: Swift.String? = nil,
             roleArn: Swift.String? = nil
         ) {
             self.destinationIdentifier = destinationIdentifier
+            self.kmsKeyId = kmsKeyId
+            self.ownerAccountId = ownerAccountId
             self.roleArn = roleArn
         }
     }
@@ -1877,7 +1934,7 @@ public struct CreateScheduledQueryInput: Swift.Sendable {
     /// The name of the scheduled query. The name must be unique within your account and region. Valid characters are alphanumeric characters, hyphens, underscores, and periods. Length must be between 1 and 255 characters.
     /// This member is required.
     public var name: Swift.String?
-    /// The query language to use for the scheduled query. Valid values are LogsQL, PPL, and SQL.
+    /// The query language to use for the scheduled query. Valid values are CWLI, PPL, and SQL.
     /// This member is required.
     public var queryLanguage: CloudWatchLogsClientTypes.QueryLanguage?
     /// The query string to execute. This is the same query syntax used in CloudWatch Logs Insights. Maximum length is 10,000 characters.
@@ -2278,6 +2335,18 @@ public struct DeleteLogStreamInput: Swift.Sendable {
     ) {
         self.logGroupName = logGroupName
         self.logStreamName = logStreamName
+    }
+}
+
+public struct DeleteLookupTableInput: Swift.Sendable {
+    /// The ARN of the lookup table to delete.
+    /// This member is required.
+    public var lookupTableArn: Swift.String?
+
+    public init(
+        lookupTableArn: Swift.String? = nil
+    ) {
+        self.lookupTableArn = lookupTableArn
     }
 }
 
@@ -3551,6 +3620,83 @@ public struct DescribeLogStreamsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeLookupTablesInput: Swift.Sendable {
+    /// A prefix to filter lookup tables by name. Only tables whose names start with this prefix are returned. If you don't specify a prefix, all tables in the account and Region are returned.
+    public var lookupTableNamePrefix: Swift.String?
+    /// The maximum number of lookup tables to return in the response. The default value is 50 and the maximum value is 100.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of items to return. (You received this token from a previous call.)
+    public var nextToken: Swift.String?
+
+    public init(
+        lookupTableNamePrefix: Swift.String? = nil,
+        maxResults: Swift.Int? = 0,
+        nextToken: Swift.String? = nil
+    ) {
+        self.lookupTableNamePrefix = lookupTableNamePrefix
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// Contains metadata about a lookup table returned by DescribeLookupTables.
+    public struct LookupTable: Swift.Sendable {
+        /// The description of the lookup table.
+        public var description: Swift.String?
+        /// The ARN of the KMS key used to encrypt the lookup table data, if applicable.
+        public var kmsKeyId: Swift.String?
+        /// The time when the lookup table was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public var lastUpdatedTime: Swift.Int?
+        /// The ARN of the lookup table.
+        public var lookupTableArn: Swift.String?
+        /// The name of the lookup table.
+        public var lookupTableName: Swift.String?
+        /// The number of data rows in the lookup table, excluding the header row.
+        public var recordsCount: Swift.Int?
+        /// The size of the lookup table in bytes.
+        public var sizeBytes: Swift.Int?
+        /// The column headers from the first row of the CSV file.
+        public var tableFields: [Swift.String]?
+
+        public init(
+            description: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil,
+            lastUpdatedTime: Swift.Int? = nil,
+            lookupTableArn: Swift.String? = nil,
+            lookupTableName: Swift.String? = nil,
+            recordsCount: Swift.Int? = nil,
+            sizeBytes: Swift.Int? = nil,
+            tableFields: [Swift.String]? = nil
+        ) {
+            self.description = description
+            self.kmsKeyId = kmsKeyId
+            self.lastUpdatedTime = lastUpdatedTime
+            self.lookupTableArn = lookupTableArn
+            self.lookupTableName = lookupTableName
+            self.recordsCount = recordsCount
+            self.sizeBytes = sizeBytes
+            self.tableFields = tableFields
+        }
+    }
+}
+
+public struct DescribeLookupTablesOutput: Swift.Sendable {
+    /// An array of structures, where each structure contains metadata about one lookup table.
+    public var lookupTables: [CloudWatchLogsClientTypes.LookupTable]?
+    /// The token to use when requesting the next set of items.
+    public var nextToken: Swift.String?
+
+    public init(
+        lookupTables: [CloudWatchLogsClientTypes.LookupTable]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.lookupTables = lookupTables
+        self.nextToken = nextToken
+    }
+}
+
 public struct DescribeMetricFiltersInput: Swift.Sendable {
     /// The prefix to match. CloudWatch Logs uses the value that you set here only if you also include the logGroupName parameter in your request.
     public var filterNamePrefix: Swift.String?
@@ -3928,6 +4074,30 @@ public struct DescribeQueryDefinitionsInput: Swift.Sendable {
 
 extension CloudWatchLogsClientTypes {
 
+    /// This structure defines a query parameter for a saved CloudWatch Logs Insights query definition. Query parameters are supported only for Logs Insights QL queries. They are placeholder variables that you can reference in a query string using the {{parameterName}} syntax. Each parameter can include a default value and a description.
+    public struct QueryParameter: Swift.Sendable {
+        /// The default value to use for this query parameter if no value is supplied at execution time.
+        public var defaultValue: Swift.String?
+        /// A description of the query parameter that explains its purpose or expected values.
+        public var description: Swift.String?
+        /// The name of the query parameter. A query parameter name must start with a letter or underscore, and contain only letters, digits, and underscores.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            defaultValue: Swift.String? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.defaultValue = defaultValue
+            self.description = description
+            self.name = name
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
     /// This structure contains details about a saved CloudWatch Logs Insights query definition.
     public struct QueryDefinition: Swift.Sendable {
         /// The date that the query definition was most recently modified.
@@ -3936,6 +4106,8 @@ extension CloudWatchLogsClientTypes {
         public var logGroupNames: [Swift.String]?
         /// The name of the query definition.
         public var name: Swift.String?
+        /// If this query definition contains a list of query parameters that define placeholder variables for the query string, that list appears here.
+        public var parameters: [CloudWatchLogsClientTypes.QueryParameter]?
         /// The unique ID of the query definition.
         public var queryDefinitionId: Swift.String?
         /// The query language used for this query. For more information about the query languages that CloudWatch Logs supports, see [Supported query languages](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData_Languages.html).
@@ -3947,6 +4119,7 @@ extension CloudWatchLogsClientTypes {
             lastModified: Swift.Int? = nil,
             logGroupNames: [Swift.String]? = nil,
             name: Swift.String? = nil,
+            parameters: [CloudWatchLogsClientTypes.QueryParameter]? = nil,
             queryDefinitionId: Swift.String? = nil,
             queryLanguage: CloudWatchLogsClientTypes.QueryLanguage? = nil,
             queryString: Swift.String? = nil
@@ -3954,6 +4127,7 @@ extension CloudWatchLogsClientTypes {
             self.lastModified = lastModified
             self.logGroupNames = logGroupNames
             self.name = name
+            self.parameters = parameters
             self.queryDefinitionId = queryDefinitionId
             self.queryLanguage = queryLanguage
             self.queryString = queryString
@@ -5339,6 +5513,53 @@ public struct GetLogRecordOutput: Swift.Sendable {
         logRecord: [Swift.String: Swift.String]? = nil
     ) {
         self.logRecord = logRecord
+    }
+}
+
+public struct GetLookupTableInput: Swift.Sendable {
+    /// The ARN of the lookup table to retrieve.
+    /// This member is required.
+    public var lookupTableArn: Swift.String?
+
+    public init(
+        lookupTableArn: Swift.String? = nil
+    ) {
+        self.lookupTableArn = lookupTableArn
+    }
+}
+
+public struct GetLookupTableOutput: Swift.Sendable {
+    /// The description of the lookup table.
+    public var description: Swift.String?
+    /// The ARN of the KMS key used to encrypt the lookup table data, if applicable.
+    public var kmsKeyId: Swift.String?
+    /// The time when the lookup table was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+    public var lastUpdatedTime: Swift.Int?
+    /// The ARN of the lookup table.
+    public var lookupTableArn: Swift.String?
+    /// The name of the lookup table.
+    public var lookupTableName: Swift.String?
+    /// The size of the lookup table in bytes.
+    public var sizeBytes: Swift.Int?
+    /// The full CSV content of the lookup table.
+    public var tableBody: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        lastUpdatedTime: Swift.Int? = nil,
+        lookupTableArn: Swift.String? = nil,
+        lookupTableName: Swift.String? = nil,
+        sizeBytes: Swift.Int? = nil,
+        tableBody: Swift.String? = nil
+    ) {
+        self.description = description
+        self.kmsKeyId = kmsKeyId
+        self.lastUpdatedTime = lastUpdatedTime
+        self.lookupTableArn = lookupTableArn
+        self.lookupTableName = lookupTableName
+        self.sizeBytes = sizeBytes
+        self.tableBody = tableBody
     }
 }
 
@@ -7331,6 +7552,8 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For Amazon Bedrock AgentCore Identity, the valid values are APPLICATION_LOGS and TRACES.
     ///
+    /// * For Amazon Bedrock AgentCore Memory, the valid values are APPLICATION_LOGS and TRACES.
+    ///
     /// * For Amazon Bedrock AgentCore Gateway, the valid values are APPLICATION_LOGS and TRACES.
     ///
     /// * For CloudFront, the valid value is ACCESS_LOGS.
@@ -7340,6 +7563,8 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     /// * For Elemental MediaPackage, the valid values are EGRESS_ACCESS_LOGS and INGRESS_ACCESS_LOGS.
     ///
     /// * For Elemental MediaTailor, the valid values are AD_DECISION_SERVER_LOGS, MANIFEST_SERVICE_LOGS, and TRANSCODE_LOGS.
+    ///
+    /// * For Amazon EKS Auto Mode, the valid values are AUTO_MODE_BLOCK_STORAGE_LOGS, AUTO_MODE_COMPUTE_LOGS, AUTO_MODE_IPAM_LOGS, and AUTO_MODE_LOAD_BALANCING_LOGS.
     ///
     /// * For Entity Resolution, the valid value is WORKFLOW_LOGS.
     ///
@@ -7351,7 +7576,7 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For PCS, the valid values are PCS_SCHEDULER_LOGS and PCS_JOBCOMP_LOGS.
     ///
-    /// * For Quick Suite, the valid values are CHAT_LOGS and FEEDBACK_LOGS.
+    /// * For Quick, the valid values are CHAT_LOGS and FEEDBACK_LOGS.
     ///
     /// * For Amazon Web Services RTB Fabric, the valid values is APPLICATION_LOGS.
     ///
@@ -7739,6 +7964,8 @@ public struct PutQueryDefinitionInput: Swift.Sendable {
     /// A name for the query definition. If you are saving numerous query definitions, we recommend that you name them. This way, you can find the ones you want by using the first part of the name as a filter in the queryDefinitionNamePrefix parameter of [DescribeQueryDefinitions](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeQueryDefinitions.html).
     /// This member is required.
     public var name: Swift.String?
+    /// Use this parameter to include specific query parameters as part of your query definition. Query parameters are supported only for Logs Insights QL queries. Query parameters allow you to use placeholder variables in your query string that are substituted with values at execution time. Use the {{parameterName}} syntax in your query string to reference a parameter.
+    public var parameters: [CloudWatchLogsClientTypes.QueryParameter]?
     /// If you are updating a query definition, use this parameter to specify the ID of the query definition that you want to update. You can use [DescribeQueryDefinitions](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeQueryDefinitions.html) to retrieve the IDs of your saved query definitions. If you are creating a query definition, do not specify this parameter. CloudWatch generates a unique ID for the new query definition and include it in the response to this operation.
     public var queryDefinitionId: Swift.String?
     /// Specify the query language to use for this query. The options are Logs Insights QL, OpenSearch PPL, and OpenSearch SQL. For more information about the query languages that CloudWatch Logs supports, see [Supported query languages](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData_Languages.html).
@@ -7751,6 +7978,7 @@ public struct PutQueryDefinitionInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         logGroupNames: [Swift.String]? = nil,
         name: Swift.String? = nil,
+        parameters: [CloudWatchLogsClientTypes.QueryParameter]? = nil,
         queryDefinitionId: Swift.String? = nil,
         queryLanguage: CloudWatchLogsClientTypes.QueryLanguage? = nil,
         queryString: Swift.String? = nil
@@ -7758,6 +7986,7 @@ public struct PutQueryDefinitionInput: Swift.Sendable {
         self.clientToken = clientToken
         self.logGroupNames = logGroupNames
         self.name = name
+        self.parameters = parameters
         self.queryDefinitionId = queryDefinitionId
         self.queryLanguage = queryLanguage
         self.queryString = queryString
@@ -8505,6 +8734,46 @@ public struct UpdateLogAnomalyDetectorInput: Swift.Sendable {
     }
 }
 
+public struct UpdateLookupTableInput: Swift.Sendable {
+    /// An updated description of the lookup table.
+    public var description: Swift.String?
+    /// The ARN of the KMS key to use to encrypt the lookup table data. You can use this parameter to add, update, or remove the KMS key. To remove the KMS key and use an Amazon Web Services-owned key instead, specify an empty string.
+    public var kmsKeyId: Swift.String?
+    /// The ARN of the lookup table to update.
+    /// This member is required.
+    public var lookupTableArn: Swift.String?
+    /// The new CSV content to replace the existing data. The first row must be a header row with column names. The content must use UTF-8 encoding and not exceed 10 MB.
+    /// This member is required.
+    public var tableBody: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        lookupTableArn: Swift.String? = nil,
+        tableBody: Swift.String? = nil
+    ) {
+        self.description = description
+        self.kmsKeyId = kmsKeyId
+        self.lookupTableArn = lookupTableArn
+        self.tableBody = tableBody
+    }
+}
+
+public struct UpdateLookupTableOutput: Swift.Sendable {
+    /// The time when the lookup table was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+    public var lastUpdatedTime: Swift.Int?
+    /// The ARN of the lookup table that was updated.
+    public var lookupTableArn: Swift.String?
+
+    public init(
+        lastUpdatedTime: Swift.Int? = nil,
+        lookupTableArn: Swift.String? = nil
+    ) {
+        self.lastUpdatedTime = lastUpdatedTime
+        self.lookupTableArn = lookupTableArn
+    }
+}
+
 public struct UpdateScheduledQueryInput: Swift.Sendable {
     /// An updated description for the scheduled query.
     public var description: Swift.String?
@@ -8771,6 +9040,13 @@ extension CreateLogStreamInput {
     }
 }
 
+extension CreateLookupTableInput {
+
+    static func urlPathProvider(_ value: CreateLookupTableInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateScheduledQueryInput {
 
     static func urlPathProvider(_ value: CreateScheduledQueryInput) -> Swift.String? {
@@ -8858,6 +9134,13 @@ extension DeleteLogGroupInput {
 extension DeleteLogStreamInput {
 
     static func urlPathProvider(_ value: DeleteLogStreamInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteLookupTableInput {
+
+    static func urlPathProvider(_ value: DeleteLookupTableInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9002,6 +9285,13 @@ extension DescribeLogStreamsInput {
     }
 }
 
+extension DescribeLookupTablesInput {
+
+    static func urlPathProvider(_ value: DescribeLookupTablesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeMetricFiltersInput {
 
     static func urlPathProvider(_ value: DescribeMetricFiltersInput) -> Swift.String? {
@@ -9138,6 +9428,13 @@ extension GetLogObjectInput {
 extension GetLogRecordInput {
 
     static func urlPathProvider(_ value: GetLogRecordInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetLookupTableInput {
+
+    static func urlPathProvider(_ value: GetLookupTableInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9450,6 +9747,13 @@ extension UpdateLogAnomalyDetectorInput {
     }
 }
 
+extension UpdateLookupTableInput {
+
+    static func urlPathProvider(_ value: UpdateLookupTableInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateScheduledQueryInput {
 
     static func urlPathProvider(_ value: UpdateScheduledQueryInput) -> Swift.String? {
@@ -9561,6 +9865,18 @@ extension CreateLogStreamInput {
         guard let value else { return }
         try writer["logGroupName"].write(value.logGroupName)
         try writer["logStreamName"].write(value.logStreamName)
+    }
+}
+
+extension CreateLookupTableInput {
+
+    static func write(value: CreateLookupTableInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["kmsKeyId"].write(value.kmsKeyId)
+        try writer["lookupTableName"].write(value.lookupTableName)
+        try writer["tableBody"].write(value.tableBody)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -9681,6 +9997,14 @@ extension DeleteLogStreamInput {
         guard let value else { return }
         try writer["logGroupName"].write(value.logGroupName)
         try writer["logStreamName"].write(value.logStreamName)
+    }
+}
+
+extension DeleteLookupTableInput {
+
+    static func write(value: DeleteLookupTableInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["lookupTableArn"].write(value.lookupTableArn)
     }
 }
 
@@ -9886,6 +10210,16 @@ extension DescribeLogStreamsInput {
     }
 }
 
+extension DescribeLookupTablesInput {
+
+    static func write(value: DescribeLookupTablesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["lookupTableNamePrefix"].write(value.lookupTableNamePrefix)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
 extension DescribeMetricFiltersInput {
 
     static func write(value: DescribeMetricFiltersInput?, to writer: SmithyJSON.Writer) throws {
@@ -10085,6 +10419,14 @@ extension GetLogRecordInput {
         guard let value else { return }
         try writer["logRecordPointer"].write(value.logRecordPointer)
         try writer["unmask"].write(value.unmask)
+    }
+}
+
+extension GetLookupTableInput {
+
+    static func write(value: GetLookupTableInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["lookupTableArn"].write(value.lookupTableArn)
     }
 }
 
@@ -10376,6 +10718,7 @@ extension PutQueryDefinitionInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["logGroupNames"].writeList(value.logGroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
+        try writer["parameters"].writeList(value.parameters, memberWritingClosure: CloudWatchLogsClientTypes.QueryParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["queryDefinitionId"].write(value.queryDefinitionId)
         try writer["queryLanguage"].write(value.queryLanguage)
         try writer["queryString"].write(value.queryString)
@@ -10551,6 +10894,17 @@ extension UpdateLogAnomalyDetectorInput {
     }
 }
 
+extension UpdateLookupTableInput {
+
+    static func write(value: UpdateLookupTableInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["kmsKeyId"].write(value.kmsKeyId)
+        try writer["lookupTableArn"].write(value.lookupTableArn)
+        try writer["tableBody"].write(value.tableBody)
+    }
+}
+
 extension UpdateScheduledQueryInput {
 
     static func write(value: UpdateScheduledQueryInput?, to writer: SmithyJSON.Writer) throws {
@@ -10677,6 +11031,19 @@ extension CreateLogStreamOutput {
     }
 }
 
+extension CreateLookupTableOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateLookupTableOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateLookupTableOutput()
+        value.createdAt = try reader["createdAt"].readIfPresent()
+        value.lookupTableArn = try reader["lookupTableArn"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateScheduledQueryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateScheduledQueryOutput {
@@ -10771,6 +11138,13 @@ extension DeleteLogStreamOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteLogStreamOutput {
         return DeleteLogStreamOutput()
+    }
+}
+
+extension DeleteLookupTableOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteLookupTableOutput {
+        return DeleteLookupTableOutput()
     }
 }
 
@@ -10994,6 +11368,19 @@ extension DescribeLogStreamsOutput {
         let reader = responseReader
         var value = DescribeLogStreamsOutput()
         value.logStreams = try reader["logStreams"].readListIfPresent(memberReadingClosure: CloudWatchLogsClientTypes.LogStream.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeLookupTablesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeLookupTablesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeLookupTablesOutput()
+        value.lookupTables = try reader["lookupTables"].readListIfPresent(memberReadingClosure: CloudWatchLogsClientTypes.LookupTable.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -11253,6 +11640,24 @@ extension GetLogRecordOutput {
         let reader = responseReader
         var value = GetLogRecordOutput()
         value.logRecord = try reader["logRecord"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GetLookupTableOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetLookupTableOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetLookupTableOutput()
+        value.description = try reader["description"].readIfPresent()
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readIfPresent()
+        value.lookupTableArn = try reader["lookupTableArn"].readIfPresent()
+        value.lookupTableName = try reader["lookupTableName"].readIfPresent()
+        value.sizeBytes = try reader["sizeBytes"].readIfPresent()
+        value.tableBody = try reader["tableBody"].readIfPresent()
         return value
     }
 }
@@ -11756,6 +12161,19 @@ extension UpdateLogAnomalyDetectorOutput {
     }
 }
 
+extension UpdateLookupTableOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLookupTableOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateLookupTableOutput()
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readIfPresent()
+        value.lookupTableArn = try reader["lookupTableArn"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateScheduledQueryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateScheduledQueryOutput {
@@ -11962,6 +12380,25 @@ enum CreateLogStreamOutputError {
             case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateLookupTableOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -12195,6 +12632,23 @@ enum DeleteLogStreamOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteLookupTableOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -12538,6 +12992,23 @@ enum DescribeLogStreamsOutputError {
     }
 }
 
+enum DescribeLookupTablesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeMetricFiltersOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12865,6 +13336,23 @@ enum GetLogRecordOutputError {
         switch baseError.code {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetLookupTableOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -13620,6 +14108,24 @@ enum UpdateLogAnomalyDetectorOutputError {
             case "OperationAbortedException": return try OperationAbortedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateLookupTableOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -14715,6 +15221,23 @@ extension CloudWatchLogsClientTypes.LogStream {
     }
 }
 
+extension CloudWatchLogsClientTypes.LookupTable {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.LookupTable {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchLogsClientTypes.LookupTable()
+        value.lookupTableArn = try reader["lookupTableArn"].readIfPresent()
+        value.lookupTableName = try reader["lookupTableName"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.tableFields = try reader["tableFields"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.recordsCount = try reader["recordsCount"].readIfPresent()
+        value.sizeBytes = try reader["sizeBytes"].readIfPresent()
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readIfPresent()
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
 extension CloudWatchLogsClientTypes.LowerCaseString {
 
     static func write(value: CloudWatchLogsClientTypes.LowerCaseString?, to writer: SmithyJSON.Writer) throws {
@@ -15217,6 +15740,7 @@ extension CloudWatchLogsClientTypes.QueryDefinition {
         value.queryString = try reader["queryString"].readIfPresent()
         value.lastModified = try reader["lastModified"].readIfPresent()
         value.logGroupNames = try reader["logGroupNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.parameters = try reader["parameters"].readListIfPresent(memberReadingClosure: CloudWatchLogsClientTypes.QueryParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -15232,6 +15756,25 @@ extension CloudWatchLogsClientTypes.QueryInfo {
         value.status = try reader["status"].readIfPresent()
         value.createTime = try reader["createTime"].readIfPresent()
         value.logGroupName = try reader["logGroupName"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchLogsClientTypes.QueryParameter {
+
+    static func write(value: CloudWatchLogsClientTypes.QueryParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultValue"].write(value.defaultValue)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.QueryParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchLogsClientTypes.QueryParameter()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.defaultValue = try reader["defaultValue"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
         return value
     }
 }
@@ -15362,6 +15905,8 @@ extension CloudWatchLogsClientTypes.S3Configuration {
     static func write(value: CloudWatchLogsClientTypes.S3Configuration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["destinationIdentifier"].write(value.destinationIdentifier)
+        try writer["kmsKeyId"].write(value.kmsKeyId)
+        try writer["ownerAccountId"].write(value.ownerAccountId)
         try writer["roleArn"].write(value.roleArn)
     }
 
@@ -15370,6 +15915,8 @@ extension CloudWatchLogsClientTypes.S3Configuration {
         var value = CloudWatchLogsClientTypes.S3Configuration()
         value.destinationIdentifier = try reader["destinationIdentifier"].readIfPresent() ?? ""
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.ownerAccountId = try reader["ownerAccountId"].readIfPresent()
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
         return value
     }
 }
