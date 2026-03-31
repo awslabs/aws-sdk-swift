@@ -613,6 +613,153 @@ extension MarketplaceAgreementClient {
 }
 
 extension MarketplaceAgreementClient {
+    /// Performs the `BatchCreateBillingAdjustmentRequest` operation on the `MarketplaceAgreement` service.
+    ///
+    /// Allows sellers (proposers) to submit billing adjustment requests for one or more invoices within an agreement. Each entry in the batch specifies an invoice and the adjustment amount. The operation returns successfully created adjustment request IDs and any errors for entries that failed validation. Each entry requires a unique clientToken for idempotency. A ValidationException is returned if the adjustment amount exceeds the maximum refundable amount for the invoice.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateBillingAdjustmentRequestInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchCreateBillingAdjustmentRequestOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func batchCreateBillingAdjustmentRequest(input: BatchCreateBillingAdjustmentRequestInput) async throws -> BatchCreateBillingAdjustmentRequestOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchCreateBillingAdjustmentRequest")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>(BatchCreateBillingAdjustmentRequestInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchCreateBillingAdjustmentRequestOutput>(BatchCreateBillingAdjustmentRequestOutput.httpOutput(from:), BatchCreateBillingAdjustmentRequestOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreateBillingAdjustmentRequestOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchCreateBillingAdjustmentRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.BatchCreateBillingAdjustmentRequest"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchCreateBillingAdjustmentRequestInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreateBillingAdjustmentRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchCreateBillingAdjustmentRequest")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CancelAgreementCancellationRequest` operation on the `MarketplaceAgreement` service.
+    ///
+    /// Allows sellers (proposers) to withdraw an existing agreement cancellation request that is in a pending state. Once cancelled, the cancellation request transitions to CANCELLED status and can no longer be approved or rejected by the buyer. Only cancellation requests in PENDING_APPROVAL status can be cancelled. A ConflictException is thrown if the cancellation request is in any other status.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CancelAgreementCancellationRequestInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CancelAgreementCancellationRequestOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func cancelAgreementCancellationRequest(input: CancelAgreementCancellationRequestInput) async throws -> CancelAgreementCancellationRequestOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "cancelAgreementCancellationRequest")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>(CancelAgreementCancellationRequestInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelAgreementCancellationRequestOutput>(CancelAgreementCancellationRequestOutput.httpOutput(from:), CancelAgreementCancellationRequestOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CancelAgreementCancellationRequestOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelAgreementCancellationRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.CancelAgreementCancellationRequest"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelAgreementCancellationRequestInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelAgreementCancellationRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelAgreementCancellationRequest")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CancelAgreementPaymentRequest` operation on the `MarketplaceAgreement` service.
     ///
     /// Allows sellers (proposers) to cancel a payment request that is in PENDING_APPROVAL status. Once cancelled, the payment request transitions to CANCELLED status and can no longer be accepted or rejected by the buyer. Only payment requests in PENDING_APPROVAL status can be cancelled. A ConflictException is thrown if the payment request is in any other status.
@@ -748,6 +895,79 @@ extension MarketplaceAgreementClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAgreement")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetAgreementCancellationRequest` operation on the `MarketplaceAgreement` service.
+    ///
+    /// Retrieves detailed information about a specific agreement cancellation request. Both sellers (proposers) and buyers (acceptors) can use this operation to view cancellation requests associated with their agreements. The calling identity must be either the acceptor or proposer of the agreement. A ResourceNotFoundException is returned if the cancellation request does not exist.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAgreementCancellationRequestInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAgreementCancellationRequestOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func getAgreementCancellationRequest(input: GetAgreementCancellationRequestInput) async throws -> GetAgreementCancellationRequestOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAgreementCancellationRequest")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>(GetAgreementCancellationRequestInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAgreementCancellationRequestOutput>(GetAgreementCancellationRequestOutput.httpOutput(from:), GetAgreementCancellationRequestOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAgreementCancellationRequestOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAgreementCancellationRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.GetAgreementCancellationRequest"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAgreementCancellationRequestInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgreementCancellationRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAgreementCancellationRequest")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -917,6 +1137,224 @@ extension MarketplaceAgreementClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetBillingAdjustmentRequest` operation on the `MarketplaceAgreement` service.
+    ///
+    /// Retrieves detailed information about a specific billing adjustment request. Sellers (proposers) can use this operation to view the status and details of a billing adjustment request they submitted. A ResourceNotFoundException is returned if the billing adjustment request does not exist or the caller does not have permission to access it.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetBillingAdjustmentRequestInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetBillingAdjustmentRequestOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func getBillingAdjustmentRequest(input: GetBillingAdjustmentRequestInput) async throws -> GetBillingAdjustmentRequestOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getBillingAdjustmentRequest")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>(GetBillingAdjustmentRequestInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBillingAdjustmentRequestOutput>(GetBillingAdjustmentRequestOutput.httpOutput(from:), GetBillingAdjustmentRequestOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetBillingAdjustmentRequestOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBillingAdjustmentRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.GetBillingAdjustmentRequest"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBillingAdjustmentRequestInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBillingAdjustmentRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetBillingAdjustmentRequest")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListAgreementCancellationRequests` operation on the `MarketplaceAgreement` service.
+    ///
+    /// Lists agreement cancellation requests available to you as a seller or buyer. Both sellers (proposers) and buyers (acceptors) can use this operation to find cancellation requests by specifying their party type and applying optional filters. PartyType is a required parameter. A ValidationException is returned if PartyType is not provided. Pagination is supported through maxResults (1-50, default 20) and nextToken parameters.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAgreementCancellationRequestsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAgreementCancellationRequestsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func listAgreementCancellationRequests(input: ListAgreementCancellationRequestsInput) async throws -> ListAgreementCancellationRequestsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAgreementCancellationRequests")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>(ListAgreementCancellationRequestsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAgreementCancellationRequestsOutput>(ListAgreementCancellationRequestsOutput.httpOutput(from:), ListAgreementCancellationRequestsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAgreementCancellationRequestsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAgreementCancellationRequestsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.ListAgreementCancellationRequests"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAgreementCancellationRequestsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAgreementCancellationRequestsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAgreementCancellationRequests")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListAgreementInvoiceLineItems` operation on the `MarketplaceAgreement` service.
+    ///
+    /// Allows sellers (proposers) to retrieve aggregated billing data from AWS Marketplace agreements using flexible grouping. Supports invoice-level aggregation with filtering by billing period, invoice type, and issued date. The groupBy parameter is required and currently supports only INVOICE_ID as a value. The agreementId parameter is required.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAgreementInvoiceLineItemsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAgreementInvoiceLineItemsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func listAgreementInvoiceLineItems(input: ListAgreementInvoiceLineItemsInput) async throws -> ListAgreementInvoiceLineItemsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAgreementInvoiceLineItems")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>(ListAgreementInvoiceLineItemsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAgreementInvoiceLineItemsOutput>(ListAgreementInvoiceLineItemsOutput.httpOutput(from:), ListAgreementInvoiceLineItemsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAgreementInvoiceLineItemsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAgreementInvoiceLineItemsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.ListAgreementInvoiceLineItems"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAgreementInvoiceLineItemsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAgreementInvoiceLineItemsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAgreementInvoiceLineItems")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListAgreementPaymentRequests` operation on the `MarketplaceAgreement` service.
     ///
     /// Lists payment requests available to you as a seller or buyer. Both sellers (proposers) and buyers (acceptors) can use this operation to find payment requests by specifying their party type and applying optional parameters. PartyType is a required parameter. A ValidationException is returned if PartyType is not provided. Pagination is supported through maxResults (1-50, default 50) and nextToken parameters.
@@ -977,6 +1415,78 @@ extension MarketplaceAgreementClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAgreementPaymentRequests")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListBillingAdjustmentRequests` operation on the `MarketplaceAgreement` service.
+    ///
+    /// Lists billing adjustment requests for a specific agreement. Sellers (proposers) can use this operation to view all billing adjustment requests associated with an agreement. Pagination is supported through maxResults and nextToken parameters.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListBillingAdjustmentRequestsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListBillingAdjustmentRequestsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func listBillingAdjustmentRequests(input: ListBillingAdjustmentRequestsInput) async throws -> ListBillingAdjustmentRequestsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listBillingAdjustmentRequests")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>(ListBillingAdjustmentRequestsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBillingAdjustmentRequestsOutput>(ListBillingAdjustmentRequestsOutput.httpOutput(from:), ListBillingAdjustmentRequestsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListBillingAdjustmentRequestsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBillingAdjustmentRequestsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.ListBillingAdjustmentRequests"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBillingAdjustmentRequestsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillingAdjustmentRequestsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListBillingAdjustmentRequests")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1124,6 +1634,81 @@ extension MarketplaceAgreementClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchAgreements")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `SendAgreementCancellationRequest` operation on the `MarketplaceAgreement` service.
+    ///
+    /// Allows sellers (proposers) to submit a cancellation request for an active agreement. The cancellation request is created in PENDING_APPROVAL status, at which point the buyer can review it.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SendAgreementCancellationRequestInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SendAgreementCancellationRequestOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func sendAgreementCancellationRequest(input: SendAgreementCancellationRequestInput) async throws -> SendAgreementCancellationRequestOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "sendAgreementCancellationRequest")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>(SendAgreementCancellationRequestInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SendAgreementCancellationRequestOutput>(SendAgreementCancellationRequestOutput.httpOutput(from:), SendAgreementCancellationRequestOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SendAgreementCancellationRequestOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendAgreementCancellationRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.SendAgreementCancellationRequest"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendAgreementCancellationRequestInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendAgreementCancellationRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendAgreementCancellationRequest")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

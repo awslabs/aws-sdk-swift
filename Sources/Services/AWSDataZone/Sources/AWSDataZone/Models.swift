@@ -8133,6 +8133,8 @@ public struct CreateEnvironmentInput: Swift.Sendable {
     public var environmentBlueprintIdentifier: Swift.String?
     /// The configuration ID of the environment.
     public var environmentConfigurationId: Swift.String?
+    /// The configuration name of the environment.
+    public var environmentConfigurationName: Swift.String?
     /// The identifier of the environment profile that is used to create this Amazon DataZone environment.
     public var environmentProfileIdentifier: Swift.String?
     /// The glossary terms that can be used in this Amazon DataZone environment.
@@ -8154,6 +8156,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         environmentAccountRegion: Swift.String? = nil,
         environmentBlueprintIdentifier: Swift.String? = nil,
         environmentConfigurationId: Swift.String? = nil,
+        environmentConfigurationName: Swift.String? = nil,
         environmentProfileIdentifier: Swift.String? = nil,
         glossaryTerms: [Swift.String]? = nil,
         name: Swift.String? = nil,
@@ -8167,12 +8170,18 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         self.environmentAccountRegion = environmentAccountRegion
         self.environmentBlueprintIdentifier = environmentBlueprintIdentifier
         self.environmentConfigurationId = environmentConfigurationId
+        self.environmentConfigurationName = environmentConfigurationName
         self.environmentProfileIdentifier = environmentProfileIdentifier
         self.glossaryTerms = glossaryTerms
         self.name = name
         self.projectIdentifier = projectIdentifier
         self.userParameters = userParameters
     }
+}
+
+extension CreateEnvironmentInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateEnvironmentInput(deploymentOrder: \(Swift.String(describing: deploymentOrder)), description: \(Swift.String(describing: description)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), environmentAccountIdentifier: \(Swift.String(describing: environmentAccountIdentifier)), environmentAccountRegion: \(Swift.String(describing: environmentAccountRegion)), environmentBlueprintIdentifier: \(Swift.String(describing: environmentBlueprintIdentifier)), environmentConfigurationId: \(Swift.String(describing: environmentConfigurationId)), environmentProfileIdentifier: \(Swift.String(describing: environmentProfileIdentifier)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), name: \(Swift.String(describing: name)), projectIdentifier: \(Swift.String(describing: projectIdentifier)), userParameters: \(Swift.String(describing: userParameters)), environmentConfigurationName: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -8486,6 +8495,8 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
     public var environmentBlueprintId: Swift.String?
     /// The configuration ID of the environment.
     public var environmentConfigurationId: Swift.String?
+    /// The configuration name of the environment.
+    public var environmentConfigurationName: Swift.String?
     /// The ID of the environment profile with which this Amazon DataZone environment was created.
     public var environmentProfileId: Swift.String?
     /// The glossary terms that can be used in this Amazon DataZone environment.
@@ -8525,6 +8536,7 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
         environmentActions: [DataZoneClientTypes.ConfigurableEnvironmentAction]? = nil,
         environmentBlueprintId: Swift.String? = nil,
         environmentConfigurationId: Swift.String? = nil,
+        environmentConfigurationName: Swift.String? = nil,
         environmentProfileId: Swift.String? = "",
         glossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
@@ -8548,6 +8560,7 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
         self.environmentActions = environmentActions
         self.environmentBlueprintId = environmentBlueprintId
         self.environmentConfigurationId = environmentConfigurationId
+        self.environmentConfigurationName = environmentConfigurationName
         self.environmentProfileId = environmentProfileId
         self.glossaryTerms = glossaryTerms
         self.id = id
@@ -8565,7 +8578,7 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
 
 extension CreateEnvironmentOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateEnvironmentOutput(awsAccountId: \(Swift.String(describing: awsAccountId)), awsAccountRegion: \(Swift.String(describing: awsAccountRegion)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), deploymentProperties: \(Swift.String(describing: deploymentProperties)), domainId: \(Swift.String(describing: domainId)), environmentActions: \(Swift.String(describing: environmentActions)), environmentBlueprintId: \(Swift.String(describing: environmentBlueprintId)), environmentProfileId: \(Swift.String(describing: environmentProfileId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastDeployment: \(Swift.String(describing: lastDeployment)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), provisionedResources: \(Swift.String(describing: provisionedResources)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", environmentConfigurationId: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateEnvironmentOutput(awsAccountId: \(Swift.String(describing: awsAccountId)), awsAccountRegion: \(Swift.String(describing: awsAccountRegion)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), deploymentProperties: \(Swift.String(describing: deploymentProperties)), domainId: \(Swift.String(describing: domainId)), environmentActions: \(Swift.String(describing: environmentActions)), environmentBlueprintId: \(Swift.String(describing: environmentBlueprintId)), environmentProfileId: \(Swift.String(describing: environmentProfileId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastDeployment: \(Swift.String(describing: lastDeployment)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), provisionedResources: \(Swift.String(describing: provisionedResources)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", environmentConfigurationId: \"CONTENT_REDACTED\", environmentConfigurationName: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateEnvironmentActionInput: Swift.Sendable {
@@ -14775,6 +14788,8 @@ public struct GetEnvironmentOutput: Swift.Sendable {
     public var environmentBlueprintId: Swift.String?
     /// The configuration ID that is used to create the environment.
     public var environmentConfigurationId: Swift.String?
+    /// The configuration name that is used to create the environment.
+    public var environmentConfigurationName: Swift.String?
     /// The ID of the environment profile with which the environment is created.
     public var environmentProfileId: Swift.String?
     /// The business glossary terms that can be used in this environment.
@@ -14814,6 +14829,7 @@ public struct GetEnvironmentOutput: Swift.Sendable {
         environmentActions: [DataZoneClientTypes.ConfigurableEnvironmentAction]? = nil,
         environmentBlueprintId: Swift.String? = nil,
         environmentConfigurationId: Swift.String? = nil,
+        environmentConfigurationName: Swift.String? = nil,
         environmentProfileId: Swift.String? = "",
         glossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
@@ -14837,6 +14853,7 @@ public struct GetEnvironmentOutput: Swift.Sendable {
         self.environmentActions = environmentActions
         self.environmentBlueprintId = environmentBlueprintId
         self.environmentConfigurationId = environmentConfigurationId
+        self.environmentConfigurationName = environmentConfigurationName
         self.environmentProfileId = environmentProfileId
         self.glossaryTerms = glossaryTerms
         self.id = id
@@ -14854,7 +14871,7 @@ public struct GetEnvironmentOutput: Swift.Sendable {
 
 extension GetEnvironmentOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetEnvironmentOutput(awsAccountId: \(Swift.String(describing: awsAccountId)), awsAccountRegion: \(Swift.String(describing: awsAccountRegion)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), deploymentProperties: \(Swift.String(describing: deploymentProperties)), domainId: \(Swift.String(describing: domainId)), environmentActions: \(Swift.String(describing: environmentActions)), environmentBlueprintId: \(Swift.String(describing: environmentBlueprintId)), environmentProfileId: \(Swift.String(describing: environmentProfileId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastDeployment: \(Swift.String(describing: lastDeployment)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), provisionedResources: \(Swift.String(describing: provisionedResources)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", environmentConfigurationId: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetEnvironmentOutput(awsAccountId: \(Swift.String(describing: awsAccountId)), awsAccountRegion: \(Swift.String(describing: awsAccountRegion)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), deploymentProperties: \(Swift.String(describing: deploymentProperties)), domainId: \(Swift.String(describing: domainId)), environmentActions: \(Swift.String(describing: environmentActions)), environmentBlueprintId: \(Swift.String(describing: environmentBlueprintId)), environmentProfileId: \(Swift.String(describing: environmentProfileId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastDeployment: \(Swift.String(describing: lastDeployment)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), provisionedResources: \(Swift.String(describing: provisionedResources)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", environmentConfigurationId: \"CONTENT_REDACTED\", environmentConfigurationName: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetEnvironmentActionInput: Swift.Sendable {
@@ -17542,6 +17559,8 @@ extension DataZoneClientTypes {
         public var domainId: Swift.String?
         /// The configuration ID with which the environment is created.
         public var environmentConfigurationId: Swift.String?
+        /// The configuration name with which the environment is created.
+        public var environmentConfigurationName: Swift.String?
         /// The identifier of the environment profile with which the environment was created.
         public var environmentProfileId: Swift.String?
         /// The identifier of the environment.
@@ -17568,6 +17587,7 @@ extension DataZoneClientTypes {
             description: Swift.String? = nil,
             domainId: Swift.String? = nil,
             environmentConfigurationId: Swift.String? = nil,
+            environmentConfigurationName: Swift.String? = nil,
             environmentProfileId: Swift.String? = "",
             id: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -17583,6 +17603,7 @@ extension DataZoneClientTypes {
             self.description = description
             self.domainId = domainId
             self.environmentConfigurationId = environmentConfigurationId
+            self.environmentConfigurationName = environmentConfigurationName
             self.environmentProfileId = environmentProfileId
             self.id = id
             self.name = name
@@ -17596,7 +17617,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.EnvironmentSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EnvironmentSummary(awsAccountId: \(Swift.String(describing: awsAccountId)), awsAccountRegion: \(Swift.String(describing: awsAccountRegion)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentProfileId: \(Swift.String(describing: environmentProfileId)), id: \(Swift.String(describing: id)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", environmentConfigurationId: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "EnvironmentSummary(awsAccountId: \(Swift.String(describing: awsAccountId)), awsAccountRegion: \(Swift.String(describing: awsAccountRegion)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentProfileId: \(Swift.String(describing: environmentProfileId)), id: \(Swift.String(describing: id)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", environmentConfigurationId: \"CONTENT_REDACTED\", environmentConfigurationName: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListEnvironmentsOutput: Swift.Sendable {
@@ -22237,6 +22258,8 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
     /// The identifier of the domain in which the environment is to be updated.
     /// This member is required.
     public var domainIdentifier: Swift.String?
+    /// The configuration name of the environment.
+    public var environmentConfigurationName: Swift.String?
     /// The glossary terms to be updated as part of the UpdateEnvironment action.
     public var glossaryTerms: [Swift.String]?
     /// The identifier of the environment that is to be updated.
@@ -22251,6 +22274,7 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
         blueprintVersion: Swift.String? = nil,
         description: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
+        environmentConfigurationName: Swift.String? = nil,
         glossaryTerms: [Swift.String]? = nil,
         identifier: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -22259,11 +22283,17 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
         self.blueprintVersion = blueprintVersion
         self.description = description
         self.domainIdentifier = domainIdentifier
+        self.environmentConfigurationName = environmentConfigurationName
         self.glossaryTerms = glossaryTerms
         self.identifier = identifier
         self.name = name
         self.userParameters = userParameters
     }
+}
+
+extension UpdateEnvironmentInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateEnvironmentInput(blueprintVersion: \(Swift.String(describing: blueprintVersion)), description: \(Swift.String(describing: description)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), identifier: \(Swift.String(describing: identifier)), name: \(Swift.String(describing: name)), userParameters: \(Swift.String(describing: userParameters)), environmentConfigurationName: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateEnvironmentOutput: Swift.Sendable {
@@ -22289,6 +22319,8 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
     public var environmentBlueprintId: Swift.String?
     /// The configuration ID of the environment.
     public var environmentConfigurationId: Swift.String?
+    /// The configuration name of the environment.
+    public var environmentConfigurationName: Swift.String?
     /// The profile identifier of the environment.
     public var environmentProfileId: Swift.String?
     /// The glossary terms to be updated as part of the UpdateEnvironment action.
@@ -22328,6 +22360,7 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
         environmentActions: [DataZoneClientTypes.ConfigurableEnvironmentAction]? = nil,
         environmentBlueprintId: Swift.String? = nil,
         environmentConfigurationId: Swift.String? = nil,
+        environmentConfigurationName: Swift.String? = nil,
         environmentProfileId: Swift.String? = "",
         glossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
@@ -22351,6 +22384,7 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
         self.environmentActions = environmentActions
         self.environmentBlueprintId = environmentBlueprintId
         self.environmentConfigurationId = environmentConfigurationId
+        self.environmentConfigurationName = environmentConfigurationName
         self.environmentProfileId = environmentProfileId
         self.glossaryTerms = glossaryTerms
         self.id = id
@@ -22368,7 +22402,7 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
 
 extension UpdateEnvironmentOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateEnvironmentOutput(awsAccountId: \(Swift.String(describing: awsAccountId)), awsAccountRegion: \(Swift.String(describing: awsAccountRegion)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), deploymentProperties: \(Swift.String(describing: deploymentProperties)), domainId: \(Swift.String(describing: domainId)), environmentActions: \(Swift.String(describing: environmentActions)), environmentBlueprintId: \(Swift.String(describing: environmentBlueprintId)), environmentProfileId: \(Swift.String(describing: environmentProfileId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastDeployment: \(Swift.String(describing: lastDeployment)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), provisionedResources: \(Swift.String(describing: provisionedResources)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", environmentConfigurationId: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateEnvironmentOutput(awsAccountId: \(Swift.String(describing: awsAccountId)), awsAccountRegion: \(Swift.String(describing: awsAccountRegion)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), deploymentProperties: \(Swift.String(describing: deploymentProperties)), domainId: \(Swift.String(describing: domainId)), environmentActions: \(Swift.String(describing: environmentActions)), environmentBlueprintId: \(Swift.String(describing: environmentBlueprintId)), environmentProfileId: \(Swift.String(describing: environmentProfileId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastDeployment: \(Swift.String(describing: lastDeployment)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), provisionedResources: \(Swift.String(describing: provisionedResources)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", environmentConfigurationId: \"CONTENT_REDACTED\", environmentConfigurationName: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateEnvironmentActionInput: Swift.Sendable {
@@ -27541,6 +27575,7 @@ extension CreateEnvironmentInput {
         try writer["environmentAccountRegion"].write(value.environmentAccountRegion)
         try writer["environmentBlueprintIdentifier"].write(value.environmentBlueprintIdentifier)
         try writer["environmentConfigurationId"].write(value.environmentConfigurationId)
+        try writer["environmentConfigurationName"].write(value.environmentConfigurationName)
         try writer["environmentProfileIdentifier"].write(value.environmentProfileIdentifier)
         try writer["glossaryTerms"].writeList(value.glossaryTerms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
@@ -28030,6 +28065,7 @@ extension UpdateEnvironmentInput {
         guard let value else { return }
         try writer["blueprintVersion"].write(value.blueprintVersion)
         try writer["description"].write(value.description)
+        try writer["environmentConfigurationName"].write(value.environmentConfigurationName)
         try writer["glossaryTerms"].writeList(value.glossaryTerms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
         try writer["userParameters"].writeList(value.userParameters, memberWritingClosure: DataZoneClientTypes.EnvironmentParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -28614,6 +28650,7 @@ extension CreateEnvironmentOutput {
         value.environmentActions = try reader["environmentActions"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ConfigurableEnvironmentAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent()
         value.environmentConfigurationId = try reader["environmentConfigurationId"].readIfPresent()
+        value.environmentConfigurationName = try reader["environmentConfigurationName"].readIfPresent()
         value.environmentProfileId = try reader["environmentProfileId"].readIfPresent() ?? ""
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.id = try reader["id"].readIfPresent()
@@ -29487,6 +29524,7 @@ extension GetEnvironmentOutput {
         value.environmentActions = try reader["environmentActions"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ConfigurableEnvironmentAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent()
         value.environmentConfigurationId = try reader["environmentConfigurationId"].readIfPresent()
+        value.environmentConfigurationName = try reader["environmentConfigurationName"].readIfPresent()
         value.environmentProfileId = try reader["environmentProfileId"].readIfPresent() ?? ""
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.id = try reader["id"].readIfPresent()
@@ -30882,6 +30920,7 @@ extension UpdateEnvironmentOutput {
         value.environmentActions = try reader["environmentActions"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ConfigurableEnvironmentAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent()
         value.environmentConfigurationId = try reader["environmentConfigurationId"].readIfPresent()
+        value.environmentConfigurationName = try reader["environmentConfigurationName"].readIfPresent()
         value.environmentProfileId = try reader["environmentProfileId"].readIfPresent() ?? ""
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.id = try reader["id"].readIfPresent()
@@ -36439,6 +36478,7 @@ extension DataZoneClientTypes.EnvironmentSummary {
         value.provider = try reader["provider"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         value.environmentConfigurationId = try reader["environmentConfigurationId"].readIfPresent()
+        value.environmentConfigurationName = try reader["environmentConfigurationName"].readIfPresent()
         return value
     }
 }

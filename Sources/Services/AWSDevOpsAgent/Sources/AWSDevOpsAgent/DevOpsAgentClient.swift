@@ -616,7 +616,7 @@ extension DevOpsAgentClient {
 extension DevOpsAgentClient {
     /// Performs the `AllowVendedLogDeliveryForResource` operation on the `DevOpsAgent` service.
     ///
-    /// Authorize Ingestion Hub subscription operation. Looks to see if the derived accountId from FAS has an AgentSpace.
+    /// Authorize Ingestion Hub subscription operation.
     ///
     /// - Parameter input: Input for authorizing vended log delivery for a resource. (Type: `AllowVendedLogDeliveryForResourceInput`)
     ///
@@ -1361,79 +1361,6 @@ extension DevOpsAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSupportLevel` operation on the `DevOpsAgent` service.
-    ///
-    /// Describe the support level of a CloudSmith customer account.
-    ///
-    /// - Parameter input: Request structure for desribing support level for an account (Type: `DescribeSupportLevelInput`)
-    ///
-    /// - Returns: Response structure containing detailed support level for an account (Type: `DescribeSupportLevelOutput`)
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Access to the requested resource is denied due to insufficient permissions.
-    /// - `ConflictException` : The request conflicts with the current state of the resource.
-    /// - `ContentSizeExceededException` : This exception is thrown when the content size exceeds the allowed limit.
-    /// - `InternalServerException` : This exception is thrown when an unexpected error occurs in the processing of a request.
-    /// - `InvalidParameterException` : One or more parameters provided in the request are invalid.
-    /// - `ResourceNotFoundException` : The requested resource could not be found.
-    /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
-    /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
-    public func describeSupportLevel(input: DescribeSupportLevelInput) async throws -> DescribeSupportLevelOutput {
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "describeSupportLevel")
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSmithyDefaultConfig(config)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "aidevops")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeSupportLevelInput, DescribeSupportLevelOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSupportLevelInput, DescribeSupportLevelOutput>(DescribeSupportLevelInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSupportLevelInput, DescribeSupportLevelOutput>(hostPrefix: "dp."))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSupportLevelOutput>(DescribeSupportLevelOutput.httpOutput(from:), DescribeSupportLevelOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSupportLevelInput, DescribeSupportLevelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
-        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSupportLevelOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DevOps Agent", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSupportLevelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSupportLevelOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSupportLevelInput, DescribeSupportLevelOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSupportLevelInput, DescribeSupportLevelOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSupportLevelInput, DescribeSupportLevelOutput>(serviceID: serviceName, version: DevOpsAgentClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DevOpsAgent")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSupportLevel")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.execute(input: input)
-    }
-
     /// Performs the `DisableOperatorApp` operation on the `DevOpsAgent` service.
     ///
     /// Disable the Operator App for the specified AgentSpace
@@ -1647,83 +1574,6 @@ extension DevOpsAgentClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DevOpsAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableOperatorApp")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.execute(input: input)
-    }
-
-    /// Performs the `EndChatForCase` operation on the `DevOpsAgent` service.
-    ///
-    /// End a chat session for a support case in the specified agent space
-    ///
-    /// - Parameter input: Request structure for ending a chat session (Type: `EndChatForCaseInput`)
-    ///
-    /// - Returns: Response structure for end chat operation (Type: `EndChatForCaseOutput`)
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Access to the requested resource is denied due to insufficient permissions.
-    /// - `ConflictException` : The request conflicts with the current state of the resource.
-    /// - `ContentSizeExceededException` : This exception is thrown when the content size exceeds the allowed limit.
-    /// - `InternalServerException` : This exception is thrown when an unexpected error occurs in the processing of a request.
-    /// - `InvalidParameterException` : One or more parameters provided in the request are invalid.
-    /// - `ResourceNotFoundException` : The requested resource could not be found.
-    /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
-    /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
-    public func endChatForCase(input: EndChatForCaseInput) async throws -> EndChatForCaseOutput {
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "endChatForCase")
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSmithyDefaultConfig(config)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "aidevops")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        let builder = ClientRuntime.OrchestratorBuilder<EndChatForCaseInput, EndChatForCaseOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<EndChatForCaseInput, EndChatForCaseOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<EndChatForCaseInput, EndChatForCaseOutput>(EndChatForCaseInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<EndChatForCaseInput, EndChatForCaseOutput>(hostPrefix: "dp."))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EndChatForCaseInput, EndChatForCaseOutput>(contentType: "application/json"))
-        builder.serialize(ClientRuntime.BodyMiddleware<EndChatForCaseInput, EndChatForCaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EndChatForCaseInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EndChatForCaseInput, EndChatForCaseOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<EndChatForCaseOutput>(EndChatForCaseOutput.httpOutput(from:), EndChatForCaseOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<EndChatForCaseInput, EndChatForCaseOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
-        builder.applySigner(ClientRuntime.SignerMiddleware<EndChatForCaseOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DevOps Agent", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EndChatForCaseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EndChatForCaseOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EndChatForCaseInput, EndChatForCaseOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EndChatForCaseInput, EndChatForCaseOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EndChatForCaseInput, EndChatForCaseOutput>(serviceID: serviceName, version: DevOpsAgentClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DevOpsAgent")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EndChatForCase")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2236,83 +2086,6 @@ extension DevOpsAgentClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DevOpsAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetService")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.execute(input: input)
-    }
-
-    /// Performs the `InitiateChatForCase` operation on the `DevOpsAgent` service.
-    ///
-    /// Initiate a chat for support case in the specified agent space
-    ///
-    /// - Parameter input: Request structure for initiating a chat for support case (Type: `InitiateChatForCaseInput`)
-    ///
-    /// - Returns: Response structure containing the chat participant connection (Type: `InitiateChatForCaseOutput`)
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Access to the requested resource is denied due to insufficient permissions.
-    /// - `ConflictException` : The request conflicts with the current state of the resource.
-    /// - `ContentSizeExceededException` : This exception is thrown when the content size exceeds the allowed limit.
-    /// - `InternalServerException` : This exception is thrown when an unexpected error occurs in the processing of a request.
-    /// - `InvalidParameterException` : One or more parameters provided in the request are invalid.
-    /// - `ResourceNotFoundException` : The requested resource could not be found.
-    /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
-    /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
-    public func initiateChatForCase(input: InitiateChatForCaseInput) async throws -> InitiateChatForCaseOutput {
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "initiateChatForCase")
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSmithyDefaultConfig(config)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "aidevops")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        let builder = ClientRuntime.OrchestratorBuilder<InitiateChatForCaseInput, InitiateChatForCaseOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<InitiateChatForCaseInput, InitiateChatForCaseOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<InitiateChatForCaseInput, InitiateChatForCaseOutput>(InitiateChatForCaseInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<InitiateChatForCaseInput, InitiateChatForCaseOutput>(hostPrefix: "dp."))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InitiateChatForCaseInput, InitiateChatForCaseOutput>(contentType: "application/json"))
-        builder.serialize(ClientRuntime.BodyMiddleware<InitiateChatForCaseInput, InitiateChatForCaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: InitiateChatForCaseInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InitiateChatForCaseInput, InitiateChatForCaseOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<InitiateChatForCaseOutput>(InitiateChatForCaseOutput.httpOutput(from:), InitiateChatForCaseOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<InitiateChatForCaseInput, InitiateChatForCaseOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
-        builder.applySigner(ClientRuntime.SignerMiddleware<InitiateChatForCaseOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DevOps Agent", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<InitiateChatForCaseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InitiateChatForCaseOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InitiateChatForCaseInput, InitiateChatForCaseOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InitiateChatForCaseInput, InitiateChatForCaseOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InitiateChatForCaseInput, InitiateChatForCaseOutput>(serviceID: serviceName, version: DevOpsAgentClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DevOpsAgent")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "InitiateChatForCase")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

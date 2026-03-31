@@ -394,51 +394,6 @@ extension DevOpsAgentClientTypes.RegisteredNewRelicDetails: Swift.CustomDebugStr
 
 extension DevOpsAgentClientTypes {
 
-    /// Details specific to a registered SigV4-authenticated MCP server.
-    public struct RegisteredMCPServerSigV4Details: Swift.Sendable {
-        /// Optional description for the MCP server.
-        public var description: Swift.String?
-        /// MCP server endpoint URL.
-        /// This member is required.
-        public var endpoint: Swift.String?
-        /// MCP server name.
-        /// This member is required.
-        public var name: Swift.String?
-        /// AWS region for SigV4 signing.
-        /// This member is required.
-        public var region: Swift.String?
-        /// IAM role ARN to assume for SigV4 signing.
-        /// This member is required.
-        public var roleArn: Swift.String?
-        /// AWS service name for SigV4 signing.
-        /// This member is required.
-        public var service: Swift.String?
-
-        public init(
-            description: Swift.String? = nil,
-            endpoint: Swift.String? = nil,
-            name: Swift.String? = nil,
-            region: Swift.String? = nil,
-            roleArn: Swift.String? = nil,
-            service: Swift.String? = nil
-        ) {
-            self.description = description
-            self.endpoint = endpoint
-            self.name = name
-            self.region = region
-            self.roleArn = roleArn
-            self.service = service
-        }
-    }
-}
-
-extension DevOpsAgentClientTypes.RegisteredMCPServerSigV4Details: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "RegisteredMCPServerSigV4Details(endpoint: \(Swift.String(describing: endpoint)), name: \(Swift.String(describing: name)), region: \(Swift.String(describing: region)), roleArn: \(Swift.String(describing: roleArn)), service: \(Swift.String(describing: service)), description: \"CONTENT_REDACTED\")"}
-}
-
-extension DevOpsAgentClientTypes {
-
     /// Details specific to a registered PagerDuty service.
     public struct RegisteredPagerDutyDetails: Swift.Sendable {
         /// The scopes that were assigned to the service
@@ -517,8 +472,6 @@ extension DevOpsAgentClientTypes {
         case mcpservergrafana(DevOpsAgentClientTypes.RegisteredGrafanaServerDetails)
         /// Pagerduty service details.
         case pagerduty(DevOpsAgentClientTypes.RegisteredPagerDutyDetails)
-        /// SigV4-authenticated MCP server-specific service details.
-        case mcpserversigv4(DevOpsAgentClientTypes.RegisteredMCPServerSigV4Details)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1002,72 +955,6 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
-    /// Represents a Teams channel with its ID and name.
-    public struct MSTeamsChannel: Swift.Sendable {
-        /// MS Teams Channel ID
-        /// This member is required.
-        public var channelId: Swift.String?
-        /// MS Teams channel name
-        /// This member is required.
-        public var channelName: Swift.String?
-
-        public init(
-            channelId: Swift.String? = nil,
-            channelName: Swift.String? = nil
-        ) {
-            self.channelId = channelId
-            self.channelName = channelName
-        }
-    }
-}
-
-extension DevOpsAgentClientTypes {
-
-    /// Defines MS Teams channels for different types of agent notifications.
-    public struct MSTeamsTransmissionTarget: Swift.Sendable {
-        /// Destination for On-call Agent(Ops1)
-        public var opsOncallTarget: DevOpsAgentClientTypes.MSTeamsChannel?
-        /// Destination for SRE Agent (Ops1.5)
-        public var opsSRETarget: DevOpsAgentClientTypes.MSTeamsChannel?
-
-        public init(
-            opsOncallTarget: DevOpsAgentClientTypes.MSTeamsChannel? = nil,
-            opsSRETarget: DevOpsAgentClientTypes.MSTeamsChannel? = nil
-        ) {
-            self.opsOncallTarget = opsOncallTarget
-            self.opsSRETarget = opsSRETarget
-        }
-    }
-}
-
-extension DevOpsAgentClientTypes {
-
-    /// Configuration for MS Teams workspace integration.
-    public struct MSTeamsConfiguration: Swift.Sendable {
-        /// Associated MS Teams teams ID
-        /// This member is required.
-        public var teamId: Swift.String?
-        /// Associated MS Teams team name
-        /// This member is required.
-        public var teamName: Swift.String?
-        /// Transmission targets for agent notification
-        /// This member is required.
-        public var transmissionTarget: DevOpsAgentClientTypes.MSTeamsTransmissionTarget?
-
-        public init(
-            teamId: Swift.String? = nil,
-            teamName: Swift.String? = nil,
-            transmissionTarget: DevOpsAgentClientTypes.MSTeamsTransmissionTarget? = nil
-        ) {
-            self.teamId = teamId
-            self.teamName = teamName
-            self.transmissionTarget = transmissionTarget
-        }
-    }
-}
-
-extension DevOpsAgentClientTypes {
-
     /// Configuration for Pagerduty integration.
     public struct PagerDutyConfiguration: Swift.Sendable {
         /// Email to be used in Pagerduty API header
@@ -1264,8 +1151,6 @@ extension DevOpsAgentClientTypes {
         case mcpservergrafana(DevOpsAgentClientTypes.MCPServerGrafanaConfiguration)
         /// PagerDuty integration configuration
         case pagerduty(DevOpsAgentClientTypes.PagerDutyConfiguration)
-        /// MS Teams integration configuration
-        case msteams(DevOpsAgentClientTypes.MSTeamsConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2286,32 +2171,6 @@ extension DevOpsAgentClientTypes {
     }
 }
 
-extension DevOpsAgentClientTypes {
-
-    /// Represents a chat participant connection with all its properties and metadata
-    public struct ChatParticipantConnection: Swift.Sendable {
-        /// The identifier of the contact in this instance of Amazon Connect
-        /// This member is required.
-        public var initialContactId: Swift.String?
-        /// The identifier for a chat participant
-        /// This member is required.
-        public var participantId: Swift.String?
-        /// The token used by the chat participant to call CreateParticipantConnection
-        /// This member is required.
-        public var participantToken: Swift.String?
-
-        public init(
-            initialContactId: Swift.String? = nil,
-            participantId: Swift.String? = nil,
-            participantToken: Swift.String? = nil
-        ) {
-            self.initialContactId = initialContactId
-            self.participantId = participantId
-            self.participantToken = participantToken
-        }
-    }
-}
-
 /// This exception is thrown when the content size exceeds the allowed limit.
 public struct ContentSizeExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -3179,117 +3038,6 @@ public struct DescribePrivateConnectionOutput: Swift.Sendable {
     }
 }
 
-/// Request structure for desribing support level for an account
-public struct DescribeSupportLevelInput: Swift.Sendable {
-    /// The unique identifier for the agent space containing the task
-    /// This member is required.
-    public var agentSpaceId: Swift.String?
-    /// The unique identifier for this task
-    /// This member is required.
-    public var taskId: Swift.String?
-
-    public init(
-        agentSpaceId: Swift.String? = nil,
-        taskId: Swift.String? = nil
-    ) {
-        self.agentSpaceId = agentSpaceId
-        self.taskId = taskId
-    }
-}
-
-extension DevOpsAgentClientTypes {
-
-    /// Represents a support level with all its properties and metadata
-    public struct SupportLevel: Swift.Sendable {
-        /// The support level code
-        /// This member is required.
-        public var code: Swift.String?
-        /// The support level name
-        /// This member is required.
-        public var name: Swift.String?
-
-        public init(
-            code: Swift.String? = nil,
-            name: Swift.String? = nil
-        ) {
-            self.code = code
-            self.name = name
-        }
-    }
-}
-
-/// Response structure containing detailed support level for an account
-public struct DescribeSupportLevelOutput: Swift.Sendable {
-    /// Whether or not the account's subscription is active
-    public var activeSubscription: Swift.Bool?
-    /// The account's Mosaic equivalent support level
-    public var mosaicSupportLevel: DevOpsAgentClientTypes.SupportLevel?
-    /// The account's support level
-    /// This member is required.
-    public var supportLevel: DevOpsAgentClientTypes.SupportLevel?
-
-    public init(
-        activeSubscription: Swift.Bool? = nil,
-        mosaicSupportLevel: DevOpsAgentClientTypes.SupportLevel? = nil,
-        supportLevel: DevOpsAgentClientTypes.SupportLevel? = nil
-    ) {
-        self.activeSubscription = activeSubscription
-        self.mosaicSupportLevel = mosaicSupportLevel
-        self.supportLevel = supportLevel
-    }
-}
-
-/// Request structure for ending a chat session
-public struct EndChatForCaseInput: Swift.Sendable {
-    /// The unique identifier for the agent space containing the task
-    /// This member is required.
-    public var agentSpaceId: Swift.String?
-    /// Client-provided token for idempotent operations
-    public var clientToken: Swift.String?
-    /// Reason for ending the chat session (optional, defaults to 'Chat Ended by CloudSmith')
-    public var reason: Swift.String?
-    /// Who initiated the chat end request (optional, defaults to 'CloudSmith')
-    public var requester: Swift.String?
-    /// The unique identifier for the task execution to end
-    /// This member is required.
-    public var taskId: Swift.String?
-
-    public init(
-        agentSpaceId: Swift.String? = nil,
-        clientToken: Swift.String? = nil,
-        reason: Swift.String? = nil,
-        requester: Swift.String? = nil,
-        taskId: Swift.String? = nil
-    ) {
-        self.agentSpaceId = agentSpaceId
-        self.clientToken = clientToken
-        self.reason = reason
-        self.requester = requester
-        self.taskId = taskId
-    }
-}
-
-/// Response structure for end chat operation
-public struct EndChatForCaseOutput: Swift.Sendable {
-    /// Error message if the disconnect failed
-    public var errorMessage: Swift.String?
-    /// The execution ID that was ended
-    public var executionId: Swift.String?
-    /// Whether the chat session was successfully ended
-    /// This member is required.
-    public var isDisconnected: Swift.Bool?
-
-    public init(
-        errorMessage: Swift.String? = nil,
-        executionId: Swift.String? = nil,
-        isDisconnected: Swift.Bool? = nil
-    ) {
-        self.errorMessage = errorMessage
-        self.executionId = executionId
-        self.isDisconnected = isDisconnected
-    }
-}
-
 public struct GetAccountUsageInput: Swift.Sendable {
 
     public init() { }
@@ -3321,6 +3069,8 @@ public struct GetAccountUsageOutput: Swift.Sendable {
     public var monthlyAccountEvaluationHours: DevOpsAgentClientTypes.UsageMetric?
     /// Monthly investigation hours usage and limit for an account
     public var monthlyAccountInvestigationHours: DevOpsAgentClientTypes.UsageMetric?
+    /// Monthly on-demand hours usage and limit for an account
+    public var monthlyAccountOnDemandHours: DevOpsAgentClientTypes.UsageMetric?
     /// Monthly system learning hours usage and limit for an account
     public var monthlyAccountSystemLearningHours: DevOpsAgentClientTypes.UsageMetric?
     /// The end time of the usage tracking period
@@ -3333,12 +3083,14 @@ public struct GetAccountUsageOutput: Swift.Sendable {
     public init(
         monthlyAccountEvaluationHours: DevOpsAgentClientTypes.UsageMetric? = nil,
         monthlyAccountInvestigationHours: DevOpsAgentClientTypes.UsageMetric? = nil,
+        monthlyAccountOnDemandHours: DevOpsAgentClientTypes.UsageMetric? = nil,
         monthlyAccountSystemLearningHours: DevOpsAgentClientTypes.UsageMetric? = nil,
         usagePeriodEndTime: Foundation.Date? = nil,
         usagePeriodStartTime: Foundation.Date? = nil
     ) {
         self.monthlyAccountEvaluationHours = monthlyAccountEvaluationHours
         self.monthlyAccountInvestigationHours = monthlyAccountInvestigationHours
+        self.monthlyAccountOnDemandHours = monthlyAccountOnDemandHours
         self.monthlyAccountSystemLearningHours = monthlyAccountSystemLearningHours
         self.usagePeriodEndTime = usagePeriodEndTime
         self.usagePeriodStartTime = usagePeriodStartTime
@@ -3585,41 +3337,6 @@ public struct GetRecommendationOutput: Swift.Sendable {
         recommendation: DevOpsAgentClientTypes.Recommendation? = nil
     ) {
         self.recommendation = recommendation
-    }
-}
-
-/// Request structure for initiating a chat for support case
-public struct InitiateChatForCaseInput: Swift.Sendable {
-    /// The unique identifier for the agent space containing the task
-    /// This member is required.
-    public var agentSpaceId: Swift.String?
-    /// Client-provided token for idempotent operations
-    public var clientToken: Swift.String?
-    /// The unique identifier for this task
-    /// This member is required.
-    public var taskId: Swift.String?
-
-    public init(
-        agentSpaceId: Swift.String? = nil,
-        clientToken: Swift.String? = nil,
-        taskId: Swift.String? = nil
-    ) {
-        self.agentSpaceId = agentSpaceId
-        self.clientToken = clientToken
-        self.taskId = taskId
-    }
-}
-
-/// Response structure containing the chat participant connection
-public struct InitiateChatForCaseOutput: Swift.Sendable {
-    /// The newly created chat participant connection
-    /// This member is required.
-    public var chatParticipantConnection: DevOpsAgentClientTypes.ChatParticipantConnection?
-
-    public init(
-        chatParticipantConnection: DevOpsAgentClientTypes.ChatParticipantConnection? = nil
-    ) {
-        self.chatParticipantConnection = chatParticipantConnection
     }
 }
 
@@ -5061,11 +4778,8 @@ extension DevOpsAgentClientTypes {
         case mcpServerGrafana
         /// NewRelic MCP server.
         case mcpServerNewrelic
-        /// SigV4-authenticated MCP server.
-        case mcpServerSigv4
         /// Splunk MCP server.
         case mcpServerSplunk
-        case msTeams
         case pagerduty
         case servicenow
         case slack
@@ -5084,9 +4798,7 @@ extension DevOpsAgentClientTypes {
                 .mcpServerDatadog,
                 .mcpServerGrafana,
                 .mcpServerNewrelic,
-                .mcpServerSigv4,
                 .mcpServerSplunk,
-                .msTeams,
                 .pagerduty,
                 .servicenow,
                 .slack
@@ -5111,9 +4823,7 @@ extension DevOpsAgentClientTypes {
             case .mcpServerDatadog: return "mcpserverdatadog"
             case .mcpServerGrafana: return "mcpservergrafana"
             case .mcpServerNewrelic: return "mcpservernewrelic"
-            case .mcpServerSigv4: return "mcpserversigv4"
             case .mcpServerSplunk: return "mcpserversplunk"
-            case .msTeams: return "msteams"
             case .pagerduty: return "pagerduty"
             case .servicenow: return "servicenow"
             case .slack: return "slack"
@@ -5235,8 +4945,6 @@ extension DevOpsAgentClientTypes {
         case mcpServerGrafana
         /// NewRelic MCP server.
         case mcpServerNewrelic
-        /// SigV4-authenticated MCP server.
-        case mcpServerSigv4
         /// Splunk MCP server.
         case mcpServerSplunk
         case pagerduty
@@ -5253,7 +4961,6 @@ extension DevOpsAgentClientTypes {
                 .mcpServerDatadog,
                 .mcpServerGrafana,
                 .mcpServerNewrelic,
-                .mcpServerSigv4,
                 .mcpServerSplunk,
                 .pagerduty,
                 .servicenow
@@ -5275,7 +4982,6 @@ extension DevOpsAgentClientTypes {
             case .mcpServerDatadog: return "mcpserverdatadog"
             case .mcpServerGrafana: return "mcpservergrafana"
             case .mcpServerNewrelic: return "mcpservernewrelic"
-            case .mcpServerSigv4: return "mcpserversigv4"
             case .mcpServerSplunk: return "mcpserversplunk"
             case .pagerduty: return "pagerduty"
             case .servicenow: return "servicenow"
@@ -5751,67 +5457,6 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
-    /// Authorization configuration for SigV4-authenticated MCP server.
-    public struct MCPServerSigV4AuthorizationConfig: Swift.Sendable {
-        /// AWS region for SigV4 signing.
-        /// This member is required.
-        public var region: Swift.String?
-        /// IAM role ARN to assume for SigV4 signing.
-        /// This member is required.
-        public var roleArn: Swift.String?
-        /// AWS service name for SigV4 signing.
-        /// This member is required.
-        public var service: Swift.String?
-
-        public init(
-            region: Swift.String? = nil,
-            roleArn: Swift.String? = nil,
-            service: Swift.String? = nil
-        ) {
-            self.region = region
-            self.roleArn = roleArn
-            self.service = service
-        }
-    }
-}
-
-extension DevOpsAgentClientTypes {
-
-    /// Complete service details for SigV4-authenticated MCP server integration.
-    public struct MCPServerSigV4ServiceDetails: Swift.Sendable {
-        /// MCP Server SigV4 authorization configuration.
-        /// This member is required.
-        public var authorizationConfig: DevOpsAgentClientTypes.MCPServerSigV4AuthorizationConfig?
-        /// Optional description for the MCP server.
-        public var description: Swift.String?
-        /// MCP server endpoint URL.
-        /// This member is required.
-        public var endpoint: Swift.String?
-        /// MCP server name.
-        /// This member is required.
-        public var name: Swift.String?
-
-        public init(
-            authorizationConfig: DevOpsAgentClientTypes.MCPServerSigV4AuthorizationConfig? = nil,
-            description: Swift.String? = nil,
-            endpoint: Swift.String? = nil,
-            name: Swift.String? = nil
-        ) {
-            self.authorizationConfig = authorizationConfig
-            self.description = description
-            self.endpoint = endpoint
-            self.name = name
-        }
-    }
-}
-
-extension DevOpsAgentClientTypes.MCPServerSigV4ServiceDetails: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "MCPServerSigV4ServiceDetails(authorizationConfig: \(Swift.String(describing: authorizationConfig)), endpoint: \(Swift.String(describing: endpoint)), name: \(Swift.String(describing: name)), description: \"CONTENT_REDACTED\")"}
-}
-
-extension DevOpsAgentClientTypes {
-
     /// OAuth client credentials configuration for PagerDuty.
     public struct PagerDutyOAuthClientCredentialsConfig: Swift.Sendable {
         /// OAuth client ID for authenticating with the service.
@@ -5965,8 +5610,6 @@ extension DevOpsAgentClientTypes {
         case pagerduty(DevOpsAgentClientTypes.PagerDutyDetails)
         /// Azure integration with AWS Outbound Identity Federation specific service details.
         case azureidentity(DevOpsAgentClientTypes.RegisteredAzureIdentityDetails)
-        /// SigV4-authenticated MCP server-specific service details.
-        case mcpserversigv4(DevOpsAgentClientTypes.MCPServerSigV4ServiceDetails)
         case sdkUnknown(Swift.String)
     }
 }
@@ -6319,19 +5962,6 @@ extension DescribePrivateConnectionInput {
     }
 }
 
-extension DescribeSupportLevelInput {
-
-    static func urlPathProvider(_ value: DescribeSupportLevelInput) -> Swift.String? {
-        guard let agentSpaceId = value.agentSpaceId else {
-            return nil
-        }
-        guard let taskId = value.taskId else {
-            return nil
-        }
-        return "/support/agent-space/\(agentSpaceId.urlPercentEncoding())/tasks/\(taskId.urlPercentEncoding())/supportLevel"
-    }
-}
-
 extension DisableOperatorAppInput {
 
     static func urlPathProvider(_ value: DisableOperatorAppInput) -> Swift.String? {
@@ -6373,19 +6003,6 @@ extension EnableOperatorAppInput {
             return nil
         }
         return "/v1/agentspaces/\(agentSpaceId.urlPercentEncoding())/operator"
-    }
-}
-
-extension EndChatForCaseInput {
-
-    static func urlPathProvider(_ value: EndChatForCaseInput) -> Swift.String? {
-        guard let agentSpaceId = value.agentSpaceId else {
-            return nil
-        }
-        guard let taskId = value.taskId else {
-            return nil
-        }
-        return "/support/agent-space/\(agentSpaceId.urlPercentEncoding())/tasks/\(taskId.urlPercentEncoding())/end-chat-for-case"
     }
 }
 
@@ -6474,19 +6091,6 @@ extension GetServiceInput {
             return nil
         }
         return "/v1/services/\(serviceId.urlPercentEncoding())"
-    }
-}
-
-extension InitiateChatForCaseInput {
-
-    static func urlPathProvider(_ value: InitiateChatForCaseInput) -> Swift.String? {
-        guard let agentSpaceId = value.agentSpaceId else {
-            return nil
-        }
-        guard let taskId = value.taskId else {
-            return nil
-        }
-        return "/support/agent-space/\(agentSpaceId.urlPercentEncoding())/tasks/\(taskId.urlPercentEncoding())/chats"
     }
 }
 
@@ -6909,24 +6513,6 @@ extension EnableOperatorAppInput {
     }
 }
 
-extension EndChatForCaseInput {
-
-    static func write(value: EndChatForCaseInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientToken"].write(value.clientToken)
-        try writer["reason"].write(value.reason)
-        try writer["requester"].write(value.requester)
-    }
-}
-
-extension InitiateChatForCaseInput {
-
-    static func write(value: InitiateChatForCaseInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientToken"].write(value.clientToken)
-    }
-}
-
 extension ListBacklogTasksInput {
 
     static func write(value: ListBacklogTasksInput?, to writer: SmithyJSON.Writer) throws {
@@ -7216,20 +6802,6 @@ extension DescribePrivateConnectionOutput {
     }
 }
 
-extension DescribeSupportLevelOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeSupportLevelOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = DescribeSupportLevelOutput()
-        value.activeSubscription = try reader["activeSubscription"].readIfPresent()
-        value.mosaicSupportLevel = try reader["mosaicSupportLevel"].readIfPresent(with: DevOpsAgentClientTypes.SupportLevel.read(from:))
-        value.supportLevel = try reader["supportLevel"].readIfPresent(with: DevOpsAgentClientTypes.SupportLevel.read(from:))
-        return value
-    }
-}
-
 extension DisableOperatorAppOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisableOperatorAppOutput {
@@ -7259,20 +6831,6 @@ extension EnableOperatorAppOutput {
     }
 }
 
-extension EndChatForCaseOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EndChatForCaseOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = EndChatForCaseOutput()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.executionId = try reader["executionId"].readIfPresent()
-        value.isDisconnected = try reader["isDisconnected"].readIfPresent() ?? false
-        return value
-    }
-}
-
 extension GetAccountUsageOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAccountUsageOutput {
@@ -7282,6 +6840,7 @@ extension GetAccountUsageOutput {
         var value = GetAccountUsageOutput()
         value.monthlyAccountEvaluationHours = try reader["monthlyAccountEvaluationHours"].readIfPresent(with: DevOpsAgentClientTypes.UsageMetric.read(from:))
         value.monthlyAccountInvestigationHours = try reader["monthlyAccountInvestigationHours"].readIfPresent(with: DevOpsAgentClientTypes.UsageMetric.read(from:))
+        value.monthlyAccountOnDemandHours = try reader["monthlyAccountOnDemandHours"].readIfPresent(with: DevOpsAgentClientTypes.UsageMetric.read(from:))
         value.monthlyAccountSystemLearningHours = try reader["monthlyAccountSystemLearningHours"].readIfPresent(with: DevOpsAgentClientTypes.UsageMetric.read(from:))
         value.usagePeriodEndTime = try reader["usagePeriodEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.usagePeriodStartTime = try reader["usagePeriodStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -7361,18 +6920,6 @@ extension GetServiceOutput {
         var value = GetServiceOutput()
         value.service = try reader["service"].readIfPresent(with: DevOpsAgentClientTypes.RegisteredService.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension InitiateChatForCaseOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> InitiateChatForCaseOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = InitiateChatForCaseOutput()
-        value.chatParticipantConnection = try reader["chatParticipantConnection"].readIfPresent(with: DevOpsAgentClientTypes.ChatParticipantConnection.read(from:))
         return value
     }
 }
@@ -7887,25 +7434,6 @@ enum DescribePrivateConnectionOutputError {
     }
 }
 
-enum DescribeSupportLevelOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        if let error = try httpServiceError(baseError: baseError) { return error }
-        switch baseError.code {
-            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
-            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
-            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
-            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
 enum DisableOperatorAppOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7953,25 +7481,6 @@ enum EnableOperatorAppOutputError {
         switch baseError.code {
             case "IdentityCenterServiceException": return try IdentityCenterServiceException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
-            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum EndChatForCaseOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        if let error = try httpServiceError(baseError: baseError) { return error }
-        switch baseError.code {
-            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
-            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
-            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -8099,26 +7608,6 @@ enum GetServiceOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
-            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
-            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
-            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum InitiateChatForCaseOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        if let error = try httpServiceError(baseError: baseError) { return error }
-        switch baseError.code {
-            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
-            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -8807,8 +8296,6 @@ extension DevOpsAgentClientTypes.AdditionalServiceDetails {
                 return .mcpservergrafana(try reader["mcpservergrafana"].read(with: DevOpsAgentClientTypes.RegisteredGrafanaServerDetails.read(from:)))
             case "pagerduty":
                 return .pagerduty(try reader["pagerduty"].read(with: DevOpsAgentClientTypes.RegisteredPagerDutyDetails.read(from:)))
-            case "mcpserversigv4":
-                return .mcpserversigv4(try reader["mcpserversigv4"].read(with: DevOpsAgentClientTypes.RegisteredMCPServerSigV4Details.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -8939,18 +8426,6 @@ extension DevOpsAgentClientTypes.ChatExecution {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.summary = try reader["summary"].readIfPresent()
-        return value
-    }
-}
-
-extension DevOpsAgentClientTypes.ChatParticipantConnection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.ChatParticipantConnection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsAgentClientTypes.ChatParticipantConnection()
-        value.initialContactId = try reader["initialContactId"].readIfPresent() ?? ""
-        value.participantId = try reader["participantId"].readIfPresent() ?? ""
-        value.participantToken = try reader["participantToken"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9380,27 +8855,6 @@ extension DevOpsAgentClientTypes.MCPServerOAuthClientCredentialsConfig {
     }
 }
 
-extension DevOpsAgentClientTypes.MCPServerSigV4AuthorizationConfig {
-
-    static func write(value: DevOpsAgentClientTypes.MCPServerSigV4AuthorizationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["region"].write(value.region)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["service"].write(value.service)
-    }
-}
-
-extension DevOpsAgentClientTypes.MCPServerSigV4ServiceDetails {
-
-    static func write(value: DevOpsAgentClientTypes.MCPServerSigV4ServiceDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authorizationConfig"].write(value.authorizationConfig, with: DevOpsAgentClientTypes.MCPServerSigV4AuthorizationConfig.write(value:to:))
-        try writer["description"].write(value.description)
-        try writer["endpoint"].write(value.endpoint)
-        try writer["name"].write(value.name)
-    }
-}
-
 extension DevOpsAgentClientTypes.Message {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.Message {
@@ -9414,59 +8868,6 @@ extension DevOpsAgentClientTypes.Message {
             default:
                 return .sdkUnknown(name ?? "")
         }
-    }
-}
-
-extension DevOpsAgentClientTypes.MSTeamsChannel {
-
-    static func write(value: DevOpsAgentClientTypes.MSTeamsChannel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["channelId"].write(value.channelId)
-        try writer["channelName"].write(value.channelName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.MSTeamsChannel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsAgentClientTypes.MSTeamsChannel()
-        value.channelName = try reader["channelName"].readIfPresent() ?? ""
-        value.channelId = try reader["channelId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DevOpsAgentClientTypes.MSTeamsConfiguration {
-
-    static func write(value: DevOpsAgentClientTypes.MSTeamsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["teamId"].write(value.teamId)
-        try writer["teamName"].write(value.teamName)
-        try writer["transmissionTarget"].write(value.transmissionTarget, with: DevOpsAgentClientTypes.MSTeamsTransmissionTarget.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.MSTeamsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsAgentClientTypes.MSTeamsConfiguration()
-        value.teamId = try reader["teamId"].readIfPresent() ?? ""
-        value.teamName = try reader["teamName"].readIfPresent() ?? ""
-        value.transmissionTarget = try reader["transmissionTarget"].readIfPresent(with: DevOpsAgentClientTypes.MSTeamsTransmissionTarget.read(from:))
-        return value
-    }
-}
-
-extension DevOpsAgentClientTypes.MSTeamsTransmissionTarget {
-
-    static func write(value: DevOpsAgentClientTypes.MSTeamsTransmissionTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["opsOncallTarget"].write(value.opsOncallTarget, with: DevOpsAgentClientTypes.MSTeamsChannel.write(value:to:))
-        try writer["opsSRETarget"].write(value.opsSRETarget, with: DevOpsAgentClientTypes.MSTeamsChannel.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.MSTeamsTransmissionTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsAgentClientTypes.MSTeamsTransmissionTarget()
-        value.opsOncallTarget = try reader["opsOncallTarget"].readIfPresent(with: DevOpsAgentClientTypes.MSTeamsChannel.read(from:))
-        value.opsSRETarget = try reader["opsSRETarget"].readIfPresent(with: DevOpsAgentClientTypes.MSTeamsChannel.read(from:))
-        return value
     }
 }
 
@@ -9746,21 +9147,6 @@ extension DevOpsAgentClientTypes.RegisteredMCPServerDetails {
     }
 }
 
-extension DevOpsAgentClientTypes.RegisteredMCPServerSigV4Details {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.RegisteredMCPServerSigV4Details {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsAgentClientTypes.RegisteredMCPServerSigV4Details()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.region = try reader["region"].readIfPresent() ?? ""
-        value.service = try reader["service"].readIfPresent() ?? ""
-        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension DevOpsAgentClientTypes.RegisteredNewRelicDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.RegisteredNewRelicDetails {
@@ -10016,8 +9402,6 @@ extension DevOpsAgentClientTypes.ServiceConfiguration {
                 try writer["mcpservergrafana"].write(mcpservergrafana, with: DevOpsAgentClientTypes.MCPServerGrafanaConfiguration.write(value:to:))
             case let .mcpservernewrelic(mcpservernewrelic):
                 try writer["mcpservernewrelic"].write(mcpservernewrelic, with: DevOpsAgentClientTypes.MCPServerNewRelicConfiguration.write(value:to:))
-            case let .msteams(msteams):
-                try writer["msteams"].write(msteams, with: DevOpsAgentClientTypes.MSTeamsConfiguration.write(value:to:))
             case let .pagerduty(pagerduty):
                 try writer["pagerduty"].write(pagerduty, with: DevOpsAgentClientTypes.PagerDutyConfiguration.write(value:to:))
             case let .servicenow(servicenow):
@@ -10061,8 +9445,6 @@ extension DevOpsAgentClientTypes.ServiceConfiguration {
                 return .mcpservergrafana(try reader["mcpservergrafana"].read(with: DevOpsAgentClientTypes.MCPServerGrafanaConfiguration.read(from:)))
             case "pagerduty":
                 return .pagerduty(try reader["pagerduty"].read(with: DevOpsAgentClientTypes.PagerDutyConfiguration.read(from:)))
-            case "msteams":
-                return .msteams(try reader["msteams"].read(with: DevOpsAgentClientTypes.MSTeamsConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -10090,8 +9472,6 @@ extension DevOpsAgentClientTypes.ServiceDetails {
                 try writer["mcpservergrafana"].write(mcpservergrafana, with: DevOpsAgentClientTypes.GrafanaServiceDetails.write(value:to:))
             case let .mcpservernewrelic(mcpservernewrelic):
                 try writer["mcpservernewrelic"].write(mcpservernewrelic, with: DevOpsAgentClientTypes.NewRelicServiceDetails.write(value:to:))
-            case let .mcpserversigv4(mcpserversigv4):
-                try writer["mcpserversigv4"].write(mcpserversigv4, with: DevOpsAgentClientTypes.MCPServerSigV4ServiceDetails.write(value:to:))
             case let .mcpserversplunk(mcpserversplunk):
                 try writer["mcpserversplunk"].write(mcpserversplunk, with: DevOpsAgentClientTypes.MCPServerDetails.write(value:to:))
             case let .pagerduty(pagerduty):
@@ -10239,17 +9619,6 @@ extension DevOpsAgentClientTypes.SourceAwsConfiguration {
         value.accountType = try reader["accountType"].readIfPresent() ?? .sdkUnknown("")
         value.assumableRoleArn = try reader["assumableRoleArn"].readIfPresent() ?? ""
         value.externalId = try reader["externalId"].readIfPresent()
-        return value
-    }
-}
-
-extension DevOpsAgentClientTypes.SupportLevel {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.SupportLevel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DevOpsAgentClientTypes.SupportLevel()
-        value.code = try reader["code"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }

@@ -1200,13 +1200,19 @@ extension ObservabilityAdminClientTypes {
 extension ObservabilityAdminClientTypes {
 
     public enum LogType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case access
         case application
+        case connection
+        case securityFinding
         case usage
         case sdkUnknown(Swift.String)
 
         public static var allCases: [LogType] {
             return [
+                .access,
                 .application,
+                .connection,
+                .securityFinding,
                 .usage
             ]
         }
@@ -1218,7 +1224,10 @@ extension ObservabilityAdminClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .access: return "ACCESS_LOGS"
             case .application: return "APPLICATION_LOGS"
+            case .connection: return "CONNECTION_LOGS"
+            case .securityFinding: return "SECURITY_FINDING_LOGS"
             case .usage: return "USAGE_LOGS"
             case let .sdkUnknown(s): return s
             }
@@ -1506,7 +1515,10 @@ extension ObservabilityAdminClientTypes {
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsBedrockAgentcoreBrowser
         case awsBedrockAgentcoreCodeInterpreter
+        case awsBedrockAgentcoreGateway
+        case awsBedrockAgentcoreMemory
         case awsBedrockAgentcoreRuntime
+        case awsCloudfrontDistribution
         case awsCloudtrail
         case awsEc2Instance
         case awsEc2Vpc
@@ -1514,6 +1526,7 @@ extension ObservabilityAdminClientTypes {
         case awsElbLoadbalancer
         case awsLamdbaFunction
         case awsRoute53ResolverResolverEndpoint
+        case awsSecurityHub
         case awsWafV2WebAcl
         case sdkUnknown(Swift.String)
 
@@ -1521,7 +1534,10 @@ extension ObservabilityAdminClientTypes {
             return [
                 .awsBedrockAgentcoreBrowser,
                 .awsBedrockAgentcoreCodeInterpreter,
+                .awsBedrockAgentcoreGateway,
+                .awsBedrockAgentcoreMemory,
                 .awsBedrockAgentcoreRuntime,
+                .awsCloudfrontDistribution,
                 .awsCloudtrail,
                 .awsEc2Instance,
                 .awsEc2Vpc,
@@ -1529,6 +1545,7 @@ extension ObservabilityAdminClientTypes {
                 .awsElbLoadbalancer,
                 .awsLamdbaFunction,
                 .awsRoute53ResolverResolverEndpoint,
+                .awsSecurityHub,
                 .awsWafV2WebAcl
             ]
         }
@@ -1542,7 +1559,10 @@ extension ObservabilityAdminClientTypes {
             switch self {
             case .awsBedrockAgentcoreBrowser: return "AWS::BedrockAgentCore::Browser"
             case .awsBedrockAgentcoreCodeInterpreter: return "AWS::BedrockAgentCore::CodeInterpreter"
+            case .awsBedrockAgentcoreGateway: return "AWS::BedrockAgentCore::Gateway"
+            case .awsBedrockAgentcoreMemory: return "AWS::BedrockAgentCore::Memory"
             case .awsBedrockAgentcoreRuntime: return "AWS::BedrockAgentCore::Runtime"
+            case .awsCloudfrontDistribution: return "AWS::CloudFront::Distribution"
             case .awsCloudtrail: return "AWS::CloudTrail"
             case .awsEc2Instance: return "AWS::EC2::Instance"
             case .awsEc2Vpc: return "AWS::EC2::VPC"
@@ -1550,6 +1570,7 @@ extension ObservabilityAdminClientTypes {
             case .awsElbLoadbalancer: return "AWS::ElasticLoadBalancingV2::LoadBalancer"
             case .awsLamdbaFunction: return "AWS::Lambda::Function"
             case .awsRoute53ResolverResolverEndpoint: return "AWS::Route53Resolver::ResolverEndpoint"
+            case .awsSecurityHub: return "AWS::SecurityHub::Hub"
             case .awsWafV2WebAcl: return "AWS::WAFv2::WebACL"
             case let .sdkUnknown(s): return s
             }

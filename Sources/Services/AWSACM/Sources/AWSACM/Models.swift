@@ -92,6 +92,320 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
+extension ACMClientTypes {
+
+    public enum CertificateExport: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CertificateExport] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    public enum CertificateManagedBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cloudfront
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CertificateManagedBy] {
+            return [
+                .cloudfront
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudfront: return "CLOUDFRONT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    public enum RenewalEligibility: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case eligible
+        case ineligible
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RenewalEligibility] {
+            return [
+                .eligible,
+                .ineligible
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .eligible: return "ELIGIBLE"
+            case .ineligible: return "INELIGIBLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    public enum RenewalStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case pendingAutoRenewal
+        case pendingValidation
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RenewalStatus] {
+            return [
+                .failed,
+                .pendingAutoRenewal,
+                .pendingValidation,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .pendingAutoRenewal: return "PENDING_AUTO_RENEWAL"
+            case .pendingValidation: return "PENDING_VALIDATION"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    public enum CertificateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case expired
+        case failed
+        case inactive
+        case issued
+        case pendingValidation
+        case revoked
+        case validationTimedOut
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CertificateStatus] {
+            return [
+                .expired,
+                .failed,
+                .inactive,
+                .issued,
+                .pendingValidation,
+                .revoked,
+                .validationTimedOut
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .expired: return "EXPIRED"
+            case .failed: return "FAILED"
+            case .inactive: return "INACTIVE"
+            case .issued: return "ISSUED"
+            case .pendingValidation: return "PENDING_VALIDATION"
+            case .revoked: return "REVOKED"
+            case .validationTimedOut: return "VALIDATION_TIMED_OUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    public enum CertificateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case amazonIssued
+        case imported
+        case `private`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CertificateType] {
+            return [
+                .amazonIssued,
+                .imported,
+                .private
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .amazonIssued: return "AMAZON_ISSUED"
+            case .imported: return "IMPORTED"
+            case .private: return "PRIVATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    public enum ValidationMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dns
+        case email
+        case http
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidationMethod] {
+            return [
+                .dns,
+                .email,
+                .http
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dns: return "DNS"
+            case .email: return "EMAIL"
+            case .http: return "HTTP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains ACM-specific metadata about a certificate.
+    public struct AcmCertificateMetadata: Swift.Sendable {
+        /// The time at which the certificate was requested.
+        public var createdAt: Foundation.Date?
+        /// Indicates whether the certificate can be exported.
+        public var exportOption: ACMClientTypes.CertificateExport?
+        /// Indicates whether the certificate has been exported.
+        public var exported: Swift.Bool?
+        /// The date and time when the certificate was imported. This value exists only when the certificate type is IMPORTED.
+        public var importedAt: Foundation.Date?
+        /// Indicates whether the certificate is currently in use by an Amazon Web Services service.
+        public var inUse: Swift.Bool?
+        /// The time at which the certificate was issued. This value exists only when the certificate type is AMAZON_ISSUED.
+        public var issuedAt: Foundation.Date?
+        /// Identifies the Amazon Web Services service that manages the certificate issued by ACM.
+        public var managedBy: ACMClientTypes.CertificateManagedBy?
+        /// Specifies whether the certificate is eligible for renewal. At this time, only exported private certificates can be renewed with the [RenewCertificate] command.
+        public var renewalEligibility: ACMClientTypes.RenewalEligibility?
+        /// The renewal status of the certificate.
+        public var renewalStatus: ACMClientTypes.RenewalStatus?
+        /// The time at which the certificate was revoked. This value exists only when the certificate status is REVOKED.
+        public var revokedAt: Foundation.Date?
+        /// The status of the certificate. A certificate enters status PENDING_VALIDATION upon being requested, unless it fails for any of the reasons given in the troubleshooting topic [Certificate request fails](https://docs.aws.amazon.com/acm/latest/userguide/troubleshooting-failed.html). ACM makes repeated attempts to validate a certificate for 72 hours and then times out. If a certificate shows status FAILED or VALIDATION_TIMED_OUT, delete the request, correct the issue with [DNS validation](https://docs.aws.amazon.com/acm/latest/userguide/dns-validation.html) or [Email validation](https://docs.aws.amazon.com/acm/latest/userguide/email-validation.html), and try again. If validation succeeds, the certificate enters status ISSUED.
+        public var status: ACMClientTypes.CertificateStatus?
+        /// The source of the certificate. For certificates provided by ACM, this value is AMAZON_ISSUED. For certificates that you imported with [ImportCertificate], this value is IMPORTED. ACM does not provide [managed renewal](https://docs.aws.amazon.com/acm/latest/userguide/acm-renewal.html) for imported certificates. For more information about the differences between certificates that you import and those that ACM provides, see [Importing Certificates](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the Certificate Manager User Guide.
+        public var type: ACMClientTypes.CertificateType?
+        /// Specifies the domain validation method.
+        public var validationMethod: ACMClientTypes.ValidationMethod?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            exportOption: ACMClientTypes.CertificateExport? = nil,
+            exported: Swift.Bool? = nil,
+            importedAt: Foundation.Date? = nil,
+            inUse: Swift.Bool? = nil,
+            issuedAt: Foundation.Date? = nil,
+            managedBy: ACMClientTypes.CertificateManagedBy? = nil,
+            renewalEligibility: ACMClientTypes.RenewalEligibility? = nil,
+            renewalStatus: ACMClientTypes.RenewalStatus? = nil,
+            revokedAt: Foundation.Date? = nil,
+            status: ACMClientTypes.CertificateStatus? = nil,
+            type: ACMClientTypes.CertificateType? = nil,
+            validationMethod: ACMClientTypes.ValidationMethod? = nil
+        ) {
+            self.createdAt = createdAt
+            self.exportOption = exportOption
+            self.exported = exported
+            self.importedAt = importedAt
+            self.inUse = inUse
+            self.issuedAt = issuedAt
+            self.managedBy = managedBy
+            self.renewalEligibility = renewalEligibility
+            self.renewalStatus = renewalStatus
+            self.revokedAt = revokedAt
+            self.status = status
+            self.type = type
+            self.validationMethod = validationMethod
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Filters certificates by ACM metadata.
+    public enum AcmCertificateMetadataFilter: Swift.Sendable {
+        /// Filter by certificate status.
+        case status(ACMClientTypes.CertificateStatus)
+        /// Filter by certificate renewal status.
+        case renewalstatus(ACMClientTypes.RenewalStatus)
+        /// Filter by certificate type.
+        case type(ACMClientTypes.CertificateType)
+        /// Filter by whether the certificate is in use.
+        case inuse(Swift.Bool)
+        /// Filter by whether the certificate has been exported.
+        case exported(Swift.Bool)
+        /// Filter by certificate export option.
+        case exportoption(ACMClientTypes.CertificateExport)
+        /// Filter by the entity that manages the certificate.
+        case managedby(ACMClientTypes.CertificateManagedBy)
+        /// Filter by validation method.
+        case validationmethod(ACMClientTypes.ValidationMethod)
+        case sdkUnknown(Swift.String)
+    }
+}
+
 /// The requested Amazon Resource Name (ARN) does not refer to an existing resource.
 public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -207,11 +521,32 @@ public struct TagPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
+extension ACMClientTypes {
+
+    /// A description of why a request was throttled.
+    public struct ThrottlingReason: Swift.Sendable {
+        /// A description of why a request was throttled.
+        public var reason: Swift.String?
+        /// The resource that causes the request to be throttled.
+        public var resource: Swift.String?
+
+        public init(
+            reason: Swift.String? = nil,
+            resource: Swift.String? = nil
+        ) {
+            self.reason = reason
+            self.resource = resource
+        }
+    }
+}
+
 /// The request was denied because it exceeded a quota.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
+        /// One or more reasons why the request was throttled.
+        public internal(set) var throttlingReasons: [ACMClientTypes.ThrottlingReason]? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -224,9 +559,11 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public internal(set) var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        throttlingReasons: [ACMClientTypes.ThrottlingReason]? = nil
     ) {
         self.properties.message = message
+        self.properties.throttlingReasons = throttlingReasons
     }
 }
 
@@ -357,38 +694,6 @@ extension ACMClientTypes {
             self.name = name
             self.type = type
             self.value = value
-        }
-    }
-}
-
-extension ACMClientTypes {
-
-    public enum ValidationMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case dns
-        case email
-        case http
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ValidationMethod] {
-            return [
-                .dns,
-                .email,
-                .http
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .dns: return "DNS"
-            case .email: return "EMAIL"
-            case .http: return "HTTP"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -758,32 +1063,6 @@ extension ACMClientTypes {
 
 extension ACMClientTypes {
 
-    public enum CertificateManagedBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case cloudfront
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [CertificateManagedBy] {
-            return [
-                .cloudfront
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .cloudfront: return "CLOUDFRONT"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ACMClientTypes {
-
     public enum CertificateTransparencyLoggingPreference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -813,40 +1092,11 @@ extension ACMClientTypes {
 
 extension ACMClientTypes {
 
-    public enum CertificateExport: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [CertificateExport] {
-            return [
-                .disabled,
-                .enabled
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "DISABLED"
-            case .enabled: return "ENABLED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ACMClientTypes {
-
     /// Structure that contains options for your certificate. You can use this structure to specify whether to opt in to or out of certificate transparency logging and export your certificate. Some browsers require that public certificates issued for your domain be recorded in a log. Certificates that are not logged typically generate a browser error. Transparency makes it possible for you to detect SSL/TLS certificates that have been mistakenly or maliciously issued for your domain. For general information, see [Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency). You can export public ACM certificates to use with Amazon Web Services services as well as outside Amazon Web Services Cloud. For more information, see [Certificate Manager exportable public certificate](https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html).
     public struct CertificateOptions: Swift.Sendable {
         /// You can opt out of certificate transparency logging by specifying the DISABLED option. Opt in by specifying ENABLED.
         public var certificateTransparencyLoggingPreference: ACMClientTypes.CertificateTransparencyLoggingPreference?
-        /// You can opt in to allow the export of your certificates by specifying ENABLED.
+        /// You can opt in to allow the export of your certificates by specifying ENABLED. You cannot update the value of Export after the the certificate is created.
         public var export: ACMClientTypes.CertificateExport?
 
         public init(
@@ -855,70 +1105,6 @@ extension ACMClientTypes {
         ) {
             self.certificateTransparencyLoggingPreference = certificateTransparencyLoggingPreference
             self.export = export
-        }
-    }
-}
-
-extension ACMClientTypes {
-
-    public enum RenewalEligibility: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case eligible
-        case ineligible
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [RenewalEligibility] {
-            return [
-                .eligible,
-                .ineligible
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .eligible: return "ELIGIBLE"
-            case .ineligible: return "INELIGIBLE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ACMClientTypes {
-
-    public enum RenewalStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case failed
-        case pendingAutoRenewal
-        case pendingValidation
-        case success
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [RenewalStatus] {
-            return [
-                .failed,
-                .pendingAutoRenewal,
-                .pendingValidation,
-                .success
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .failed: return "FAILED"
-            case .pendingAutoRenewal: return "PENDING_AUTO_RENEWAL"
-            case .pendingValidation: return "PENDING_VALIDATION"
-            case .success: return "SUCCESS"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -1003,82 +1189,6 @@ extension ACMClientTypes {
             case .superceded: return "SUPERCEDED"
             case .superseded: return "SUPERSEDED"
             case .unspecified: return "UNSPECIFIED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ACMClientTypes {
-
-    public enum CertificateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case expired
-        case failed
-        case inactive
-        case issued
-        case pendingValidation
-        case revoked
-        case validationTimedOut
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [CertificateStatus] {
-            return [
-                .expired,
-                .failed,
-                .inactive,
-                .issued,
-                .pendingValidation,
-                .revoked,
-                .validationTimedOut
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .expired: return "EXPIRED"
-            case .failed: return "FAILED"
-            case .inactive: return "INACTIVE"
-            case .issued: return "ISSUED"
-            case .pendingValidation: return "PENDING_VALIDATION"
-            case .revoked: return "REVOKED"
-            case .validationTimedOut: return "VALIDATION_TIMED_OUT"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ACMClientTypes {
-
-    public enum CertificateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case amazonIssued
-        case imported
-        case `private`
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [CertificateType] {
-            return [
-                .amazonIssued,
-                .imported,
-                .private
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .amazonIssued: return "AMAZON_ISSUED"
-            case .imported: return "IMPORTED"
-            case .private: return "PRIVATE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1201,6 +1311,155 @@ extension ACMClientTypes {
             self.subjectAlternativeNames = subjectAlternativeNames
             self.type = type
         }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Specifies a time range for filtering certificates.
+    public struct TimestampRange: Swift.Sendable {
+        /// The end of the time range. This value is inclusive.
+        public var end: Foundation.Date?
+        /// The start of the time range. This value is inclusive.
+        public var start: Foundation.Date?
+
+        public init(
+            end: Foundation.Date? = nil,
+            start: Foundation.Date? = nil
+        ) {
+            self.end = end
+            self.start = start
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// The comparison operator to use for string filters. Valid values are CONTAINS and EQUALS.
+    public enum ComparisonOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contains
+        case equals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComparisonOperator] {
+            return [
+                .contains,
+                .equals
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contains: return "CONTAINS"
+            case .equals: return "EQUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Filters certificates by common name.
+    public struct CommonNameFilter: Swift.Sendable {
+        /// The comparison operator to use.
+        /// This member is required.
+        public var comparisonOperator: ACMClientTypes.ComparisonOperator?
+        /// The value to match against.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            comparisonOperator: ACMClientTypes.ComparisonOperator? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.comparisonOperator = comparisonOperator
+            self.value = value
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Filters certificates by subject attributes.
+    public enum SubjectFilter: Swift.Sendable {
+        /// Filter by common name in the subject.
+        case commonname(ACMClientTypes.CommonNameFilter)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Filters certificates by DNS name.
+    public struct DnsNameFilter: Swift.Sendable {
+        /// The comparison operator to use.
+        /// This member is required.
+        public var comparisonOperator: ACMClientTypes.ComparisonOperator?
+        /// The DNS name value to match against.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            comparisonOperator: ACMClientTypes.ComparisonOperator? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.comparisonOperator = comparisonOperator
+            self.value = value
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Filters certificates by subject alternative name attributes.
+    public enum SubjectAlternativeNameFilter: Swift.Sendable {
+        /// Filter by DNS name in subject alternative names.
+        case dnsname(ACMClientTypes.DnsNameFilter)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Filters certificates by X.509 attributes.
+    public enum X509AttributeFilter: Swift.Sendable {
+        /// Filter by certificate subject.
+        case subject(ACMClientTypes.SubjectFilter)
+        /// Filter by subject alternative names.
+        case subjectalternativename(ACMClientTypes.SubjectAlternativeNameFilter)
+        /// Filter by extended key usage.
+        case extendedkeyusage(ACMClientTypes.ExtendedKeyUsageName)
+        /// Filter by key usage.
+        case keyusage(ACMClientTypes.KeyUsageName)
+        /// Filter by key algorithm.
+        case keyalgorithm(ACMClientTypes.KeyAlgorithm)
+        /// Filter by serial number.
+        case serialnumber(Swift.String)
+        /// Filter by certificate expiration date. The start date is inclusive.
+        case notafter(ACMClientTypes.TimestampRange)
+        /// Filter by certificate validity start date. The start date is inclusive.
+        case notbefore(ACMClientTypes.TimestampRange)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Defines a filter for searching certificates by ARN, X.509 attributes, or ACM metadata.
+    public enum CertificateFilter: Swift.Sendable {
+        /// Filter by certificate ARN.
+        case certificatearn(Swift.String)
+        /// Filter by X.509 certificate attributes.
+        case x509attributefilter(ACMClientTypes.X509AttributeFilter)
+        /// Filter by ACM certificate metadata.
+        case acmcertificatemetadatafilter(ACMClientTypes.AcmCertificateMetadataFilter)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -1654,7 +1913,7 @@ extension ACMClientTypes {
         public var exported: Swift.Bool?
         /// Contains a list of Extended Key Usage X.509 v3 extension objects. Each object specifies a purpose for which the certificate public key can be used and consists of a name and an object identifier (OID).
         public var extendedKeyUsages: [ACMClientTypes.ExtendedKeyUsageName]?
-        /// When called by [ListCertificates](https://docs.aws.amazon.com/acm/latestAPIReference/API_ListCertificates.html), indicates whether the full list of subject alternative names has been included in the response. If false, the response includes all of the subject alternative names included in the certificate. If true, the response only includes the first 100 subject alternative names included in the certificate. To display the full list of subject alternative names, use [DescribeCertificate](https://docs.aws.amazon.com/acm/latestAPIReference/API_DescribeCertificate.html).
+        /// When called by [ListCertificates](https://docs.aws.amazon.com/acm/latest/APIReference/API_ListCertificates.html), indicates whether the full list of subject alternative names has been included in the response. If false, the response includes all of the subject alternative names included in the certificate. If true, the response only includes the first 100 subject alternative names included in the certificate. To display the full list of subject alternative names, use [DescribeCertificate](https://docs.aws.amazon.com/acm/latest/APIReference/API_DescribeCertificate.html).
         public var hasAdditionalSubjectAlternativeNames: Swift.Bool?
         /// The date and time when the certificate was imported. This value exists only when the certificate type is IMPORTED.
         public var importedAt: Foundation.Date?
@@ -1678,7 +1937,7 @@ extension ACMClientTypes {
         public var revokedAt: Foundation.Date?
         /// The status of the certificate. A certificate enters status PENDING_VALIDATION upon being requested, unless it fails for any of the reasons given in the troubleshooting topic [Certificate request fails](https://docs.aws.amazon.com/acm/latest/userguide/troubleshooting-failed.html). ACM makes repeated attempts to validate a certificate for 72 hours and then times out. If a certificate shows status FAILED or VALIDATION_TIMED_OUT, delete the request, correct the issue with [DNS validation](https://docs.aws.amazon.com/acm/latest/userguide/dns-validation.html) or [Email validation](https://docs.aws.amazon.com/acm/latest/userguide/email-validation.html), and try again. If validation succeeds, the certificate enters status ISSUED.
         public var status: ACMClientTypes.CertificateStatus?
-        /// One or more domain names (subject alternative names) included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CN) of the certificate and additional domain names that can be used to connect to the website. When called by [ListCertificates](https://docs.aws.amazon.com/acm/latestAPIReference/API_ListCertificates.html), this parameter will only return the first 100 subject alternative names included in the certificate. To display the full list of subject alternative names, use [DescribeCertificate](https://docs.aws.amazon.com/acm/latestAPIReference/API_DescribeCertificate.html).
+        /// One or more domain names (subject alternative names) included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CN) of the certificate and additional domain names that can be used to connect to the website. When called by [ListCertificates](https://docs.aws.amazon.com/acm/latest/APIReference/API_ListCertificates.html), this parameter will only return the first 100 subject alternative names included in the certificate. To display the full list of subject alternative names, use [DescribeCertificate](https://docs.aws.amazon.com/acm/latest/APIReference/API_DescribeCertificate.html).
         public var subjectAlternativeNameSummaries: [Swift.String]?
         /// The source of the certificate. For certificates provided by ACM, this value is AMAZON_ISSUED. For certificates that you imported with [ImportCertificate], this value is IMPORTED. ACM does not provide [managed renewal](https://docs.aws.amazon.com/acm/latest/userguide/acm-renewal.html) for imported certificates. For more information about the differences between certificates that you import and those that ACM provides, see [Importing Certificates](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the Certificate Manager User Guide.
         public var type: ACMClientTypes.CertificateType?
@@ -1876,7 +2135,7 @@ public struct RequestCertificateInput: Swift.Sendable {
     public var domainValidationOptions: [ACMClientTypes.DomainValidationOption]?
     /// Customer chosen string that can be used to distinguish between calls to RequestCertificate. Idempotency tokens time out after one hour. Therefore, if you call RequestCertificate multiple times with the same idempotency token within one hour, ACM recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, ACM recognizes that you are requesting multiple certificates.
     public var idempotencyToken: Swift.String?
-    /// Specifies the algorithm of the public and private key pair that your certificate uses to encrypt data. RSA is the default key algorithm for ACM certificates. Elliptic Curve Digital Signature Algorithm (ECDSA) keys are smaller, offering security comparable to RSA keys but with greater computing efficiency. However, ECDSA is not supported by all network clients. Some Amazon Web Services services may require RSA keys, or only support ECDSA keys of a particular size, while others allow the use of either RSA and ECDSA keys to ensure that compatibility is not broken. Check the requirements for the Amazon Web Services service where you plan to deploy your certificate. For more information about selecting an algorithm, see [Key algorithms](https://docs.aws.amazon.com/acm/latest/userguide/acm-certificate.html#algorithms). Algorithms supported for an ACM certificate request include:
+    /// Specifies the algorithm of the public and private key pair that your certificate uses to encrypt data. RSA is the default key algorithm for ACM certificates. Elliptic Curve Digital Signature Algorithm (ECDSA) keys are smaller, offering security comparable to RSA keys but with greater computing efficiency. However, ECDSA is not supported by all network clients. Some Amazon Web Services services may require RSA keys, or only support ECDSA keys of a particular size, while others allow the use of either RSA and ECDSA keys to ensure that compatibility is not broken. Check the requirements for the Amazon Web Services service where you plan to deploy your certificate. For more information about selecting an algorithm, see [Key algorithms](https://docs.aws.amazon.com/acm/latest/userguide/acm-certificate-characteristics.html#algorithms-term). Algorithms supported for an ACM certificate request include:
     ///
     /// * RSA_2048
     ///
@@ -1970,7 +2229,7 @@ public struct ResendValidationEmailInput: Swift.Sendable {
     /// The fully qualified domain name (FQDN) of the certificate that needs to be validated.
     /// This member is required.
     public var domain: Swift.String?
-    /// The base validation domain that will act as the suffix of the email addresses that are used to send the emails. This must be the same as the Domain value or a superdomain of the Domain value. For example, if you requested a certificate for site.subdomain.example.com and specify a ValidationDomain of subdomain.example.com, ACM sends email to the domain registrant, technical contact, and administrative contact in WHOIS and the following five addresses:
+    /// The base validation domain that will act as the suffix of the email addresses that are used to send the emails. This must be the same as the Domain value or a superdomain of the Domain value. For example, if you requested a certificate for site.subdomain.example.com and specify a ValidationDomain of subdomain.example.com, ACM sends email to the the following five addresses:
     ///
     /// * admin@subdomain.example.com
     ///
@@ -2023,6 +2282,344 @@ public struct RevokeCertificateOutput: Swift.Sendable {
     }
 }
 
+extension ACMClientTypes {
+
+    /// The field to sort search results by.
+    public enum SearchCertificatesSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case certificateArn
+        case commonName
+        case createdAt
+        case exported
+        case exportOption
+        case importedAt
+        case inUse
+        case issuedAt
+        case keyAlgorithm
+        case managedBy
+        case notAfter
+        case notBefore
+        case renewalEligibility
+        case renewalStatus
+        case revokedAt
+        case status
+        case type
+        case validationMethod
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchCertificatesSortBy] {
+            return [
+                .certificateArn,
+                .commonName,
+                .createdAt,
+                .exported,
+                .exportOption,
+                .importedAt,
+                .inUse,
+                .issuedAt,
+                .keyAlgorithm,
+                .managedBy,
+                .notAfter,
+                .notBefore,
+                .renewalEligibility,
+                .renewalStatus,
+                .revokedAt,
+                .status,
+                .type,
+                .validationMethod
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .certificateArn: return "CERTIFICATE_ARN"
+            case .commonName: return "COMMON_NAME"
+            case .createdAt: return "CREATED_AT"
+            case .exported: return "EXPORTED"
+            case .exportOption: return "EXPORT_OPTION"
+            case .importedAt: return "IMPORTED_AT"
+            case .inUse: return "IN_USE"
+            case .issuedAt: return "ISSUED_AT"
+            case .keyAlgorithm: return "KEY_ALGORITHM"
+            case .managedBy: return "MANAGED_BY"
+            case .notAfter: return "NOT_AFTER"
+            case .notBefore: return "NOT_BEFORE"
+            case .renewalEligibility: return "RENEWAL_ELIGIBILITY"
+            case .renewalStatus: return "RENEWAL_STATUS"
+            case .revokedAt: return "REVOKED_AT"
+            case .status: return "STATUS"
+            case .type: return "TYPE"
+            case .validationMethod: return "VALIDATION_METHOD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// The order to sort search results.
+    public enum SearchCertificatesSortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ascending
+        case descending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchCertificatesSortOrder] {
+            return [
+                .ascending,
+                .descending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ascending: return "ASCENDING"
+            case .descending: return "DESCENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains metadata about a certificate. Currently supports ACM certificate metadata.
+    public enum CertificateMetadata: Swift.Sendable {
+        /// Metadata for an ACM certificate.
+        case acmcertificatemetadata(ACMClientTypes.AcmCertificateMetadata)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Defines the X.500 relative distinguished name (RDN).
+    public struct CustomAttribute: Swift.Sendable {
+        /// Specifies the object identifier (OID) of the attribute type of the relative distinguished name (RDN).
+        public var objectIdentifier: Swift.String?
+        /// Specifies the attribute value of relative distinguished name (RDN).
+        public var value: Swift.String?
+
+        public init(
+            objectIdentifier: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.objectIdentifier = objectIdentifier
+            self.value = value
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains X.500 distinguished name information.
+    public struct DistinguishedName: Swift.Sendable {
+        /// The common name (CN) attribute.
+        public var commonName: Swift.String?
+        /// The country (C) attribute.
+        public var country: Swift.String?
+        /// A list of custom attributes in the distinguished name. Each custom attribute contains an object identifier (OID) and its corresponding value.
+        public var customAttributes: [ACMClientTypes.CustomAttribute]?
+        /// The distinguished name qualifier attribute.
+        public var distinguishedNameQualifier: Swift.String?
+        /// The domain component attributes.
+        public var domainComponents: [Swift.String]?
+        /// The generation qualifier attribute.
+        public var generationQualifier: Swift.String?
+        /// The given name attribute.
+        public var givenName: Swift.String?
+        /// The initials attribute.
+        public var initials: Swift.String?
+        /// The locality (L) attribute.
+        public var locality: Swift.String?
+        /// The organization (O) attribute.
+        public var organization: Swift.String?
+        /// The organizational unit (OU) attribute.
+        public var organizationalUnit: Swift.String?
+        /// The pseudonym attribute.
+        public var pseudonym: Swift.String?
+        /// The serial number attribute.
+        public var serialNumber: Swift.String?
+        /// The state or province (ST) attribute.
+        public var state: Swift.String?
+        /// The surname attribute.
+        public var surname: Swift.String?
+        /// The title attribute.
+        public var title: Swift.String?
+
+        public init(
+            commonName: Swift.String? = nil,
+            country: Swift.String? = nil,
+            customAttributes: [ACMClientTypes.CustomAttribute]? = nil,
+            distinguishedNameQualifier: Swift.String? = nil,
+            domainComponents: [Swift.String]? = nil,
+            generationQualifier: Swift.String? = nil,
+            givenName: Swift.String? = nil,
+            initials: Swift.String? = nil,
+            locality: Swift.String? = nil,
+            organization: Swift.String? = nil,
+            organizationalUnit: Swift.String? = nil,
+            pseudonym: Swift.String? = nil,
+            serialNumber: Swift.String? = nil,
+            state: Swift.String? = nil,
+            surname: Swift.String? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.commonName = commonName
+            self.country = country
+            self.customAttributes = customAttributes
+            self.distinguishedNameQualifier = distinguishedNameQualifier
+            self.domainComponents = domainComponents
+            self.generationQualifier = generationQualifier
+            self.givenName = givenName
+            self.initials = initials
+            self.locality = locality
+            self.organization = organization
+            self.organizationalUnit = organizationalUnit
+            self.pseudonym = pseudonym
+            self.serialNumber = serialNumber
+            self.state = state
+            self.surname = surname
+            self.title = title
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Defines a custom ASN.1 X.400 GeneralName using an object identifier (OID) and value. For more information, see NIST's definition of [Object Identifier (OID)](https://csrc.nist.gov/glossary/term/Object_Identifier).
+    public struct OtherName: Swift.Sendable {
+        /// Specifies an OID.
+        public var objectIdentifier: Swift.String?
+        /// Specifies an OID value.
+        public var value: Swift.String?
+
+        public init(
+            objectIdentifier: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.objectIdentifier = objectIdentifier
+            self.value = value
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Describes an ASN.1 X.400 GeneralName as defined in [RFC 5280](https://datatracker.ietf.org/doc/html/rfc5280). Only one of the following naming options should be provided.
+    public enum GeneralName: Swift.Sendable {
+        /// Contains information about the certificate subject. The Subject field in the certificate identifies the entity that owns or controls the public key in the certificate. The entity can be a user, computer, device, or service. The Subject must contain an X.500 distinguished name (DN). A DN is a sequence of relative distinguished names (RDNs). The RDNs are separated by commas in the certificate.
+        case directoryname(ACMClientTypes.DistinguishedName)
+        /// Represents GeneralName as a DNS name.
+        case dnsname(Swift.String)
+        /// Represents GeneralName as an IPv4 or IPv6 address.
+        case ipaddress(Swift.String)
+        /// Represents GeneralName using an OtherName object.
+        case othername(ACMClientTypes.OtherName)
+        /// Represents GeneralName as an object identifier (OID).
+        case registeredid(Swift.String)
+        /// Represents GeneralName as an [RFC 822](https://datatracker.ietf.org/doc/html/rfc822) email address.
+        case rfc822name(Swift.String)
+        /// Represents GeneralName as a URI.
+        case uniformresourceidentifier(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains X.509 certificate attributes extracted from the certificate.
+    public struct X509Attributes: Swift.Sendable {
+        /// Contains a list of Extended Key Usage X.509 v3 extension objects. Each object specifies a purpose for which the certificate public key can be used and consists of a name and an object identifier (OID).
+        public var extendedKeyUsages: [ACMClientTypes.ExtendedKeyUsageName]?
+        /// The distinguished name of the certificate issuer.
+        public var issuer: ACMClientTypes.DistinguishedName?
+        /// The algorithm that was used to generate the public-private key pair.
+        public var keyAlgorithm: ACMClientTypes.KeyAlgorithm?
+        /// A list of Key Usage X.509 v3 extension objects. Each object is a string value that identifies the purpose of the public key contained in the certificate. Possible extension values include DIGITAL_SIGNATURE, KEY_ENCHIPHERMENT, NON_REPUDIATION, and more.
+        public var keyUsages: [ACMClientTypes.KeyUsageName]?
+        /// The time after which the certificate is not valid.
+        public var notAfter: Foundation.Date?
+        /// The time before which the certificate is not valid.
+        public var notBefore: Foundation.Date?
+        /// The serial number assigned by the certificate authority.
+        public var serialNumber: Swift.String?
+        /// The distinguished name of the certificate subject.
+        public var subject: ACMClientTypes.DistinguishedName?
+        /// One or more domain names (subject alternative names) included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CN) of the certificate and additional domain names that can be used to connect to the website.
+        public var subjectAlternativeNames: [ACMClientTypes.GeneralName]?
+
+        public init(
+            extendedKeyUsages: [ACMClientTypes.ExtendedKeyUsageName]? = nil,
+            issuer: ACMClientTypes.DistinguishedName? = nil,
+            keyAlgorithm: ACMClientTypes.KeyAlgorithm? = nil,
+            keyUsages: [ACMClientTypes.KeyUsageName]? = nil,
+            notAfter: Foundation.Date? = nil,
+            notBefore: Foundation.Date? = nil,
+            serialNumber: Swift.String? = nil,
+            subject: ACMClientTypes.DistinguishedName? = nil,
+            subjectAlternativeNames: [ACMClientTypes.GeneralName]? = nil
+        ) {
+            self.extendedKeyUsages = extendedKeyUsages
+            self.issuer = issuer
+            self.keyAlgorithm = keyAlgorithm
+            self.keyUsages = keyUsages
+            self.notAfter = notAfter
+            self.notBefore = notBefore
+            self.serialNumber = serialNumber
+            self.subject = subject
+            self.subjectAlternativeNames = subjectAlternativeNames
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains information about a certificate returned by the [SearchCertificates] action. This structure includes the certificate ARN, X.509 attributes, and ACM metadata.
+    public struct CertificateSearchResult: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the certificate.
+        public var certificateArn: Swift.String?
+        /// ACM-specific metadata about the certificate.
+        public var certificateMetadata: ACMClientTypes.CertificateMetadata?
+        /// X.509 certificate attributes such as subject, issuer, and validity period.
+        public var x509Attributes: ACMClientTypes.X509Attributes?
+
+        public init(
+            certificateArn: Swift.String? = nil,
+            certificateMetadata: ACMClientTypes.CertificateMetadata? = nil,
+            x509Attributes: ACMClientTypes.X509Attributes? = nil
+        ) {
+            self.certificateArn = certificateArn
+            self.certificateMetadata = certificateMetadata
+            self.x509Attributes = x509Attributes
+        }
+    }
+}
+
+public struct SearchCertificatesOutput: Swift.Sendable {
+    /// When the list is truncated, this value is present and contains the value to use for the NextToken parameter in a subsequent pagination request.
+    public var nextToken: Swift.String?
+    /// A list of certificate search results containing certificate ARNs, X.509 attributes, and ACM metadata.
+    public var results: [ACMClientTypes.CertificateSearchResult]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        results: [ACMClientTypes.CertificateSearchResult]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.results = results
+    }
+}
+
 public struct UpdateCertificateOptionsInput: Swift.Sendable {
     /// ARN of the requested certificate to update. This must be of the form: arn:aws:acm:us-east-1:account:certificate/12345678-1234-1234-1234-123456789012
     /// This member is required.
@@ -2037,6 +2634,49 @@ public struct UpdateCertificateOptionsInput: Swift.Sendable {
     ) {
         self.certificateArn = certificateArn
         self.options = options
+    }
+}
+
+extension ACMClientTypes {
+
+    /// A filter statement used to search for certificates. Can contain AND, OR, NOT logical operators or a single filter.
+    public indirect enum CertificateFilterStatement: Swift.Sendable {
+        /// A list of filter statements that must all be true.
+        case and([ACMClientTypes.CertificateFilterStatement])
+        /// A list of filter statements where at least one must be true.
+        case or([ACMClientTypes.CertificateFilterStatement])
+        /// A filter statement that must not be true.
+        case not(ACMClientTypes.CertificateFilterStatement)
+        /// A single certificate filter.
+        case filter(ACMClientTypes.CertificateFilter)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct SearchCertificatesInput: Swift.Sendable {
+    /// A filter statement that defines the search criteria. You can combine multiple filters using AND, OR, and NOT logical operators to create complex queries.
+    public var filterStatement: ACMClientTypes.CertificateFilterStatement?
+    /// The maximum number of results to return in the response. Default is 100.
+    public var maxResults: Swift.Int?
+    /// Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the response you just received.
+    public var nextToken: Swift.String?
+    /// Specifies the field to sort results by. Valid values are CREATED_AT, NOT_AFTER, STATUS, RENEWAL_STATUS, EXPORTED, IN_USE, NOT_BEFORE, KEY_ALGORITHM, TYPE, CERTIFICATE_ARN, COMMON_NAME, REVOKED_AT, RENEWAL_ELIGIBILITY, ISSUED_AT, MANAGED_BY, EXPORT_OPTION, VALIDATION_METHOD, and IMPORTED_AT.
+    public var sortBy: ACMClientTypes.SearchCertificatesSortBy?
+    /// Specifies the order of sorted results. Valid values are ASCENDING or DESCENDING.
+    public var sortOrder: ACMClientTypes.SearchCertificatesSortOrder?
+
+    public init(
+        filterStatement: ACMClientTypes.CertificateFilterStatement? = nil,
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil,
+        sortBy: ACMClientTypes.SearchCertificatesSortBy? = nil,
+        sortOrder: ACMClientTypes.SearchCertificatesSortOrder? = nil
+    ) {
+        self.filterStatement = filterStatement
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
     }
 }
 
@@ -2141,6 +2781,13 @@ extension ResendValidationEmailInput {
 extension RevokeCertificateInput {
 
     static func urlPathProvider(_ value: RevokeCertificateInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension SearchCertificatesInput {
+
+    static func urlPathProvider(_ value: SearchCertificatesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2294,6 +2941,18 @@ extension RevokeCertificateInput {
         guard let value else { return }
         try writer["CertificateArn"].write(value.certificateArn)
         try writer["RevocationReason"].write(value.revocationReason)
+    }
+}
+
+extension SearchCertificatesInput {
+
+    static func write(value: SearchCertificatesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FilterStatement"].write(value.filterStatement, with: ACMClientTypes.CertificateFilterStatement.write(value:to:))
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
     }
 }
 
@@ -2460,6 +3119,19 @@ extension RevokeCertificateOutput {
     }
 }
 
+extension SearchCertificatesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchCertificatesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchCertificatesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.results = try reader["Results"].readListIfPresent(memberReadingClosure: ACMClientTypes.CertificateSearchResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension UpdateCertificateOptionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCertificateOptionsOutput {
@@ -2532,6 +3204,7 @@ enum ExportCertificateOutputError {
             case "InvalidArnException": return try InvalidArnException.makeError(baseError: baseError)
             case "RequestInProgressException": return try RequestInProgressException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2576,6 +3249,7 @@ enum ImportCertificateOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InvalidArnException": return try InvalidArnException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidTagException": return try InvalidTagException.makeError(baseError: baseError)
@@ -2726,6 +3400,22 @@ enum RevokeCertificateOutputError {
     }
 }
 
+enum SearchCertificatesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateCertificateOptionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2814,6 +3504,7 @@ extension ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
+        value.properties.throttlingReasons = try reader["throttlingReasons"].readListIfPresent(memberReadingClosure: ACMClientTypes.ThrottlingReason.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2951,6 +3642,55 @@ extension InvalidStateException {
     }
 }
 
+extension ACMClientTypes.AcmCertificateMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.AcmCertificateMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMClientTypes.AcmCertificateMetadata()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.exported = try reader["Exported"].readIfPresent()
+        value.importedAt = try reader["ImportedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.inUse = try reader["InUse"].readIfPresent()
+        value.issuedAt = try reader["IssuedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.renewalEligibility = try reader["RenewalEligibility"].readIfPresent()
+        value.revokedAt = try reader["RevokedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.renewalStatus = try reader["RenewalStatus"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.exportOption = try reader["ExportOption"].readIfPresent()
+        value.managedBy = try reader["ManagedBy"].readIfPresent()
+        value.validationMethod = try reader["ValidationMethod"].readIfPresent()
+        return value
+    }
+}
+
+extension ACMClientTypes.AcmCertificateMetadataFilter {
+
+    static func write(value: ACMClientTypes.AcmCertificateMetadataFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .exportoption(exportoption):
+                try writer["ExportOption"].write(exportoption)
+            case let .exported(exported):
+                try writer["Exported"].write(exported)
+            case let .inuse(inuse):
+                try writer["InUse"].write(inuse)
+            case let .managedby(managedby):
+                try writer["ManagedBy"].write(managedby)
+            case let .renewalstatus(renewalstatus):
+                try writer["RenewalStatus"].write(renewalstatus)
+            case let .status(status):
+                try writer["Status"].write(status)
+            case let .type(type):
+                try writer["Type"].write(type)
+            case let .validationmethod(validationmethod):
+                try writer["ValidationMethod"].write(validationmethod)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
 extension ACMClientTypes.CertificateDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.CertificateDetail {
@@ -2987,6 +3727,56 @@ extension ACMClientTypes.CertificateDetail {
     }
 }
 
+extension ACMClientTypes.CertificateFilter {
+
+    static func write(value: ACMClientTypes.CertificateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .acmcertificatemetadatafilter(acmcertificatemetadatafilter):
+                try writer["AcmCertificateMetadataFilter"].write(acmcertificatemetadatafilter, with: ACMClientTypes.AcmCertificateMetadataFilter.write(value:to:))
+            case let .certificatearn(certificatearn):
+                try writer["CertificateArn"].write(certificatearn)
+            case let .x509attributefilter(x509attributefilter):
+                try writer["X509AttributeFilter"].write(x509attributefilter, with: ACMClientTypes.X509AttributeFilter.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ACMClientTypes.CertificateFilterStatement {
+
+    static func write(value: ACMClientTypes.CertificateFilterStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .and(and):
+                try writer["And"].writeList(and, memberWritingClosure: ACMClientTypes.CertificateFilterStatement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .filter(filter):
+                try writer["Filter"].write(filter, with: ACMClientTypes.CertificateFilter.write(value:to:))
+            case let .not(not):
+                try writer["Not"].write(not, with: ACMClientTypes.CertificateFilterStatement.write(value:to:))
+            case let .or(or):
+                try writer["Or"].writeList(or, memberWritingClosure: ACMClientTypes.CertificateFilterStatement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ACMClientTypes.CertificateMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.CertificateMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "AcmCertificateMetadata":
+                return .acmcertificatemetadata(try reader["AcmCertificateMetadata"].read(with: ACMClientTypes.AcmCertificateMetadata.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension ACMClientTypes.CertificateOptions {
 
     static func write(value: ACMClientTypes.CertificateOptions?, to writer: SmithyJSON.Writer) throws {
@@ -3000,6 +3790,18 @@ extension ACMClientTypes.CertificateOptions {
         var value = ACMClientTypes.CertificateOptions()
         value.certificateTransparencyLoggingPreference = try reader["CertificateTransparencyLoggingPreference"].readIfPresent()
         value.export = try reader["Export"].readIfPresent()
+        return value
+    }
+}
+
+extension ACMClientTypes.CertificateSearchResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.CertificateSearchResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMClientTypes.CertificateSearchResult()
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.x509Attributes = try reader["X509Attributes"].readIfPresent(with: ACMClientTypes.X509Attributes.read(from:))
+        value.certificateMetadata = try reader["CertificateMetadata"].readIfPresent(with: ACMClientTypes.CertificateMetadata.read(from:))
         return value
     }
 }
@@ -3030,6 +3832,60 @@ extension ACMClientTypes.CertificateSummary {
         value.revokedAt = try reader["RevokedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.managedBy = try reader["ManagedBy"].readIfPresent()
         return value
+    }
+}
+
+extension ACMClientTypes.CommonNameFilter {
+
+    static func write(value: ACMClientTypes.CommonNameFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComparisonOperator"].write(value.comparisonOperator)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension ACMClientTypes.CustomAttribute {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.CustomAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMClientTypes.CustomAttribute()
+        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension ACMClientTypes.DistinguishedName {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.DistinguishedName {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMClientTypes.DistinguishedName()
+        value.commonName = try reader["CommonName"].readIfPresent()
+        value.domainComponents = try reader["DomainComponents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.country = try reader["Country"].readIfPresent()
+        value.customAttributes = try reader["CustomAttributes"].readListIfPresent(memberReadingClosure: ACMClientTypes.CustomAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.distinguishedNameQualifier = try reader["DistinguishedNameQualifier"].readIfPresent()
+        value.generationQualifier = try reader["GenerationQualifier"].readIfPresent()
+        value.givenName = try reader["GivenName"].readIfPresent()
+        value.initials = try reader["Initials"].readIfPresent()
+        value.locality = try reader["Locality"].readIfPresent()
+        value.organization = try reader["Organization"].readIfPresent()
+        value.organizationalUnit = try reader["OrganizationalUnit"].readIfPresent()
+        value.pseudonym = try reader["Pseudonym"].readIfPresent()
+        value.serialNumber = try reader["SerialNumber"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.surname = try reader["Surname"].readIfPresent()
+        value.title = try reader["Title"].readIfPresent()
+        return value
+    }
+}
+
+extension ACMClientTypes.DnsNameFilter {
+
+    static func write(value: ACMClientTypes.DnsNameFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComparisonOperator"].write(value.comparisonOperator)
+        try writer["Value"].write(value.value)
     }
 }
 
@@ -3096,6 +3952,32 @@ extension ACMClientTypes.Filters {
     }
 }
 
+extension ACMClientTypes.GeneralName {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.GeneralName {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "DirectoryName":
+                return .directoryname(try reader["DirectoryName"].read(with: ACMClientTypes.DistinguishedName.read(from:)))
+            case "DnsName":
+                return .dnsname(try reader["DnsName"].read())
+            case "IpAddress":
+                return .ipaddress(try reader["IpAddress"].read())
+            case "OtherName":
+                return .othername(try reader["OtherName"].read(with: ACMClientTypes.OtherName.read(from:)))
+            case "RegisteredId":
+                return .registeredid(try reader["RegisteredId"].read())
+            case "Rfc822Name":
+                return .rfc822name(try reader["Rfc822Name"].read())
+            case "UniformResourceIdentifier":
+                return .uniformresourceidentifier(try reader["UniformResourceIdentifier"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension ACMClientTypes.HttpRedirect {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.HttpRedirect {
@@ -3113,6 +3995,17 @@ extension ACMClientTypes.KeyUsage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ACMClientTypes.KeyUsage()
         value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension ACMClientTypes.OtherName {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.OtherName {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMClientTypes.OtherName()
+        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
         return value
     }
 }
@@ -3142,6 +4035,32 @@ extension ACMClientTypes.ResourceRecord {
     }
 }
 
+extension ACMClientTypes.SubjectAlternativeNameFilter {
+
+    static func write(value: ACMClientTypes.SubjectAlternativeNameFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .dnsname(dnsname):
+                try writer["DnsName"].write(dnsname, with: ACMClientTypes.DnsNameFilter.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ACMClientTypes.SubjectFilter {
+
+    static func write(value: ACMClientTypes.SubjectFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .commonname(commonname):
+                try writer["CommonName"].write(commonname, with: ACMClientTypes.CommonNameFilter.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
 extension ACMClientTypes.Tag {
 
     static func write(value: ACMClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
@@ -3155,6 +4074,71 @@ extension ACMClientTypes.Tag {
         var value = ACMClientTypes.Tag()
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension ACMClientTypes.ThrottlingReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.ThrottlingReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMClientTypes.ThrottlingReason()
+        value.reason = try reader["reason"].readIfPresent()
+        value.resource = try reader["resource"].readIfPresent()
+        return value
+    }
+}
+
+extension ACMClientTypes.TimestampRange {
+
+    static func write(value: ACMClientTypes.TimestampRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["End"].writeTimestamp(value.end, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Start"].writeTimestamp(value.start, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension ACMClientTypes.X509AttributeFilter {
+
+    static func write(value: ACMClientTypes.X509AttributeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .extendedkeyusage(extendedkeyusage):
+                try writer["ExtendedKeyUsage"].write(extendedkeyusage)
+            case let .keyalgorithm(keyalgorithm):
+                try writer["KeyAlgorithm"].write(keyalgorithm)
+            case let .keyusage(keyusage):
+                try writer["KeyUsage"].write(keyusage)
+            case let .notafter(notafter):
+                try writer["NotAfter"].write(notafter, with: ACMClientTypes.TimestampRange.write(value:to:))
+            case let .notbefore(notbefore):
+                try writer["NotBefore"].write(notbefore, with: ACMClientTypes.TimestampRange.write(value:to:))
+            case let .serialnumber(serialnumber):
+                try writer["SerialNumber"].write(serialnumber)
+            case let .subject(subject):
+                try writer["Subject"].write(subject, with: ACMClientTypes.SubjectFilter.write(value:to:))
+            case let .subjectalternativename(subjectalternativename):
+                try writer["SubjectAlternativeName"].write(subjectalternativename, with: ACMClientTypes.SubjectAlternativeNameFilter.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ACMClientTypes.X509Attributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.X509Attributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMClientTypes.X509Attributes()
+        value.issuer = try reader["Issuer"].readIfPresent(with: ACMClientTypes.DistinguishedName.read(from:))
+        value.subject = try reader["Subject"].readIfPresent(with: ACMClientTypes.DistinguishedName.read(from:))
+        value.subjectAlternativeNames = try reader["SubjectAlternativeNames"].readListIfPresent(memberReadingClosure: ACMClientTypes.GeneralName.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.extendedKeyUsages = try reader["ExtendedKeyUsages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ACMClientTypes.ExtendedKeyUsageName>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.keyAlgorithm = try reader["KeyAlgorithm"].readIfPresent()
+        value.keyUsages = try reader["KeyUsages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ACMClientTypes.KeyUsageName>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serialNumber = try reader["SerialNumber"].readIfPresent()
+        value.notAfter = try reader["NotAfter"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.notBefore = try reader["NotBefore"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }

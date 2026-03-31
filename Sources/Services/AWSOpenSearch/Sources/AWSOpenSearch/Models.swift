@@ -1238,6 +1238,15 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// Configuration settings for AI-powered capabilities of an OpenSearch UI application.
+    public struct AIConfig: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     public enum NaturalLanguageQueryGenerationDesiredState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -5087,6 +5096,81 @@ public struct DeleteVpcEndpointOutput: Swift.Sendable {
     }
 }
 
+/// Container for the parameters to the DeregisterCapability operation.
+public struct DeregisterCapabilityInput: Swift.Sendable {
+    /// The unique identifier of the OpenSearch UI application to deregister the capability from.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The name of the capability to deregister.
+    /// This member is required.
+    public var capabilityName: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        capabilityName: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.capabilityName = capabilityName
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The status of a capability. Possible values: creating, create_failed, active, updating, update_failed, deleting, delete_failed.
+    public enum CapabilityStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case createFailed
+        case creating
+        case deleteFailed
+        case deleting
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapabilityStatus] {
+            return [
+                .active,
+                .createFailed,
+                .creating,
+                .deleteFailed,
+                .deleting,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "active"
+            case .createFailed: return "create_failed"
+            case .creating: return "creating"
+            case .deleteFailed: return "delete_failed"
+            case .deleting: return "deleting"
+            case .updateFailed: return "update_failed"
+            case .updating: return "updating"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The result of a DeregisterCapability request.
+public struct DeregisterCapabilityOutput: Swift.Sendable {
+    /// The status of the deregistration operation. Returns deleting when the capability is being removed.
+    public var status: OpenSearchClientTypes.CapabilityStatus?
+
+    public init(
+        status: OpenSearchClientTypes.CapabilityStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
 /// Container for the parameters to the DescribeDomain operation.
 public struct DescribeDomainInput: Swift.Sendable {
     /// The name of the domain that you want information about.
@@ -7516,6 +7600,107 @@ public struct GetApplicationOutput: Swift.Sendable {
     }
 }
 
+/// Container for the parameters to the GetCapability operation.
+public struct GetCapabilityInput: Swift.Sendable {
+    /// The unique identifier of the OpenSearch UI application.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The name of the capability to retrieve information about.
+    /// This member is required.
+    public var capabilityName: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        capabilityName: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.capabilityName = capabilityName
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The extended configuration returned for a registered capability, including additional details beyond the base configuration.
+    public enum CapabilityExtendedResponseConfig: Swift.Sendable {
+        /// Configuration settings for AI-powered capabilities.
+        case aiconfig(OpenSearchClientTypes.AIConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    public enum CapabilityFailureReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kmsKeyInsufficientPermission
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapabilityFailureReason] {
+            return [
+                .kmsKeyInsufficientPermission
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .kmsKeyInsufficientPermission: return "KMS_KEY_INSUFFICIENT_PERMISSION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Information about a capability failure.
+    public struct CapabilityFailure: Swift.Sendable {
+        /// Additional details about the capability failure.
+        public var details: Swift.String?
+        /// The reason for the capability failure. Possible values: KMS_KEY_INSUFFICIENT_PERMISSION.
+        public var reason: OpenSearchClientTypes.CapabilityFailureReason?
+
+        public init(
+            details: Swift.String? = nil,
+            reason: OpenSearchClientTypes.CapabilityFailureReason? = nil
+        ) {
+            self.details = details
+            self.reason = reason
+        }
+    }
+}
+
+/// The result of a GetCapability request. Contains details about the capability.
+public struct GetCapabilityOutput: Swift.Sendable {
+    /// The unique identifier of the OpenSearch UI application.
+    public var applicationId: Swift.String?
+    /// The configuration settings for the capability, including capability-specific settings such as AI configuration.
+    public var capabilityConfig: OpenSearchClientTypes.CapabilityExtendedResponseConfig?
+    /// The name of the capability.
+    public var capabilityName: Swift.String?
+    /// A list of failures associated with the capability, if any. Each failure includes a reason and details about what went wrong.
+    public var failures: [OpenSearchClientTypes.CapabilityFailure]?
+    /// The current status of the capability. Possible values: creating, create_failed, active, updating, update_failed, deleting, delete_failed.
+    public var status: OpenSearchClientTypes.CapabilityStatus?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        capabilityConfig: OpenSearchClientTypes.CapabilityExtendedResponseConfig? = nil,
+        capabilityName: Swift.String? = nil,
+        failures: [OpenSearchClientTypes.CapabilityFailure]? = nil,
+        status: OpenSearchClientTypes.CapabilityStatus? = nil
+    ) {
+        self.applicationId = applicationId
+        self.capabilityConfig = capabilityConfig
+        self.capabilityName = capabilityName
+        self.failures = failures
+        self.status = status
+    }
+}
+
 /// Container for the request parameters to GetCompatibleVersions operation.
 public struct GetCompatibleVersionsInput: Swift.Sendable {
     /// The name of an existing domain. Provide this parameter to limit the results to a single domain.
@@ -9203,6 +9388,97 @@ public struct PutDefaultApplicationSettingOutput: Swift.Sendable {
     }
 }
 
+/// An exception for when a request would cause a service quota to be exceeded.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The base configuration for registering a capability. Contains capability-specific configuration such as AI settings.
+    public enum CapabilityBaseRequestConfig: Swift.Sendable {
+        /// Configuration settings for AI-powered capabilities.
+        case aiconfig(OpenSearchClientTypes.AIConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+/// Container for the parameters to the RegisterCapability operation.
+public struct RegisterCapabilityInput: Swift.Sendable {
+    /// The unique identifier of the OpenSearch UI application to register the capability for.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The configuration settings for the capability being registered. This includes capability-specific settings such as AI configuration.
+    /// This member is required.
+    public var capabilityConfig: OpenSearchClientTypes.CapabilityBaseRequestConfig?
+    /// The name of the capability to register. Must be between 3 and 30 characters and contain only alphanumeric characters and hyphens. This identifies the type of capability being enabled for the application. For registering AI Assistant capability, use ai-capability
+    /// This member is required.
+    public var capabilityName: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        capabilityConfig: OpenSearchClientTypes.CapabilityBaseRequestConfig? = nil,
+        capabilityName: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.capabilityConfig = capabilityConfig
+        self.capabilityName = capabilityName
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The base configuration returned for a registered capability.
+    public enum CapabilityBaseResponseConfig: Swift.Sendable {
+        /// Configuration settings for AI-powered capabilities.
+        case aiconfig(OpenSearchClientTypes.AIConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+/// The result of a RegisterCapability request. Contains details about the registered capability.
+public struct RegisterCapabilityOutput: Swift.Sendable {
+    /// The unique identifier of the OpenSearch UI application.
+    public var applicationId: Swift.String?
+    /// The configuration settings for the registered capability.
+    public var capabilityConfig: OpenSearchClientTypes.CapabilityBaseResponseConfig?
+    /// The name of the registered capability.
+    public var capabilityName: Swift.String?
+    /// The current status of the capability. Possible values: creating, create_failed, active, updating, update_failed, deleting, delete_failed.
+    public var status: OpenSearchClientTypes.CapabilityStatus?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        capabilityConfig: OpenSearchClientTypes.CapabilityBaseResponseConfig? = nil,
+        capabilityName: Swift.String? = nil,
+        status: OpenSearchClientTypes.CapabilityStatus? = nil
+    ) {
+        self.applicationId = applicationId
+        self.capabilityConfig = capabilityConfig
+        self.capabilityName = capabilityName
+        self.status = status
+    }
+}
+
 /// Container for the request parameters to the RejectInboundConnection operation.
 public struct RejectInboundConnectionInput: Swift.Sendable {
     /// The unique identifier of the inbound connection to reject.
@@ -10219,6 +10495,19 @@ extension DeleteVpcEndpointInput {
     }
 }
 
+extension DeregisterCapabilityInput {
+
+    static func urlPathProvider(_ value: DeregisterCapabilityInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let capabilityName = value.capabilityName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/application/\(applicationId.urlPercentEncoding())/capability/deregister/\(capabilityName.urlPercentEncoding())"
+    }
+}
+
 extension DescribeDomainInput {
 
     static func urlPathProvider(_ value: DescribeDomainInput) -> Swift.String? {
@@ -10481,6 +10770,19 @@ extension GetApplicationInput {
             return nil
         }
         return "/2021-01-01/opensearch/application/\(id.urlPercentEncoding())"
+    }
+}
+
+extension GetCapabilityInput {
+
+    static func urlPathProvider(_ value: GetCapabilityInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let capabilityName = value.capabilityName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/application/\(applicationId.urlPercentEncoding())/capability/\(capabilityName.urlPercentEncoding())"
     }
 }
 
@@ -10987,6 +11289,16 @@ extension PutDefaultApplicationSettingInput {
     }
 }
 
+extension RegisterCapabilityInput {
+
+    static func urlPathProvider(_ value: RegisterCapabilityInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/application/\(applicationId.urlPercentEncoding())/capability/register"
+    }
+}
+
 extension RejectInboundConnectionInput {
 
     static func urlPathProvider(_ value: RejectInboundConnectionInput) -> Swift.String? {
@@ -11382,6 +11694,15 @@ extension PutDefaultApplicationSettingInput {
         guard let value else { return }
         try writer["applicationArn"].write(value.applicationArn)
         try writer["setAsDefault"].write(value.setAsDefault)
+    }
+}
+
+extension RegisterCapabilityInput {
+
+    static func write(value: RegisterCapabilityInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capabilityConfig"].write(value.capabilityConfig, with: OpenSearchClientTypes.CapabilityBaseRequestConfig.write(value:to:))
+        try writer["capabilityName"].write(value.capabilityName)
     }
 }
 
@@ -11831,6 +12152,18 @@ extension DeleteVpcEndpointOutput {
     }
 }
 
+extension DeregisterCapabilityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeregisterCapabilityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeregisterCapabilityOutput()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeDomainOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDomainOutput {
@@ -12085,6 +12418,22 @@ extension GetApplicationOutput {
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension GetCapabilityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCapabilityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCapabilityOutput()
+        value.applicationId = try reader["applicationId"].readIfPresent()
+        value.capabilityConfig = try reader["capabilityConfig"].readIfPresent(with: OpenSearchClientTypes.CapabilityExtendedResponseConfig.read(from:))
+        value.capabilityName = try reader["capabilityName"].readIfPresent()
+        value.failures = try reader["failures"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.CapabilityFailure.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent()
         return value
     }
@@ -12429,6 +12778,21 @@ extension PutDefaultApplicationSettingOutput {
         let reader = responseReader
         var value = PutDefaultApplicationSettingOutput()
         value.applicationArn = try reader["applicationArn"].readIfPresent()
+        return value
+    }
+}
+
+extension RegisterCapabilityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RegisterCapabilityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RegisterCapabilityOutput()
+        value.applicationId = try reader["applicationId"].readIfPresent()
+        value.capabilityConfig = try reader["capabilityConfig"].readIfPresent(with: OpenSearchClientTypes.CapabilityBaseResponseConfig.read(from:))
+        value.capabilityName = try reader["capabilityName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -13059,6 +13423,25 @@ enum DeleteVpcEndpointOutputError {
     }
 }
 
+enum DeregisterCapabilityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeDomainOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13383,6 +13766,24 @@ enum GetApplicationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetCapabilityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -13855,6 +14256,26 @@ enum PutDefaultApplicationSettingOutputError {
     }
 }
 
+enum RegisterCapabilityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum RejectInboundConnectionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14300,6 +14721,19 @@ extension InvalidPaginationTokenException {
     }
 }
 
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension SlotNotAvailableException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SlotNotAvailableException {
@@ -14385,6 +14819,19 @@ extension OpenSearchClientTypes.AdvancedSecurityOptionsStatus {
         value.options = try reader["Options"].readIfPresent(with: OpenSearchClientTypes.AdvancedSecurityOptions.read(from:))
         value.status = try reader["Status"].readIfPresent(with: OpenSearchClientTypes.OptionStatus.read(from:))
         return value
+    }
+}
+
+extension OpenSearchClientTypes.AIConfig {
+
+    static func write(value: OpenSearchClientTypes.AIConfig?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AIConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return OpenSearchClientTypes.AIConfig()
     }
 }
 
@@ -14616,6 +15063,58 @@ extension OpenSearchClientTypes.CancelledChangeProperty {
         value.propertyName = try reader["PropertyName"].readIfPresent()
         value.cancelledValue = try reader["CancelledValue"].readIfPresent()
         value.activeValue = try reader["ActiveValue"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.CapabilityBaseRequestConfig {
+
+    static func write(value: OpenSearchClientTypes.CapabilityBaseRequestConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .aiconfig(aiconfig):
+                try writer["aiConfig"].write(aiconfig, with: OpenSearchClientTypes.AIConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension OpenSearchClientTypes.CapabilityBaseResponseConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.CapabilityBaseResponseConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "aiConfig":
+                return .aiconfig(try reader["aiConfig"].read(with: OpenSearchClientTypes.AIConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension OpenSearchClientTypes.CapabilityExtendedResponseConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.CapabilityExtendedResponseConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "aiConfig":
+                return .aiconfig(try reader["aiConfig"].read(with: OpenSearchClientTypes.AIConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension OpenSearchClientTypes.CapabilityFailure {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.CapabilityFailure {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.CapabilityFailure()
+        value.reason = try reader["reason"].readIfPresent()
+        value.details = try reader["details"].readIfPresent()
         return value
     }
 }
