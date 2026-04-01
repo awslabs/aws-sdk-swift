@@ -16,7 +16,7 @@ class S3ExpressXCTestCase: XCTestCase {
     var azID: String { "usw2-az1" }
 
     // The S3 client config object
-    var config: S3Client.Config!
+    var config: S3Client.S3ClientConfig!
 
     // The S3 client
     var client: S3Client!
@@ -30,7 +30,7 @@ class S3ExpressXCTestCase: XCTestCase {
 
     override func setUp() async throws {
         try await super.setUp()
-        self.config = try await S3Client.Config(region: region)
+        self.config = try await S3Client.S3ClientConfig(region: region)
         self.client = S3Client(config: config)
     }
 

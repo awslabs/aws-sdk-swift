@@ -104,11 +104,15 @@ extension GeoMapsClientTypes {
 extension GeoMapsClientTypes {
 
     public enum ContourDensity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
         case medium
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ContourDensity] {
             return [
+                .high,
+                .low,
                 .medium
             ]
         }
@@ -120,6 +124,8 @@ extension GeoMapsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .high: return "High"
+            case .low: return "Low"
             case .medium: return "Medium"
             case let .sdkUnknown(s): return s
             }
@@ -387,7 +393,7 @@ extension GeoMapsClientTypes {
 }
 
 public struct GetSpritesInput: Swift.Sendable {
-    /// Sets color tone for map such as dark and light for specific map styles. It applies to only vector map styles such as Standard and Monochrome. Example: Light Default value: Light Valid values for ColorScheme are case sensitive.
+    /// Sets the color tone for the map sprites, such as dark and light. Example: Light Default value: Light Valid values for ColorScheme are case sensitive.
     /// This member is required.
     public var colorScheme: GeoMapsClientTypes.ColorScheme?
     /// Sprites API: The name of the sprite ﬁle to retrieve, following pattern sprites(@2x)?\.(png|json). Example: sprites.png
@@ -715,7 +721,7 @@ public struct GetStaticMapInput: Swift.Sendable {
     public var boundingBox: Swift.String?
     /// Takes in a pair of coordinates in World Geodetic System (WGS 84) format: [longitude, latitude], which becomes the center point of the image. This parameter requires that either zoom or radius is set. Cannot be used with Zoom and or Radius Example: 49.295,-123.108
     public var center: Swift.String?
-    /// Sets color tone for map, such as dark and light for specific map styles. It only applies to vector map styles, such as Standard. Example: Light Default value: Light Valid values for ColorScheme are case sensitive.
+    /// Sets the color tone for the map, such as dark and light. Example: Light Default value: Light Valid values for ColorScheme are case sensitive.
     public var colorScheme: GeoMapsClientTypes.ColorScheme?
     /// Takes in a string to draw geometries on the image. The input is a comma separated format as follows format: [Lon, Lat] Example: line:-122.407653,37.798557,-122.413291,37.802443;color=%23DD0000;width=7;outline-color=#00DD00;outline-width=5yd|point:-122.40572,37.80004;label=Fog Hill Market;size=large;text-color=%23DD0000;color=#EE4B2B Currently it supports the following geometry types: point, line and polygon. It does not support multiPoint , multiLine and multiPolgyon.
     public var compactOverlay: Swift.String?
@@ -1028,11 +1034,13 @@ extension GeoMapsClientTypes {
 
     public enum Traffic: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case all
+        case congestion
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Traffic] {
             return [
-                .all
+                .all,
+                .congestion
             ]
         }
 
@@ -1044,6 +1052,7 @@ extension GeoMapsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .all: return "All"
+            case .congestion: return "Congestion"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1087,9 +1096,9 @@ public struct GetStyleDescriptorInput: Swift.Sendable {
     ///
     /// Buildings3D is valid only for the Standard and Monochrome map styles.
     public var buildings: GeoMapsClientTypes.Buildings?
-    /// Sets color tone for map such as dark and light for specific map styles. It applies to only vector map styles such as Standard and Monochrome. Example: Light Default value: Light Valid values for ColorScheme are case sensitive.
+    /// Sets the color tone for the map, such as dark and light. Example: Light Default value: Light Valid values for ColorScheme are case sensitive.
     public var colorScheme: GeoMapsClientTypes.ColorScheme?
-    /// Displays the shape and steepness of terrain features using elevation lines. The density value controls how densely the available contour line information is rendered on the map. This parameter is valid only for the Standard, Monochrome, and Hybrid map styles.
+    /// Displays the shape and steepness of terrain features using elevation lines. The density value controls how densely the available contour line information is rendered on the map. This parameter is valid for all map styles except Satellite.
     public var contourDensity: GeoMapsClientTypes.ContourDensity?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
@@ -1135,9 +1144,9 @@ public struct GetStyleDescriptorInput: Swift.Sendable {
     ///
     /// Hillshade is valid only for the Standard and Monochrome map styles.
     public var terrain: GeoMapsClientTypes.Terrain?
-    /// Displays real-time traffic information overlay on map, such as incident events and flow events. This parameter is valid only for the Standard map style.
+    /// Displays real-time traffic information overlay on map, such as incident events and flow events. This parameter is valid for all map styles except Satellite.
     public var traffic: GeoMapsClientTypes.Traffic?
-    /// Renders additional map information relevant to selected travel modes. Information for multiple travel modes can be displayed simultaneously, although this increases the overall information density rendered on the map. This parameter is valid only for the Standard map style.
+    /// Renders additional map information relevant to selected travel modes. Information for multiple travel modes can be displayed simultaneously, although this increases the overall information density rendered on the map. This parameter is valid for all map styles except Satellite.
     public var travelModes: [GeoMapsClientTypes.TravelMode]?
 
     public init(

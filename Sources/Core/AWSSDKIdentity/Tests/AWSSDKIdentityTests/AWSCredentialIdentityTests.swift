@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import class SmithyIdentity.CRTAWSCredentialIdentity
+@_spi(SmithyIdentity) import class SmithyIdentity.CRTAWSCredentialIdentity
 import struct SmithyIdentity.AWSCredentialIdentity
 
 class AWSCredentialIdentityTests: XCTestCase {

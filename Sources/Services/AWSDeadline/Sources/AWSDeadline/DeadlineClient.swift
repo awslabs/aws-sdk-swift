@@ -619,7 +619,7 @@ extension DeadlineClient {
     ///
     /// Assigns a farm membership level to a member.
     ///
-    /// - Parameter input: [no documentation found] (Type: `AssociateMemberToFarmInput`)
+    /// - Parameter input: Shared member fields for Associate inputs and {Resource}Member response structures. principalId is excluded because it has @httpLabel on inputs but not on responses. (Type: `AssociateMemberToFarmInput`)
     ///
     /// - Returns: [no documentation found] (Type: `AssociateMemberToFarmOutput`)
     ///
@@ -692,7 +692,7 @@ extension DeadlineClient {
     ///
     /// Assigns a fleet membership level to a member.
     ///
-    /// - Parameter input: [no documentation found] (Type: `AssociateMemberToFleetInput`)
+    /// - Parameter input: Shared member fields for Associate inputs and {Resource}Member response structures. principalId is excluded because it has @httpLabel on inputs but not on responses. (Type: `AssociateMemberToFleetInput`)
     ///
     /// - Returns: [no documentation found] (Type: `AssociateMemberToFleetOutput`)
     ///
@@ -765,7 +765,7 @@ extension DeadlineClient {
     ///
     /// Assigns a job membership level to a member
     ///
-    /// - Parameter input: [no documentation found] (Type: `AssociateMemberToJobInput`)
+    /// - Parameter input: Shared member fields for Associate inputs and {Resource}Member response structures. principalId is excluded because it has @httpLabel on inputs but not on responses. (Type: `AssociateMemberToJobInput`)
     ///
     /// - Returns: [no documentation found] (Type: `AssociateMemberToJobOutput`)
     ///
@@ -838,7 +838,7 @@ extension DeadlineClient {
     ///
     /// Assigns a queue membership level to a member
     ///
-    /// - Parameter input: [no documentation found] (Type: `AssociateMemberToQueueInput`)
+    /// - Parameter input: Shared member fields for Associate inputs and {Resource}Member response structures. principalId is excluded because it has @httpLabel on inputs but not on responses. (Type: `AssociateMemberToQueueInput`)
     ///
     /// - Returns: [no documentation found] (Type: `AssociateMemberToQueueOutput`)
     ///
@@ -913,7 +913,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `AssumeFleetRoleForReadInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `AssumeFleetRoleForReadOutput`)
+    /// - Returns: Shared response body for AssumeRole operations where credentials are required. AssumeQueueRoleForWorkerResponse is excluded because credentials is optional there because Queue.roleArn is optional, so the mixin's @required trait would be incorrect. (Type: `AssumeFleetRoleForReadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -982,7 +982,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `AssumeFleetRoleForWorkerInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `AssumeFleetRoleForWorkerOutput`)
+    /// - Returns: Shared response body for AssumeRole operations where credentials are required. AssumeQueueRoleForWorkerResponse is excluded because credentials is optional there because Queue.roleArn is optional, so the mixin's @required trait would be incorrect. (Type: `AssumeFleetRoleForWorkerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1052,7 +1052,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `AssumeQueueRoleForReadInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `AssumeQueueRoleForReadOutput`)
+    /// - Returns: Shared response body for AssumeRole operations where credentials are required. AssumeQueueRoleForWorkerResponse is excluded because credentials is optional there because Queue.roleArn is optional, so the mixin's @required trait would be incorrect. (Type: `AssumeQueueRoleForReadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1121,7 +1121,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `AssumeQueueRoleForUserInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `AssumeQueueRoleForUserOutput`)
+    /// - Returns: Shared response body for AssumeRole operations where credentials are required. AssumeQueueRoleForWorkerResponse is excluded because credentials is optional there because Queue.roleArn is optional, so the mixin's @required trait would be incorrect. (Type: `AssumeQueueRoleForUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1403,9 +1403,9 @@ extension DeadlineClient {
     ///
     /// Creates a budget to set spending thresholds for your rendering activity.
     ///
-    /// - Parameter input: [no documentation found] (Type: `CreateBudgetInput`)
+    /// - Parameter input: Shared displayName + description for Create operations where both are present. displayName is @required here - this mixin is Create-only by design (Update has optional displayName). (Type: `CreateBudgetInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateBudgetOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `CreateBudgetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1478,9 +1478,9 @@ extension DeadlineClient {
     ///
     /// Creates a farm to allow space for queues and fleets. Farms are the space where the components of your renders gather and are pieced together in the cloud. Farms contain budgets and allow you to enforce permissions. Deadline Cloud farms are a useful container for large projects.
     ///
-    /// - Parameter input: [no documentation found] (Type: `CreateFarmInput`)
+    /// - Parameter input: Shared displayName + description for Create operations where both are present. displayName is @required here - this mixin is Create-only by design (Update has optional displayName). (Type: `CreateFarmInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateFarmOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `CreateFarmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1553,9 +1553,9 @@ extension DeadlineClient {
     ///
     /// Creates a fleet. Fleets gather information relating to compute, or capacity, for renders within your farms. You can choose to manage your own capacity or opt to have fleets fully managed by Deadline Cloud.
     ///
-    /// - Parameter input: [no documentation found] (Type: `CreateFleetInput`)
+    /// - Parameter input: Shared displayName + description for Create operations where both are present. displayName is @required here - this mixin is Create-only by design (Update has optional displayName). (Type: `CreateFleetInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateFleetOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `CreateFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1630,7 +1630,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateJobInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateJobOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `CreateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1705,7 +1705,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateLicenseEndpointInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateLicenseEndpointOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `CreateLicenseEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1855,7 +1855,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateMonitorInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateMonitorOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `CreateMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1927,9 +1927,9 @@ extension DeadlineClient {
     ///
     /// Creates a queue to coordinate the order in which jobs run on a farm. A queue can also specify where to pull resources and indicate where to output completed jobs.
     ///
-    /// - Parameter input: [no documentation found] (Type: `CreateQueueInput`)
+    /// - Parameter input: Shared displayName + description for Create operations where both are present. displayName is @required here - this mixin is Create-only by design (Update has optional displayName). (Type: `CreateQueueInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateQueueOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `CreateQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2298,7 +2298,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateWorkerInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateWorkerOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `CreateWorkerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2995,7 +2995,7 @@ extension DeadlineClient {
     ///
     /// Deletes a queue-fleet association.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DeleteQueueFleetAssociationInput`)
+    /// - Parameter input: Identifier mixin for queue-fleet association operations. Composes QueueIdentifierMixin (farmId + queueId) and adds fleetId. (Type: `DeleteQueueFleetAssociationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `DeleteQueueFleetAssociationOutput`)
     ///
@@ -3553,7 +3553,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetBudgetInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetBudgetOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `GetBudgetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3622,7 +3622,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetFarmInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetFarmOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `GetFarmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3691,7 +3691,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetFleetInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetFleetOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `GetFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3760,7 +3760,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetJobInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetJobOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `GetJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3829,7 +3829,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetLicenseEndpointInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetLicenseEndpointOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `GetLicenseEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3898,7 +3898,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetLimitInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetLimitOutput`)
+    /// - Returns: Domain fields for Limit summary/response shapes, ordered before timestamps. (Type: `GetLimitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3967,7 +3967,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetMonitorInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetMonitorOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `GetMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4036,7 +4036,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetQueueInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetQueueOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `GetQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4172,9 +4172,9 @@ extension DeadlineClient {
     ///
     /// Gets a queue-fleet association.
     ///
-    /// - Parameter input: [no documentation found] (Type: `GetQueueFleetAssociationInput`)
+    /// - Parameter input: Identifier mixin for queue-fleet association operations. Composes QueueIdentifierMixin (farmId + queueId) and adds fleetId. (Type: `GetQueueFleetAssociationInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetQueueFleetAssociationOutput`)
+    /// - Returns: Domain fields for QueueFleetAssociation summary/response shapes, ordered before timestamps. (Type: `GetQueueFleetAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4243,7 +4243,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetQueueLimitAssociationInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetQueueLimitAssociationOutput`)
+    /// - Returns: Domain fields for QueueLimitAssociation summary/response shapes, ordered before timestamps. (Type: `GetQueueLimitAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4312,7 +4312,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetSessionInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetSessionOutput`)
+    /// - Returns: Session lifecycle/status fields, ordered after IDs in session shapes. (Type: `GetSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4448,9 +4448,9 @@ extension DeadlineClient {
     ///
     /// Gets a set of statistics for queues or farms. Before you can call the GetSessionStatisticsAggregation operation, you must first call the StartSessionsStatisticsAggregation operation. Statistics are available for 1 hour after you call the StartSessionsStatisticsAggregation operation.
     ///
-    /// - Parameter input: [no documentation found] (Type: `GetSessionsStatisticsAggregationInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `GetSessionsStatisticsAggregationInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetSessionsStatisticsAggregationOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `GetSessionsStatisticsAggregationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4796,7 +4796,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetWorkerInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetWorkerOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `GetWorkerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4863,9 +4863,9 @@ extension DeadlineClient {
     ///
     /// A list of the available metered products.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListAvailableMeteredProductsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListAvailableMeteredProductsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListAvailableMeteredProductsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListAvailableMeteredProductsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4930,9 +4930,9 @@ extension DeadlineClient {
     ///
     /// A list of budgets in a farm.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListBudgetsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListBudgetsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListBudgetsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListBudgetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5000,9 +5000,9 @@ extension DeadlineClient {
     ///
     /// Lists the members of a farm.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListFarmMembersInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListFarmMembersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListFarmMembersOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListFarmMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5070,9 +5070,9 @@ extension DeadlineClient {
     ///
     /// Lists farms.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListFarmsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListFarmsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListFarmsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListFarmsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5139,9 +5139,9 @@ extension DeadlineClient {
     ///
     /// Lists fleet members.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListFleetMembersInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListFleetMembersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListFleetMembersOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListFleetMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5209,9 +5209,9 @@ extension DeadlineClient {
     ///
     /// Lists fleets.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListFleetsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListFleetsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListFleetsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListFleetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5279,9 +5279,9 @@ extension DeadlineClient {
     ///
     /// Lists members on a job.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListJobMembersInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListJobMembersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListJobMembersOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListJobMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5349,9 +5349,9 @@ extension DeadlineClient {
     ///
     /// Lists parameter definitions of a job.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListJobParameterDefinitionsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListJobParameterDefinitionsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListJobParameterDefinitionsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListJobParameterDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5419,9 +5419,9 @@ extension DeadlineClient {
     ///
     /// Lists jobs.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListJobsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListJobsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListJobsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5489,9 +5489,9 @@ extension DeadlineClient {
     ///
     /// Lists license endpoints.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListLicenseEndpointsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListLicenseEndpointsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListLicenseEndpointsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListLicenseEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5559,9 +5559,9 @@ extension DeadlineClient {
     ///
     /// Gets a list of limits defined in the specified farm.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListLimitsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListLimitsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListLimitsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListLimitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5629,9 +5629,9 @@ extension DeadlineClient {
     ///
     /// Lists metered products.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListMeteredProductsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListMeteredProductsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListMeteredProductsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListMeteredProductsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5699,9 +5699,9 @@ extension DeadlineClient {
     ///
     /// Gets a list of your monitors in Deadline Cloud.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListMonitorsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListMonitorsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListMonitorsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListMonitorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5768,9 +5768,9 @@ extension DeadlineClient {
     ///
     /// Lists queue environments.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListQueueEnvironmentsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListQueueEnvironmentsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListQueueEnvironmentsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListQueueEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5838,9 +5838,9 @@ extension DeadlineClient {
     ///
     /// Lists queue-fleet associations.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListQueueFleetAssociationsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListQueueFleetAssociationsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListQueueFleetAssociationsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListQueueFleetAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5907,9 +5907,9 @@ extension DeadlineClient {
     ///
     /// Gets a list of the associations between queues and limits defined in a farm.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListQueueLimitAssociationsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListQueueLimitAssociationsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListQueueLimitAssociationsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListQueueLimitAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5976,9 +5976,9 @@ extension DeadlineClient {
     ///
     /// Lists the members in a queue.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListQueueMembersInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListQueueMembersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListQueueMembersOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListQueueMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6046,9 +6046,9 @@ extension DeadlineClient {
     ///
     /// Lists queues.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListQueuesInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListQueuesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListQueuesOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListQueuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6116,9 +6116,9 @@ extension DeadlineClient {
     ///
     /// Lists session actions.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListSessionActionsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListSessionActionsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListSessionActionsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListSessionActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6186,9 +6186,9 @@ extension DeadlineClient {
     ///
     /// Lists sessions.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListSessionsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListSessionsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListSessionsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6256,9 +6256,9 @@ extension DeadlineClient {
     ///
     /// Lists sessions for a worker.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListSessionsForWorkerInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListSessionsForWorkerInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListSessionsForWorkerOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListSessionsForWorkerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6328,7 +6328,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `ListStepConsumersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListStepConsumersOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListStepConsumersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6398,7 +6398,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `ListStepDependenciesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListStepDependenciesOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListStepDependenciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6466,9 +6466,9 @@ extension DeadlineClient {
     ///
     /// Lists steps for a job.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListStepsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListStepsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListStepsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListStepsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6536,9 +6536,9 @@ extension DeadlineClient {
     ///
     /// Lists storage profiles.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListStorageProfilesInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListStorageProfilesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListStorageProfilesOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListStorageProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6606,9 +6606,9 @@ extension DeadlineClient {
     ///
     /// Lists storage profiles for a queue.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListStorageProfilesForQueueInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListStorageProfilesForQueueInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListStorageProfilesForQueueOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListStorageProfilesForQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6745,9 +6745,9 @@ extension DeadlineClient {
     ///
     /// Lists tasks for a job.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListTasksInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListTasksInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListTasksOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6815,9 +6815,9 @@ extension DeadlineClient {
     ///
     /// Lists workers.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListWorkersInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListWorkersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListWorkersOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListWorkersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6954,9 +6954,9 @@ extension DeadlineClient {
     ///
     /// Searches for jobs.
     ///
-    /// - Parameter input: [no documentation found] (Type: `SearchJobsInput`)
+    /// - Parameter input: Shared input fields for all Search operations (filterExpressions, sortExpressions, itemOffset, pageSize). (Type: `SearchJobsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `SearchJobsOutput`)
+    /// - Returns: Shared output fields for all Search operations (nextItemOffset, totalResults). (Type: `SearchJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7026,9 +7026,9 @@ extension DeadlineClient {
     ///
     /// Searches for steps.
     ///
-    /// - Parameter input: [no documentation found] (Type: `SearchStepsInput`)
+    /// - Parameter input: Shared input fields for all Search operations (filterExpressions, sortExpressions, itemOffset, pageSize). (Type: `SearchStepsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `SearchStepsOutput`)
+    /// - Returns: Shared output fields for all Search operations (nextItemOffset, totalResults). (Type: `SearchStepsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7098,9 +7098,9 @@ extension DeadlineClient {
     ///
     /// Searches for tasks.
     ///
-    /// - Parameter input: [no documentation found] (Type: `SearchTasksInput`)
+    /// - Parameter input: Shared input fields for all Search operations (filterExpressions, sortExpressions, itemOffset, pageSize). (Type: `SearchTasksInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `SearchTasksOutput`)
+    /// - Returns: Shared output fields for all Search operations (nextItemOffset, totalResults). (Type: `SearchTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7170,9 +7170,9 @@ extension DeadlineClient {
     ///
     /// Searches for workers.
     ///
-    /// - Parameter input: [no documentation found] (Type: `SearchWorkersInput`)
+    /// - Parameter input: Shared input fields for all Search operations (filterExpressions, sortExpressions, itemOffset, pageSize). (Type: `SearchWorkersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `SearchWorkersOutput`)
+    /// - Returns: Shared output fields for all Search operations (nextItemOffset, totalResults). (Type: `SearchWorkersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8046,7 +8046,7 @@ extension DeadlineClient {
     ///
     /// Updates a queue-fleet association.
     ///
-    /// - Parameter input: [no documentation found] (Type: `UpdateQueueFleetAssociationInput`)
+    /// - Parameter input: Identifier mixin for queue-fleet association operations. Composes QueueIdentifierMixin (farmId + queueId) and adds fleetId. (Type: `UpdateQueueFleetAssociationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `UpdateQueueFleetAssociationOutput`)
     ///

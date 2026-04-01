@@ -15591,15 +15591,19 @@ public struct UpdateAnycastIpListInput: Swift.Sendable {
     ///
     /// * dualstack - Allocate a list of both IPv4 and IPv6 addresses
     public var ipAddressType: CloudFrontClientTypes.IpAddressType?
+    /// A list of IPAM CIDR configurations that specify the IP address ranges and IPAM pool settings for updating the Anycast static IP list.
+    public var ipamCidrConfigs: [CloudFrontClientTypes.IpamCidrConfig]?
 
     public init(
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil,
-        ipAddressType: CloudFrontClientTypes.IpAddressType? = nil
+        ipAddressType: CloudFrontClientTypes.IpAddressType? = nil,
+        ipamCidrConfigs: [CloudFrontClientTypes.IpamCidrConfig]? = nil
     ) {
         self.id = id
         self.ifMatch = ifMatch
         self.ipAddressType = ipAddressType
+        self.ipamCidrConfigs = ipamCidrConfigs
     }
 }
 
@@ -19739,6 +19743,7 @@ extension UpdateAnycastIpListInput {
     static func write(value: UpdateAnycastIpListInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["IpAddressType"].write(value.ipAddressType)
+        try writer["IpamCidrConfigs"].writeList(value.ipamCidrConfigs, memberWritingClosure: CloudFrontClientTypes.IpamCidrConfig.write(value:to:), memberNodeInfo: "IpamCidrConfig", isFlattened: false)
     }
 }
 

@@ -1881,15 +1881,113 @@ extension EMRClientTypes {
 
 extension EMRClientTypes {
 
-    /// Contains CloudWatch log configuration metadata and settings.
+    public enum LogType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case applicationLogs
+        case persistentUiLogs
+        case systemLogs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LogType] {
+            return [
+                .applicationLogs,
+                .persistentUiLogs,
+                .systemLogs
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .applicationLogs: return "application-logs"
+            case .persistentUiLogs: return "persistent-ui-logs"
+            case .systemLogs: return "system-logs"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EMRClientTypes {
+
+    public enum LogUploadPolicyValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case emrManaged
+        case onCustomerS3only
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LogUploadPolicyValue] {
+            return [
+                .disabled,
+                .emrManaged,
+                .onCustomerS3only
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "disabled"
+            case .emrManaged: return "emr-managed"
+            case .onCustomerS3only: return "on-customer-s3only"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EMRClientTypes {
+
+    /// Configuration for S3 logging behavior in EMR clusters. Defines how different types of logs are uploaded to S3 based on the specified upload policies for each log type.
+    public struct S3LoggingConfiguration: Swift.Sendable {
+        /// A map that specifies the upload policy for each log type. The key is the log type, and the value is the upload policy. Valid log types:
+        ///
+        /// * system-logs: System-level logs including daemon logs, bootstrap logs, and other infrastructure logs.
+        ///
+        /// * application-logs: Application-level logs from frameworks like Hadoop, Spark, Hive, etc.
+        ///
+        /// * persistent-ui-logs: Logs for persistent application UIs like Spark History Server.
+        ///
+        ///
+        /// Valid upload policies:
+        ///
+        /// * emr-managed: Logs are uploaded to both the EMR-managed S3 bucket and the customer-specified S3 bucket (if LogUri is provided).
+        ///
+        /// * on-customer-s3only: Logs are uploaded only to the customer-specified S3 bucket. Requires LogUri to be specified in the cluster configuration.
+        ///
+        /// * disabled: Log upload is disabled for this log type.
+        public var logTypeUploadPolicy: [Swift.String: EMRClientTypes.LogUploadPolicyValue]?
+
+        public init(
+            logTypeUploadPolicy: [Swift.String: EMRClientTypes.LogUploadPolicyValue]? = nil
+        ) {
+            self.logTypeUploadPolicy = logTypeUploadPolicy
+        }
+    }
+}
+
+extension EMRClientTypes {
+
+    /// Contains CloudWatch log configuration and S3 logging configuration metadata and settings.
     public struct MonitoringConfiguration: Swift.Sendable {
         /// CloudWatch log configuration settings and metadata that specify settings like log files to monitor and where to send them.
         public var cloudWatchLogConfiguration: EMRClientTypes.CloudWatchLogConfiguration?
+        /// S3 logging configuration that controls how different types of logs (system logs, application logs, and persistent UI logs) are uploaded to S3. Each log type can be configured with a specific upload policy.
+        public var s3LoggingConfiguration: EMRClientTypes.S3LoggingConfiguration?
 
         public init(
-            cloudWatchLogConfiguration: EMRClientTypes.CloudWatchLogConfiguration? = nil
+            cloudWatchLogConfiguration: EMRClientTypes.CloudWatchLogConfiguration? = nil,
+            s3LoggingConfiguration: EMRClientTypes.S3LoggingConfiguration? = nil
         ) {
             self.cloudWatchLogConfiguration = cloudWatchLogConfiguration
+            self.s3LoggingConfiguration = s3LoggingConfiguration
         }
     }
 }
@@ -7165,6 +7263,8 @@ public struct RunJobFlowInput: Swift.Sendable {
     public var serviceRole: Swift.String?
     /// Specifies the number of steps that can be executed concurrently. The default value is 1. The maximum value is 256.
     public var stepConcurrencyLevel: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the runtime role for steps specified in the RunJobFlow request. The runtime role can be a cross-account IAM role. The runtime role ARN is a combination of account ID, role name, and role type using the following format: arn:partition:iam::account-id:role/role-name. For example, arn:aws:iam::1234567890:role/ReadOnly is a correctly formatted runtime role ARN. This parameter applies only to steps included in the Steps parameter of this RunJobFlow request. It does not apply to steps added later to the cluster.
+    public var stepExecutionRoleArn: Swift.String?
     /// A list of steps to run.
     public var steps: [EMRClientTypes.StepConfig]?
     /// For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications. A list of strings that indicates third-party software to use. For more information, see the [Amazon EMR Developer Guide](https://docs.aws.amazon.com/emr/latest/DeveloperGuide/emr-dg.pdf). Currently supported values are:
@@ -7208,6 +7308,7 @@ public struct RunJobFlowInput: Swift.Sendable {
         securityConfiguration: Swift.String? = nil,
         serviceRole: Swift.String? = nil,
         stepConcurrencyLevel: Swift.Int? = nil,
+        stepExecutionRoleArn: Swift.String? = nil,
         steps: [EMRClientTypes.StepConfig]? = nil,
         supportedProducts: [Swift.String]? = nil,
         tags: [EMRClientTypes.Tag]? = nil,
@@ -7242,6 +7343,7 @@ public struct RunJobFlowInput: Swift.Sendable {
         self.securityConfiguration = securityConfiguration
         self.serviceRole = serviceRole
         self.stepConcurrencyLevel = stepConcurrencyLevel
+        self.stepExecutionRoleArn = stepExecutionRoleArn
         self.steps = steps
         self.supportedProducts = supportedProducts
         self.tags = tags
@@ -8190,6 +8292,7 @@ extension RunJobFlowInput {
         try writer["SecurityConfiguration"].write(value.securityConfiguration)
         try writer["ServiceRole"].write(value.serviceRole)
         try writer["StepConcurrencyLevel"].write(value.stepConcurrencyLevel)
+        try writer["StepExecutionRoleArn"].write(value.stepExecutionRoleArn)
         try writer["Steps"].writeList(value.steps, memberWritingClosure: EMRClientTypes.StepConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SupportedProducts"].writeList(value.supportedProducts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: EMRClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -10875,12 +10978,14 @@ extension EMRClientTypes.MonitoringConfiguration {
     static func write(value: EMRClientTypes.MonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CloudWatchLogConfiguration"].write(value.cloudWatchLogConfiguration, with: EMRClientTypes.CloudWatchLogConfiguration.write(value:to:))
+        try writer["S3LoggingConfiguration"].write(value.s3LoggingConfiguration, with: EMRClientTypes.S3LoggingConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EMRClientTypes.MonitoringConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRClientTypes.MonitoringConfiguration()
         value.cloudWatchLogConfiguration = try reader["CloudWatchLogConfiguration"].readIfPresent(with: EMRClientTypes.CloudWatchLogConfiguration.read(from:))
+        value.s3LoggingConfiguration = try reader["S3LoggingConfiguration"].readIfPresent(with: EMRClientTypes.S3LoggingConfiguration.read(from:))
         return value
     }
 }
@@ -11107,6 +11212,21 @@ extension EMRClientTypes.ReleaseLabelFilter {
         guard let value else { return }
         try writer["Application"].write(value.application)
         try writer["Prefix"].write(value.`prefix`)
+    }
+}
+
+extension EMRClientTypes.S3LoggingConfiguration {
+
+    static func write(value: EMRClientTypes.S3LoggingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LogTypeUploadPolicy"].writeMap(value.logTypeUploadPolicy, valueWritingClosure: SmithyReadWrite.WritingClosureBox<EMRClientTypes.LogUploadPolicyValue>().write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRClientTypes.S3LoggingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRClientTypes.S3LoggingConfiguration()
+        value.logTypeUploadPolicy = try reader["LogTypeUploadPolicy"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosureBox<EMRClientTypes.LogUploadPolicyValue>().read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
     }
 }
 

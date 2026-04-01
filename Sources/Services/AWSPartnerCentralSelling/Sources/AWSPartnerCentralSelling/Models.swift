@@ -2493,7 +2493,7 @@ extension PartnerCentralSellingClientTypes {
         /// Product-level details including costs and optimization recommendations.
         /// This member is required.
         public var awsProducts: [PartnerCentralSellingClientTypes.AwsProductDetails]?
-        /// ISO 4217 currency code.
+        /// ISO 4217 currency code. Supported values are USD and EUR. Returns EUR when the opportunity is in the aws-eusc (AWS European Sovereign Cloud) partition.
         /// This member is required.
         public var currencyCode: PartnerCentralSellingClientTypes.CurrencyCode?
         /// Time period for spend amounts.
@@ -2792,7 +2792,7 @@ extension PartnerCentralSellingClientTypes {
     public struct ExpectedCustomerSpend: Swift.Sendable {
         /// Represents the estimated monthly revenue that the partner expects to earn from the opportunity. This helps in forecasting financial returns.
         public var amount: Swift.String?
-        /// Indicates the currency in which the revenue estimate is provided. This helps in understanding the financial impact across different markets.
+        /// Currency code for the expected customer spend. Supported currencies: USD, EUR
         /// This member is required.
         public var currencyCode: PartnerCentralSellingClientTypes.CurrencyCode?
         /// A URL providing additional information or context about the spend estimation.
@@ -6144,7 +6144,7 @@ extension PartnerCentralSellingClientTypes {
         /// Specifies the payment amount.
         /// This member is required.
         public var amount: Swift.String?
-        /// Specifies the payment currency.
+        /// Specifies the payment currency. Accepted values are USD (US Dollars) and EUR (Euros). If the AWS Partition is aws-eusc (AWS European Sovereign Cloud), the currency code must be EUR.
         /// This member is required.
         public var currencyCode: PartnerCentralSellingClientTypes.CurrencyCode?
 

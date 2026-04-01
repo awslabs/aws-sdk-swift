@@ -25,6 +25,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
+import struct Smithy.Document
 import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
@@ -486,6 +487,96 @@ extension S3TablesClientTypes {
 
 extension S3TablesClientTypes {
 
+    /// Contains details about a schema field in the V2 format. This field format supports nested and complex data types such as struct, list, and map, in addition to primitive types.
+    public struct SchemaV2Field: Swift.Sendable {
+        /// An optional description of the field.
+        public var doc: Swift.String?
+        /// The unique identifier for the schema field. Field IDs are used by Apache Iceberg to track schema evolution and maintain compatibility across schema changes.
+        /// This member is required.
+        public var id: Swift.Int?
+        /// The name of the field.
+        /// This member is required.
+        public var name: Swift.String?
+        /// A Boolean value that specifies whether values are required for each row in this field. If this is true, the field does not allow null values.
+        /// This member is required.
+        public var `required`: Swift.Bool?
+        /// The data type of the field. This can be a primitive type string such as boolean, int, long, float, double, string, binary, date, timestamp, or timestamptz, or a complex type represented as a JSON object for nested types such as struct, list, or map. For more information, see the [Apache Iceberg schemas and data types documentation](https://iceberg.apache.org/spec/#schemas-and-data-types).
+        /// This member is required.
+        public var type: Smithy.Document?
+
+        public init(
+            doc: Swift.String? = nil,
+            id: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            `required`: Swift.Bool? = nil,
+            type: Smithy.Document? = nil
+        ) {
+            self.doc = doc
+            self.id = id
+            self.name = name
+            self.`required` = `required`
+            self.type = type
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    public enum SchemaV2FieldType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `struct`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SchemaV2FieldType] {
+            return [
+                .struct
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .struct: return "struct"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Contains details about the schema for an Iceberg table using the V2 format. This schema format supports nested and complex data types such as struct, list, and map, in addition to primitive types.
+    public struct IcebergSchemaV2: Swift.Sendable {
+        /// The schema fields for the table. Each field defines a column in the table, including its name, type, and whether it is required.
+        /// This member is required.
+        public var fields: [S3TablesClientTypes.SchemaV2Field]?
+        /// A list of field IDs that are used as the identifier fields for the table. Identifier fields uniquely identify a row in the table.
+        public var identifierFieldIds: [Swift.Int]?
+        /// An optional unique identifier for the schema. Schema IDs are used by Apache Iceberg to track schema evolution.
+        public var schemaId: Swift.Int?
+        /// The type of the top-level schema, which is always a struct type as defined in the [Apache Iceberg specification](https://iceberg.apache.org/spec/#schemas-and-data-types). This value must be struct.
+        /// This member is required.
+        public var type: S3TablesClientTypes.SchemaV2FieldType?
+
+        public init(
+            fields: [S3TablesClientTypes.SchemaV2Field]? = nil,
+            identifierFieldIds: [Swift.Int]? = nil,
+            schemaId: Swift.Int? = nil,
+            type: S3TablesClientTypes.SchemaV2FieldType? = nil
+        ) {
+            self.fields = fields
+            self.identifierFieldIds = identifierFieldIds
+            self.schemaId = schemaId
+            self.type = type
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
     public enum IcebergSortDirection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case asc
         case desc
@@ -602,9 +693,10 @@ extension S3TablesClientTypes {
         public var partitionSpec: S3TablesClientTypes.IcebergPartitionSpec?
         /// A map of custom configuration properties for the Iceberg table.
         public var properties: [Swift.String: Swift.String]?
-        /// The schema for an Iceberg table.
-        /// This member is required.
+        /// The schema for an Iceberg table. Use this property to define table schemas with primitive types only. For schemas that include nested or complex types such as struct, list, or map, use schemaV2 instead.
         public var schema: S3TablesClientTypes.IcebergSchema?
+        /// The schema for an Iceberg table using the V2 format. Use this property to define table schemas that include nested or complex data types such as struct, list, or map, in addition to primitive types. For schemas with only primitive types, you can use either schema or schemaV2.
+        public var schemaV2: S3TablesClientTypes.IcebergSchemaV2?
         /// The sort order for the Iceberg table. Sort order defines how data is sorted within data files, which can improve query performance by enabling more efficient data skipping and filtering.
         public var writeOrder: S3TablesClientTypes.IcebergSortOrder?
 
@@ -612,11 +704,13 @@ extension S3TablesClientTypes {
             partitionSpec: S3TablesClientTypes.IcebergPartitionSpec? = nil,
             properties: [Swift.String: Swift.String]? = nil,
             schema: S3TablesClientTypes.IcebergSchema? = nil,
+            schemaV2: S3TablesClientTypes.IcebergSchemaV2? = nil,
             writeOrder: S3TablesClientTypes.IcebergSortOrder? = nil
         ) {
             self.partitionSpec = partitionSpec
             self.properties = properties
             self.schema = schema
+            self.schemaV2 = schemaV2
             self.writeOrder = writeOrder
         }
     }
@@ -5590,6 +5684,7 @@ extension S3TablesClientTypes.IcebergMetadata {
         try writer["partitionSpec"].write(value.partitionSpec, with: S3TablesClientTypes.IcebergPartitionSpec.write(value:to:))
         try writer["properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["schema"].write(value.schema, with: S3TablesClientTypes.IcebergSchema.write(value:to:))
+        try writer["schemaV2"].write(value.schemaV2, with: S3TablesClientTypes.IcebergSchemaV2.write(value:to:))
         try writer["writeOrder"].write(value.writeOrder, with: S3TablesClientTypes.IcebergSortOrder.write(value:to:))
     }
 }
@@ -5619,6 +5714,17 @@ extension S3TablesClientTypes.IcebergSchema {
     static func write(value: S3TablesClientTypes.IcebergSchema?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["fields"].writeList(value.fields, memberWritingClosure: S3TablesClientTypes.SchemaField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension S3TablesClientTypes.IcebergSchemaV2 {
+
+    static func write(value: S3TablesClientTypes.IcebergSchemaV2?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fields"].writeList(value.fields, memberWritingClosure: S3TablesClientTypes.SchemaV2Field.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["identifier-field-ids"].writeList(value.identifierFieldIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["schema-id"].write(value.schemaId)
+        try writer["type"].write(value.type)
     }
 }
 
@@ -5755,6 +5861,18 @@ extension S3TablesClientTypes.SchemaField {
 
     static func write(value: S3TablesClientTypes.SchemaField?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+        try writer["required"].write(value.`required`)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension S3TablesClientTypes.SchemaV2Field {
+
+    static func write(value: S3TablesClientTypes.SchemaV2Field?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["doc"].write(value.doc)
         try writer["id"].write(value.id)
         try writer["name"].write(value.name)
         try writer["required"].write(value.`required`)

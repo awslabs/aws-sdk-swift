@@ -325,11 +325,11 @@ extension ObservabilityAdminClientTypes {
         ///
         /// * ${source.logGroup} — The original log group name from the source account.
         ///
-        /// * ${source.accountId} — The AWS account ID where the log originated.
+        /// * ${source.accountId} — The Amazon Web Services account ID where the log originated.
         ///
-        /// * ${source.region} — The AWS Region where the log originated.
+        /// * ${source.region} — The Amazon Web Services Region where the log originated.
         ///
-        /// * ${source.org.id} — The AWS Organization ID of the source account.
+        /// * ${source.org.id} — The Amazon Web Services Organization ID of the source account.
         ///
         /// * ${source.org.ouId} — The organizational unit ID of the source account.
         ///
@@ -509,17 +509,20 @@ extension ObservabilityAdminClientTypes {
 
     /// Configuration for selecting and handling source log groups for centralization.
     public struct SourceLogsConfiguration: Swift.Sendable {
+        /// The selection criteria that specifies which data sources to centralize. The selection criteria uses the same filter expression format as LogGroupSelectionCriteria, but operates on DataSourceName and DataSourceType operands. When both LogGroupSelectionCriteria and DataSourceSelectionCriteria are specified, a log event must match both criteria to be centralized.
+        public var dataSourceSelectionCriteria: Swift.String?
         /// A strategy determining whether to centralize source log groups that are encrypted with customer managed KMS keys (CMK). ALLOW will consider CMK encrypted source log groups for centralization while SKIP will skip CMK encrypted source log groups from centralization.
         /// This member is required.
         public var encryptedLogGroupStrategy: ObservabilityAdminClientTypes.EncryptedLogGroupStrategy?
         /// The selection criteria that specifies which source log groups to centralize. The selection criteria uses the same format as OAM link filters.
-        /// This member is required.
         public var logGroupSelectionCriteria: Swift.String?
 
         public init(
+            dataSourceSelectionCriteria: Swift.String? = nil,
             encryptedLogGroupStrategy: ObservabilityAdminClientTypes.EncryptedLogGroupStrategy? = nil,
-            logGroupSelectionCriteria: Swift.String? = nil
+            logGroupSelectionCriteria: Swift.String? = "*"
         ) {
+            self.dataSourceSelectionCriteria = dataSourceSelectionCriteria
             self.encryptedLogGroupStrategy = encryptedLogGroupStrategy
             self.logGroupSelectionCriteria = logGroupSelectionCriteria
         }
@@ -1197,13 +1200,19 @@ extension ObservabilityAdminClientTypes {
 extension ObservabilityAdminClientTypes {
 
     public enum LogType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case access
         case application
+        case connection
+        case securityFinding
         case usage
         case sdkUnknown(Swift.String)
 
         public static var allCases: [LogType] {
             return [
+                .access,
                 .application,
+                .connection,
+                .securityFinding,
                 .usage
             ]
         }
@@ -1215,7 +1224,10 @@ extension ObservabilityAdminClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .access: return "ACCESS_LOGS"
             case .application: return "APPLICATION_LOGS"
+            case .connection: return "CONNECTION_LOGS"
+            case .securityFinding: return "SECURITY_FINDING_LOGS"
             case .usage: return "USAGE_LOGS"
             case let .sdkUnknown(s): return s
             }
@@ -1503,7 +1515,10 @@ extension ObservabilityAdminClientTypes {
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsBedrockAgentcoreBrowser
         case awsBedrockAgentcoreCodeInterpreter
+        case awsBedrockAgentcoreGateway
+        case awsBedrockAgentcoreMemory
         case awsBedrockAgentcoreRuntime
+        case awsCloudfrontDistribution
         case awsCloudtrail
         case awsEc2Instance
         case awsEc2Vpc
@@ -1511,6 +1526,7 @@ extension ObservabilityAdminClientTypes {
         case awsElbLoadbalancer
         case awsLamdbaFunction
         case awsRoute53ResolverResolverEndpoint
+        case awsSecurityHub
         case awsWafV2WebAcl
         case sdkUnknown(Swift.String)
 
@@ -1518,7 +1534,10 @@ extension ObservabilityAdminClientTypes {
             return [
                 .awsBedrockAgentcoreBrowser,
                 .awsBedrockAgentcoreCodeInterpreter,
+                .awsBedrockAgentcoreGateway,
+                .awsBedrockAgentcoreMemory,
                 .awsBedrockAgentcoreRuntime,
+                .awsCloudfrontDistribution,
                 .awsCloudtrail,
                 .awsEc2Instance,
                 .awsEc2Vpc,
@@ -1526,6 +1545,7 @@ extension ObservabilityAdminClientTypes {
                 .awsElbLoadbalancer,
                 .awsLamdbaFunction,
                 .awsRoute53ResolverResolverEndpoint,
+                .awsSecurityHub,
                 .awsWafV2WebAcl
             ]
         }
@@ -1539,7 +1559,10 @@ extension ObservabilityAdminClientTypes {
             switch self {
             case .awsBedrockAgentcoreBrowser: return "AWS::BedrockAgentCore::Browser"
             case .awsBedrockAgentcoreCodeInterpreter: return "AWS::BedrockAgentCore::CodeInterpreter"
+            case .awsBedrockAgentcoreGateway: return "AWS::BedrockAgentCore::Gateway"
+            case .awsBedrockAgentcoreMemory: return "AWS::BedrockAgentCore::Memory"
             case .awsBedrockAgentcoreRuntime: return "AWS::BedrockAgentCore::Runtime"
+            case .awsCloudfrontDistribution: return "AWS::CloudFront::Distribution"
             case .awsCloudtrail: return "AWS::CloudTrail"
             case .awsEc2Instance: return "AWS::EC2::Instance"
             case .awsEc2Vpc: return "AWS::EC2::VPC"
@@ -1547,6 +1570,7 @@ extension ObservabilityAdminClientTypes {
             case .awsElbLoadbalancer: return "AWS::ElasticLoadBalancingV2::LoadBalancer"
             case .awsLamdbaFunction: return "AWS::Lambda::Function"
             case .awsRoute53ResolverResolverEndpoint: return "AWS::Route53Resolver::ResolverEndpoint"
+            case .awsSecurityHub: return "AWS::SecurityHub::Hub"
             case .awsWafV2WebAcl: return "AWS::WAFv2::WebACL"
             case let .sdkUnknown(s): return s
             }
@@ -5378,6 +5402,7 @@ extension ObservabilityAdminClientTypes.SourceLogsConfiguration {
 
     static func write(value: ObservabilityAdminClientTypes.SourceLogsConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DataSourceSelectionCriteria"].write(value.dataSourceSelectionCriteria)
         try writer["EncryptedLogGroupStrategy"].write(value.encryptedLogGroupStrategy)
         try writer["LogGroupSelectionCriteria"].write(value.logGroupSelectionCriteria)
     }
@@ -5385,7 +5410,8 @@ extension ObservabilityAdminClientTypes.SourceLogsConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.SourceLogsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ObservabilityAdminClientTypes.SourceLogsConfiguration()
-        value.logGroupSelectionCriteria = try reader["LogGroupSelectionCriteria"].readIfPresent() ?? ""
+        value.logGroupSelectionCriteria = try reader["LogGroupSelectionCriteria"].readIfPresent() ?? "*"
+        value.dataSourceSelectionCriteria = try reader["DataSourceSelectionCriteria"].readIfPresent()
         value.encryptedLogGroupStrategy = try reader["EncryptedLogGroupStrategy"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
