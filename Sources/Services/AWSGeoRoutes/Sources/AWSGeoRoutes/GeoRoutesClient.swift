@@ -613,7 +613,16 @@ extension GeoRoutesClient {
 extension GeoRoutesClient {
     /// Performs the `CalculateIsolines` operation on the `GeoRoutes` service.
     ///
-    /// Use the CalculateIsolines action to find service areas that can be reached in a given threshold of time, distance.
+    /// Calculates areas that can be reached within specified time or distance thresholds from a given point. For example, you can use this operation to determine the area within a 30-minute drive of a store location, find neighborhoods within walking distance of a school, or identify delivery zones based on drive time. Isolines (also known as isochrones for time-based calculations) are useful for various applications including:
+    ///
+    /// * Service area visualization - Show customers the area you can serve within promised delivery times
+    ///
+    /// * Site selection - Analyze potential business locations based on population within travel distance
+    ///
+    /// * Site selection - Determine areas that can be reached within specified response times
+    ///
+    ///
+    /// Route preferences such as avoiding toll roads or ferries are treated as preferences rather than absolute restrictions. If a viable route cannot be calculated while honoring all preferences, some may be ignored. For more information, see [Calculate isolines](https://docs.aws.amazon.com/location/latest/developerguide/calculate-isolines.html) in the Amazon Location Service Developer Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `CalculateIsolinesInput`)
     ///
@@ -685,7 +694,7 @@ extension GeoRoutesClient {
 
     /// Performs the `CalculateRouteMatrix` operation on the `GeoRoutes` service.
     ///
-    /// Use CalculateRouteMatrix to compute results for all pairs of Origins to Destinations. Each row corresponds to one entry in Origins. Each entry in the row corresponds to the route from that entry in Origins to an entry in Destinations positions.
+    /// Use CalculateRouteMatrix to compute results for all pairs of Origins to Destinations. Each row corresponds to one entry in Origins. Each entry in the row corresponds to the route from that entry in Origins to an entry in Destinations positions. For more information, see [Calculate route matrix](https://docs.aws.amazon.com/location/latest/developerguide/calculate-route-matrix.html) in the Amazon Location Service Developer Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `CalculateRouteMatrixInput`)
     ///
@@ -757,7 +766,7 @@ extension GeoRoutesClient {
 
     /// Performs the `CalculateRoutes` operation on the `GeoRoutes` service.
     ///
-    /// CalculateRoutes computes routes given the following required parameters: Origin and Destination.
+    /// CalculateRoutes computes routes given the following required parameters: Origin and Destination. For more information, see [Calculate routes](https://docs.aws.amazon.com/location/latest/developerguide/calculate-routes.html) in the Amazon Location Service Developer Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `CalculateRoutesInput`)
     ///
@@ -829,7 +838,7 @@ extension GeoRoutesClient {
 
     /// Performs the `OptimizeWaypoints` operation on the `GeoRoutes` service.
     ///
-    /// OptimizeWaypoints calculates the optimal order to travel between a set of waypoints to minimize either the travel time or the distance travelled during the journey, based on road network restrictions and the traffic pattern data.
+    /// OptimizeWaypoints calculates the optimal order to travel between a set of waypoints to minimize either the travel time or the distance travelled during the journey, based on road network restrictions and the traffic pattern data. For more information, see [Optimize waypoints](https://docs.aws.amazon.com/location/latest/developerguide/actions-optimize-waypoints.html) in the Amazon Location Service Developer Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `OptimizeWaypointsInput`)
     ///
@@ -901,7 +910,7 @@ extension GeoRoutesClient {
 
     /// Performs the `SnapToRoads` operation on the `GeoRoutes` service.
     ///
-    /// SnapToRoads matches GPS trace to roads most likely traveled on.
+    /// SnapToRoads matches GPS trace to roads most likely traveled on. For more information, see [Snap to Roads](https://docs.aws.amazon.com/location/latest/developerguide/snap-to-roads.html) in the Amazon Location Service Developer Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `SnapToRoadsInput`)
     ///

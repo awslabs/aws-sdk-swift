@@ -357,6 +357,7 @@ extension MedicalImagingClientTypes {
         case updated
         case updateFailed
         case updating
+        case updatingForStudyConsistency
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ImageSetWorkflowStatus] {
@@ -373,7 +374,8 @@ extension MedicalImagingClientTypes {
                 .importFailed,
                 .updated,
                 .updateFailed,
-                .updating
+                .updating,
+                .updatingForStudyConsistency
             ]
         }
 
@@ -397,6 +399,7 @@ extension MedicalImagingClientTypes {
             case .updated: return "UPDATED"
             case .updateFailed: return "UPDATE_FAILED"
             case .updating: return "UPDATING"
+            case .updatingForStudyConsistency: return "UPDATING_FOR_STUDY_CONSISTENCY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -964,6 +967,54 @@ public struct GetDICOMImportJobOutput: Swift.Sendable {
     }
 }
 
+/// The request is invalid or malformed.
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BadRequestException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The request content type or accept header is not supported.
+public struct NotAcceptableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NotAcceptableException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 extension MedicalImagingClientTypes {
 
     /// Information about the image frame (pixel data) identifier.
@@ -1041,6 +1092,8 @@ public struct GetImageFrameOutput: Swift.Sendable {
     ///
     ///
     /// * If the stored transfer syntax is 1.2.840.10008.1.2.4.203, the returned contentType is image/jphc.
+    ///
+    /// * If the stored transfer syntax is 1.2.840.10008.1.2.4.112 the returned contentType is image/jxl.
     public var contentType: Swift.String?
     /// The blob containing the aggregated image frame information.
     /// This member is required.
@@ -1978,6 +2031,8 @@ public struct UpdateImageSetMetadataInput: Swift.Sendable {
     /// The image set identifier.
     /// This member is required.
     public var imageSetId: Swift.String?
+    /// Flag to apply the metadata updates to all image sets in the same Study as the requested image set ID.
+    public var includeStudyImageSets: Swift.Bool?
     /// The latest image set version identifier.
     /// This member is required.
     public var latestVersionId: Swift.String?
@@ -1989,12 +2044,14 @@ public struct UpdateImageSetMetadataInput: Swift.Sendable {
         datastoreId: Swift.String? = nil,
         force: Swift.Bool? = nil,
         imageSetId: Swift.String? = nil,
+        includeStudyImageSets: Swift.Bool? = nil,
         latestVersionId: Swift.String? = nil,
         updateImageSetMetadataUpdates: MedicalImagingClientTypes.MetadataUpdates? = nil
     ) {
         self.datastoreId = datastoreId
         self.force = force
         self.imageSetId = imageSetId
+        self.includeStudyImageSets = includeStudyImageSets
         self.latestVersionId = latestVersionId
         self.updateImageSetMetadataUpdates = updateImageSetMetadataUpdates
     }
@@ -2373,6 +2430,10 @@ extension UpdateImageSetMetadataInput {
 
     static func queryItemProvider(_ value: UpdateImageSetMetadataInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let includeStudyImageSets = value.includeStudyImageSets {
+            let includeStudyImageSetsQueryItem = Smithy.URIQueryItem(name: "includeStudyImageSets".urlPercentEncoding(), value: Swift.String(includeStudyImageSets).urlPercentEncoding())
+            items.append(includeStudyImageSetsQueryItem)
+        }
         guard let latestVersionId = value.latestVersionId else {
             let message = "Creating a URL Query Item failed. latestVersionId is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
@@ -2835,8 +2896,10 @@ enum GetImageFrameOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "NotAcceptableException": return try NotAcceptableException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -3134,6 +3197,32 @@ extension ValidationException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension BadRequestException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadRequestException {
+        let reader = baseError.errorBodyReader
+        var value = BadRequestException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NotAcceptableException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotAcceptableException {
+        let reader = baseError.errorBodyReader
+        var value = NotAcceptableException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

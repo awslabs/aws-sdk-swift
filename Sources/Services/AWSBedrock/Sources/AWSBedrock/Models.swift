@@ -10914,6 +10914,8 @@ public struct GetModelInvocationJobOutput: Swift.Sendable {
     public var clientRequestToken: Swift.String?
     /// The time at which the batch inference job ended.
     public var endTime: Foundation.Date?
+    /// The number of records that failed to process in the batch inference job.
+    public var errorRecordCount: Swift.Int?
     /// Details about the location of the input to the batch inference job.
     /// This member is required.
     public var inputDataConfig: BedrockClientTypes.ModelInvocationJobInputDataConfig?
@@ -10936,6 +10938,8 @@ public struct GetModelInvocationJobOutput: Swift.Sendable {
     /// Details about the location of the output of the batch inference job.
     /// This member is required.
     public var outputDataConfig: BedrockClientTypes.ModelInvocationJobOutputDataConfig?
+    /// The number of records that have been processed in the batch inference job.
+    public var processedRecordCount: Swift.Int?
     /// The Amazon Resource Name (ARN) of the service role with permissions to carry out and manage batch inference. You can use the console to create a default service role or follow the steps at [Create a service role for batch inference](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-iam-sr.html).
     /// This member is required.
     public var roleArn: Swift.String?
@@ -10973,14 +10977,19 @@ public struct GetModelInvocationJobOutput: Swift.Sendable {
     /// The time at which the batch inference job was submitted.
     /// This member is required.
     public var submitTime: Foundation.Date?
+    /// The number of records that were successfully processed in the batch inference job.
+    public var successRecordCount: Swift.Int?
     /// The number of hours after which batch inference job was set to time out.
     public var timeoutDurationInHours: Swift.Int?
+    /// The total number of records in the batch inference job.
+    public var totalRecordCount: Swift.Int?
     /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see [Protect batch inference jobs using a VPC](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-vpc).
     public var vpcConfig: BedrockClientTypes.VpcConfig?
 
     public init(
         clientRequestToken: Swift.String? = nil,
         endTime: Foundation.Date? = nil,
+        errorRecordCount: Swift.Int? = nil,
         inputDataConfig: BedrockClientTypes.ModelInvocationJobInputDataConfig? = nil,
         jobArn: Swift.String? = nil,
         jobExpirationTime: Foundation.Date? = nil,
@@ -10990,14 +10999,18 @@ public struct GetModelInvocationJobOutput: Swift.Sendable {
         modelId: Swift.String? = nil,
         modelInvocationType: BedrockClientTypes.ModelInvocationType? = nil,
         outputDataConfig: BedrockClientTypes.ModelInvocationJobOutputDataConfig? = nil,
+        processedRecordCount: Swift.Int? = nil,
         roleArn: Swift.String? = nil,
         status: BedrockClientTypes.ModelInvocationJobStatus? = nil,
         submitTime: Foundation.Date? = nil,
+        successRecordCount: Swift.Int? = nil,
         timeoutDurationInHours: Swift.Int? = nil,
+        totalRecordCount: Swift.Int? = nil,
         vpcConfig: BedrockClientTypes.VpcConfig? = nil
     ) {
         self.clientRequestToken = clientRequestToken
         self.endTime = endTime
+        self.errorRecordCount = errorRecordCount
         self.inputDataConfig = inputDataConfig
         self.jobArn = jobArn
         self.jobExpirationTime = jobExpirationTime
@@ -11007,17 +11020,20 @@ public struct GetModelInvocationJobOutput: Swift.Sendable {
         self.modelId = modelId
         self.modelInvocationType = modelInvocationType
         self.outputDataConfig = outputDataConfig
+        self.processedRecordCount = processedRecordCount
         self.roleArn = roleArn
         self.status = status
         self.submitTime = submitTime
+        self.successRecordCount = successRecordCount
         self.timeoutDurationInHours = timeoutDurationInHours
+        self.totalRecordCount = totalRecordCount
         self.vpcConfig = vpcConfig
     }
 }
 
 extension GetModelInvocationJobOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetModelInvocationJobOutput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), endTime: \(Swift.String(describing: endTime)), inputDataConfig: \(Swift.String(describing: inputDataConfig)), jobArn: \(Swift.String(describing: jobArn)), jobExpirationTime: \(Swift.String(describing: jobExpirationTime)), jobName: \(Swift.String(describing: jobName)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modelId: \(Swift.String(describing: modelId)), modelInvocationType: \(Swift.String(describing: modelInvocationType)), outputDataConfig: \(Swift.String(describing: outputDataConfig)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), submitTime: \(Swift.String(describing: submitTime)), timeoutDurationInHours: \(Swift.String(describing: timeoutDurationInHours)), vpcConfig: \(Swift.String(describing: vpcConfig)), message: \"CONTENT_REDACTED\")"}
+        "GetModelInvocationJobOutput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), endTime: \(Swift.String(describing: endTime)), errorRecordCount: \(Swift.String(describing: errorRecordCount)), inputDataConfig: \(Swift.String(describing: inputDataConfig)), jobArn: \(Swift.String(describing: jobArn)), jobExpirationTime: \(Swift.String(describing: jobExpirationTime)), jobName: \(Swift.String(describing: jobName)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modelId: \(Swift.String(describing: modelId)), modelInvocationType: \(Swift.String(describing: modelInvocationType)), outputDataConfig: \(Swift.String(describing: outputDataConfig)), processedRecordCount: \(Swift.String(describing: processedRecordCount)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), submitTime: \(Swift.String(describing: submitTime)), successRecordCount: \(Swift.String(describing: successRecordCount)), timeoutDurationInHours: \(Swift.String(describing: timeoutDurationInHours)), totalRecordCount: \(Swift.String(describing: totalRecordCount)), vpcConfig: \(Swift.String(describing: vpcConfig)), message: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListModelInvocationJobsInput: Swift.Sendable {
@@ -11096,6 +11112,8 @@ extension BedrockClientTypes {
         public var clientRequestToken: Swift.String?
         /// The time at which the batch inference job ended.
         public var endTime: Foundation.Date?
+        /// The number of records that failed to process in the batch inference job.
+        public var errorRecordCount: Swift.Int?
         /// Details about the location of the input to the batch inference job.
         /// This member is required.
         public var inputDataConfig: BedrockClientTypes.ModelInvocationJobInputDataConfig?
@@ -11119,6 +11137,8 @@ extension BedrockClientTypes {
         /// Details about the location of the output of the batch inference job.
         /// This member is required.
         public var outputDataConfig: BedrockClientTypes.ModelInvocationJobOutputDataConfig?
+        /// The number of records that have been processed in the batch inference job.
+        public var processedRecordCount: Swift.Int?
         /// The Amazon Resource Name (ARN) of the service role with permissions to carry out and manage batch inference. You can use the console to create a default service role or follow the steps at [Create a service role for batch inference](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-iam-sr.html).
         /// This member is required.
         public var roleArn: Swift.String?
@@ -11156,14 +11176,19 @@ extension BedrockClientTypes {
         /// The time at which the batch inference job was submitted.
         /// This member is required.
         public var submitTime: Foundation.Date?
+        /// The number of records that were successfully processed in the batch inference job.
+        public var successRecordCount: Swift.Int?
         /// The number of hours after which the batch inference job was set to time out.
         public var timeoutDurationInHours: Swift.Int?
+        /// The total number of records in the batch inference job.
+        public var totalRecordCount: Swift.Int?
         /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see [Protect batch inference jobs using a VPC](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-vpc).
         public var vpcConfig: BedrockClientTypes.VpcConfig?
 
         public init(
             clientRequestToken: Swift.String? = nil,
             endTime: Foundation.Date? = nil,
+            errorRecordCount: Swift.Int? = nil,
             inputDataConfig: BedrockClientTypes.ModelInvocationJobInputDataConfig? = nil,
             jobArn: Swift.String? = nil,
             jobExpirationTime: Foundation.Date? = nil,
@@ -11173,14 +11198,18 @@ extension BedrockClientTypes {
             modelId: Swift.String? = nil,
             modelInvocationType: BedrockClientTypes.ModelInvocationType? = nil,
             outputDataConfig: BedrockClientTypes.ModelInvocationJobOutputDataConfig? = nil,
+            processedRecordCount: Swift.Int? = nil,
             roleArn: Swift.String? = nil,
             status: BedrockClientTypes.ModelInvocationJobStatus? = nil,
             submitTime: Foundation.Date? = nil,
+            successRecordCount: Swift.Int? = nil,
             timeoutDurationInHours: Swift.Int? = nil,
+            totalRecordCount: Swift.Int? = nil,
             vpcConfig: BedrockClientTypes.VpcConfig? = nil
         ) {
             self.clientRequestToken = clientRequestToken
             self.endTime = endTime
+            self.errorRecordCount = errorRecordCount
             self.inputDataConfig = inputDataConfig
             self.jobArn = jobArn
             self.jobExpirationTime = jobExpirationTime
@@ -11190,10 +11219,13 @@ extension BedrockClientTypes {
             self.modelId = modelId
             self.modelInvocationType = modelInvocationType
             self.outputDataConfig = outputDataConfig
+            self.processedRecordCount = processedRecordCount
             self.roleArn = roleArn
             self.status = status
             self.submitTime = submitTime
+            self.successRecordCount = successRecordCount
             self.timeoutDurationInHours = timeoutDurationInHours
+            self.totalRecordCount = totalRecordCount
             self.vpcConfig = vpcConfig
         }
     }
@@ -11201,7 +11233,7 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.ModelInvocationJobSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ModelInvocationJobSummary(clientRequestToken: \(Swift.String(describing: clientRequestToken)), endTime: \(Swift.String(describing: endTime)), inputDataConfig: \(Swift.String(describing: inputDataConfig)), jobArn: \(Swift.String(describing: jobArn)), jobExpirationTime: \(Swift.String(describing: jobExpirationTime)), jobName: \(Swift.String(describing: jobName)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modelId: \(Swift.String(describing: modelId)), modelInvocationType: \(Swift.String(describing: modelInvocationType)), outputDataConfig: \(Swift.String(describing: outputDataConfig)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), submitTime: \(Swift.String(describing: submitTime)), timeoutDurationInHours: \(Swift.String(describing: timeoutDurationInHours)), vpcConfig: \(Swift.String(describing: vpcConfig)), message: \"CONTENT_REDACTED\")"}
+        "ModelInvocationJobSummary(clientRequestToken: \(Swift.String(describing: clientRequestToken)), endTime: \(Swift.String(describing: endTime)), errorRecordCount: \(Swift.String(describing: errorRecordCount)), inputDataConfig: \(Swift.String(describing: inputDataConfig)), jobArn: \(Swift.String(describing: jobArn)), jobExpirationTime: \(Swift.String(describing: jobExpirationTime)), jobName: \(Swift.String(describing: jobName)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modelId: \(Swift.String(describing: modelId)), modelInvocationType: \(Swift.String(describing: modelInvocationType)), outputDataConfig: \(Swift.String(describing: outputDataConfig)), processedRecordCount: \(Swift.String(describing: processedRecordCount)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), submitTime: \(Swift.String(describing: submitTime)), successRecordCount: \(Swift.String(describing: successRecordCount)), timeoutDurationInHours: \(Swift.String(describing: timeoutDurationInHours)), totalRecordCount: \(Swift.String(describing: totalRecordCount)), vpcConfig: \(Swift.String(describing: vpcConfig)), message: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListModelInvocationJobsOutput: Swift.Sendable {
@@ -16336,6 +16368,7 @@ extension GetModelInvocationJobOutput {
         var value = GetModelInvocationJobOutput()
         value.clientRequestToken = try reader["clientRequestToken"].readIfPresent()
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.errorRecordCount = try reader["errorRecordCount"].readIfPresent()
         value.inputDataConfig = try reader["inputDataConfig"].readIfPresent(with: BedrockClientTypes.ModelInvocationJobInputDataConfig.read(from:))
         value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
         value.jobExpirationTime = try reader["jobExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -16345,10 +16378,13 @@ extension GetModelInvocationJobOutput {
         value.modelId = try reader["modelId"].readIfPresent() ?? ""
         value.modelInvocationType = try reader["modelInvocationType"].readIfPresent()
         value.outputDataConfig = try reader["outputDataConfig"].readIfPresent(with: BedrockClientTypes.ModelInvocationJobOutputDataConfig.read(from:))
+        value.processedRecordCount = try reader["processedRecordCount"].readIfPresent()
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         value.submitTime = try reader["submitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.successRecordCount = try reader["successRecordCount"].readIfPresent()
         value.timeoutDurationInHours = try reader["timeoutDurationInHours"].readIfPresent()
+        value.totalRecordCount = try reader["totalRecordCount"].readIfPresent()
         value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: BedrockClientTypes.VpcConfig.read(from:))
         return value
     }
@@ -21988,6 +22024,10 @@ extension BedrockClientTypes.ModelInvocationJobSummary {
         value.timeoutDurationInHours = try reader["timeoutDurationInHours"].readIfPresent()
         value.jobExpirationTime = try reader["jobExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.modelInvocationType = try reader["modelInvocationType"].readIfPresent()
+        value.totalRecordCount = try reader["totalRecordCount"].readIfPresent()
+        value.processedRecordCount = try reader["processedRecordCount"].readIfPresent()
+        value.successRecordCount = try reader["successRecordCount"].readIfPresent()
+        value.errorRecordCount = try reader["errorRecordCount"].readIfPresent()
         return value
     }
 }

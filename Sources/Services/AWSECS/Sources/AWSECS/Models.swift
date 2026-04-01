@@ -1276,7 +1276,7 @@ extension ECSClientTypes {
         /// The Amazon Resource Name (ARN) of the instance profile that Amazon ECS applies to Amazon ECS Managed Instances. This instance profile must include the necessary permissions for your tasks to access Amazon Web Services services and resources. For more information, see [Amazon ECS instance profile for Managed Instances](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/managed-instances-instance-profile.html) in the Amazon ECS Developer Guide.
         /// This member is required.
         public var ec2InstanceProfileArn: Swift.String?
-        /// Determines whether to enable FIPS 140-2 validated cryptographic modules on EC2 instances launched by the capacity provider. If true, instances use FIPS-compliant cryptographic algorithms and modules for enhanced security compliance. If false, instances use standard cryptographic implementations. If not specified, instances are launched with FIPS enabled in AWS GovCloud (US) regions and FIPS disabled in other regions.
+        /// Determines whether to enable FIPS 140-2 validated cryptographic modules on EC2 instances launched by the capacity provider. If true, instances use FIPS-compliant cryptographic algorithms and modules for enhanced security compliance. If false, instances use standard cryptographic implementations. If not specified, instances are launched with FIPS enabled in Amazon Web Services GovCloud (US) regions and FIPS disabled in other regions.
         public var fipsEnabled: Swift.Bool?
         /// Determines whether tags are propagated to the instance metadata service (IMDS) for Amazon EC2 instances launched by the Managed Instances capacity provider. When enabled, all tags associated with the instance are available through the instance metadata service. When disabled, tags are not propagated to IMDS. Disable this setting if your tags contain characters that are not compatible with IMDS, such as /. IMDS requires tag keys to match the pattern [0-9a-zA-Z\-_+=,.@:]{1,255}. The default value is true. For more information, see [Work with instance tags in instance metadata](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#work-with-tags-in-IMDS) in the Amazon EC2 User Guide.
         public var instanceMetadataTagsPropagation: Swift.Bool?
@@ -2662,12 +2662,16 @@ extension ECSClientTypes {
 extension ECSClientTypes {
 
     public enum InstanceHealthCheckType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case acceleratedCompute
         case containerRuntime
+        case daemon
         case sdkUnknown(Swift.String)
 
         public static var allCases: [InstanceHealthCheckType] {
             return [
-                .containerRuntime
+                .acceleratedCompute,
+                .containerRuntime,
+                .daemon
             ]
         }
 
@@ -2678,7 +2682,9 @@ extension ECSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .acceleratedCompute: return "ACCELERATED_COMPUTE"
             case .containerRuntime: return "CONTAINER_RUNTIME"
+            case .daemon: return "DAEMON"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3939,6 +3945,8 @@ public struct ListTasksInput: Swift.Sendable {
     public var cluster: Swift.String?
     /// The container instance ID or full ARN of the container instance to use when filtering the ListTasks results. Specifying a containerInstance limits the results to tasks that belong to that container instance.
     public var containerInstance: Swift.String?
+    /// The name of the daemon to use when filtering the ListTasks results. Specifying a daemonName limits the results to tasks that belong to that daemon.
+    public var daemonName: Swift.String?
     /// The task desired status to use when filtering the ListTasks results. Specifying a desiredStatus of STOPPED limits the results to tasks that Amazon ECS has set the desired status to STOPPED. This can be useful for debugging tasks that aren't starting properly or have died or finished. The default status filter is RUNNING, which shows tasks that Amazon ECS has set the desired status to RUNNING. Although you can filter results based on a desired status of PENDING, this doesn't return any results. Amazon ECS never sets the desired status of a task to that value (only a task's lastStatus may have a value of PENDING).
     public var desiredStatus: ECSClientTypes.DesiredStatus?
     /// The name of the task definition family to use when filtering the ListTasks results. Specifying a family limits the results to tasks that belong to that family.
@@ -3957,6 +3965,7 @@ public struct ListTasksInput: Swift.Sendable {
     public init(
         cluster: Swift.String? = nil,
         containerInstance: Swift.String? = nil,
+        daemonName: Swift.String? = nil,
         desiredStatus: ECSClientTypes.DesiredStatus? = nil,
         family: Swift.String? = nil,
         launchType: ECSClientTypes.LaunchType? = nil,
@@ -3967,6 +3976,7 @@ public struct ListTasksInput: Swift.Sendable {
     ) {
         self.cluster = cluster
         self.containerInstance = containerInstance
+        self.daemonName = daemonName
         self.desiredStatus = desiredStatus
         self.family = family
         self.launchType = launchType
@@ -4278,89 +4288,33 @@ public struct UpdateContainerInstancesStateOutput: Swift.Sendable {
     }
 }
 
-extension ECSClientTypes {
-
-    public enum SettingName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case awsvpcTrunking
-        case containerInsights
-        case containerInstanceLongArnFormat
-        case defaultLogDriverMode
-        case fargateEventWindows
-        case fargateFipsMode
-        case fargateTaskRetirementWaitPeriod
-        case guardDutyActivate
-        case serviceLongArnFormat
-        case tagResourceAuthorization
-        case taskLongArnFormat
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SettingName] {
-            return [
-                .awsvpcTrunking,
-                .containerInsights,
-                .containerInstanceLongArnFormat,
-                .defaultLogDriverMode,
-                .fargateEventWindows,
-                .fargateFipsMode,
-                .fargateTaskRetirementWaitPeriod,
-                .guardDutyActivate,
-                .serviceLongArnFormat,
-                .tagResourceAuthorization,
-                .taskLongArnFormat
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .awsvpcTrunking: return "awsvpcTrunking"
-            case .containerInsights: return "containerInsights"
-            case .containerInstanceLongArnFormat: return "containerInstanceLongArnFormat"
-            case .defaultLogDriverMode: return "defaultLogDriverMode"
-            case .fargateEventWindows: return "fargateEventWindows"
-            case .fargateFipsMode: return "fargateFIPSMode"
-            case .fargateTaskRetirementWaitPeriod: return "fargateTaskRetirementWaitPeriod"
-            case .guardDutyActivate: return "guardDutyActivate"
-            case .serviceLongArnFormat: return "serviceLongArnFormat"
-            case .tagResourceAuthorization: return "tagResourceAuthorization"
-            case .taskLongArnFormat: return "taskLongArnFormat"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct DeleteAccountSettingInput: Swift.Sendable {
-    /// The resource name to disable the account setting for. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected.
+public struct DescribeDaemonDeploymentsInput: Swift.Sendable {
+    /// The ARN of the daemon deployments to describe. You can specify up to 20 ARNs.
     /// This member is required.
-    public var name: ECSClientTypes.SettingName?
-    /// The Amazon Resource Name (ARN) of the principal. It can be a user, role, or the root user. If you specify the root user, it disables the account setting for all users, roles, and the root user of the account unless a user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user. In order to use this parameter, you must be the root user, or the principal.
-    public var principalArn: Swift.String?
+    public var daemonDeploymentArns: [Swift.String]?
 
     public init(
-        name: ECSClientTypes.SettingName? = nil,
-        principalArn: Swift.String? = nil
+        daemonDeploymentArns: [Swift.String]? = nil
     ) {
-        self.name = name
-        self.principalArn = principalArn
+        self.daemonDeploymentArns = daemonDeploymentArns
     }
 }
 
 extension ECSClientTypes {
 
-    public enum SettingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case awsManaged
-        case user
+    public enum DaemonDeploymentRollbackMonitorsStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case monitoring
+        case monitoringComplete
+        case triggered
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [SettingType] {
+        public static var allCases: [DaemonDeploymentRollbackMonitorsStatus] {
             return [
-                .awsManaged,
-                .user
+                .disabled,
+                .monitoring,
+                .monitoringComplete,
+                .triggered
             ]
         }
 
@@ -4371,8 +4325,10 @@ extension ECSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .awsManaged: return "aws_managed"
-            case .user: return "user"
+            case .disabled: return "DISABLED"
+            case .monitoring: return "MONITORING"
+            case .monitoringComplete: return "MONITORING_COMPLETE"
+            case .triggered: return "TRIGGERED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4381,70 +4337,192 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// The current account setting for a resource.
-    public struct Setting: Swift.Sendable {
-        /// The Amazon ECS resource name.
-        public var name: ECSClientTypes.SettingName?
-        /// The ARN of the principal. It can be a user, role, or the root user. If this field is omitted, the authenticated user is assumed.
-        public var principalArn: Swift.String?
-        /// Indicates whether Amazon Web Services manages the account setting, or if the user manages it. aws_managed account settings are read-only, as Amazon Web Services manages such on the customer's behalf. Currently, the guardDutyActivate account setting is the only one Amazon Web Services manages.
-        public var type: ECSClientTypes.SettingType?
-        /// Determines whether the account setting is on or off for the specified resource.
-        public var value: Swift.String?
+    /// The CloudWatch alarms used to determine a daemon deployment failed.
+    public struct DaemonDeploymentAlarms: Swift.Sendable {
+        /// The name of the CloudWatch alarms that determine when a daemon deployment failed.
+        public var alarmNames: [Swift.String]?
+        /// The status of the alarms check. Amazon ECS is not using alarms for daemon deployment failures when the status is DISABLED.
+        public var status: ECSClientTypes.DaemonDeploymentRollbackMonitorsStatus?
+        /// One or more CloudWatch alarm names that have been triggered during the daemon deployment.
+        public var triggeredAlarmNames: [Swift.String]?
 
         public init(
-            name: ECSClientTypes.SettingName? = nil,
-            principalArn: Swift.String? = nil,
-            type: ECSClientTypes.SettingType? = nil,
-            value: Swift.String? = nil
+            alarmNames: [Swift.String]? = nil,
+            status: ECSClientTypes.DaemonDeploymentRollbackMonitorsStatus? = nil,
+            triggeredAlarmNames: [Swift.String]? = nil
         ) {
-            self.name = name
-            self.principalArn = principalArn
-            self.type = type
-            self.value = value
+            self.alarmNames = alarmNames
+            self.status = status
+            self.triggeredAlarmNames = triggeredAlarmNames
         }
-    }
-}
-
-public struct DeleteAccountSettingOutput: Swift.Sendable {
-    /// The account setting for the specified principal ARN.
-    public var setting: ECSClientTypes.Setting?
-
-    public init(
-        setting: ECSClientTypes.Setting? = nil
-    ) {
-        self.setting = setting
-    }
-}
-
-///
-public struct DeregisterTaskDefinitionInput: Swift.Sendable {
-    /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the task definition to deregister. You must specify a revision.
-    /// This member is required.
-    public var taskDefinition: Swift.String?
-
-    public init(
-        taskDefinition: Swift.String? = nil
-    ) {
-        self.taskDefinition = taskDefinition
     }
 }
 
 extension ECSClientTypes {
 
-    public enum Compatibility: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case ec2
-        case external
-        case fargate
-        case managedInstances
+    /// Information about the circuit breaker used to determine when a daemon deployment has failed.
+    public struct DaemonCircuitBreaker: Swift.Sendable {
+        /// The number of times the circuit breaker detected a daemon deployment failure.
+        public var failureCount: Swift.Int
+        /// The circuit breaker status. Amazon ECS is not using the circuit breaker for daemon deployment failures when the status is DISABLED.
+        public var status: ECSClientTypes.DaemonDeploymentRollbackMonitorsStatus?
+        /// The threshold which determines that the daemon deployment failed.
+        public var threshold: Swift.Int
+
+        public init(
+            failureCount: Swift.Int = 0,
+            status: ECSClientTypes.DaemonDeploymentRollbackMonitorsStatus? = nil,
+            threshold: Swift.Int = 0
+        ) {
+            self.failureCount = failureCount
+            self.status = status
+            self.threshold = threshold
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The CloudWatch alarm configuration for a daemon. When enabled, CloudWatch alarms determine whether a daemon deployment has failed.
+    public struct DaemonAlarmConfiguration: Swift.Sendable {
+        /// The CloudWatch alarm names to monitor during a daemon deployment.
+        public var alarmNames: [Swift.String]?
+        /// Determines whether to use the CloudWatch alarm option in the daemon deployment process. The default value is false.
+        public var enable: Swift.Bool
+
+        public init(
+            alarmNames: [Swift.String]? = nil,
+            enable: Swift.Bool = false
+        ) {
+            self.alarmNames = alarmNames
+            self.enable = enable
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Optional deployment parameters that control how a daemon rolls out updates across container instances.
+    public struct DaemonDeploymentConfiguration: Swift.Sendable {
+        /// The CloudWatch alarm configuration for the daemon deployment. When alarms are triggered during a deployment, the deployment can be automatically rolled back.
+        public var alarms: ECSClientTypes.DaemonAlarmConfiguration?
+        /// The amount of time (in minutes) to wait after a successful deployment step before proceeding. This allows time to monitor for issues before continuing. The default value is 0.
+        public var bakeTimeInMinutes: Swift.Int
+        /// The percentage of container instances to drain simultaneously during a daemon deployment. Valid values are between 0.0 and 100.0.
+        public var drainPercent: Swift.Double?
+
+        public init(
+            alarms: ECSClientTypes.DaemonAlarmConfiguration? = nil,
+            bakeTimeInMinutes: Swift.Int = 0,
+            drainPercent: Swift.Double? = nil
+        ) {
+            self.alarms = alarms
+            self.bakeTimeInMinutes = bakeTimeInMinutes
+            self.drainPercent = drainPercent
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Information about a daemon deployment rollback.
+    public struct DaemonRollback: Swift.Sendable {
+        /// The reason the rollback happened. For example, the circuit breaker initiated the rollback operation.
+        public var reason: Swift.String?
+        /// The capacity providers involved in the rollback.
+        public var rollbackCapacityProviders: [Swift.String]?
+        /// The ARN of the daemon revision deployed as part of the rollback.
+        public var rollbackTargetDaemonRevisionArn: Swift.String?
+        /// The time that the rollback started. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public var startedAt: Foundation.Date?
+
+        public init(
+            reason: Swift.String? = nil,
+            rollbackCapacityProviders: [Swift.String]? = nil,
+            rollbackTargetDaemonRevisionArn: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil
+        ) {
+            self.reason = reason
+            self.rollbackCapacityProviders = rollbackCapacityProviders
+            self.rollbackTargetDaemonRevisionArn = rollbackTargetDaemonRevisionArn
+            self.startedAt = startedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Information about a capacity provider during a daemon deployment.
+    public struct DaemonDeploymentCapacityProvider: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the capacity provider.
+        public var arn: Swift.String?
+        /// The number of instances being drained on this capacity provider during the deployment.
+        public var drainingInstanceCount: Swift.Int?
+        /// The number of instances running daemon tasks on this capacity provider.
+        public var runningInstanceCount: Swift.Int?
+
+        public init(
+            arn: Swift.String? = nil,
+            drainingInstanceCount: Swift.Int? = nil,
+            runningInstanceCount: Swift.Int? = nil
+        ) {
+            self.arn = arn
+            self.drainingInstanceCount = drainingInstanceCount
+            self.runningInstanceCount = runningInstanceCount
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Details about a daemon revision during a deployment, including running and draining instance counts per capacity provider.
+    public struct DaemonDeploymentRevisionDetail: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the daemon revision.
+        public var arn: Swift.String?
+        /// The capacity providers associated with this daemon revision during the deployment.
+        public var capacityProviders: [ECSClientTypes.DaemonDeploymentCapacityProvider]?
+        /// The total number of instances being drained for this revision during the deployment.
+        public var totalDrainingInstanceCount: Swift.Int?
+        /// The total number of instances running daemon tasks for this revision.
+        public var totalRunningInstanceCount: Swift.Int?
+
+        public init(
+            arn: Swift.String? = nil,
+            capacityProviders: [ECSClientTypes.DaemonDeploymentCapacityProvider]? = nil,
+            totalDrainingInstanceCount: Swift.Int? = nil,
+            totalRunningInstanceCount: Swift.Int? = nil
+        ) {
+            self.arn = arn
+            self.capacityProviders = capacityProviders
+            self.totalDrainingInstanceCount = totalDrainingInstanceCount
+            self.totalRunningInstanceCount = totalRunningInstanceCount
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum DaemonDeploymentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inProgress
+        case pending
+        case rollbackFailed
+        case rollbackInProgress
+        case rollbackSuccessful
+        case stopped
+        case stopRequested
+        case successful
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [Compatibility] {
+        public static var allCases: [DaemonDeploymentStatus] {
             return [
-                .ec2,
-                .external,
-                .fargate,
-                .managedInstances
+                .inProgress,
+                .pending,
+                .rollbackFailed,
+                .rollbackInProgress,
+                .rollbackSuccessful,
+                .stopped,
+                .stopRequested,
+                .successful
             ]
         }
 
@@ -4455,13 +4533,832 @@ extension ECSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .ec2: return "EC2"
-            case .external: return "EXTERNAL"
-            case .fargate: return "FARGATE"
-            case .managedInstances: return "MANAGED_INSTANCES"
+            case .inProgress: return "IN_PROGRESS"
+            case .pending: return "PENDING"
+            case .rollbackFailed: return "ROLLBACK_FAILED"
+            case .rollbackInProgress: return "ROLLBACK_IN_PROGRESS"
+            case .rollbackSuccessful: return "ROLLBACK_SUCCESSFUL"
+            case .stopped: return "STOPPED"
+            case .stopRequested: return "STOP_REQUESTED"
+            case .successful: return "SUCCESSFUL"
             case let .sdkUnknown(s): return s
             }
         }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Information about a daemon deployment. A daemon deployment orchestrates the progressive rollout of daemon task updates across container instances.
+    public struct DaemonDeployment: Swift.Sendable {
+        /// The CloudWatch alarms that determine when a daemon deployment fails.
+        public var alarms: ECSClientTypes.DaemonDeploymentAlarms?
+        /// The circuit breaker configuration that determines when a daemon deployment has failed.
+        public var circuitBreaker: ECSClientTypes.DaemonCircuitBreaker?
+        /// The Amazon Resource Name (ARN) of the cluster that hosts the daemon.
+        public var clusterArn: Swift.String?
+        /// The time the daemon deployment was created. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public var createdAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the daemon deployment.
+        public var daemonDeploymentArn: Swift.String?
+        /// The deployment configuration used for this daemon deployment.
+        public var deploymentConfiguration: ECSClientTypes.DaemonDeploymentConfiguration?
+        /// The time the daemon deployment finished. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public var finishedAt: Foundation.Date?
+        /// The rollback options for the daemon deployment.
+        public var rollback: ECSClientTypes.DaemonRollback?
+        /// The currently deployed daemon revisions that are being replaced.
+        public var sourceDaemonRevisions: [ECSClientTypes.DaemonDeploymentRevisionDetail]?
+        /// The time the daemon deployment started. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public var startedAt: Foundation.Date?
+        /// The status of the daemon deployment.
+        public var status: ECSClientTypes.DaemonDeploymentStatus?
+        /// Information about why the daemon deployment is in the current status.
+        public var statusReason: Swift.String?
+        /// The time the daemon deployment stopped. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public var stoppedAt: Foundation.Date?
+        /// The daemon revision being deployed.
+        public var targetDaemonRevision: ECSClientTypes.DaemonDeploymentRevisionDetail?
+
+        public init(
+            alarms: ECSClientTypes.DaemonDeploymentAlarms? = nil,
+            circuitBreaker: ECSClientTypes.DaemonCircuitBreaker? = nil,
+            clusterArn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            daemonDeploymentArn: Swift.String? = nil,
+            deploymentConfiguration: ECSClientTypes.DaemonDeploymentConfiguration? = nil,
+            finishedAt: Foundation.Date? = nil,
+            rollback: ECSClientTypes.DaemonRollback? = nil,
+            sourceDaemonRevisions: [ECSClientTypes.DaemonDeploymentRevisionDetail]? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: ECSClientTypes.DaemonDeploymentStatus? = nil,
+            statusReason: Swift.String? = nil,
+            stoppedAt: Foundation.Date? = nil,
+            targetDaemonRevision: ECSClientTypes.DaemonDeploymentRevisionDetail? = nil
+        ) {
+            self.alarms = alarms
+            self.circuitBreaker = circuitBreaker
+            self.clusterArn = clusterArn
+            self.createdAt = createdAt
+            self.daemonDeploymentArn = daemonDeploymentArn
+            self.deploymentConfiguration = deploymentConfiguration
+            self.finishedAt = finishedAt
+            self.rollback = rollback
+            self.sourceDaemonRevisions = sourceDaemonRevisions
+            self.startedAt = startedAt
+            self.status = status
+            self.statusReason = statusReason
+            self.stoppedAt = stoppedAt
+            self.targetDaemonRevision = targetDaemonRevision
+        }
+    }
+}
+
+public struct DescribeDaemonDeploymentsOutput: Swift.Sendable {
+    /// The list of daemon deployments.
+    public var daemonDeployments: [ECSClientTypes.DaemonDeployment]?
+    /// Any failures associated with the call.
+    public var failures: [ECSClientTypes.Failure]?
+
+    public init(
+        daemonDeployments: [ECSClientTypes.DaemonDeployment]? = nil,
+        failures: [ECSClientTypes.Failure]? = nil
+    ) {
+        self.daemonDeployments = daemonDeployments
+        self.failures = failures
+    }
+}
+
+/// The specified platform version doesn't exist.
+public struct PlatformUnknownException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PlatformUnknownException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum DaemonPropagateTags: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case daemon
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DaemonPropagateTags] {
+            return [
+                .daemon,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .daemon: return "DAEMON"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateDaemonInput: Swift.Sendable {
+    /// The Amazon Resource Names (ARNs) of the capacity providers to associate with the daemon. The daemon deploys tasks on container instances managed by these capacity providers.
+    /// This member is required.
+    public var capacityProviderArns: [Swift.String]?
+    /// An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 36 ASCII characters in the range of 33-126 (inclusive) are allowed.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the cluster to create the daemon in.
+    public var clusterArn: Swift.String?
+    /// The name of the daemon. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
+    /// This member is required.
+    public var daemonName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the daemon task definition to use for the daemon.
+    /// This member is required.
+    public var daemonTaskDefinitionArn: Swift.String?
+    /// Optional deployment parameters that control how the daemon rolls out updates, including the drain percentage, alarm-based rollback, and bake time.
+    public var deploymentConfiguration: ECSClientTypes.DaemonDeploymentConfiguration?
+    /// Specifies whether to turn on Amazon ECS managed tags for the tasks in the daemon. For more information, see [Tagging your Amazon ECS resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html) in the Amazon Elastic Container Service Developer Guide.
+    public var enableECSManagedTags: Swift.Bool?
+    /// Determines whether the execute command functionality is turned on for the daemon. If true, the execute command functionality is turned on for all tasks in the daemon.
+    public var enableExecuteCommand: Swift.Bool?
+    /// Specifies whether to propagate the tags from the daemon to the daemon tasks. If you don't specify a value, the tags aren't propagated. You can only propagate tags to daemon tasks during task creation. To add tags to a task after task creation, use the [TagResource](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TagResource.html) API action.
+    public var propagateTags: ECSClientTypes.DaemonPropagateTags?
+    /// The metadata that you apply to the daemon to help you categorize and organize them. Each tag consists of a key and an optional value. You define both of them. The following basic restrictions apply to tags:
+    ///
+    /// * Maximum number of tags per resource - 50
+    ///
+    /// * For each resource, each tag key must be unique, and each tag key can have only one value.
+    ///
+    /// * Maximum key length - 128 Unicode characters in UTF-8
+    ///
+    /// * Maximum value length - 256 Unicode characters in UTF-8
+    ///
+    /// * If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
+    ///
+    /// * Tag keys and values are case-sensitive.
+    ///
+    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
+    public var tags: [ECSClientTypes.Tag]?
+
+    public init(
+        capacityProviderArns: [Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        clusterArn: Swift.String? = nil,
+        daemonName: Swift.String? = nil,
+        daemonTaskDefinitionArn: Swift.String? = nil,
+        deploymentConfiguration: ECSClientTypes.DaemonDeploymentConfiguration? = nil,
+        enableECSManagedTags: Swift.Bool? = false,
+        enableExecuteCommand: Swift.Bool? = false,
+        propagateTags: ECSClientTypes.DaemonPropagateTags? = nil,
+        tags: [ECSClientTypes.Tag]? = nil
+    ) {
+        self.capacityProviderArns = capacityProviderArns
+        self.clientToken = clientToken
+        self.clusterArn = clusterArn
+        self.daemonName = daemonName
+        self.daemonTaskDefinitionArn = daemonTaskDefinitionArn
+        self.deploymentConfiguration = deploymentConfiguration
+        self.enableECSManagedTags = enableECSManagedTags
+        self.enableExecuteCommand = enableExecuteCommand
+        self.propagateTags = propagateTags
+        self.tags = tags
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum DaemonStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case deleteInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DaemonStatus] {
+            return [
+                .active,
+                .deleteInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateDaemonOutput: Swift.Sendable {
+    /// The Unix timestamp for the time when the daemon was created.
+    public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the daemon.
+    public var daemonArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the initial daemon deployment. This deployment places daemon tasks on each container instance of the specified capacity providers.
+    public var deploymentArn: Swift.String?
+    /// The status of the daemon.
+    public var status: ECSClientTypes.DaemonStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        daemonArn: Swift.String? = nil,
+        deploymentArn: Swift.String? = nil,
+        status: ECSClientTypes.DaemonStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.daemonArn = daemonArn
+        self.deploymentArn = deploymentArn
+        self.status = status
+    }
+}
+
+/// The specified daemon isn't active. You can't update a daemon that's inactive. If you have previously deleted a daemon, you can re-create it with [CreateDaemon](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateDaemon.html).
+public struct DaemonNotActiveException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DaemonNotActiveException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The specified daemon wasn't found. You can view your available daemons with [ListDaemons](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListDaemons.html). Amazon ECS daemons are cluster specific and Region specific.
+public struct DaemonNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DaemonNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteDaemonInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the daemon to delete.
+    /// This member is required.
+    public var daemonArn: Swift.String?
+
+    public init(
+        daemonArn: Swift.String? = nil
+    ) {
+        self.daemonArn = daemonArn
+    }
+}
+
+public struct DeleteDaemonOutput: Swift.Sendable {
+    /// The Unix timestamp for the time when the daemon was created.
+    public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the daemon.
+    public var daemonArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the daemon deployment that was triggered by the delete operation. This deployment drains existing daemon tasks from the container instances.
+    public var deploymentArn: Swift.String?
+    /// The status of the daemon. After you call DeleteDaemon, the status changes to DELETE_IN_PROGRESS.
+    public var status: ECSClientTypes.DaemonStatus?
+    /// The Unix timestamp for the time when the daemon was last updated.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        daemonArn: Swift.String? = nil,
+        deploymentArn: Swift.String? = nil,
+        status: ECSClientTypes.DaemonStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.createdAt = createdAt
+        self.daemonArn = daemonArn
+        self.deploymentArn = deploymentArn
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct DescribeDaemonInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the daemon to describe.
+    /// This member is required.
+    public var daemonArn: Swift.String?
+
+    public init(
+        daemonArn: Swift.String? = nil
+    ) {
+        self.daemonArn = daemonArn
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Information about a capacity provider associated with a daemon revision.
+    public struct DaemonCapacityProvider: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the capacity provider.
+        public var arn: Swift.String?
+        /// The number of daemon tasks running on this capacity provider.
+        public var runningCount: Swift.Int
+
+        public init(
+            arn: Swift.String? = nil,
+            runningCount: Swift.Int = 0
+        ) {
+            self.arn = arn
+            self.runningCount = runningCount
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Details about a daemon revision, including the running task counts per capacity provider.
+    public struct DaemonRevisionDetail: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the daemon revision.
+        public var arn: Swift.String?
+        /// The capacity providers associated with this daemon revision.
+        public var capacityProviders: [ECSClientTypes.DaemonCapacityProvider]?
+        /// The total number of daemon tasks running for this revision.
+        public var totalRunningCount: Swift.Int
+
+        public init(
+            arn: Swift.String? = nil,
+            capacityProviders: [ECSClientTypes.DaemonCapacityProvider]? = nil,
+            totalRunningCount: Swift.Int = 0
+        ) {
+            self.arn = arn
+            self.capacityProviders = capacityProviders
+            self.totalRunningCount = totalRunningCount
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The detailed information about a daemon.
+    public struct DaemonDetail: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the cluster that the daemon is running in.
+        public var clusterArn: Swift.String?
+        /// The Unix timestamp for the time when the daemon was created.
+        public var createdAt: Foundation.Date?
+        /// The current daemon revision details, including the running task counts per capacity provider.
+        public var currentRevisions: [ECSClientTypes.DaemonRevisionDetail]?
+        /// The Amazon Resource Name (ARN) of the daemon.
+        public var daemonArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the most recent daemon deployment.
+        public var deploymentArn: Swift.String?
+        /// The status of the daemon.
+        public var status: ECSClientTypes.DaemonStatus?
+        /// The Unix timestamp for the time when the daemon was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            currentRevisions: [ECSClientTypes.DaemonRevisionDetail]? = nil,
+            daemonArn: Swift.String? = nil,
+            deploymentArn: Swift.String? = nil,
+            status: ECSClientTypes.DaemonStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.clusterArn = clusterArn
+            self.createdAt = createdAt
+            self.currentRevisions = currentRevisions
+            self.daemonArn = daemonArn
+            self.deploymentArn = deploymentArn
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct DescribeDaemonOutput: Swift.Sendable {
+    /// The full description of the daemon, including the current revisions, deployment ARN, cluster, and status information.
+    public var daemon: ECSClientTypes.DaemonDetail?
+
+    public init(
+        daemon: ECSClientTypes.DaemonDetail? = nil
+    ) {
+        self.daemon = daemon
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The optional filter to narrow the ListServiceDeployment results. If you do not specify a value, service deployments that were created before the current time are included in the result.
+    public struct CreatedAt: Swift.Sendable {
+        /// Include service deployments in the result that were created after this time. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public var after: Foundation.Date?
+        /// Include service deployments in the result that were created before this time. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public var before: Foundation.Date?
+
+        public init(
+            after: Foundation.Date? = nil,
+            before: Foundation.Date? = nil
+        ) {
+            self.after = after
+            self.before = before
+        }
+    }
+}
+
+public struct ListDaemonDeploymentsInput: Swift.Sendable {
+    /// An optional filter to narrow the ListDaemonDeployments results by creation time. If you don't specify a time range, all deployments are returned.
+    public var createdAt: ECSClientTypes.CreatedAt?
+    /// The Amazon Resource Name (ARN) of the daemon to list deployments for.
+    /// This member is required.
+    public var daemonArn: Swift.String?
+    /// The maximum number of daemon deployment results that ListDaemonDeployments returned in paginated output. When this parameter is used, ListDaemonDeployments only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDaemonDeployments request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListDaemonDeployments returns up to 20 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a ListDaemonDeployments request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it's possible for the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+    /// An optional filter to narrow the ListDaemonDeployments results by deployment status. If you don't specify a status, all deployments are returned.
+    public var status: [ECSClientTypes.DaemonDeploymentStatus]?
+
+    public init(
+        createdAt: ECSClientTypes.CreatedAt? = nil,
+        daemonArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: [ECSClientTypes.DaemonDeploymentStatus]? = nil
+    ) {
+        self.createdAt = createdAt
+        self.daemonArn = daemonArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A summary of a daemon deployment.
+    public struct DaemonDeploymentSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the cluster that hosts the daemon.
+        public var clusterArn: Swift.String?
+        /// The time the daemon deployment was created.
+        public var createdAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the daemon.
+        public var daemonArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the daemon deployment.
+        public var daemonDeploymentArn: Swift.String?
+        /// The time the daemon deployment finished.
+        public var finishedAt: Foundation.Date?
+        /// The time the daemon deployment started.
+        public var startedAt: Foundation.Date?
+        /// The status of the daemon deployment.
+        public var status: ECSClientTypes.DaemonDeploymentStatus?
+        /// Information about why the daemon deployment is in the current status.
+        public var statusReason: Swift.String?
+        /// The time the daemon deployment stopped.
+        public var stoppedAt: Foundation.Date?
+        /// The ARN of the daemon revision being deployed.
+        public var targetDaemonRevisionArn: Swift.String?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            daemonArn: Swift.String? = nil,
+            daemonDeploymentArn: Swift.String? = nil,
+            finishedAt: Foundation.Date? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: ECSClientTypes.DaemonDeploymentStatus? = nil,
+            statusReason: Swift.String? = nil,
+            stoppedAt: Foundation.Date? = nil,
+            targetDaemonRevisionArn: Swift.String? = nil
+        ) {
+            self.clusterArn = clusterArn
+            self.createdAt = createdAt
+            self.daemonArn = daemonArn
+            self.daemonDeploymentArn = daemonDeploymentArn
+            self.finishedAt = finishedAt
+            self.startedAt = startedAt
+            self.status = status
+            self.statusReason = statusReason
+            self.stoppedAt = stoppedAt
+            self.targetDaemonRevisionArn = targetDaemonRevisionArn
+        }
+    }
+}
+
+public struct ListDaemonDeploymentsOutput: Swift.Sendable {
+    /// The list of daemon deployment summaries.
+    public var daemonDeployments: [ECSClientTypes.DaemonDeploymentSummary]?
+    /// The nextToken value to include in a future ListDaemonDeployments request. When the results of a ListDaemonDeployments request exceed maxResults, this value can be used to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        daemonDeployments: [ECSClientTypes.DaemonDeploymentSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.daemonDeployments = daemonDeployments
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListDaemonsInput: Swift.Sendable {
+    /// The Amazon Resource Names (ARNs) of the capacity providers to filter daemons by. Only daemons associated with the specified capacity providers are returned.
+    public var capacityProviderArns: [Swift.String]?
+    /// The Amazon Resource Name (ARN) of the cluster to filter daemons by. If not specified, daemons from all clusters are returned.
+    public var clusterArn: Swift.String?
+    /// The maximum number of daemon results that ListDaemons returned in paginated output. When this parameter is used, ListDaemons only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDaemons request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListDaemons returns up to 100 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a ListDaemons request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it's possible for the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+
+    public init(
+        capacityProviderArns: [Swift.String]? = nil,
+        clusterArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.capacityProviderArns = capacityProviderArns
+        self.clusterArn = clusterArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A summary of a daemon.
+    public struct DaemonSummary: Swift.Sendable {
+        /// The Unix timestamp for the time when the daemon was created.
+        public var createdAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the daemon.
+        public var daemonArn: Swift.String?
+        /// The status of the daemon.
+        public var status: ECSClientTypes.DaemonStatus?
+        /// The Unix timestamp for the time when the daemon was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            daemonArn: Swift.String? = nil,
+            status: ECSClientTypes.DaemonStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.createdAt = createdAt
+            self.daemonArn = daemonArn
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListDaemonsOutput: Swift.Sendable {
+    /// The list of daemon summaries.
+    public var daemonSummariesList: [ECSClientTypes.DaemonSummary]?
+    /// The nextToken value to include in a future ListDaemons request. When the results of a ListDaemons request exceed maxResults, this value can be used to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        daemonSummariesList: [ECSClientTypes.DaemonSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.daemonSummariesList = daemonSummariesList
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateDaemonInput: Swift.Sendable {
+    /// The Amazon Resource Names (ARNs) of the capacity providers to associate with the daemon.
+    /// This member is required.
+    public var capacityProviderArns: [Swift.String]?
+    /// The Amazon Resource Name (ARN) of the daemon to update.
+    /// This member is required.
+    public var daemonArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the daemon task definition to use for the updated daemon.
+    /// This member is required.
+    public var daemonTaskDefinitionArn: Swift.String?
+    /// Optional deployment parameters that control how the daemon rolls out updates, including the drain percentage, alarm-based rollback, and bake time.
+    public var deploymentConfiguration: ECSClientTypes.DaemonDeploymentConfiguration?
+    /// Specifies whether to turn on Amazon ECS managed tags for the tasks in the daemon. For more information, see [Tagging your Amazon ECS resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html) in the Amazon Elastic Container Service Developer Guide.
+    public var enableECSManagedTags: Swift.Bool?
+    /// If true, the execute command functionality is turned on for all tasks in the daemon. If false, the execute command functionality is turned off.
+    public var enableExecuteCommand: Swift.Bool?
+    /// Specifies whether to propagate the tags from the daemon to the daemon tasks. If you don't specify a value, the tags aren't propagated. You can only propagate tags to daemon tasks during task creation.
+    public var propagateTags: ECSClientTypes.DaemonPropagateTags?
+
+    public init(
+        capacityProviderArns: [Swift.String]? = nil,
+        daemonArn: Swift.String? = nil,
+        daemonTaskDefinitionArn: Swift.String? = nil,
+        deploymentConfiguration: ECSClientTypes.DaemonDeploymentConfiguration? = nil,
+        enableECSManagedTags: Swift.Bool? = false,
+        enableExecuteCommand: Swift.Bool? = false,
+        propagateTags: ECSClientTypes.DaemonPropagateTags? = nil
+    ) {
+        self.capacityProviderArns = capacityProviderArns
+        self.daemonArn = daemonArn
+        self.daemonTaskDefinitionArn = daemonTaskDefinitionArn
+        self.deploymentConfiguration = deploymentConfiguration
+        self.enableECSManagedTags = enableECSManagedTags
+        self.enableExecuteCommand = enableExecuteCommand
+        self.propagateTags = propagateTags
+    }
+}
+
+public struct UpdateDaemonOutput: Swift.Sendable {
+    /// The Unix timestamp for the time when the daemon was created.
+    public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the daemon.
+    public var daemonArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the daemon deployment that was triggered by the update.
+    public var deploymentArn: Swift.String?
+    /// The status of the daemon.
+    public var status: ECSClientTypes.DaemonStatus?
+    /// The Unix timestamp for the time when the daemon was last updated.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        daemonArn: Swift.String? = nil,
+        deploymentArn: Swift.String? = nil,
+        status: ECSClientTypes.DaemonStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.createdAt = createdAt
+        self.daemonArn = daemonArn
+        self.deploymentArn = deploymentArn
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct DescribeDaemonRevisionsInput: Swift.Sendable {
+    /// The ARN of the daemon revisions to describe. You can specify up to 20 ARNs.
+    /// This member is required.
+    public var daemonRevisionArns: [Swift.String]?
+
+    public init(
+        daemonRevisionArns: [Swift.String]? = nil
+    ) {
+        self.daemonRevisionArns = daemonRevisionArns
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The details about the container image a daemon revision uses.
+    public struct DaemonContainerImage: Swift.Sendable {
+        /// The name of the container.
+        public var containerName: Swift.String?
+        /// The container image.
+        public var image: Swift.String?
+        /// The container image digest.
+        public var imageDigest: Swift.String?
+
+        public init(
+            containerName: Swift.String? = nil,
+            image: Swift.String? = nil,
+            imageDigest: Swift.String? = nil
+        ) {
+            self.containerName = containerName
+            self.image = image
+            self.imageDigest = imageDigest
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Information about a daemon revision. A daemon revision is a snapshot of the daemon's configuration at the time a deployment was initiated.
+    public struct DaemonRevision: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the cluster that hosts the daemon.
+        public var clusterArn: Swift.String?
+        /// The container images used by the daemon revision.
+        public var containerImages: [ECSClientTypes.DaemonContainerImage]?
+        /// The Unix timestamp for the time when the daemon revision was created.
+        public var createdAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the daemon for this revision.
+        public var daemonArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the daemon revision.
+        public var daemonRevisionArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the daemon task definition used by this revision.
+        public var daemonTaskDefinitionArn: Swift.String?
+        /// Specifies whether Amazon ECS managed tags are turned on for the daemon tasks.
+        public var enableECSManagedTags: Swift.Bool?
+        /// Specifies whether the execute command functionality is turned on for the daemon tasks.
+        public var enableExecuteCommand: Swift.Bool?
+        /// Specifies whether tags are propagated from the daemon to the daemon tasks.
+        public var propagateTags: ECSClientTypes.DaemonPropagateTags?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            containerImages: [ECSClientTypes.DaemonContainerImage]? = nil,
+            createdAt: Foundation.Date? = nil,
+            daemonArn: Swift.String? = nil,
+            daemonRevisionArn: Swift.String? = nil,
+            daemonTaskDefinitionArn: Swift.String? = nil,
+            enableECSManagedTags: Swift.Bool? = nil,
+            enableExecuteCommand: Swift.Bool? = nil,
+            propagateTags: ECSClientTypes.DaemonPropagateTags? = nil
+        ) {
+            self.clusterArn = clusterArn
+            self.containerImages = containerImages
+            self.createdAt = createdAt
+            self.daemonArn = daemonArn
+            self.daemonRevisionArn = daemonRevisionArn
+            self.daemonTaskDefinitionArn = daemonTaskDefinitionArn
+            self.enableECSManagedTags = enableECSManagedTags
+            self.enableExecuteCommand = enableExecuteCommand
+            self.propagateTags = propagateTags
+        }
+    }
+}
+
+public struct DescribeDaemonRevisionsOutput: Swift.Sendable {
+    /// The list of daemon revisions.
+    public var daemonRevisions: [ECSClientTypes.DaemonRevision]?
+    /// Any failures associated with the call.
+    public var failures: [ECSClientTypes.Failure]?
+
+    public init(
+        daemonRevisions: [ECSClientTypes.DaemonRevision]? = nil,
+        failures: [ECSClientTypes.Failure]? = nil
+    ) {
+        self.daemonRevisions = daemonRevisions
+        self.failures = failures
+    }
+}
+
+public struct DeleteDaemonTaskDefinitionInput: Swift.Sendable {
+    /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the daemon task definition to delete.
+    /// This member is required.
+    public var daemonTaskDefinition: Swift.String?
+
+    public init(
+        daemonTaskDefinition: Swift.String? = nil
+    ) {
+        self.daemonTaskDefinition = daemonTaskDefinition
+    }
+}
+
+public struct DeleteDaemonTaskDefinitionOutput: Swift.Sendable {
+    /// The full Amazon Resource Name (ARN) of the deleted daemon task definition.
+    public var daemonTaskDefinitionArn: Swift.String?
+
+    public init(
+        daemonTaskDefinitionArn: Swift.String? = nil
+    ) {
+        self.daemonTaskDefinitionArn = daemonTaskDefinitionArn
+    }
+}
+
+public struct DescribeDaemonTaskDefinitionInput: Swift.Sendable {
+    /// The family for the latest ACTIVE revision, family and revision (family:revision) for a specific revision in the family, or full Amazon Resource Name (ARN) of the daemon task definition to describe.
+    /// This member is required.
+    public var daemonTaskDefinition: Swift.String?
+
+    public init(
+        daemonTaskDefinition: Swift.String? = nil
+    ) {
+        self.daemonTaskDefinition = daemonTaskDefinition
     }
 }
 
@@ -4592,27 +5489,6 @@ extension ECSClientTypes {
         ) {
             self.type = type
             self.value = value
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// Hostnames and IP address entries that are added to the /etc/hosts file of a container via the extraHosts parameter of its [ContainerDefinition](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ContainerDefinition.html).
-    public struct HostEntry: Swift.Sendable {
-        /// The hostname to use in the /etc/hosts entry.
-        /// This member is required.
-        public var hostname: Swift.String?
-        /// The IP address to use in the /etc/hosts entry.
-        /// This member is required.
-        public var ipAddress: Swift.String?
-
-        public init(
-            hostname: Swift.String? = nil,
-            ipAddress: Swift.String? = nil
-        ) {
-            self.hostname = hostname
-            self.ipAddress = ipAddress
         }
     }
 }
@@ -4896,38 +5772,26 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// The Linux-specific options that are applied to the container, such as Linux [KernelCapabilities](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_KernelCapabilities.html).
-    public struct LinuxParameters: Swift.Sendable {
-        /// The Linux capabilities for the container that are added to or dropped from the default configuration provided by Docker. For tasks that use the Fargate launch type, capabilities is supported for all platform versions but the add parameter is only supported if using platform version 1.4.0 or later.
+    /// The Linux-specific options that are applied to the daemon container, such as Linux kernel capabilities.
+    public struct DaemonLinuxParameters: Swift.Sendable {
+        /// The Linux capabilities for the container that are added to or dropped from the default configuration provided by Docker.
         public var capabilities: ECSClientTypes.KernelCapabilities?
-        /// Any host devices to expose to the container. This parameter maps to Devices in the docker container create command and the --device option to docker run. If you're using tasks that use the Fargate launch type, the devices parameter isn't supported.
+        /// Any host devices to expose to the container.
         public var devices: [ECSClientTypes.Device]?
-        /// Run an init process inside the container that forwards signals and reaps processes. This parameter maps to the --init option to docker run. This parameter requires version 1.25 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'
+        /// Run an init process inside the container that forwards signals and reaps processes.
         public var initProcessEnabled: Swift.Bool?
-        /// The total amount of swap memory (in MiB) a container can use. This parameter will be translated to the --memory-swap option to docker run where the value would be the sum of the container memory plus the maxSwap value. If a maxSwap value of 0 is specified, the container will not use swap. Accepted values are 0 or any positive integer. If the maxSwap parameter is omitted, the container will use the swap configuration for the container instance it is running on. A maxSwap value must be set for the swappiness parameter to be used. If you're using tasks that use the Fargate launch type, the maxSwap parameter isn't supported. If you're using tasks on Amazon Linux 2023 the swappiness parameter isn't supported.
-        public var maxSwap: Swift.Int?
-        /// The value for the size (in MiB) of the /dev/shm volume. This parameter maps to the --shm-size option to docker run. If you are using tasks that use the Fargate launch type, the sharedMemorySize parameter is not supported.
-        public var sharedMemorySize: Swift.Int?
-        /// This allows you to tune a container's memory swappiness behavior. A swappiness value of 0 will cause swapping to not happen unless absolutely necessary. A swappiness value of 100 will cause pages to be swapped very aggressively. Accepted values are whole numbers between 0 and 100. If the swappiness parameter is not specified, a default value of 60 is used. If a value is not specified for maxSwap then this parameter is ignored. This parameter maps to the --memory-swappiness option to docker run. If you're using tasks that use the Fargate launch type, the swappiness parameter isn't supported. If you're using tasks on Amazon Linux 2023 the swappiness parameter isn't supported.
-        public var swappiness: Swift.Int?
-        /// The container path, mount options, and size (in MiB) of the tmpfs mount. This parameter maps to the --tmpfs option to docker run. If you're using tasks that use the Fargate launch type, the tmpfs parameter isn't supported.
+        /// The container path, mount options, and size (in MiB) of the tmpfs mount.
         public var tmpfs: [ECSClientTypes.Tmpfs]?
 
         public init(
             capabilities: ECSClientTypes.KernelCapabilities? = nil,
             devices: [ECSClientTypes.Device]? = nil,
             initProcessEnabled: Swift.Bool? = nil,
-            maxSwap: Swift.Int? = nil,
-            sharedMemorySize: Swift.Int? = nil,
-            swappiness: Swift.Int? = nil,
             tmpfs: [ECSClientTypes.Tmpfs]? = nil
         ) {
             self.capabilities = capabilities
             self.devices = devices
             self.initProcessEnabled = initProcessEnabled
-            self.maxSwap = maxSwap
-            self.sharedMemorySize = sharedMemorySize
-            self.swappiness = swappiness
             self.tmpfs = tmpfs
         }
     }
@@ -5072,112 +5936,6 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    public enum ApplicationProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case grpc
-        case http
-        case http2
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ApplicationProtocol] {
-            return [
-                .grpc,
-                .http,
-                .http2
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .grpc: return "grpc"
-            case .http: return "http"
-            case .http2: return "http2"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// Port mappings allow containers to access ports on the host container instance to send or receive traffic. Port mappings are specified as part of the container definition. If you use containers in a task with the awsvpc or host network mode, specify the exposed ports using containerPort. The hostPort can be left blank or it must be the same value as the containerPort. Most fields of this parameter (containerPort, hostPort, protocol) maps to PortBindings in the docker container create command and the --publish option to docker run. If the network mode of a task definition is set to host, host ports must either be undefined or match the container port in the port mapping. You can't expose the same container port for multiple protocols. If you attempt this, an error is returned. After a task reaches the RUNNING status, manual and automatic host and container port assignments are visible in the networkBindings section of [DescribeTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html) API responses.
-    public struct PortMapping: Swift.Sendable {
-        /// The application protocol that's used for the port mapping. This parameter only applies to Service Connect. We recommend that you set this parameter to be consistent with the protocol that your application uses. If you set this parameter, Amazon ECS adds protocol-specific connection handling to the Service Connect proxy. If you set this parameter, Amazon ECS adds protocol-specific telemetry in the Amazon ECS console and CloudWatch. If you don't set a value for this parameter, then TCP is used. However, Amazon ECS doesn't add protocol-specific telemetry for TCP. appProtocol is immutable in a Service Connect service. Updating this field requires a service deletion and redeployment. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
-        public var appProtocol: ECSClientTypes.ApplicationProtocol?
-        /// The port number on the container that's bound to the user-specified or automatically assigned host port. If you use containers in a task with the awsvpc or host network mode, specify the exposed ports using containerPort. If you use containers in a task with the bridge network mode and you specify a container port and not a host port, your container automatically receives a host port in the ephemeral port range. For more information, see hostPort. Port mappings that are automatically assigned in this way do not count toward the 100 reserved ports limit of a container instance.
-        public var containerPort: Swift.Int?
-        /// The port number range on the container that's bound to the dynamically mapped host port range. The following rules apply when you specify a containerPortRange:
-        ///
-        /// * You must use either the bridge network mode or the awsvpc network mode.
-        ///
-        /// * This parameter is available for both the EC2 and Fargate launch types.
-        ///
-        /// * This parameter is available for both the Linux and Windows operating systems.
-        ///
-        /// * The container instance must have at least version 1.67.0 of the container agent and at least version 1.67.0-1 of the ecs-init package
-        ///
-        /// * You can specify a maximum of 100 port ranges per container.
-        ///
-        /// * You do not specify a hostPortRange. The value of the hostPortRange is set as follows:
-        ///
-        /// * For containers in a task with the awsvpc network mode, the hostPortRange is set to the same value as the containerPortRange. This is a static mapping strategy.
-        ///
-        /// * For containers in a task with the bridge network mode, the Amazon ECS agent finds open host ports from the default ephemeral range and passes it to docker to bind them to the container ports.
-        ///
-        ///
-        ///
-        ///
-        /// * The containerPortRange valid values are between 1 and 65535.
-        ///
-        /// * A port can only be included in one port mapping per container.
-        ///
-        /// * You cannot specify overlapping port ranges.
-        ///
-        /// * The first port in the range must be less than last port in the range.
-        ///
-        /// * Docker recommends that you turn off the docker-proxy in the Docker daemon config file when you have a large number of ports. For more information, see [ Issue #11185](https://github.com/moby/moby/issues/11185) on the Github website. For information about how to turn off the docker-proxy in the Docker daemon config file, see [Docker daemon](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/bootstrap_container_instance.html#bootstrap_docker_daemon) in the Amazon ECS Developer Guide.
-        ///
-        ///
-        /// You can call [DescribeTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html) to view the hostPortRange which are the host ports that are bound to the container ports.
-        public var containerPortRange: Swift.String?
-        /// The port number on the container instance to reserve for your container. If you specify a containerPortRange, leave this field empty and the value of the hostPort is set as follows:
-        ///
-        /// * For containers in a task with the awsvpc network mode, the hostPort is set to the same value as the containerPort. This is a static mapping strategy.
-        ///
-        /// * For containers in a task with the bridge network mode, the Amazon ECS agent finds open ports on the host and automatically binds them to the container ports. This is a dynamic mapping strategy.
-        ///
-        ///
-        /// If you use containers in a task with the awsvpc or host network mode, the hostPort can either be left blank or set to the same value as the containerPort. If you use containers in a task with the bridge network mode, you can specify a non-reserved host port for your container port mapping, or you can omit the hostPort (or set it to 0) while specifying a containerPort and your container automatically receives a port in the ephemeral port range for your container instance operating system and Docker version. The default ephemeral port range for Docker version 1.6.0 and later is listed on the instance under /proc/sys/net/ipv4/ip_local_port_range. If this kernel parameter is unavailable, the default ephemeral port range from 49153 through 65535 (Linux) or 49152 through 65535 (Windows) is used. Do not attempt to specify a host port in the ephemeral port range as these are reserved for automatic assignment. In general, ports below 32768 are outside of the ephemeral port range. The default reserved ports are 22 for SSH, the Docker ports 2375 and 2376, and the Amazon ECS container agent ports 51678-51680. Any host port that was previously specified in a running task is also reserved while the task is running. That is, after a task stops, the host port is released. The current reserved ports are displayed in the remainingResources of [DescribeContainerInstances](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeContainerInstances.html) output. A container instance can have up to 100 reserved ports at a time. This number includes the default reserved ports. Automatically assigned ports aren't included in the 100 reserved ports quota.
-        public var hostPort: Swift.Int?
-        /// The name that's used for the port mapping. This parameter is the name that you use in the serviceConnectConfiguration and the vpcLatticeConfigurations of a service. The name can include up to 64 characters. The characters can include lowercase letters, numbers, underscores (_), and hyphens (-). The name can't start with a hyphen.
-        public var name: Swift.String?
-        /// The protocol used for the port mapping. Valid values are tcp and udp. The default is tcp. protocol is immutable in a Service Connect service. Updating this field requires a service deletion and redeployment.
-        public var `protocol`: ECSClientTypes.TransportProtocol?
-
-        public init(
-            appProtocol: ECSClientTypes.ApplicationProtocol? = nil,
-            containerPort: Swift.Int? = nil,
-            containerPortRange: Swift.String? = nil,
-            hostPort: Swift.Int? = nil,
-            name: Swift.String? = nil,
-            `protocol`: ECSClientTypes.TransportProtocol? = nil
-        ) {
-            self.appProtocol = appProtocol
-            self.containerPort = containerPort
-            self.containerPortRange = containerPortRange
-            self.hostPort = hostPort
-            self.name = name
-            self.`protocol` = `protocol`
-        }
-    }
-}
-
-extension ECSClientTypes {
-
     /// The repository credentials for private registry authentication.
     public struct RepositoryCredentials: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the secret containing the private repository credentials. When you use the Amazon ECS API, CLI, or Amazon Web Services SDK, if the secret exists in the same Region as the task that you're launching then you can use either the full ARN or the name of the secret. When you use the Amazon Web Services Management Console, you must specify the full ARN of the secret.
@@ -5192,53 +5950,9 @@ extension ECSClientTypes {
     }
 }
 
-extension ECSClientTypes {
-
-    public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case gpu
-        case inferenceAccelerator
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ResourceType] {
-            return [
-                .gpu,
-                .inferenceAccelerator
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .gpu: return "GPU"
-            case .inferenceAccelerator: return "InferenceAccelerator"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The type and amount of a resource to assign to a container. The supported resource types are GPUs and Elastic Inference accelerators. For more information, see [Working with GPUs on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-gpu.html) or [Working with Amazon Elastic Inference on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-inference.html) in the Amazon Elastic Container Service Developer Guide
-    public struct ResourceRequirement: Swift.Sendable {
-        /// The type of resource to assign to a container.
-        /// This member is required.
-        public var type: ECSClientTypes.ResourceType?
-        /// The value for the specified resource type. When the type is GPU, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for all containers in a task can't exceed the number of available GPUs on the container instance that the task is launched on. When the type is InferenceAccelerator, the value matches the deviceName for an [InferenceAccelerator](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_InferenceAccelerator.html) specified in a task definition.
-        /// This member is required.
-        public var value: Swift.String?
-
-        public init(
-            type: ECSClientTypes.ResourceType? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.type = type
-            self.value = value
-        }
+extension ECSClientTypes.RepositoryCredentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -5389,6 +6103,916 @@ extension ECSClientTypes {
             self.hardLimit = hardLimit
             self.name = name
             self.softLimit = softLimit
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A container definition for a daemon task. Daemon container definitions describe the containers that run as part of a daemon task on container instances managed by capacity providers.
+    public struct DaemonContainerDefinition: Swift.Sendable {
+        /// The command that's passed to the container.
+        public var command: [Swift.String]?
+        /// The number of cpu units reserved for the container.
+        public var cpu: Swift.Int
+        /// The dependencies defined for container startup and shutdown. A container can contain multiple dependencies on other containers in a task definition.
+        public var dependsOn: [ECSClientTypes.ContainerDependency]?
+        /// The entry point that's passed to the container.
+        public var entryPoint: [Swift.String]?
+        /// The environment variables to pass to a container.
+        public var environment: [ECSClientTypes.KeyValuePair]?
+        /// A list of files containing the environment variables to pass to a container.
+        public var environmentFiles: [ECSClientTypes.EnvironmentFile]?
+        /// If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped.
+        public var essential: Swift.Bool?
+        /// The FireLens configuration for the container. This is used to specify and configure a log router for container logs.
+        public var firelensConfiguration: ECSClientTypes.FirelensConfiguration?
+        /// The container health check command and associated configuration parameters for the container.
+        public var healthCheck: ECSClientTypes.HealthCheck?
+        /// The image used to start the container. This string is passed directly to the Docker daemon. Images in the Docker Hub registry are available by default. Other repositories are specified with either  repository-url/image:tag  or  repository-url/image@digest .
+        /// This member is required.
+        public var image: Swift.String?
+        /// When this parameter is true, you can deploy containerized applications that require stdin or a tty to be allocated.
+        public var interactive: Swift.Bool?
+        /// Linux-specific modifications that are applied to the container configuration, such as Linux kernel capabilities.
+        public var linuxParameters: ECSClientTypes.DaemonLinuxParameters?
+        /// The log configuration specification for the container.
+        public var logConfiguration: ECSClientTypes.LogConfiguration?
+        /// The amount (in MiB) of memory to present to the container. If the container attempts to exceed the memory specified here, the container is killed.
+        public var memory: Swift.Int?
+        /// The soft limit (in MiB) of memory to reserve for the container.
+        public var memoryReservation: Swift.Int?
+        /// The mount points for data volumes in your container.
+        public var mountPoints: [ECSClientTypes.MountPoint]?
+        /// The name of the container. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
+        public var name: Swift.String?
+        /// When this parameter is true, the container is given elevated privileges on the host container instance (similar to the root user).
+        public var privileged: Swift.Bool?
+        /// When this parameter is true, a TTY is allocated.
+        public var pseudoTerminal: Swift.Bool?
+        /// When this parameter is true, the container is given read-only access to its root file system.
+        public var readonlyRootFilesystem: Swift.Bool?
+        /// The private repository authentication credentials to use.
+        public var repositoryCredentials: ECSClientTypes.RepositoryCredentials?
+        /// The restart policy for the container. When you set up a restart policy, Amazon ECS can restart the container without needing to replace the task.
+        public var restartPolicy: ECSClientTypes.ContainerRestartPolicy?
+        /// The secrets to pass to the container.
+        public var secrets: [ECSClientTypes.Secret]?
+        /// Time duration (in seconds) to wait before giving up on resolving dependencies for a container.
+        public var startTimeout: Swift.Int?
+        /// Time duration (in seconds) to wait before the container is forcefully killed if it doesn't exit normally on its own.
+        public var stopTimeout: Swift.Int?
+        /// A list of namespaced kernel parameters to set in the container.
+        public var systemControls: [ECSClientTypes.SystemControl]?
+        /// A list of ulimits to set in the container.
+        public var ulimits: [ECSClientTypes.Ulimit]?
+        /// The user to use inside the container.
+        public var user: Swift.String?
+        /// The working directory to run commands inside the container in.
+        public var workingDirectory: Swift.String?
+
+        public init(
+            command: [Swift.String]? = nil,
+            cpu: Swift.Int = 0,
+            dependsOn: [ECSClientTypes.ContainerDependency]? = nil,
+            entryPoint: [Swift.String]? = nil,
+            environment: [ECSClientTypes.KeyValuePair]? = nil,
+            environmentFiles: [ECSClientTypes.EnvironmentFile]? = nil,
+            essential: Swift.Bool? = nil,
+            firelensConfiguration: ECSClientTypes.FirelensConfiguration? = nil,
+            healthCheck: ECSClientTypes.HealthCheck? = nil,
+            image: Swift.String? = nil,
+            interactive: Swift.Bool? = nil,
+            linuxParameters: ECSClientTypes.DaemonLinuxParameters? = nil,
+            logConfiguration: ECSClientTypes.LogConfiguration? = nil,
+            memory: Swift.Int? = nil,
+            memoryReservation: Swift.Int? = nil,
+            mountPoints: [ECSClientTypes.MountPoint]? = nil,
+            name: Swift.String? = nil,
+            privileged: Swift.Bool? = nil,
+            pseudoTerminal: Swift.Bool? = nil,
+            readonlyRootFilesystem: Swift.Bool? = nil,
+            repositoryCredentials: ECSClientTypes.RepositoryCredentials? = nil,
+            restartPolicy: ECSClientTypes.ContainerRestartPolicy? = nil,
+            secrets: [ECSClientTypes.Secret]? = nil,
+            startTimeout: Swift.Int? = nil,
+            stopTimeout: Swift.Int? = nil,
+            systemControls: [ECSClientTypes.SystemControl]? = nil,
+            ulimits: [ECSClientTypes.Ulimit]? = nil,
+            user: Swift.String? = nil,
+            workingDirectory: Swift.String? = nil
+        ) {
+            self.command = command
+            self.cpu = cpu
+            self.dependsOn = dependsOn
+            self.entryPoint = entryPoint
+            self.environment = environment
+            self.environmentFiles = environmentFiles
+            self.essential = essential
+            self.firelensConfiguration = firelensConfiguration
+            self.healthCheck = healthCheck
+            self.image = image
+            self.interactive = interactive
+            self.linuxParameters = linuxParameters
+            self.logConfiguration = logConfiguration
+            self.memory = memory
+            self.memoryReservation = memoryReservation
+            self.mountPoints = mountPoints
+            self.name = name
+            self.privileged = privileged
+            self.pseudoTerminal = pseudoTerminal
+            self.readonlyRootFilesystem = readonlyRootFilesystem
+            self.repositoryCredentials = repositoryCredentials
+            self.restartPolicy = restartPolicy
+            self.secrets = secrets
+            self.startTimeout = startTimeout
+            self.stopTimeout = stopTimeout
+            self.systemControls = systemControls
+            self.ulimits = ulimits
+            self.user = user
+            self.workingDirectory = workingDirectory
+        }
+    }
+}
+
+extension ECSClientTypes.DaemonContainerDefinition: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DaemonContainerDefinition(command: \(Swift.String(describing: command)), cpu: \(Swift.String(describing: cpu)), dependsOn: \(Swift.String(describing: dependsOn)), entryPoint: \(Swift.String(describing: entryPoint)), environment: \(Swift.String(describing: environment)), environmentFiles: \(Swift.String(describing: environmentFiles)), essential: \(Swift.String(describing: essential)), firelensConfiguration: \(Swift.String(describing: firelensConfiguration)), healthCheck: \(Swift.String(describing: healthCheck)), image: \(Swift.String(describing: image)), interactive: \(Swift.String(describing: interactive)), linuxParameters: \(Swift.String(describing: linuxParameters)), logConfiguration: \(Swift.String(describing: logConfiguration)), memory: \(Swift.String(describing: memory)), memoryReservation: \(Swift.String(describing: memoryReservation)), mountPoints: \(Swift.String(describing: mountPoints)), name: \(Swift.String(describing: name)), privileged: \(Swift.String(describing: privileged)), pseudoTerminal: \(Swift.String(describing: pseudoTerminal)), readonlyRootFilesystem: \(Swift.String(describing: readonlyRootFilesystem)), restartPolicy: \(Swift.String(describing: restartPolicy)), secrets: \(Swift.String(describing: secrets)), startTimeout: \(Swift.String(describing: startTimeout)), stopTimeout: \(Swift.String(describing: stopTimeout)), systemControls: \(Swift.String(describing: systemControls)), ulimits: \(Swift.String(describing: ulimits)), user: \(Swift.String(describing: user)), workingDirectory: \(Swift.String(describing: workingDirectory)), repositoryCredentials: \"CONTENT_REDACTED\")"}
+}
+
+extension ECSClientTypes {
+
+    public enum DaemonTaskDefinitionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case deleted
+        case deleteInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DaemonTaskDefinitionStatus] {
+            return [
+                .active,
+                .deleted,
+                .deleteInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deleted: return "DELETED"
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Details on a container instance bind mount host volume.
+    public struct HostVolumeProperties: Swift.Sendable {
+        /// When the host parameter is used, specify a sourcePath to declare the path on the host container instance that's presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If the host parameter contains a sourcePath file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the sourcePath value doesn't exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported. If you're using the Fargate launch type, the sourcePath parameter is not supported.
+        public var sourcePath: Swift.String?
+
+        public init(
+            sourcePath: Swift.String? = nil
+        ) {
+            self.sourcePath = sourcePath
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A data volume definition for a daemon task.
+    public struct DaemonVolume: Swift.Sendable {
+        /// The contents of the host parameter determine whether your bind mount host volume persists on the host container instance and where it's stored.
+        public var host: ECSClientTypes.HostVolumeProperties?
+        /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
+        public var name: Swift.String?
+
+        public init(
+            host: ECSClientTypes.HostVolumeProperties? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.host = host
+            self.name = name
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The details of a daemon task definition. A daemon task definition is a template that describes the containers that form a daemon. Daemons deploy cross-cutting software agents independently across your Amazon ECS infrastructure.
+    public struct DaemonTaskDefinition: Swift.Sendable {
+        /// A list of container definitions in JSON format that describe the containers that make up the daemon task.
+        public var containerDefinitions: [ECSClientTypes.DaemonContainerDefinition]?
+        /// The number of CPU units used by the daemon task.
+        public var cpu: Swift.String?
+        /// The full Amazon Resource Name (ARN) of the daemon task definition.
+        public var daemonTaskDefinitionArn: Swift.String?
+        /// The Unix timestamp for the time when the daemon task definition delete was requested.
+        public var deleteRequestedAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf.
+        public var executionRoleArn: Swift.String?
+        /// The name of a family that this daemon task definition is registered to.
+        public var family: Swift.String?
+        /// The amount of memory (in MiB) used by the daemon task.
+        public var memory: Swift.String?
+        /// The Unix timestamp for the time when the daemon task definition was registered.
+        public var registeredAt: Foundation.Date?
+        /// The principal that registered the daemon task definition.
+        public var registeredBy: Swift.String?
+        /// The revision of the daemon task in a particular family. The revision is a version number of a daemon task definition in a family. When you register a daemon task definition for the first time, the revision is 1. Each time that you register a new revision of a daemon task definition in the same family, the revision value always increases by one.
+        public var revision: Swift.Int
+        /// The status of the daemon task definition. The valid values are ACTIVE, DELETE_IN_PROGRESS, and DELETED.
+        public var status: ECSClientTypes.DaemonTaskDefinitionStatus?
+        /// The short name or full Amazon Resource Name (ARN) of the IAM role that grants containers in the daemon task permission to call Amazon Web Services APIs on your behalf.
+        public var taskRoleArn: Swift.String?
+        /// The list of data volume definitions for the daemon task.
+        public var volumes: [ECSClientTypes.DaemonVolume]?
+
+        public init(
+            containerDefinitions: [ECSClientTypes.DaemonContainerDefinition]? = nil,
+            cpu: Swift.String? = nil,
+            daemonTaskDefinitionArn: Swift.String? = nil,
+            deleteRequestedAt: Foundation.Date? = nil,
+            executionRoleArn: Swift.String? = nil,
+            family: Swift.String? = nil,
+            memory: Swift.String? = nil,
+            registeredAt: Foundation.Date? = nil,
+            registeredBy: Swift.String? = nil,
+            revision: Swift.Int = 0,
+            status: ECSClientTypes.DaemonTaskDefinitionStatus? = nil,
+            taskRoleArn: Swift.String? = nil,
+            volumes: [ECSClientTypes.DaemonVolume]? = nil
+        ) {
+            self.containerDefinitions = containerDefinitions
+            self.cpu = cpu
+            self.daemonTaskDefinitionArn = daemonTaskDefinitionArn
+            self.deleteRequestedAt = deleteRequestedAt
+            self.executionRoleArn = executionRoleArn
+            self.family = family
+            self.memory = memory
+            self.registeredAt = registeredAt
+            self.registeredBy = registeredBy
+            self.revision = revision
+            self.status = status
+            self.taskRoleArn = taskRoleArn
+            self.volumes = volumes
+        }
+    }
+}
+
+public struct DescribeDaemonTaskDefinitionOutput: Swift.Sendable {
+    /// The full daemon task definition description.
+    public var daemonTaskDefinition: ECSClientTypes.DaemonTaskDefinition?
+
+    public init(
+        daemonTaskDefinition: ECSClientTypes.DaemonTaskDefinition? = nil
+    ) {
+        self.daemonTaskDefinition = daemonTaskDefinition
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum DaemonTaskDefinitionRevisionFilter: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lastRegistered
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DaemonTaskDefinitionRevisionFilter] {
+            return [
+                .lastRegistered
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lastRegistered: return "LAST_REGISTERED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case asc
+        case desc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortOrder] {
+            return [
+                .asc,
+                .desc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .asc: return "ASC"
+            case .desc: return "DESC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum DaemonTaskDefinitionStatusFilter: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case all
+        case deleteInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DaemonTaskDefinitionStatusFilter] {
+            return [
+                .active,
+                .all,
+                .deleteInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .all: return "ALL"
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListDaemonTaskDefinitionsInput: Swift.Sendable {
+    /// The exact name of the daemon task definition family to filter results with.
+    public var family: Swift.String?
+    /// The full family name to filter the ListDaemonTaskDefinitions results with. Specifying a familyPrefix limits the listed daemon task definitions to daemon task definition families that start with the familyPrefix string.
+    public var familyPrefix: Swift.String?
+    /// The maximum number of daemon task definition results that ListDaemonTaskDefinitions returned in paginated output. When this parameter is used, ListDaemonTaskDefinitions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDaemonTaskDefinitions request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListDaemonTaskDefinitions returns up to 100 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a ListDaemonTaskDefinitions request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it's possible for the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+    /// The revision filter to apply. Specify LAST_REGISTERED to return only the last registered revision for each daemon task definition family.
+    public var revision: ECSClientTypes.DaemonTaskDefinitionRevisionFilter?
+    /// The order to sort the results. Valid values are ASC and DESC. By default (ASC), daemon task definitions are listed in ascending order by family name and revision number.
+    public var sort: ECSClientTypes.SortOrder?
+    /// The daemon task definition status to filter the ListDaemonTaskDefinitions results with. By default, only ACTIVE daemon task definitions are listed. If you set this parameter to DELETE_IN_PROGRESS, only daemon task definitions that are in the process of being deleted are listed. If you set this parameter to ALL, all daemon task definitions are listed regardless of status.
+    public var status: ECSClientTypes.DaemonTaskDefinitionStatusFilter?
+
+    public init(
+        family: Swift.String? = nil,
+        familyPrefix: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        revision: ECSClientTypes.DaemonTaskDefinitionRevisionFilter? = nil,
+        sort: ECSClientTypes.SortOrder? = nil,
+        status: ECSClientTypes.DaemonTaskDefinitionStatusFilter? = nil
+    ) {
+        self.family = family
+        self.familyPrefix = familyPrefix
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.revision = revision
+        self.sort = sort
+        self.status = status
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A summary of a daemon task definition.
+    public struct DaemonTaskDefinitionSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the daemon task definition.
+        public var arn: Swift.String?
+        /// The Unix timestamp for the time when the daemon task definition delete was requested.
+        public var deleteRequestedAt: Foundation.Date?
+        /// The Unix timestamp for the time when the daemon task definition was registered.
+        public var registeredAt: Foundation.Date?
+        /// The principal that registered the daemon task definition.
+        public var registeredBy: Swift.String?
+        /// The status of the daemon task definition.
+        public var status: ECSClientTypes.DaemonTaskDefinitionStatus?
+
+        public init(
+            arn: Swift.String? = nil,
+            deleteRequestedAt: Foundation.Date? = nil,
+            registeredAt: Foundation.Date? = nil,
+            registeredBy: Swift.String? = nil,
+            status: ECSClientTypes.DaemonTaskDefinitionStatus? = nil
+        ) {
+            self.arn = arn
+            self.deleteRequestedAt = deleteRequestedAt
+            self.registeredAt = registeredAt
+            self.registeredBy = registeredBy
+            self.status = status
+        }
+    }
+}
+
+public struct ListDaemonTaskDefinitionsOutput: Swift.Sendable {
+    /// The list of daemon task definition summaries.
+    public var daemonTaskDefinitions: [ECSClientTypes.DaemonTaskDefinitionSummary]?
+    /// The nextToken value to include in a future ListDaemonTaskDefinitions request. When the results of a ListDaemonTaskDefinitions request exceed maxResults, this value can be used to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        daemonTaskDefinitions: [ECSClientTypes.DaemonTaskDefinitionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.daemonTaskDefinitions = daemonTaskDefinitions
+        self.nextToken = nextToken
+    }
+}
+
+public struct RegisterDaemonTaskDefinitionInput: Swift.Sendable {
+    /// A list of container definitions in JSON format that describe the containers that make up your daemon task.
+    /// This member is required.
+    public var containerDefinitions: [ECSClientTypes.DaemonContainerDefinition]?
+    /// The number of CPU units used by the daemon task. It can be expressed as an integer using CPU units (for example, 1024).
+    public var cpu: Swift.String?
+    /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. The task execution role is required for daemon tasks that pull container images from Amazon ECR or send container logs to CloudWatch.
+    public var executionRoleArn: Swift.String?
+    /// You must specify a family for a daemon task definition. This family is used as a name for your daemon task definition. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
+    /// This member is required.
+    public var family: Swift.String?
+    /// The amount of memory (in MiB) used by the daemon task. It can be expressed as an integer using MiB (for example, 1024).
+    public var memory: Swift.String?
+    /// The metadata that you apply to the daemon task definition to help you categorize and organize them. Each tag consists of a key and an optional value. You define both of them. The following basic restrictions apply to tags:
+    ///
+    /// * Maximum number of tags per resource - 50
+    ///
+    /// * For each resource, each tag key must be unique, and each tag key can have only one value.
+    ///
+    /// * Maximum key length - 128 Unicode characters in UTF-8
+    ///
+    /// * Maximum value length - 256 Unicode characters in UTF-8
+    ///
+    /// * If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
+    ///
+    /// * Tag keys and values are case-sensitive.
+    ///
+    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
+    public var tags: [ECSClientTypes.Tag]?
+    /// The short name or full Amazon Resource Name (ARN) of the IAM role that containers in this daemon task can assume. All containers in this daemon task are granted the permissions that are specified in this role.
+    public var taskRoleArn: Swift.String?
+    /// A list of volume definitions in JSON format that containers in your daemon task can use.
+    public var volumes: [ECSClientTypes.DaemonVolume]?
+
+    public init(
+        containerDefinitions: [ECSClientTypes.DaemonContainerDefinition]? = nil,
+        cpu: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        family: Swift.String? = nil,
+        memory: Swift.String? = nil,
+        tags: [ECSClientTypes.Tag]? = nil,
+        taskRoleArn: Swift.String? = nil,
+        volumes: [ECSClientTypes.DaemonVolume]? = nil
+    ) {
+        self.containerDefinitions = containerDefinitions
+        self.cpu = cpu
+        self.executionRoleArn = executionRoleArn
+        self.family = family
+        self.memory = memory
+        self.tags = tags
+        self.taskRoleArn = taskRoleArn
+        self.volumes = volumes
+    }
+}
+
+public struct RegisterDaemonTaskDefinitionOutput: Swift.Sendable {
+    /// The full Amazon Resource Name (ARN) of the registered daemon task definition.
+    public var daemonTaskDefinitionArn: Swift.String?
+
+    public init(
+        daemonTaskDefinitionArn: Swift.String? = nil
+    ) {
+        self.daemonTaskDefinitionArn = daemonTaskDefinitionArn
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum SettingName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsvpcTrunking
+        case containerInsights
+        case containerInstanceLongArnFormat
+        case defaultLogDriverMode
+        case fargateEventWindows
+        case fargateFipsMode
+        case fargateTaskRetirementWaitPeriod
+        case guardDutyActivate
+        case serviceLongArnFormat
+        case tagResourceAuthorization
+        case taskLongArnFormat
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SettingName] {
+            return [
+                .awsvpcTrunking,
+                .containerInsights,
+                .containerInstanceLongArnFormat,
+                .defaultLogDriverMode,
+                .fargateEventWindows,
+                .fargateFipsMode,
+                .fargateTaskRetirementWaitPeriod,
+                .guardDutyActivate,
+                .serviceLongArnFormat,
+                .tagResourceAuthorization,
+                .taskLongArnFormat
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsvpcTrunking: return "awsvpcTrunking"
+            case .containerInsights: return "containerInsights"
+            case .containerInstanceLongArnFormat: return "containerInstanceLongArnFormat"
+            case .defaultLogDriverMode: return "defaultLogDriverMode"
+            case .fargateEventWindows: return "fargateEventWindows"
+            case .fargateFipsMode: return "fargateFIPSMode"
+            case .fargateTaskRetirementWaitPeriod: return "fargateTaskRetirementWaitPeriod"
+            case .guardDutyActivate: return "guardDutyActivate"
+            case .serviceLongArnFormat: return "serviceLongArnFormat"
+            case .tagResourceAuthorization: return "tagResourceAuthorization"
+            case .taskLongArnFormat: return "taskLongArnFormat"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DeleteAccountSettingInput: Swift.Sendable {
+    /// The resource name to disable the account setting for. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected.
+    /// This member is required.
+    public var name: ECSClientTypes.SettingName?
+    /// The Amazon Resource Name (ARN) of the principal. It can be a user, role, or the root user. If you specify the root user, it disables the account setting for all users, roles, and the root user of the account unless a user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user. In order to use this parameter, you must be the root user, or the principal.
+    public var principalArn: Swift.String?
+
+    public init(
+        name: ECSClientTypes.SettingName? = nil,
+        principalArn: Swift.String? = nil
+    ) {
+        self.name = name
+        self.principalArn = principalArn
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum SettingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsManaged
+        case user
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SettingType] {
+            return [
+                .awsManaged,
+                .user
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsManaged: return "aws_managed"
+            case .user: return "user"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The current account setting for a resource.
+    public struct Setting: Swift.Sendable {
+        /// The Amazon ECS resource name.
+        public var name: ECSClientTypes.SettingName?
+        /// The ARN of the principal. It can be a user, role, or the root user. If this field is omitted, the authenticated user is assumed.
+        public var principalArn: Swift.String?
+        /// Indicates whether Amazon Web Services manages the account setting, or if the user manages it. aws_managed account settings are read-only, as Amazon Web Services manages such on the customer's behalf. Currently, the guardDutyActivate account setting is the only one Amazon Web Services manages.
+        public var type: ECSClientTypes.SettingType?
+        /// Determines whether the account setting is on or off for the specified resource.
+        public var value: Swift.String?
+
+        public init(
+            name: ECSClientTypes.SettingName? = nil,
+            principalArn: Swift.String? = nil,
+            type: ECSClientTypes.SettingType? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.principalArn = principalArn
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+public struct DeleteAccountSettingOutput: Swift.Sendable {
+    /// The account setting for the specified principal ARN.
+    public var setting: ECSClientTypes.Setting?
+
+    public init(
+        setting: ECSClientTypes.Setting? = nil
+    ) {
+        self.setting = setting
+    }
+}
+
+///
+public struct DeregisterTaskDefinitionInput: Swift.Sendable {
+    /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the task definition to deregister. You must specify a revision.
+    /// This member is required.
+    public var taskDefinition: Swift.String?
+
+    public init(
+        taskDefinition: Swift.String? = nil
+    ) {
+        self.taskDefinition = taskDefinition
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum Compatibility: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ec2
+        case external
+        case fargate
+        case managedInstances
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Compatibility] {
+            return [
+                .ec2,
+                .external,
+                .fargate,
+                .managedInstances
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ec2: return "EC2"
+            case .external: return "EXTERNAL"
+            case .fargate: return "FARGATE"
+            case .managedInstances: return "MANAGED_INSTANCES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Hostnames and IP address entries that are added to the /etc/hosts file of a container via the extraHosts parameter of its [ContainerDefinition](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ContainerDefinition.html).
+    public struct HostEntry: Swift.Sendable {
+        /// The hostname to use in the /etc/hosts entry.
+        /// This member is required.
+        public var hostname: Swift.String?
+        /// The IP address to use in the /etc/hosts entry.
+        /// This member is required.
+        public var ipAddress: Swift.String?
+
+        public init(
+            hostname: Swift.String? = nil,
+            ipAddress: Swift.String? = nil
+        ) {
+            self.hostname = hostname
+            self.ipAddress = ipAddress
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The Linux-specific options that are applied to the container, such as Linux [KernelCapabilities](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_KernelCapabilities.html).
+    public struct LinuxParameters: Swift.Sendable {
+        /// The Linux capabilities for the container that are added to or dropped from the default configuration provided by Docker. For tasks that use the Fargate launch type, capabilities is supported for all platform versions but the add parameter is only supported if using platform version 1.4.0 or later.
+        public var capabilities: ECSClientTypes.KernelCapabilities?
+        /// Any host devices to expose to the container. This parameter maps to Devices in the docker container create command and the --device option to docker run. If you're using tasks that use the Fargate launch type, the devices parameter isn't supported.
+        public var devices: [ECSClientTypes.Device]?
+        /// Run an init process inside the container that forwards signals and reaps processes. This parameter maps to the --init option to docker run. This parameter requires version 1.25 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'
+        public var initProcessEnabled: Swift.Bool?
+        /// The total amount of swap memory (in MiB) a container can use. This parameter will be translated to the --memory-swap option to docker run where the value would be the sum of the container memory plus the maxSwap value. If a maxSwap value of 0 is specified, the container will not use swap. Accepted values are 0 or any positive integer. If the maxSwap parameter is omitted, the container will use the swap configuration for the container instance it is running on. A maxSwap value must be set for the swappiness parameter to be used. If you're using tasks that use the Fargate launch type, the maxSwap parameter isn't supported. If you're using tasks on Amazon Linux 2023 the swappiness parameter isn't supported.
+        public var maxSwap: Swift.Int?
+        /// The value for the size (in MiB) of the /dev/shm volume. This parameter maps to the --shm-size option to docker run. If you are using tasks that use the Fargate launch type, the sharedMemorySize parameter is not supported.
+        public var sharedMemorySize: Swift.Int?
+        /// This allows you to tune a container's memory swappiness behavior. A swappiness value of 0 will cause swapping to not happen unless absolutely necessary. A swappiness value of 100 will cause pages to be swapped very aggressively. Accepted values are whole numbers between 0 and 100. If the swappiness parameter is not specified, a default value of 60 is used. If a value is not specified for maxSwap then this parameter is ignored. This parameter maps to the --memory-swappiness option to docker run. If you're using tasks that use the Fargate launch type, the swappiness parameter isn't supported. If you're using tasks on Amazon Linux 2023 the swappiness parameter isn't supported.
+        public var swappiness: Swift.Int?
+        /// The container path, mount options, and size (in MiB) of the tmpfs mount. This parameter maps to the --tmpfs option to docker run. If you're using tasks that use the Fargate launch type, the tmpfs parameter isn't supported.
+        public var tmpfs: [ECSClientTypes.Tmpfs]?
+
+        public init(
+            capabilities: ECSClientTypes.KernelCapabilities? = nil,
+            devices: [ECSClientTypes.Device]? = nil,
+            initProcessEnabled: Swift.Bool? = nil,
+            maxSwap: Swift.Int? = nil,
+            sharedMemorySize: Swift.Int? = nil,
+            swappiness: Swift.Int? = nil,
+            tmpfs: [ECSClientTypes.Tmpfs]? = nil
+        ) {
+            self.capabilities = capabilities
+            self.devices = devices
+            self.initProcessEnabled = initProcessEnabled
+            self.maxSwap = maxSwap
+            self.sharedMemorySize = sharedMemorySize
+            self.swappiness = swappiness
+            self.tmpfs = tmpfs
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum ApplicationProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case grpc
+        case http
+        case http2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApplicationProtocol] {
+            return [
+                .grpc,
+                .http,
+                .http2
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .grpc: return "grpc"
+            case .http: return "http"
+            case .http2: return "http2"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Port mappings allow containers to access ports on the host container instance to send or receive traffic. Port mappings are specified as part of the container definition. If you use containers in a task with the awsvpc or host network mode, specify the exposed ports using containerPort. The hostPort can be left blank or it must be the same value as the containerPort. Most fields of this parameter (containerPort, hostPort, protocol) maps to PortBindings in the docker container create command and the --publish option to docker run. If the network mode of a task definition is set to host, host ports must either be undefined or match the container port in the port mapping. You can't expose the same container port for multiple protocols. If you attempt this, an error is returned. After a task reaches the RUNNING status, manual and automatic host and container port assignments are visible in the networkBindings section of [DescribeTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html) API responses.
+    public struct PortMapping: Swift.Sendable {
+        /// The application protocol that's used for the port mapping. This parameter only applies to Service Connect. We recommend that you set this parameter to be consistent with the protocol that your application uses. If you set this parameter, Amazon ECS adds protocol-specific connection handling to the Service Connect proxy. If you set this parameter, Amazon ECS adds protocol-specific telemetry in the Amazon ECS console and CloudWatch. If you don't set a value for this parameter, then TCP is used. However, Amazon ECS doesn't add protocol-specific telemetry for TCP. appProtocol is immutable in a Service Connect service. Updating this field requires a service deletion and redeployment. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+        public var appProtocol: ECSClientTypes.ApplicationProtocol?
+        /// The port number on the container that's bound to the user-specified or automatically assigned host port. If you use containers in a task with the awsvpc or host network mode, specify the exposed ports using containerPort. If you use containers in a task with the bridge network mode and you specify a container port and not a host port, your container automatically receives a host port in the ephemeral port range. For more information, see hostPort. Port mappings that are automatically assigned in this way do not count toward the 100 reserved ports limit of a container instance.
+        public var containerPort: Swift.Int?
+        /// The port number range on the container that's bound to the dynamically mapped host port range. The following rules apply when you specify a containerPortRange:
+        ///
+        /// * You must use either the bridge network mode or the awsvpc network mode.
+        ///
+        /// * This parameter is available for both the EC2 and Fargate launch types.
+        ///
+        /// * This parameter is available for both the Linux and Windows operating systems.
+        ///
+        /// * The container instance must have at least version 1.67.0 of the container agent and at least version 1.67.0-1 of the ecs-init package
+        ///
+        /// * You can specify a maximum of 100 port ranges per container.
+        ///
+        /// * You do not specify a hostPortRange. The value of the hostPortRange is set as follows:
+        ///
+        /// * For containers in a task with the awsvpc network mode, the hostPortRange is set to the same value as the containerPortRange. This is a static mapping strategy.
+        ///
+        /// * For containers in a task with the bridge network mode, the Amazon ECS agent finds open host ports from the default ephemeral range and passes it to docker to bind them to the container ports.
+        ///
+        ///
+        ///
+        ///
+        /// * The containerPortRange valid values are between 1 and 65535.
+        ///
+        /// * A port can only be included in one port mapping per container.
+        ///
+        /// * You cannot specify overlapping port ranges.
+        ///
+        /// * The first port in the range must be less than last port in the range.
+        ///
+        /// * Docker recommends that you turn off the docker-proxy in the Docker daemon config file when you have a large number of ports. For more information, see [ Issue #11185](https://github.com/moby/moby/issues/11185) on the Github website. For information about how to turn off the docker-proxy in the Docker daemon config file, see [Docker daemon](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/bootstrap_container_instance.html#bootstrap_docker_daemon) in the Amazon ECS Developer Guide.
+        ///
+        ///
+        /// You can call [DescribeTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html) to view the hostPortRange which are the host ports that are bound to the container ports.
+        public var containerPortRange: Swift.String?
+        /// The port number on the container instance to reserve for your container. If you specify a containerPortRange, leave this field empty and the value of the hostPort is set as follows:
+        ///
+        /// * For containers in a task with the awsvpc network mode, the hostPort is set to the same value as the containerPort. This is a static mapping strategy.
+        ///
+        /// * For containers in a task with the bridge network mode, the Amazon ECS agent finds open ports on the host and automatically binds them to the container ports. This is a dynamic mapping strategy.
+        ///
+        ///
+        /// If you use containers in a task with the awsvpc or host network mode, the hostPort can either be left blank or set to the same value as the containerPort. If you use containers in a task with the bridge network mode, you can specify a non-reserved host port for your container port mapping, or you can omit the hostPort (or set it to 0) while specifying a containerPort and your container automatically receives a port in the ephemeral port range for your container instance operating system and Docker version. The default ephemeral port range for Docker version 1.6.0 and later is listed on the instance under /proc/sys/net/ipv4/ip_local_port_range. If this kernel parameter is unavailable, the default ephemeral port range from 49153 through 65535 (Linux) or 49152 through 65535 (Windows) is used. Do not attempt to specify a host port in the ephemeral port range as these are reserved for automatic assignment. In general, ports below 32768 are outside of the ephemeral port range. The default reserved ports are 22 for SSH, the Docker ports 2375 and 2376, and the Amazon ECS container agent ports 51678-51680. Any host port that was previously specified in a running task is also reserved while the task is running. That is, after a task stops, the host port is released. The current reserved ports are displayed in the remainingResources of [DescribeContainerInstances](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeContainerInstances.html) output. A container instance can have up to 100 reserved ports at a time. This number includes the default reserved ports. Automatically assigned ports aren't included in the 100 reserved ports quota.
+        public var hostPort: Swift.Int?
+        /// The name that's used for the port mapping. This parameter is the name that you use in the serviceConnectConfiguration and the vpcLatticeConfigurations of a service. The name can include up to 64 characters. The characters can include lowercase letters, numbers, underscores (_), and hyphens (-). The name can't start with a hyphen.
+        public var name: Swift.String?
+        /// The protocol used for the port mapping. Valid values are tcp and udp. The default is tcp. protocol is immutable in a Service Connect service. Updating this field requires a service deletion and redeployment.
+        public var `protocol`: ECSClientTypes.TransportProtocol?
+
+        public init(
+            appProtocol: ECSClientTypes.ApplicationProtocol? = nil,
+            containerPort: Swift.Int? = nil,
+            containerPortRange: Swift.String? = nil,
+            hostPort: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            `protocol`: ECSClientTypes.TransportProtocol? = nil
+        ) {
+            self.appProtocol = appProtocol
+            self.containerPort = containerPort
+            self.containerPortRange = containerPortRange
+            self.hostPort = hostPort
+            self.name = name
+            self.`protocol` = `protocol`
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case gpu
+        case inferenceAccelerator
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceType] {
+            return [
+                .gpu,
+                .inferenceAccelerator
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .gpu: return "GPU"
+            case .inferenceAccelerator: return "InferenceAccelerator"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The type and amount of a resource to assign to a container. The supported resource types are GPUs and Elastic Inference accelerators. For more information, see [Working with GPUs on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-gpu.html) or [Working with Amazon Elastic Inference on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-inference.html) in the Amazon Elastic Container Service Developer Guide
+    public struct ResourceRequirement: Swift.Sendable {
+        /// The type of resource to assign to a container.
+        /// This member is required.
+        public var type: ECSClientTypes.ResourceType?
+        /// The value for the specified resource type. When the type is GPU, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for all containers in a task can't exceed the number of available GPUs on the container instance that the task is launched on. When the type is InferenceAccelerator, the value matches the deviceName for an [InferenceAccelerator](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_InferenceAccelerator.html) specified in a task definition.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            type: ECSClientTypes.ResourceType? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.type = type
+            self.value = value
         }
     }
 }
@@ -5670,6 +7294,11 @@ extension ECSClientTypes {
             self.workingDirectory = workingDirectory
         }
     }
+}
+
+extension ECSClientTypes.ContainerDefinition: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ContainerDefinition(command: \(Swift.String(describing: command)), cpu: \(Swift.String(describing: cpu)), credentialSpecs: \(Swift.String(describing: credentialSpecs)), dependsOn: \(Swift.String(describing: dependsOn)), disableNetworking: \(Swift.String(describing: disableNetworking)), dnsSearchDomains: \(Swift.String(describing: dnsSearchDomains)), dnsServers: \(Swift.String(describing: dnsServers)), dockerLabels: \(Swift.String(describing: dockerLabels)), dockerSecurityOptions: \(Swift.String(describing: dockerSecurityOptions)), entryPoint: \(Swift.String(describing: entryPoint)), environment: \(Swift.String(describing: environment)), environmentFiles: \(Swift.String(describing: environmentFiles)), essential: \(Swift.String(describing: essential)), extraHosts: \(Swift.String(describing: extraHosts)), firelensConfiguration: \(Swift.String(describing: firelensConfiguration)), healthCheck: \(Swift.String(describing: healthCheck)), hostname: \(Swift.String(describing: hostname)), image: \(Swift.String(describing: image)), interactive: \(Swift.String(describing: interactive)), links: \(Swift.String(describing: links)), linuxParameters: \(Swift.String(describing: linuxParameters)), logConfiguration: \(Swift.String(describing: logConfiguration)), memory: \(Swift.String(describing: memory)), memoryReservation: \(Swift.String(describing: memoryReservation)), mountPoints: \(Swift.String(describing: mountPoints)), name: \(Swift.String(describing: name)), portMappings: \(Swift.String(describing: portMappings)), privileged: \(Swift.String(describing: privileged)), pseudoTerminal: \(Swift.String(describing: pseudoTerminal)), readonlyRootFilesystem: \(Swift.String(describing: readonlyRootFilesystem)), resourceRequirements: \(Swift.String(describing: resourceRequirements)), restartPolicy: \(Swift.String(describing: restartPolicy)), secrets: \(Swift.String(describing: secrets)), startTimeout: \(Swift.String(describing: startTimeout)), stopTimeout: \(Swift.String(describing: stopTimeout)), systemControls: \(Swift.String(describing: systemControls)), ulimits: \(Swift.String(describing: ulimits)), user: \(Swift.String(describing: user)), versionConsistency: \(Swift.String(describing: versionConsistency)), volumesFrom: \(Swift.String(describing: volumesFrom)), workingDirectory: \(Swift.String(describing: workingDirectory)), repositoryCredentials: \"CONTENT_REDACTED\")"}
 }
 
 extension ECSClientTypes {
@@ -6269,21 +7898,6 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// Details on a container instance bind mount host volume.
-    public struct HostVolumeProperties: Swift.Sendable {
-        /// When the host parameter is used, specify a sourcePath to declare the path on the host container instance that's presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If the host parameter contains a sourcePath file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the sourcePath value doesn't exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported. If you're using the Fargate launch type, the sourcePath parameter is not supported.
-        public var sourcePath: Swift.String?
-
-        public init(
-            sourcePath: Swift.String? = nil
-        ) {
-            self.sourcePath = sourcePath
-        }
-    }
-}
-
-extension ECSClientTypes {
-
     /// The data volume configuration for tasks launched using this task definition. Specifying a volume configuration in a task definition is optional. The volume configuration may contain multiple volumes but only one volume configured at launch is supported. Each volume defined in the volume configuration may only specify a name and one of either configuredAtLaunch, dockerVolumeConfiguration, efsVolumeConfiguration, fsxWindowsFileServerVolumeConfiguration, or host. If an empty volume configuration is specified, by default Amazon ECS uses a host volume. For more information, see [Using data volumes in tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html).
     public struct Volume: Swift.Sendable {
         /// Indicates whether the volume should be configured at launch time. This is used to create Amazon EBS volumes for standalone tasks or tasks created as part of a service. Each task definition revision may only have one volume configured at launch in the volume configuration. To configure a volume at launch time, use this task definition revision and specify a volumeConfigurations object when calling the CreateService, UpdateService, RunTask or StartTask APIs.
@@ -6327,6 +7941,8 @@ extension ECSClientTypes {
         public var containerDefinitions: [ECSClientTypes.ContainerDefinition]?
         /// The number of cpu units used by the task. If you use the EC2 launch type, this field is optional. Any value can be used. If you use the Fargate launch type, this field is required. You must use one of the following values. The value that you choose determines your range of valid values for the memory parameter. If you're using the EC2 launch type or the external launch type, this field is optional. Supported values are between 128 CPU units (0.125 vCPUs) and 196608 CPU units (192 vCPUs). This field is required for Fargate. For information about the valid values, see [Task size](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_size) in the Amazon Elastic Container Service Developer Guide.
         public var cpu: Swift.String?
+        /// The Unix timestamp for the time when the task definition delete was requested.
+        public var deleteRequestedAt: Foundation.Date?
         /// The Unix timestamp for the time when the task definition was deregistered.
         public var deregisteredAt: Foundation.Date?
         /// Enables fault injection and allows for fault injection requests to be accepted from the task's containers. The default value is false.
@@ -6397,6 +8013,7 @@ extension ECSClientTypes {
             compatibilities: [ECSClientTypes.Compatibility]? = nil,
             containerDefinitions: [ECSClientTypes.ContainerDefinition]? = nil,
             cpu: Swift.String? = nil,
+            deleteRequestedAt: Foundation.Date? = nil,
             deregisteredAt: Foundation.Date? = nil,
             enableFaultInjection: Swift.Bool? = nil,
             ephemeralStorage: ECSClientTypes.EphemeralStorage? = nil,
@@ -6423,6 +8040,7 @@ extension ECSClientTypes {
             self.compatibilities = compatibilities
             self.containerDefinitions = containerDefinitions
             self.cpu = cpu
+            self.deleteRequestedAt = deleteRequestedAt
             self.deregisteredAt = deregisteredAt
             self.enableFaultInjection = enableFaultInjection
             self.ephemeralStorage = ephemeralStorage
@@ -7539,30 +9157,6 @@ public struct PlatformTaskDefinitionIncompatibilityException: ClientRuntime.Mode
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "PlatformTaskDefinitionIncompatibilityException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The specified platform version doesn't exist.
-public struct PlatformUnknownException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Message that describes the cause of the exception.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "PlatformUnknownException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -9882,25 +11476,6 @@ public struct DescribeServicesOutput: Swift.Sendable {
     }
 }
 
-extension ECSClientTypes {
-
-    /// The optional filter to narrow the ListServiceDeployment results. If you do not specify a value, service deployments that were created before the current time are included in the result.
-    public struct CreatedAt: Swift.Sendable {
-        /// Include service deployments in the result that were created after this time. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
-        public var after: Foundation.Date?
-        /// Include service deployments in the result that were created before this time. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
-        public var before: Foundation.Date?
-
-        public init(
-            after: Foundation.Date? = nil,
-            before: Foundation.Date? = nil
-        ) {
-            self.after = after
-            self.before = before
-        }
-    }
-}
-
 public struct ListServiceDeploymentsInput: Swift.Sendable {
     /// The cluster that hosts the service. This can either be the cluster name or ARN. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. If you don't specify a cluster, default is used.
     public var cluster: Swift.String?
@@ -11168,35 +12743,6 @@ public struct DeleteTaskDefinitionsOutput: Swift.Sendable {
     ) {
         self.failures = failures
         self.taskDefinitions = taskDefinitions
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case asc
-        case desc
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SortOrder] {
-            return [
-                .asc,
-                .desc
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .asc: return "ASC"
-            case .desc: return "DESC"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -12744,6 +14290,13 @@ extension CreateClusterInput {
     }
 }
 
+extension CreateDaemonInput {
+
+    static func urlPathProvider(_ value: CreateDaemonInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateExpressGatewayServiceInput {
 
     static func urlPathProvider(_ value: CreateExpressGatewayServiceInput) -> Swift.String? {
@@ -12789,6 +14342,20 @@ extension DeleteCapacityProviderInput {
 extension DeleteClusterInput {
 
     static func urlPathProvider(_ value: DeleteClusterInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteDaemonInput {
+
+    static func urlPathProvider(_ value: DeleteDaemonInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteDaemonTaskDefinitionInput {
+
+    static func urlPathProvider(_ value: DeleteDaemonTaskDefinitionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12852,6 +14419,34 @@ extension DescribeClustersInput {
 extension DescribeContainerInstancesInput {
 
     static func urlPathProvider(_ value: DescribeContainerInstancesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeDaemonInput {
+
+    static func urlPathProvider(_ value: DescribeDaemonInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeDaemonDeploymentsInput {
+
+    static func urlPathProvider(_ value: DescribeDaemonDeploymentsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeDaemonRevisionsInput {
+
+    static func urlPathProvider(_ value: DescribeDaemonRevisionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeDaemonTaskDefinitionInput {
+
+    static func urlPathProvider(_ value: DescribeDaemonTaskDefinitionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12954,6 +14549,27 @@ extension ListContainerInstancesInput {
     }
 }
 
+extension ListDaemonDeploymentsInput {
+
+    static func urlPathProvider(_ value: ListDaemonDeploymentsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListDaemonsInput {
+
+    static func urlPathProvider(_ value: ListDaemonsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListDaemonTaskDefinitionsInput {
+
+    static func urlPathProvider(_ value: ListDaemonTaskDefinitionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListServiceDeploymentsInput {
 
     static func urlPathProvider(_ value: ListServiceDeploymentsInput) -> Swift.String? {
@@ -13034,6 +14650,13 @@ extension PutClusterCapacityProvidersInput {
 extension RegisterContainerInstanceInput {
 
     static func urlPathProvider(_ value: RegisterContainerInstanceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension RegisterDaemonTaskDefinitionInput {
+
+    static func urlPathProvider(_ value: RegisterDaemonTaskDefinitionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13143,6 +14766,13 @@ extension UpdateContainerInstancesStateInput {
     }
 }
 
+extension UpdateDaemonInput {
+
+    static func urlPathProvider(_ value: UpdateDaemonInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateExpressGatewayServiceInput {
 
     static func urlPathProvider(_ value: UpdateExpressGatewayServiceInput) -> Swift.String? {
@@ -13200,6 +14830,23 @@ extension CreateClusterInput {
         try writer["defaultCapacityProviderStrategy"].writeList(value.defaultCapacityProviderStrategy, memberWritingClosure: ECSClientTypes.CapacityProviderStrategyItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["serviceConnectDefaults"].write(value.serviceConnectDefaults, with: ECSClientTypes.ClusterServiceConnectDefaultsRequest.write(value:to:))
         try writer["settings"].writeList(value.settings, memberWritingClosure: ECSClientTypes.ClusterSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: ECSClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateDaemonInput {
+
+    static func write(value: CreateDaemonInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacityProviderArns"].writeList(value.capacityProviderArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["clusterArn"].write(value.clusterArn)
+        try writer["daemonName"].write(value.daemonName)
+        try writer["daemonTaskDefinitionArn"].write(value.daemonTaskDefinitionArn)
+        try writer["deploymentConfiguration"].write(value.deploymentConfiguration, with: ECSClientTypes.DaemonDeploymentConfiguration.write(value:to:))
+        try writer["enableECSManagedTags"].write(value.enableECSManagedTags)
+        try writer["enableExecuteCommand"].write(value.enableExecuteCommand)
+        try writer["propagateTags"].write(value.propagateTags)
         try writer["tags"].writeList(value.tags, memberWritingClosure: ECSClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -13311,6 +14958,22 @@ extension DeleteClusterInput {
     }
 }
 
+extension DeleteDaemonInput {
+
+    static func write(value: DeleteDaemonInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["daemonArn"].write(value.daemonArn)
+    }
+}
+
+extension DeleteDaemonTaskDefinitionInput {
+
+    static func write(value: DeleteDaemonTaskDefinitionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["daemonTaskDefinition"].write(value.daemonTaskDefinition)
+    }
+}
+
 extension DeleteExpressGatewayServiceInput {
 
     static func write(value: DeleteExpressGatewayServiceInput?, to writer: SmithyJSON.Writer) throws {
@@ -13394,6 +15057,38 @@ extension DescribeContainerInstancesInput {
         try writer["cluster"].write(value.cluster)
         try writer["containerInstances"].writeList(value.containerInstances, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["include"].writeList(value.include, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ECSClientTypes.ContainerInstanceField>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DescribeDaemonInput {
+
+    static func write(value: DescribeDaemonInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["daemonArn"].write(value.daemonArn)
+    }
+}
+
+extension DescribeDaemonDeploymentsInput {
+
+    static func write(value: DescribeDaemonDeploymentsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["daemonDeploymentArns"].writeList(value.daemonDeploymentArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DescribeDaemonRevisionsInput {
+
+    static func write(value: DescribeDaemonRevisionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["daemonRevisionArns"].writeList(value.daemonRevisionArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DescribeDaemonTaskDefinitionInput {
+
+    static func write(value: DescribeDaemonTaskDefinitionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["daemonTaskDefinition"].write(value.daemonTaskDefinition)
     }
 }
 
@@ -13539,6 +15234,43 @@ extension ListContainerInstancesInput {
     }
 }
 
+extension ListDaemonDeploymentsInput {
+
+    static func write(value: ListDaemonDeploymentsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["createdAt"].write(value.createdAt, with: ECSClientTypes.CreatedAt.write(value:to:))
+        try writer["daemonArn"].write(value.daemonArn)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["status"].writeList(value.status, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ECSClientTypes.DaemonDeploymentStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ListDaemonsInput {
+
+    static func write(value: ListDaemonsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacityProviderArns"].writeList(value.capacityProviderArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["clusterArn"].write(value.clusterArn)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListDaemonTaskDefinitionsInput {
+
+    static func write(value: ListDaemonTaskDefinitionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["family"].write(value.family)
+        try writer["familyPrefix"].write(value.familyPrefix)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["revision"].write(value.revision)
+        try writer["sort"].write(value.sort)
+        try writer["status"].write(value.status)
+    }
+}
+
 extension ListServiceDeploymentsInput {
 
     static func write(value: ListServiceDeploymentsInput?, to writer: SmithyJSON.Writer) throws {
@@ -13612,6 +15344,7 @@ extension ListTasksInput {
         guard let value else { return }
         try writer["cluster"].write(value.cluster)
         try writer["containerInstance"].write(value.containerInstance)
+        try writer["daemonName"].write(value.daemonName)
         try writer["desiredStatus"].write(value.desiredStatus)
         try writer["family"].write(value.family)
         try writer["launchType"].write(value.launchType)
@@ -13673,6 +15406,21 @@ extension RegisterContainerInstanceInput {
         try writer["tags"].writeList(value.tags, memberWritingClosure: ECSClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["totalResources"].writeList(value.totalResources, memberWritingClosure: ECSClientTypes.Resource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["versionInfo"].write(value.versionInfo, with: ECSClientTypes.VersionInfo.write(value:to:))
+    }
+}
+
+extension RegisterDaemonTaskDefinitionInput {
+
+    static func write(value: RegisterDaemonTaskDefinitionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["containerDefinitions"].writeList(value.containerDefinitions, memberWritingClosure: ECSClientTypes.DaemonContainerDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cpu"].write(value.cpu)
+        try writer["executionRoleArn"].write(value.executionRoleArn)
+        try writer["family"].write(value.family)
+        try writer["memory"].write(value.memory)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: ECSClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["taskRoleArn"].write(value.taskRoleArn)
+        try writer["volumes"].writeList(value.volumes, memberWritingClosure: ECSClientTypes.DaemonVolume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -13875,6 +15623,20 @@ extension UpdateContainerInstancesStateInput {
     }
 }
 
+extension UpdateDaemonInput {
+
+    static func write(value: UpdateDaemonInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacityProviderArns"].writeList(value.capacityProviderArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["daemonArn"].write(value.daemonArn)
+        try writer["daemonTaskDefinitionArn"].write(value.daemonTaskDefinitionArn)
+        try writer["deploymentConfiguration"].write(value.deploymentConfiguration, with: ECSClientTypes.DaemonDeploymentConfiguration.write(value:to:))
+        try writer["enableECSManagedTags"].write(value.enableECSManagedTags)
+        try writer["enableExecuteCommand"].write(value.enableExecuteCommand)
+        try writer["propagateTags"].write(value.propagateTags)
+    }
+}
+
 extension UpdateExpressGatewayServiceInput {
 
     static func write(value: UpdateExpressGatewayServiceInput?, to writer: SmithyJSON.Writer) throws {
@@ -13976,6 +15738,21 @@ extension CreateClusterOutput {
     }
 }
 
+extension CreateDaemonOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDaemonOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDaemonOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.daemonArn = try reader["daemonArn"].readIfPresent()
+        value.deploymentArn = try reader["deploymentArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateExpressGatewayServiceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateExpressGatewayServiceOutput {
@@ -14056,6 +15833,34 @@ extension DeleteClusterOutput {
         let reader = responseReader
         var value = DeleteClusterOutput()
         value.cluster = try reader["cluster"].readIfPresent(with: ECSClientTypes.Cluster.read(from:))
+        return value
+    }
+}
+
+extension DeleteDaemonOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDaemonOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteDaemonOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.daemonArn = try reader["daemonArn"].readIfPresent()
+        value.deploymentArn = try reader["deploymentArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DeleteDaemonTaskDefinitionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDaemonTaskDefinitionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteDaemonTaskDefinitionOutput()
+        value.daemonTaskDefinitionArn = try reader["daemonTaskDefinitionArn"].readIfPresent()
         return value
     }
 }
@@ -14169,6 +15974,56 @@ extension DescribeContainerInstancesOutput {
         var value = DescribeContainerInstancesOutput()
         value.containerInstances = try reader["containerInstances"].readListIfPresent(memberReadingClosure: ECSClientTypes.ContainerInstance.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.failures = try reader["failures"].readListIfPresent(memberReadingClosure: ECSClientTypes.Failure.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeDaemonOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDaemonOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeDaemonOutput()
+        value.daemon = try reader["daemon"].readIfPresent(with: ECSClientTypes.DaemonDetail.read(from:))
+        return value
+    }
+}
+
+extension DescribeDaemonDeploymentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDaemonDeploymentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeDaemonDeploymentsOutput()
+        value.daemonDeployments = try reader["daemonDeployments"].readListIfPresent(memberReadingClosure: ECSClientTypes.DaemonDeployment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failures = try reader["failures"].readListIfPresent(memberReadingClosure: ECSClientTypes.Failure.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeDaemonRevisionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDaemonRevisionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeDaemonRevisionsOutput()
+        value.daemonRevisions = try reader["daemonRevisions"].readListIfPresent(memberReadingClosure: ECSClientTypes.DaemonRevision.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failures = try reader["failures"].readListIfPresent(memberReadingClosure: ECSClientTypes.Failure.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeDaemonTaskDefinitionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDaemonTaskDefinitionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeDaemonTaskDefinitionOutput()
+        value.daemonTaskDefinition = try reader["daemonTaskDefinition"].readIfPresent(with: ECSClientTypes.DaemonTaskDefinition.read(from:))
         return value
     }
 }
@@ -14359,6 +16214,45 @@ extension ListContainerInstancesOutput {
     }
 }
 
+extension ListDaemonDeploymentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDaemonDeploymentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDaemonDeploymentsOutput()
+        value.daemonDeployments = try reader["daemonDeployments"].readListIfPresent(memberReadingClosure: ECSClientTypes.DaemonDeploymentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDaemonsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDaemonsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDaemonsOutput()
+        value.daemonSummariesList = try reader["daemonSummariesList"].readListIfPresent(memberReadingClosure: ECSClientTypes.DaemonSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDaemonTaskDefinitionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDaemonTaskDefinitionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDaemonTaskDefinitionsOutput()
+        value.daemonTaskDefinitions = try reader["daemonTaskDefinitions"].readListIfPresent(memberReadingClosure: ECSClientTypes.DaemonTaskDefinitionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListServiceDeploymentsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListServiceDeploymentsOutput {
@@ -14505,6 +16399,18 @@ extension RegisterContainerInstanceOutput {
         let reader = responseReader
         var value = RegisterContainerInstanceOutput()
         value.containerInstance = try reader["containerInstance"].readIfPresent(with: ECSClientTypes.ContainerInstance.read(from:))
+        return value
+    }
+}
+
+extension RegisterDaemonTaskDefinitionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RegisterDaemonTaskDefinitionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RegisterDaemonTaskDefinitionOutput()
+        value.daemonTaskDefinitionArn = try reader["daemonTaskDefinitionArn"].readIfPresent()
         return value
     }
 }
@@ -14683,6 +16589,22 @@ extension UpdateContainerInstancesStateOutput {
     }
 }
 
+extension UpdateDaemonOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDaemonOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDaemonOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.daemonArn = try reader["daemonArn"].readIfPresent()
+        value.deploymentArn = try reader["deploymentArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension UpdateExpressGatewayServiceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateExpressGatewayServiceOutput {
@@ -14776,6 +16698,26 @@ enum CreateClusterOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "NamespaceNotFoundException": return try NamespaceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateDaemonOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "PlatformUnknownException": return try PlatformUnknownException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -14915,6 +16857,44 @@ enum DeleteClusterOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             case "UpdateInProgressException": return try UpdateInProgressException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDaemonOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
+            case "DaemonNotActiveException": return try DaemonNotActiveException.makeError(baseError: baseError)
+            case "DaemonNotFoundException": return try DaemonNotFoundException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDaemonTaskDefinitionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -15075,6 +17055,81 @@ enum DescribeContainerInstancesOutputError {
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeDaemonOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
+            case "DaemonNotFoundException": return try DaemonNotFoundException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeDaemonDeploymentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeDaemonRevisionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeDaemonTaskDefinitionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -15331,6 +17386,61 @@ enum ListContainerInstancesOutputError {
     }
 }
 
+enum ListDaemonDeploymentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDaemonsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDaemonTaskDefinitionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListServiceDeploymentsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15529,6 +17639,24 @@ enum RegisterContainerInstanceOutputError {
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RegisterDaemonTaskDefinitionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -15805,6 +17933,28 @@ enum UpdateContainerInstancesStateOutputError {
     }
 }
 
+enum UpdateDaemonOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
+            case "DaemonNotActiveException": return try DaemonNotActiveException.makeError(baseError: baseError)
+            case "DaemonNotFoundException": return try DaemonNotFoundException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "PlatformUnknownException": return try PlatformUnknownException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateExpressGatewayServiceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16031,11 +18181,11 @@ extension AccessDeniedException {
     }
 }
 
-extension PlatformTaskDefinitionIncompatibilityException {
+extension PlatformUnknownException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PlatformTaskDefinitionIncompatibilityException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PlatformUnknownException {
         let reader = baseError.errorBodyReader
-        var value = PlatformTaskDefinitionIncompatibilityException()
+        var value = PlatformUnknownException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16044,11 +18194,11 @@ extension PlatformTaskDefinitionIncompatibilityException {
     }
 }
 
-extension PlatformUnknownException {
+extension PlatformTaskDefinitionIncompatibilityException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PlatformUnknownException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PlatformTaskDefinitionIncompatibilityException {
         let reader = baseError.errorBodyReader
-        var value = PlatformUnknownException()
+        var value = PlatformTaskDefinitionIncompatibilityException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16140,6 +18290,32 @@ extension ClusterContainsTasksException {
     static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ClusterContainsTasksException {
         let reader = baseError.errorBodyReader
         var value = ClusterContainsTasksException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DaemonNotActiveException {
+
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DaemonNotActiveException {
+        let reader = baseError.errorBodyReader
+        var value = DaemonNotActiveException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DaemonNotFoundException {
+
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DaemonNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = DaemonNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16862,6 +19038,373 @@ extension ECSClientTypes.CreateManagedInstancesProviderConfiguration {
         try writer["infrastructureRoleArn"].write(value.infrastructureRoleArn)
         try writer["instanceLaunchTemplate"].write(value.instanceLaunchTemplate, with: ECSClientTypes.InstanceLaunchTemplate.write(value:to:))
         try writer["propagateTags"].write(value.propagateTags)
+    }
+}
+
+extension ECSClientTypes.DaemonAlarmConfiguration {
+
+    static func write(value: ECSClientTypes.DaemonAlarmConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["alarmNames"].writeList(value.alarmNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["enable"].write(value.enable)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DaemonAlarmConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DaemonAlarmConfiguration()
+        value.alarmNames = try reader["alarmNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enable = try reader["enable"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension ECSClientTypes.DaemonCapacityProvider {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DaemonCapacityProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DaemonCapacityProvider()
+        value.arn = try reader["arn"].readIfPresent()
+        value.runningCount = try reader["runningCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ECSClientTypes.DaemonCircuitBreaker {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DaemonCircuitBreaker {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DaemonCircuitBreaker()
+        value.failureCount = try reader["failureCount"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent()
+        value.threshold = try reader["threshold"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ECSClientTypes.DaemonContainerDefinition {
+
+    static func write(value: ECSClientTypes.DaemonContainerDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cpu"].write(value.cpu)
+        try writer["dependsOn"].writeList(value.dependsOn, memberWritingClosure: ECSClientTypes.ContainerDependency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["entryPoint"].writeList(value.entryPoint, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["environment"].writeList(value.environment, memberWritingClosure: ECSClientTypes.KeyValuePair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["environmentFiles"].writeList(value.environmentFiles, memberWritingClosure: ECSClientTypes.EnvironmentFile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["essential"].write(value.essential)
+        try writer["firelensConfiguration"].write(value.firelensConfiguration, with: ECSClientTypes.FirelensConfiguration.write(value:to:))
+        try writer["healthCheck"].write(value.healthCheck, with: ECSClientTypes.HealthCheck.write(value:to:))
+        try writer["image"].write(value.image)
+        try writer["interactive"].write(value.interactive)
+        try writer["linuxParameters"].write(value.linuxParameters, with: ECSClientTypes.DaemonLinuxParameters.write(value:to:))
+        try writer["logConfiguration"].write(value.logConfiguration, with: ECSClientTypes.LogConfiguration.write(value:to:))
+        try writer["memory"].write(value.memory)
+        try writer["memoryReservation"].write(value.memoryReservation)
+        try writer["mountPoints"].writeList(value.mountPoints, memberWritingClosure: ECSClientTypes.MountPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["name"].write(value.name)
+        try writer["privileged"].write(value.privileged)
+        try writer["pseudoTerminal"].write(value.pseudoTerminal)
+        try writer["readonlyRootFilesystem"].write(value.readonlyRootFilesystem)
+        try writer["repositoryCredentials"].write(value.repositoryCredentials, with: ECSClientTypes.RepositoryCredentials.write(value:to:))
+        try writer["restartPolicy"].write(value.restartPolicy, with: ECSClientTypes.ContainerRestartPolicy.write(value:to:))
+        try writer["secrets"].writeList(value.secrets, memberWritingClosure: ECSClientTypes.Secret.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["startTimeout"].write(value.startTimeout)
+        try writer["stopTimeout"].write(value.stopTimeout)
+        try writer["systemControls"].writeList(value.systemControls, memberWritingClosure: ECSClientTypes.SystemControl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ulimits"].writeList(value.ulimits, memberWritingClosure: ECSClientTypes.Ulimit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["user"].write(value.user)
+        try writer["workingDirectory"].write(value.workingDirectory)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DaemonContainerDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DaemonContainerDefinition()
+        value.name = try reader["name"].readIfPresent()
+        value.image = try reader["image"].readIfPresent() ?? ""
+        value.memory = try reader["memory"].readIfPresent()
+        value.memoryReservation = try reader["memoryReservation"].readIfPresent()
+        value.repositoryCredentials = try reader["repositoryCredentials"].readIfPresent(with: ECSClientTypes.RepositoryCredentials.read(from:))
+        value.healthCheck = try reader["healthCheck"].readIfPresent(with: ECSClientTypes.HealthCheck.read(from:))
+        value.cpu = try reader["cpu"].readIfPresent() ?? 0
+        value.essential = try reader["essential"].readIfPresent()
+        value.entryPoint = try reader["entryPoint"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.command = try reader["command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.workingDirectory = try reader["workingDirectory"].readIfPresent()
+        value.environmentFiles = try reader["environmentFiles"].readListIfPresent(memberReadingClosure: ECSClientTypes.EnvironmentFile.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.environment = try reader["environment"].readListIfPresent(memberReadingClosure: ECSClientTypes.KeyValuePair.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.secrets = try reader["secrets"].readListIfPresent(memberReadingClosure: ECSClientTypes.Secret.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.readonlyRootFilesystem = try reader["readonlyRootFilesystem"].readIfPresent()
+        value.mountPoints = try reader["mountPoints"].readListIfPresent(memberReadingClosure: ECSClientTypes.MountPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.logConfiguration = try reader["logConfiguration"].readIfPresent(with: ECSClientTypes.LogConfiguration.read(from:))
+        value.firelensConfiguration = try reader["firelensConfiguration"].readIfPresent(with: ECSClientTypes.FirelensConfiguration.read(from:))
+        value.privileged = try reader["privileged"].readIfPresent()
+        value.user = try reader["user"].readIfPresent()
+        value.ulimits = try reader["ulimits"].readListIfPresent(memberReadingClosure: ECSClientTypes.Ulimit.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.linuxParameters = try reader["linuxParameters"].readIfPresent(with: ECSClientTypes.DaemonLinuxParameters.read(from:))
+        value.dependsOn = try reader["dependsOn"].readListIfPresent(memberReadingClosure: ECSClientTypes.ContainerDependency.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.startTimeout = try reader["startTimeout"].readIfPresent()
+        value.stopTimeout = try reader["stopTimeout"].readIfPresent()
+        value.systemControls = try reader["systemControls"].readListIfPresent(memberReadingClosure: ECSClientTypes.SystemControl.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.interactive = try reader["interactive"].readIfPresent()
+        value.pseudoTerminal = try reader["pseudoTerminal"].readIfPresent()
+        value.restartPolicy = try reader["restartPolicy"].readIfPresent(with: ECSClientTypes.ContainerRestartPolicy.read(from:))
+        return value
+    }
+}
+
+extension ECSClientTypes.DaemonContainerImage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DaemonContainerImage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DaemonContainerImage()
+        value.containerName = try reader["containerName"].readIfPresent()
+        value.imageDigest = try reader["imageDigest"].readIfPresent()
+        value.image = try reader["image"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.DaemonDeployment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DaemonDeployment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DaemonDeployment()
+        value.daemonDeploymentArn = try reader["daemonDeploymentArn"].readIfPresent()
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.targetDaemonRevision = try reader["targetDaemonRevision"].readIfPresent(with: ECSClientTypes.DaemonDeploymentRevisionDetail.read(from:))
+        value.sourceDaemonRevisions = try reader["sourceDaemonRevisions"].readListIfPresent(memberReadingClosure: ECSClientTypes.DaemonDeploymentRevisionDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.circuitBreaker = try reader["circuitBreaker"].readIfPresent(with: ECSClientTypes.DaemonCircuitBreaker.read(from:))
+        value.alarms = try reader["alarms"].readIfPresent(with: ECSClientTypes.DaemonDeploymentAlarms.read(from:))
+        value.rollback = try reader["rollback"].readIfPresent(with: ECSClientTypes.DaemonRollback.read(from:))
+        value.deploymentConfiguration = try reader["deploymentConfiguration"].readIfPresent(with: ECSClientTypes.DaemonDeploymentConfiguration.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.stoppedAt = try reader["stoppedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.finishedAt = try reader["finishedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ECSClientTypes.DaemonDeploymentAlarms {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DaemonDeploymentAlarms {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DaemonDeploymentAlarms()
+        value.status = try reader["status"].readIfPresent()
+        value.alarmNames = try reader["alarmNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.triggeredAlarmNames = try reader["triggeredAlarmNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ECSClientTypes.DaemonDeploymentCapacityProvider {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DaemonDeploymentCapacityProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DaemonDeploymentCapacityProvider()
+        value.arn = try reader["arn"].readIfPresent()
+        value.runningInstanceCount = try reader["runningInstanceCount"].readIfPresent()
+        value.drainingInstanceCount = try reader["drainingInstanceCount"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.DaemonDeploymentConfiguration {
+
+    static func write(value: ECSClientTypes.DaemonDeploymentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["alarms"].write(value.alarms, with: ECSClientTypes.DaemonAlarmConfiguration.write(value:to:))
+        try writer["bakeTimeInMinutes"].write(value.bakeTimeInMinutes)
+        try writer["drainPercent"].write(value.drainPercent)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DaemonDeploymentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DaemonDeploymentConfiguration()
+        value.drainPercent = try reader["drainPercent"].readIfPresent()
+        value.alarms = try reader["alarms"].readIfPresent(with: ECSClientTypes.DaemonAlarmConfiguration.read(from:))
+        value.bakeTimeInMinutes = try reader["bakeTimeInMinutes"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ECSClientTypes.DaemonDeploymentRevisionDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DaemonDeploymentRevisionDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DaemonDeploymentRevisionDetail()
+        value.arn = try reader["arn"].readIfPresent()
+        value.capacityProviders = try reader["capacityProviders"].readListIfPresent(memberReadingClosure: ECSClientTypes.DaemonDeploymentCapacityProvider.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.totalRunningInstanceCount = try reader["totalRunningInstanceCount"].readIfPresent()
+        value.totalDrainingInstanceCount = try reader["totalDrainingInstanceCount"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.DaemonDeploymentSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DaemonDeploymentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DaemonDeploymentSummary()
+        value.daemonDeploymentArn = try reader["daemonDeploymentArn"].readIfPresent()
+        value.daemonArn = try reader["daemonArn"].readIfPresent()
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.targetDaemonRevisionArn = try reader["targetDaemonRevisionArn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.stoppedAt = try reader["stoppedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.finishedAt = try reader["finishedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ECSClientTypes.DaemonDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DaemonDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DaemonDetail()
+        value.daemonArn = try reader["daemonArn"].readIfPresent()
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.currentRevisions = try reader["currentRevisions"].readListIfPresent(memberReadingClosure: ECSClientTypes.DaemonRevisionDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.deploymentArn = try reader["deploymentArn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ECSClientTypes.DaemonLinuxParameters {
+
+    static func write(value: ECSClientTypes.DaemonLinuxParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capabilities"].write(value.capabilities, with: ECSClientTypes.KernelCapabilities.write(value:to:))
+        try writer["devices"].writeList(value.devices, memberWritingClosure: ECSClientTypes.Device.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["initProcessEnabled"].write(value.initProcessEnabled)
+        try writer["tmpfs"].writeList(value.tmpfs, memberWritingClosure: ECSClientTypes.Tmpfs.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DaemonLinuxParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DaemonLinuxParameters()
+        value.capabilities = try reader["capabilities"].readIfPresent(with: ECSClientTypes.KernelCapabilities.read(from:))
+        value.devices = try reader["devices"].readListIfPresent(memberReadingClosure: ECSClientTypes.Device.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.initProcessEnabled = try reader["initProcessEnabled"].readIfPresent()
+        value.tmpfs = try reader["tmpfs"].readListIfPresent(memberReadingClosure: ECSClientTypes.Tmpfs.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ECSClientTypes.DaemonRevision {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DaemonRevision {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DaemonRevision()
+        value.daemonRevisionArn = try reader["daemonRevisionArn"].readIfPresent()
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.daemonArn = try reader["daemonArn"].readIfPresent()
+        value.daemonTaskDefinitionArn = try reader["daemonTaskDefinitionArn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.containerImages = try reader["containerImages"].readListIfPresent(memberReadingClosure: ECSClientTypes.DaemonContainerImage.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.propagateTags = try reader["propagateTags"].readIfPresent()
+        value.enableECSManagedTags = try reader["enableECSManagedTags"].readIfPresent()
+        value.enableExecuteCommand = try reader["enableExecuteCommand"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.DaemonRevisionDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DaemonRevisionDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DaemonRevisionDetail()
+        value.arn = try reader["arn"].readIfPresent()
+        value.capacityProviders = try reader["capacityProviders"].readListIfPresent(memberReadingClosure: ECSClientTypes.DaemonCapacityProvider.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.totalRunningCount = try reader["totalRunningCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ECSClientTypes.DaemonRollback {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DaemonRollback {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DaemonRollback()
+        value.reason = try reader["reason"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.rollbackTargetDaemonRevisionArn = try reader["rollbackTargetDaemonRevisionArn"].readIfPresent()
+        value.rollbackCapacityProviders = try reader["rollbackCapacityProviders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ECSClientTypes.DaemonSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DaemonSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DaemonSummary()
+        value.daemonArn = try reader["daemonArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ECSClientTypes.DaemonTaskDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DaemonTaskDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DaemonTaskDefinition()
+        value.daemonTaskDefinitionArn = try reader["daemonTaskDefinitionArn"].readIfPresent()
+        value.family = try reader["family"].readIfPresent()
+        value.revision = try reader["revision"].readIfPresent() ?? 0
+        value.taskRoleArn = try reader["taskRoleArn"].readIfPresent()
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
+        value.containerDefinitions = try reader["containerDefinitions"].readListIfPresent(memberReadingClosure: ECSClientTypes.DaemonContainerDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: ECSClientTypes.DaemonVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cpu = try reader["cpu"].readIfPresent()
+        value.memory = try reader["memory"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.registeredAt = try reader["registeredAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deleteRequestedAt = try reader["deleteRequestedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.registeredBy = try reader["registeredBy"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.DaemonTaskDefinitionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DaemonTaskDefinitionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DaemonTaskDefinitionSummary()
+        value.arn = try reader["arn"].readIfPresent()
+        value.registeredAt = try reader["registeredAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.registeredBy = try reader["registeredBy"].readIfPresent()
+        value.deleteRequestedAt = try reader["deleteRequestedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.DaemonVolume {
+
+    static func write(value: ECSClientTypes.DaemonVolume?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["host"].write(value.host, with: ECSClientTypes.HostVolumeProperties.write(value:to:))
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DaemonVolume {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DaemonVolume()
+        value.name = try reader["name"].readIfPresent()
+        value.host = try reader["host"].readIfPresent(with: ECSClientTypes.HostVolumeProperties.read(from:))
+        return value
     }
 }
 
@@ -19002,6 +21545,7 @@ extension ECSClientTypes.TaskDefinition {
         value.proxyConfiguration = try reader["proxyConfiguration"].readIfPresent(with: ECSClientTypes.ProxyConfiguration.read(from:))
         value.registeredAt = try reader["registeredAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deregisteredAt = try reader["deregisteredAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deleteRequestedAt = try reader["deleteRequestedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.registeredBy = try reader["registeredBy"].readIfPresent()
         value.ephemeralStorage = try reader["ephemeralStorage"].readIfPresent(with: ECSClientTypes.EphemeralStorage.read(from:))
         value.enableFaultInjection = try reader["enableFaultInjection"].readIfPresent()

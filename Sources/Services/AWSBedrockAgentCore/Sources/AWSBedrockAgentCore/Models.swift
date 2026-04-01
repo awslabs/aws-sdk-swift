@@ -4135,10 +4135,54 @@ public struct ListMemoryRecordsOutput: Swift.Sendable {
     }
 }
 
+extension BedrockAgentCoreClientTypes {
+
+    /// The condition to use for filtering sessions by events.
+    public enum EventFilterCondition: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hasEvents
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventFilterCondition] {
+            return [
+                .hasEvents
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hasEvents: return "HAS_EVENTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Contains filter criteria for listing sessions.
+    public struct SessionFilter: Swift.Sendable {
+        /// The event filter condition to apply. Use this to filter sessions based on event presence.
+        public var eventFilter: BedrockAgentCoreClientTypes.EventFilterCondition?
+
+        public init(
+            eventFilter: BedrockAgentCoreClientTypes.EventFilterCondition? = nil
+        ) {
+            self.eventFilter = eventFilter
+        }
+    }
+}
+
 public struct ListSessionsInput: Swift.Sendable {
     /// The identifier of the actor for which to list sessions.
     /// This member is required.
     public var actorId: Swift.String?
+    /// Filter criteria to apply when listing sessions.
+    public var filter: BedrockAgentCoreClientTypes.SessionFilter?
     /// The maximum number of results to return in a single call. The default value is 20.
     public var maxResults: Swift.Int?
     /// The identifier of the AgentCore Memory resource for which to list sessions.
@@ -4149,11 +4193,13 @@ public struct ListSessionsInput: Swift.Sendable {
 
     public init(
         actorId: Swift.String? = nil,
+        filter: BedrockAgentCoreClientTypes.SessionFilter? = nil,
         maxResults: Swift.Int? = nil,
         memoryId: Swift.String? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.actorId = actorId
+        self.filter = filter
         self.maxResults = maxResults
         self.memoryId = memoryId
         self.nextToken = nextToken
@@ -5241,6 +5287,7 @@ extension ListSessionsInput {
 
     static func write(value: ListSessionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["filter"].write(value.filter, with: BedrockAgentCoreClientTypes.SessionFilter.write(value:to:))
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
     }
@@ -7864,6 +7911,14 @@ extension ServiceQuotaExceededException {
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.SessionFilter {
+
+    static func write(value: BedrockAgentCoreClientTypes.SessionFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventFilter"].write(value.eventFilter)
     }
 }
 

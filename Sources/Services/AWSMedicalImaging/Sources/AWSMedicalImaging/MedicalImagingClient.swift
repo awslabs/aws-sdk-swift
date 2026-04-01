@@ -1056,8 +1056,10 @@ extension MedicalImagingClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `BadRequestException` : The request is invalid or malformed.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalServerException` : An unexpected error occurred during processing of the request.
+    /// - `NotAcceptableException` : The request content type or accept header is not supported.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
