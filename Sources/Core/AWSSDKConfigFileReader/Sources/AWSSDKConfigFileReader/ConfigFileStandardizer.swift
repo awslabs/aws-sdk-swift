@@ -1,10 +1,9 @@
 //
-//  ConfigFileStandardizer.swift
-//  aws-sdk-swift
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
-
-// Input:  [String: [String: String]] from parser + file type
-// Output: (profiles: [String: ConfigFileSection], ssoSessions: [String: ConfigFileSection])
+// SPDX-License-Identifier: Apache-2.0
+//
 
 @_spi(FileBasedConfig) import AWSSDKCommon
 import Foundation
