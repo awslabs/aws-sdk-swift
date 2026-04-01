@@ -10,6 +10,19 @@ import Foundation
 @_spi(FileBasedConfig) import AWSSDKConfigFileReader
 @_spi(FileBasedConfig) import AWSSDKCommon
 
+private struct LocationTests: Decodable {
+    let tests: [LocationTest]
+}
+
+private struct LocationTest: Decodable {
+    let name: String
+    let environment: [String: String]
+    let platform: String
+    let profile: String
+    let configLocation: String
+    let credentialsLocation: String
+}
+
 final class ConfigFileLocationTests: XCTestCase {
     
     // MARK: - Helpers
@@ -131,6 +144,58 @@ final class ConfigFileLocationTests: XCTestCase {
             )
             XCTAssertNotNil(result?.section(for: "env-profile"))
             XCTAssertNil(result?.section(for: "arg-profile"))
+        }
+    }
+    
+    // MARK: - JSON-driven location tests
+
+    func test_json_runAllLocationTestsDefinedInJSON() async throws {
+        let testDataURL = Bundle.module.url(forResource: "config-file-location-tests", withExtension: "json")!
+        let testData = try Data(contentsOf: testDataURL)
+        let json = try JSONDecoder().decode(LocationTests.self, from: testData)
+
+        for test in json.tests {
+            // Skip Windows-only tests — expandingTildeInPath handles home on macOS
+            guard test.platform == "linux" || test.platform == "macos" else { continue }
+            guard test.environment["AWS_CONFIG_FILE"] != nil ||
+                  test.environment["AWS_SHARED_CREDENTIALS_FILE"] != nil else { continue }
+
+            let testDir = FileManager.default.temporaryDirectory
+                .appendingPathComponent(UUID().uuidString)
+            try FileManager.default.createDirectory(at: testDir, withIntermediateDirectories: true)
+            defer { try? FileManager.default.removeItem(at: testDir) }
+
+            // Write config file
+            let configPath = testDir.appendingPathComponent(test.configLocation)
+            try FileManager.default.createDirectory(
+                at: configPath.deletingLastPathComponent(),
+                withIntermediateDirectories: true
+            )
+            try "[profile \(test.profile)]\nregion = \(test.profile)\n"
+                .write(to: configPath, atomically: true, encoding: .utf8)
+
+            // Write credentials file
+            let credsPath = testDir.appendingPathComponent(test.credentialsLocation)
+            try FileManager.default.createDirectory(
+                at: credsPath.deletingLastPathComponent(),
+                withIntermediateDirectories: true
+            )
+            try "[\(test.profile)]\nregion = \(test.profile)\n"
+                .write(to: credsPath, atomically: true, encoding: .utf8)
+
+            // Apply env vars
+            var envVarsToClean: [String] = []
+            for (key, value) in test.environment where value != "ignored" {
+                setenv(key, testDir.path + "/" + value, 1)
+                envVarsToClean.append(key)
+            }
+            defer { envVarsToClean.forEach { unsetenv($0) } }
+
+            let result = try await ConfigFileReader.makeAsync(configFilePath: nil, credentialsFilePath: nil)
+            XCTAssertNotNil(
+                result?.section(for: test.profile),
+                "Test \"\(test.name)\" — profile \"\(test.profile)\" not found"
+            )
         }
     }
 }

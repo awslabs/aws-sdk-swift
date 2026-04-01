@@ -13,7 +13,7 @@ import XCTest
 class FileBasedConfigurationTests: XCTestCase {
     let configPath = Bundle.module.path(forResource: "file_based_config_tests", ofType: nil)
 
-    func testCRTFileBasedConfiguration() async throws {
+    func test_readsNestedSubproperties() async throws {
         let config = try await TestSubject.constructor(configPath, nil)
         let defaultSection = config?.section(for: "default")
 
