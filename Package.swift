@@ -2375,6 +2375,13 @@ private var runtimeTargets: [Target] {
             name: "AWSSDKDynamic",
             path: "Sources/Core/AWSSDKDynamic/Sources/AWSSDKDynamic"
         ),
+        .target(
+            name: "AWSSDKConfigFileReader",
+            dependencies: [
+                .AWSSDKCommon,
+            ],
+            path: "Sources/Core/AWSSDKConfigFileReader/Sources/AWSSDKConfigFileReader"
+        ),
     ] + internalServiceTargets
 }
 
@@ -2431,6 +2438,15 @@ private var runtimeTestTargets: [Target] {
                 .SmithyIdentity,
             ],
             path: "Sources/Core/AWSSDKIdentity/Tests/AWSSDKIdentityTests",
+            resources: [.process("Resources")]
+        ),
+        .testTarget(
+            name: "AWSSDKConfigFileReaderTests",
+            dependencies: [
+                .AWSSDKCommon,
+                "AWSSDKConfigFileReader",
+            ],
+            path: "Sources/Core/AWSSDKConfigFileReader/Tests/AWSSDKConfigFileReaderTests",
             resources: [.process("Resources")]
         ),
     ]
