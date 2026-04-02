@@ -14,7 +14,6 @@ import software.amazon.smithy.model.knowledge.ServiceIndex
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.traits.OptionalAuthTrait
-import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.model.expectTrait
@@ -25,6 +24,9 @@ open class AWSAuthUtils(
     private val ctx: ProtocolGenerator.GenerationContext,
 ) : AuthUtils(ctx) {
     companion object {
+        // Services whose endpoint rules return sigv4a auth schemes
+        val endpointRulesSigV4AServices = arrayOf("S3", "EventBridge", "CloudFront KeyValueStore", "SESv2")
+
         /**
          * Returns if the SigV4Trait is a auth scheme supported by the service.
          *
@@ -76,10 +78,7 @@ open class AWSAuthUtils(
          */
         fun serviceUsesSigV4A(ctx: ProtocolGenerator.GenerationContext): Boolean {
             val effectiveAuthSchemes = ServiceIndex(ctx.model).getEffectiveAuthSchemes(ctx.service)
-            val sdkId = AuthSchemeResolverGenerator.getSdkId(ctx)
-            // Services whose endpoint rules return sigv4a auth schemes
-            val endpointRulesSigV4AServices = arrayOf("S3", "EventBridge", "CloudFrontKeyValueStore", "SESv2")
-            return effectiveAuthSchemes.contains(SigV4ATrait.ID) || endpointRulesSigV4AServices.contains(sdkId)
+            return effectiveAuthSchemes.contains(SigV4ATrait.ID) || endpointRulesSigV4AServices.contains(ctx.service.sdkId)
         }
     }
 
@@ -88,12 +87,13 @@ open class AWSAuthUtils(
         authSchemeList: MutableList<String>,
     ): List<String> {
         val effectiveAuthSchemes = ServiceIndex(ctx.model).getEffectiveAuthSchemes(ctx.service)
-        var updatedAuthSchemeList = authSchemeList
+
+        val updatedAuthSchemeList = authSchemeList
 
         if (effectiveAuthSchemes.contains(SigV4Trait.ID)) {
             updatedAuthSchemeList += writer.format("\$N()", AWSSDKHTTPAuthTypes.SigV4AuthScheme)
         }
-        if (serviceUsesSigV4A(ctx)) {
+        if (effectiveAuthSchemes.contains(SigV4ATrait.ID) || endpointRulesSigV4AServices.contains(ctx.service.sdkId)) {
             updatedAuthSchemeList += writer.format("\$N()", AWSSDKHTTPAuthTypes.SigV4AAuthScheme)
         }
         if (ctx.service.isS3) {

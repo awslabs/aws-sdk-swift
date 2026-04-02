@@ -1,0 +1,10 @@
+{
+    "service": "com.amazonaws.ssooidc#AWSSSOOIDCService",
+    "module": "InternalAWSSSOOIDC",
+    "sdkId": "SSO OIDC",
+    "internalClient": true,
+    "operations": [
+        "com.amazonaws.ssooidc#CreateToken"
+    ],
+    "modelPath": "codegen/sdk-codegen/aws-models/sso-oidc.json"
+}

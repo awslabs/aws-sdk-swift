@@ -47,6 +47,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [SmithyJSON](../../../../../swift/api/smithyjson/latest)
 
+[SmithyRPCv2CBOR](../../../../../swift/api/smithyrpcv2cbor/latest)
+
 [SmithyReadWrite](../../../../../swift/api/smithyreadwrite/latest)
 
 [SmithyRetries](../../../../../swift/api/smithyretries/latest)

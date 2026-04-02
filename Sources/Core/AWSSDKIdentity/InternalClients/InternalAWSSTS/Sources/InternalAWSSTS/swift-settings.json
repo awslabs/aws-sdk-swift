@@ -1,0 +1,11 @@
+{
+    "service": "com.amazonaws.sts#AWSSecurityTokenServiceV20110615",
+    "module": "InternalAWSSTS",
+    "sdkId": "STS",
+    "internalClient": true,
+    "operations": [
+        "com.amazonaws.sts#AssumeRole",
+        "com.amazonaws.sts#AssumeRoleWithWebIdentity"
+    ],
+    "modelPath": "codegen/sdk-codegen/aws-models/sts.json"
+}
