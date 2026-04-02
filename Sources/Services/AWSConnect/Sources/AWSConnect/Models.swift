@@ -6626,7 +6626,10 @@ extension ConnectClientTypes {
         case esEs
         case frFr
         case itIt
+        case jaJp
+        case koKr
         case ptBr
+        case zhCn
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EvaluationFormLanguageCode] {
@@ -6636,7 +6639,10 @@ extension ConnectClientTypes {
                 .esEs,
                 .frFr,
                 .itIt,
-                .ptBr
+                .jaJp,
+                .koKr,
+                .ptBr,
+                .zhCn
             ]
         }
 
@@ -6652,7 +6658,10 @@ extension ConnectClientTypes {
             case .esEs: return "es-ES"
             case .frFr: return "fr-FR"
             case .itIt: return "it-IT"
+            case .jaJp: return "ja-JP"
+            case .koKr: return "ko-KR"
             case .ptBr: return "pt-BR"
+            case .zhCn: return "zh-CN"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6840,12 +6849,14 @@ extension ConnectClientTypes {
     public enum ContactInteractionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case agent
         case automated
+        case customer
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ContactInteractionType] {
             return [
                 .agent,
-                .automated
+                .automated,
+                .customer
             ]
         }
 
@@ -6858,6 +6869,7 @@ extension ConnectClientTypes {
             switch self {
             case .agent: return "AGENT"
             case .automated: return "AUTOMATED"
+            case .customer: return "CUSTOMER"
             case let .sdkUnknown(s): return s
             }
         }
@@ -13590,6 +13602,7 @@ extension ConnectClientTypes {
 
     public enum ContactParticipantRole: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case agent
+        case customer
         case customBot
         case system
         case sdkUnknown(Swift.String)
@@ -13597,6 +13610,7 @@ extension ConnectClientTypes {
         public static var allCases: [ContactParticipantRole] {
             return [
                 .agent,
+                .customer,
                 .customBot,
                 .system
             ]
@@ -13610,6 +13624,7 @@ extension ConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .agent: return "AGENT"
+            case .customer: return "CUSTOMER"
             case .customBot: return "CUSTOM_BOT"
             case .system: return "SYSTEM"
             case let .sdkUnknown(s): return s

@@ -5722,6 +5722,8 @@ extension GameLiftClientTypes {
 
     /// Properties describing a game session. A game session in ACTIVE status can host players. When a game session ends, its status is set to TERMINATED. Amazon GameLift Servers retains a game session resource for 30 days after the game session ends. You can reuse idempotency token values after this time. Game session logs are retained for 14 days. [All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
     public struct GameSession: Swift.Sendable {
+        /// A descriptive label for the compute resource. The compute resource that is hosting the game session. For EC2 fleets, this is the EC2 instance ID. For Container fleets, each game server container group on a fleet instance is assigned a compute name. For Anywhere fleets, this is the custom compute name.
+        public var computeName: Swift.String?
         /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var creationTime: Foundation.Date?
         /// A unique identifier for a player. This ID is used to enforce a resource protection policy (if one exists), that limits the number of game sessions a player can create.
@@ -5785,6 +5787,7 @@ extension GameLiftClientTypes {
         public var terminationTime: Foundation.Date?
 
         public init(
+            computeName: Swift.String? = nil,
             creationTime: Foundation.Date? = nil,
             creatorId: Swift.String? = nil,
             currentPlayerSessionCount: Swift.Int? = nil,
@@ -5806,6 +5809,7 @@ extension GameLiftClientTypes {
             statusReason: GameLiftClientTypes.GameSessionStatusReason? = nil,
             terminationTime: Foundation.Date? = nil
         ) {
+            self.computeName = computeName
             self.creationTime = creationTime
             self.creatorId = creatorId
             self.currentPlayerSessionCount = currentPlayerSessionCount
@@ -5832,7 +5836,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes.GameSession: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GameSession(creationTime: \(Swift.String(describing: creationTime)), creatorId: \(Swift.String(describing: creatorId)), currentPlayerSessionCount: \(Swift.String(describing: currentPlayerSessionCount)), dnsName: \(Swift.String(describing: dnsName)), fleetArn: \(Swift.String(describing: fleetArn)), fleetId: \(Swift.String(describing: fleetId)), gameProperties: \(Swift.String(describing: gameProperties)), gameSessionData: \(Swift.String(describing: gameSessionData)), gameSessionId: \(Swift.String(describing: gameSessionId)), location: \(Swift.String(describing: location)), matchmakerData: \(Swift.String(describing: matchmakerData)), maximumPlayerSessionCount: \(Swift.String(describing: maximumPlayerSessionCount)), name: \(Swift.String(describing: name)), playerGatewayStatus: \(Swift.String(describing: playerGatewayStatus)), playerSessionCreationPolicy: \(Swift.String(describing: playerSessionCreationPolicy)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), terminationTime: \(Swift.String(describing: terminationTime)), ipAddress: \"CONTENT_REDACTED\", port: \"CONTENT_REDACTED\")"}
+        "GameSession(computeName: \(Swift.String(describing: computeName)), creationTime: \(Swift.String(describing: creationTime)), creatorId: \(Swift.String(describing: creatorId)), currentPlayerSessionCount: \(Swift.String(describing: currentPlayerSessionCount)), dnsName: \(Swift.String(describing: dnsName)), fleetArn: \(Swift.String(describing: fleetArn)), fleetId: \(Swift.String(describing: fleetId)), gameProperties: \(Swift.String(describing: gameProperties)), gameSessionData: \(Swift.String(describing: gameSessionData)), gameSessionId: \(Swift.String(describing: gameSessionId)), location: \(Swift.String(describing: location)), matchmakerData: \(Swift.String(describing: matchmakerData)), maximumPlayerSessionCount: \(Swift.String(describing: maximumPlayerSessionCount)), name: \(Swift.String(describing: name)), playerGatewayStatus: \(Swift.String(describing: playerGatewayStatus)), playerSessionCreationPolicy: \(Swift.String(describing: playerSessionCreationPolicy)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), terminationTime: \(Swift.String(describing: terminationTime)), ipAddress: \"CONTENT_REDACTED\", port: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateGameSessionOutput: Swift.Sendable {
@@ -18925,6 +18929,7 @@ extension GameLiftClientTypes.GameSession {
         value.gameSessionData = try reader["GameSessionData"].readIfPresent()
         value.matchmakerData = try reader["MatchmakerData"].readIfPresent()
         value.location = try reader["Location"].readIfPresent()
+        value.computeName = try reader["ComputeName"].readIfPresent()
         value.playerGatewayStatus = try reader["PlayerGatewayStatus"].readIfPresent()
         return value
     }

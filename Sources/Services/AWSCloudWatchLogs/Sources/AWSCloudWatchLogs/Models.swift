@@ -1822,9 +1822,9 @@ extension CloudWatchLogsClientTypes {
         /// The Amazon S3 URI where query results are delivered. Must be a valid S3 URI format.
         /// This member is required.
         public var destinationIdentifier: Swift.String?
-        /// The Amazon Resource Name (ARN) of the KMS encryption key. Must belong to the same AWS Region as the destination Amazon S3 bucket.
+        /// The Amazon Resource Name (ARN) of the KMS encryption key. Must belong to the same Amazon Web Services Region as the destination Amazon S3 bucket.
         public var kmsKeyId: Swift.String?
-        /// The AWS accountId for the bucket owning account.
+        /// The Amazon Web Services accountId for the bucket owning account.
         public var ownerAccountId: Swift.String?
         /// The ARN of the IAM role that grants permissions to write query results to the specified Amazon S3 destination.
         /// This member is required.
@@ -2012,6 +2012,8 @@ extension CloudWatchLogsClientTypes {
         public var columns: [Swift.String]?
         /// The character used to separate each column in the original comma-separated value log event. If you omit this, the processor looks for the comma , character as the delimiter.
         public var delimiter: Swift.String?
+        /// The path to the parent field to put transformed key value pairs under. If you omit this value, the key value pairs will be placed under the root node.
+        public var destination: Swift.String?
         /// The character used used as a text qualifier for a single column of data. If you omit this, the double quotation mark " character is used.
         public var quoteCharacter: Swift.String?
         /// The path to the field in the log event that has the comma separated values to be parsed. If you omit this value, the whole log message is processed.
@@ -2020,11 +2022,13 @@ extension CloudWatchLogsClientTypes {
         public init(
             columns: [Swift.String]? = nil,
             delimiter: Swift.String? = nil,
+            destination: Swift.String? = nil,
             quoteCharacter: Swift.String? = nil,
             source: Swift.String? = nil
         ) {
             self.columns = columns
             self.delimiter = delimiter
+            self.destination = destination
             self.quoteCharacter = quoteCharacter
             self.source = source
         }
@@ -7557,6 +7561,8 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     /// * For Amazon Bedrock AgentCore Gateway, the valid values are APPLICATION_LOGS and TRACES.
     ///
     /// * For CloudFront, the valid value is ACCESS_LOGS.
+    ///
+    /// * For DevOps Agent, the valid value is APPLICATION_LOGS.
     ///
     /// * For Amazon CodeWhisperer, the valid value is EVENT_LOGS.
     ///
@@ -14642,6 +14648,7 @@ extension CloudWatchLogsClientTypes.CSV {
         guard let value else { return }
         try writer["columns"].writeList(value.columns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["delimiter"].write(value.delimiter)
+        try writer["destination"].write(value.destination)
         try writer["quoteCharacter"].write(value.quoteCharacter)
         try writer["source"].write(value.source)
     }
@@ -14653,6 +14660,7 @@ extension CloudWatchLogsClientTypes.CSV {
         value.delimiter = try reader["delimiter"].readIfPresent()
         value.columns = try reader["columns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.source = try reader["source"].readIfPresent()
+        value.destination = try reader["destination"].readIfPresent()
         return value
     }
 }

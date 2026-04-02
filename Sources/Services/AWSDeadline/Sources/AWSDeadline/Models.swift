@@ -2926,13 +2926,13 @@ public struct CreateFarmOutput: Swift.Sendable {
 
 extension DeadlineClientTypes {
 
-    /// The auto scaling configuration options for a customer managed fleet.
+    /// The auto scaling configuration settings for a customer managed fleet.
     public struct CustomerManagedAutoScalingConfiguration: Swift.Sendable {
-        /// The number of workers that can be scaled out per minute.
+        /// The number of workers that can be added per minute to the fleet. The default is a service-defined value that balances efficiency with cost.
         public var scaleOutWorkersPerMinute: Swift.Int?
-        /// The number of standby workers to maintain for the fleet.
+        /// The number of idle workers maintained and ready to process incoming tasks. The default is 0.
         public var standbyWorkerCount: Swift.Int?
-        /// The duration in seconds that a worker can be idle before it is scaled down.
+        /// The number of seconds that a worker can remain idle before it is shut down. The default is 300 seconds (5 minutes).
         public var workerIdleDurationSeconds: Swift.Int?
 
         public init(
@@ -3149,7 +3149,7 @@ extension DeadlineClientTypes {
 
     /// The configuration details for a customer managed fleet.
     public struct CustomerManagedFleetConfiguration: Swift.Sendable {
-        /// The auto scaling configuration options for the customer managed fleet.
+        /// The auto scaling configuration settings for the customer managed fleet.
         public var autoScalingConfiguration: DeadlineClientTypes.CustomerManagedAutoScalingConfiguration?
         /// The Auto Scaling mode for the customer managed fleet.
         /// This member is required.
@@ -3180,13 +3180,13 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
-    /// The auto scaling configuration options for a service managed EC2 fleet.
+    /// The auto scaling configuration settings for a service managed EC2 fleet.
     public struct ServiceManagedEc2AutoScalingConfiguration: Swift.Sendable {
-        /// The number of workers that can be scaled out per minute.
+        /// The number of workers that can be added per minute to the fleet. The default is a service-defined value that balances efficiency with cost.
         public var scaleOutWorkersPerMinute: Swift.Int?
-        /// The number of standby workers to maintain for the fleet.
+        /// The number of idle workers maintained and ready to process incoming tasks. The default is 0.
         public var standbyWorkerCount: Swift.Int?
-        /// The duration in seconds that a worker can be idle before it is scaled down.
+        /// The number of seconds that a worker can remain idle before it is shut down. The default is 300 seconds (5 minutes).
         public var workerIdleDurationSeconds: Swift.Int?
 
         public init(
@@ -3375,7 +3375,7 @@ extension DeadlineClientTypes {
 
     /// The configuration details for a service managed EC2 fleet.
     public struct ServiceManagedEc2FleetConfiguration: Swift.Sendable {
-        /// The auto scaling configuration options for the service managed EC2 fleet.
+        /// The auto scaling configuration settings for the service managed EC2 fleet.
         public var autoScalingConfiguration: DeadlineClientTypes.ServiceManagedEc2AutoScalingConfiguration?
         /// The instance capabilities for the service managed EC2 fleet.
         /// This member is required.
@@ -3817,6 +3817,121 @@ extension DeadlineClientTypes {
     }
 }
 
+extension DeadlineClientTypes {
+
+    /// Configuration for priority balanced scheduling. Workers are distributed evenly across all jobs at the highest priority level.
+    public struct PriorityBalancedSchedulingConfiguration: Swift.Sendable {
+        /// The rendering task buffer controls worker stickiness. A worker only switches from its current job to another job at the same priority if the other job has fewer rendering tasks by more than this buffer value. Higher values make workers stickier to their current jobs. The default value is 1.
+        public var renderingTaskBuffer: Swift.Int?
+
+        public init(
+            renderingTaskBuffer: Swift.Int? = 1
+        ) {
+            self.renderingTaskBuffer = renderingTaskBuffer
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Configuration for priority first-in, first-out (FIFO) scheduling. Workers are assigned to the highest-priority job first. When multiple jobs share the same priority, the job submitted earliest receives workers first.
+    public struct PriorityFifoSchedulingConfiguration: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Specifies that jobs at the maximum priority (100) are always scheduled first.
+    public struct SchedulingMaxPriorityOverrideAlwaysScheduleFirst: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Defines the override behavior for jobs at the maximum priority (100) in weighted balanced scheduling.
+    public enum SchedulingMaxPriorityOverride: Swift.Sendable {
+        /// Jobs at the maximum priority (100) are always scheduled before other jobs, regardless of the weighted scheduling formula. If multiple jobs have priority 100, ties are broken using the standard weighted formula.
+        case alwaysschedulefirst(DeadlineClientTypes.SchedulingMaxPriorityOverrideAlwaysScheduleFirst)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Specifies that jobs at the minimum priority (0) are always scheduled last.
+    public struct SchedulingMinPriorityOverrideAlwaysScheduleLast: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Defines the override behavior for jobs at the minimum priority (0) in weighted balanced scheduling.
+    public enum SchedulingMinPriorityOverride: Swift.Sendable {
+        /// Jobs at the minimum priority (0) are always scheduled after all other jobs, regardless of the weighted scheduling formula. If multiple jobs have priority 0, ties are broken using the standard weighted formula.
+        case alwaysschedulelast(DeadlineClientTypes.SchedulingMinPriorityOverrideAlwaysScheduleLast)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Configuration for weighted balanced scheduling. Workers are assigned to jobs based on a weighted formula: weight = (priority * priorityWeight) + (errors * errorWeight) + ((currentTime - submissionTime) * submissionTimeWeight) + ((renderingTasks - renderingTaskBuffer) * renderingTaskWeight) The job with the highest calculated weight is scheduled first. Workers are distributed evenly amongst jobs with the same weight.
+    public struct WeightedBalancedSchedulingConfiguration: Swift.Sendable {
+        /// The weight applied to the number of errors on a job. A negative value means jobs without errors are scheduled first. A value of 0 means errors are ignored. The default value is -10.0.
+        public var errorWeight: Swift.Double?
+        /// Overrides the weighted scheduling formula for jobs at the maximum priority (100). When set, jobs with priority 100 are always scheduled first regardless of their calculated weight. When absent, maximum priority jobs use the standard weighted formula.
+        public var maxPriorityOverride: DeadlineClientTypes.SchedulingMaxPriorityOverride?
+        /// Overrides the weighted scheduling formula for jobs at the minimum priority (0). When set, jobs with priority 0 are always scheduled last regardless of their calculated weight. When absent, minimum priority jobs use the standard weighted formula.
+        public var minPriorityOverride: DeadlineClientTypes.SchedulingMinPriorityOverride?
+        /// The weight applied to job priority in the scheduling formula. Higher values give more influence to job priority. A value of 0 means priority is ignored. The default value is 100.0.
+        public var priorityWeight: Swift.Double?
+        /// The rendering task buffer is subtracted from the number of rendering tasks before applying the rendering task weight. This creates a stickiness effect where workers prefer to stay with their current job. Higher values make workers stickier. The default value is 1. The buffer is only applied in the weight calculation for a job if the worker is currently assigned to that job.
+        public var renderingTaskBuffer: Swift.Int?
+        /// The weight applied to the number of tasks currently rendering on a job. A negative value means jobs that are not already rendering are scheduled next. A value of 0 means the rendering state is ignored. The default value is -100.0.
+        public var renderingTaskWeight: Swift.Double?
+        /// The weight applied to job submission time. A positive value means earlier jobs are scheduled first. A value of 0 means submission time is ignored. The default value is 3.0.
+        public var submissionTimeWeight: Swift.Double?
+
+        public init(
+            errorWeight: Swift.Double? = -10.0,
+            maxPriorityOverride: DeadlineClientTypes.SchedulingMaxPriorityOverride? = nil,
+            minPriorityOverride: DeadlineClientTypes.SchedulingMinPriorityOverride? = nil,
+            priorityWeight: Swift.Double? = 100.0,
+            renderingTaskBuffer: Swift.Int? = 1,
+            renderingTaskWeight: Swift.Double? = -100.0,
+            submissionTimeWeight: Swift.Double? = 3.0
+        ) {
+            self.errorWeight = errorWeight
+            self.maxPriorityOverride = maxPriorityOverride
+            self.minPriorityOverride = minPriorityOverride
+            self.priorityWeight = priorityWeight
+            self.renderingTaskBuffer = renderingTaskBuffer
+            self.renderingTaskWeight = renderingTaskWeight
+            self.submissionTimeWeight = submissionTimeWeight
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The scheduling configuration for a queue. Defines the strategy used to assign workers to jobs.
+    public enum SchedulingConfiguration: Swift.Sendable {
+        /// Workers are assigned to the highest-priority job first. When multiple jobs share the same priority, the job submitted earliest receives workers first. This is the default scheduling configuration for new queues.
+        case priorityfifo(DeadlineClientTypes.PriorityFifoSchedulingConfiguration)
+        /// Workers are distributed evenly across all jobs at the highest priority level. When workers cannot be evenly divided, the extra workers are assigned to the jobs submitted earliest. If a job has fewer remaining tasks than its share of workers, the surplus workers are redistributed to other jobs at the same priority level.
+        case prioritybalanced(DeadlineClientTypes.PriorityBalancedSchedulingConfiguration)
+        /// Workers are assigned to jobs based on a weighted formula that considers job priority, error count, submission time, and the number of tasks currently rendering. Each factor has a configurable weight that determines its influence on scheduling decisions.
+        case weightedbalanced(DeadlineClientTypes.WeightedBalancedSchedulingConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
 /// Shared displayName + description for Create operations where both are present. displayName is @required here - this mixin is Create-only by design (Update has optional displayName).
 public struct CreateQueueInput: Swift.Sendable {
     /// The storage profile IDs to include in the queue.
@@ -3841,6 +3956,8 @@ public struct CreateQueueInput: Swift.Sendable {
     public var requiredFileSystemLocationNames: [Swift.String]?
     /// The IAM role ARN that workers will use while running jobs for this queue.
     public var roleArn: Swift.String?
+    /// The scheduling configuration for the queue. This configuration determines how workers are assigned to jobs in the queue. If not specified, the queue defaults to the priorityFifo scheduling configuration.
+    public var schedulingConfiguration: DeadlineClientTypes.SchedulingConfiguration?
     /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
     public var tags: [Swift.String: Swift.String]?
 
@@ -3855,6 +3972,7 @@ public struct CreateQueueInput: Swift.Sendable {
         jobRunAsUser: DeadlineClientTypes.JobRunAsUser? = nil,
         requiredFileSystemLocationNames: [Swift.String]? = nil,
         roleArn: Swift.String? = nil,
+        schedulingConfiguration: DeadlineClientTypes.SchedulingConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.allowedStorageProfileIds = allowedStorageProfileIds
@@ -3867,13 +3985,14 @@ public struct CreateQueueInput: Swift.Sendable {
         self.jobRunAsUser = jobRunAsUser
         self.requiredFileSystemLocationNames = requiredFileSystemLocationNames
         self.roleArn = roleArn
+        self.schedulingConfiguration = schedulingConfiguration
         self.tags = tags
     }
 }
 
 extension CreateQueueInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateQueueInput(allowedStorageProfileIds: \(Swift.String(describing: allowedStorageProfileIds)), clientToken: \(Swift.String(describing: clientToken)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), requiredFileSystemLocationNames: \(Swift.String(describing: requiredFileSystemLocationNames)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+        "CreateQueueInput(allowedStorageProfileIds: \(Swift.String(describing: allowedStorageProfileIds)), clientToken: \(Swift.String(describing: clientToken)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), requiredFileSystemLocationNames: \(Swift.String(describing: requiredFileSystemLocationNames)), roleArn: \(Swift.String(describing: roleArn)), schedulingConfiguration: \(Swift.String(describing: schedulingConfiguration)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 /// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
@@ -6352,6 +6471,8 @@ public struct GetQueueOutput: Swift.Sendable {
     public var requiredFileSystemLocationNames: [Swift.String]?
     /// The IAM role ARN.
     public var roleArn: Swift.String?
+    /// The scheduling configuration for the queue. This configuration determines how workers are assigned to jobs in the queue.
+    public var schedulingConfiguration: DeadlineClientTypes.SchedulingConfiguration?
     /// The status of the queue.
     ///
     /// * ACTIVE–The queue is active.
@@ -6380,6 +6501,7 @@ public struct GetQueueOutput: Swift.Sendable {
         queueId: Swift.String? = nil,
         requiredFileSystemLocationNames: [Swift.String]? = nil,
         roleArn: Swift.String? = nil,
+        schedulingConfiguration: DeadlineClientTypes.SchedulingConfiguration? = nil,
         status: DeadlineClientTypes.QueueStatus? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
@@ -6397,6 +6519,7 @@ public struct GetQueueOutput: Swift.Sendable {
         self.queueId = queueId
         self.requiredFileSystemLocationNames = requiredFileSystemLocationNames
         self.roleArn = roleArn
+        self.schedulingConfiguration = schedulingConfiguration
         self.status = status
         self.updatedAt = updatedAt
         self.updatedBy = updatedBy
@@ -6405,7 +6528,7 @@ public struct GetQueueOutput: Swift.Sendable {
 
 extension GetQueueOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetQueueOutput(allowedStorageProfileIds: \(Swift.String(describing: allowedStorageProfileIds)), blockedReason: \(Swift.String(describing: blockedReason)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), queueId: \(Swift.String(describing: queueId)), requiredFileSystemLocationNames: \(Swift.String(describing: requiredFileSystemLocationNames)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
+        "GetQueueOutput(allowedStorageProfileIds: \(Swift.String(describing: allowedStorageProfileIds)), blockedReason: \(Swift.String(describing: blockedReason)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), queueId: \(Swift.String(describing: queueId)), requiredFileSystemLocationNames: \(Swift.String(describing: requiredFileSystemLocationNames)), roleArn: \(Swift.String(describing: roleArn)), schedulingConfiguration: \(Swift.String(describing: schedulingConfiguration)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetQueueEnvironmentInput: Swift.Sendable {
@@ -9370,6 +9493,8 @@ public struct UpdateQueueInput: Swift.Sendable {
     public var requiredFileSystemLocationNamesToRemove: [Swift.String]?
     /// The IAM role ARN that's used to run jobs from this queue.
     public var roleArn: Swift.String?
+    /// The scheduling configuration for the queue. This configuration determines how workers are assigned to jobs in the queue. When updating the scheduling configuration, the entire configuration is replaced. In-progress tasks run to completion before the new scheduling configuration takes effect.
+    public var schedulingConfiguration: DeadlineClientTypes.SchedulingConfiguration?
 
     public init(
         allowedStorageProfileIdsToAdd: [Swift.String]? = nil,
@@ -9384,7 +9509,8 @@ public struct UpdateQueueInput: Swift.Sendable {
         queueId: Swift.String? = nil,
         requiredFileSystemLocationNamesToAdd: [Swift.String]? = nil,
         requiredFileSystemLocationNamesToRemove: [Swift.String]? = nil,
-        roleArn: Swift.String? = nil
+        roleArn: Swift.String? = nil,
+        schedulingConfiguration: DeadlineClientTypes.SchedulingConfiguration? = nil
     ) {
         self.allowedStorageProfileIdsToAdd = allowedStorageProfileIdsToAdd
         self.allowedStorageProfileIdsToRemove = allowedStorageProfileIdsToRemove
@@ -9399,12 +9525,13 @@ public struct UpdateQueueInput: Swift.Sendable {
         self.requiredFileSystemLocationNamesToAdd = requiredFileSystemLocationNamesToAdd
         self.requiredFileSystemLocationNamesToRemove = requiredFileSystemLocationNamesToRemove
         self.roleArn = roleArn
+        self.schedulingConfiguration = schedulingConfiguration
     }
 }
 
 extension UpdateQueueInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateQueueInput(allowedStorageProfileIdsToAdd: \(Swift.String(describing: allowedStorageProfileIdsToAdd)), allowedStorageProfileIdsToRemove: \(Swift.String(describing: allowedStorageProfileIdsToRemove)), clientToken: \(Swift.String(describing: clientToken)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), queueId: \(Swift.String(describing: queueId)), requiredFileSystemLocationNamesToAdd: \(Swift.String(describing: requiredFileSystemLocationNamesToAdd)), requiredFileSystemLocationNamesToRemove: \(Swift.String(describing: requiredFileSystemLocationNamesToRemove)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\")"}
+        "UpdateQueueInput(allowedStorageProfileIdsToAdd: \(Swift.String(describing: allowedStorageProfileIdsToAdd)), allowedStorageProfileIdsToRemove: \(Swift.String(describing: allowedStorageProfileIdsToRemove)), clientToken: \(Swift.String(describing: clientToken)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), queueId: \(Swift.String(describing: queueId)), requiredFileSystemLocationNamesToAdd: \(Swift.String(describing: requiredFileSystemLocationNamesToAdd)), requiredFileSystemLocationNamesToRemove: \(Swift.String(describing: requiredFileSystemLocationNamesToRemove)), roleArn: \(Swift.String(describing: roleArn)), schedulingConfiguration: \(Swift.String(describing: schedulingConfiguration)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateQueueOutput: Swift.Sendable {
@@ -14399,6 +14526,7 @@ extension CreateQueueInput {
         try writer["jobRunAsUser"].write(value.jobRunAsUser, with: DeadlineClientTypes.JobRunAsUser.write(value:to:))
         try writer["requiredFileSystemLocationNames"].writeList(value.requiredFileSystemLocationNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["roleArn"].write(value.roleArn)
+        try writer["schedulingConfiguration"].write(value.schedulingConfiguration, with: DeadlineClientTypes.SchedulingConfiguration.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -14609,6 +14737,7 @@ extension UpdateQueueInput {
         try writer["requiredFileSystemLocationNamesToAdd"].writeList(value.requiredFileSystemLocationNamesToAdd, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["requiredFileSystemLocationNamesToRemove"].writeList(value.requiredFileSystemLocationNamesToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["roleArn"].write(value.roleArn)
+        try writer["schedulingConfiguration"].write(value.schedulingConfiguration, with: DeadlineClientTypes.SchedulingConfiguration.write(value:to:))
     }
 }
 
@@ -15261,6 +15390,7 @@ extension GetQueueOutput {
         value.queueId = try reader["queueId"].readIfPresent() ?? ""
         value.requiredFileSystemLocationNames = try reader["requiredFileSystemLocationNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["roleArn"].readIfPresent()
+        value.schedulingConfiguration = try reader["schedulingConfiguration"].readIfPresent(with: DeadlineClientTypes.SchedulingConfiguration.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
@@ -19414,6 +19544,34 @@ extension DeadlineClientTypes.PosixUser {
     }
 }
 
+extension DeadlineClientTypes.PriorityBalancedSchedulingConfiguration {
+
+    static func write(value: DeadlineClientTypes.PriorityBalancedSchedulingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["renderingTaskBuffer"].write(value.renderingTaskBuffer)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.PriorityBalancedSchedulingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.PriorityBalancedSchedulingConfiguration()
+        value.renderingTaskBuffer = try reader["renderingTaskBuffer"].readIfPresent() ?? 1
+        return value
+    }
+}
+
+extension DeadlineClientTypes.PriorityFifoSchedulingConfiguration {
+
+    static func write(value: DeadlineClientTypes.PriorityFifoSchedulingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.PriorityFifoSchedulingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DeadlineClientTypes.PriorityFifoSchedulingConfiguration()
+    }
+}
+
 extension DeadlineClientTypes.QueueEnvironmentSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.QueueEnvironmentSummary {
@@ -19510,6 +19668,112 @@ extension DeadlineClientTypes.S3Location {
         guard let value else { return }
         try writer["bucketName"].write(value.bucketName)
         try writer["key"].write(value.key)
+    }
+}
+
+extension DeadlineClientTypes.SchedulingConfiguration {
+
+    static func write(value: DeadlineClientTypes.SchedulingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .prioritybalanced(prioritybalanced):
+                try writer["priorityBalanced"].write(prioritybalanced, with: DeadlineClientTypes.PriorityBalancedSchedulingConfiguration.write(value:to:))
+            case let .priorityfifo(priorityfifo):
+                try writer["priorityFifo"].write(priorityfifo, with: DeadlineClientTypes.PriorityFifoSchedulingConfiguration.write(value:to:))
+            case let .weightedbalanced(weightedbalanced):
+                try writer["weightedBalanced"].write(weightedbalanced, with: DeadlineClientTypes.WeightedBalancedSchedulingConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.SchedulingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "priorityFifo":
+                return .priorityfifo(try reader["priorityFifo"].read(with: DeadlineClientTypes.PriorityFifoSchedulingConfiguration.read(from:)))
+            case "priorityBalanced":
+                return .prioritybalanced(try reader["priorityBalanced"].read(with: DeadlineClientTypes.PriorityBalancedSchedulingConfiguration.read(from:)))
+            case "weightedBalanced":
+                return .weightedbalanced(try reader["weightedBalanced"].read(with: DeadlineClientTypes.WeightedBalancedSchedulingConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DeadlineClientTypes.SchedulingMaxPriorityOverride {
+
+    static func write(value: DeadlineClientTypes.SchedulingMaxPriorityOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .alwaysschedulefirst(alwaysschedulefirst):
+                try writer["alwaysScheduleFirst"].write(alwaysschedulefirst, with: DeadlineClientTypes.SchedulingMaxPriorityOverrideAlwaysScheduleFirst.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.SchedulingMaxPriorityOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "alwaysScheduleFirst":
+                return .alwaysschedulefirst(try reader["alwaysScheduleFirst"].read(with: DeadlineClientTypes.SchedulingMaxPriorityOverrideAlwaysScheduleFirst.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DeadlineClientTypes.SchedulingMaxPriorityOverrideAlwaysScheduleFirst {
+
+    static func write(value: DeadlineClientTypes.SchedulingMaxPriorityOverrideAlwaysScheduleFirst?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.SchedulingMaxPriorityOverrideAlwaysScheduleFirst {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DeadlineClientTypes.SchedulingMaxPriorityOverrideAlwaysScheduleFirst()
+    }
+}
+
+extension DeadlineClientTypes.SchedulingMinPriorityOverride {
+
+    static func write(value: DeadlineClientTypes.SchedulingMinPriorityOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .alwaysschedulelast(alwaysschedulelast):
+                try writer["alwaysScheduleLast"].write(alwaysschedulelast, with: DeadlineClientTypes.SchedulingMinPriorityOverrideAlwaysScheduleLast.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.SchedulingMinPriorityOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "alwaysScheduleLast":
+                return .alwaysschedulelast(try reader["alwaysScheduleLast"].read(with: DeadlineClientTypes.SchedulingMinPriorityOverrideAlwaysScheduleLast.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DeadlineClientTypes.SchedulingMinPriorityOverrideAlwaysScheduleLast {
+
+    static func write(value: DeadlineClientTypes.SchedulingMinPriorityOverrideAlwaysScheduleLast?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.SchedulingMinPriorityOverrideAlwaysScheduleLast {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DeadlineClientTypes.SchedulingMinPriorityOverrideAlwaysScheduleLast()
     }
 }
 
@@ -20201,6 +20465,33 @@ extension DeadlineClientTypes.VpcConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeadlineClientTypes.VpcConfiguration()
         value.resourceConfigurationArns = try reader["resourceConfigurationArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DeadlineClientTypes.WeightedBalancedSchedulingConfiguration {
+
+    static func write(value: DeadlineClientTypes.WeightedBalancedSchedulingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["errorWeight"].write(value.errorWeight)
+        try writer["maxPriorityOverride"].write(value.maxPriorityOverride, with: DeadlineClientTypes.SchedulingMaxPriorityOverride.write(value:to:))
+        try writer["minPriorityOverride"].write(value.minPriorityOverride, with: DeadlineClientTypes.SchedulingMinPriorityOverride.write(value:to:))
+        try writer["priorityWeight"].write(value.priorityWeight)
+        try writer["renderingTaskBuffer"].write(value.renderingTaskBuffer)
+        try writer["renderingTaskWeight"].write(value.renderingTaskWeight)
+        try writer["submissionTimeWeight"].write(value.submissionTimeWeight)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.WeightedBalancedSchedulingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.WeightedBalancedSchedulingConfiguration()
+        value.priorityWeight = try reader["priorityWeight"].readIfPresent() ?? 100.0
+        value.errorWeight = try reader["errorWeight"].readIfPresent() ?? -10.0
+        value.submissionTimeWeight = try reader["submissionTimeWeight"].readIfPresent() ?? 3.0
+        value.renderingTaskWeight = try reader["renderingTaskWeight"].readIfPresent() ?? -100.0
+        value.renderingTaskBuffer = try reader["renderingTaskBuffer"].readIfPresent() ?? 1
+        value.maxPriorityOverride = try reader["maxPriorityOverride"].readIfPresent(with: DeadlineClientTypes.SchedulingMaxPriorityOverride.read(from:))
+        value.minPriorityOverride = try reader["minPriorityOverride"].readIfPresent(with: DeadlineClientTypes.SchedulingMinPriorityOverride.read(from:))
         return value
     }
 }

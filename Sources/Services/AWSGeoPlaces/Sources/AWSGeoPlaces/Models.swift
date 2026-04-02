@@ -160,7 +160,7 @@ extension GeoPlacesClientTypes {
 
     /// The region or state results should be to be present in. Example: North Rhine-Westphalia.
     public struct Region: Swift.Sendable {
-        /// Abbreviated code for a the state, province or region of the country. Example: BC.
+        /// Abbreviated code for a the state, province or region of the country. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. Example: BC.
         public var code: Swift.String?
         /// Name for a the state, province, or region of the country. Example: British Columbia.
         public var name: Swift.String?
@@ -286,7 +286,7 @@ extension GeoPlacesClientTypes {
 
     /// The sub-region.
     public struct SubRegion: Swift.Sendable {
-        /// Abbreviated code for the county or sub-region.
+        /// Abbreviated code for the county or sub-region. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var code: Swift.String?
         /// Name for the county or sub-region.
         public var name: Swift.String?
@@ -312,15 +312,15 @@ extension GeoPlacesClientTypes {
     public struct Address: Swift.Sendable {
         /// The number that identifies an address within a street.
         public var addressNumber: Swift.String?
-        /// Name of the block. Example: Sunny Mansion 203 block: 2 Chome
+        /// Name of the block. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. Example: Sunny Mansion 203 block: 2 Chome
         public var block: Swift.String?
-        /// The name of the building at the address.
+        /// The name of the building at the address. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var building: Swift.String?
         /// The country component of the address.
         public var country: GeoPlacesClientTypes.Country?
         /// The district or division of a locality associated with this address.
         public var district: Swift.String?
-        /// Name of the streets in the intersection. Example: ["Friedrichstraße","Unter den Linden"]
+        /// Name of the streets in the intersection. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. Example: ["Friedrichstraße","Unter den Linden"]
         public var intersection: [Swift.String]?
         /// Assembled address value built out of the address components, according to the regional postal rules. This is the correctly formatted address.
         public var label: Swift.String?
@@ -330,13 +330,13 @@ extension GeoPlacesClientTypes {
         public var postalCode: Swift.String?
         /// The region or state results should be present in. Example: North Rhine-Westphalia.
         public var region: GeoPlacesClientTypes.Region?
-        /// Components that correspond to secondary identifiers on an Address. Secondary address components include information such as Suite or Unit Number, Building, or Floor. Coverage for Address.SecondaryAddressComponents is available in the following countries: AUS, CAN, NZL, USA, PRI
+        /// Components that correspond to secondary identifiers on an Address. Secondary address components include information such as Suite or Unit Number, Building, or Floor. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. Coverage for Address.SecondaryAddressComponents is available in the following countries: AUS, CAN, NZL, USA, PRI
         public var secondaryAddressComponents: [GeoPlacesClientTypes.SecondaryAddressComponent]?
         /// The name of the street results should be present in.
         public var street: Swift.String?
-        /// Components of the street. Example: Younge from the "Younge street".
+        /// Components of the street. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. Example: Yonge from "Yonge street".
         public var streetComponents: [GeoPlacesClientTypes.StreetComponents]?
-        /// Name of sub-block. Example: Sunny Mansion 203 sub-block: 4
+        /// Name of sub-block. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. Example: Sunny Mansion 203 sub-block: 4
         public var subBlock: Swift.String?
         /// A subdivision of a district. Example: Minden-Lübbecke.
         public var subDistrict: Swift.String?
@@ -722,7 +722,7 @@ extension GeoPlacesClientTypes {
         /// The center position in World Geodetic System (WGS 84) format: [longitude, latitude].
         /// This member is required.
         public var center: [Swift.Double]?
-        /// The radius, in meters, of the FilterCircle.
+        /// The radius, in meters, of the FilterCircle. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers,ap-southeast-1 and ap-southeast-5 regions support only up to a maximum value of 300,000.
         /// This member is required.
         public var radius: Swift.Int?
 
@@ -866,7 +866,7 @@ public struct AutocompleteInput: Swift.Sendable {
     public var biasPosition: [Swift.Double]?
     /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
     public var filter: GeoPlacesClientTypes.AutocompleteFilter?
-    /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.
+    /// Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). Currently, Autocomplete does not support storage of results.
     public var intendedUse: GeoPlacesClientTypes.AutocompleteIntendedUse?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
@@ -1562,7 +1562,7 @@ public struct GeocodeInput: Swift.Sendable {
     public var biasPosition: [Swift.Double]?
     /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
     public var filter: GeoPlacesClientTypes.GeocodeFilter?
-    /// Indicates if the results will be stored. Defaults to SingleUse, if left empty. Storing the response of an Geocode query is required to comply with service terms, but charged at a higher cost per request. Please review the [user agreement](https://aws.amazon.com/location/sla/) and [service pricing structure](https://aws.amazon.com/location/pricing/) to determine the correct setting for your use case.
+    /// Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. When storing Geocode responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the [user agreement](https://aws.amazon.com/location/sla/) and [service pricing structure](https://aws.amazon.com/location/pricing/) to determine the correct setting for your use case.
     public var intendedUse: GeoPlacesClientTypes.GeocodeIntendedUse?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
@@ -2288,18 +2288,18 @@ extension GeoPlacesClientTypes {
 }
 
 public struct GetPlaceInput: Swift.Sendable {
-    /// A list of optional additional parameters such as time zone that can be requested for each result.
+    /// A list of optional additional parameters such as time zone that can be requested for each result. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the TimeZone value.
     public var additionalFeatures: [GeoPlacesClientTypes.GetPlaceAdditionalFeature]?
-    /// Indicates if the results will be stored. Defaults to SingleUse, if left empty. Storing the response of an GetPlace query is required to comply with service terms, but charged at a higher cost per request. Please review the [user agreement](https://aws.amazon.com/location/sla/) and [service pricing structure](https://aws.amazon.com/location/pricing/) to determine the correct setting for your use case.
+    /// Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. When storing GetPlace responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the [user agreement](https://aws.amazon.com/location/sla/) and [service pricing structure](https://aws.amazon.com/location/pricing/) to determine the correct setting for your use case.
     public var intendedUse: GeoPlacesClientTypes.GetPlaceIntendedUse?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
-    /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
+    /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh
     public var language: Swift.String?
     /// The PlaceId of the place you wish to receive the information for.
     /// This member is required.
     public var placeId: Swift.String?
-    /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
+    /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var politicalView: Swift.String?
 
     public init(
@@ -2404,29 +2404,29 @@ extension GeoPlacesClientTypes {
 }
 
 public struct GetPlaceOutput: Swift.Sendable {
-    /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
+    /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude]. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var accessPoints: [GeoPlacesClientTypes.AccessPoint]?
-    /// Indicates known access restrictions on a vehicle access point. The index correlates to an access point and indicates if access through this point has some form of restriction.
+    /// Indicates known access restrictions on a vehicle access point. The index correlates to an access point and indicates if access through this point has some form of restriction. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var accessRestrictions: [GeoPlacesClientTypes.AccessRestriction]?
     /// The place's address.
     public var address: GeoPlacesClientTypes.Address?
-    /// Boolean indicating if the address provided has been corrected.
+    /// Boolean indicating if the address provided has been corrected. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var addressNumberCorrected: Swift.Bool?
     /// The Business Chains associated with the place.
     public var businessChains: [GeoPlacesClientTypes.BusinessChain]?
     /// Categories of results that results must belong to.
     public var categories: [GeoPlacesClientTypes.Category]?
-    /// List of potential contact methods for the result/place.
+    /// List of potential contact methods for the result/place. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var contacts: GeoPlacesClientTypes.Contacts?
-    /// List of food types offered by this result.
+    /// List of food types offered by this result. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var foodTypes: [GeoPlacesClientTypes.FoodType]?
-    /// The main address corresponding to a place of type Secondary Address.
+    /// The main address corresponding to a place of type Secondary Address. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var mainAddress: GeoPlacesClientTypes.RelatedPlace?
     /// The bounding box enclosing the geometric shape (area or line) that an individual result covers. The bounding box formed is defined as a set of four coordinates: [{westward lng}, {southern lat}, {eastward lng}, {northern lat}]
     public var mapView: [Swift.Double]?
-    /// List of opening hours objects.
+    /// List of opening hours objects. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var openingHours: [GeoPlacesClientTypes.OpeningHours]?
-    /// How the various components of the result's address are pronounced in various languages.
+    /// How the various components of the result's address are pronounced in various languages. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var phonemes: GeoPlacesClientTypes.PhonemeDetails?
     /// The PlaceId of the place you wish to receive the information for.
     /// This member is required.
@@ -2434,16 +2434,16 @@ public struct GetPlaceOutput: Swift.Sendable {
     /// A PlaceType is a category that the result place must belong to.
     /// This member is required.
     public var placeType: GeoPlacesClientTypes.PlaceType?
-    /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
+    /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var politicalView: Swift.String?
     /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
     public var position: [Swift.Double]?
-    /// Contains details about the postal code of the place/result.
+    /// Contains details about the postal code of the place/result. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var postalCodeDetails: [GeoPlacesClientTypes.PostalCodeDetails]?
     /// The pricing bucket for which the query is charged at. For more information on pricing, please visit [Amazon Location Service Pricing](https://aws.amazon.com/location/pricing/).
     /// This member is required.
     public var pricingBucket: Swift.String?
-    /// All secondary addresses that are associated with a main address. A secondary address is one that includes secondary designators, such as a Suite or Unit Number, Building, or Floor information. Coverage for this functionality is available in the following countries: AUS, CAN, NZL, USA, PRI.
+    /// All secondary addresses that are associated with a main address. A secondary address is one that includes secondary designators, such as a Suite or Unit Number, Building, or Floor information. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. Coverage for this functionality is available in the following countries: AUS, CAN, NZL, USA, PRI.
     public var secondaryAddresses: [GeoPlacesClientTypes.RelatedPlace]?
     /// The time zone in which the place is located.
     public var timeZone: GeoPlacesClientTypes.TimeZone?
@@ -2577,7 +2577,7 @@ extension GeoPlacesClientTypes {
 
     /// The included place types.
     public struct ReverseGeocodeFilter: Swift.Sendable {
-        /// The included place types.
+        /// The included place types. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only Street and PointAddress values.
         public var includePlaceTypes: [GeoPlacesClientTypes.ReverseGeocodeFilterPlaceType]?
 
         public init(
@@ -2620,26 +2620,26 @@ extension GeoPlacesClientTypes {
 }
 
 public struct ReverseGeocodeInput: Swift.Sendable {
-    /// A list of optional additional parameters, such as time zone that can be requested for each result.
+    /// A list of optional additional parameters, such as time zone that can be requested for each result. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the TimeZone value.
     public var additionalFeatures: [GeoPlacesClientTypes.ReverseGeocodeAdditionalFeature]?
     /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
     public var filter: GeoPlacesClientTypes.ReverseGeocodeFilter?
     /// The heading in degrees from true north in a navigation context. The heading is measured as the angle clockwise from the North direction. Example: North is 0 degrees, East is 90 degrees, South is 180 degrees, and West is 270 degrees.
     public var heading: Swift.Double?
-    /// Indicates if the results will be stored. Defaults to SingleUse, if left empty. Storing the response of an ReverseGeocode query is required to comply with service terms, but charged at a higher cost per request. Please review the [user agreement](https://aws.amazon.com/location/sla/) and [service pricing structure](https://aws.amazon.com/location/pricing/) to determine the correct setting for your use case.
+    /// Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). When storing ReverseGeocode responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the [user agreement](https://aws.amazon.com/location/sla/) and [service pricing structure](https://aws.amazon.com/location/pricing/) to determine the correct setting for your use case.
     public var intendedUse: GeoPlacesClientTypes.ReverseGeocodeIntendedUse?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
-    /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
+    /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh
     public var language: Swift.String?
     /// An optional limit for the number of results returned in a single call. Default value: 1
     public var maxResults: Swift.Int?
-    /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
+    /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var politicalView: Swift.String?
     /// The position in World Geodetic System (WGS 84) format: [longitude, latitude] for which you are querying nearby results for. Results closer to the position will be ranked higher then results further away from the position
     /// This member is required.
     public var queryPosition: [Swift.Double]?
-    /// The maximum distance in meters from the QueryPosition from which a result will be returned.
+    /// The maximum distance in meters from the QueryPosition from which a result will be returned. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only up to a maximum value of 100,000.
     public var queryRadius: Swift.Int?
 
     public init(
@@ -2676,19 +2676,19 @@ extension GeoPlacesClientTypes {
 
     /// The returned location from the Reverse Geocode action.
     public struct ReverseGeocodeResultItem: Swift.Sendable {
-        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
+        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude]. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var accessPoints: [GeoPlacesClientTypes.AccessPoint]?
         /// The place's address.
         public var address: GeoPlacesClientTypes.Address?
-        /// Boolean indicating if the address provided has been corrected.
+        /// Boolean indicating if the address provided has been corrected. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var addressNumberCorrected: Swift.Bool?
         /// Categories of results that results must belong to.
         public var categories: [GeoPlacesClientTypes.Category]?
         /// The distance in meters from the QueryPosition.
         public var distance: Swift.Int
-        /// List of food types offered by this result.
+        /// List of food types offered by this result. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var foodTypes: [GeoPlacesClientTypes.FoodType]?
-        /// All Intersections that are near the provided address.
+        /// All Intersections that are near the provided address. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var intersections: [GeoPlacesClientTypes.Intersection]?
         /// The bounding box enclosing the geometric shape (area or line) that an individual result covers. The bounding box formed is defined as a set 4 coordinates: [{westward lng}, {southern lat}, {eastward lng}, {northern lat}]
         public var mapView: [Swift.Double]?
@@ -2698,11 +2698,11 @@ extension GeoPlacesClientTypes {
         /// A PlaceType is a category that the result place must belong to.
         /// This member is required.
         public var placeType: GeoPlacesClientTypes.PlaceType?
-        /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
+        /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var politicalView: Swift.String?
         /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public var position: [Swift.Double]?
-        /// Contains details about the postal code of the place/result.
+        /// Contains details about the postal code of the place/result. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var postalCodeDetails: [GeoPlacesClientTypes.PostalCodeDetails]?
         /// The time zone in which the place is located.
         public var timeZone: GeoPlacesClientTypes.TimeZone?
@@ -2886,7 +2886,7 @@ public struct SearchNearbyInput: Swift.Sendable {
     public var additionalFeatures: [GeoPlacesClientTypes.SearchNearbyAdditionalFeature]?
     /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
     public var filter: GeoPlacesClientTypes.SearchNearbyFilter?
-    /// Indicates if the results will be stored. Defaults to SingleUse, if left empty. Storing the response of an SearchNearby query is required to comply with service terms, but charged at a higher cost per request. Please review the [user agreement](https://aws.amazon.com/location/sla/) and [service pricing structure](https://aws.amazon.com/location/pricing/) to determine the correct setting for your use case.
+    /// Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. When storing SearchNearby responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the [user agreement](https://aws.amazon.com/location/sla/) and [service pricing structure](https://aws.amazon.com/location/pricing/) to determine the correct setting for your use case.
     public var intendedUse: GeoPlacesClientTypes.SearchNearbyIntendedUse?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
@@ -3140,25 +3140,25 @@ extension GeoPlacesClientTypes {
 }
 
 public struct SearchTextInput: Swift.Sendable {
-    /// A list of optional additional parameters, such as time zone, that can be requested for each result.
+    /// A list of optional additional parameters, such as time zone, that can be requested for each result. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the TimeZone value.
     public var additionalFeatures: [GeoPlacesClientTypes.SearchTextAdditionalFeature]?
     /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format. Exactly one of the following fields must be set: BiasPosition, Filter.BoundingBox, or Filter.Circle.
     public var biasPosition: [Swift.Double]?
     /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
     public var filter: GeoPlacesClientTypes.SearchTextFilter?
-    /// Indicates if the results will be stored. Defaults to SingleUse, if left empty. Storing the response of an SearchText query is required to comply with service terms, but charged at a higher cost per request. Please review the [user agreement](https://aws.amazon.com/location/sla/) and [service pricing structure](https://aws.amazon.com/location/pricing/) to determine the correct setting for your use case.
+    /// Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). When storing SearchText responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the [user agreement](https://aws.amazon.com/location/sla/) and [service pricing structure](https://aws.amazon.com/location/pricing/) to determine the correct setting for your use case.
     public var intendedUse: GeoPlacesClientTypes.SearchTextIntendedUse?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
-    /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
+    /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh
     public var language: Swift.String?
     /// An optional limit for the number of results returned in a single call. Default value: 20
     public var maxResults: Swift.Int?
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page.
     public var nextToken: Swift.String?
-    /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
+    /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var politicalView: Swift.String?
-    /// The query Id returned by the suggest API. If passed in the request, the SearchText API will preform a SearchText query with the improved query terms for the original query made to the suggest API. Exactly one of the following fields must be set: QueryText or QueryId.
+    /// The query Id returned by the suggest API. If passed in the request, the SearchText API will preform a SearchText query with the improved query terms for the original query made to the suggest API. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. Exactly one of the following fields must be set: QueryText or QueryId.
     public var queryId: Swift.String?
     /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form. Exactly one of the following fields must be set: QueryText or QueryId.
     public var queryText: Swift.String?
@@ -3397,23 +3397,23 @@ extension GeoPlacesClientTypes {
 }
 
 public struct SuggestInput: Swift.Sendable {
-    /// A list of optional additional parameters, such as time zone, that can be requested for each result.
+    /// A list of optional additional parameters, such as time zone, that can be requested for each result. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the Core and TimeZone values.
     public var additionalFeatures: [GeoPlacesClientTypes.SuggestAdditionalFeature]?
     /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format. The fields BiasPosition, FilterBoundingBox, and FilterCircle are mutually exclusive.
     public var biasPosition: [Swift.Double]?
     /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
     public var filter: GeoPlacesClientTypes.SuggestFilter?
-    /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.
+    /// Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). Currently, Suggest does not support storage of results.
     public var intendedUse: GeoPlacesClientTypes.SuggestIntendedUse?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
-    /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
+    /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh
     public var language: Swift.String?
-    /// Maximum number of query terms to be returned for use with a search text query.
+    /// Maximum number of query terms to be returned for use with a search text query. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var maxQueryRefinements: Swift.Int?
     /// An optional limit for the number of results returned in a single call. Default value: 20
     public var maxResults: Swift.Int?
-    /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
+    /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var politicalView: Swift.String?
     /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form. The fields QueryText and QueryID are mutually exclusive.
     /// This member is required.
@@ -3523,29 +3523,29 @@ extension GeoPlacesClientTypes {
 
     /// The suggested place results.
     public struct SuggestPlaceResult: Swift.Sendable {
-        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
+        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude]. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var accessPoints: [GeoPlacesClientTypes.AccessPoint]?
-        /// Indicates known access restrictions on a vehicle access point. The index correlates to an access point and indicates if access through this point has some form of restriction.
+        /// Indicates known access restrictions on a vehicle access point. The index correlates to an access point and indicates if access through this point has some form of restriction. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var accessRestrictions: [GeoPlacesClientTypes.AccessRestriction]?
         /// The place's address.
         public var address: GeoPlacesClientTypes.Address?
-        /// The Business Chains associated with the place.
+        /// The Business Chains associated with the place. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var businessChains: [GeoPlacesClientTypes.BusinessChain]?
         /// Categories of results that results must belong to.
         public var categories: [GeoPlacesClientTypes.Category]?
         /// The distance in meters from the QueryPosition.
         public var distance: Swift.Int
-        /// List of food types offered by this result.
+        /// List of food types offered by this result. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var foodTypes: [GeoPlacesClientTypes.FoodType]?
         /// The bounding box enclosing the geometric shape (area or line) that an individual result covers. The bounding box formed is defined as a set 4 coordinates: [{westward lng}, {southern lat}, {eastward lng}, {northern lat}]
         public var mapView: [Swift.Double]?
-        /// How the various components of the result's address are pronounced in various languages.
+        /// How the various components of the result's address are pronounced in various languages. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var phonemes: GeoPlacesClientTypes.PhonemeDetails?
         /// The PlaceId of the place you wish to receive the information for.
         public var placeId: Swift.String?
         /// A PlaceType is a category that the result place must belong to.
         public var placeType: GeoPlacesClientTypes.PlaceType?
-        /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
+        /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var politicalView: Swift.String?
         /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public var position: [Swift.Double]?
@@ -3624,9 +3624,9 @@ extension GeoPlacesClientTypes {
 
     /// The suggested query results.
     public struct SuggestQueryResult: Swift.Sendable {
-        /// QueryId can be used to complete a follow up query through the SearchText API. The QueryId retains context from the original Suggest request such as filters, political view and language. See the SearchText API documentation for more details [SearchText API docs](https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_SearchText.html). The fields QueryText, and QueryID are mutually exclusive.
+        /// QueryId can be used to complete a follow up query through the SearchText API. The QueryId retains context from the original Suggest request such as filters, political view and language. See the SearchText API documentation for more details [SearchText API docs](https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_SearchText.html). Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. The fields QueryText, and QueryID are mutually exclusive.
         public var queryId: Swift.String?
-        /// The query type. Category queries will search for places which have an entry matching the given category, for example "doctor office". BusinessChain queries will search for instances of a given business.
+        /// The query type. Category queries will search for places which have an entry matching the given category, for example "doctor office". BusinessChain queries will search for instances of a given business. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var queryType: GeoPlacesClientTypes.QueryType?
 
         public init(
@@ -3715,7 +3715,7 @@ public struct SuggestOutput: Swift.Sendable {
     /// The pricing bucket for which the query is charged at. For more information on pricing, please visit [Amazon Location Service Pricing](https://aws.amazon.com/location/pricing/).
     /// This member is required.
     public var pricingBucket: Swift.String?
-    /// Maximum number of query terms to be returned for use with a search text query.
+    /// Maximum number of query terms to be returned for use with a search text query. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var queryRefinements: [GeoPlacesClientTypes.QueryRefinement]?
     /// List of places or results returned for a query.
     public var resultItems: [GeoPlacesClientTypes.SuggestResultItem]?
@@ -3734,7 +3734,7 @@ public struct SuggestOutput: Swift.Sendable {
 extension AutocompleteInput {
 
     static func urlPathProvider(_ value: AutocompleteInput) -> Swift.String? {
-        return "/autocomplete"
+        return "/v2/autocomplete"
     }
 }
 
@@ -3753,7 +3753,7 @@ extension AutocompleteInput {
 extension GeocodeInput {
 
     static func urlPathProvider(_ value: GeocodeInput) -> Swift.String? {
-        return "/geocode"
+        return "/v2/geocode"
     }
 }
 
@@ -3775,7 +3775,7 @@ extension GetPlaceInput {
         guard let placeId = value.placeId else {
             return nil
         }
-        return "/place/\(placeId.urlPercentEncoding())"
+        return "/v2/place/\(placeId.urlPercentEncoding())"
     }
 }
 
@@ -3812,7 +3812,7 @@ extension GetPlaceInput {
 extension ReverseGeocodeInput {
 
     static func urlPathProvider(_ value: ReverseGeocodeInput) -> Swift.String? {
-        return "/reverse-geocode"
+        return "/v2/reverse-geocode"
     }
 }
 
@@ -3831,7 +3831,7 @@ extension ReverseGeocodeInput {
 extension SearchNearbyInput {
 
     static func urlPathProvider(_ value: SearchNearbyInput) -> Swift.String? {
-        return "/search-nearby"
+        return "/v2/search-nearby"
     }
 }
 
@@ -3850,7 +3850,7 @@ extension SearchNearbyInput {
 extension SearchTextInput {
 
     static func urlPathProvider(_ value: SearchTextInput) -> Swift.String? {
-        return "/search-text"
+        return "/v2/search-text"
     }
 }
 
@@ -3869,7 +3869,7 @@ extension SearchTextInput {
 extension SuggestInput {
 
     static func urlPathProvider(_ value: SuggestInput) -> Swift.String? {
-        return "/suggest"
+        return "/v2/suggest"
     }
 }
 
