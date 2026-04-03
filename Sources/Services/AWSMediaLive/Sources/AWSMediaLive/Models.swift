@@ -15815,6 +15815,15 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Hlg2020 Settings
+    public struct Hlg2020Settings: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Rec601 Settings
     public struct Rec601Settings: Swift.Sendable {
 
@@ -15839,6 +15848,8 @@ extension MediaLiveClientTypes {
         public var colorSpacePassthroughSettings: MediaLiveClientTypes.ColorSpacePassthroughSettings?
         /// Hdr10 Settings
         public var hdr10Settings: MediaLiveClientTypes.Hdr10Settings?
+        /// Hlg2020 Settings
+        public var hlg2020Settings: MediaLiveClientTypes.Hlg2020Settings?
         /// Rec601 Settings
         public var rec601Settings: MediaLiveClientTypes.Rec601Settings?
         /// Rec709 Settings
@@ -15847,11 +15858,13 @@ extension MediaLiveClientTypes {
         public init(
             colorSpacePassthroughSettings: MediaLiveClientTypes.ColorSpacePassthroughSettings? = nil,
             hdr10Settings: MediaLiveClientTypes.Hdr10Settings? = nil,
+            hlg2020Settings: MediaLiveClientTypes.Hlg2020Settings? = nil,
             rec601Settings: MediaLiveClientTypes.Rec601Settings? = nil,
             rec709Settings: MediaLiveClientTypes.Rec709Settings? = nil
         ) {
             self.colorSpacePassthroughSettings = colorSpacePassthroughSettings
             self.hdr10Settings = hdr10Settings
+            self.hlg2020Settings = hlg2020Settings
             self.rec601Settings = rec601Settings
             self.rec709Settings = rec709Settings
         }
@@ -17763,15 +17776,6 @@ extension MediaLiveClientTypes {
 
     /// Dolby Vision81 Settings
     public struct DolbyVision81Settings: Swift.Sendable {
-
-        public init() { }
-    }
-}
-
-extension MediaLiveClientTypes {
-
-    /// Hlg2020 Settings
-    public struct Hlg2020Settings: Swift.Sendable {
 
         public init() { }
     }
@@ -35406,6 +35410,7 @@ extension MediaLiveClientTypes.Av1ColorSpaceSettings {
         guard let value else { return }
         try writer["colorSpacePassthroughSettings"].write(value.colorSpacePassthroughSettings, with: MediaLiveClientTypes.ColorSpacePassthroughSettings.write(value:to:))
         try writer["hdr10Settings"].write(value.hdr10Settings, with: MediaLiveClientTypes.Hdr10Settings.write(value:to:))
+        try writer["hlg2020Settings"].write(value.hlg2020Settings, with: MediaLiveClientTypes.Hlg2020Settings.write(value:to:))
         try writer["rec601Settings"].write(value.rec601Settings, with: MediaLiveClientTypes.Rec601Settings.write(value:to:))
         try writer["rec709Settings"].write(value.rec709Settings, with: MediaLiveClientTypes.Rec709Settings.write(value:to:))
     }
@@ -35417,6 +35422,7 @@ extension MediaLiveClientTypes.Av1ColorSpaceSettings {
         value.hdr10Settings = try reader["hdr10Settings"].readIfPresent(with: MediaLiveClientTypes.Hdr10Settings.read(from:))
         value.rec601Settings = try reader["rec601Settings"].readIfPresent(with: MediaLiveClientTypes.Rec601Settings.read(from:))
         value.rec709Settings = try reader["rec709Settings"].readIfPresent(with: MediaLiveClientTypes.Rec709Settings.read(from:))
+        value.hlg2020Settings = try reader["hlg2020Settings"].readIfPresent(with: MediaLiveClientTypes.Hlg2020Settings.read(from:))
         return value
     }
 }

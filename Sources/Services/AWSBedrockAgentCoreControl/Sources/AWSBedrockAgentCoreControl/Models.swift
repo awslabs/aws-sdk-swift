@@ -5429,7 +5429,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Contains the authorization data that is returned when a gateway target requires user authorization through an authorization code grant type.
+    /// Contains the authorization data that is returned when a gateway target is configured with a credential provider with authorization code grant type and requires user federation.
     public enum AuthorizationData: Swift.Sendable {
         /// OAuth2 authorization data for the gateway target.
         case oauth2(BedrockAgentCoreControlClientTypes.OAuth2AuthorizationData)
@@ -11440,7 +11440,7 @@ extension CreateGatewayTargetInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct CreateGatewayTargetOutput: Swift.Sendable {
-    /// OAuth2 authorization data for the created gateway target. This data is returned when the target requires user authorization through an authorization code grant type.
+    /// OAuth2 authorization data for the created gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
     public var authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData?
     /// The timestamp when the target was created.
     /// This member is required.
@@ -11520,7 +11520,7 @@ extension CreateGatewayTargetOutput: Swift.CustomDebugStringConvertible {
 }
 
 public struct GetGatewayTargetOutput: Swift.Sendable {
-    /// OAuth2 authorization data for the gateway target. This data is returned when the target requires user authorization through an authorization code grant type.
+    /// OAuth2 authorization data for the gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
     public var authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData?
     /// The timestamp when the gateway target was created.
     /// This member is required.
@@ -11648,7 +11648,7 @@ extension UpdateGatewayTargetInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct UpdateGatewayTargetOutput: Swift.Sendable {
-    /// OAuth2 authorization data for the updated gateway target. This data is returned when the target requires user authorization through an authorization code grant type.
+    /// OAuth2 authorization data for the updated gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
     public var authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData?
     /// The timestamp when the gateway target was created.
     /// This member is required.

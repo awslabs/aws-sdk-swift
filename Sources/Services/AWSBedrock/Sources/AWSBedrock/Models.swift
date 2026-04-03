@@ -59,6 +59,104 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension BedrockClientTypes {
 
+    /// Model-specific information for the enforced guardrail configuration.
+    public struct ModelEnforcement: Swift.Sendable {
+        /// Models to exclude from enforcement of the guardrail.
+        /// This member is required.
+        public var excludedModels: [Swift.String]?
+        /// Models to enforce the guardrail on.
+        /// This member is required.
+        public var includedModels: [Swift.String]?
+
+        public init(
+            excludedModels: [Swift.String]? = nil,
+            includedModels: [Swift.String]? = nil
+        ) {
+            self.excludedModels = excludedModels
+            self.includedModels = includedModels
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum SelectiveGuardingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case comprehensive
+        case selective
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SelectiveGuardingMode] {
+            return [
+                .comprehensive,
+                .selective
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .comprehensive: return "COMPREHENSIVE"
+            case .selective: return "SELECTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Selective content guarding controls for enforced guardrails.
+    public struct SelectiveContentGuarding: Swift.Sendable {
+        /// Selective guarding mode for user messages.
+        public var messages: BedrockClientTypes.SelectiveGuardingMode?
+        /// Selective guarding mode for system prompts."
+        public var system: BedrockClientTypes.SelectiveGuardingMode?
+
+        public init(
+            messages: BedrockClientTypes.SelectiveGuardingMode? = nil,
+            system: BedrockClientTypes.SelectiveGuardingMode? = nil
+        ) {
+            self.messages = messages
+            self.system = system
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Account-level enforced guardrail input configuration.
+    public struct AccountEnforcedGuardrailInferenceInputConfiguration: Swift.Sendable {
+        /// Identifier for the guardrail, could be the ID or the ARN.
+        /// This member is required.
+        public var guardrailIdentifier: Swift.String?
+        /// Numerical guardrail version.
+        /// This member is required.
+        public var guardrailVersion: Swift.String?
+        /// Model-specific information for the enforced guardrail configuration. If not present, the configuration is enforced on all models
+        public var modelEnforcement: BedrockClientTypes.ModelEnforcement?
+        /// Selective content guarding controls for enforced guardrails.
+        public var selectiveContentGuarding: BedrockClientTypes.SelectiveContentGuarding?
+
+        public init(
+            guardrailIdentifier: Swift.String? = nil,
+            guardrailVersion: Swift.String? = nil,
+            modelEnforcement: BedrockClientTypes.ModelEnforcement? = nil,
+            selectiveContentGuarding: BedrockClientTypes.SelectiveContentGuarding? = nil
+        ) {
+            self.guardrailIdentifier = guardrailIdentifier
+            self.guardrailVersion = guardrailVersion
+            self.modelEnforcement = modelEnforcement
+            self.selectiveContentGuarding = selectiveContentGuarding
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
     public enum InputTags: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case honor
         case ignore
@@ -82,57 +180,6 @@ extension BedrockClientTypes {
             case .ignore: return "IGNORE"
             case let .sdkUnknown(s): return s
             }
-        }
-    }
-}
-
-extension BedrockClientTypes {
-
-    /// Model-specific information for the enforced guardrail configuration.
-    public struct ModelEnforcement: Swift.Sendable {
-        /// Models to exclude from enforcement of the guardrail.
-        /// This member is required.
-        public var excludedModels: [Swift.String]?
-        /// Models to enforce the guardrail on.
-        /// This member is required.
-        public var includedModels: [Swift.String]?
-
-        public init(
-            excludedModels: [Swift.String]? = nil,
-            includedModels: [Swift.String]? = nil
-        ) {
-            self.excludedModels = excludedModels
-            self.includedModels = includedModels
-        }
-    }
-}
-
-extension BedrockClientTypes {
-
-    /// Account-level enforced guardrail input configuration.
-    public struct AccountEnforcedGuardrailInferenceInputConfiguration: Swift.Sendable {
-        /// Identifier for the guardrail, could be the ID or the ARN.
-        /// This member is required.
-        public var guardrailIdentifier: Swift.String?
-        /// Numerical guardrail version.
-        /// This member is required.
-        public var guardrailVersion: Swift.String?
-        /// Whether to honor or ignore input tags at runtime.
-        /// This member is required.
-        public var inputTags: BedrockClientTypes.InputTags?
-        /// Model-specific information for the enforced guardrail configuration. If not present, the configuration is enforced on all models
-        public var modelEnforcement: BedrockClientTypes.ModelEnforcement?
-
-        public init(
-            guardrailIdentifier: Swift.String? = nil,
-            guardrailVersion: Swift.String? = nil,
-            inputTags: BedrockClientTypes.InputTags? = nil,
-            modelEnforcement: BedrockClientTypes.ModelEnforcement? = nil
-        ) {
-            self.guardrailIdentifier = guardrailIdentifier
-            self.guardrailVersion = guardrailVersion
-            self.inputTags = inputTags
-            self.modelEnforcement = modelEnforcement
         }
     }
 }
@@ -181,11 +228,14 @@ extension BedrockClientTypes {
         /// Numerical guardrail version.
         public var guardrailVersion: Swift.String?
         /// Whether to honor or ignore input tags at runtime.
+        @available(*, deprecated, message: "This field is being deprecated and will be removed once customers transition their existing policies to the new schema. API deprecated since 2026-04-03")
         public var inputTags: BedrockClientTypes.InputTags?
         /// Model-specific information for the enforced guardrail configuration.
         public var modelEnforcement: BedrockClientTypes.ModelEnforcement?
         /// Configuration owner type.
         public var owner: BedrockClientTypes.ConfigurationOwner?
+        /// Selective content guarding controls for enforced guardrails.
+        public var selectiveContentGuarding: BedrockClientTypes.SelectiveContentGuarding?
         /// Timestamp.
         public var updatedAt: Foundation.Date?
         /// The ARN of the role used to update the configuration.
@@ -201,6 +251,7 @@ extension BedrockClientTypes {
             inputTags: BedrockClientTypes.InputTags? = nil,
             modelEnforcement: BedrockClientTypes.ModelEnforcement? = nil,
             owner: BedrockClientTypes.ConfigurationOwner? = nil,
+            selectiveContentGuarding: BedrockClientTypes.SelectiveContentGuarding? = nil,
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
         ) {
@@ -213,6 +264,7 @@ extension BedrockClientTypes {
             self.inputTags = inputTags
             self.modelEnforcement = modelEnforcement
             self.owner = owner
+            self.selectiveContentGuarding = selectiveContentGuarding
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
         }
@@ -12304,6 +12356,74 @@ public struct UpdateProvisionedModelThroughputOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteResourcePolicyInput: Swift.Sendable {
+    /// The ARN of the Bedrock resource to which this resource policy applies.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct DeleteResourcePolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetResourcePolicyInput: Swift.Sendable {
+    /// The ARN of the Bedrock resource to which this resource policy applies.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct GetResourcePolicyOutput: Swift.Sendable {
+    /// The JSON string representing the Bedrock resource policy.
+    public var resourcePolicy: Swift.String?
+
+    public init(
+        resourcePolicy: Swift.String? = nil
+    ) {
+        self.resourcePolicy = resourcePolicy
+    }
+}
+
+public struct PutResourcePolicyInput: Swift.Sendable {
+    /// The ARN of the Bedrock resource to which this resource policy applies.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The JSON string representing the Bedrock resource policy.
+    /// This member is required.
+    public var resourcePolicy: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        resourcePolicy: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.resourcePolicy = resourcePolicy
+    }
+}
+
+public struct PutResourcePolicyOutput: Swift.Sendable {
+    /// The ARN of the Bedrock resource to which this resource policy applies.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
 public struct CreateFoundationModelAgreementInput: Swift.Sendable {
     /// Model Id of the model for the access request.
     /// This member is required.
@@ -13984,6 +14104,16 @@ extension DeleteProvisionedModelThroughputInput {
     }
 }
 
+extension DeleteResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/resource-policy/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
 extension DeregisterMarketplaceModelEndpointInput {
 
     static func urlPathProvider(_ value: DeregisterMarketplaceModelEndpointInput) -> Swift.String? {
@@ -14279,6 +14409,16 @@ extension GetProvisionedModelThroughputInput {
             return nil
         }
         return "/provisioned-model-throughput/\(provisionedModelId.urlPercentEncoding())"
+    }
+}
+
+extension GetResourcePolicyInput {
+
+    static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/resource-policy/\(resourceArn.urlPercentEncoding())"
     }
 }
 
@@ -15049,6 +15189,13 @@ extension PutModelInvocationLoggingConfigurationInput {
     }
 }
 
+extension PutResourcePolicyInput {
+
+    static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
+        return "/resource-policy"
+    }
+}
+
 extension PutUseCaseForModelAccessInput {
 
     static func urlPathProvider(_ value: PutUseCaseForModelAccessInput) -> Swift.String? {
@@ -15496,6 +15643,15 @@ extension PutModelInvocationLoggingConfigurationInput {
     static func write(value: PutModelInvocationLoggingConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["loggingConfig"].write(value.loggingConfig, with: BedrockClientTypes.LoggingConfig.write(value:to:))
+    }
+}
+
+extension PutResourcePolicyInput {
+
+    static func write(value: PutResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resourceArn"].write(value.resourceArn)
+        try writer["resourcePolicy"].write(value.resourcePolicy)
     }
 }
 
@@ -15963,6 +16119,13 @@ extension DeleteProvisionedModelThroughputOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteProvisionedModelThroughputOutput {
         return DeleteProvisionedModelThroughputOutput()
+    }
+}
+
+extension DeleteResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteResourcePolicyOutput {
+        return DeleteResourcePolicyOutput()
     }
 }
 
@@ -16447,6 +16610,18 @@ extension GetProvisionedModelThroughputOutput {
     }
 }
 
+extension GetResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetResourcePolicyOutput()
+        value.resourcePolicy = try reader["resourcePolicy"].readIfPresent()
+        return value
+    }
+}
+
 extension GetUseCaseForModelAccessOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetUseCaseForModelAccessOutput {
@@ -16748,6 +16923,18 @@ extension PutModelInvocationLoggingConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutModelInvocationLoggingConfigurationOutput {
         return PutModelInvocationLoggingConfigurationOutput()
+    }
+}
+
+extension PutResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutResourcePolicyOutput()
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        return value
     }
 }
 
@@ -17564,6 +17751,24 @@ enum DeleteProvisionedModelThroughputOutputError {
     }
 }
 
+enum DeleteResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeregisterMarketplaceModelEndpointOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -18013,6 +18218,24 @@ enum GetProvisionedModelThroughputOutputError {
     }
 }
 
+enum GetResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetUseCaseForModelAccessOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -18426,6 +18649,24 @@ enum PutModelInvocationLoggingConfigurationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -18876,8 +19117,8 @@ extension BedrockClientTypes.AccountEnforcedGuardrailInferenceInputConfiguration
         guard let value else { return }
         try writer["guardrailIdentifier"].write(value.guardrailIdentifier)
         try writer["guardrailVersion"].write(value.guardrailVersion)
-        try writer["inputTags"].write(value.inputTags)
         try writer["modelEnforcement"].write(value.modelEnforcement, with: BedrockClientTypes.ModelEnforcement.write(value:to:))
+        try writer["selectiveContentGuarding"].write(value.selectiveContentGuarding, with: BedrockClientTypes.SelectiveContentGuarding.write(value:to:))
     }
 }
 
@@ -18890,6 +19131,7 @@ extension BedrockClientTypes.AccountEnforcedGuardrailOutputConfiguration {
         value.guardrailArn = try reader["guardrailArn"].readIfPresent()
         value.guardrailId = try reader["guardrailId"].readIfPresent()
         value.inputTags = try reader["inputTags"].readIfPresent()
+        value.selectiveContentGuarding = try reader["selectiveContentGuarding"].readIfPresent(with: BedrockClientTypes.SelectiveContentGuarding.read(from:))
         value.guardrailVersion = try reader["guardrailVersion"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.createdBy = try reader["createdBy"].readIfPresent()
@@ -22573,6 +22815,23 @@ extension BedrockClientTypes.SageMakerEndpoint {
         value.executionRole = try reader["executionRole"].readIfPresent() ?? ""
         value.kmsEncryptionKey = try reader["kmsEncryptionKey"].readIfPresent()
         value.vpc = try reader["vpc"].readIfPresent(with: BedrockClientTypes.VpcConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.SelectiveContentGuarding {
+
+    static func write(value: BedrockClientTypes.SelectiveContentGuarding?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["messages"].write(value.messages)
+        try writer["system"].write(value.system)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.SelectiveContentGuarding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.SelectiveContentGuarding()
+        value.system = try reader["system"].readIfPresent()
+        value.messages = try reader["messages"].readIfPresent()
         return value
     }
 }

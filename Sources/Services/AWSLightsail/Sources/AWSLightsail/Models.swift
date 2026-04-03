@@ -965,6 +965,25 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes {
 
+    /// Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
+    public struct Tag: Swift.Sendable {
+        /// The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @
+        public var key: Swift.String?
+        /// The value of the tag. Constraints: Tag values accept a maximum of 256 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
     public enum TreatMissingData: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case breaching
         case ignore
@@ -1156,6 +1175,8 @@ extension LightsailClientTypes {
         public var statistic: LightsailClientTypes.MetricStatistic?
         /// The support code. Include this code in your email to support when you have questions about your Lightsail alarm. This code enables our support team to look up your Lightsail information more easily.
         public var supportCode: Swift.String?
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
+        public var tags: [LightsailClientTypes.Tag]?
         /// The value against which the specified statistic is compared.
         public var threshold: Swift.Double?
         /// Specifies how the alarm handles missing data points. An alarm can treat missing data in the following ways:
@@ -1189,6 +1210,7 @@ extension LightsailClientTypes {
             state: LightsailClientTypes.AlarmState? = nil,
             statistic: LightsailClientTypes.MetricStatistic? = nil,
             supportCode: Swift.String? = nil,
+            tags: [LightsailClientTypes.Tag]? = nil,
             threshold: Swift.Double? = nil,
             treatMissingData: LightsailClientTypes.TreatMissingData? = nil,
             unit: LightsailClientTypes.MetricUnit? = nil
@@ -1210,6 +1232,7 @@ extension LightsailClientTypes {
             self.state = state
             self.statistic = statistic
             self.supportCode = supportCode
+            self.tags = tags
             self.threshold = threshold
             self.treatMissingData = treatMissingData
             self.unit = unit
@@ -2387,25 +2410,6 @@ extension LightsailClientTypes {
         ) {
             self.code = code
             self.message = message
-        }
-    }
-}
-
-extension LightsailClientTypes {
-
-    /// Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
-    public struct Tag: Swift.Sendable {
-        /// The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @
-        public var key: Swift.String?
-        /// The value of the tag. Constraints: Tag values accept a maximum of 256 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.key = key
-            self.value = value
         }
     }
 }
@@ -12564,6 +12568,8 @@ public struct PutAlarmInput: Swift.Sendable {
     ///
     /// The notification trigger defaults to ALARM if you don't specify this parameter.
     public var notificationTriggers: [LightsailClientTypes.AlarmState]?
+    /// The tag keys and optional values to add to the alarm during create. Use the TagResource action to tag a resource after it's created.
+    public var tags: [LightsailClientTypes.Tag]?
     /// The value against which the specified statistic is compared.
     /// This member is required.
     public var threshold: Swift.Double?
@@ -12591,6 +12597,7 @@ public struct PutAlarmInput: Swift.Sendable {
         monitoredResourceName: Swift.String? = nil,
         notificationEnabled: Swift.Bool? = nil,
         notificationTriggers: [LightsailClientTypes.AlarmState]? = nil,
+        tags: [LightsailClientTypes.Tag]? = nil,
         threshold: Swift.Double? = nil,
         treatMissingData: LightsailClientTypes.TreatMissingData? = nil
     ) {
@@ -12603,6 +12610,7 @@ public struct PutAlarmInput: Swift.Sendable {
         self.monitoredResourceName = monitoredResourceName
         self.notificationEnabled = notificationEnabled
         self.notificationTriggers = notificationTriggers
+        self.tags = tags
         self.threshold = threshold
         self.treatMissingData = treatMissingData
     }
@@ -16060,6 +16068,7 @@ extension PutAlarmInput {
         try writer["monitoredResourceName"].write(value.monitoredResourceName)
         try writer["notificationEnabled"].write(value.notificationEnabled)
         try writer["notificationTriggers"].writeList(value.notificationTriggers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LightsailClientTypes.AlarmState>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: LightsailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["threshold"].write(value.threshold)
         try writer["treatMissingData"].write(value.treatMissingData)
     }
@@ -21848,6 +21857,7 @@ extension LightsailClientTypes.Alarm {
         value.contactProtocols = try reader["contactProtocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LightsailClientTypes.ContactProtocol>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.notificationTriggers = try reader["notificationTriggers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LightsailClientTypes.AlarmState>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.notificationEnabled = try reader["notificationEnabled"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: LightsailClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
