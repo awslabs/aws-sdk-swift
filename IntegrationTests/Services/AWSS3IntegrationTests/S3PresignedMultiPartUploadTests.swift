@@ -4,6 +4,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
+// Companion PR for smithy-swift TLS retry fix (NSURLErrorSecureConnectionFailed)
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
