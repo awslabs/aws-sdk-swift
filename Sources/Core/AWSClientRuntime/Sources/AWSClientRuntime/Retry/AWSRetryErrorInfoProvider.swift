@@ -54,6 +54,19 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
     // HTTP status codes should be treated as timeouts.
     private static let timeoutStatusCodes = [408, 504]
 
+    /// Returns an error info provider closure that is aware of the service name.
+    /// For DynamoDB/DynamoDB Streams, sets `backoffMultiplier = 0.025` for non-throttling errors.
+    public static func errorInfoProvider(sdkID: String) -> (Error) -> RetryErrorInfo? {
+        let isDynamoDB = sdkID == "DynamoDB" || sdkID == "DynamoDB Streams"
+        return { error in
+            guard var info = errorInfo(for: error) else { return nil }
+            if isDynamoDB && info.errorType != .throttling {
+                info.backoffMultiplier = 0.025
+            }
+            return info
+        }
+    }
+
     public static func errorInfo(for error: Error) -> RetryErrorInfo? {
 
         // Determine based on properties if this error is a timeout error.
@@ -68,35 +81,66 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
         // Handle certain CRT errors as transient errors
         if case CommonRunTimeError.crtError(let crtError) = error {
             if transientCRTErrorCodes.contains(crtError.code) {
-                return RetryErrorInfo(errorType: .transient, retryAfterHint: nil, isTimeout: isTimeout)
+                return applyRetryAfterHeader(
+                    info: RetryErrorInfo(errorType: .transient, retryAfterHint: nil, isTimeout: isTimeout),
+                    error: error
+                )
             }
         }
 
         if let serviceError = error as? ServiceError, let code = serviceError.typeName {
             // Handle the throttling error codes as errors of retry type "throttling".
             if throttlingErrorCodes.contains(code) {
-                return RetryErrorInfo(errorType: .throttling, retryAfterHint: nil, isTimeout: false)
+                return applyRetryAfterHeader(
+                    info: RetryErrorInfo(errorType: .throttling, retryAfterHint: nil, isTimeout: false),
+                    error: error
+                )
             }
             // Handle the transient error codes as errors of retry type "transient".
             if transientErrorCodes.contains(code) {
-                return RetryErrorInfo(errorType: .transient, retryAfterHint: nil, isTimeout: isTimeout)
+                return applyRetryAfterHeader(
+                    info: RetryErrorInfo(errorType: .transient, retryAfterHint: nil, isTimeout: isTimeout),
+                    error: error
+                )
             }
         }
 
         if let httpError = error as? HTTPError {
             // Handle the transient and timeout HTTP status codes as errors of retry type "transient".
             if (transientStatusCodes + timeoutStatusCodes).contains(httpError.httpResponse.statusCode.rawValue) {
-                return RetryErrorInfo(errorType: .transient, retryAfterHint: nil, isTimeout: isTimeout)
+                return applyRetryAfterHeader(
+                    info: RetryErrorInfo(errorType: .transient, retryAfterHint: nil, isTimeout: isTimeout),
+                    error: error
+                )
             }
         }
 
         if let modeledError = error as? ModeledError, type(of: modeledError).typeName == "IDPCommunicationError" {
-
-            // Handle a modeled IDPCommunicationError (comes from STS) as an error of retry type "transient".
-            return RetryErrorInfo(errorType: .transient, retryAfterHint: nil, isTimeout: isTimeout)
+            return applyRetryAfterHeader(
+                info: RetryErrorInfo(errorType: .transient, retryAfterHint: nil, isTimeout: isTimeout),
+                error: error
+            )
         }
 
         // If custom AWS error matching fails, use the default error info provider to finish matching.
         return DefaultRetryErrorInfoProvider.errorInfo(for: error)
+    }
+
+    /// Parses `x-amz-retry-after` header (milliseconds) and sets retryAfterHint.
+    /// The strategy will apply min/max bounds (t_i minimum, 5+t_i maximum).
+    /// Invalid values are ignored and fall back to exponential backoff.
+    private static func applyRetryAfterHeader(info: RetryErrorInfo, error: Error) -> RetryErrorInfo {
+        guard let httpError = error as? HTTPError,
+              let headerValue = httpError.httpResponse.headers.value(for: "x-amz-retry-after"),
+              let millis = Int(headerValue), millis >= 0 else {
+            return info
+        }
+        let seconds = TimeInterval(millis) / 1000.0
+        return RetryErrorInfo(
+            errorType: info.errorType,
+            retryAfterHint: seconds,
+            isTimeout: info.isTimeout,
+            backoffMultiplier: info.backoffMultiplier
+        )
     }
 }

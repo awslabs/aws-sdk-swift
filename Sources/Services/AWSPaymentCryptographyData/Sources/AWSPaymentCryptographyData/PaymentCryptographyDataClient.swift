@@ -25,6 +25,7 @@ import class SmithyHTTPAPI.HTTPResponse
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
+import enum AWSClientRuntime.LongPollingBackoffProvider
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
@@ -195,7 +196,7 @@ extension PaymentCryptographyDataClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Payment Cryptography Data")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -250,7 +251,7 @@ extension PaymentCryptographyDataClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Payment Cryptography Data")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -426,7 +427,7 @@ extension PaymentCryptographyDataClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Payment Cryptography Data")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -481,7 +482,7 @@ extension PaymentCryptographyDataClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Payment Cryptography Data")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -661,8 +662,6 @@ extension PaymentCryptographyDataClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DecryptDataOutput>(DecryptDataOutput.httpOutput(from:), DecryptDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DecryptDataInput, DecryptDataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DecryptDataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Payment Cryptography Data", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -672,6 +671,9 @@ extension PaymentCryptographyDataClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DecryptDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DecryptDataInput, DecryptDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DecryptDataInput, DecryptDataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Payment Cryptography Data"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DecryptDataInput, DecryptDataOutput>(serviceID: serviceName, version: PaymentCryptographyDataClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PaymentCryptographyData")
@@ -741,8 +743,6 @@ extension PaymentCryptographyDataClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EncryptDataOutput>(EncryptDataOutput.httpOutput(from:), EncryptDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EncryptDataInput, EncryptDataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EncryptDataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Payment Cryptography Data", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -752,6 +752,9 @@ extension PaymentCryptographyDataClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EncryptDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EncryptDataInput, EncryptDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EncryptDataInput, EncryptDataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Payment Cryptography Data"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EncryptDataInput, EncryptDataOutput>(serviceID: serviceName, version: PaymentCryptographyDataClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PaymentCryptographyData")
@@ -813,8 +816,6 @@ extension PaymentCryptographyDataClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateAs2805KekValidationOutput>(GenerateAs2805KekValidationOutput.httpOutput(from:), GenerateAs2805KekValidationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateAs2805KekValidationInput, GenerateAs2805KekValidationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateAs2805KekValidationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Payment Cryptography Data", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -824,6 +825,9 @@ extension PaymentCryptographyDataClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GenerateAs2805KekValidationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GenerateAs2805KekValidationInput, GenerateAs2805KekValidationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GenerateAs2805KekValidationInput, GenerateAs2805KekValidationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Payment Cryptography Data"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GenerateAs2805KekValidationInput, GenerateAs2805KekValidationOutput>(serviceID: serviceName, version: PaymentCryptographyDataClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PaymentCryptographyData")
@@ -889,8 +893,6 @@ extension PaymentCryptographyDataClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateCardValidationDataOutput>(GenerateCardValidationDataOutput.httpOutput(from:), GenerateCardValidationDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateCardValidationDataInput, GenerateCardValidationDataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateCardValidationDataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Payment Cryptography Data", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -900,6 +902,9 @@ extension PaymentCryptographyDataClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GenerateCardValidationDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GenerateCardValidationDataInput, GenerateCardValidationDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GenerateCardValidationDataInput, GenerateCardValidationDataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Payment Cryptography Data"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GenerateCardValidationDataInput, GenerateCardValidationDataOutput>(serviceID: serviceName, version: PaymentCryptographyDataClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PaymentCryptographyData")
@@ -963,8 +968,6 @@ extension PaymentCryptographyDataClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateMacOutput>(GenerateMacOutput.httpOutput(from:), GenerateMacOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateMacInput, GenerateMacOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateMacOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Payment Cryptography Data", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -974,6 +977,9 @@ extension PaymentCryptographyDataClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GenerateMacOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GenerateMacInput, GenerateMacOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GenerateMacInput, GenerateMacOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Payment Cryptography Data"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GenerateMacInput, GenerateMacOutput>(serviceID: serviceName, version: PaymentCryptographyDataClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PaymentCryptographyData")
@@ -1039,8 +1045,6 @@ extension PaymentCryptographyDataClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateMacEmvPinChangeOutput>(GenerateMacEmvPinChangeOutput.httpOutput(from:), GenerateMacEmvPinChangeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateMacEmvPinChangeInput, GenerateMacEmvPinChangeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateMacEmvPinChangeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Payment Cryptography Data", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1050,6 +1054,9 @@ extension PaymentCryptographyDataClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GenerateMacEmvPinChangeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GenerateMacEmvPinChangeInput, GenerateMacEmvPinChangeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GenerateMacEmvPinChangeInput, GenerateMacEmvPinChangeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Payment Cryptography Data"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GenerateMacEmvPinChangeInput, GenerateMacEmvPinChangeOutput>(serviceID: serviceName, version: PaymentCryptographyDataClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PaymentCryptographyData")
@@ -1117,8 +1124,6 @@ extension PaymentCryptographyDataClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GeneratePinDataOutput>(GeneratePinDataOutput.httpOutput(from:), GeneratePinDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GeneratePinDataInput, GeneratePinDataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GeneratePinDataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Payment Cryptography Data", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1128,6 +1133,9 @@ extension PaymentCryptographyDataClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GeneratePinDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GeneratePinDataInput, GeneratePinDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GeneratePinDataInput, GeneratePinDataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Payment Cryptography Data"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GeneratePinDataInput, GeneratePinDataOutput>(serviceID: serviceName, version: PaymentCryptographyDataClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PaymentCryptographyData")
@@ -1197,8 +1205,6 @@ extension PaymentCryptographyDataClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReEncryptDataOutput>(ReEncryptDataOutput.httpOutput(from:), ReEncryptDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReEncryptDataInput, ReEncryptDataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReEncryptDataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Payment Cryptography Data", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1208,6 +1214,9 @@ extension PaymentCryptographyDataClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ReEncryptDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ReEncryptDataInput, ReEncryptDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ReEncryptDataInput, ReEncryptDataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Payment Cryptography Data"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ReEncryptDataInput, ReEncryptDataOutput>(serviceID: serviceName, version: PaymentCryptographyDataClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PaymentCryptographyData")
@@ -1275,8 +1284,6 @@ extension PaymentCryptographyDataClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TranslateKeyMaterialOutput>(TranslateKeyMaterialOutput.httpOutput(from:), TranslateKeyMaterialOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TranslateKeyMaterialInput, TranslateKeyMaterialOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TranslateKeyMaterialOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Payment Cryptography Data", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1286,6 +1293,9 @@ extension PaymentCryptographyDataClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TranslateKeyMaterialOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TranslateKeyMaterialInput, TranslateKeyMaterialOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TranslateKeyMaterialInput, TranslateKeyMaterialOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Payment Cryptography Data"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TranslateKeyMaterialInput, TranslateKeyMaterialOutput>(serviceID: serviceName, version: PaymentCryptographyDataClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PaymentCryptographyData")
@@ -1351,8 +1361,6 @@ extension PaymentCryptographyDataClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TranslatePinDataOutput>(TranslatePinDataOutput.httpOutput(from:), TranslatePinDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TranslatePinDataInput, TranslatePinDataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TranslatePinDataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Payment Cryptography Data", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1362,6 +1370,9 @@ extension PaymentCryptographyDataClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TranslatePinDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TranslatePinDataInput, TranslatePinDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TranslatePinDataInput, TranslatePinDataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Payment Cryptography Data"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TranslatePinDataInput, TranslatePinDataOutput>(serviceID: serviceName, version: PaymentCryptographyDataClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PaymentCryptographyData")
@@ -1428,8 +1439,6 @@ extension PaymentCryptographyDataClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyAuthRequestCryptogramOutput>(VerifyAuthRequestCryptogramOutput.httpOutput(from:), VerifyAuthRequestCryptogramOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyAuthRequestCryptogramInput, VerifyAuthRequestCryptogramOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifyAuthRequestCryptogramOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Payment Cryptography Data", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1439,6 +1448,9 @@ extension PaymentCryptographyDataClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<VerifyAuthRequestCryptogramOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<VerifyAuthRequestCryptogramInput, VerifyAuthRequestCryptogramOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<VerifyAuthRequestCryptogramInput, VerifyAuthRequestCryptogramOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Payment Cryptography Data"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<VerifyAuthRequestCryptogramInput, VerifyAuthRequestCryptogramOutput>(serviceID: serviceName, version: PaymentCryptographyDataClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PaymentCryptographyData")
@@ -1507,8 +1519,6 @@ extension PaymentCryptographyDataClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyCardValidationDataOutput>(VerifyCardValidationDataOutput.httpOutput(from:), VerifyCardValidationDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyCardValidationDataInput, VerifyCardValidationDataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifyCardValidationDataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Payment Cryptography Data", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1518,6 +1528,9 @@ extension PaymentCryptographyDataClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<VerifyCardValidationDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<VerifyCardValidationDataInput, VerifyCardValidationDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<VerifyCardValidationDataInput, VerifyCardValidationDataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Payment Cryptography Data"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<VerifyCardValidationDataInput, VerifyCardValidationDataOutput>(serviceID: serviceName, version: PaymentCryptographyDataClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PaymentCryptographyData")
@@ -1582,8 +1595,6 @@ extension PaymentCryptographyDataClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyMacOutput>(VerifyMacOutput.httpOutput(from:), VerifyMacOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyMacInput, VerifyMacOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifyMacOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Payment Cryptography Data", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1593,6 +1604,9 @@ extension PaymentCryptographyDataClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<VerifyMacOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<VerifyMacInput, VerifyMacOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<VerifyMacInput, VerifyMacOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Payment Cryptography Data"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<VerifyMacInput, VerifyMacOutput>(serviceID: serviceName, version: PaymentCryptographyDataClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PaymentCryptographyData")
@@ -1659,8 +1673,6 @@ extension PaymentCryptographyDataClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyPinDataOutput>(VerifyPinDataOutput.httpOutput(from:), VerifyPinDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyPinDataInput, VerifyPinDataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifyPinDataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Payment Cryptography Data", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1670,6 +1682,9 @@ extension PaymentCryptographyDataClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<VerifyPinDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<VerifyPinDataInput, VerifyPinDataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<VerifyPinDataInput, VerifyPinDataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Payment Cryptography Data"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<VerifyPinDataInput, VerifyPinDataOutput>(serviceID: serviceName, version: PaymentCryptographyDataClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PaymentCryptographyData")

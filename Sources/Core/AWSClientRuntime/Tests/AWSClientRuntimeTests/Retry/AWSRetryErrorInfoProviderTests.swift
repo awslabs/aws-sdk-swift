@@ -91,6 +91,62 @@ class AWSRetryErrorInfoProviderTests: XCTestCase {
             XCTAssertEqual(errorInfo?.isTimeout, true)
         }
     }
+
+    // MARK: - x-amz-retry-after header
+
+    func test_retryAfterHeader_parsedAsMilliseconds() throws {
+        let error = try TestHTTPError(statusCode: 500, headers: ["x-amz-retry-after": "1500"])
+        let errorInfo = AWSRetryErrorInfoProvider.errorInfo(for: error)
+        XCTAssertEqual(errorInfo?.retryAfterHint, 1.5)
+    }
+
+    func test_retryAfterHeader_zeroFallsBackToExponentialBackoff() throws {
+        let error = try TestHTTPError(statusCode: 500, headers: ["x-amz-retry-after": "0"])
+        let errorInfo = AWSRetryErrorInfoProvider.errorInfo(for: error)
+        XCTAssertEqual(errorInfo?.retryAfterHint, 0.0)
+    }
+
+    func test_retryAfterHeader_invalidValueIgnored() throws {
+        let error = try TestHTTPError(statusCode: 500, headers: ["x-amz-retry-after": "invalid"])
+        let errorInfo = AWSRetryErrorInfoProvider.errorInfo(for: error)
+        XCTAssertNil(errorInfo?.retryAfterHint)
+    }
+
+    func test_retryAfterHeader_missingHeaderIgnored() throws {
+        let error = try TestHTTPError(statusCode: 500)
+        let errorInfo = AWSRetryErrorInfoProvider.errorInfo(for: error)
+        XCTAssertNil(errorInfo?.retryAfterHint)
+    }
+
+    // MARK: - Service-aware error info provider
+
+    func test_errorInfoProvider_dynamoDB_setsBackoffMultiplier() throws {
+        let provider = AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "DynamoDB")
+        let error = try TestHTTPError(statusCode: 500)
+        let errorInfo = provider(error)
+        XCTAssertEqual(errorInfo?.backoffMultiplier, 0.025)
+    }
+
+    func test_errorInfoProvider_dynamDBStreams_setsBackoffMultiplier() throws {
+        let provider = AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "DynamoDB Streams")
+        let error = try TestHTTPError(statusCode: 500)
+        let errorInfo = provider(error)
+        XCTAssertEqual(errorInfo?.backoffMultiplier, 0.025)
+    }
+
+    func test_errorInfoProvider_dynamoDB_throttling_noBackoffMultiplier() {
+        let provider = AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "DynamoDB")
+        let error = TestServiceError(code: "ThrottlingException")
+        let errorInfo = provider(error)
+        XCTAssertNil(errorInfo?.backoffMultiplier)
+    }
+
+    func test_errorInfoProvider_nonDynamoDB_noBackoffMultiplier() throws {
+        let provider = AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3")
+        let error = try TestHTTPError(statusCode: 500)
+        let errorInfo = provider(error)
+        XCTAssertNil(errorInfo?.backoffMultiplier)
+    }
 }
 
 private struct TestServiceError: ServiceError, Error {

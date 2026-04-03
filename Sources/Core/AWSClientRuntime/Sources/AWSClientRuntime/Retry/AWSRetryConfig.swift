@@ -27,7 +27,7 @@ public enum AWSRetryConfig {
             fileBasedConfig: fileBasedConfig,
             profileName: profileName,
             converter: { AWSRetryMode(rawValue: $0) }
-        ).value ?? .legacy
+        ).value ?? .standard
     }
 
     /// Determines the max attempts (for retry purposes) to be used from the given config.  If none can be determined, `3` will be used as a default.

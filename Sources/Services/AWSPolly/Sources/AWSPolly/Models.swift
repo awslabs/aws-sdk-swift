@@ -23,6 +23,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
+import enum AWSClientRuntime.LongPollingBackoffProvider
 import enum ClientRuntime.ErrorFault
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import enum Smithy.ByteStream
@@ -3275,8 +3276,6 @@ extension SynthesizeSpeechInput {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SynthesizeSpeechOutput>(SynthesizeSpeechOutput.httpOutput(from:), SynthesizeSpeechOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SynthesizeSpeechOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Polly", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3284,6 +3283,9 @@ extension SynthesizeSpeechInput {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SynthesizeSpeechOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SynthesizeSpeechOutput>())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Polly"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.serialize(SynthesizeSpeechInputGETQueryItemMiddleware())
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Polly")
@@ -3396,8 +3398,6 @@ extension SynthesizeSpeechInput {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SynthesizeSpeechOutput>(SynthesizeSpeechOutput.httpOutput(from:), SynthesizeSpeechOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SynthesizeSpeechOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Polly", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3407,6 +3407,9 @@ extension SynthesizeSpeechInput {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SynthesizeSpeechOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Polly"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>(serviceID: serviceName, version: PollyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Polly")

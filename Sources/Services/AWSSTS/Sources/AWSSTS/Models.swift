@@ -21,6 +21,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyXML.Reader
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
+import enum AWSClientRuntime.LongPollingBackoffProvider
 import enum ClientRuntime.ErrorFault
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import enum Smithy.ClientError
@@ -1791,8 +1792,6 @@ extension GetCallerIdentityInput {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCallerIdentityOutput>(GetCallerIdentityOutput.httpOutput(from:), GetCallerIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCallerIdentityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("STS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1804,6 +1803,9 @@ extension GetCallerIdentityInput {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCallerIdentityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "STS"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(serviceID: serviceName, version: STSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "STS")
