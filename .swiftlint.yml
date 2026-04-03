@@ -21,8 +21,9 @@ disabled_rules:
   - cyclomatic_complexity
   - file_length
   - syntactic_sugar
+  - unused_capture_list
   - nesting
-  - function_name_whitespace
+  - operator_whitespace
   - large_tuple
   - trailing_comma
   - non_optional_string_data_conversion
@@ -30,6 +31,7 @@ disabled_rules:
 opt_in_rules:
   - empty_count
   - sorted_imports
+  - unused_imports
 
 # configurable rules can be customized from this configuration file
 force_cast: warning
@@ -44,6 +46,11 @@ function_body_length:
   error: 150
 generic_type_name:
   max_length: 48
+identifier_name:
+  excluded:
+    - id
+    - of
+    - or
 line_length:
   warning: 120
   error: 160
@@ -52,4 +59,5 @@ opening_brace: error
 return_arrow_whitespace: error
 statement_position:
   severity: error
+todo: warning
 trailing_semicolon: error

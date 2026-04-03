@@ -9,8 +9,14 @@
 # Standard brew path setup
 export PATH="$PATH:/opt/homebrew/bin:/usr/local/bin"
 
-# Unset AWS_SWIFT_SDK_USE_LOCAL_DEPS to use remote dependencies instead of local ones
-unset AWS_SWIFT_SDK_USE_LOCAL_DEPS
+# Use local deps if developer has explicitly set AWS_SWIFT_SDK_USE_LOCAL_DEPS,
+# otherwise default to remote deps for a clean build
+if [ -z "${AWS_SWIFT_SDK_USE_LOCAL_DEPS}" ]; then
+    echo "Using remote dependencies (set AWS_SWIFT_SDK_USE_LOCAL_DEPS=1 to use local)"
+    unset AWS_SWIFT_SDK_USE_LOCAL_DEPS
+else
+    echo "Using local dependencies (AWS_SWIFT_SDK_USE_LOCAL_DEPS is set)"
+fi
 
 LOG_FILE="xcodebuild.log"
 
@@ -37,7 +43,11 @@ if xcodebuild -scheme aws-sdk-swift-Package -destination platform=macOS > "$LOG_
     echo "✅ Build completed successfully"
     
     echo "Step 4: Running SwiftLint Analyze (this may take a few minutes)..."
-    timeout 300 swiftlint analyze --compiler-log-path "$LOG_FILE" || echo "⚠️  SwiftLint Analyze timed out after 5 minutes"
+    if [ -n "${SWIFTLINT_TIMEOUT}" ]; then
+        timeout "${SWIFTLINT_TIMEOUT}" swiftlint analyze --strict --compiler-log-path "$LOG_FILE" || echo "⚠️  SwiftLint Analyze timed out after ${SWIFTLINT_TIMEOUT}s"
+    else
+        swiftlint analyze --strict --compiler-log-path "$LOG_FILE"
+    fi
 else
     echo "⚠️  Build failed, skipping SwiftLint Analyze step"
     echo "Check $LOG_FILE for build errors"
