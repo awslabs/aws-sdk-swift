@@ -11,20 +11,8 @@ set -eo pipefail
 
 # Run this script from the SDK project root directory.
 
-# If on Mac, quit Xcode so it doesn't get overwhelmed by source file changes.
-if [ -x "$(command -v osascript)" ]; then
-  osascript -e 'quit app "Xcode"'
-fi
-
 # Delete all previous Smithy build products
 rm -rf codegen/sdk-codegen/build/smithyprojections/sdk-codegen/*
-
-# Delete all previous staged code
-rm -rf ServiceClients/*
-rm -rf Sources/Services/*
-rm -rf Tests/Services/*
-rm -rf SmokeTests/*
-rm -rf Sources/Core/AWSSDKIdentity/InternalClients/*
 
 # Regenerate code
 ./gradlew -p codegen/sdk-codegen build
@@ -43,8 +31,3 @@ swift run AWSSDKSwiftCLI generate-partitions ..
 # Uncomment for development if testing versioning
 # swift run AWSSDKSwiftCLI generate-package-version ..
 cd ..
-
-# If on Mac, open Xcode to the newly refreshed SDK
-if [ -x "$(command -v osascript)" ]; then
-  open -a Xcode
-fi
