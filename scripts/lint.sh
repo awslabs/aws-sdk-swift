@@ -1,10 +1,4 @@
 #!/bin/bash
-#
-#  lint.sh
-#  aws-sdk-swift
-#
-#  Created by Felix, Anthony on 1/23/26.
-#
 
 # Standard brew path setup
 export PATH="$PATH:/opt/homebrew/bin:/usr/local/bin"
