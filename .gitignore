@@ -46,3 +46,6 @@ SmokeTests/
 
 # Xcode config that is for the installed copy only
 xcuserdata
+
+# Kiro IDE config and specs
+.kiro/

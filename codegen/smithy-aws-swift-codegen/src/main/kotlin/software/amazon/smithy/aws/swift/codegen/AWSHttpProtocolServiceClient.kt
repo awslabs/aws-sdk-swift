@@ -140,6 +140,19 @@ class AWSHttpProtocolServiceClient(
                         true,
                     )
                 }
+                "enableAWSChunked" -> {
+                    ConfigProperty(
+                        "enableAWSChunked",
+                        SwiftTypes.Bool.toOptional(),
+                        { writer ->
+                            writer.format(
+                                "\$N.enableAWSChunked()",
+                                AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider,
+                            )
+                        },
+                        true,
+                    )
+                }
                 else -> property
             }
         }

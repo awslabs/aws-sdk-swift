@@ -44,6 +44,9 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
         writer.write("  .withRegion(value: config.region)")
         writer.write("  .withRequestChecksumCalculation(value: config.requestChecksumCalculation)")
         writer.write("  .withResponseChecksumValidation(value: config.responseChecksumValidation)")
+        if (ctx.service.isS3) {
+            writer.write("  .withEnableAWSChunked(value: config.enableAWSChunked)")
+        }
         if (AWSAuthUtils.hasSigV4AuthScheme(ctx.model, ctx.service, op)) {
             val signingName = AWSAuthUtils.signingServiceName(serviceShape)
             writer.write("  .withSigningName(value: \$S)", signingName)

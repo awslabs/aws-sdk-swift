@@ -187,4 +187,22 @@ public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
                 }
             }).value ?? false
     }
+
+    public static func enableAWSChunked(
+        _ enableAWSChunked: Bool? = nil
+    ) throws -> Bool? {
+        let fileBasedConfig = try CRTFileBasedConfiguration.make()
+        return FieldResolver(
+            configValue: enableAWSChunked,
+            envVarName: "AWS_S3_ENABLE_AWS_CHUNKED",
+            configFieldName: "s3_enable_aws_chunked",
+            fileBasedConfig: fileBasedConfig,
+            profileName: nil, converter: { value in
+                switch value {
+                case "true": return true
+                case "false": return false
+                default: return nil
+                }
+            }).value
+    }
 }
