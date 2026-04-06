@@ -7263,6 +7263,8 @@ public struct RunJobFlowInput: Swift.Sendable {
     public var serviceRole: Swift.String?
     /// Specifies the number of steps that can be executed concurrently. The default value is 1. The maximum value is 256.
     public var stepConcurrencyLevel: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the runtime role for steps specified in the RunJobFlow request. The runtime role can be a cross-account IAM role. The runtime role ARN is a combination of account ID, role name, and role type using the following format: arn:partition:iam::account-id:role/role-name. For example, arn:aws:iam::1234567890:role/ReadOnly is a correctly formatted runtime role ARN. This parameter applies only to steps included in the Steps parameter of this RunJobFlow request. It does not apply to steps added later to the cluster.
+    public var stepExecutionRoleArn: Swift.String?
     /// A list of steps to run.
     public var steps: [EMRClientTypes.StepConfig]?
     /// For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications. A list of strings that indicates third-party software to use. For more information, see the [Amazon EMR Developer Guide](https://docs.aws.amazon.com/emr/latest/DeveloperGuide/emr-dg.pdf). Currently supported values are:
@@ -7306,6 +7308,7 @@ public struct RunJobFlowInput: Swift.Sendable {
         securityConfiguration: Swift.String? = nil,
         serviceRole: Swift.String? = nil,
         stepConcurrencyLevel: Swift.Int? = nil,
+        stepExecutionRoleArn: Swift.String? = nil,
         steps: [EMRClientTypes.StepConfig]? = nil,
         supportedProducts: [Swift.String]? = nil,
         tags: [EMRClientTypes.Tag]? = nil,
@@ -7340,6 +7343,7 @@ public struct RunJobFlowInput: Swift.Sendable {
         self.securityConfiguration = securityConfiguration
         self.serviceRole = serviceRole
         self.stepConcurrencyLevel = stepConcurrencyLevel
+        self.stepExecutionRoleArn = stepExecutionRoleArn
         self.steps = steps
         self.supportedProducts = supportedProducts
         self.tags = tags
@@ -8288,6 +8292,7 @@ extension RunJobFlowInput {
         try writer["SecurityConfiguration"].write(value.securityConfiguration)
         try writer["ServiceRole"].write(value.serviceRole)
         try writer["StepConcurrencyLevel"].write(value.stepConcurrencyLevel)
+        try writer["StepExecutionRoleArn"].write(value.stepExecutionRoleArn)
         try writer["Steps"].writeList(value.steps, memberWritingClosure: EMRClientTypes.StepConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SupportedProducts"].writeList(value.supportedProducts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: EMRClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)

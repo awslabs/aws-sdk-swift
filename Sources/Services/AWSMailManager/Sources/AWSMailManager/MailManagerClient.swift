@@ -699,6 +699,7 @@ extension MailManagerClient {
     /// __Possible Exceptions:__
     /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
     /// - `ServiceQuotaExceededException` : Occurs when an operation exceeds a predefined service quota or limit.
+    /// - `ThrottlingException` : Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func createAddonSubscription(input: CreateAddonSubscriptionInput) async throws -> CreateAddonSubscriptionOutput {
         let context = Smithy.ContextBuilder()
@@ -1421,6 +1422,7 @@ extension MailManagerClient {
     /// - `AccessDeniedException` : Occurs when a user is denied access to a specific resource or action.
     /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
     /// - `ThrottlingException` : Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.
+    /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
     public func deleteAddressList(input: DeleteAddressListInput) async throws -> DeleteAddressListOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1845,6 +1847,7 @@ extension MailManagerClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Occurs when a user is denied access to a specific resource or action.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
     /// - `ResourceNotFoundException` : Occurs when a requested resource is not found.
     /// - `ThrottlingException` : Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.
     /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
@@ -3895,6 +3898,7 @@ extension MailManagerClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Occurs when a user is denied access to a specific resource or action.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
     /// - `ResourceNotFoundException` : Occurs when a requested resource is not found.
     /// - `ServiceQuotaExceededException` : Occurs when an operation exceeds a predefined service quota or limit.
     /// - `ThrottlingException` : Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.

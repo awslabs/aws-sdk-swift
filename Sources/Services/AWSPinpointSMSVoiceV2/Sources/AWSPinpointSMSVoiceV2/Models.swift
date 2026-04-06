@@ -223,6 +223,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         case keywordMismatch
         case lastPhoneNumber
         case messageTypeMismatch
+        case notifyConfigurationNotActive
         case noOriginationIdentitiesFound
         case numberCapabilitiesMismatch
         case optOutListMismatch
@@ -230,11 +231,15 @@ extension PinpointSMSVoiceV2ClientTypes {
         case phoneNumberAssociatedToRegistration
         case phoneNumberNotAssociatedToPool
         case phoneNumberNotInRegistrationRegion
+        case poolAssociatedToNotifyConfiguration
         case protectConfigurationAssociatedWithConfigurationSet
         case protectConfigurationIsAccountDefault
         case protectConfigurationNotAssociatedWithConfigurationSet
+        case rcsAgentAlreadyAssociatedToRegistrationType
+        case rcsAgentAssociatedToPool
         case registrationAlreadySubmitted
         case registrationNotComplete
+        case resourceAlreadyAssociated
         case resourceAlreadyExists
         case resourceDeletionNotAllowed
         case resourceModificationNotAllowed
@@ -263,6 +268,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .keywordMismatch,
                 .lastPhoneNumber,
                 .messageTypeMismatch,
+                .notifyConfigurationNotActive,
                 .noOriginationIdentitiesFound,
                 .numberCapabilitiesMismatch,
                 .optOutListMismatch,
@@ -270,11 +276,15 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .phoneNumberAssociatedToRegistration,
                 .phoneNumberNotAssociatedToPool,
                 .phoneNumberNotInRegistrationRegion,
+                .poolAssociatedToNotifyConfiguration,
                 .protectConfigurationAssociatedWithConfigurationSet,
                 .protectConfigurationIsAccountDefault,
                 .protectConfigurationNotAssociatedWithConfigurationSet,
+                .rcsAgentAlreadyAssociatedToRegistrationType,
+                .rcsAgentAssociatedToPool,
                 .registrationAlreadySubmitted,
                 .registrationNotComplete,
+                .resourceAlreadyAssociated,
                 .resourceAlreadyExists,
                 .resourceDeletionNotAllowed,
                 .resourceModificationNotAllowed,
@@ -309,6 +319,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .keywordMismatch: return "KEYWORD_MISMATCH"
             case .lastPhoneNumber: return "LAST_PHONE_NUMBER"
             case .messageTypeMismatch: return "MESSAGE_TYPE_MISMATCH"
+            case .notifyConfigurationNotActive: return "NOTIFY_CONFIGURATION_NOT_ACTIVE"
             case .noOriginationIdentitiesFound: return "NO_ORIGINATION_IDENTITIES_FOUND"
             case .numberCapabilitiesMismatch: return "NUMBER_CAPABILITIES_MISMATCH"
             case .optOutListMismatch: return "OPT_OUT_LIST_MISMATCH"
@@ -316,11 +327,15 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .phoneNumberAssociatedToRegistration: return "PHONE_NUMBER_ASSOCIATED_TO_REGISTRATION"
             case .phoneNumberNotAssociatedToPool: return "PHONE_NUMBER_NOT_ASSOCIATED_TO_POOL"
             case .phoneNumberNotInRegistrationRegion: return "PHONE_NUMBER_NOT_IN_REGISTRATION_REGION"
+            case .poolAssociatedToNotifyConfiguration: return "POOL_ASSOCIATED_TO_NOTIFY_CONFIGURATION"
             case .protectConfigurationAssociatedWithConfigurationSet: return "PROTECT_CONFIGURATION_ASSOCIATED_WITH_CONFIGURATION_SET"
             case .protectConfigurationIsAccountDefault: return "PROTECT_CONFIGURATION_IS_ACCOUNT_DEFAULT"
             case .protectConfigurationNotAssociatedWithConfigurationSet: return "PROTECT_CONFIGURATION_NOT_ASSOCIATED_WITH_CONFIGURATION_SET"
+            case .rcsAgentAlreadyAssociatedToRegistrationType: return "RCS_AGENT_ALREADY_ASSOCIATED_TO_REGISTRATION_TYPE"
+            case .rcsAgentAssociatedToPool: return "RCS_AGENT_ASSOCIATED_TO_POOL"
             case .registrationAlreadySubmitted: return "REGISTRATION_ALREADY_SUBMITTED"
             case .registrationNotComplete: return "REGISTRATION_NOT_COMPLETE"
+            case .resourceAlreadyAssociated: return "RESOURCE_ALREADY_ASSOCIATED"
             case .resourceAlreadyExists: return "RESOURCE_ALREADY_EXISTS"
             case .resourceDeletionNotAllowed: return "RESOURCE_DELETION_NOT_ALLOWED"
             case .resourceModificationNotAllowed: return "RESOURCE_MODIFICATION_NOT_ALLOWED"
@@ -340,6 +355,13 @@ extension PinpointSMSVoiceV2ClientTypes {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
+    /// The type of resource.
+    ///
+    /// * phone-number: A phone number resource.
+    ///
+    /// * sender-id: A sender ID resource.
+    ///
+    /// * rcs-agent: An RCS agent resource.
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case account
         case configurationSet
@@ -347,12 +369,15 @@ extension PinpointSMSVoiceV2ClientTypes {
         case keyword
         case message
         case messageTemplate
+        case notifyConfiguration
+        case notifyTemplate
         case optedOutNumber
         case optOutList
         case phoneNumber
         case policy
         case pool
         case protectConfiguration
+        case rcsAgent
         case registration
         case registrationAttachment
         case senderId
@@ -367,12 +392,15 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .keyword,
                 .message,
                 .messageTemplate,
+                .notifyConfiguration,
+                .notifyTemplate,
                 .optedOutNumber,
                 .optOutList,
                 .phoneNumber,
                 .policy,
                 .pool,
                 .protectConfiguration,
+                .rcsAgent,
                 .registration,
                 .registrationAttachment,
                 .senderId,
@@ -393,12 +421,15 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .keyword: return "keyword"
             case .message: return "message"
             case .messageTemplate: return "message-template"
+            case .notifyConfiguration: return "notify-configuration"
+            case .notifyTemplate: return "notify-template"
             case .optedOutNumber: return "opted-out-number"
             case .optOutList: return "opt-out-list"
             case .phoneNumber: return "phone-number"
             case .policy: return "policy"
             case .pool: return "pool"
             case .protectConfiguration: return "protect-configuration"
+            case .rcsAgent: return "rcs-agent"
             case .registration: return "registration"
             case .registrationAttachment: return "registration-attachment"
             case .senderId: return "sender-id"
@@ -508,18 +539,22 @@ extension PinpointSMSVoiceV2ClientTypes {
         case associationsPerRegistration
         case configurationSetsPerAccount
         case dailyDestinationCallLimit
+        case dailyNotifyTierMessageLimit
         case eventDestinationsPerConfigurationSet
         case keywordsPerPhoneNumber
         case keywordsPerPool
         case monthlySpendLimitReachedForMedia
+        case monthlySpendLimitReachedForNotify
         case monthlySpendLimitReachedForText
         case monthlySpendLimitReachedForVoice
+        case notifyConfigurationsPerAccount
         case optOutListsPerAccount
         case originationIdentitiesPerPool
         case phoneNumbersPerAccount
         case phoneNumbersPerRegistration
         case poolsPerAccount
         case protectConfigurationsPerAccount
+        case rcsAgentsPerAccount
         case registrationsPerAccount
         case registrationAttachmentsCreatedPerDay
         case registrationAttachmentsPerAccount
@@ -535,18 +570,22 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .associationsPerRegistration,
                 .configurationSetsPerAccount,
                 .dailyDestinationCallLimit,
+                .dailyNotifyTierMessageLimit,
                 .eventDestinationsPerConfigurationSet,
                 .keywordsPerPhoneNumber,
                 .keywordsPerPool,
                 .monthlySpendLimitReachedForMedia,
+                .monthlySpendLimitReachedForNotify,
                 .monthlySpendLimitReachedForText,
                 .monthlySpendLimitReachedForVoice,
+                .notifyConfigurationsPerAccount,
                 .optOutListsPerAccount,
                 .originationIdentitiesPerPool,
                 .phoneNumbersPerAccount,
                 .phoneNumbersPerRegistration,
                 .poolsPerAccount,
                 .protectConfigurationsPerAccount,
+                .rcsAgentsPerAccount,
                 .registrationsPerAccount,
                 .registrationAttachmentsCreatedPerDay,
                 .registrationAttachmentsPerAccount,
@@ -568,18 +607,22 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .associationsPerRegistration: return "ASSOCIATIONS_PER_REGISTRATION"
             case .configurationSetsPerAccount: return "CONFIGURATION_SETS_PER_ACCOUNT"
             case .dailyDestinationCallLimit: return "DAILY_DESTINATION_CALL_LIMIT"
+            case .dailyNotifyTierMessageLimit: return "DAILY_NOTIFY_TIER_MESSAGE_LIMIT"
             case .eventDestinationsPerConfigurationSet: return "EVENT_DESTINATIONS_PER_CONFIGURATION_SET"
             case .keywordsPerPhoneNumber: return "KEYWORDS_PER_PHONE_NUMBER"
             case .keywordsPerPool: return "KEYWORDS_PER_POOL"
             case .monthlySpendLimitReachedForMedia: return "MONTHLY_SPEND_LIMIT_REACHED_FOR_MEDIA"
+            case .monthlySpendLimitReachedForNotify: return "MONTHLY_SPEND_LIMIT_REACHED_FOR_NOTIFY"
             case .monthlySpendLimitReachedForText: return "MONTHLY_SPEND_LIMIT_REACHED_FOR_TEXT"
             case .monthlySpendLimitReachedForVoice: return "MONTHLY_SPEND_LIMIT_REACHED_FOR_VOICE"
+            case .notifyConfigurationsPerAccount: return "NOTIFY_CONFIGURATIONS_PER_ACCOUNT"
             case .optOutListsPerAccount: return "OPT_OUT_LISTS_PER_ACCOUNT"
             case .originationIdentitiesPerPool: return "ORIGINATION_IDENTITIES_PER_POOL"
             case .phoneNumbersPerAccount: return "PHONE_NUMBERS_PER_ACCOUNT"
             case .phoneNumbersPerRegistration: return "PHONE_NUMBERS_PER_REGISTRATION"
             case .poolsPerAccount: return "POOLS_PER_ACCOUNT"
             case .protectConfigurationsPerAccount: return "PROTECT_CONFIGURATIONS_PER_ACCOUNT"
+            case .rcsAgentsPerAccount: return "RCS_AGENTS_PER_ACCOUNT"
             case .registrationsPerAccount: return "REGISTRATIONS_PER_ACCOUNT"
             case .registrationAttachmentsCreatedPerDay: return "REGISTRATION_ATTACHMENTS_CREATED_PER_DAY"
             case .registrationAttachmentsPerAccount: return "REGISTRATION_ATTACHMENTS_PER_ACCOUNT"
@@ -671,7 +714,9 @@ extension PinpointSMSVoiceV2ClientTypes {
         case attachmentTypeNotSupported
         case cannotAddOptedOutNumber
         case cannotParse
+        case channelNotEnabled
         case countryCodeMismatch
+        case countryNotEnabled
         case destinationCountryBlocked
         case fieldValidationFailed
         case internationalSendingNotSupported
@@ -716,7 +761,9 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .attachmentTypeNotSupported,
                 .cannotAddOptedOutNumber,
                 .cannotParse,
+                .channelNotEnabled,
                 .countryCodeMismatch,
+                .countryNotEnabled,
                 .destinationCountryBlocked,
                 .fieldValidationFailed,
                 .internationalSendingNotSupported,
@@ -767,7 +814,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .attachmentTypeNotSupported: return "ATTACHMENT_TYPE_NOT_SUPPORTED"
             case .cannotAddOptedOutNumber: return "CANNOT_ADD_OPTED_OUT_NUMBER"
             case .cannotParse: return "CANNOT_PARSE"
+            case .channelNotEnabled: return "CHANNEL_NOT_ENABLED"
             case .countryCodeMismatch: return "COUNTRY_CODE_MISMATCH"
+            case .countryNotEnabled: return "COUNTRY_NOT_ENABLED"
             case .destinationCountryBlocked: return "DESTINATION_COUNTRY_BLOCKED"
             case .fieldValidationFailed: return "FIELD_VALIDATION_FAILED"
             case .internationalSendingNotSupported: return "INTERNATIONAL_SENDING_NOT_SUPPORTED"
@@ -845,8 +894,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 public struct AssociateOriginationIdentityInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
-    /// The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the origination identity.
-    /// This member is required.
+    /// The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the origination identity. This field is optional and is not required for origination identity types that are not country-specific, such as RCS agents.
     public var isoCountryCode: Swift.String?
     /// The origination identity to use, such as PhoneNumberId, PhoneNumberArn, SenderId, or SenderIdArn. You can use [DescribePhoneNumbers] to find the values for PhoneNumberId and PhoneNumberArn, while [DescribeSenderIds] can be used to get the values for SenderId and SenderIdArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
@@ -1085,6 +1133,66 @@ public struct CarrierLookupOutput: Swift.Sendable {
         self.mcc = mcc
         self.mnc = mnc
         self.phoneNumberType = phoneNumberType
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The carrier-level launch status.
+    ///
+    /// * PENDING: The carrier launch is pending.
+    ///
+    /// * ACTIVE: The carrier launch is active.
+    ///
+    /// * REJECTED: The carrier launch was rejected.
+    public enum CarrierStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case pending
+        case rejected
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CarrierStatus] {
+            return [
+                .active,
+                .pending,
+                .rejected
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .pending: return "PENDING"
+            case .rejected: return "REJECTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// Contains carrier-level launch status details for an RCS agent within a country.
+    public struct CarrierStatusInformation: Swift.Sendable {
+        /// The name of the carrier.
+        /// This member is required.
+        public var carrierName: Swift.String?
+        /// The launch status for this carrier.
+        /// This member is required.
+        public var status: PinpointSMSVoiceV2ClientTypes.CarrierStatus?
+
+        public init(
+            carrierName: Swift.String? = nil,
+            status: PinpointSMSVoiceV2ClientTypes.CarrierStatus? = nil
+        ) {
+            self.carrierName = carrierName
+            self.status = status
+        }
     }
 }
 
@@ -1476,6 +1584,140 @@ extension PinpointSMSVoiceV2ClientTypes {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
+    /// The per-country launch status of an RCS agent.
+    ///
+    /// * CREATED: The country launch has been created.
+    ///
+    /// * PENDING: The country launch is pending.
+    ///
+    /// * PARTIAL: The country launch is partially active.
+    ///
+    /// * ACTIVE: The country launch is active.
+    ///
+    /// * REJECTED: The country launch was rejected.
+    public enum CountryLaunchStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case created
+        case partial
+        case pending
+        case rejected
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CountryLaunchStatus] {
+            return [
+                .active,
+                .created,
+                .partial,
+                .pending,
+                .rejected
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .created: return "CREATED"
+            case .partial: return "PARTIAL"
+            case .pending: return "PENDING"
+            case .rejected: return "REJECTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The filter name for filtering country launch statuses. The available filter names are:
+    ///
+    /// * country-launch-status: Filter by country launch status.
+    public enum CountryLaunchStatusFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case countryLaunchStatus
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CountryLaunchStatusFilterName] {
+            return [
+                .countryLaunchStatus
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .countryLaunchStatus: return "country-launch-status"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The information for a country launch status that meets a specified criteria.
+    public struct CountryLaunchStatusFilter: Swift.Sendable {
+        /// The name of the attribute to filter on.
+        /// This member is required.
+        public var name: PinpointSMSVoiceV2ClientTypes.CountryLaunchStatusFilterName?
+        /// An array values to filter for.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: PinpointSMSVoiceV2ClientTypes.CountryLaunchStatusFilterName? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// Contains per-country launch status details for an RCS agent.
+    public struct CountryLaunchStatusInformation: Swift.Sendable {
+        /// An array of CarrierStatusInformation objects containing carrier-level launch status details.
+        /// This member is required.
+        public var carrierStatus: [PinpointSMSVoiceV2ClientTypes.CarrierStatusInformation]?
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+        /// This member is required.
+        public var isoCountryCode: Swift.String?
+        /// The RCS platform identifier for this country.
+        public var rcsPlatformId: Swift.String?
+        /// The unique identifier of the registration associated with this country launch.
+        /// This member is required.
+        public var registrationId: Swift.String?
+        /// The launch status for this country.
+        /// This member is required.
+        public var status: PinpointSMSVoiceV2ClientTypes.CountryLaunchStatus?
+
+        public init(
+            carrierStatus: [PinpointSMSVoiceV2ClientTypes.CarrierStatusInformation]? = nil,
+            isoCountryCode: Swift.String? = nil,
+            rcsPlatformId: Swift.String? = nil,
+            registrationId: Swift.String? = nil,
+            status: PinpointSMSVoiceV2ClientTypes.CountryLaunchStatus? = nil
+        ) {
+            self.carrierStatus = carrierStatus
+            self.isoCountryCode = isoCountryCode
+            self.rcsPlatformId = rcsPlatformId
+            self.registrationId = registrationId
+            self.status = status
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
     /// The list of tags to be added to the specified topic.
     public struct Tag: Swift.Sendable {
         /// The key identifier, or name, of the tag.
@@ -1595,6 +1837,315 @@ public struct CreateEventDestinationOutput: Swift.Sendable {
     }
 }
 
+extension PinpointSMSVoiceV2ClientTypes {
+
+    public enum NumberCapability: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mms
+        case rcs
+        case sms
+        case voice
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NumberCapability] {
+            return [
+                .mms,
+                .rcs,
+                .sms,
+                .voice
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mms: return "MMS"
+            case .rcs: return "RCS"
+            case .sms: return "SMS"
+            case .voice: return "VOICE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The use case for a notify configuration.
+    ///
+    /// * CODE_VERIFICATION - Code verification use case.
+    public enum NotifyConfigurationUseCase: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case codeVerification
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotifyConfigurationUseCase] {
+            return [
+                .codeVerification
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .codeVerification: return "CODE_VERIFICATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateNotifyConfigurationInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// The default template identifier to associate with the notify configuration. If specified, this template is used when sending messages without an explicit template identifier.
+    public var defaultTemplateId: Swift.String?
+    /// By default this is set to false. When set to true the notify configuration can't be deleted. You can change this value using the [UpdateNotifyConfiguration] action.
+    public var deletionProtectionEnabled: Swift.Bool?
+    /// The display name to associate with the notify configuration.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// An array of channels to enable for the notify configuration. Supported values include SMS and VOICE.
+    /// This member is required.
+    public var enabledChannels: [PinpointSMSVoiceV2ClientTypes.NumberCapability]?
+    /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, that are enabled for the notify configuration.
+    public var enabledCountries: [Swift.String]?
+    /// The identifier of the pool to associate with the notify configuration.
+    public var poolId: Swift.String?
+    /// An array of tags (key and value pairs) associated with the notify configuration.
+    public var tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
+    /// The use case for the notify configuration.
+    /// This member is required.
+    public var useCase: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationUseCase?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        defaultTemplateId: Swift.String? = nil,
+        deletionProtectionEnabled: Swift.Bool? = nil,
+        displayName: Swift.String? = nil,
+        enabledChannels: [PinpointSMSVoiceV2ClientTypes.NumberCapability]? = nil,
+        enabledCountries: [Swift.String]? = nil,
+        poolId: Swift.String? = nil,
+        tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil,
+        useCase: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationUseCase? = nil
+    ) {
+        self.clientToken = clientToken
+        self.defaultTemplateId = defaultTemplateId
+        self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.displayName = displayName
+        self.enabledChannels = enabledChannels
+        self.enabledCountries = enabledCountries
+        self.poolId = poolId
+        self.tags = tags
+        self.useCase = useCase
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The status of a notify configuration.
+    ///
+    /// * PENDING - The notify configuration is pending review.
+    ///
+    /// * ACTIVE - The notify configuration is active and can be used.
+    ///
+    /// * REJECTED - The notify configuration was rejected.
+    ///
+    /// * REQUIRES_VERIFICATION - The notify configuration requires verification.
+    public enum NotifyConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case pending
+        case rejected
+        case requiresVerification
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotifyConfigurationStatus] {
+            return [
+                .active,
+                .pending,
+                .rejected,
+                .requiresVerification
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .pending: return "PENDING"
+            case .rejected: return "REJECTED"
+            case .requiresVerification: return "REQUIRES_VERIFICATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The tier of a notify configuration.
+    ///
+    /// * BASIC - Basic tier.
+    ///
+    /// * ADVANCED - Advanced tier.
+    public enum NotifyConfigurationTier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case advanced
+        case basic
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotifyConfigurationTier] {
+            return [
+                .advanced,
+                .basic
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .advanced: return "ADVANCED"
+            case .basic: return "BASIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The tier upgrade status of a notify configuration.
+    ///
+    /// * BASIC - Currently at basic tier.
+    ///
+    /// * PENDING_UPGRADE - Upgrade to advanced tier is pending.
+    ///
+    /// * ADVANCED - Currently at advanced tier.
+    ///
+    /// * REJECTED - Tier upgrade was rejected.
+    public enum TierUpgradeStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case advanced
+        case basic
+        case pendingUpgrade
+        case rejected
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TierUpgradeStatus] {
+            return [
+                .advanced,
+                .basic,
+                .pendingUpgrade,
+                .rejected
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .advanced: return "ADVANCED"
+            case .basic: return "BASIC"
+            case .pendingUpgrade: return "PENDING_UPGRADE"
+            case .rejected: return "REJECTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateNotifyConfigurationOutput: Swift.Sendable {
+    /// The time when the notify configuration was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+    /// This member is required.
+    public var createdTimestamp: Foundation.Date?
+    /// The default template identifier associated with the notify configuration.
+    public var defaultTemplateId: Swift.String?
+    /// When set to true deletion protection is enabled. By default this is set to false.
+    /// This member is required.
+    public var deletionProtectionEnabled: Swift.Bool
+    /// The display name associated with the notify configuration.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// An array of channels enabled for the notify configuration. Supported values include SMS and VOICE.
+    /// This member is required.
+    public var enabledChannels: [PinpointSMSVoiceV2ClientTypes.NumberCapability]?
+    /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, that are enabled for the notify configuration.
+    public var enabledCountries: [Swift.String]?
+    /// The Amazon Resource Name (ARN) for the notify configuration.
+    /// This member is required.
+    public var notifyConfigurationArn: Swift.String?
+    /// The unique identifier for the notify configuration.
+    /// This member is required.
+    public var notifyConfigurationId: Swift.String?
+    /// The identifier of the pool associated with the notify configuration.
+    public var poolId: Swift.String?
+    /// The reason the notify configuration was rejected, if applicable.
+    public var rejectionReason: Swift.String?
+    /// The current status of the notify configuration.
+    /// This member is required.
+    public var status: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationStatus?
+    /// An array of tags (key and value pairs) associated with the notify configuration.
+    public var tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
+    /// The tier of the notify configuration.
+    /// This member is required.
+    public var tier: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationTier?
+    /// The tier upgrade status of the notify configuration.
+    /// This member is required.
+    public var tierUpgradeStatus: PinpointSMSVoiceV2ClientTypes.TierUpgradeStatus?
+    /// The use case for the notify configuration.
+    /// This member is required.
+    public var useCase: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationUseCase?
+
+    public init(
+        createdTimestamp: Foundation.Date? = nil,
+        defaultTemplateId: Swift.String? = nil,
+        deletionProtectionEnabled: Swift.Bool = false,
+        displayName: Swift.String? = nil,
+        enabledChannels: [PinpointSMSVoiceV2ClientTypes.NumberCapability]? = nil,
+        enabledCountries: [Swift.String]? = nil,
+        notifyConfigurationArn: Swift.String? = nil,
+        notifyConfigurationId: Swift.String? = nil,
+        poolId: Swift.String? = nil,
+        rejectionReason: Swift.String? = nil,
+        status: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationStatus? = nil,
+        tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil,
+        tier: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationTier? = nil,
+        tierUpgradeStatus: PinpointSMSVoiceV2ClientTypes.TierUpgradeStatus? = nil,
+        useCase: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationUseCase? = nil
+    ) {
+        self.createdTimestamp = createdTimestamp
+        self.defaultTemplateId = defaultTemplateId
+        self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.displayName = displayName
+        self.enabledChannels = enabledChannels
+        self.enabledCountries = enabledCountries
+        self.notifyConfigurationArn = notifyConfigurationArn
+        self.notifyConfigurationId = notifyConfigurationId
+        self.poolId = poolId
+        self.rejectionReason = rejectionReason
+        self.status = status
+        self.tags = tags
+        self.tier = tier
+        self.tierUpgradeStatus = tierUpgradeStatus
+        self.useCase = useCase
+    }
+}
+
 public struct CreateOptOutListInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
@@ -1643,8 +2194,7 @@ public struct CreatePoolInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// By default this is set to false. When set to true the pool can't be deleted. You can change this value using the [UpdatePool](https://docs.aws.amazon.com/pinpoint/latest/apireference_smsvoicev2/API_UpdatePool.html) action.
     public var deletionProtectionEnabled: Swift.Bool?
-    /// The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the new pool.
-    /// This member is required.
+    /// The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the new pool. This field is optional and is not required for origination identity types that are not country-specific, such as RCS agents.
     public var isoCountryCode: Swift.String?
     /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. After the pool is created the MessageType can't be changed.
     /// This member is required.
@@ -1821,6 +2371,141 @@ public struct CreateProtectConfigurationOutput: Swift.Sendable {
         self.protectConfigurationArn = protectConfigurationArn
         self.protectConfigurationId = protectConfigurationId
         self.tags = tags
+    }
+}
+
+public struct CreateRcsAgentInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// By default this is set to false. When set to true the RCS agent can't be deleted. You can change this value using the [UpdateRcsAgent] action.
+    public var deletionProtectionEnabled: Swift.Bool?
+    /// The OptOutList to associate with the RCS agent. Valid values are either OptOutListName or OptOutListArn.
+    public var optOutListName: Swift.String?
+    /// An array of tags (key and value pairs) associated with the RCS agent.
+    public var tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        deletionProtectionEnabled: Swift.Bool? = nil,
+        optOutListName: Swift.String? = nil,
+        tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.optOutListName = optOutListName
+        self.tags = tags
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The current status of the RCS agent.
+    ///
+    /// * CREATED: The RCS agent has been created.
+    ///
+    /// * PENDING: The RCS agent is pending review.
+    ///
+    /// * TESTING: The RCS agent is in testing.
+    ///
+    /// * PARTIAL: The RCS agent is partially active.
+    ///
+    /// * ACTIVE: The RCS agent is active and available for use.
+    ///
+    /// * DELETED: The RCS agent has been deleted.
+    public enum RcsAgentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case created
+        case deleted
+        case partial
+        case pending
+        case testing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RcsAgentStatus] {
+            return [
+                .active,
+                .created,
+                .deleted,
+                .partial,
+                .pending,
+                .testing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .created: return "CREATED"
+            case .deleted: return "DELETED"
+            case .partial: return "PARTIAL"
+            case .pending: return "PENDING"
+            case .testing: return "TESTING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateRcsAgentOutput: Swift.Sendable {
+    /// The time when the RCS agent was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+    /// This member is required.
+    public var createdTimestamp: Foundation.Date?
+    /// When set to true deletion protection is enabled. By default this is set to false.
+    /// This member is required.
+    public var deletionProtectionEnabled: Swift.Bool
+    /// The name of the OptOutList associated with the RCS agent.
+    public var optOutListName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the newly created RCS agent.
+    /// This member is required.
+    public var rcsAgentArn: Swift.String?
+    /// The unique identifier for the RCS agent.
+    /// This member is required.
+    public var rcsAgentId: Swift.String?
+    /// By default this is set to false. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+    /// This member is required.
+    public var selfManagedOptOutsEnabled: Swift.Bool
+    /// The current status of the RCS agent.
+    /// This member is required.
+    public var status: PinpointSMSVoiceV2ClientTypes.RcsAgentStatus?
+    /// An array of tags (key and value pairs) associated with the RCS agent.
+    public var tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
+    /// The Amazon Resource Name (ARN) of the two way channel.
+    public var twoWayChannelArn: Swift.String?
+    /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+    public var twoWayChannelRole: Swift.String?
+    /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
+    /// This member is required.
+    public var twoWayEnabled: Swift.Bool
+
+    public init(
+        createdTimestamp: Foundation.Date? = nil,
+        deletionProtectionEnabled: Swift.Bool = false,
+        optOutListName: Swift.String? = nil,
+        rcsAgentArn: Swift.String? = nil,
+        rcsAgentId: Swift.String? = nil,
+        selfManagedOptOutsEnabled: Swift.Bool = false,
+        status: PinpointSMSVoiceV2ClientTypes.RcsAgentStatus? = nil,
+        tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil,
+        twoWayChannelArn: Swift.String? = nil,
+        twoWayChannelRole: Swift.String? = nil,
+        twoWayEnabled: Swift.Bool = false
+    ) {
+        self.createdTimestamp = createdTimestamp
+        self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.optOutListName = optOutListName
+        self.rcsAgentArn = rcsAgentArn
+        self.rcsAgentId = rcsAgentId
+        self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
+        self.status = status
+        self.tags = tags
+        self.twoWayChannelArn = twoWayChannelArn
+        self.twoWayChannelRole = twoWayChannelRole
+        self.twoWayEnabled = twoWayEnabled
     }
 }
 
@@ -2106,6 +2791,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         case discarded
         case draft
         case requiresAuthentication
+        case requiresOfflineReview
         case reviewing
         case revoked
         case submitted
@@ -2120,6 +2806,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .discarded,
                 .draft,
                 .requiresAuthentication,
+                .requiresOfflineReview,
                 .reviewing,
                 .revoked,
                 .submitted
@@ -2140,6 +2827,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .discarded: return "DISCARDED"
             case .draft: return "DRAFT"
             case .requiresAuthentication: return "REQUIRES_AUTHENTICATION"
+            case .requiresOfflineReview: return "REQUIRES_OFFLINE_REVIEW"
             case .reviewing: return "REVIEWING"
             case .revoked: return "REVOKED"
             case .submitted: return "SUBMITTED"
@@ -2257,16 +2945,20 @@ public struct CreateVerifiedDestinationNumberInput: Swift.Sendable {
     /// The verified destination phone number, in E.164 format.
     /// This member is required.
     public var destinationPhoneNumber: Swift.String?
+    /// The unique identifier of the RCS agent to associate with the verified destination number. You can use either the RcsAgentId or RcsAgentArn.
+    public var rcsAgentId: Swift.String?
     /// An array of tags (key and value pairs) to associate with the destination number.
     public var tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
 
     public init(
         clientToken: Swift.String? = nil,
         destinationPhoneNumber: Swift.String? = nil,
+        rcsAgentId: Swift.String? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
     ) {
         self.clientToken = clientToken
         self.destinationPhoneNumber = destinationPhoneNumber
+        self.rcsAgentId = rcsAgentId
         self.tags = tags
     }
 }
@@ -2275,12 +2967,14 @@ extension PinpointSMSVoiceV2ClientTypes {
 
     public enum VerificationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case pending
+        case unsupported
         case verified
         case sdkUnknown(Swift.String)
 
         public static var allCases: [VerificationStatus] {
             return [
                 .pending,
+                .unsupported,
                 .verified
             ]
         }
@@ -2293,6 +2987,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .pending: return "PENDING"
+            case .unsupported: return "UNSUPPORTED"
             case .verified: return "VERIFIED"
             case let .sdkUnknown(s): return s
             }
@@ -2307,6 +3002,8 @@ public struct CreateVerifiedDestinationNumberOutput: Swift.Sendable {
     /// The verified destination phone number, in E.164 format.
     /// This member is required.
     public var destinationPhoneNumber: Swift.String?
+    /// The unique identifier of the RCS agent associated with the verified destination number.
+    public var rcsAgentId: Swift.String?
     /// The status of the verified destination phone number.
     ///
     /// * PENDING: The phone number hasn't been verified yet.
@@ -2326,6 +3023,7 @@ public struct CreateVerifiedDestinationNumberOutput: Swift.Sendable {
     public init(
         createdTimestamp: Foundation.Date? = nil,
         destinationPhoneNumber: Swift.String? = nil,
+        rcsAgentId: Swift.String? = nil,
         status: PinpointSMSVoiceV2ClientTypes.VerificationStatus? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil,
         verifiedDestinationNumberArn: Swift.String? = nil,
@@ -2333,6 +3031,7 @@ public struct CreateVerifiedDestinationNumberOutput: Swift.Sendable {
     ) {
         self.createdTimestamp = createdTimestamp
         self.destinationPhoneNumber = destinationPhoneNumber
+        self.rcsAgentId = rcsAgentId
         self.status = status
         self.tags = tags
         self.verifiedDestinationNumberArn = verifiedDestinationNumberArn
@@ -2589,6 +3288,107 @@ public struct DeleteMediaMessageSpendLimitOverrideInput: Swift.Sendable {
 }
 
 public struct DeleteMediaMessageSpendLimitOverrideOutput: Swift.Sendable {
+    /// The current monthly limit, in US dollars.
+    public var monthlyLimit: Swift.Int?
+
+    public init(
+        monthlyLimit: Swift.Int? = nil
+    ) {
+        self.monthlyLimit = monthlyLimit
+    }
+}
+
+public struct DeleteNotifyConfigurationInput: Swift.Sendable {
+    /// The identifier of the notify configuration to delete. The NotifyConfigurationId can be found using the [DescribeNotifyConfigurations] operation.
+    /// This member is required.
+    public var notifyConfigurationId: Swift.String?
+
+    public init(
+        notifyConfigurationId: Swift.String? = nil
+    ) {
+        self.notifyConfigurationId = notifyConfigurationId
+    }
+}
+
+public struct DeleteNotifyConfigurationOutput: Swift.Sendable {
+    /// The time when the notify configuration was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+    /// This member is required.
+    public var createdTimestamp: Foundation.Date?
+    /// The default template identifier associated with the notify configuration.
+    public var defaultTemplateId: Swift.String?
+    /// When set to true deletion protection is enabled. By default this is set to false.
+    /// This member is required.
+    public var deletionProtectionEnabled: Swift.Bool
+    /// The display name associated with the notify configuration.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// An array of channels enabled for the notify configuration. Supported values include SMS and VOICE.
+    /// This member is required.
+    public var enabledChannels: [PinpointSMSVoiceV2ClientTypes.NumberCapability]?
+    /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, that are enabled for the notify configuration.
+    public var enabledCountries: [Swift.String]?
+    /// The Amazon Resource Name (ARN) for the notify configuration.
+    /// This member is required.
+    public var notifyConfigurationArn: Swift.String?
+    /// The unique identifier for the notify configuration.
+    /// This member is required.
+    public var notifyConfigurationId: Swift.String?
+    /// The identifier of the pool associated with the notify configuration.
+    public var poolId: Swift.String?
+    /// The reason the notify configuration was rejected, if applicable.
+    public var rejectionReason: Swift.String?
+    /// The current status of the notify configuration.
+    /// This member is required.
+    public var status: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationStatus?
+    /// The tier of the notify configuration.
+    /// This member is required.
+    public var tier: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationTier?
+    /// The tier upgrade status of the notify configuration.
+    /// This member is required.
+    public var tierUpgradeStatus: PinpointSMSVoiceV2ClientTypes.TierUpgradeStatus?
+    /// The use case for the notify configuration.
+    /// This member is required.
+    public var useCase: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationUseCase?
+
+    public init(
+        createdTimestamp: Foundation.Date? = nil,
+        defaultTemplateId: Swift.String? = nil,
+        deletionProtectionEnabled: Swift.Bool = false,
+        displayName: Swift.String? = nil,
+        enabledChannels: [PinpointSMSVoiceV2ClientTypes.NumberCapability]? = nil,
+        enabledCountries: [Swift.String]? = nil,
+        notifyConfigurationArn: Swift.String? = nil,
+        notifyConfigurationId: Swift.String? = nil,
+        poolId: Swift.String? = nil,
+        rejectionReason: Swift.String? = nil,
+        status: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationStatus? = nil,
+        tier: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationTier? = nil,
+        tierUpgradeStatus: PinpointSMSVoiceV2ClientTypes.TierUpgradeStatus? = nil,
+        useCase: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationUseCase? = nil
+    ) {
+        self.createdTimestamp = createdTimestamp
+        self.defaultTemplateId = defaultTemplateId
+        self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.displayName = displayName
+        self.enabledChannels = enabledChannels
+        self.enabledCountries = enabledCountries
+        self.notifyConfigurationArn = notifyConfigurationArn
+        self.notifyConfigurationId = notifyConfigurationId
+        self.poolId = poolId
+        self.rejectionReason = rejectionReason
+        self.status = status
+        self.tier = tier
+        self.tierUpgradeStatus = tierUpgradeStatus
+        self.useCase = useCase
+    }
+}
+
+public struct DeleteNotifyMessageSpendLimitOverrideInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteNotifyMessageSpendLimitOverrideOutput: Swift.Sendable {
     /// The current monthly limit, in US dollars.
     public var monthlyLimit: Swift.Int?
 
@@ -2870,6 +3670,72 @@ public struct DeleteProtectConfigurationRuleSetNumberOverrideOutput: Swift.Senda
         self.isoCountryCode = isoCountryCode
         self.protectConfigurationArn = protectConfigurationArn
         self.protectConfigurationId = protectConfigurationId
+    }
+}
+
+public struct DeleteRcsAgentInput: Swift.Sendable {
+    /// The unique identifier of the RCS agent to delete. You can use either the RcsAgentId or RcsAgentArn.
+    /// This member is required.
+    public var rcsAgentId: Swift.String?
+
+    public init(
+        rcsAgentId: Swift.String? = nil
+    ) {
+        self.rcsAgentId = rcsAgentId
+    }
+}
+
+public struct DeleteRcsAgentOutput: Swift.Sendable {
+    /// The time when the RCS agent was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+    /// This member is required.
+    public var createdTimestamp: Foundation.Date?
+    /// When set to true deletion protection is enabled. By default this is set to false.
+    /// This member is required.
+    public var deletionProtectionEnabled: Swift.Bool
+    /// The name of the OptOutList that was associated with the deleted RCS agent.
+    public var optOutListName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the deleted RCS agent.
+    /// This member is required.
+    public var rcsAgentArn: Swift.String?
+    /// The unique identifier for the deleted RCS agent.
+    /// This member is required.
+    public var rcsAgentId: Swift.String?
+    /// By default this is set to false. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+    /// This member is required.
+    public var selfManagedOptOutsEnabled: Swift.Bool
+    /// The current status of the RCS agent.
+    /// This member is required.
+    public var status: PinpointSMSVoiceV2ClientTypes.RcsAgentStatus?
+    /// The Amazon Resource Name (ARN) of the two way channel.
+    public var twoWayChannelArn: Swift.String?
+    /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+    public var twoWayChannelRole: Swift.String?
+    /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
+    /// This member is required.
+    public var twoWayEnabled: Swift.Bool
+
+    public init(
+        createdTimestamp: Foundation.Date? = nil,
+        deletionProtectionEnabled: Swift.Bool = false,
+        optOutListName: Swift.String? = nil,
+        rcsAgentArn: Swift.String? = nil,
+        rcsAgentId: Swift.String? = nil,
+        selfManagedOptOutsEnabled: Swift.Bool = false,
+        status: PinpointSMSVoiceV2ClientTypes.RcsAgentStatus? = nil,
+        twoWayChannelArn: Swift.String? = nil,
+        twoWayChannelRole: Swift.String? = nil,
+        twoWayEnabled: Swift.Bool = false
+    ) {
+        self.createdTimestamp = createdTimestamp
+        self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.optOutListName = optOutListName
+        self.rcsAgentArn = rcsAgentArn
+        self.rcsAgentId = rcsAgentId
+        self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
+        self.status = status
+        self.twoWayChannelArn = twoWayChannelArn
+        self.twoWayChannelRole = twoWayChannelRole
+        self.twoWayEnabled = twoWayEnabled
     }
 }
 
@@ -3385,6 +4251,777 @@ public struct DescribeKeywordsOutput: Swift.Sendable {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
+    /// The filter name for filtering notify configurations. The available filter names are:
+    ///
+    /// * default-pool: Filter by the default pool.
+    ///
+    /// * default-template: Filter by the default template.
+    ///
+    /// * deletion-protection-enabled: Filter by deletion protection status.
+    ///
+    /// * display-name: Filter by display name.
+    ///
+    /// * enabled-channels: Filter by enabled channels.
+    ///
+    /// * enabled-countries: Filter by enabled countries.
+    ///
+    /// * status: Filter by status.
+    ///
+    /// * tier-upgrade-status: Filter by tier upgrade status.
+    ///
+    /// * use-case: Filter by use case.
+    public enum NotifyConfigurationFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case defaultPool
+        case defaultTemplate
+        case deletionProtectionEnabled
+        case displayName
+        case enabledChannels
+        case enabledCountries
+        case status
+        case tierUpgradeStatus
+        case useCase
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotifyConfigurationFilterName] {
+            return [
+                .defaultPool,
+                .defaultTemplate,
+                .deletionProtectionEnabled,
+                .displayName,
+                .enabledChannels,
+                .enabledCountries,
+                .status,
+                .tierUpgradeStatus,
+                .useCase
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .defaultPool: return "default-pool"
+            case .defaultTemplate: return "default-template"
+            case .deletionProtectionEnabled: return "deletion-protection-enabled"
+            case .displayName: return "display-name"
+            case .enabledChannels: return "enabled-channels"
+            case .enabledCountries: return "enabled-countries"
+            case .status: return "status"
+            case .tierUpgradeStatus: return "tier-upgrade-status"
+            case .useCase: return "use-case"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The information for notify configurations that meet a specified criteria.
+    public struct NotifyConfigurationFilter: Swift.Sendable {
+        /// The name of the attribute to filter on.
+        /// This member is required.
+        public var name: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationFilterName?
+        /// An array values to filter for.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationFilterName? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+public struct DescribeNotifyConfigurationsInput: Swift.Sendable {
+    /// An array of NotifyConfigurationFilter objects to filter the results on.
+    public var filters: [PinpointSMSVoiceV2ClientTypes.NotifyConfigurationFilter]?
+    /// The maximum number of results to return per each request.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// An array of notify configuration IDs to describe.
+    public var notifyConfigurationIds: [Swift.String]?
+
+    public init(
+        filters: [PinpointSMSVoiceV2ClientTypes.NotifyConfigurationFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        notifyConfigurationIds: [Swift.String]? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.notifyConfigurationIds = notifyConfigurationIds
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The information for a notify configuration in an Amazon Web Services account.
+    public struct NotifyConfigurationInformation: Swift.Sendable {
+        /// The time when the notify configuration was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+        /// This member is required.
+        public var createdTimestamp: Foundation.Date?
+        /// The default template identifier associated with the notify configuration.
+        public var defaultTemplateId: Swift.String?
+        /// When set to true deletion protection is enabled. By default this is set to false.
+        /// This member is required.
+        public var deletionProtectionEnabled: Swift.Bool
+        /// The display name associated with the notify configuration.
+        /// This member is required.
+        public var displayName: Swift.String?
+        /// An array of channels enabled for the notify configuration. Supported values include SMS and VOICE.
+        /// This member is required.
+        public var enabledChannels: [PinpointSMSVoiceV2ClientTypes.NumberCapability]?
+        /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, that are enabled for the notify configuration.
+        public var enabledCountries: [Swift.String]?
+        /// The Amazon Resource Name (ARN) for the notify configuration.
+        /// This member is required.
+        public var notifyConfigurationArn: Swift.String?
+        /// The unique identifier for the notify configuration.
+        /// This member is required.
+        public var notifyConfigurationId: Swift.String?
+        /// The identifier of the pool associated with the notify configuration.
+        public var poolId: Swift.String?
+        /// The reason the notify configuration was rejected, if applicable.
+        public var rejectionReason: Swift.String?
+        /// The current status of the notify configuration.
+        /// This member is required.
+        public var status: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationStatus?
+        /// The tier of the notify configuration.
+        /// This member is required.
+        public var tier: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationTier?
+        /// The tier upgrade status of the notify configuration.
+        /// This member is required.
+        public var tierUpgradeStatus: PinpointSMSVoiceV2ClientTypes.TierUpgradeStatus?
+        /// The use case for the notify configuration.
+        /// This member is required.
+        public var useCase: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationUseCase?
+
+        public init(
+            createdTimestamp: Foundation.Date? = nil,
+            defaultTemplateId: Swift.String? = nil,
+            deletionProtectionEnabled: Swift.Bool = false,
+            displayName: Swift.String? = nil,
+            enabledChannels: [PinpointSMSVoiceV2ClientTypes.NumberCapability]? = nil,
+            enabledCountries: [Swift.String]? = nil,
+            notifyConfigurationArn: Swift.String? = nil,
+            notifyConfigurationId: Swift.String? = nil,
+            poolId: Swift.String? = nil,
+            rejectionReason: Swift.String? = nil,
+            status: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationStatus? = nil,
+            tier: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationTier? = nil,
+            tierUpgradeStatus: PinpointSMSVoiceV2ClientTypes.TierUpgradeStatus? = nil,
+            useCase: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationUseCase? = nil
+        ) {
+            self.createdTimestamp = createdTimestamp
+            self.defaultTemplateId = defaultTemplateId
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.displayName = displayName
+            self.enabledChannels = enabledChannels
+            self.enabledCountries = enabledCountries
+            self.notifyConfigurationArn = notifyConfigurationArn
+            self.notifyConfigurationId = notifyConfigurationId
+            self.poolId = poolId
+            self.rejectionReason = rejectionReason
+            self.status = status
+            self.tier = tier
+            self.tierUpgradeStatus = tierUpgradeStatus
+            self.useCase = useCase
+        }
+    }
+}
+
+public struct DescribeNotifyConfigurationsOutput: Swift.Sendable {
+    /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
+    public var nextToken: Swift.String?
+    /// An array of NotifyConfigurationInformation objects that contain the results.
+    public var notifyConfigurations: [PinpointSMSVoiceV2ClientTypes.NotifyConfigurationInformation]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        notifyConfigurations: [PinpointSMSVoiceV2ClientTypes.NotifyConfigurationInformation]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.notifyConfigurations = notifyConfigurations
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The filter name for filtering notify templates. The available filter names are:
+    ///
+    /// * channels: Filter by channels.
+    ///
+    /// * language-code: Filter by language code.
+    ///
+    /// * supported-countries: Filter by supported countries.
+    ///
+    /// * supported-voice-ids: Filter by supported voice IDs.
+    ///
+    /// * template-type: Filter by template type.
+    ///
+    /// * tier-access: Filter by tier access.
+    public enum NotifyTemplateFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case channels
+        case languageCode
+        case supportedCountries
+        case supportedVoiceIds
+        case templateType
+        case tierAccess
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotifyTemplateFilterName] {
+            return [
+                .channels,
+                .languageCode,
+                .supportedCountries,
+                .supportedVoiceIds,
+                .templateType,
+                .tierAccess
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .channels: return "channels"
+            case .languageCode: return "language-code"
+            case .supportedCountries: return "supported-countries"
+            case .supportedVoiceIds: return "supported-voice-ids"
+            case .templateType: return "template-type"
+            case .tierAccess: return "tier-access"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The information for notify templates that meet a specified criteria.
+    public struct NotifyTemplateFilter: Swift.Sendable {
+        /// The name of the attribute to filter on.
+        /// This member is required.
+        public var name: PinpointSMSVoiceV2ClientTypes.NotifyTemplateFilterName?
+        /// An array values to filter for.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: PinpointSMSVoiceV2ClientTypes.NotifyTemplateFilterName? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+public struct DescribeNotifyTemplatesInput: Swift.Sendable {
+    /// An array of NotifyTemplateFilter objects to filter the results on.
+    public var filters: [PinpointSMSVoiceV2ClientTypes.NotifyTemplateFilter]?
+    /// The maximum number of results to return per each request.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// An array of template IDs to describe.
+    public var templateIds: [Swift.String]?
+
+    public init(
+        filters: [PinpointSMSVoiceV2ClientTypes.NotifyTemplateFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        templateIds: [Swift.String]? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.templateIds = templateIds
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The status of a notify template.
+    ///
+    /// * ACTIVE - The template is active and available for use.
+    ///
+    /// * INACTIVE - The template is inactive.
+    public enum NotifyTemplateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotifyTemplateStatus] {
+            return [
+                .active,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    public enum VoiceId: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case amy
+        case astrid
+        case bianca
+        case brian
+        case camila
+        case carla
+        case carmen
+        case celine
+        case chantal
+        case conchita
+        case cristiano
+        case dora
+        case emma
+        case enrique
+        case ewa
+        case filiz
+        case geraint
+        case giorgio
+        case gwyneth
+        case hans
+        case ines
+        case ivy
+        case jacek
+        case jan
+        case joanna
+        case joey
+        case justin
+        case karl
+        case kendra
+        case kimberly
+        case lea
+        case liv
+        case lotte
+        case lucia
+        case lupe
+        case mads
+        case maja
+        case marlene
+        case mathieu
+        case matthew
+        case maxim
+        case mia
+        case miguel
+        case mizuki
+        case naja
+        case nicole
+        case penelope
+        case raveena
+        case ricardo
+        case ruben
+        case russell
+        case salli
+        case seoyeon
+        case takumi
+        case tatyana
+        case vicki
+        case vitoria
+        case zeina
+        case zhiyu
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VoiceId] {
+            return [
+                .amy,
+                .astrid,
+                .bianca,
+                .brian,
+                .camila,
+                .carla,
+                .carmen,
+                .celine,
+                .chantal,
+                .conchita,
+                .cristiano,
+                .dora,
+                .emma,
+                .enrique,
+                .ewa,
+                .filiz,
+                .geraint,
+                .giorgio,
+                .gwyneth,
+                .hans,
+                .ines,
+                .ivy,
+                .jacek,
+                .jan,
+                .joanna,
+                .joey,
+                .justin,
+                .karl,
+                .kendra,
+                .kimberly,
+                .lea,
+                .liv,
+                .lotte,
+                .lucia,
+                .lupe,
+                .mads,
+                .maja,
+                .marlene,
+                .mathieu,
+                .matthew,
+                .maxim,
+                .mia,
+                .miguel,
+                .mizuki,
+                .naja,
+                .nicole,
+                .penelope,
+                .raveena,
+                .ricardo,
+                .ruben,
+                .russell,
+                .salli,
+                .seoyeon,
+                .takumi,
+                .tatyana,
+                .vicki,
+                .vitoria,
+                .zeina,
+                .zhiyu
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .amy: return "AMY"
+            case .astrid: return "ASTRID"
+            case .bianca: return "BIANCA"
+            case .brian: return "BRIAN"
+            case .camila: return "CAMILA"
+            case .carla: return "CARLA"
+            case .carmen: return "CARMEN"
+            case .celine: return "CELINE"
+            case .chantal: return "CHANTAL"
+            case .conchita: return "CONCHITA"
+            case .cristiano: return "CRISTIANO"
+            case .dora: return "DORA"
+            case .emma: return "EMMA"
+            case .enrique: return "ENRIQUE"
+            case .ewa: return "EWA"
+            case .filiz: return "FILIZ"
+            case .geraint: return "GERAINT"
+            case .giorgio: return "GIORGIO"
+            case .gwyneth: return "GWYNETH"
+            case .hans: return "HANS"
+            case .ines: return "INES"
+            case .ivy: return "IVY"
+            case .jacek: return "JACEK"
+            case .jan: return "JAN"
+            case .joanna: return "JOANNA"
+            case .joey: return "JOEY"
+            case .justin: return "JUSTIN"
+            case .karl: return "KARL"
+            case .kendra: return "KENDRA"
+            case .kimberly: return "KIMBERLY"
+            case .lea: return "LEA"
+            case .liv: return "LIV"
+            case .lotte: return "LOTTE"
+            case .lucia: return "LUCIA"
+            case .lupe: return "LUPE"
+            case .mads: return "MADS"
+            case .maja: return "MAJA"
+            case .marlene: return "MARLENE"
+            case .mathieu: return "MATHIEU"
+            case .matthew: return "MATTHEW"
+            case .maxim: return "MAXIM"
+            case .mia: return "MIA"
+            case .miguel: return "MIGUEL"
+            case .mizuki: return "MIZUKI"
+            case .naja: return "NAJA"
+            case .nicole: return "NICOLE"
+            case .penelope: return "PENELOPE"
+            case .raveena: return "RAVEENA"
+            case .ricardo: return "RICARDO"
+            case .ruben: return "RUBEN"
+            case .russell: return "RUSSELL"
+            case .salli: return "SALLI"
+            case .seoyeon: return "SEOYEON"
+            case .takumi: return "TAKUMI"
+            case .tatyana: return "TATYANA"
+            case .vicki: return "VICKI"
+            case .vitoria: return "VITORIA"
+            case .zeina: return "ZEINA"
+            case .zhiyu: return "ZHIYU"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The type of a notify template.
+    ///
+    /// * OTP_VERIFICATION - OTP verification template type.
+    public enum NotifyTemplateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case otpVerification
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotifyTemplateType] {
+            return [
+                .otpVerification
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .otpVerification: return "OTP_VERIFICATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The source of a template variable value.
+    ///
+    /// * CUSTOMER - The variable value is provided by the customer.
+    ///
+    /// * SYSTEM - The variable value is provided by the system.
+    public enum TemplateVariableSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customer
+        case system
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TemplateVariableSource] {
+            return [
+                .customer,
+                .system
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customer: return "CUSTOMER"
+            case .system: return "SYSTEM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The type of a template variable.
+    ///
+    /// * STRING - String variable type.
+    ///
+    /// * INTEGER - Integer variable type.
+    ///
+    /// * BOOLEAN - Boolean variable type.
+    public enum TemplateVariableType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case boolean
+        case integer
+        case string
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TemplateVariableType] {
+            return [
+                .boolean,
+                .integer,
+                .string
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .boolean: return "BOOLEAN"
+            case .integer: return "INTEGER"
+            case .string: return "STRING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// Contains metadata about a template variable.
+    public struct TemplateVariableMetadata: Swift.Sendable {
+        /// The default value for the variable.
+        public var defaultValue: Swift.String?
+        /// A description of the variable.
+        public var description: Swift.String?
+        /// The maximum length for string variables.
+        public var maxLength: Swift.Int?
+        /// The maximum value for numeric variables.
+        public var maxValue: Swift.Int?
+        /// The minimum value for numeric variables.
+        public var minValue: Swift.Int?
+        /// The regex pattern the variable value must match.
+        public var pattern: Swift.String?
+        /// Whether the variable is required.
+        /// This member is required.
+        public var `required`: Swift.Bool
+        /// A sample value for the variable.
+        public var sample: Swift.String?
+        /// The source of the variable, either CUSTOMER or SYSTEM.
+        public var source: PinpointSMSVoiceV2ClientTypes.TemplateVariableSource?
+        /// The type of the variable.
+        /// This member is required.
+        public var type: PinpointSMSVoiceV2ClientTypes.TemplateVariableType?
+
+        public init(
+            defaultValue: Swift.String? = nil,
+            description: Swift.String? = nil,
+            maxLength: Swift.Int? = nil,
+            maxValue: Swift.Int? = nil,
+            minValue: Swift.Int? = nil,
+            pattern: Swift.String? = nil,
+            `required`: Swift.Bool = false,
+            sample: Swift.String? = nil,
+            source: PinpointSMSVoiceV2ClientTypes.TemplateVariableSource? = nil,
+            type: PinpointSMSVoiceV2ClientTypes.TemplateVariableType? = nil
+        ) {
+            self.defaultValue = defaultValue
+            self.description = description
+            self.maxLength = maxLength
+            self.maxValue = maxValue
+            self.minValue = minValue
+            self.pattern = pattern
+            self.`required` = `required`
+            self.sample = sample
+            self.source = source
+            self.type = type
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The information for a system-managed notify template in an Amazon Web Services account.
+    public struct NotifyTemplateInformation: Swift.Sendable {
+        /// The channels for the template. Supported values are SMS and VOICE.
+        /// This member is required.
+        public var channels: [PinpointSMSVoiceV2ClientTypes.NumberCapability]?
+        /// The content of the template.
+        public var content: Swift.String?
+        /// The time when the notify template was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+        /// This member is required.
+        public var createdTimestamp: Foundation.Date?
+        /// The language code for the template.
+        public var languageCode: Swift.String?
+        /// The current status of the template.
+        public var status: PinpointSMSVoiceV2ClientTypes.NotifyTemplateStatus?
+        /// An array of supported country codes for the template.
+        public var supportedCountries: [Swift.String]?
+        /// An array of supported voice IDs for voice templates.
+        public var supportedVoiceIds: [PinpointSMSVoiceV2ClientTypes.VoiceId]?
+        /// The unique identifier for the template.
+        /// This member is required.
+        public var templateId: Swift.String?
+        /// The type of the template.
+        /// This member is required.
+        public var templateType: PinpointSMSVoiceV2ClientTypes.NotifyTemplateType?
+        /// The tier access level for the template.
+        public var tierAccess: [PinpointSMSVoiceV2ClientTypes.NotifyConfigurationTier]?
+        /// An array of template variable metadata for the template.
+        public var variables: [Swift.String: PinpointSMSVoiceV2ClientTypes.TemplateVariableMetadata]?
+        /// The version of the template.
+        /// This member is required.
+        public var version: Swift.Int?
+
+        public init(
+            channels: [PinpointSMSVoiceV2ClientTypes.NumberCapability]? = nil,
+            content: Swift.String? = nil,
+            createdTimestamp: Foundation.Date? = nil,
+            languageCode: Swift.String? = nil,
+            status: PinpointSMSVoiceV2ClientTypes.NotifyTemplateStatus? = nil,
+            supportedCountries: [Swift.String]? = nil,
+            supportedVoiceIds: [PinpointSMSVoiceV2ClientTypes.VoiceId]? = nil,
+            templateId: Swift.String? = nil,
+            templateType: PinpointSMSVoiceV2ClientTypes.NotifyTemplateType? = nil,
+            tierAccess: [PinpointSMSVoiceV2ClientTypes.NotifyConfigurationTier]? = nil,
+            variables: [Swift.String: PinpointSMSVoiceV2ClientTypes.TemplateVariableMetadata]? = nil,
+            version: Swift.Int? = nil
+        ) {
+            self.channels = channels
+            self.content = content
+            self.createdTimestamp = createdTimestamp
+            self.languageCode = languageCode
+            self.status = status
+            self.supportedCountries = supportedCountries
+            self.supportedVoiceIds = supportedVoiceIds
+            self.templateId = templateId
+            self.templateType = templateType
+            self.tierAccess = tierAccess
+            self.variables = variables
+            self.version = version
+        }
+    }
+}
+
+public struct DescribeNotifyTemplatesOutput: Swift.Sendable {
+    /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
+    public var nextToken: Swift.String?
+    /// An array of NotifyTemplateInformation objects that contain the results.
+    public var notifyTemplates: [PinpointSMSVoiceV2ClientTypes.NotifyTemplateInformation]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        notifyTemplates: [PinpointSMSVoiceV2ClientTypes.NotifyTemplateInformation]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.notifyTemplates = notifyTemplates
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
     public enum OptedOutFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case endUserOptedOut
         case sdkUnknown(Swift.String)
@@ -3698,38 +5335,6 @@ public struct DescribePhoneNumbersInput: Swift.Sendable {
         self.nextToken = nextToken
         self.owner = owner
         self.phoneNumberIds = phoneNumberIds
-    }
-}
-
-extension PinpointSMSVoiceV2ClientTypes {
-
-    public enum NumberCapability: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case mms
-        case sms
-        case voice
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [NumberCapability] {
-            return [
-                .mms,
-                .sms,
-                .voice
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .mms: return "MMS"
-            case .sms: return "SMS"
-            case .voice: return "VOICE"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -4227,6 +5832,306 @@ public struct DescribeProtectConfigurationsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeRcsAgentCountryLaunchStatusInput: Swift.Sendable {
+    /// An array of CountryLaunchStatusFilter objects to filter the results.
+    public var filters: [PinpointSMSVoiceV2ClientTypes.CountryLaunchStatusFilter]?
+    /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, to filter the results.
+    public var isoCountryCodes: [Swift.String]?
+    /// The maximum number of results to return per each request.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// The unique identifier of the RCS agent. You can use either the RcsAgentId or RcsAgentArn.
+    /// This member is required.
+    public var rcsAgentId: Swift.String?
+
+    public init(
+        filters: [PinpointSMSVoiceV2ClientTypes.CountryLaunchStatusFilter]? = nil,
+        isoCountryCodes: [Swift.String]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        rcsAgentId: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.isoCountryCodes = isoCountryCodes
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.rcsAgentId = rcsAgentId
+    }
+}
+
+public struct DescribeRcsAgentCountryLaunchStatusOutput: Swift.Sendable {
+    /// An array of CountryLaunchStatusInformation objects that contain the per-country launch status details.
+    public var countryLaunchStatus: [PinpointSMSVoiceV2ClientTypes.CountryLaunchStatusInformation]?
+    /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the RCS agent.
+    /// This member is required.
+    public var rcsAgentArn: Swift.String?
+    /// The unique identifier for the RCS agent.
+    /// This member is required.
+    public var rcsAgentId: Swift.String?
+
+    public init(
+        countryLaunchStatus: [PinpointSMSVoiceV2ClientTypes.CountryLaunchStatusInformation]? = nil,
+        nextToken: Swift.String? = nil,
+        rcsAgentArn: Swift.String? = nil,
+        rcsAgentId: Swift.String? = nil
+    ) {
+        self.countryLaunchStatus = countryLaunchStatus
+        self.nextToken = nextToken
+        self.rcsAgentArn = rcsAgentArn
+        self.rcsAgentId = rcsAgentId
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The filter name for filtering RCS agents. The available filter names are:
+    ///
+    /// * deletion-protection-enabled: Filter by deletion protection status.
+    ///
+    /// * opt-out-list-name: Filter by the opt-out list name.
+    ///
+    /// * self-managed-opt-outs-enabled: Filter by self-managed opt-outs status.
+    ///
+    /// * status: Filter by RCS agent status.
+    ///
+    /// * two-way-channel-arn: Filter by the two-way channel ARN.
+    ///
+    /// * two-way-enabled: Filter by two-way enabled status.
+    public enum RcsAgentFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deletionProtectionEnabled
+        case optOutListName
+        case selfManagedOptOutsEnabled
+        case status
+        case twoWayChannelArn
+        case twoWayEnabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RcsAgentFilterName] {
+            return [
+                .deletionProtectionEnabled,
+                .optOutListName,
+                .selfManagedOptOutsEnabled,
+                .status,
+                .twoWayChannelArn,
+                .twoWayEnabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deletionProtectionEnabled: return "deletion-protection-enabled"
+            case .optOutListName: return "opt-out-list-name"
+            case .selfManagedOptOutsEnabled: return "self-managed-opt-outs-enabled"
+            case .status: return "status"
+            case .twoWayChannelArn: return "two-way-channel-arn"
+            case .twoWayEnabled: return "two-way-enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The information for an RCS agent that meets a specified criteria.
+    public struct RcsAgentFilter: Swift.Sendable {
+        /// The name of the attribute to filter on.
+        /// This member is required.
+        public var name: PinpointSMSVoiceV2ClientTypes.RcsAgentFilterName?
+        /// An array values to filter for.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: PinpointSMSVoiceV2ClientTypes.RcsAgentFilterName? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+public struct DescribeRcsAgentsInput: Swift.Sendable {
+    /// An array of RcsAgentFilter objects to filter the results.
+    public var filters: [PinpointSMSVoiceV2ClientTypes.RcsAgentFilter]?
+    /// The maximum number of results to return per each request.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// Use SELF to filter the list of RCS agents to ones your account owns or use SHARED to filter on RCS agents shared with your account. The Owner and RcsAgentIds parameters can't be used at the same time.
+    public var owner: PinpointSMSVoiceV2ClientTypes.Owner?
+    /// An array of unique identifiers for the RCS agents. This is an array of strings that can be either the RcsAgentId or RcsAgentArn.
+    public var rcsAgentIds: [Swift.String]?
+
+    public init(
+        filters: [PinpointSMSVoiceV2ClientTypes.RcsAgentFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        owner: PinpointSMSVoiceV2ClientTypes.Owner? = nil,
+        rcsAgentIds: [Swift.String]? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.owner = owner
+        self.rcsAgentIds = rcsAgentIds
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The current status of the testing agent.
+    ///
+    /// * CREATED: The testing agent has been created.
+    ///
+    /// * PENDING: The testing agent is pending activation.
+    ///
+    /// * ACTIVE: The testing agent is active and available for use.
+    public enum TestingAgentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case created
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TestingAgentStatus] {
+            return [
+                .active,
+                .created,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .created: return "CREATED"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// Contains details about the testing agent associated with an RCS agent.
+    public struct TestingAgentInformation: Swift.Sendable {
+        /// The unique identifier of the registration associated with the testing agent.
+        /// This member is required.
+        public var registrationId: Swift.String?
+        /// The current status of the testing agent.
+        /// This member is required.
+        public var status: PinpointSMSVoiceV2ClientTypes.TestingAgentStatus?
+        /// The unique identifier for the testing agent.
+        public var testingAgentId: Swift.String?
+
+        public init(
+            registrationId: Swift.String? = nil,
+            status: PinpointSMSVoiceV2ClientTypes.TestingAgentStatus? = nil,
+            testingAgentId: Swift.String? = nil
+        ) {
+            self.registrationId = registrationId
+            self.status = status
+            self.testingAgentId = testingAgentId
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The information for an RCS agent in an Amazon Web Services account.
+    public struct RcsAgentInformation: Swift.Sendable {
+        /// The time when the RCS agent was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+        /// This member is required.
+        public var createdTimestamp: Foundation.Date?
+        /// When set to true the RCS agent can't be deleted.
+        /// This member is required.
+        public var deletionProtectionEnabled: Swift.Bool
+        /// The name of the OptOutList associated with the RCS agent.
+        public var optOutListName: Swift.String?
+        /// The unique identifier of the pool associated with the RCS agent.
+        public var poolId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the RCS agent.
+        /// This member is required.
+        public var rcsAgentArn: Swift.String?
+        /// The unique identifier for the RCS agent.
+        /// This member is required.
+        public var rcsAgentId: Swift.String?
+        /// When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+        /// This member is required.
+        public var selfManagedOptOutsEnabled: Swift.Bool
+        /// The current status of the RCS agent.
+        /// This member is required.
+        public var status: PinpointSMSVoiceV2ClientTypes.RcsAgentStatus?
+        /// The testing agent information associated with the RCS agent.
+        public var testingAgent: PinpointSMSVoiceV2ClientTypes.TestingAgentInformation?
+        /// The Amazon Resource Name (ARN) of the two way channel.
+        public var twoWayChannelArn: Swift.String?
+        /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+        public var twoWayChannelRole: Swift.String?
+        /// When set to true you can receive incoming text messages from your end recipients using the TwoWayChannelArn.
+        /// This member is required.
+        public var twoWayEnabled: Swift.Bool
+
+        public init(
+            createdTimestamp: Foundation.Date? = nil,
+            deletionProtectionEnabled: Swift.Bool = false,
+            optOutListName: Swift.String? = nil,
+            poolId: Swift.String? = nil,
+            rcsAgentArn: Swift.String? = nil,
+            rcsAgentId: Swift.String? = nil,
+            selfManagedOptOutsEnabled: Swift.Bool = false,
+            status: PinpointSMSVoiceV2ClientTypes.RcsAgentStatus? = nil,
+            testingAgent: PinpointSMSVoiceV2ClientTypes.TestingAgentInformation? = nil,
+            twoWayChannelArn: Swift.String? = nil,
+            twoWayChannelRole: Swift.String? = nil,
+            twoWayEnabled: Swift.Bool = false
+        ) {
+            self.createdTimestamp = createdTimestamp
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.optOutListName = optOutListName
+            self.poolId = poolId
+            self.rcsAgentArn = rcsAgentArn
+            self.rcsAgentId = rcsAgentId
+            self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
+            self.status = status
+            self.testingAgent = testingAgent
+            self.twoWayChannelArn = twoWayChannelArn
+            self.twoWayChannelRole = twoWayChannelRole
+            self.twoWayEnabled = twoWayEnabled
+        }
+    }
+}
+
+public struct DescribeRcsAgentsOutput: Swift.Sendable {
+    /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
+    public var nextToken: Swift.String?
+    /// An array of RcsAgentInformation objects that contain the details for the requested RCS agents.
+    public var rcsAgents: [PinpointSMSVoiceV2ClientTypes.RcsAgentInformation]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        rcsAgents: [PinpointSMSVoiceV2ClientTypes.RcsAgentInformation]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.rcsAgents = rcsAgents
+    }
+}
+
 extension PinpointSMSVoiceV2ClientTypes {
 
     public enum RegistrationAttachmentFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -4314,6 +6219,8 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var attachmentStatus: PinpointSMSVoiceV2ClientTypes.AttachmentStatus?
         /// A description of why the upload didn't successfully complete.
         public var attachmentUploadErrorReason: PinpointSMSVoiceV2ClientTypes.AttachmentUploadErrorReason?
+        /// The URL to the document that's associated with the registration attachment.
+        public var attachmentUrl: Swift.String?
         /// The time when the registration attachment was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
         /// This member is required.
         public var createdTimestamp: Foundation.Date?
@@ -4327,12 +6234,14 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             attachmentStatus: PinpointSMSVoiceV2ClientTypes.AttachmentStatus? = nil,
             attachmentUploadErrorReason: PinpointSMSVoiceV2ClientTypes.AttachmentUploadErrorReason? = nil,
+            attachmentUrl: Swift.String? = nil,
             createdTimestamp: Foundation.Date? = nil,
             registrationAttachmentArn: Swift.String? = nil,
             registrationAttachmentId: Swift.String? = nil
         ) {
             self.attachmentStatus = attachmentStatus
             self.attachmentUploadErrorReason = attachmentUploadErrorReason
+            self.attachmentUrl = attachmentUrl
             self.createdTimestamp = createdTimestamp
             self.registrationAttachmentArn = registrationAttachmentArn
             self.registrationAttachmentId = registrationAttachmentId
@@ -4672,7 +6581,7 @@ extension PinpointSMSVoiceV2ClientTypes {
     public struct RegistrationFieldValueInformation: Swift.Sendable {
         /// A description of why the registration was denied.
         public var deniedReason: Swift.String?
-        /// Feedback provided for this specific field during the registration review process. This may include validation errors, suggestions for improvement, or additional requirements.
+        /// Generative AI feedback information provided for this specific field during the registration review process. This may include validation errors, suggestions for improvement, or additional requirements.
         public var feedback: Swift.String?
         /// The path to the registration form field. You can use [DescribeRegistrationFieldDefinitions] for a list of FieldPaths.
         /// This member is required.
@@ -5358,7 +7267,7 @@ extension PinpointSMSVoiceV2ClientTypes {
     public struct RegistrationVersionInformation: Swift.Sendable {
         /// An array of RegistrationDeniedReasonInformation objects.
         public var deniedReasons: [PinpointSMSVoiceV2ClientTypes.RegistrationDeniedReasonInformation]?
-        /// Feedback information provided during the registration review process. This includes comments, suggestions, or additional requirements.
+        /// Generative AI feedback information provided during the registration review process. This includes comments, suggestions, or additional requirements.
         public var feedback: Swift.String?
         /// The status of the registration.
         ///
@@ -5621,6 +7530,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
     public enum SpendLimitName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mediaMessageMonthlySpendLimit
+        case notifyMessageMonthlySpendLimit
         case textMessageMonthlySpendLimit
         case voiceMessageMonthlySpendLimit
         case sdkUnknown(Swift.String)
@@ -5628,6 +7538,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public static var allCases: [SpendLimitName] {
             return [
                 .mediaMessageMonthlySpendLimit,
+                .notifyMessageMonthlySpendLimit,
                 .textMessageMonthlySpendLimit,
                 .voiceMessageMonthlySpendLimit
             ]
@@ -5641,6 +7552,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .mediaMessageMonthlySpendLimit: return "MEDIA_MESSAGE_MONTHLY_SPEND_LIMIT"
+            case .notifyMessageMonthlySpendLimit: return "NOTIFY_MESSAGE_MONTHLY_SPEND_LIMIT"
             case .textMessageMonthlySpendLimit: return "TEXT_MESSAGE_MONTHLY_SPEND_LIMIT"
             case .voiceMessageMonthlySpendLimit: return "VOICE_MESSAGE_MONTHLY_SPEND_LIMIT"
             case let .sdkUnknown(s): return s
@@ -5697,12 +7609,19 @@ public struct DescribeSpendLimitsOutput: Swift.Sendable {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
+    /// The filter name for filtering verified destination numbers. The available filter names are:
+    ///
+    /// * status: Filter by verification status.
+    ///
+    /// * rcs-agent-id: Filter by the RCS agent identifier.
     public enum VerifiedDestinationNumberFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case rcsAgentId
         case status
         case sdkUnknown(Swift.String)
 
         public static var allCases: [VerifiedDestinationNumberFilterName] {
             return [
+                .rcsAgentId,
                 .status
             ]
         }
@@ -5714,6 +7633,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .rcsAgentId: return "rcs-agent-id"
             case .status: return "status"
             case let .sdkUnknown(s): return s
             }
@@ -5779,6 +7699,8 @@ extension PinpointSMSVoiceV2ClientTypes {
         /// The verified destination phone number, in E.164 format.
         /// This member is required.
         public var destinationPhoneNumber: Swift.String?
+        /// The unique identifier of the RCS agent associated with the verified destination number.
+        public var rcsAgentId: Swift.String?
         /// The status of the verified destination phone number.
         ///
         /// * PENDING: The phone number hasn't been verified yet.
@@ -5796,12 +7718,14 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             createdTimestamp: Foundation.Date? = nil,
             destinationPhoneNumber: Swift.String? = nil,
+            rcsAgentId: Swift.String? = nil,
             status: PinpointSMSVoiceV2ClientTypes.VerificationStatus? = nil,
             verifiedDestinationNumberArn: Swift.String? = nil,
             verifiedDestinationNumberId: Swift.String? = nil
         ) {
             self.createdTimestamp = createdTimestamp
             self.destinationPhoneNumber = destinationPhoneNumber
+            self.rcsAgentId = rcsAgentId
             self.status = status
             self.verifiedDestinationNumberArn = verifiedDestinationNumberArn
             self.verifiedDestinationNumberId = verifiedDestinationNumberId
@@ -5857,8 +7781,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 public struct DisassociateOriginationIdentityInput: Swift.Sendable {
     /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
-    /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
-    /// This member is required.
+    /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region. This field is optional and is not required for origination identity types that are not country-specific, such as RCS agents.
     public var isoCountryCode: Swift.String?
     /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use [DescribePhoneNumbers] find the values for PhoneNumberId and PhoneNumberArn, or use [DescribeSenderIds] to get the values for SenderId and SenderIdArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
@@ -6201,6 +8124,89 @@ extension PinpointSMSVoiceV2ClientTypes {
     }
 }
 
+public struct ListNotifyCountriesInput: Swift.Sendable {
+    /// An array of channels to filter the results by.
+    public var channels: [PinpointSMSVoiceV2ClientTypes.NumberCapability]?
+    /// The maximum number of results to return per each request.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// The tier to filter the results by.
+    public var tier: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationTier?
+    /// An array of use cases to filter the results by.
+    public var useCases: [PinpointSMSVoiceV2ClientTypes.NotifyConfigurationUseCase]?
+
+    public init(
+        channels: [PinpointSMSVoiceV2ClientTypes.NumberCapability]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        tier: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationTier? = nil,
+        useCases: [PinpointSMSVoiceV2ClientTypes.NotifyConfigurationUseCase]? = nil
+    ) {
+        self.channels = channels
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.tier = tier
+        self.useCases = useCases
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The information for a country that supports notify messaging.
+    public struct NotifyCountryInformation: Swift.Sendable {
+        /// The name of the country.
+        /// This member is required.
+        public var countryName: Swift.String?
+        /// Whether a customer-owned identity is required to send notify messages to this country.
+        /// This member is required.
+        public var customerOwnedIdentityRequired: Swift.Bool
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+        /// This member is required.
+        public var isoCountryCode: Swift.String?
+        /// An array of supported channels for the country. Supported values include SMS and VOICE.
+        /// This member is required.
+        public var supportedChannels: [PinpointSMSVoiceV2ClientTypes.NumberCapability]?
+        /// An array of supported tiers for the country.
+        /// This member is required.
+        public var supportedTiers: [PinpointSMSVoiceV2ClientTypes.NotifyConfigurationTier]?
+        /// An array of supported use cases for the country.
+        /// This member is required.
+        public var supportedUseCases: [PinpointSMSVoiceV2ClientTypes.NotifyConfigurationUseCase]?
+
+        public init(
+            countryName: Swift.String? = nil,
+            customerOwnedIdentityRequired: Swift.Bool = false,
+            isoCountryCode: Swift.String? = nil,
+            supportedChannels: [PinpointSMSVoiceV2ClientTypes.NumberCapability]? = nil,
+            supportedTiers: [PinpointSMSVoiceV2ClientTypes.NotifyConfigurationTier]? = nil,
+            supportedUseCases: [PinpointSMSVoiceV2ClientTypes.NotifyConfigurationUseCase]? = nil
+        ) {
+            self.countryName = countryName
+            self.customerOwnedIdentityRequired = customerOwnedIdentityRequired
+            self.isoCountryCode = isoCountryCode
+            self.supportedChannels = supportedChannels
+            self.supportedTiers = supportedTiers
+            self.supportedUseCases = supportedUseCases
+        }
+    }
+}
+
+public struct ListNotifyCountriesOutput: Swift.Sendable {
+    /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
+    public var nextToken: Swift.String?
+    /// An array of NotifyCountryInformation objects that contain the results.
+    public var notifyCountries: [PinpointSMSVoiceV2ClientTypes.NotifyCountryInformation]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        notifyCountries: [PinpointSMSVoiceV2ClientTypes.NotifyCountryInformation]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.notifyCountries = notifyCountries
+    }
+}
+
 extension PinpointSMSVoiceV2ClientTypes {
 
     public enum PoolOriginationIdentitiesFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -6279,7 +8285,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
     /// The metadata for an origination identity associated with a pool.
     public struct OriginationIdentityMetadata: Swift.Sendable {
-        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region. This field is optional and may not be present for origination identity types that are not country-specific, such as RCS agents.
         /// This member is required.
         public var isoCountryCode: Swift.String?
         /// Describes if the origination identity can be used for text messages, voice calls or both.
@@ -7526,6 +9532,140 @@ public struct SendMediaMessageOutput: Swift.Sendable {
     }
 }
 
+public struct SendNotifyTextMessageInput: Swift.Sendable {
+    /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
+    public var configurationSetName: Swift.String?
+    /// You can specify custom data in this field. If you do, that data is logged to the event destination.
+    public var context: [Swift.String: Swift.String]?
+    /// The destination phone number in E.164 format.
+    /// This member is required.
+    public var destinationPhoneNumber: Swift.String?
+    /// When set to true, the message is checked and validated, but isn't sent to the end recipient.
+    public var dryRun: Swift.Bool?
+    /// Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using [PutMessageFeedback].
+    public var messageFeedbackEnabled: Swift.Bool?
+    /// The unique identifier of the notify configuration to use for sending the message. This can be either the NotifyConfigurationId or NotifyConfigurationArn.
+    /// This member is required.
+    public var notifyConfigurationId: Swift.String?
+    /// The unique identifier of the template to use for the message.
+    public var templateId: Swift.String?
+    /// A map of template variable names and their values. All variable values are passed as strings regardless of the declared variable type. For example, pass INTEGER values as "42" and BOOLEAN values as "true" or "false".
+    /// This member is required.
+    public var templateVariables: [Swift.String: Swift.String]?
+    /// How long the text message is valid for, in seconds. By default this is 72 hours.
+    public var timeToLive: Swift.Int?
+
+    public init(
+        configurationSetName: Swift.String? = nil,
+        context: [Swift.String: Swift.String]? = nil,
+        destinationPhoneNumber: Swift.String? = nil,
+        dryRun: Swift.Bool? = false,
+        messageFeedbackEnabled: Swift.Bool? = nil,
+        notifyConfigurationId: Swift.String? = nil,
+        templateId: Swift.String? = nil,
+        templateVariables: [Swift.String: Swift.String]? = nil,
+        timeToLive: Swift.Int? = nil
+    ) {
+        self.configurationSetName = configurationSetName
+        self.context = context
+        self.destinationPhoneNumber = destinationPhoneNumber
+        self.dryRun = dryRun
+        self.messageFeedbackEnabled = messageFeedbackEnabled
+        self.notifyConfigurationId = notifyConfigurationId
+        self.templateId = templateId
+        self.templateVariables = templateVariables
+        self.timeToLive = timeToLive
+    }
+}
+
+public struct SendNotifyTextMessageOutput: Swift.Sendable {
+    /// The unique identifier for the message.
+    public var messageId: Swift.String?
+    /// The message body after template variable substitution has been applied.
+    public var resolvedMessageBody: Swift.String?
+    /// The unique identifier of the template used for the message.
+    public var templateId: Swift.String?
+
+    public init(
+        messageId: Swift.String? = nil,
+        resolvedMessageBody: Swift.String? = nil,
+        templateId: Swift.String? = nil
+    ) {
+        self.messageId = messageId
+        self.resolvedMessageBody = resolvedMessageBody
+        self.templateId = templateId
+    }
+}
+
+public struct SendNotifyVoiceMessageInput: Swift.Sendable {
+    /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
+    public var configurationSetName: Swift.String?
+    /// You can specify custom data in this field. If you do, that data is logged to the event destination.
+    public var context: [Swift.String: Swift.String]?
+    /// The destination phone number in E.164 format.
+    /// This member is required.
+    public var destinationPhoneNumber: Swift.String?
+    /// When set to true, the message is checked and validated, but isn't sent to the end recipient.
+    public var dryRun: Swift.Bool?
+    /// Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using [PutMessageFeedback].
+    public var messageFeedbackEnabled: Swift.Bool?
+    /// The unique identifier of the notify configuration to use for sending the message. This can be either the NotifyConfigurationId or NotifyConfigurationArn.
+    /// This member is required.
+    public var notifyConfigurationId: Swift.String?
+    /// The unique identifier of the template to use for the message.
+    public var templateId: Swift.String?
+    /// A map of template variable names and their values. All variable values are passed as strings regardless of the declared variable type. For example, pass INTEGER values as "42" and BOOLEAN values as "true" or "false".
+    /// This member is required.
+    public var templateVariables: [Swift.String: Swift.String]?
+    /// How long the voice message is valid for, in seconds. By default this is 72 hours.
+    public var timeToLive: Swift.Int?
+    /// The voice ID to use for the voice message.
+    public var voiceId: PinpointSMSVoiceV2ClientTypes.VoiceId?
+
+    public init(
+        configurationSetName: Swift.String? = nil,
+        context: [Swift.String: Swift.String]? = nil,
+        destinationPhoneNumber: Swift.String? = nil,
+        dryRun: Swift.Bool? = false,
+        messageFeedbackEnabled: Swift.Bool? = nil,
+        notifyConfigurationId: Swift.String? = nil,
+        templateId: Swift.String? = nil,
+        templateVariables: [Swift.String: Swift.String]? = nil,
+        timeToLive: Swift.Int? = nil,
+        voiceId: PinpointSMSVoiceV2ClientTypes.VoiceId? = nil
+    ) {
+        self.configurationSetName = configurationSetName
+        self.context = context
+        self.destinationPhoneNumber = destinationPhoneNumber
+        self.dryRun = dryRun
+        self.messageFeedbackEnabled = messageFeedbackEnabled
+        self.notifyConfigurationId = notifyConfigurationId
+        self.templateId = templateId
+        self.templateVariables = templateVariables
+        self.timeToLive = timeToLive
+        self.voiceId = voiceId
+    }
+}
+
+public struct SendNotifyVoiceMessageOutput: Swift.Sendable {
+    /// The unique identifier for the message.
+    public var messageId: Swift.String?
+    /// The message body after template variable substitution has been applied.
+    public var resolvedMessageBody: Swift.String?
+    /// The unique identifier of the template used for the message.
+    public var templateId: Swift.String?
+
+    public init(
+        messageId: Swift.String? = nil,
+        resolvedMessageBody: Swift.String? = nil,
+        templateId: Swift.String? = nil
+    ) {
+        self.messageId = messageId
+        self.resolvedMessageBody = resolvedMessageBody
+        self.templateId = templateId
+    }
+}
+
 public struct SendTextMessageInput: Swift.Sendable {
     /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
     public var configurationSetName: Swift.String?
@@ -7624,206 +9764,6 @@ extension PinpointSMSVoiceV2ClientTypes {
             switch self {
             case .ssml: return "SSML"
             case .text: return "TEXT"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension PinpointSMSVoiceV2ClientTypes {
-
-    public enum VoiceId: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case amy
-        case astrid
-        case bianca
-        case brian
-        case camila
-        case carla
-        case carmen
-        case celine
-        case chantal
-        case conchita
-        case cristiano
-        case dora
-        case emma
-        case enrique
-        case ewa
-        case filiz
-        case geraint
-        case giorgio
-        case gwyneth
-        case hans
-        case ines
-        case ivy
-        case jacek
-        case jan
-        case joanna
-        case joey
-        case justin
-        case karl
-        case kendra
-        case kimberly
-        case lea
-        case liv
-        case lotte
-        case lucia
-        case lupe
-        case mads
-        case maja
-        case marlene
-        case mathieu
-        case matthew
-        case maxim
-        case mia
-        case miguel
-        case mizuki
-        case naja
-        case nicole
-        case penelope
-        case raveena
-        case ricardo
-        case ruben
-        case russell
-        case salli
-        case seoyeon
-        case takumi
-        case tatyana
-        case vicki
-        case vitoria
-        case zeina
-        case zhiyu
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [VoiceId] {
-            return [
-                .amy,
-                .astrid,
-                .bianca,
-                .brian,
-                .camila,
-                .carla,
-                .carmen,
-                .celine,
-                .chantal,
-                .conchita,
-                .cristiano,
-                .dora,
-                .emma,
-                .enrique,
-                .ewa,
-                .filiz,
-                .geraint,
-                .giorgio,
-                .gwyneth,
-                .hans,
-                .ines,
-                .ivy,
-                .jacek,
-                .jan,
-                .joanna,
-                .joey,
-                .justin,
-                .karl,
-                .kendra,
-                .kimberly,
-                .lea,
-                .liv,
-                .lotte,
-                .lucia,
-                .lupe,
-                .mads,
-                .maja,
-                .marlene,
-                .mathieu,
-                .matthew,
-                .maxim,
-                .mia,
-                .miguel,
-                .mizuki,
-                .naja,
-                .nicole,
-                .penelope,
-                .raveena,
-                .ricardo,
-                .ruben,
-                .russell,
-                .salli,
-                .seoyeon,
-                .takumi,
-                .tatyana,
-                .vicki,
-                .vitoria,
-                .zeina,
-                .zhiyu
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .amy: return "AMY"
-            case .astrid: return "ASTRID"
-            case .bianca: return "BIANCA"
-            case .brian: return "BRIAN"
-            case .camila: return "CAMILA"
-            case .carla: return "CARLA"
-            case .carmen: return "CARMEN"
-            case .celine: return "CELINE"
-            case .chantal: return "CHANTAL"
-            case .conchita: return "CONCHITA"
-            case .cristiano: return "CRISTIANO"
-            case .dora: return "DORA"
-            case .emma: return "EMMA"
-            case .enrique: return "ENRIQUE"
-            case .ewa: return "EWA"
-            case .filiz: return "FILIZ"
-            case .geraint: return "GERAINT"
-            case .giorgio: return "GIORGIO"
-            case .gwyneth: return "GWYNETH"
-            case .hans: return "HANS"
-            case .ines: return "INES"
-            case .ivy: return "IVY"
-            case .jacek: return "JACEK"
-            case .jan: return "JAN"
-            case .joanna: return "JOANNA"
-            case .joey: return "JOEY"
-            case .justin: return "JUSTIN"
-            case .karl: return "KARL"
-            case .kendra: return "KENDRA"
-            case .kimberly: return "KIMBERLY"
-            case .lea: return "LEA"
-            case .liv: return "LIV"
-            case .lotte: return "LOTTE"
-            case .lucia: return "LUCIA"
-            case .lupe: return "LUPE"
-            case .mads: return "MADS"
-            case .maja: return "MAJA"
-            case .marlene: return "MARLENE"
-            case .mathieu: return "MATHIEU"
-            case .matthew: return "MATTHEW"
-            case .maxim: return "MAXIM"
-            case .mia: return "MIA"
-            case .miguel: return "MIGUEL"
-            case .mizuki: return "MIZUKI"
-            case .naja: return "NAJA"
-            case .nicole: return "NICOLE"
-            case .penelope: return "PENELOPE"
-            case .raveena: return "RAVEENA"
-            case .ricardo: return "RICARDO"
-            case .ruben: return "RUBEN"
-            case .russell: return "RUSSELL"
-            case .salli: return "SALLI"
-            case .seoyeon: return "SEOYEON"
-            case .takumi: return "TAKUMI"
-            case .tatyana: return "TATYANA"
-            case .vicki: return "VICKI"
-            case .vitoria: return "VITORIA"
-            case .zeina: return "ZEINA"
-            case .zhiyu: return "ZHIYU"
             case let .sdkUnknown(s): return s
             }
         }
@@ -8062,6 +10002,29 @@ public struct SetMediaMessageSpendLimitOverrideOutput: Swift.Sendable {
     }
 }
 
+public struct SetNotifyMessageSpendLimitOverrideInput: Swift.Sendable {
+    /// The new monthly limit to enforce on notify messages.
+    /// This member is required.
+    public var monthlyLimit: Swift.Int?
+
+    public init(
+        monthlyLimit: Swift.Int? = nil
+    ) {
+        self.monthlyLimit = monthlyLimit
+    }
+}
+
+public struct SetNotifyMessageSpendLimitOverrideOutput: Swift.Sendable {
+    /// The current monthly limit, in US dollars.
+    public var monthlyLimit: Swift.Int?
+
+    public init(
+        monthlyLimit: Swift.Int? = nil
+    ) {
+        self.monthlyLimit = monthlyLimit
+    }
+}
+
 public struct SetTextMessageSpendLimitOverrideInput: Swift.Sendable {
     /// The new monthly limit to enforce on text messages.
     /// This member is required.
@@ -8276,6 +10239,111 @@ public struct UpdateEventDestinationOutput: Swift.Sendable {
         self.configurationSetArn = configurationSetArn
         self.configurationSetName = configurationSetName
         self.eventDestination = eventDestination
+    }
+}
+
+public struct UpdateNotifyConfigurationInput: Swift.Sendable {
+    /// The template ID to set as the default, or the special value UNSET_DEFAULT_TEMPLATE to clear the current default template.
+    public var defaultTemplateId: Swift.String?
+    /// When set to true the notify configuration can't be deleted.
+    public var deletionProtectionEnabled: Swift.Bool?
+    /// An array of channels to enable for the notify configuration. Supported values include SMS and VOICE.
+    public var enabledChannels: [PinpointSMSVoiceV2ClientTypes.NumberCapability]?
+    /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, that are enabled for the notify configuration.
+    public var enabledCountries: [Swift.String]?
+    /// The identifier of the notify configuration to update. The NotifyConfigurationId can be found using the [DescribeNotifyConfigurations] operation.
+    /// This member is required.
+    public var notifyConfigurationId: Swift.String?
+    /// The pool ID or ARN to associate, or the special value UNSET_DEFAULT_POOL_FOR_NOTIFY to clear the current default pool.
+    public var poolId: Swift.String?
+
+    public init(
+        defaultTemplateId: Swift.String? = nil,
+        deletionProtectionEnabled: Swift.Bool? = nil,
+        enabledChannels: [PinpointSMSVoiceV2ClientTypes.NumberCapability]? = nil,
+        enabledCountries: [Swift.String]? = nil,
+        notifyConfigurationId: Swift.String? = nil,
+        poolId: Swift.String? = nil
+    ) {
+        self.defaultTemplateId = defaultTemplateId
+        self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.enabledChannels = enabledChannels
+        self.enabledCountries = enabledCountries
+        self.notifyConfigurationId = notifyConfigurationId
+        self.poolId = poolId
+    }
+}
+
+public struct UpdateNotifyConfigurationOutput: Swift.Sendable {
+    /// The time when the notify configuration was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+    /// This member is required.
+    public var createdTimestamp: Foundation.Date?
+    /// The default template identifier associated with the notify configuration.
+    public var defaultTemplateId: Swift.String?
+    /// When set to true deletion protection is enabled. By default this is set to false.
+    /// This member is required.
+    public var deletionProtectionEnabled: Swift.Bool
+    /// The display name associated with the notify configuration.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// An array of channels enabled for the notify configuration. Supported values include SMS and VOICE.
+    /// This member is required.
+    public var enabledChannels: [PinpointSMSVoiceV2ClientTypes.NumberCapability]?
+    /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, that are enabled for the notify configuration.
+    public var enabledCountries: [Swift.String]?
+    /// The Amazon Resource Name (ARN) for the notify configuration.
+    /// This member is required.
+    public var notifyConfigurationArn: Swift.String?
+    /// The unique identifier for the notify configuration.
+    /// This member is required.
+    public var notifyConfigurationId: Swift.String?
+    /// The identifier of the pool associated with the notify configuration.
+    public var poolId: Swift.String?
+    /// The reason the notify configuration was rejected, if applicable.
+    public var rejectionReason: Swift.String?
+    /// The current status of the notify configuration.
+    /// This member is required.
+    public var status: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationStatus?
+    /// The tier of the notify configuration.
+    /// This member is required.
+    public var tier: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationTier?
+    /// The tier upgrade status of the notify configuration.
+    /// This member is required.
+    public var tierUpgradeStatus: PinpointSMSVoiceV2ClientTypes.TierUpgradeStatus?
+    /// The use case for the notify configuration.
+    /// This member is required.
+    public var useCase: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationUseCase?
+
+    public init(
+        createdTimestamp: Foundation.Date? = nil,
+        defaultTemplateId: Swift.String? = nil,
+        deletionProtectionEnabled: Swift.Bool = false,
+        displayName: Swift.String? = nil,
+        enabledChannels: [PinpointSMSVoiceV2ClientTypes.NumberCapability]? = nil,
+        enabledCountries: [Swift.String]? = nil,
+        notifyConfigurationArn: Swift.String? = nil,
+        notifyConfigurationId: Swift.String? = nil,
+        poolId: Swift.String? = nil,
+        rejectionReason: Swift.String? = nil,
+        status: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationStatus? = nil,
+        tier: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationTier? = nil,
+        tierUpgradeStatus: PinpointSMSVoiceV2ClientTypes.TierUpgradeStatus? = nil,
+        useCase: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationUseCase? = nil
+    ) {
+        self.createdTimestamp = createdTimestamp
+        self.defaultTemplateId = defaultTemplateId
+        self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.displayName = displayName
+        self.enabledChannels = enabledChannels
+        self.enabledCountries = enabledCountries
+        self.notifyConfigurationArn = notifyConfigurationArn
+        self.notifyConfigurationId = notifyConfigurationId
+        self.poolId = poolId
+        self.rejectionReason = rejectionReason
+        self.status = status
+        self.tier = tier
+        self.tierUpgradeStatus = tierUpgradeStatus
+        self.useCase = useCase
     }
 }
 
@@ -8590,6 +10658,96 @@ public struct UpdateProtectConfigurationCountryRuleSetOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateRcsAgentInput: Swift.Sendable {
+    /// By default this is set to false. When set to true the RCS agent can't be deleted.
+    public var deletionProtectionEnabled: Swift.Bool?
+    /// The OptOutList to associate with the RCS agent. Valid values are either OptOutListName or OptOutListArn.
+    public var optOutListName: Swift.String?
+    /// The unique identifier of the RCS agent to update. You can use either the RcsAgentId or RcsAgentArn.
+    /// This member is required.
+    public var rcsAgentId: Swift.String?
+    /// By default this is set to false. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+    public var selfManagedOptOutsEnabled: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the two way channel.
+    public var twoWayChannelArn: Swift.String?
+    /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+    public var twoWayChannelRole: Swift.String?
+    /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
+    public var twoWayEnabled: Swift.Bool?
+
+    public init(
+        deletionProtectionEnabled: Swift.Bool? = nil,
+        optOutListName: Swift.String? = nil,
+        rcsAgentId: Swift.String? = nil,
+        selfManagedOptOutsEnabled: Swift.Bool? = nil,
+        twoWayChannelArn: Swift.String? = nil,
+        twoWayChannelRole: Swift.String? = nil,
+        twoWayEnabled: Swift.Bool? = nil
+    ) {
+        self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.optOutListName = optOutListName
+        self.rcsAgentId = rcsAgentId
+        self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
+        self.twoWayChannelArn = twoWayChannelArn
+        self.twoWayChannelRole = twoWayChannelRole
+        self.twoWayEnabled = twoWayEnabled
+    }
+}
+
+public struct UpdateRcsAgentOutput: Swift.Sendable {
+    /// The time when the RCS agent was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+    /// This member is required.
+    public var createdTimestamp: Foundation.Date?
+    /// When set to true deletion protection is enabled. By default this is set to false.
+    /// This member is required.
+    public var deletionProtectionEnabled: Swift.Bool
+    /// The name of the OptOutList associated with the RCS agent.
+    public var optOutListName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the updated RCS agent.
+    /// This member is required.
+    public var rcsAgentArn: Swift.String?
+    /// The unique identifier for the RCS agent.
+    /// This member is required.
+    public var rcsAgentId: Swift.String?
+    /// By default this is set to false. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+    /// This member is required.
+    public var selfManagedOptOutsEnabled: Swift.Bool
+    /// The current status of the RCS agent.
+    /// This member is required.
+    public var status: PinpointSMSVoiceV2ClientTypes.RcsAgentStatus?
+    /// The Amazon Resource Name (ARN) of the two way channel.
+    public var twoWayChannelArn: Swift.String?
+    /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+    public var twoWayChannelRole: Swift.String?
+    /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
+    /// This member is required.
+    public var twoWayEnabled: Swift.Bool
+
+    public init(
+        createdTimestamp: Foundation.Date? = nil,
+        deletionProtectionEnabled: Swift.Bool = false,
+        optOutListName: Swift.String? = nil,
+        rcsAgentArn: Swift.String? = nil,
+        rcsAgentId: Swift.String? = nil,
+        selfManagedOptOutsEnabled: Swift.Bool = false,
+        status: PinpointSMSVoiceV2ClientTypes.RcsAgentStatus? = nil,
+        twoWayChannelArn: Swift.String? = nil,
+        twoWayChannelRole: Swift.String? = nil,
+        twoWayEnabled: Swift.Bool = false
+    ) {
+        self.createdTimestamp = createdTimestamp
+        self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.optOutListName = optOutListName
+        self.rcsAgentArn = rcsAgentArn
+        self.rcsAgentId = rcsAgentId
+        self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
+        self.status = status
+        self.twoWayChannelArn = twoWayChannelArn
+        self.twoWayChannelRole = twoWayChannelRole
+        self.twoWayEnabled = twoWayEnabled
+    }
+}
+
 public struct UpdateSenderIdInput: Swift.Sendable {
     /// By default this is set to false. When set to true the sender ID can't be deleted.
     public var deletionProtectionEnabled: Swift.Bool?
@@ -8741,6 +10899,13 @@ extension CreateEventDestinationInput {
     }
 }
 
+extension CreateNotifyConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateNotifyConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateOptOutListInput {
 
     static func urlPathProvider(_ value: CreateOptOutListInput) -> Swift.String? {
@@ -8758,6 +10923,13 @@ extension CreatePoolInput {
 extension CreateProtectConfigurationInput {
 
     static func urlPathProvider(_ value: CreateProtectConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateRcsAgentInput {
+
+    static func urlPathProvider(_ value: CreateRcsAgentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8846,6 +11018,20 @@ extension DeleteMediaMessageSpendLimitOverrideInput {
     }
 }
 
+extension DeleteNotifyConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteNotifyConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteNotifyMessageSpendLimitOverrideInput {
+
+    static func urlPathProvider(_ value: DeleteNotifyMessageSpendLimitOverrideInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteOptedOutNumberInput {
 
     static func urlPathProvider(_ value: DeleteOptedOutNumberInput) -> Swift.String? {
@@ -8877,6 +11063,13 @@ extension DeleteProtectConfigurationInput {
 extension DeleteProtectConfigurationRuleSetNumberOverrideInput {
 
     static func urlPathProvider(_ value: DeleteProtectConfigurationRuleSetNumberOverrideInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteRcsAgentInput {
+
+    static func urlPathProvider(_ value: DeleteRcsAgentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8958,6 +11151,20 @@ extension DescribeKeywordsInput {
     }
 }
 
+extension DescribeNotifyConfigurationsInput {
+
+    static func urlPathProvider(_ value: DescribeNotifyConfigurationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeNotifyTemplatesInput {
+
+    static func urlPathProvider(_ value: DescribeNotifyTemplatesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeOptedOutNumbersInput {
 
     static func urlPathProvider(_ value: DescribeOptedOutNumbersInput) -> Swift.String? {
@@ -8989,6 +11196,20 @@ extension DescribePoolsInput {
 extension DescribeProtectConfigurationsInput {
 
     static func urlPathProvider(_ value: DescribeProtectConfigurationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeRcsAgentCountryLaunchStatusInput {
+
+    static func urlPathProvider(_ value: DescribeRcsAgentCountryLaunchStatusInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeRcsAgentsInput {
+
+    static func urlPathProvider(_ value: DescribeRcsAgentsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9094,6 +11315,13 @@ extension GetProtectConfigurationCountryRuleSetInput {
 extension GetResourcePolicyInput {
 
     static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListNotifyCountriesInput {
+
+    static func urlPathProvider(_ value: ListNotifyCountriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9210,6 +11438,20 @@ extension SendMediaMessageInput {
     }
 }
 
+extension SendNotifyTextMessageInput {
+
+    static func urlPathProvider(_ value: SendNotifyTextMessageInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension SendNotifyVoiceMessageInput {
+
+    static func urlPathProvider(_ value: SendNotifyVoiceMessageInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension SendTextMessageInput {
 
     static func urlPathProvider(_ value: SendTextMessageInput) -> Swift.String? {
@@ -9259,6 +11501,13 @@ extension SetMediaMessageSpendLimitOverrideInput {
     }
 }
 
+extension SetNotifyMessageSpendLimitOverrideInput {
+
+    static func urlPathProvider(_ value: SetNotifyMessageSpendLimitOverrideInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension SetTextMessageSpendLimitOverrideInput {
 
     static func urlPathProvider(_ value: SetTextMessageSpendLimitOverrideInput) -> Swift.String? {
@@ -9301,6 +11550,13 @@ extension UpdateEventDestinationInput {
     }
 }
 
+extension UpdateNotifyConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateNotifyConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdatePhoneNumberInput {
 
     static func urlPathProvider(_ value: UpdatePhoneNumberInput) -> Swift.String? {
@@ -9325,6 +11581,13 @@ extension UpdateProtectConfigurationInput {
 extension UpdateProtectConfigurationCountryRuleSetInput {
 
     static func urlPathProvider(_ value: UpdateProtectConfigurationCountryRuleSetInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateRcsAgentInput {
+
+    static func urlPathProvider(_ value: UpdateRcsAgentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9395,6 +11658,22 @@ extension CreateEventDestinationInput {
     }
 }
 
+extension CreateNotifyConfigurationInput {
+
+    static func write(value: CreateNotifyConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["DefaultTemplateId"].write(value.defaultTemplateId)
+        try writer["DeletionProtectionEnabled"].write(value.deletionProtectionEnabled)
+        try writer["DisplayName"].write(value.displayName)
+        try writer["EnabledChannels"].writeList(value.enabledChannels, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PinpointSMSVoiceV2ClientTypes.NumberCapability>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EnabledCountries"].writeList(value.enabledCountries, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PoolId"].write(value.poolId)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: PinpointSMSVoiceV2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UseCase"].write(value.useCase)
+    }
+}
+
 extension CreateOptOutListInput {
 
     static func write(value: CreateOptOutListInput?, to writer: SmithyJSON.Writer) throws {
@@ -9424,6 +11703,17 @@ extension CreateProtectConfigurationInput {
         guard let value else { return }
         try writer["ClientToken"].write(value.clientToken)
         try writer["DeletionProtectionEnabled"].write(value.deletionProtectionEnabled)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: PinpointSMSVoiceV2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateRcsAgentInput {
+
+    static func write(value: CreateRcsAgentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["DeletionProtectionEnabled"].write(value.deletionProtectionEnabled)
+        try writer["OptOutListName"].write(value.optOutListName)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: PinpointSMSVoiceV2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -9472,6 +11762,7 @@ extension CreateVerifiedDestinationNumberInput {
         guard let value else { return }
         try writer["ClientToken"].write(value.clientToken)
         try writer["DestinationPhoneNumber"].write(value.destinationPhoneNumber)
+        try writer["RcsAgentId"].write(value.rcsAgentId)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: PinpointSMSVoiceV2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -9534,6 +11825,22 @@ extension DeleteMediaMessageSpendLimitOverrideInput {
     }
 }
 
+extension DeleteNotifyConfigurationInput {
+
+    static func write(value: DeleteNotifyConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NotifyConfigurationId"].write(value.notifyConfigurationId)
+    }
+}
+
+extension DeleteNotifyMessageSpendLimitOverrideInput {
+
+    static func write(value: DeleteNotifyMessageSpendLimitOverrideInput?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+}
+
 extension DeleteOptedOutNumberInput {
 
     static func write(value: DeleteOptedOutNumberInput?, to writer: SmithyJSON.Writer) throws {
@@ -9573,6 +11880,14 @@ extension DeleteProtectConfigurationRuleSetNumberOverrideInput {
         guard let value else { return }
         try writer["DestinationPhoneNumber"].write(value.destinationPhoneNumber)
         try writer["ProtectConfigurationId"].write(value.protectConfigurationId)
+    }
+}
+
+extension DeleteRcsAgentInput {
+
+    static func write(value: DeleteRcsAgentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RcsAgentId"].write(value.rcsAgentId)
     }
 }
 
@@ -9674,6 +11989,28 @@ extension DescribeKeywordsInput {
     }
 }
 
+extension DescribeNotifyConfigurationsInput {
+
+    static func write(value: DescribeNotifyConfigurationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["NotifyConfigurationIds"].writeList(value.notifyConfigurationIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DescribeNotifyTemplatesInput {
+
+    static func write(value: DescribeNotifyTemplatesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: PinpointSMSVoiceV2ClientTypes.NotifyTemplateFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["TemplateIds"].writeList(value.templateIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension DescribeOptedOutNumbersInput {
 
     static func write(value: DescribeOptedOutNumbersInput?, to writer: SmithyJSON.Writer) throws {
@@ -9729,6 +12066,30 @@ extension DescribeProtectConfigurationsInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["ProtectConfigurationIds"].writeList(value.protectConfigurationIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DescribeRcsAgentCountryLaunchStatusInput {
+
+    static func write(value: DescribeRcsAgentCountryLaunchStatusInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: PinpointSMSVoiceV2ClientTypes.CountryLaunchStatusFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IsoCountryCodes"].writeList(value.isoCountryCodes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["RcsAgentId"].write(value.rcsAgentId)
+    }
+}
+
+extension DescribeRcsAgentsInput {
+
+    static func write(value: DescribeRcsAgentsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: PinpointSMSVoiceV2ClientTypes.RcsAgentFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Owner"].write(value.owner)
+        try writer["RcsAgentIds"].writeList(value.rcsAgentIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -9888,6 +12249,18 @@ extension GetResourcePolicyInput {
     static func write(value: GetResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ResourceArn"].write(value.resourceArn)
+    }
+}
+
+extension ListNotifyCountriesInput {
+
+    static func write(value: ListNotifyCountriesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Channels"].writeList(value.channels, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PinpointSMSVoiceV2ClientTypes.NumberCapability>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Tier"].write(value.tier)
+        try writer["UseCases"].writeList(value.useCases, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PinpointSMSVoiceV2ClientTypes.NotifyConfigurationUseCase>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -10074,6 +12447,39 @@ extension SendMediaMessageInput {
     }
 }
 
+extension SendNotifyTextMessageInput {
+
+    static func write(value: SendNotifyTextMessageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConfigurationSetName"].write(value.configurationSetName)
+        try writer["Context"].writeMap(value.context, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["DestinationPhoneNumber"].write(value.destinationPhoneNumber)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["MessageFeedbackEnabled"].write(value.messageFeedbackEnabled)
+        try writer["NotifyConfigurationId"].write(value.notifyConfigurationId)
+        try writer["TemplateId"].write(value.templateId)
+        try writer["TemplateVariables"].writeMap(value.templateVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["TimeToLive"].write(value.timeToLive)
+    }
+}
+
+extension SendNotifyVoiceMessageInput {
+
+    static func write(value: SendNotifyVoiceMessageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConfigurationSetName"].write(value.configurationSetName)
+        try writer["Context"].writeMap(value.context, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["DestinationPhoneNumber"].write(value.destinationPhoneNumber)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["MessageFeedbackEnabled"].write(value.messageFeedbackEnabled)
+        try writer["NotifyConfigurationId"].write(value.notifyConfigurationId)
+        try writer["TemplateId"].write(value.templateId)
+        try writer["TemplateVariables"].writeMap(value.templateVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["TimeToLive"].write(value.timeToLive)
+        try writer["VoiceId"].write(value.voiceId)
+    }
+}
+
 extension SendTextMessageInput {
 
     static func write(value: SendTextMessageInput?, to writer: SmithyJSON.Writer) throws {
@@ -10156,6 +12562,14 @@ extension SetMediaMessageSpendLimitOverrideInput {
     }
 }
 
+extension SetNotifyMessageSpendLimitOverrideInput {
+
+    static func write(value: SetNotifyMessageSpendLimitOverrideInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MonthlyLimit"].write(value.monthlyLimit)
+    }
+}
+
 extension SetTextMessageSpendLimitOverrideInput {
 
     static func write(value: SetTextMessageSpendLimitOverrideInput?, to writer: SmithyJSON.Writer) throws {
@@ -10213,6 +12627,19 @@ extension UpdateEventDestinationInput {
     }
 }
 
+extension UpdateNotifyConfigurationInput {
+
+    static func write(value: UpdateNotifyConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultTemplateId"].write(value.defaultTemplateId)
+        try writer["DeletionProtectionEnabled"].write(value.deletionProtectionEnabled)
+        try writer["EnabledChannels"].writeList(value.enabledChannels, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PinpointSMSVoiceV2ClientTypes.NumberCapability>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EnabledCountries"].writeList(value.enabledCountries, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NotifyConfigurationId"].write(value.notifyConfigurationId)
+        try writer["PoolId"].write(value.poolId)
+    }
+}
+
 extension UpdatePhoneNumberInput {
 
     static func write(value: UpdatePhoneNumberInput?, to writer: SmithyJSON.Writer) throws {
@@ -10259,6 +12686,20 @@ extension UpdateProtectConfigurationCountryRuleSetInput {
         try writer["CountryRuleSetUpdates"].writeMap(value.countryRuleSetUpdates, valueWritingClosure: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationCountryRuleSetInformation.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["NumberCapability"].write(value.numberCapability)
         try writer["ProtectConfigurationId"].write(value.protectConfigurationId)
+    }
+}
+
+extension UpdateRcsAgentInput {
+
+    static func write(value: UpdateRcsAgentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeletionProtectionEnabled"].write(value.deletionProtectionEnabled)
+        try writer["OptOutListName"].write(value.optOutListName)
+        try writer["RcsAgentId"].write(value.rcsAgentId)
+        try writer["SelfManagedOptOutsEnabled"].write(value.selfManagedOptOutsEnabled)
+        try writer["TwoWayChannelArn"].write(value.twoWayChannelArn)
+        try writer["TwoWayChannelRole"].write(value.twoWayChannelRole)
+        try writer["TwoWayEnabled"].write(value.twoWayEnabled)
     }
 }
 
@@ -10360,6 +12801,32 @@ extension CreateEventDestinationOutput {
     }
 }
 
+extension CreateNotifyConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateNotifyConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateNotifyConfigurationOutput()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.defaultTemplateId = try reader["DefaultTemplateId"].readIfPresent()
+        value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent() ?? false
+        value.displayName = try reader["DisplayName"].readIfPresent() ?? ""
+        value.enabledChannels = try reader["EnabledChannels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.NumberCapability>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.enabledCountries = try reader["EnabledCountries"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.notifyConfigurationArn = try reader["NotifyConfigurationArn"].readIfPresent() ?? ""
+        value.notifyConfigurationId = try reader["NotifyConfigurationId"].readIfPresent() ?? ""
+        value.poolId = try reader["PoolId"].readIfPresent()
+        value.rejectionReason = try reader["RejectionReason"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tier = try reader["Tier"].readIfPresent() ?? .sdkUnknown("")
+        value.tierUpgradeStatus = try reader["TierUpgradeStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.useCase = try reader["UseCase"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension CreateOptOutListOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateOptOutListOutput {
@@ -10412,6 +12879,28 @@ extension CreateProtectConfigurationOutput {
         value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent() ?? ""
         value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent() ?? ""
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CreateRcsAgentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRcsAgentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateRcsAgentOutput()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent() ?? false
+        value.optOutListName = try reader["OptOutListName"].readIfPresent()
+        value.rcsAgentArn = try reader["RcsAgentArn"].readIfPresent() ?? ""
+        value.rcsAgentId = try reader["RcsAgentId"].readIfPresent() ?? ""
+        value.selfManagedOptOutsEnabled = try reader["SelfManagedOptOutsEnabled"].readIfPresent() ?? false
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.twoWayChannelArn = try reader["TwoWayChannelArn"].readIfPresent()
+        value.twoWayChannelRole = try reader["TwoWayChannelRole"].readIfPresent()
+        value.twoWayEnabled = try reader["TwoWayEnabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -10495,6 +12984,7 @@ extension CreateVerifiedDestinationNumberOutput {
         var value = CreateVerifiedDestinationNumberOutput()
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.destinationPhoneNumber = try reader["DestinationPhoneNumber"].readIfPresent() ?? ""
+        value.rcsAgentId = try reader["RcsAgentId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.verifiedDestinationNumberArn = try reader["VerifiedDestinationNumberArn"].readIfPresent() ?? ""
@@ -10604,6 +13094,43 @@ extension DeleteMediaMessageSpendLimitOverrideOutput {
     }
 }
 
+extension DeleteNotifyConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteNotifyConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteNotifyConfigurationOutput()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.defaultTemplateId = try reader["DefaultTemplateId"].readIfPresent()
+        value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent() ?? false
+        value.displayName = try reader["DisplayName"].readIfPresent() ?? ""
+        value.enabledChannels = try reader["EnabledChannels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.NumberCapability>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.enabledCountries = try reader["EnabledCountries"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.notifyConfigurationArn = try reader["NotifyConfigurationArn"].readIfPresent() ?? ""
+        value.notifyConfigurationId = try reader["NotifyConfigurationId"].readIfPresent() ?? ""
+        value.poolId = try reader["PoolId"].readIfPresent()
+        value.rejectionReason = try reader["RejectionReason"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.tier = try reader["Tier"].readIfPresent() ?? .sdkUnknown("")
+        value.tierUpgradeStatus = try reader["TierUpgradeStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.useCase = try reader["UseCase"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DeleteNotifyMessageSpendLimitOverrideOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteNotifyMessageSpendLimitOverrideOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteNotifyMessageSpendLimitOverrideOutput()
+        value.monthlyLimit = try reader["MonthlyLimit"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteOptedOutNumberOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteOptedOutNumberOutput {
@@ -10686,6 +13213,27 @@ extension DeleteProtectConfigurationRuleSetNumberOverrideOutput {
         value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent()
         value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent() ?? ""
         value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeleteRcsAgentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRcsAgentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteRcsAgentOutput()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent() ?? false
+        value.optOutListName = try reader["OptOutListName"].readIfPresent()
+        value.rcsAgentArn = try reader["RcsAgentArn"].readIfPresent() ?? ""
+        value.rcsAgentId = try reader["RcsAgentId"].readIfPresent() ?? ""
+        value.selfManagedOptOutsEnabled = try reader["SelfManagedOptOutsEnabled"].readIfPresent() ?? false
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.twoWayChannelArn = try reader["TwoWayChannelArn"].readIfPresent()
+        value.twoWayChannelRole = try reader["TwoWayChannelRole"].readIfPresent()
+        value.twoWayEnabled = try reader["TwoWayEnabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -10851,6 +13399,32 @@ extension DescribeKeywordsOutput {
     }
 }
 
+extension DescribeNotifyConfigurationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeNotifyConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeNotifyConfigurationsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.notifyConfigurations = try reader["NotifyConfigurations"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeNotifyTemplatesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeNotifyTemplatesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeNotifyTemplatesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.notifyTemplates = try reader["NotifyTemplates"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.NotifyTemplateInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension DescribeOptedOutNumbersOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeOptedOutNumbersOutput {
@@ -10914,6 +13488,34 @@ extension DescribeProtectConfigurationsOutput {
         var value = DescribeProtectConfigurationsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.protectConfigurations = try reader["ProtectConfigurations"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeRcsAgentCountryLaunchStatusOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeRcsAgentCountryLaunchStatusOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeRcsAgentCountryLaunchStatusOutput()
+        value.countryLaunchStatus = try reader["CountryLaunchStatus"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.CountryLaunchStatusInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.rcsAgentArn = try reader["RcsAgentArn"].readIfPresent() ?? ""
+        value.rcsAgentId = try reader["RcsAgentId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DescribeRcsAgentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeRcsAgentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeRcsAgentsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.rcsAgents = try reader["RcsAgents"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.RcsAgentInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11127,6 +13729,19 @@ extension GetResourcePolicyOutput {
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.policy = try reader["Policy"].readIfPresent()
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ListNotifyCountriesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListNotifyCountriesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListNotifyCountriesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.notifyCountries = try reader["NotifyCountries"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.NotifyCountryInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11404,6 +14019,34 @@ extension SendMediaMessageOutput {
     }
 }
 
+extension SendNotifyTextMessageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendNotifyTextMessageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SendNotifyTextMessageOutput()
+        value.messageId = try reader["MessageId"].readIfPresent()
+        value.resolvedMessageBody = try reader["ResolvedMessageBody"].readIfPresent()
+        value.templateId = try reader["TemplateId"].readIfPresent()
+        return value
+    }
+}
+
+extension SendNotifyVoiceMessageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendNotifyVoiceMessageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SendNotifyVoiceMessageOutput()
+        value.messageId = try reader["MessageId"].readIfPresent()
+        value.resolvedMessageBody = try reader["ResolvedMessageBody"].readIfPresent()
+        value.templateId = try reader["TemplateId"].readIfPresent()
+        return value
+    }
+}
+
 extension SendTextMessageOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendTextMessageOutput {
@@ -11495,6 +14138,18 @@ extension SetMediaMessageSpendLimitOverrideOutput {
     }
 }
 
+extension SetNotifyMessageSpendLimitOverrideOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SetNotifyMessageSpendLimitOverrideOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SetNotifyMessageSpendLimitOverrideOutput()
+        value.monthlyLimit = try reader["MonthlyLimit"].readIfPresent()
+        return value
+    }
+}
+
 extension SetTextMessageSpendLimitOverrideOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SetTextMessageSpendLimitOverrideOutput {
@@ -11560,6 +14215,31 @@ extension UpdateEventDestinationOutput {
         value.configurationSetArn = try reader["ConfigurationSetArn"].readIfPresent()
         value.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
         value.eventDestination = try reader["EventDestination"].readIfPresent(with: PinpointSMSVoiceV2ClientTypes.EventDestination.read(from:))
+        return value
+    }
+}
+
+extension UpdateNotifyConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateNotifyConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateNotifyConfigurationOutput()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.defaultTemplateId = try reader["DefaultTemplateId"].readIfPresent()
+        value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent() ?? false
+        value.displayName = try reader["DisplayName"].readIfPresent() ?? ""
+        value.enabledChannels = try reader["EnabledChannels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.NumberCapability>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.enabledCountries = try reader["EnabledCountries"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.notifyConfigurationArn = try reader["NotifyConfigurationArn"].readIfPresent() ?? ""
+        value.notifyConfigurationId = try reader["NotifyConfigurationId"].readIfPresent() ?? ""
+        value.poolId = try reader["PoolId"].readIfPresent()
+        value.rejectionReason = try reader["RejectionReason"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.tier = try reader["Tier"].readIfPresent() ?? .sdkUnknown("")
+        value.tierUpgradeStatus = try reader["TierUpgradeStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.useCase = try reader["UseCase"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -11643,6 +14323,27 @@ extension UpdateProtectConfigurationCountryRuleSetOutput {
         value.numberCapability = try reader["NumberCapability"].readIfPresent() ?? .sdkUnknown("")
         value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent() ?? ""
         value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateRcsAgentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRcsAgentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateRcsAgentOutput()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent() ?? false
+        value.optOutListName = try reader["OptOutListName"].readIfPresent()
+        value.rcsAgentArn = try reader["RcsAgentArn"].readIfPresent() ?? ""
+        value.rcsAgentId = try reader["RcsAgentId"].readIfPresent() ?? ""
+        value.selfManagedOptOutsEnabled = try reader["SelfManagedOptOutsEnabled"].readIfPresent() ?? false
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.twoWayChannelArn = try reader["TwoWayChannelArn"].readIfPresent()
+        value.twoWayChannelRole = try reader["TwoWayChannelRole"].readIfPresent()
+        value.twoWayEnabled = try reader["TwoWayEnabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -11778,6 +14479,26 @@ enum CreateEventDestinationOutputError {
     }
 }
 
+enum CreateNotifyConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateOptOutListOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11828,6 +14549,26 @@ enum CreateProtectConfigurationOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateRcsAgentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -11925,6 +14666,7 @@ enum CreateVerifiedDestinationNumberOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -12059,6 +14801,42 @@ enum DeleteMediaMessageSpendLimitOverrideOutputError {
     }
 }
 
+enum DeleteNotifyConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteNotifyMessageSpendLimitOverrideOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteOptedOutNumberOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12144,6 +14922,25 @@ enum DeleteProtectConfigurationRuleSetNumberOverrideOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteRcsAgentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -12351,6 +15148,42 @@ enum DescribeKeywordsOutputError {
     }
 }
 
+enum DescribeNotifyConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeNotifyTemplatesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeOptedOutNumbersOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12424,6 +15257,42 @@ enum DescribePoolsOutputError {
 }
 
 enum DescribeProtectConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeRcsAgentCountryLaunchStatusOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeRcsAgentsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -12710,6 +15579,23 @@ enum GetResourcePolicyOutputError {
     }
 }
 
+enum ListNotifyCountriesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListPoolOriginationIdentitiesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12849,6 +15735,7 @@ enum PutProtectConfigurationRuleSetNumberOverrideOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -13011,6 +15898,46 @@ enum SendMediaMessageOutputError {
     }
 }
 
+enum SendNotifyTextMessageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SendNotifyVoiceMessageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum SendTextMessageOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13140,6 +16067,23 @@ enum SetMediaMessageSpendLimitOverrideOutputError {
     }
 }
 
+enum SetNotifyMessageSpendLimitOverrideOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum SetTextMessageSpendLimitOverrideOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13249,6 +16193,25 @@ enum UpdateEventDestinationOutputError {
     }
 }
 
+enum UpdateNotifyConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdatePhoneNumberOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13314,6 +16277,25 @@ enum UpdateProtectConfigurationCountryRuleSetOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateRcsAgentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -13484,6 +16466,17 @@ extension PinpointSMSVoiceV2ClientTypes.AccountLimit {
     }
 }
 
+extension PinpointSMSVoiceV2ClientTypes.CarrierStatusInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.CarrierStatusInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointSMSVoiceV2ClientTypes.CarrierStatusInformation()
+        value.carrierName = try reader["CarrierName"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension PinpointSMSVoiceV2ClientTypes.CloudWatchLogsDestination {
 
     static func write(value: PinpointSMSVoiceV2ClientTypes.CloudWatchLogsDestination?, to writer: SmithyJSON.Writer) throws {
@@ -13523,6 +16516,29 @@ extension PinpointSMSVoiceV2ClientTypes.ConfigurationSetInformation {
         value.defaultMessageFeedbackEnabled = try reader["DefaultMessageFeedbackEnabled"].readIfPresent()
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent()
+        return value
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.CountryLaunchStatusFilter {
+
+    static func write(value: PinpointSMSVoiceV2ClientTypes.CountryLaunchStatusFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.CountryLaunchStatusInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.CountryLaunchStatusInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointSMSVoiceV2ClientTypes.CountryLaunchStatusInformation()
+        value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.rcsPlatformId = try reader["RcsPlatformId"].readIfPresent()
+        value.registrationId = try reader["RegistrationId"].readIfPresent() ?? ""
+        value.carrierStatus = try reader["CarrierStatus"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.CarrierStatusInformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -13576,6 +16592,83 @@ extension PinpointSMSVoiceV2ClientTypes.KinesisFirehoseDestination {
         var value = PinpointSMSVoiceV2ClientTypes.KinesisFirehoseDestination()
         value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
         value.deliveryStreamArn = try reader["DeliveryStreamArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.NotifyConfigurationFilter {
+
+    static func write(value: PinpointSMSVoiceV2ClientTypes.NotifyConfigurationFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.NotifyConfigurationInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.NotifyConfigurationInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointSMSVoiceV2ClientTypes.NotifyConfigurationInformation()
+        value.notifyConfigurationArn = try reader["NotifyConfigurationArn"].readIfPresent() ?? ""
+        value.notifyConfigurationId = try reader["NotifyConfigurationId"].readIfPresent() ?? ""
+        value.displayName = try reader["DisplayName"].readIfPresent() ?? ""
+        value.useCase = try reader["UseCase"].readIfPresent() ?? .sdkUnknown("")
+        value.defaultTemplateId = try reader["DefaultTemplateId"].readIfPresent()
+        value.poolId = try reader["PoolId"].readIfPresent()
+        value.enabledCountries = try reader["EnabledCountries"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enabledChannels = try reader["EnabledChannels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.NumberCapability>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tier = try reader["Tier"].readIfPresent() ?? .sdkUnknown("")
+        value.tierUpgradeStatus = try reader["TierUpgradeStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.rejectionReason = try reader["RejectionReason"].readIfPresent()
+        value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent() ?? false
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.NotifyCountryInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.NotifyCountryInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointSMSVoiceV2ClientTypes.NotifyCountryInformation()
+        value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent() ?? ""
+        value.countryName = try reader["CountryName"].readIfPresent() ?? ""
+        value.supportedChannels = try reader["SupportedChannels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.NumberCapability>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.supportedUseCases = try reader["SupportedUseCases"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.NotifyConfigurationUseCase>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.supportedTiers = try reader["SupportedTiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.NotifyConfigurationTier>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.customerOwnedIdentityRequired = try reader["CustomerOwnedIdentityRequired"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.NotifyTemplateFilter {
+
+    static func write(value: PinpointSMSVoiceV2ClientTypes.NotifyTemplateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.NotifyTemplateInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.NotifyTemplateInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointSMSVoiceV2ClientTypes.NotifyTemplateInformation()
+        value.templateId = try reader["TemplateId"].readIfPresent() ?? ""
+        value.version = try reader["Version"].readIfPresent() ?? 0
+        value.templateType = try reader["TemplateType"].readIfPresent() ?? .sdkUnknown("")
+        value.channels = try reader["Channels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.NumberCapability>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tierAccess = try reader["TierAccess"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.NotifyConfigurationTier>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["Status"].readIfPresent()
+        value.supportedCountries = try reader["SupportedCountries"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.languageCode = try reader["LanguageCode"].readIfPresent()
+        value.content = try reader["Content"].readIfPresent()
+        value.variables = try reader["Variables"].readMapIfPresent(valueReadingClosure: PinpointSMSVoiceV2ClientTypes.TemplateVariableMetadata.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.supportedVoiceIds = try reader["SupportedVoiceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.VoiceId>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -13764,6 +16857,36 @@ extension PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleSetNumberOverrid
     }
 }
 
+extension PinpointSMSVoiceV2ClientTypes.RcsAgentFilter {
+
+    static func write(value: PinpointSMSVoiceV2ClientTypes.RcsAgentFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.RcsAgentInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.RcsAgentInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointSMSVoiceV2ClientTypes.RcsAgentInformation()
+        value.rcsAgentArn = try reader["RcsAgentArn"].readIfPresent() ?? ""
+        value.rcsAgentId = try reader["RcsAgentId"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent() ?? false
+        value.optOutListName = try reader["OptOutListName"].readIfPresent()
+        value.selfManagedOptOutsEnabled = try reader["SelfManagedOptOutsEnabled"].readIfPresent() ?? false
+        value.twoWayChannelArn = try reader["TwoWayChannelArn"].readIfPresent()
+        value.twoWayChannelRole = try reader["TwoWayChannelRole"].readIfPresent()
+        value.twoWayEnabled = try reader["TwoWayEnabled"].readIfPresent() ?? false
+        value.poolId = try reader["PoolId"].readIfPresent()
+        value.testingAgent = try reader["TestingAgent"].readIfPresent(with: PinpointSMSVoiceV2ClientTypes.TestingAgentInformation.read(from:))
+        return value
+    }
+}
+
 extension PinpointSMSVoiceV2ClientTypes.RegistrationAssociationFilter {
 
     static func write(value: PinpointSMSVoiceV2ClientTypes.RegistrationAssociationFilter?, to writer: SmithyJSON.Writer) throws {
@@ -13806,6 +16929,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentsInformation {
         value.attachmentStatus = try reader["AttachmentStatus"].readIfPresent() ?? .sdkUnknown("")
         value.attachmentUploadErrorReason = try reader["AttachmentUploadErrorReason"].readIfPresent()
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.attachmentUrl = try reader["AttachmentUrl"].readIfPresent()
         return value
     }
 }
@@ -14118,6 +17242,37 @@ extension PinpointSMSVoiceV2ClientTypes.Tag {
     }
 }
 
+extension PinpointSMSVoiceV2ClientTypes.TemplateVariableMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.TemplateVariableMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointSMSVoiceV2ClientTypes.TemplateVariableMetadata()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.`required` = try reader["Required"].readIfPresent() ?? false
+        value.description = try reader["Description"].readIfPresent()
+        value.maxLength = try reader["MaxLength"].readIfPresent()
+        value.minValue = try reader["MinValue"].readIfPresent()
+        value.maxValue = try reader["MaxValue"].readIfPresent()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.pattern = try reader["Pattern"].readIfPresent()
+        value.sample = try reader["Sample"].readIfPresent()
+        value.source = try reader["Source"].readIfPresent()
+        return value
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.TestingAgentInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.TestingAgentInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointSMSVoiceV2ClientTypes.TestingAgentInformation()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.testingAgentId = try reader["TestingAgentId"].readIfPresent()
+        value.registrationId = try reader["RegistrationId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension PinpointSMSVoiceV2ClientTypes.TextValidation {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.TextValidation {
@@ -14159,6 +17314,7 @@ extension PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberInformation {
         value.verifiedDestinationNumberId = try reader["VerifiedDestinationNumberId"].readIfPresent() ?? ""
         value.destinationPhoneNumber = try reader["DestinationPhoneNumber"].readIfPresent() ?? ""
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.rcsAgentId = try reader["RcsAgentId"].readIfPresent()
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }

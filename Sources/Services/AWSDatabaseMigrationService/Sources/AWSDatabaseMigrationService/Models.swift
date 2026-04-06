@@ -1248,12 +1248,16 @@ extension DatabaseMigrationClientTypes {
         public var certificateArn: Swift.String?
         /// The database name on the DB2 LUW data provider.
         public var databaseName: Swift.String?
+        /// The encryption algorithm used for securing the connection to the IBM DB2 LUW database server. You can provide an integer value corresponding to a specific encryption algorithm, or leave this parameter empty to use the default behavior.
+        public var encryptionAlgorithm: Swift.Int?
         /// The port value for the DB2 LUW data provider.
         public var port: Swift.Int?
         /// The ARN for the role the application uses to access its Amazon S3 bucket.
         public var s3AccessRoleArn: Swift.String?
         /// The path for the Amazon S3 bucket that the application uses for accessing the user-defined schema.
         public var s3Path: Swift.String?
+        /// The security mechanism used for authenticating the connection to the IBM DB2 LUW database server. You can provide an integer value corresponding to a specific security mechanism, or leave this parameter empty to use the default behavior.
+        public var securityMechanism: Swift.Int?
         /// The name of the DB2 LUW server.
         public var serverName: Swift.String?
         /// The SSL mode used to connect to the DB2 LUW data provider. The default value is none. Valid Values: none and verify-ca.
@@ -1262,17 +1266,21 @@ extension DatabaseMigrationClientTypes {
         public init(
             certificateArn: Swift.String? = nil,
             databaseName: Swift.String? = nil,
+            encryptionAlgorithm: Swift.Int? = nil,
             port: Swift.Int? = nil,
             s3AccessRoleArn: Swift.String? = nil,
             s3Path: Swift.String? = nil,
+            securityMechanism: Swift.Int? = nil,
             serverName: Swift.String? = nil,
             sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
         ) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
+            self.encryptionAlgorithm = encryptionAlgorithm
             self.port = port
             self.s3AccessRoleArn = s3AccessRoleArn
             self.s3Path = s3Path
+            self.securityMechanism = securityMechanism
             self.serverName = serverName
             self.sslMode = sslMode
         }
@@ -18612,9 +18620,11 @@ extension DatabaseMigrationClientTypes.IbmDb2LuwDataProviderSettings {
         guard let value else { return }
         try writer["CertificateArn"].write(value.certificateArn)
         try writer["DatabaseName"].write(value.databaseName)
+        try writer["EncryptionAlgorithm"].write(value.encryptionAlgorithm)
         try writer["Port"].write(value.port)
         try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
         try writer["S3Path"].write(value.s3Path)
+        try writer["SecurityMechanism"].write(value.securityMechanism)
         try writer["ServerName"].write(value.serverName)
         try writer["SslMode"].write(value.sslMode)
     }
@@ -18627,6 +18637,8 @@ extension DatabaseMigrationClientTypes.IbmDb2LuwDataProviderSettings {
         value.databaseName = try reader["DatabaseName"].readIfPresent()
         value.sslMode = try reader["SslMode"].readIfPresent()
         value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.encryptionAlgorithm = try reader["EncryptionAlgorithm"].readIfPresent()
+        value.securityMechanism = try reader["SecurityMechanism"].readIfPresent()
         value.s3Path = try reader["S3Path"].readIfPresent()
         value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
         return value

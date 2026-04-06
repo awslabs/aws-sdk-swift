@@ -1553,6 +1553,20 @@
                 "smithy.api#documentation": "<p>The configuration details returned for an Atlassian OAuth2 provider, including the client ID and OAuth2 discovery information.</p>"
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#AuthorizationData": {
+            "type": "union",
+            "members": {
+                "oauth2": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#OAuth2AuthorizationData",
+                    "traits": {
+                        "smithy.api#documentation": "<p>OAuth2 authorization data for the gateway target.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains the authorization data that is returned when a gateway target is configured with a credential provider with authorization code grant type and requires user federation.</p>"
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#AuthorizationEndpointType": {
             "type": "string"
         },
@@ -2287,6 +2301,20 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>The source code configuration that specifies the location and details of the code to be executed.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#CodeBasedEvaluatorConfig": {
+            "type": "union",
+            "members": {
+                "lambdaConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#LambdaEvaluatorConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The Lambda function configuration for code-based evaluation. </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p> Configuration for a code-based evaluator. Specify the Lambda function to use for evaluation. </p>"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#CodeConfiguration": {
@@ -3469,7 +3497,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p> Creates a custom evaluator for agent quality assessment. Custom evaluators use LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings to evaluate agent performance at tool call, trace, or session levels. </p>",
+                "smithy.api#documentation": "<p> Creates a custom evaluator for agent quality assessment. Custom evaluators can use either LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings, or code-based configurations with customer-managed Lambda functions to evaluate agent performance at tool call, trace, or session levels. </p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/evaluators/create",
@@ -3503,7 +3531,7 @@
                 "evaluatorConfig": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#EvaluatorConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p> The configuration for the evaluator, including LLM-as-a-Judge settings with instructions, rating scale, and model configuration. </p>",
+                        "smithy.api#documentation": "<p> The configuration for the evaluator. Specify either LLM-as-a-Judge settings with instructions, rating scale, and model configuration, or code-based settings with a customer-managed Lambda function. </p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -3910,6 +3938,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Optional configuration for HTTP header and query parameter propagation to and from the gateway target.</p>"
                     }
+                },
+                "privateEndpoint": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#PrivateEndpoint",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The private endpoint configuration for the gateway target. Use this to connect the gateway to private resources in your VPC.</p>"
+                    }
                 }
             },
             "traits": {
@@ -3997,6 +4031,24 @@
                     "target": "com.amazonaws.bedrockagentcorecontrol#MetadataConfiguration",
                     "traits": {
                         "smithy.api#documentation": "<p>The metadata configuration that was applied to the created gateway target.</p>"
+                    }
+                },
+                "privateEndpoint": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#PrivateEndpoint",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The private endpoint configuration for the gateway target.</p>"
+                    }
+                },
+                "privateEndpointManagedResources": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#PrivateEndpointManagedResources",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The managed resources created by the gateway for private endpoint connectivity.</p>"
+                    }
+                },
+                "authorizationData": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AuthorizationData",
+                    "traits": {
+                        "smithy.api#documentation": "<p>OAuth2 authorization data for the created gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.</p>"
                     }
                 }
             },
@@ -4852,6 +4904,12 @@
                     "target": "com.amazonaws.bedrockagentcorecontrol#GatewayApiKeyCredentialProvider",
                     "traits": {
                         "smithy.api#documentation": "<p>The API key credential provider. This provider uses an API key to authenticate with the target endpoint.</p>"
+                    }
+                },
+                "iamCredentialProvider": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#IamCredentialProvider",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The IAM credential provider. This provider uses IAM authentication with SigV4 signing to access the target endpoint.</p>"
                     }
                 }
             },
@@ -6215,7 +6273,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Deletes a gateway target.</p>",
+                "smithy.api#documentation": "<p>Deletes a gateway target.</p> <p>You cannot delete a target that is in a pending authorization state (<code>CREATE_PENDING_AUTH</code>, <code>UPDATE_PENDING_AUTH</code>, or <code>SYNCHRONIZE_PENDING_AUTH</code>). Wait for the authorization to complete or fail before deleting the target.</p>",
                 "smithy.api#http": {
                     "code": 202,
                     "method": "DELETE",
@@ -6946,6 +7004,9 @@
                 "smithy.api#pattern": "^.+/\\.well-known/openid-configuration$"
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#DomainName": {
+            "type": "string"
+        },
         "com.amazonaws.bedrockagentcorecontrol#EncryptionFailure": {
             "type": "structure",
             "members": {
@@ -6960,6 +7021,23 @@
                 "smithy.api#documentation": "<p>Exception thrown when encryption of a secret fails.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 400
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#EndpointIpAddressType": {
+            "type": "enum",
+            "members": {
+                "IPV4": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "IPV4"
+                    }
+                },
+                "IPV6": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "IPV6"
+                    }
+                }
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#EndpointName": {
@@ -7347,6 +7425,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p> The LLM-as-a-Judge configuration that uses a language model to evaluate agent performance based on custom instructions and rating scales. </p>"
                     }
+                },
+                "codeBased": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#CodeBasedEvaluatorConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p> Configuration for a code-based evaluator that uses a customer-managed Lambda function to programmatically assess agent performance. </p>"
+                    }
                 }
             },
             "traits": {
@@ -7582,6 +7666,12 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "Custom"
+                    }
+                },
+                "CODE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CustomCode"
                     }
                 }
             }
@@ -8281,6 +8371,21 @@
                     "target": "com.amazonaws.bedrockagentcorecontrol#MetadataConfiguration",
                     "traits": {
                         "smithy.api#documentation": "<p>The metadata configuration for HTTP header and query parameter propagation to and from this gateway target.</p>"
+                    }
+                },
+                "privateEndpoint": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#PrivateEndpoint"
+                },
+                "privateEndpointManagedResources": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#PrivateEndpointManagedResources",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of managed resources created by the gateway for private endpoint connectivity. These resources are created in your account when you use a managed VPC Lattice resource configuration.</p>"
+                    }
+                },
+                "authorizationData": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AuthorizationData",
+                    "traits": {
+                        "smithy.api#documentation": "<p>OAuth2 authorization data for the gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.</p>"
                     }
                 }
             },
@@ -9244,7 +9349,7 @@
                 "evaluatorConfig": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#EvaluatorConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p> The configuration of the evaluator, including LLM-as-a-Judge settings for custom evaluators. </p>",
+                        "smithy.api#documentation": "<p> The configuration of the evaluator, including LLM-as-a-Judge or code-based settings. </p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -9604,6 +9709,24 @@
                     "target": "com.amazonaws.bedrockagentcorecontrol#MetadataConfiguration",
                     "traits": {
                         "smithy.api#documentation": "<p>The metadata configuration for HTTP header and query parameter propagation for the retrieved gateway target.</p>"
+                    }
+                },
+                "privateEndpoint": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#PrivateEndpoint",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The private endpoint configuration for the gateway target.</p>"
+                    }
+                },
+                "privateEndpointManagedResources": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#PrivateEndpointManagedResources",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The managed resources created by the gateway for private endpoint connectivity.</p>"
+                    }
+                },
+                "authorizationData": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AuthorizationData",
+                    "traits": {
+                        "smithy.api#documentation": "<p>OAuth2 authorization data for the gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.</p>"
                     }
                 }
             },
@@ -10972,6 +11095,37 @@
                 }
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#IamCredentialProvider": {
+            "type": "structure",
+            "members": {
+                "service": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The target Amazon Web Services service name used for SigV4 signing. This value identifies the service that the gateway authenticates with when making requests to the target endpoint.</p>",
+                        "smithy.api#length": {
+                            "min": 1,
+                            "max": 64
+                        },
+                        "smithy.api#pattern": "^[a-zA-Z0-9._-]+$",
+                        "smithy.api#required": {}
+                    }
+                },
+                "region": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Web Services Region used for SigV4 signing. If not specified, defaults to the gateway's Region.</p>",
+                        "smithy.api#length": {
+                            "min": 1,
+                            "max": 32
+                        },
+                        "smithy.api#pattern": "^[a-zA-Z0-9-]+$"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>An IAM credential provider for gateway authentication. This structure contains the configuration for authenticating with the target endpoint using IAM credentials and SigV4 signing.</p>"
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#InboundTokenClaimNameType": {
             "type": "string",
             "traits": {
@@ -11273,6 +11427,37 @@
                     "max": 2048
                 },
                 "smithy.api#pattern": "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#LambdaArn": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^arn:(aws[a-zA-Z-]*)?:lambda:([a-z]{2}(-gov)?-[a-z]+-\\d{1}):(\\d{12}):function:([a-zA-Z0-9-_.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#LambdaEvaluatorConfig": {
+            "type": "structure",
+            "members": {
+                "lambdaArn": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#LambdaArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The Amazon Resource Name (ARN) of the Lambda function that implements the evaluation logic. </p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "lambdaTimeoutInSeconds": {
+                    "target": "smithy.api#Integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The timeout in seconds for the Lambda function invocation. Defaults to 60. Must be between 1 and 300. </p>",
+                        "smithy.api#range": {
+                            "min": 1,
+                            "max": 300
+                        }
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p> Configuration for a Lambda function used as a code-based evaluator. </p>"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#LambdaFunctionArn": {
@@ -13108,6 +13293,79 @@
                 "smithy.api#documentation": "<p>The configuration for a Model Context Protocol (MCP) gateway. This structure defines how the gateway implements the MCP protocol.</p>"
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#ManagedLatticeResource": {
+            "type": "structure",
+            "members": {
+                "vpcIdentifier": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#VpcIdentifier",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the VPC that contains your private resource.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "subnetIds": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SubnetIds",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The subnet IDs within the VPC where the VPC Lattice resource gateway is placed.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "endpointIpAddressType": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#EndpointIpAddressType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The IP address type for the resource configuration endpoint.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "securityGroupIds": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecurityGroupIds",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The security group IDs to associate with the VPC Lattice resource gateway. If not specified, the default security group for the VPC is used.</p>"
+                    }
+                },
+                "tags": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#TagsMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Tags to apply to the managed VPC Lattice resource gateway.</p>"
+                    }
+                },
+                "routingDomain": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#RoutingDomain",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An intermediate publicly resolvable domain used as the VPC Lattice resource configuration endpoint. Required when your private endpoint uses a domain that is not publicly resolvable.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Configuration for a managed VPC Lattice resource. The gateway creates and manages the VPC Lattice resource gateway and resource configuration on your behalf using a service-linked role.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#ManagedResourceDetails": {
+            "type": "structure",
+            "members": {
+                "domain": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DomainName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The domain associated with this managed resource.</p>"
+                    }
+                },
+                "resourceGatewayArn": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ResourceGatewayArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the VPC Lattice resource gateway created in your account.</p>"
+                    }
+                },
+                "resourceAssociationArn": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ResourceAssociationArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the service network resource association.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Details of a resource created and managed by the gateway for private endpoint connectivity.</p>"
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#MatchValueString": {
             "type": "string",
             "traits": {
@@ -13179,6 +13437,12 @@
                         "smithy.api#pattern": "^https://.*",
                         "smithy.api#required": {}
                     }
+                },
+                "mcpToolSchema": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#McpToolSchemaConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The tool schema configuration for the MCP server target. Supported only when the credential provider is configured with an authorization code grant type. Dynamic tool discovery/synchronization will be disabled when target is configured with mcpToolSchema.</p>"
+                    }
                 }
             },
             "traits": {
@@ -13227,6 +13491,26 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>The Model Context Protocol (MCP) configuration for a target. This structure defines how the gateway uses MCP to communicate with the target.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#McpToolSchemaConfiguration": {
+            "type": "union",
+            "members": {
+                "s3": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#S3Configuration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon S3 location of the tool schema. This location contains the schema definition file.</p>"
+                    }
+                },
+                "inlinePayload": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#InlinePayload",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The inline payload containing the MCP tool schema definition.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The MCP tool schema configuration for an MCP server target. The tool schema must be aligned with the MCP specification.</p>"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#McpVersion": {
@@ -14137,6 +14421,34 @@
             "type": "list",
             "member": {
                 "target": "com.amazonaws.bedrockagentcorecontrol#NumericalScaleDefinition"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#OAuth2AuthorizationData": {
+            "type": "structure",
+            "members": {
+                "authorizationUrl": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The URL to initiate the authorization process. This URL is provided when the OAuth2 access token requires user authorization.</p>",
+                        "smithy.api#length": {
+                            "min": 1
+                        },
+                        "smithy.api#required": {}
+                    }
+                },
+                "userId": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The user identifier associated with the OAuth2 authorization session that is defined by AgentCore Gateway.</p>",
+                        "smithy.api#length": {
+                            "min": 1,
+                            "max": 128
+                        }
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>OAuth2-specific authorization data, including the authorization URL and user identifier for the authorization session.</p>"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#OAuthCredentialProvider": {
@@ -15405,6 +15717,35 @@
                 "smithy.api#default": "FAIL_ON_ANY_FINDINGS"
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#PrivateEndpoint": {
+            "type": "union",
+            "members": {
+                "selfManagedLatticeResource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SelfManagedLatticeResource",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Configuration for connecting to a private resource using a self-managed VPC Lattice resource configuration.</p>"
+                    }
+                },
+                "managedLatticeResource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ManagedLatticeResource",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Configuration for connecting to a private resource using a managed VPC Lattice resource. The gateway creates and manages the VPC Lattice resources on your behalf.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The private endpoint configuration for a gateway target. Defines how the gateway connects to private resources in your VPC.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#PrivateEndpointManagedResources": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#ManagedResourceDetails"
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A list of managed resources created by the gateway for private endpoint connectivity.</p>"
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#Prompt": {
             "type": "string",
             "traits": {
@@ -15611,6 +15952,28 @@
                 "smithy.api#documentation": "<p>Represents a resource within the AgentCore Policy system. Resources are the targets of policy evaluation. Currently, only AgentCore Gateways are supported as resources for policy enforcement.</p>"
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#ResourceAssociationArn": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:servicenetworkresourceassociation/snra-[0-9a-f]{17}$"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#ResourceConfigurationIdentifier": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 20,
+                    "max": 2048
+                },
+                "smithy.api#pattern": "^((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourceconfiguration/rcfg-[0-9a-z]{17}))$"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#ResourceGatewayArn": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourcegateway/rgw-[0-9a-z]{17}$"
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#ResourceId": {
             "type": "string",
             "traits": {
@@ -15770,6 +16133,15 @@
                     "max": 2048
                 },
                 "smithy.api#pattern": "^arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+$"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#RoutingDomain": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 3,
+                    "max": 255
+                }
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#Rule": {
@@ -16106,6 +16478,24 @@
                 "smithy.api#pattern": "^sg-[0-9a-zA-Z]{8,17}$"
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#SecurityGroupIdentifier": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^sg-(([0-9a-z]{8})|([0-9a-z]{17}))$"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#SecurityGroupIds": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#SecurityGroupIdentifier"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 5
+                }
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#SecurityGroups": {
             "type": "list",
             "member": {
@@ -16177,6 +16567,20 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Input configuration for a self-managed memory strategy.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#SelfManagedLatticeResource": {
+            "type": "union",
+            "members": {
+                "resourceConfigurationIdentifier": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ResourceConfigurationIdentifier",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN or ID of the VPC Lattice resource configuration.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Configuration for a self-managed VPC Lattice resource. You create and manage the VPC Lattice resource gateway and resource configuration, then provide the resource configuration identifier.</p>"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#SemanticConsolidationOverride": {
@@ -16849,6 +17253,12 @@
                 "smithy.api#pattern": "^subnet-[0-9a-zA-Z]{8,17}$"
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#SubnetIds": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#SubnetId"
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#Subnets": {
             "type": "list",
             "member": {
@@ -16988,7 +17398,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>The gateway targets.</p>",
+                "smithy.api#documentation": "<p>Synchronizes the gateway targets by fetching the latest tool definitions from the target endpoints.</p> <p>You cannot synchronize a target that is in a pending authorization state (<code>CREATE_PENDING_AUTH</code>, <code>UPDATE_PENDING_AUTH</code>, or <code>SYNCHRONIZE_PENDING_AUTH</code>). Wait for the authorization to complete or fail before synchronizing.</p> <p>You cannot synchronize a target that has a static tool schema (<code>mcpToolSchema</code>) configured. Remove the static schema through an <code>UpdateGatewayTarget</code> call to enable dynamic tool synchronization.</p>",
                 "smithy.api#http": {
                     "code": 202,
                     "method": "PUT",
@@ -17275,6 +17685,24 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "SYNCHRONIZE_UNSUCCESSFUL"
+                    }
+                },
+                "CREATE_PENDING_AUTH": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CREATE_PENDING_AUTH"
+                    }
+                },
+                "UPDATE_PENDING_AUTH": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "UPDATE_PENDING_AUTH"
+                    }
+                },
+                "SYNCHRONIZE_PENDING_AUTH": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SYNCHRONIZE_PENDING_AUTH"
                     }
                 }
             }
@@ -18196,7 +18624,7 @@
                 "evaluatorConfig": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#EvaluatorConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p> The updated configuration for the evaluator, including LLM-as-a-Judge settings with instructions, rating scale, and model configuration. </p>"
+                        "smithy.api#documentation": "<p> The updated configuration for the evaluator. Specify either LLM-as-a-Judge settings with instructions, rating scale, and model configuration, or code-based settings with a customer-managed Lambda function. </p>"
                     }
                 },
                 "level": {
@@ -18529,7 +18957,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Updates an existing gateway target.</p>",
+                "smithy.api#documentation": "<p>Updates an existing gateway target.</p> <p>You cannot update a target that is in a pending authorization state (<code>CREATE_PENDING_AUTH</code>, <code>UPDATE_PENDING_AUTH</code>, or <code>SYNCHRONIZE_PENDING_AUTH</code>). Wait for the authorization to complete or fail before updating the target.</p>",
                 "smithy.api#http": {
                     "code": 202,
                     "method": "PUT",
@@ -18586,6 +19014,12 @@
                     "target": "com.amazonaws.bedrockagentcorecontrol#MetadataConfiguration",
                     "traits": {
                         "smithy.api#documentation": "<p>Configuration for HTTP header and query parameter propagation to the gateway target.</p>"
+                    }
+                },
+                "privateEndpoint": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#PrivateEndpoint",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The private endpoint configuration for the gateway target. Use this to connect the gateway to private resources in your VPC.</p>"
                     }
                 }
             },
@@ -18673,6 +19107,24 @@
                     "target": "com.amazonaws.bedrockagentcorecontrol#MetadataConfiguration",
                     "traits": {
                         "smithy.api#documentation": "<p>The metadata configuration that was applied to the gateway target.</p>"
+                    }
+                },
+                "privateEndpoint": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#PrivateEndpoint",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The private endpoint configuration for the gateway target.</p>"
+                    }
+                },
+                "privateEndpointManagedResources": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#PrivateEndpointManagedResources",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The managed resources created by the gateway for private endpoint connectivity.</p>"
+                    }
+                },
+                "authorizationData": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AuthorizationData",
+                    "traits": {
+                        "smithy.api#documentation": "<p>OAuth2 authorization data for the updated gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.</p>"
                     }
                 }
             },
@@ -19491,12 +19943,12 @@
                 "optionalValue": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#Description",
                     "traits": {
-                        "smithy.api#documentation": "<p>Represents an optional value that is used to update the human-readable description of the resource. If set to null, it will clear the current description of the resource.</p>"
+                        "smithy.api#documentation": "<p>Represents an optional value that is used to update the human-readable description of the resource. If not specified, it will clear the current description of the resource.</p>"
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "Wrapper for updating an optional Description field with PATCH semantics.\nWhen present in an update request, the description is replaced with optionalValue.\nWhen absent, the description is left unchanged.\nTo unset the description, include the wrapper with optionalValue set to null."
+                "smithy.api#documentation": "Wrapper for updating an optional Description field with PATCH semantics.\nWhen present in an update request, the description is replaced with optionalValue.\nWhen absent, the description is left unchanged.\nTo unset the description, include the wrapper with optionalValue not specified."
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#UserPreferenceConsolidationOverride": {
@@ -19752,6 +20204,12 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>VpcConfig for the Agent.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#VpcIdentifier": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^vpc-(([0-9a-z]{8})|([0-9a-z]{17}))$"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#WorkloadIdentity": {

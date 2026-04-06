@@ -9958,6 +9958,7 @@ extension GuardDutyClientTypes {
         /// This member is required.
         public var accountId: Swift.String?
         /// Contains information on the status of data sources for the account.
+        /// This member is required.
         @available(*, deprecated, message: "This parameter is deprecated, use Features instead")
         public var dataSources: GuardDutyClientTypes.DataSourceConfigurationsResult?
         /// Contains information about the status of the features for the member account.
@@ -16504,7 +16505,7 @@ extension BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
         value.properties.message = try reader["message"].readIfPresent()
-        value.properties.type = try reader["__type"].readIfPresent()
+        value.properties.type = try reader["type"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -16518,7 +16519,7 @@ extension InternalServerErrorException {
         let reader = baseError.errorBodyReader
         var value = InternalServerErrorException()
         value.properties.message = try reader["message"].readIfPresent()
-        value.properties.type = try reader["__type"].readIfPresent()
+        value.properties.type = try reader["type"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -16532,7 +16533,7 @@ extension AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
-        value.properties.type = try reader["__type"].readIfPresent()
+        value.properties.type = try reader["type"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -16546,7 +16547,7 @@ extension ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
-        value.properties.type = try reader["__type"].readIfPresent()
+        value.properties.type = try reader["type"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -16560,7 +16561,7 @@ extension ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
-        value.properties.type = try reader["__type"].readIfPresent()
+        value.properties.type = try reader["type"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -16669,10 +16670,10 @@ extension GuardDutyClientTypes.Action {
         value.networkConnectionAction = try reader["networkConnectionAction"].readIfPresent(with: GuardDutyClientTypes.NetworkConnectionAction.read(from:))
         value.portProbeAction = try reader["portProbeAction"].readIfPresent(with: GuardDutyClientTypes.PortProbeAction.read(from:))
         value.kubernetesApiCallAction = try reader["kubernetesApiCallAction"].readIfPresent(with: GuardDutyClientTypes.KubernetesApiCallAction.read(from:))
-        value.rdsLoginAttemptAction = try reader["rdsLoginAttemptAction"].readIfPresent(with: GuardDutyClientTypes.RdsLoginAttemptAction.read(from:))
         value.kubernetesPermissionCheckedDetails = try reader["kubernetesPermissionCheckedDetails"].readIfPresent(with: GuardDutyClientTypes.KubernetesPermissionCheckedDetails.read(from:))
         value.kubernetesRoleBindingDetails = try reader["kubernetesRoleBindingDetails"].readIfPresent(with: GuardDutyClientTypes.KubernetesRoleBindingDetails.read(from:))
         value.kubernetesRoleDetails = try reader["kubernetesRoleDetails"].readIfPresent(with: GuardDutyClientTypes.KubernetesRoleDetails.read(from:))
+        value.rdsLoginAttemptAction = try reader["rdsLoginAttemptAction"].readIfPresent(with: GuardDutyClientTypes.RdsLoginAttemptAction.read(from:))
         return value
     }
 }
@@ -17074,9 +17075,9 @@ extension GuardDutyClientTypes.CoverageResourceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.CoverageResourceDetails()
         value.eksClusterDetails = try reader["eksClusterDetails"].readIfPresent(with: GuardDutyClientTypes.CoverageEksClusterDetails.read(from:))
-        value.resourceType = try reader["resourceType"].readIfPresent()
         value.ecsClusterDetails = try reader["ecsClusterDetails"].readIfPresent(with: GuardDutyClientTypes.CoverageEcsClusterDetails.read(from:))
         value.ec2InstanceDetails = try reader["ec2InstanceDetails"].readIfPresent(with: GuardDutyClientTypes.CoverageEc2InstanceDetails.read(from:))
+        value.resourceType = try reader["resourceType"].readIfPresent()
         return value
     }
 }
@@ -17858,15 +17859,15 @@ extension GuardDutyClientTypes.KubernetesApiCallAction {
         var value = GuardDutyClientTypes.KubernetesApiCallAction()
         value.requestUri = try reader["requestUri"].readIfPresent()
         value.verb = try reader["verb"].readIfPresent()
+        value.resource = try reader["resource"].readIfPresent()
+        value.subresource = try reader["subresource"].readIfPresent()
+        value.namespace = try reader["namespace"].readIfPresent()
+        value.resourceName = try reader["resourceName"].readIfPresent()
         value.sourceIps = try reader["sourceIPs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.userAgent = try reader["userAgent"].readIfPresent()
         value.remoteIpDetails = try reader["remoteIpDetails"].readIfPresent(with: GuardDutyClientTypes.RemoteIpDetails.read(from:))
         value.statusCode = try reader["statusCode"].readIfPresent()
         value.parameters = try reader["parameters"].readIfPresent()
-        value.resource = try reader["resource"].readIfPresent()
-        value.subresource = try reader["subresource"].readIfPresent()
-        value.namespace = try reader["namespace"].readIfPresent()
-        value.resourceName = try reader["resourceName"].readIfPresent()
         return value
     }
 }
@@ -18003,9 +18004,9 @@ extension GuardDutyClientTypes.KubernetesWorkloadDetails {
         value.uid = try reader["uid"].readIfPresent()
         value.namespace = try reader["namespace"].readIfPresent()
         value.hostNetwork = try reader["hostNetwork"].readIfPresent()
+        value.serviceAccountName = try reader["serviceAccountName"].readIfPresent()
         value.containers = try reader["containers"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Container.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Volume.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.serviceAccountName = try reader["serviceAccountName"].readIfPresent()
         value.hostIPC = try reader["hostIPC"].readIfPresent()
         value.hostPID = try reader["hostPID"].readIfPresent()
         return value
@@ -18866,10 +18867,10 @@ extension GuardDutyClientTypes.Resource {
         value.ebsVolumeDetails = try reader["ebsVolumeDetails"].readIfPresent(with: GuardDutyClientTypes.EbsVolumeDetails.read(from:))
         value.ecsClusterDetails = try reader["ecsClusterDetails"].readIfPresent(with: GuardDutyClientTypes.EcsClusterDetails.read(from:))
         value.containerDetails = try reader["containerDetails"].readIfPresent(with: GuardDutyClientTypes.Container.read(from:))
+        value.lambdaDetails = try reader["lambdaDetails"].readIfPresent(with: GuardDutyClientTypes.LambdaDetails.read(from:))
         value.rdsDbInstanceDetails = try reader["rdsDbInstanceDetails"].readIfPresent(with: GuardDutyClientTypes.RdsDbInstanceDetails.read(from:))
         value.rdsLimitlessDbDetails = try reader["rdsLimitlessDbDetails"].readIfPresent(with: GuardDutyClientTypes.RdsLimitlessDbDetails.read(from:))
         value.rdsDbUserDetails = try reader["rdsDbUserDetails"].readIfPresent(with: GuardDutyClientTypes.RdsDbUserDetails.read(from:))
-        value.lambdaDetails = try reader["lambdaDetails"].readIfPresent(with: GuardDutyClientTypes.LambdaDetails.read(from:))
         value.ebsSnapshotDetails = try reader["ebsSnapshotDetails"].readIfPresent(with: GuardDutyClientTypes.EbsSnapshotDetails.read(from:))
         value.ec2ImageDetails = try reader["ec2ImageDetails"].readIfPresent(with: GuardDutyClientTypes.Ec2ImageDetails.read(from:))
         value.recoveryPointDetails = try reader["recoveryPointDetails"].readIfPresent(with: GuardDutyClientTypes.RecoveryPointDetails.read(from:))

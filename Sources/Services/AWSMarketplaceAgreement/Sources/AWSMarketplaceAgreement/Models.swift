@@ -23,6 +23,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 extension MarketplaceAgreementClientTypes {
 
@@ -651,6 +652,265 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension MarketplaceAgreementClientTypes {
 
+    public enum AgreementCancellationRequestReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alternativeProcurementChannel
+        case buyerDissatisfaction
+        case incorrectTermsAccepted
+        case other
+        case productDiscontinued
+        case replacingAgreement
+        case testAgreement
+        case unintendedRenewal
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgreementCancellationRequestReasonCode] {
+            return [
+                .alternativeProcurementChannel,
+                .buyerDissatisfaction,
+                .incorrectTermsAccepted,
+                .other,
+                .productDiscontinued,
+                .replacingAgreement,
+                .testAgreement,
+                .unintendedRenewal
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .alternativeProcurementChannel: return "ALTERNATIVE_PROCUREMENT_CHANNEL"
+            case .buyerDissatisfaction: return "BUYER_DISSATISFACTION"
+            case .incorrectTermsAccepted: return "INCORRECT_TERMS_ACCEPTED"
+            case .other: return "OTHER"
+            case .productDiscontinued: return "PRODUCT_DISCONTINUED"
+            case .replacingAgreement: return "REPLACING_AGREEMENT"
+            case .testAgreement: return "TEST_AGREEMENT"
+            case .unintendedRenewal: return "UNINTENDED_RENEWAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    public enum AgreementCancellationRequestStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approved
+        case cancelled
+        case pendingApproval
+        case rejected
+        case validationFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgreementCancellationRequestStatus] {
+            return [
+                .approved,
+                .cancelled,
+                .pendingApproval,
+                .rejected,
+                .validationFailed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approved: return "APPROVED"
+            case .cancelled: return "CANCELLED"
+            case .pendingApproval: return "PENDING_APPROVAL"
+            case .rejected: return "REJECTED"
+            case .validationFailed: return "VALIDATION_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// Summary view of an agreement cancellation request.
+    public struct AgreementCancellationRequestSummary: Swift.Sendable {
+        /// The unique identifier of the cancellation request.
+        public var agreementCancellationRequestId: Swift.String?
+        /// The unique identifier of the agreement associated with this cancellation request.
+        public var agreementId: Swift.String?
+        /// The type of agreement.
+        public var agreementType: Swift.String?
+        /// The catalog in which the agreement was created.
+        public var catalog: Swift.String?
+        /// The date and time when the cancellation request was created, as a POSIX timestamp (Unix epoch seconds).
+        public var createdAt: Foundation.Date?
+        /// The reason code provided for the cancellation.
+        public var reasonCode: MarketplaceAgreementClientTypes.AgreementCancellationRequestReasonCode?
+        /// The current status of the cancellation request. Possible values include PENDING_APPROVAL, APPROVED, REJECTED, CANCELLED, and VALIDATION_FAILED.
+        public var status: MarketplaceAgreementClientTypes.AgreementCancellationRequestStatus?
+        /// The date and time when the cancellation request was last updated, as a POSIX timestamp (Unix epoch seconds).
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            agreementCancellationRequestId: Swift.String? = nil,
+            agreementId: Swift.String? = nil,
+            agreementType: Swift.String? = nil,
+            catalog: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            reasonCode: MarketplaceAgreementClientTypes.AgreementCancellationRequestReasonCode? = nil,
+            status: MarketplaceAgreementClientTypes.AgreementCancellationRequestStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.agreementCancellationRequestId = agreementCancellationRequestId
+            self.agreementId = agreementId
+            self.agreementType = agreementType
+            self.catalog = catalog
+            self.createdAt = createdAt
+            self.reasonCode = reasonCode
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// The billing period for an invoice, specified by month and year.
+    public struct InvoiceBillingPeriod: Swift.Sendable {
+        /// The billing period month. Valid range: 1-12.
+        /// This member is required.
+        public var month: Swift.Int?
+        /// The billing period year.
+        /// This member is required.
+        public var year: Swift.Int?
+
+        public init(
+            month: Swift.Int? = nil,
+            year: Swift.Int? = nil
+        ) {
+            self.month = month
+            self.year = year
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    public enum InvoiceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creditMemo
+        case invoice
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InvoiceType] {
+            return [
+                .creditMemo,
+                .invoice
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creditMemo: return "CREDIT_MEMO"
+            case .invoice: return "INVOICE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// The entity that issues the AWS invoice.
+    public struct InvoicingEntity: Swift.Sendable {
+        /// The branch name of the invoicing entity.
+        public var branchName: Swift.String?
+        /// The legal name of the invoicing entity.
+        public var legalName: Swift.String?
+
+        public init(
+            branchName: Swift.String? = nil,
+            legalName: Swift.String? = nil
+        ) {
+            self.branchName = branchName
+            self.legalName = legalName
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// Monetary amounts associated with an invoice line item group.
+    public struct PricingCurrencyAmount: Swift.Sendable {
+        /// The monetary amount before tax.
+        public var amount: Swift.String?
+        /// The 3-letter ISO 4217 currency code (e.g., USD, EUR, JPY).
+        public var currencyCode: Swift.String?
+        /// The maximum refundable amount as a string representation of a decimal number.
+        public var maxAdjustmentAmount: Swift.String?
+
+        public init(
+            amount: Swift.String? = nil,
+            currencyCode: Swift.String? = nil,
+            maxAdjustmentAmount: Swift.String? = nil
+        ) {
+            self.amount = amount
+            self.currencyCode = currencyCode
+            self.maxAdjustmentAmount = maxAdjustmentAmount
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// A summary of grouped billing data for an agreement invoice line item.
+    public struct AgreementInvoiceLineItemGroupSummary: Swift.Sendable {
+        /// The unique identifier of the agreement.
+        public var agreementId: Swift.String?
+        /// The billing period associated with this group.
+        public var invoiceBillingPeriod: MarketplaceAgreementClientTypes.InvoiceBillingPeriod?
+        /// The identifier of the invoice for this group.
+        public var invoiceId: Swift.String?
+        /// The type of invoice. Valid values are INVOICE and CREDIT_MEMO.
+        public var invoiceType: MarketplaceAgreementClientTypes.InvoiceType?
+        /// The entity that issues the invoice.
+        public var invoicingEntity: MarketplaceAgreementClientTypes.InvoicingEntity?
+        /// The timestamp when the invoice containing this group was created.
+        public var issuedTime: Foundation.Date?
+        /// Monetary amounts for this invoice group.
+        public var pricingCurrencyAmount: MarketplaceAgreementClientTypes.PricingCurrencyAmount?
+
+        public init(
+            agreementId: Swift.String? = nil,
+            invoiceBillingPeriod: MarketplaceAgreementClientTypes.InvoiceBillingPeriod? = nil,
+            invoiceId: Swift.String? = nil,
+            invoiceType: MarketplaceAgreementClientTypes.InvoiceType? = nil,
+            invoicingEntity: MarketplaceAgreementClientTypes.InvoicingEntity? = nil,
+            issuedTime: Foundation.Date? = nil,
+            pricingCurrencyAmount: MarketplaceAgreementClientTypes.PricingCurrencyAmount? = nil
+        ) {
+            self.agreementId = agreementId
+            self.invoiceBillingPeriod = invoiceBillingPeriod
+            self.invoiceId = invoiceId
+            self.invoiceType = invoiceType
+            self.invoicingEntity = invoicingEntity
+            self.issuedTime = issuedTime
+            self.pricingCurrencyAmount = pricingCurrencyAmount
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
     public enum AgreementStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case archived
@@ -766,7 +1026,7 @@ extension MarketplaceAgreementClientTypes {
         public var acceptor: MarketplaceAgreementClientTypes.Acceptor?
         /// The unique identifier of the agreement.
         public var agreementId: Swift.String?
-        /// The type of agreement. Value is PurchaseAgreement.
+        /// The type of agreement.
         public var agreementType: Swift.String?
         /// The date and time when the agreement ends. The field is null for pay-as-you-go agreements, which don’t have end dates.
         public var endTime: Foundation.Date?
@@ -894,41 +1154,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     ) {
         self.properties.message = message
         self.properties.requestId = requestId
-    }
-}
-
-/// Request references a resource which does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        /// The unique identifier for the error.
-        public internal(set) var requestId: Swift.String? = nil
-        /// The unique identifier for the resource.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The type of resource.
-        public internal(set) var resourceType: MarketplaceAgreementClientTypes.ResourceType? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        requestId: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: MarketplaceAgreementClientTypes.ResourceType? = nil
-    ) {
-        self.properties.message = message
-        self.properties.requestId = requestId
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
     }
 }
 
@@ -1108,6 +1333,317 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         self.properties.reason = reason
         self.properties.requestId = requestId
     }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    public enum BillingAdjustmentReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alternativeProcurementChannel
+        case buyerDissatisfaction
+        case incorrectMetering
+        case incorrectTermsAccepted
+        case other
+        case testEnvironmentCharges
+        case unintendedRenewal
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BillingAdjustmentReasonCode] {
+            return [
+                .alternativeProcurementChannel,
+                .buyerDissatisfaction,
+                .incorrectMetering,
+                .incorrectTermsAccepted,
+                .other,
+                .testEnvironmentCharges,
+                .unintendedRenewal
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .alternativeProcurementChannel: return "ALTERNATIVE_PROCUREMENT_CHANNEL"
+            case .buyerDissatisfaction: return "BUYER_DISSATISFACTION"
+            case .incorrectMetering: return "INCORRECT_METERING"
+            case .incorrectTermsAccepted: return "INCORRECT_TERMS_ACCEPTED"
+            case .other: return "OTHER"
+            case .testEnvironmentCharges: return "TEST_ENVIRONMENT_CHARGES"
+            case .unintendedRenewal: return "UNINTENDED_RENEWAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// An individual entry in a batch billing adjustment request, specifying the invoice and adjustment details.
+    public struct BatchCreateBillingAdjustmentRequestEntry: Swift.Sendable {
+        /// The adjustment amount as a string representation of a decimal number in the currency of the invoice.
+        /// This member is required.
+        public var adjustmentAmount: Swift.String?
+        /// The reason code for the billing adjustment. Valid values include INCORRECT_TERMS_ACCEPTED, INCORRECT_METERING, TEST_ENVIRONMENT_CHARGES, ALTERNATIVE_PROCUREMENT_CHANNEL, UNINTENDED_RENEWAL, BUYER_DISSATISFACTION, and OTHER.
+        /// This member is required.
+        public var adjustmentReasonCode: MarketplaceAgreementClientTypes.BillingAdjustmentReasonCode?
+        /// The unique identifier of the agreement associated with the invoice.
+        /// This member is required.
+        public var agreementId: Swift.String?
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// This member is required.
+        public var clientToken: Swift.String?
+        /// The 3-letter ISO 4217 currency code for the adjustment amount (e.g., USD).
+        /// This member is required.
+        public var currencyCode: Swift.String?
+        /// An optional detailed description of the adjustment reason.
+        public var description: Swift.String?
+        /// The identifier of the original invoice to adjust.
+        /// This member is required.
+        public var originalInvoiceId: Swift.String?
+
+        public init(
+            adjustmentAmount: Swift.String? = nil,
+            adjustmentReasonCode: MarketplaceAgreementClientTypes.BillingAdjustmentReasonCode? = nil,
+            agreementId: Swift.String? = nil,
+            clientToken: Swift.String? = nil,
+            currencyCode: Swift.String? = nil,
+            description: Swift.String? = nil,
+            originalInvoiceId: Swift.String? = nil
+        ) {
+            self.adjustmentAmount = adjustmentAmount
+            self.adjustmentReasonCode = adjustmentReasonCode
+            self.agreementId = agreementId
+            self.clientToken = clientToken
+            self.currencyCode = currencyCode
+            self.description = description
+            self.originalInvoiceId = originalInvoiceId
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes.BatchCreateBillingAdjustmentRequestEntry: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BatchCreateBillingAdjustmentRequestEntry(adjustmentAmount: \(Swift.String(describing: adjustmentAmount)), adjustmentReasonCode: \(Swift.String(describing: adjustmentReasonCode)), agreementId: \(Swift.String(describing: agreementId)), clientToken: \(Swift.String(describing: clientToken)), currencyCode: \(Swift.String(describing: currencyCode)), originalInvoiceId: \(Swift.String(describing: originalInvoiceId)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct BatchCreateBillingAdjustmentRequestInput: Swift.Sendable {
+    /// A list of billing adjustment request entries. Each entry specifies the invoice and adjustment details.
+    /// This member is required.
+    public var billingAdjustmentRequestEntries: [MarketplaceAgreementClientTypes.BatchCreateBillingAdjustmentRequestEntry]?
+
+    public init(
+        billingAdjustmentRequestEntries: [MarketplaceAgreementClientTypes.BatchCreateBillingAdjustmentRequestEntry]? = nil
+    ) {
+        self.billingAdjustmentRequestEntries = billingAdjustmentRequestEntries
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    public enum BillingAdjustmentErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case conflictException
+        case internalFailure
+        case resourceNotFoundException
+        case validationException
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BillingAdjustmentErrorCode] {
+            return [
+                .conflictException,
+                .internalFailure,
+                .resourceNotFoundException,
+                .validationException
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .conflictException: return "CONFLICT_EXCEPTION"
+            case .internalFailure: return "INTERNAL_FAILURE"
+            case .resourceNotFoundException: return "RESOURCE_NOT_FOUND_EXCEPTION"
+            case .validationException: return "VALIDATION_EXCEPTION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// An error for a billing adjustment request entry that failed validation.
+    public struct BatchCreateBillingAdjustmentError: Swift.Sendable {
+        /// The client token of the request entry that failed.
+        /// This member is required.
+        public var clientToken: Swift.String?
+        /// The error code indicating the reason for failure.
+        /// This member is required.
+        public var code: MarketplaceAgreementClientTypes.BillingAdjustmentErrorCode?
+        /// A human-readable message describing the error.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            clientToken: Swift.String? = nil,
+            code: MarketplaceAgreementClientTypes.BillingAdjustmentErrorCode? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.clientToken = clientToken
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// A successfully created billing adjustment request item.
+    public struct BatchCreateBillingAdjustmentItem: Swift.Sendable {
+        /// The unique identifier of the created billing adjustment request.
+        /// This member is required.
+        public var billingAdjustmentRequestId: Swift.String?
+        /// The client token provided in the corresponding request entry.
+        /// This member is required.
+        public var clientToken: Swift.String?
+
+        public init(
+            billingAdjustmentRequestId: Swift.String? = nil,
+            clientToken: Swift.String? = nil
+        ) {
+            self.billingAdjustmentRequestId = billingAdjustmentRequestId
+            self.clientToken = clientToken
+        }
+    }
+}
+
+public struct BatchCreateBillingAdjustmentRequestOutput: Swift.Sendable {
+    /// A list of errors for entries that failed validation, each containing the clientToken, error code, and message.
+    /// This member is required.
+    public var errors: [MarketplaceAgreementClientTypes.BatchCreateBillingAdjustmentError]?
+    /// A list of successfully created billing adjustment items, each containing the billingAdjustmentRequestId and clientToken.
+    /// This member is required.
+    public var items: [MarketplaceAgreementClientTypes.BatchCreateBillingAdjustmentItem]?
+
+    public init(
+        errors: [MarketplaceAgreementClientTypes.BatchCreateBillingAdjustmentError]? = nil,
+        items: [MarketplaceAgreementClientTypes.BatchCreateBillingAdjustmentItem]? = nil
+    ) {
+        self.errors = errors
+        self.items = items
+    }
+}
+
+/// Request references a resource which does not exist.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The unique identifier for the error.
+        public internal(set) var requestId: Swift.String? = nil
+        /// The unique identifier for the resource.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of resource.
+        public internal(set) var resourceType: MarketplaceAgreementClientTypes.ResourceType? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: MarketplaceAgreementClientTypes.ResourceType? = nil
+    ) {
+        self.properties.message = message
+        self.properties.requestId = requestId
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
+public struct CancelAgreementCancellationRequestInput: Swift.Sendable {
+    /// The unique identifier of the cancellation request to cancel.
+    /// This member is required.
+    public var agreementCancellationRequestId: Swift.String?
+    /// The unique identifier of the agreement associated with the cancellation request.
+    /// This member is required.
+    public var agreementId: Swift.String?
+    /// A required message explaining why the cancellation request is being withdrawn (1-2000 characters).
+    /// This member is required.
+    public var cancellationReason: Swift.String?
+
+    public init(
+        agreementCancellationRequestId: Swift.String? = nil,
+        agreementId: Swift.String? = nil,
+        cancellationReason: Swift.String? = nil
+    ) {
+        self.agreementCancellationRequestId = agreementCancellationRequestId
+        self.agreementId = agreementId
+        self.cancellationReason = cancellationReason
+    }
+}
+
+extension CancelAgreementCancellationRequestInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CancelAgreementCancellationRequestInput(agreementCancellationRequestId: \(Swift.String(describing: agreementCancellationRequestId)), agreementId: \(Swift.String(describing: agreementId)), cancellationReason: \"CONTENT_REDACTED\")"}
+}
+
+public struct CancelAgreementCancellationRequestOutput: Swift.Sendable {
+    /// The unique identifier of the cancelled cancellation request.
+    public var agreementCancellationRequestId: Swift.String?
+    /// The unique identifier of the agreement associated with this cancellation request.
+    public var agreementId: Swift.String?
+    /// The date and time when the cancellation request was originally created, as a POSIX timestamp (Unix epoch seconds).
+    public var createdAt: Foundation.Date?
+    /// The detailed description of the original cancellation reason, if provided.
+    public var description: Swift.String?
+    /// The original reason code provided when the cancellation request was created.
+    public var reasonCode: MarketplaceAgreementClientTypes.AgreementCancellationRequestReasonCode?
+    /// The updated status of the cancellation request, which is CANCELLED.
+    public var status: MarketplaceAgreementClientTypes.AgreementCancellationRequestStatus?
+    /// A message providing additional context about the cancellation request status.
+    public var statusMessage: Swift.String?
+    /// The date and time when the cancellation request was cancelled, as a POSIX timestamp (Unix epoch seconds).
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        agreementCancellationRequestId: Swift.String? = nil,
+        agreementId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        reasonCode: MarketplaceAgreementClientTypes.AgreementCancellationRequestReasonCode? = nil,
+        status: MarketplaceAgreementClientTypes.AgreementCancellationRequestStatus? = nil,
+        statusMessage: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.agreementCancellationRequestId = agreementCancellationRequestId
+        self.agreementId = agreementId
+        self.createdAt = createdAt
+        self.description = description
+        self.reasonCode = reasonCode
+        self.status = status
+        self.statusMessage = statusMessage
+        self.updatedAt = updatedAt
+    }
+}
+
+extension CancelAgreementCancellationRequestOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CancelAgreementCancellationRequestOutput(agreementCancellationRequestId: \(Swift.String(describing: agreementCancellationRequestId)), agreementId: \(Swift.String(describing: agreementId)), createdAt: \(Swift.String(describing: createdAt)), reasonCode: \(Swift.String(describing: reasonCode)), status: \(Swift.String(describing: status)), statusMessage: \(Swift.String(describing: statusMessage)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CancelAgreementPaymentRequestInput: Swift.Sendable {
@@ -1308,6 +1844,67 @@ public struct DescribeAgreementOutput: Swift.Sendable {
     }
 }
 
+public struct GetAgreementCancellationRequestInput: Swift.Sendable {
+    /// The unique identifier of the cancellation request.
+    /// This member is required.
+    public var agreementCancellationRequestId: Swift.String?
+    /// The unique identifier of the agreement associated with the cancellation request.
+    /// This member is required.
+    public var agreementId: Swift.String?
+
+    public init(
+        agreementCancellationRequestId: Swift.String? = nil,
+        agreementId: Swift.String? = nil
+    ) {
+        self.agreementCancellationRequestId = agreementCancellationRequestId
+        self.agreementId = agreementId
+    }
+}
+
+public struct GetAgreementCancellationRequestOutput: Swift.Sendable {
+    /// The unique identifier of the cancellation request.
+    public var agreementCancellationRequestId: Swift.String?
+    /// The unique identifier of the agreement associated with this cancellation request. Use DescribeAgreement to retrieve full agreement details.
+    public var agreementId: Swift.String?
+    /// The date and time when the cancellation request was created, as a POSIX timestamp (Unix epoch seconds).
+    public var createdAt: Foundation.Date?
+    /// The detailed description of the cancellation reason, if provided.
+    public var description: Swift.String?
+    /// The reason code provided for the cancellation.
+    public var reasonCode: MarketplaceAgreementClientTypes.AgreementCancellationRequestReasonCode?
+    /// The current status of the cancellation request. Possible values include PENDING_APPROVAL, APPROVED, REJECTED, CANCELLED, and VALIDATION_FAILED.
+    public var status: MarketplaceAgreementClientTypes.AgreementCancellationRequestStatus?
+    /// A message providing additional context about the cancellation request status.
+    public var statusMessage: Swift.String?
+    /// The date and time when the cancellation request was last updated, as a POSIX timestamp (Unix epoch seconds).
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        agreementCancellationRequestId: Swift.String? = nil,
+        agreementId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        reasonCode: MarketplaceAgreementClientTypes.AgreementCancellationRequestReasonCode? = nil,
+        status: MarketplaceAgreementClientTypes.AgreementCancellationRequestStatus? = nil,
+        statusMessage: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.agreementCancellationRequestId = agreementCancellationRequestId
+        self.agreementId = agreementId
+        self.createdAt = createdAt
+        self.description = description
+        self.reasonCode = reasonCode
+        self.status = status
+        self.statusMessage = statusMessage
+        self.updatedAt = updatedAt
+    }
+}
+
+extension GetAgreementCancellationRequestOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetAgreementCancellationRequestOutput(agreementCancellationRequestId: \(Swift.String(describing: agreementCancellationRequestId)), agreementId: \(Swift.String(describing: agreementId)), createdAt: \(Swift.String(describing: createdAt)), reasonCode: \(Swift.String(describing: reasonCode)), status: \(Swift.String(describing: status)), statusMessage: \(Swift.String(describing: statusMessage)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+}
+
 public struct GetAgreementPaymentRequestInput: Swift.Sendable {
     /// The unique identifier of the agreement associated with the payment request.
     /// This member is required.
@@ -1428,6 +2025,252 @@ public struct GetAgreementTermsOutput: Swift.Sendable {
     }
 }
 
+public struct GetBillingAdjustmentRequestInput: Swift.Sendable {
+    /// The unique identifier of the agreement associated with the billing adjustment request.
+    /// This member is required.
+    public var agreementId: Swift.String?
+    /// The unique identifier of the billing adjustment request.
+    /// This member is required.
+    public var billingAdjustmentRequestId: Swift.String?
+
+    public init(
+        agreementId: Swift.String? = nil,
+        billingAdjustmentRequestId: Swift.String? = nil
+    ) {
+        self.agreementId = agreementId
+        self.billingAdjustmentRequestId = billingAdjustmentRequestId
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    public enum BillingAdjustmentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case pending
+        case validationFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BillingAdjustmentStatus] {
+            return [
+                .completed,
+                .pending,
+                .validationFailed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .pending: return "PENDING"
+            case .validationFailed: return "VALIDATION_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetBillingAdjustmentRequestOutput: Swift.Sendable {
+    /// The adjustment amount as a string representation of a decimal number.
+    /// This member is required.
+    public var adjustmentAmount: Swift.String?
+    /// The reason code for the billing adjustment.
+    /// This member is required.
+    public var adjustmentReasonCode: MarketplaceAgreementClientTypes.BillingAdjustmentReasonCode?
+    /// The unique identifier of the agreement associated with this billing adjustment request.
+    /// This member is required.
+    public var agreementId: Swift.String?
+    /// The unique identifier of the billing adjustment request.
+    /// This member is required.
+    public var billingAdjustmentRequestId: Swift.String?
+    /// The date and time when the billing adjustment request was created, as a POSIX timestamp (Unix epoch seconds).
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The currency code for the adjustment amount (e.g., USD).
+    /// This member is required.
+    public var currencyCode: Swift.String?
+    /// The detailed description of the billing adjustment reason, if provided.
+    public var description: Swift.String?
+    /// The identifier of the original invoice being adjusted.
+    /// This member is required.
+    public var originalInvoiceId: Swift.String?
+    /// The current status of the billing adjustment request.
+    /// This member is required.
+    public var status: MarketplaceAgreementClientTypes.BillingAdjustmentStatus?
+    /// A message providing additional context about the billing adjustment request status. This field is populated only when the status is VALIDATION_FAILED.
+    public var statusMessage: Swift.String?
+    /// The date and time when the billing adjustment request was last updated, as a POSIX timestamp (Unix epoch seconds).
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        adjustmentAmount: Swift.String? = nil,
+        adjustmentReasonCode: MarketplaceAgreementClientTypes.BillingAdjustmentReasonCode? = nil,
+        agreementId: Swift.String? = nil,
+        billingAdjustmentRequestId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        currencyCode: Swift.String? = nil,
+        description: Swift.String? = nil,
+        originalInvoiceId: Swift.String? = nil,
+        status: MarketplaceAgreementClientTypes.BillingAdjustmentStatus? = nil,
+        statusMessage: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.adjustmentAmount = adjustmentAmount
+        self.adjustmentReasonCode = adjustmentReasonCode
+        self.agreementId = agreementId
+        self.billingAdjustmentRequestId = billingAdjustmentRequestId
+        self.createdAt = createdAt
+        self.currencyCode = currencyCode
+        self.description = description
+        self.originalInvoiceId = originalInvoiceId
+        self.status = status
+        self.statusMessage = statusMessage
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct ListAgreementCancellationRequestsInput: Swift.Sendable {
+    /// An optional parameter to filter cancellation requests for a specific agreement.
+    public var agreementId: Swift.String?
+    /// An optional parameter to filter cancellation requests by agreement type (e.g., PurchaseAgreement).
+    public var agreementType: Swift.String?
+    /// An optional parameter to filter cancellation requests by catalog (e.g., AWSMarketplace).
+    public var catalog: Swift.String?
+    /// The maximum number of cancellation requests to return in the response.
+    public var maxResults: Swift.Int?
+    /// A token to specify where to start pagination. Use the nextToken value from a previous response to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The party type for the cancellation requests. Required parameter. Use Proposer to list cancellation requests where you are the seller, or Acceptor to list cancellation requests where you are the buyer.
+    /// This member is required.
+    public var partyType: Swift.String?
+    /// An optional parameter to filter cancellation requests by status. Valid values include PENDING_APPROVAL, APPROVED, REJECTED, CANCELLED, and VALIDATION_FAILED.
+    public var status: MarketplaceAgreementClientTypes.AgreementCancellationRequestStatus?
+
+    public init(
+        agreementId: Swift.String? = nil,
+        agreementType: Swift.String? = nil,
+        catalog: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        partyType: Swift.String? = nil,
+        status: MarketplaceAgreementClientTypes.AgreementCancellationRequestStatus? = nil
+    ) {
+        self.agreementId = agreementId
+        self.agreementType = agreementType
+        self.catalog = catalog
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.partyType = partyType
+        self.status = status
+    }
+}
+
+public struct ListAgreementCancellationRequestsOutput: Swift.Sendable {
+    /// An array of AgreementCancellationRequestSummary objects containing summary information about each cancellation request.
+    public var items: [MarketplaceAgreementClientTypes.AgreementCancellationRequestSummary]?
+    /// A token to retrieve the next page of results. If null, there are no more results to retrieve.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [MarketplaceAgreementClientTypes.AgreementCancellationRequestSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    public enum LineItemGroupBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case invoiceId
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LineItemGroupBy] {
+            return [
+                .invoiceId
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .invoiceId: return "INVOICE_ID"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListAgreementInvoiceLineItemsInput: Swift.Sendable {
+    /// An optional filter for invoices issued after the specified timestamp.
+    public var afterIssuedTime: Foundation.Date?
+    /// The unique identifier of the agreement.
+    /// This member is required.
+    public var agreementId: Swift.String?
+    /// An optional filter for invoices issued before the specified timestamp.
+    public var beforeIssuedTime: Foundation.Date?
+    /// Specifies a grouping strategy for line items. Currently supports INVOICE_ID.
+    /// This member is required.
+    public var groupBy: MarketplaceAgreementClientTypes.LineItemGroupBy?
+    /// An optional filter for the billing period associated with the invoice.
+    public var invoiceBillingPeriod: MarketplaceAgreementClientTypes.InvoiceBillingPeriod?
+    /// An optional filter to retrieve invoice information for a specific invoice.
+    public var invoiceId: Swift.String?
+    /// An optional filter for the type of invoice. Valid values are INVOICE and CREDIT_MEMO.
+    public var invoiceType: MarketplaceAgreementClientTypes.InvoiceType?
+    /// The maximum number of results to return in the response.
+    public var maxResults: Swift.Int?
+    /// A token to specify where to start pagination.
+    public var nextToken: Swift.String?
+
+    public init(
+        afterIssuedTime: Foundation.Date? = nil,
+        agreementId: Swift.String? = nil,
+        beforeIssuedTime: Foundation.Date? = nil,
+        groupBy: MarketplaceAgreementClientTypes.LineItemGroupBy? = nil,
+        invoiceBillingPeriod: MarketplaceAgreementClientTypes.InvoiceBillingPeriod? = nil,
+        invoiceId: Swift.String? = nil,
+        invoiceType: MarketplaceAgreementClientTypes.InvoiceType? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.afterIssuedTime = afterIssuedTime
+        self.agreementId = agreementId
+        self.beforeIssuedTime = beforeIssuedTime
+        self.groupBy = groupBy
+        self.invoiceBillingPeriod = invoiceBillingPeriod
+        self.invoiceId = invoiceId
+        self.invoiceType = invoiceType
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAgreementInvoiceLineItemsOutput: Swift.Sendable {
+    /// A list of grouped billing data objects.
+    public var agreementInvoiceLineItemGroupSummaries: [MarketplaceAgreementClientTypes.AgreementInvoiceLineItemGroupSummary]?
+    /// A token to retrieve the next page of results. If not present, there are no more results available.
+    public var nextToken: Swift.String?
+
+    public init(
+        agreementInvoiceLineItemGroupSummaries: [MarketplaceAgreementClientTypes.AgreementInvoiceLineItemGroupSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.agreementInvoiceLineItemGroupSummaries = agreementInvoiceLineItemGroupSummaries
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListAgreementPaymentRequestsInput: Swift.Sendable {
     /// An optional parameter to list payment requests for a specific agreement.
     public var agreementId: Swift.String?
@@ -1520,6 +2363,122 @@ public struct ListAgreementPaymentRequestsOutput: Swift.Sendable {
 
     public init(
         items: [MarketplaceAgreementClientTypes.PaymentRequestSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListBillingAdjustmentRequestsInput: Swift.Sendable {
+    /// The unique identifier of the agreement to list billing adjustment requests for.
+    public var agreementId: Swift.String?
+    /// An optional filter to return billing adjustment requests by agreement type (e.g., PurchaseAgreement).
+    public var agreementType: Swift.String?
+    /// An optional filter to return billing adjustment requests by catalog (e.g., AWSMarketplace).
+    public var catalog: Swift.String?
+    /// An optional filter to return billing adjustment requests created after the specified POSIX timestamp (Unix epoch seconds).
+    public var createdAfter: Foundation.Date?
+    /// An optional filter to return billing adjustment requests created before the specified POSIX timestamp (Unix epoch seconds).
+    public var createdBefore: Foundation.Date?
+    /// The maximum number of billing adjustment requests to return in the response.
+    public var maxResults: Swift.Int?
+    /// A token to specify where to start pagination. Use the nextToken value from a previous response to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// An optional filter to return billing adjustment requests with the specified status.
+    public var status: MarketplaceAgreementClientTypes.BillingAdjustmentStatus?
+
+    public init(
+        agreementId: Swift.String? = nil,
+        agreementType: Swift.String? = nil,
+        catalog: Swift.String? = nil,
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: MarketplaceAgreementClientTypes.BillingAdjustmentStatus? = nil
+    ) {
+        self.agreementId = agreementId
+        self.agreementType = agreementType
+        self.catalog = catalog
+        self.createdAfter = createdAfter
+        self.createdBefore = createdBefore
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// Summary view of a billing adjustment request.
+    public struct BillingAdjustmentSummary: Swift.Sendable {
+        /// The adjustment amount as a string representation of a decimal number.
+        /// This member is required.
+        public var adjustmentAmount: Swift.String?
+        /// The unique identifier of the agreement associated with this billing adjustment request.
+        /// This member is required.
+        public var agreementId: Swift.String?
+        /// The type of agreement.
+        /// This member is required.
+        public var agreementType: Swift.String?
+        /// The unique identifier of the billing adjustment request.
+        /// This member is required.
+        public var billingAdjustmentRequestId: Swift.String?
+        /// The catalog in which the agreement was created.
+        /// This member is required.
+        public var catalog: Swift.String?
+        /// The date and time when the billing adjustment request was created, as a POSIX timestamp (Unix epoch seconds).
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The currency code for the adjustment amount.
+        /// This member is required.
+        public var currencyCode: Swift.String?
+        /// The identifier of the original invoice being adjusted.
+        /// This member is required.
+        public var originalInvoiceId: Swift.String?
+        /// The current status of the billing adjustment request.
+        /// This member is required.
+        public var status: MarketplaceAgreementClientTypes.BillingAdjustmentStatus?
+        /// The date and time when the billing adjustment request was last updated, as a POSIX timestamp (Unix epoch seconds).
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            adjustmentAmount: Swift.String? = nil,
+            agreementId: Swift.String? = nil,
+            agreementType: Swift.String? = nil,
+            billingAdjustmentRequestId: Swift.String? = nil,
+            catalog: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            currencyCode: Swift.String? = nil,
+            originalInvoiceId: Swift.String? = nil,
+            status: MarketplaceAgreementClientTypes.BillingAdjustmentStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.adjustmentAmount = adjustmentAmount
+            self.agreementId = agreementId
+            self.agreementType = agreementType
+            self.billingAdjustmentRequestId = billingAdjustmentRequestId
+            self.catalog = catalog
+            self.createdAt = createdAt
+            self.currencyCode = currencyCode
+            self.originalInvoiceId = originalInvoiceId
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListBillingAdjustmentRequestsOutput: Swift.Sendable {
+    /// An array of BillingAdjustmentSummary objects containing summary information about each billing adjustment request.
+    /// This member is required.
+    public var items: [MarketplaceAgreementClientTypes.BillingAdjustmentSummary]?
+    /// A token to retrieve the next page of results. If null, there are no more results to retrieve.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [MarketplaceAgreementClientTypes.BillingAdjustmentSummary]? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.items = items
@@ -1656,6 +2615,76 @@ public struct SearchAgreementsOutput: Swift.Sendable {
     }
 }
 
+public struct SendAgreementCancellationRequestInput: Swift.Sendable {
+    /// The unique identifier of the agreement for which the cancellation request is being submitted.
+    /// This member is required.
+    public var agreementId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// An optional detailed description of the cancellation reason (1-2000 characters).
+    public var description: Swift.String?
+    /// The reason code for the cancellation request. Valid values include INCORRECT_TERMS_ACCEPTED, REPLACING_AGREEMENT, TEST_AGREEMENT, ALTERNATIVE_PROCUREMENT_CHANNEL, PRODUCT_DISCONTINUED, UNINTENDED_RENEWAL, BUYER_DISSATISFACTION, and OTHER.
+    /// This member is required.
+    public var reasonCode: MarketplaceAgreementClientTypes.AgreementCancellationRequestReasonCode?
+
+    public init(
+        agreementId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        reasonCode: MarketplaceAgreementClientTypes.AgreementCancellationRequestReasonCode? = nil
+    ) {
+        self.agreementId = agreementId
+        self.clientToken = clientToken
+        self.description = description
+        self.reasonCode = reasonCode
+    }
+}
+
+extension SendAgreementCancellationRequestInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SendAgreementCancellationRequestInput(agreementId: \(Swift.String(describing: agreementId)), clientToken: \(Swift.String(describing: clientToken)), reasonCode: \(Swift.String(describing: reasonCode)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct SendAgreementCancellationRequestOutput: Swift.Sendable {
+    /// The unique identifier for the created cancellation request.
+    public var agreementCancellationRequestId: Swift.String?
+    /// The unique identifier of the agreement.
+    public var agreementId: Swift.String?
+    /// The time when the cancellation request was created, as a POSIX timestamp (Unix epoch seconds).
+    public var createdAt: Foundation.Date?
+    /// The detailed description of the cancellation reason, if provided.
+    public var description: Swift.String?
+    /// The reason code provided for the cancellation.
+    public var reasonCode: MarketplaceAgreementClientTypes.AgreementCancellationRequestReasonCode?
+    /// The current status of the cancellation request. The initial status is PENDING_APPROVAL.
+    public var status: MarketplaceAgreementClientTypes.AgreementCancellationRequestStatus?
+    /// The time when the cancellation request was last updated, as a POSIX timestamp (Unix epoch seconds).
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        agreementCancellationRequestId: Swift.String? = nil,
+        agreementId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        reasonCode: MarketplaceAgreementClientTypes.AgreementCancellationRequestReasonCode? = nil,
+        status: MarketplaceAgreementClientTypes.AgreementCancellationRequestStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.agreementCancellationRequestId = agreementCancellationRequestId
+        self.agreementId = agreementId
+        self.createdAt = createdAt
+        self.description = description
+        self.reasonCode = reasonCode
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
+extension SendAgreementCancellationRequestOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SendAgreementCancellationRequestOutput(agreementCancellationRequestId: \(Swift.String(describing: agreementCancellationRequestId)), agreementId: \(Swift.String(describing: agreementId)), createdAt: \(Swift.String(describing: createdAt)), reasonCode: \(Swift.String(describing: reasonCode)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+}
+
 public struct SendAgreementPaymentRequestInput: Swift.Sendable {
     /// The unique identifier of the agreement for which the payment request is being submitted. Use GetAgreementTerms to retrieve agreement term details.
     /// This member is required.
@@ -1740,6 +2769,20 @@ extension SendAgreementPaymentRequestOutput: Swift.CustomDebugStringConvertible 
         "SendAgreementPaymentRequestOutput(agreementId: \(Swift.String(describing: agreementId)), chargeAmount: \(Swift.String(describing: chargeAmount)), createdAt: \(Swift.String(describing: createdAt)), currencyCode: \(Swift.String(describing: currencyCode)), name: \(Swift.String(describing: name)), paymentRequestId: \(Swift.String(describing: paymentRequestId)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\")"}
 }
 
+extension BatchCreateBillingAdjustmentRequestInput {
+
+    static func urlPathProvider(_ value: BatchCreateBillingAdjustmentRequestInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CancelAgreementCancellationRequestInput {
+
+    static func urlPathProvider(_ value: CancelAgreementCancellationRequestInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CancelAgreementPaymentRequestInput {
 
     static func urlPathProvider(_ value: CancelAgreementPaymentRequestInput) -> Swift.String? {
@@ -1750,6 +2793,13 @@ extension CancelAgreementPaymentRequestInput {
 extension DescribeAgreementInput {
 
     static func urlPathProvider(_ value: DescribeAgreementInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetAgreementCancellationRequestInput {
+
+    static func urlPathProvider(_ value: GetAgreementCancellationRequestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1768,9 +2818,37 @@ extension GetAgreementTermsInput {
     }
 }
 
+extension GetBillingAdjustmentRequestInput {
+
+    static func urlPathProvider(_ value: GetBillingAdjustmentRequestInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListAgreementCancellationRequestsInput {
+
+    static func urlPathProvider(_ value: ListAgreementCancellationRequestsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListAgreementInvoiceLineItemsInput {
+
+    static func urlPathProvider(_ value: ListAgreementInvoiceLineItemsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListAgreementPaymentRequestsInput {
 
     static func urlPathProvider(_ value: ListAgreementPaymentRequestsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListBillingAdjustmentRequestsInput {
+
+    static func urlPathProvider(_ value: ListBillingAdjustmentRequestsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1782,10 +2860,35 @@ extension SearchAgreementsInput {
     }
 }
 
+extension SendAgreementCancellationRequestInput {
+
+    static func urlPathProvider(_ value: SendAgreementCancellationRequestInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension SendAgreementPaymentRequestInput {
 
     static func urlPathProvider(_ value: SendAgreementPaymentRequestInput) -> Swift.String? {
         return "/"
+    }
+}
+
+extension BatchCreateBillingAdjustmentRequestInput {
+
+    static func write(value: BatchCreateBillingAdjustmentRequestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["billingAdjustmentRequestEntries"].writeList(value.billingAdjustmentRequestEntries, memberWritingClosure: MarketplaceAgreementClientTypes.BatchCreateBillingAdjustmentRequestEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CancelAgreementCancellationRequestInput {
+
+    static func write(value: CancelAgreementCancellationRequestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agreementCancellationRequestId"].write(value.agreementCancellationRequestId)
+        try writer["agreementId"].write(value.agreementId)
+        try writer["cancellationReason"].write(value.cancellationReason)
     }
 }
 
@@ -1802,6 +2905,15 @@ extension DescribeAgreementInput {
 
     static func write(value: DescribeAgreementInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["agreementId"].write(value.agreementId)
+    }
+}
+
+extension GetAgreementCancellationRequestInput {
+
+    static func write(value: GetAgreementCancellationRequestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agreementCancellationRequestId"].write(value.agreementCancellationRequestId)
         try writer["agreementId"].write(value.agreementId)
     }
 }
@@ -1825,6 +2937,45 @@ extension GetAgreementTermsInput {
     }
 }
 
+extension GetBillingAdjustmentRequestInput {
+
+    static func write(value: GetBillingAdjustmentRequestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agreementId"].write(value.agreementId)
+        try writer["billingAdjustmentRequestId"].write(value.billingAdjustmentRequestId)
+    }
+}
+
+extension ListAgreementCancellationRequestsInput {
+
+    static func write(value: ListAgreementCancellationRequestsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agreementId"].write(value.agreementId)
+        try writer["agreementType"].write(value.agreementType)
+        try writer["catalog"].write(value.catalog)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["partyType"].write(value.partyType)
+        try writer["status"].write(value.status)
+    }
+}
+
+extension ListAgreementInvoiceLineItemsInput {
+
+    static func write(value: ListAgreementInvoiceLineItemsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["afterIssuedTime"].writeTimestamp(value.afterIssuedTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["agreementId"].write(value.agreementId)
+        try writer["beforeIssuedTime"].writeTimestamp(value.beforeIssuedTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["groupBy"].write(value.groupBy)
+        try writer["invoiceBillingPeriod"].write(value.invoiceBillingPeriod, with: MarketplaceAgreementClientTypes.InvoiceBillingPeriod.write(value:to:))
+        try writer["invoiceId"].write(value.invoiceId)
+        try writer["invoiceType"].write(value.invoiceType)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
 extension ListAgreementPaymentRequestsInput {
 
     static func write(value: ListAgreementPaymentRequestsInput?, to writer: SmithyJSON.Writer) throws {
@@ -1835,6 +2986,21 @@ extension ListAgreementPaymentRequestsInput {
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
         try writer["partyType"].write(value.partyType)
+        try writer["status"].write(value.status)
+    }
+}
+
+extension ListBillingAdjustmentRequestsInput {
+
+    static func write(value: ListBillingAdjustmentRequestsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agreementId"].write(value.agreementId)
+        try writer["agreementType"].write(value.agreementType)
+        try writer["catalog"].write(value.catalog)
+        try writer["createdAfter"].writeTimestamp(value.createdAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["createdBefore"].writeTimestamp(value.createdBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
         try writer["status"].write(value.status)
     }
 }
@@ -1851,6 +3017,17 @@ extension SearchAgreementsInput {
     }
 }
 
+extension SendAgreementCancellationRequestInput {
+
+    static func write(value: SendAgreementCancellationRequestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agreementId"].write(value.agreementId)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["reasonCode"].write(value.reasonCode)
+    }
+}
+
 extension SendAgreementPaymentRequestInput {
 
     static func write(value: SendAgreementPaymentRequestInput?, to writer: SmithyJSON.Writer) throws {
@@ -1861,6 +3038,38 @@ extension SendAgreementPaymentRequestInput {
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
         try writer["termId"].write(value.termId)
+    }
+}
+
+extension BatchCreateBillingAdjustmentRequestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchCreateBillingAdjustmentRequestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchCreateBillingAdjustmentRequestOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.BatchCreateBillingAdjustmentError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.BatchCreateBillingAdjustmentItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CancelAgreementCancellationRequestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelAgreementCancellationRequestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CancelAgreementCancellationRequestOutput()
+        value.agreementCancellationRequestId = try reader["agreementCancellationRequestId"].readIfPresent()
+        value.agreementId = try reader["agreementId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["description"].readIfPresent()
+        value.reasonCode = try reader["reasonCode"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
     }
 }
 
@@ -1905,6 +3114,25 @@ extension DescribeAgreementOutput {
     }
 }
 
+extension GetAgreementCancellationRequestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAgreementCancellationRequestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAgreementCancellationRequestOutput()
+        value.agreementCancellationRequestId = try reader["agreementCancellationRequestId"].readIfPresent()
+        value.agreementId = try reader["agreementId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["description"].readIfPresent()
+        value.reasonCode = try reader["reasonCode"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension GetAgreementPaymentRequestOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAgreementPaymentRequestOutput {
@@ -1940,6 +3168,54 @@ extension GetAgreementTermsOutput {
     }
 }
 
+extension GetBillingAdjustmentRequestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetBillingAdjustmentRequestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBillingAdjustmentRequestOutput()
+        value.adjustmentAmount = try reader["adjustmentAmount"].readIfPresent() ?? ""
+        value.adjustmentReasonCode = try reader["adjustmentReasonCode"].readIfPresent() ?? .sdkUnknown("")
+        value.agreementId = try reader["agreementId"].readIfPresent() ?? ""
+        value.billingAdjustmentRequestId = try reader["billingAdjustmentRequestId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.currencyCode = try reader["currencyCode"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.originalInvoiceId = try reader["originalInvoiceId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension ListAgreementCancellationRequestsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAgreementCancellationRequestsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAgreementCancellationRequestsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.AgreementCancellationRequestSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAgreementInvoiceLineItemsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAgreementInvoiceLineItemsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAgreementInvoiceLineItemsOutput()
+        value.agreementInvoiceLineItemGroupSummaries = try reader["agreementInvoiceLineItemGroupSummaries"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.AgreementInvoiceLineItemGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListAgreementPaymentRequestsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAgreementPaymentRequestsOutput {
@@ -1948,6 +3224,19 @@ extension ListAgreementPaymentRequestsOutput {
         let reader = responseReader
         var value = ListAgreementPaymentRequestsOutput()
         value.items = try reader["items"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.PaymentRequestSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListBillingAdjustmentRequestsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListBillingAdjustmentRequestsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListBillingAdjustmentRequestsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.BillingAdjustmentSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -1962,6 +3251,24 @@ extension SearchAgreementsOutput {
         var value = SearchAgreementsOutput()
         value.agreementViewSummaries = try reader["agreementViewSummaries"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.AgreementViewSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension SendAgreementCancellationRequestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendAgreementCancellationRequestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SendAgreementCancellationRequestOutput()
+        value.agreementCancellationRequestId = try reader["agreementCancellationRequestId"].readIfPresent()
+        value.agreementId = try reader["agreementId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["description"].readIfPresent()
+        value.reasonCode = try reader["reasonCode"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -1985,6 +3292,43 @@ extension SendAgreementPaymentRequestOutput {
     }
 }
 
+enum BatchCreateBillingAdjustmentRequestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CancelAgreementCancellationRequestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CancelAgreementPaymentRequestOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2005,6 +3349,24 @@ enum CancelAgreementPaymentRequestOutputError {
 }
 
 enum DescribeAgreementOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAgreementCancellationRequestOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -2058,7 +3420,77 @@ enum GetAgreementTermsOutputError {
     }
 }
 
+enum GetBillingAdjustmentRequestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAgreementCancellationRequestsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAgreementInvoiceLineItemsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAgreementPaymentRequestsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListBillingAdjustmentRequestsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -2085,6 +3517,25 @@ enum SearchAgreementsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SendAgreementCancellationRequestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -2155,22 +3606,6 @@ extension InternalServerException {
     }
 }
 
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ThrottlingException {
 
     static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
@@ -2194,6 +3629,22 @@ extension ValidationException {
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.reason = try reader["reason"].readIfPresent()
         value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.resourceId = try reader["resourceId"].readIfPresent()
+        value.properties.resourceType = try reader["resourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2247,6 +3698,39 @@ extension MarketplaceAgreementClientTypes.Acceptor {
     }
 }
 
+extension MarketplaceAgreementClientTypes.AgreementCancellationRequestSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.AgreementCancellationRequestSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.AgreementCancellationRequestSummary()
+        value.agreementCancellationRequestId = try reader["agreementCancellationRequestId"].readIfPresent()
+        value.agreementId = try reader["agreementId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.reasonCode = try reader["reasonCode"].readIfPresent()
+        value.agreementType = try reader["agreementType"].readIfPresent()
+        value.catalog = try reader["catalog"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.AgreementInvoiceLineItemGroupSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.AgreementInvoiceLineItemGroupSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.AgreementInvoiceLineItemGroupSummary()
+        value.agreementId = try reader["agreementId"].readIfPresent()
+        value.invoiceId = try reader["invoiceId"].readIfPresent()
+        value.pricingCurrencyAmount = try reader["pricingCurrencyAmount"].readIfPresent(with: MarketplaceAgreementClientTypes.PricingCurrencyAmount.read(from:))
+        value.invoiceBillingPeriod = try reader["invoiceBillingPeriod"].readIfPresent(with: MarketplaceAgreementClientTypes.InvoiceBillingPeriod.read(from:))
+        value.issuedTime = try reader["issuedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.invoiceType = try reader["invoiceType"].readIfPresent()
+        value.invoicingEntity = try reader["invoicingEntity"].readIfPresent(with: MarketplaceAgreementClientTypes.InvoicingEntity.read(from:))
+        return value
+    }
+}
+
 extension MarketplaceAgreementClientTypes.AgreementViewSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.AgreementViewSummary {
@@ -2261,6 +3745,62 @@ extension MarketplaceAgreementClientTypes.AgreementViewSummary {
         value.proposer = try reader["proposer"].readIfPresent(with: MarketplaceAgreementClientTypes.Proposer.read(from:))
         value.proposalSummary = try reader["proposalSummary"].readIfPresent(with: MarketplaceAgreementClientTypes.ProposalSummary.read(from:))
         value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.BatchCreateBillingAdjustmentError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.BatchCreateBillingAdjustmentError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.BatchCreateBillingAdjustmentError()
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        value.clientToken = try reader["clientToken"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.BatchCreateBillingAdjustmentItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.BatchCreateBillingAdjustmentItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.BatchCreateBillingAdjustmentItem()
+        value.billingAdjustmentRequestId = try reader["billingAdjustmentRequestId"].readIfPresent() ?? ""
+        value.clientToken = try reader["clientToken"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.BatchCreateBillingAdjustmentRequestEntry {
+
+    static func write(value: MarketplaceAgreementClientTypes.BatchCreateBillingAdjustmentRequestEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["adjustmentAmount"].write(value.adjustmentAmount)
+        try writer["adjustmentReasonCode"].write(value.adjustmentReasonCode)
+        try writer["agreementId"].write(value.agreementId)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["currencyCode"].write(value.currencyCode)
+        try writer["description"].write(value.description)
+        try writer["originalInvoiceId"].write(value.originalInvoiceId)
+    }
+}
+
+extension MarketplaceAgreementClientTypes.BillingAdjustmentSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.BillingAdjustmentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.BillingAdjustmentSummary()
+        value.billingAdjustmentRequestId = try reader["billingAdjustmentRequestId"].readIfPresent() ?? ""
+        value.originalInvoiceId = try reader["originalInvoiceId"].readIfPresent() ?? ""
+        value.adjustmentAmount = try reader["adjustmentAmount"].readIfPresent() ?? ""
+        value.currencyCode = try reader["currencyCode"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.agreementId = try reader["agreementId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.agreementType = try reader["agreementType"].readIfPresent() ?? ""
+        value.catalog = try reader["catalog"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2402,6 +3942,34 @@ extension MarketplaceAgreementClientTypes.GrantItem {
     }
 }
 
+extension MarketplaceAgreementClientTypes.InvoiceBillingPeriod {
+
+    static func write(value: MarketplaceAgreementClientTypes.InvoiceBillingPeriod?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["month"].write(value.month)
+        try writer["year"].write(value.year)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.InvoiceBillingPeriod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.InvoiceBillingPeriod()
+        value.month = try reader["month"].readIfPresent() ?? 0
+        value.year = try reader["year"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.InvoicingEntity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.InvoicingEntity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.InvoicingEntity()
+        value.legalName = try reader["legalName"].readIfPresent()
+        value.branchName = try reader["branchName"].readIfPresent()
+        return value
+    }
+}
+
 extension MarketplaceAgreementClientTypes.LegalTerm {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.LegalTerm {
@@ -2439,6 +4007,18 @@ extension MarketplaceAgreementClientTypes.PaymentScheduleTerm {
         value.type = try reader["type"].readIfPresent()
         value.currencyCode = try reader["currencyCode"].readIfPresent()
         value.schedule = try reader["schedule"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.ScheduleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.PricingCurrencyAmount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.PricingCurrencyAmount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.PricingCurrencyAmount()
+        value.amount = try reader["amount"].readIfPresent()
+        value.maxAdjustmentAmount = try reader["maxAdjustmentAmount"].readIfPresent()
+        value.currencyCode = try reader["currencyCode"].readIfPresent()
         return value
     }
 }
