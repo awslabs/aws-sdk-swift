@@ -44,3 +44,36 @@ extension PaginatorSequence where OperationStackInput == ListCertificatesInput, 
         return try await self.asyncCompactMap { item in item.certificateSummaryList }
     }
 }
+extension ACMClient {
+    /// Paginate over `[SearchCertificatesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchCertificatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchCertificatesOutput`
+    public func searchCertificatesPaginated(input: SearchCertificatesInput) -> ClientRuntime.PaginatorSequence<SearchCertificatesInput, SearchCertificatesOutput> {
+        return ClientRuntime.PaginatorSequence<SearchCertificatesInput, SearchCertificatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchCertificates(input:))
+    }
+}
+
+extension SearchCertificatesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchCertificatesInput {
+        return SearchCertificatesInput(
+            filterStatement: self.filterStatement,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == SearchCertificatesInput, OperationStackOutput == SearchCertificatesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `searchCertificatesPaginated`
+    /// to access the nested member `[ACMClientTypes.CertificateSearchResult]`
+    /// - Returns: `[ACMClientTypes.CertificateSearchResult]`
+    public func results() async throws -> [ACMClientTypes.CertificateSearchResult] {
+        return try await self.asyncCompactMap { item in item.results }
+    }
+}

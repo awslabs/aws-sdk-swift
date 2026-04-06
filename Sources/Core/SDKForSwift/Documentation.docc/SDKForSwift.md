@@ -335,6 +335,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSDetective](/sdk-for-swift/latest/api/awsdetective/documentation/awsdetective)
 
+[AWSDevOpsAgent](/sdk-for-swift/latest/api/awsdevopsagent/documentation/awsdevopsagent)
+
 [AWSDevOpsGuru](/sdk-for-swift/latest/api/awsdevopsguru/documentation/awsdevopsguru)
 
 [AWSDeviceFarm](/sdk-for-swift/latest/api/awsdevicefarm/documentation/awsdevicefarm)
@@ -823,6 +825,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSecretsManager](/sdk-for-swift/latest/api/awssecretsmanager/documentation/awssecretsmanager)
 
+[AWSSecurityAgent](/sdk-for-swift/latest/api/awssecurityagent/documentation/awssecurityagent)
+
 [AWSSecurityHub](/sdk-for-swift/latest/api/awssecurityhub/documentation/awssecurityhub)
 
 [AWSSecurityIR](/sdk-for-swift/latest/api/awssecurityir/documentation/awssecurityir)
@@ -866,6 +870,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSSupport](/sdk-for-swift/latest/api/awssupport/documentation/awssupport)
 
 [AWSSupportApp](/sdk-for-swift/latest/api/awssupportapp/documentation/awssupportapp)
+
+[AWSSustainability](/sdk-for-swift/latest/api/awssustainability/documentation/awssustainability)
 
 [AWSSynthetics](/sdk-for-swift/latest/api/awssynthetics/documentation/awssynthetics)
 

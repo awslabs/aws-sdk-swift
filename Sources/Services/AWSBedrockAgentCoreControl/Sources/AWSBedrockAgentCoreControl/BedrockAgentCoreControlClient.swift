@@ -2309,7 +2309,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `DeleteGatewayTarget` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Deletes a gateway target.
+    /// Deletes a gateway target. You cannot delete a target that is in a pending authorization state (CREATE_PENDING_AUTH, UPDATE_PENDING_AUTH, or SYNCHRONIZE_PENDING_AUTH). Wait for the authorization to complete or fail before deleting the target.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteGatewayTargetInput`)
     ///
@@ -5692,7 +5692,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `SynchronizeGatewayTargets` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// The gateway targets.
+    /// Synchronizes the gateway targets by fetching the latest tool definitions from the target endpoints. You cannot synchronize a target that is in a pending authorization state (CREATE_PENDING_AUTH, UPDATE_PENDING_AUTH, or SYNCHRONIZE_PENDING_AUTH). Wait for the authorization to complete or fail before synchronizing. You cannot synchronize a target that has a static tool schema (mcpToolSchema) configured. Remove the static schema through an UpdateGatewayTarget call to enable dynamic tool synchronization.
     ///
     /// - Parameter input: [no documentation found] (Type: `SynchronizeGatewayTargetsInput`)
     ///
@@ -6285,7 +6285,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `UpdateGatewayTarget` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Updates an existing gateway target.
+    /// Updates an existing gateway target. You cannot update a target that is in a pending authorization state (CREATE_PENDING_AUTH, UPDATE_PENDING_AUTH, or SYNCHRONIZE_PENDING_AUTH). Wait for the authorization to complete or fail before updating the target.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateGatewayTargetInput`)
     ///

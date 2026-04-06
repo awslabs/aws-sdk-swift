@@ -1988,7 +1988,11 @@ extension LakeFormationClientTypes {
         public var dataLakeAdmins: [LakeFormationClientTypes.DataLakePrincipal]?
         /// A list of the account IDs of Amazon Web Services accounts with Amazon EMR clusters that are to perform data filtering.>
         public var externalDataFilteringAllowList: [LakeFormationClientTypes.DataLakePrincipal]?
-        /// A key-value map that provides an additional configuration on your data lake. CROSS_ACCOUNT_VERSION is the key you can configure in the Parameters field. Accepted values for the CrossAccountVersion key are 1, 2, 3, 4 and 5.
+        /// A key-value map that provides an additional configuration on your data lake. The following key-value pairs are supported:
+        ///
+        /// * CROSS_ACCOUNT_VERSION - Accepted values are 1, 2, 3, 4, and 5.
+        ///
+        /// * SET_SOURCE_IDENTITY - Accepted values are TRUE and FALSE. When set to TRUE, Lake Formation includes the IAM role identifier that was used to query in the S3 data event CloudTrail logs for s3:GetObject calls. For more information, see [Tracking query engine IAM roles in S3 data events](https://docs.aws.amazon.com/lake-formation/latest/dg/cloudtrail-logging.html#source-identity-cloudtrail).
         public var parameters: [Swift.String: Swift.String]?
         /// A list of Lake Formation principals with only view access to the resources, without the ability to make changes. Supported principals are IAM users or IAM roles.
         public var readOnlyAdmins: [LakeFormationClientTypes.DataLakePrincipal]?

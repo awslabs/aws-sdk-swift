@@ -4895,6 +4895,26 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// An IAM credential provider for gateway authentication. This structure contains the configuration for authenticating with the target endpoint using IAM credentials and SigV4 signing.
+    public struct IamCredentialProvider: Swift.Sendable {
+        /// The Amazon Web Services Region used for SigV4 signing. If not specified, defaults to the gateway's Region.
+        public var region: Swift.String?
+        /// The target Amazon Web Services service name used for SigV4 signing. This value identifies the service that the gateway authenticates with when making requests to the target endpoint.
+        /// This member is required.
+        public var service: Swift.String?
+
+        public init(
+            region: Swift.String? = nil,
+            service: Swift.String? = nil
+        ) {
+            self.region = region
+            self.service = service
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     public enum OAuthGrantType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case authorizationCode
         case clientCredentials
@@ -4972,6 +4992,8 @@ extension BedrockAgentCoreControlClientTypes {
         case oauthcredentialprovider(BedrockAgentCoreControlClientTypes.OAuthCredentialProvider)
         /// The API key credential provider. This provider uses an API key to authenticate with the target endpoint.
         case apikeycredentialprovider(BedrockAgentCoreControlClientTypes.GatewayApiKeyCredentialProvider)
+        /// The IAM credential provider. This provider uses IAM authentication with SigV4 signing to access the target endpoint.
+        case iamcredentialprovider(BedrockAgentCoreControlClientTypes.IamCredentialProvider)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5048,6 +5070,95 @@ extension BedrockAgentCoreControlClientTypes {
             self.allowedRequestHeaders = allowedRequestHeaders
             self.allowedResponseHeaders = allowedResponseHeaders
         }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum EndpointIpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndpointIpAddressType] {
+            return [
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for a managed VPC Lattice resource. The gateway creates and manages the VPC Lattice resource gateway and resource configuration on your behalf using a service-linked role.
+    public struct ManagedLatticeResource: Swift.Sendable {
+        /// The IP address type for the resource configuration endpoint.
+        /// This member is required.
+        public var endpointIpAddressType: BedrockAgentCoreControlClientTypes.EndpointIpAddressType?
+        /// An intermediate publicly resolvable domain used as the VPC Lattice resource configuration endpoint. Required when your private endpoint uses a domain that is not publicly resolvable.
+        public var routingDomain: Swift.String?
+        /// The security group IDs to associate with the VPC Lattice resource gateway. If not specified, the default security group for the VPC is used.
+        public var securityGroupIds: [Swift.String]?
+        /// The subnet IDs within the VPC where the VPC Lattice resource gateway is placed.
+        /// This member is required.
+        public var subnetIds: [Swift.String]?
+        /// Tags to apply to the managed VPC Lattice resource gateway.
+        public var tags: [Swift.String: Swift.String]?
+        /// The ID of the VPC that contains your private resource.
+        /// This member is required.
+        public var vpcIdentifier: Swift.String?
+
+        public init(
+            endpointIpAddressType: BedrockAgentCoreControlClientTypes.EndpointIpAddressType? = nil,
+            routingDomain: Swift.String? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            vpcIdentifier: Swift.String? = nil
+        ) {
+            self.endpointIpAddressType = endpointIpAddressType
+            self.routingDomain = routingDomain
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.tags = tags
+            self.vpcIdentifier = vpcIdentifier
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for a self-managed VPC Lattice resource. You create and manage the VPC Lattice resource gateway and resource configuration, then provide the resource configuration identifier.
+    public enum SelfManagedLatticeResource: Swift.Sendable {
+        /// The ARN or ID of the VPC Lattice resource configuration.
+        case resourceconfigurationidentifier(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The private endpoint configuration for a gateway target. Defines how the gateway connects to private resources in your VPC.
+    public enum PrivateEndpoint: Swift.Sendable {
+        /// Configuration for connecting to a private resource using a self-managed VPC Lattice resource configuration.
+        case selfmanagedlatticeresource(BedrockAgentCoreControlClientTypes.SelfManagedLatticeResource)
+        /// Configuration for connecting to a private resource using a managed VPC Lattice resource. The gateway creates and manages the VPC Lattice resources on your behalf.
+        case managedlatticeresource(BedrockAgentCoreControlClientTypes.ManagedLatticeResource)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -5254,16 +5365,32 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// The MCP tool schema configuration for an MCP server target. The tool schema must be aligned with the MCP specification.
+    public enum McpToolSchemaConfiguration: Swift.Sendable {
+        /// The Amazon S3 location of the tool schema. This location contains the schema definition file.
+        case s3(BedrockAgentCoreControlClientTypes.S3Configuration)
+        /// The inline payload containing the MCP tool schema definition.
+        case inlinepayload(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// The target configuration for the MCP server.
     public struct McpServerTargetConfiguration: Swift.Sendable {
         /// The endpoint for the MCP server target configuration.
         /// This member is required.
         public var endpoint: Swift.String?
+        /// The tool schema configuration for the MCP server target. Supported only when the credential provider is configured with an authorization code grant type. Dynamic tool discovery/synchronization will be disabled when target is configured with mcpToolSchema.
+        public var mcpToolSchema: BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration?
 
         public init(
-            endpoint: Swift.String? = nil
+            endpoint: Swift.String? = nil,
+            mcpToolSchema: BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration? = nil
         ) {
             self.endpoint = endpoint
+            self.mcpToolSchema = mcpToolSchema
         }
     }
 }
@@ -5282,25 +5409,84 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// OAuth2-specific authorization data, including the authorization URL and user identifier for the authorization session.
+    public struct OAuth2AuthorizationData: Swift.Sendable {
+        /// The URL to initiate the authorization process. This URL is provided when the OAuth2 access token requires user authorization.
+        /// This member is required.
+        public var authorizationUrl: Swift.String?
+        /// The user identifier associated with the OAuth2 authorization session that is defined by AgentCore Gateway.
+        public var userId: Swift.String?
+
+        public init(
+            authorizationUrl: Swift.String? = nil,
+            userId: Swift.String? = nil
+        ) {
+            self.authorizationUrl = authorizationUrl
+            self.userId = userId
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Contains the authorization data that is returned when a gateway target is configured with a credential provider with authorization code grant type and requires user federation.
+    public enum AuthorizationData: Swift.Sendable {
+        /// OAuth2 authorization data for the gateway target.
+        case oauth2(BedrockAgentCoreControlClientTypes.OAuth2AuthorizationData)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Details of a resource created and managed by the gateway for private endpoint connectivity.
+    public struct ManagedResourceDetails: Swift.Sendable {
+        /// The domain associated with this managed resource.
+        public var domain: Swift.String?
+        /// The ARN of the service network resource association.
+        public var resourceAssociationArn: Swift.String?
+        /// The ARN of the VPC Lattice resource gateway created in your account.
+        public var resourceGatewayArn: Swift.String?
+
+        public init(
+            domain: Swift.String? = nil,
+            resourceAssociationArn: Swift.String? = nil,
+            resourceGatewayArn: Swift.String? = nil
+        ) {
+            self.domain = domain
+            self.resourceAssociationArn = resourceAssociationArn
+            self.resourceGatewayArn = resourceGatewayArn
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     public enum TargetStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createPendingAuth
         case creating
         case deleting
         case failed
         case ready
+        case synchronizePendingAuth
         case synchronizeUnsuccessful
         case synchronizing
+        case updatePendingAuth
         case updateUnsuccessful
         case updating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TargetStatus] {
             return [
+                .createPendingAuth,
                 .creating,
                 .deleting,
                 .failed,
                 .ready,
+                .synchronizePendingAuth,
                 .synchronizeUnsuccessful,
                 .synchronizing,
+                .updatePendingAuth,
                 .updateUnsuccessful,
                 .updating
             ]
@@ -5313,12 +5499,15 @@ extension BedrockAgentCoreControlClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .createPendingAuth: return "CREATE_PENDING_AUTH"
             case .creating: return "CREATING"
             case .deleting: return "DELETING"
             case .failed: return "FAILED"
             case .ready: return "READY"
+            case .synchronizePendingAuth: return "SYNCHRONIZE_PENDING_AUTH"
             case .synchronizeUnsuccessful: return "SYNCHRONIZE_UNSUCCESSFUL"
             case .synchronizing: return "SYNCHRONIZING"
+            case .updatePendingAuth: return "UPDATE_PENDING_AUTH"
             case .updateUnsuccessful: return "UPDATE_UNSUCCESSFUL"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
@@ -11123,6 +11312,8 @@ extension BedrockAgentCoreControlClientTypes {
 
     /// The gateway target.
     public struct GatewayTarget: Swift.Sendable {
+        /// OAuth2 authorization data for the gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
+        public var authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData?
         /// The date and time at which the target was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -11141,6 +11332,10 @@ extension BedrockAgentCoreControlClientTypes {
         /// The name of the gateway target.
         /// This member is required.
         public var name: Swift.String?
+        /// The private endpoint configuration for a gateway target. Defines how the gateway connects to private resources in your VPC.
+        public var privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint?
+        /// A list of managed resources created by the gateway for private endpoint connectivity. These resources are created in your account when you use a managed VPC Lattice resource configuration.
+        public var privateEndpointManagedResources: [BedrockAgentCoreControlClientTypes.ManagedResourceDetails]?
         /// The status of the gateway target.
         /// This member is required.
         public var status: BedrockAgentCoreControlClientTypes.TargetStatus?
@@ -11157,6 +11352,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var updatedAt: Foundation.Date?
 
         public init(
+            authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData? = nil,
             createdAt: Foundation.Date? = nil,
             credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]? = nil,
             description: Swift.String? = nil,
@@ -11164,12 +11360,15 @@ extension BedrockAgentCoreControlClientTypes {
             lastSynchronizedAt: Foundation.Date? = nil,
             metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration? = nil,
             name: Swift.String? = nil,
+            privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint? = nil,
+            privateEndpointManagedResources: [BedrockAgentCoreControlClientTypes.ManagedResourceDetails]? = nil,
             status: BedrockAgentCoreControlClientTypes.TargetStatus? = nil,
             statusReasons: [Swift.String]? = nil,
             targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration? = nil,
             targetId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
+            self.authorizationData = authorizationData
             self.createdAt = createdAt
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
@@ -11177,6 +11376,8 @@ extension BedrockAgentCoreControlClientTypes {
             self.lastSynchronizedAt = lastSynchronizedAt
             self.metadataConfiguration = metadataConfiguration
             self.name = name
+            self.privateEndpoint = privateEndpoint
+            self.privateEndpointManagedResources = privateEndpointManagedResources
             self.status = status
             self.statusReasons = statusReasons
             self.targetConfiguration = targetConfiguration
@@ -11188,7 +11389,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.GatewayTarget: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GatewayTarget(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GatewayTarget(authorizationData: \(Swift.String(describing: authorizationData)), createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), privateEndpointManagedResources: \(Swift.String(describing: privateEndpointManagedResources)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateGatewayTargetInput: Swift.Sendable {
@@ -11206,6 +11407,8 @@ public struct CreateGatewayTargetInput: Swift.Sendable {
     /// The name of the gateway target. The name must be unique within the gateway.
     /// This member is required.
     public var name: Swift.String?
+    /// The private endpoint configuration for the gateway target. Use this to connect the gateway to private resources in your VPC.
+    public var privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint?
     /// The configuration settings for the target, including endpoint information and schema definitions.
     /// This member is required.
     public var targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration?
@@ -11217,6 +11420,7 @@ public struct CreateGatewayTargetInput: Swift.Sendable {
         gatewayIdentifier: Swift.String? = nil,
         metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration? = nil,
         name: Swift.String? = nil,
+        privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint? = nil,
         targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration? = nil
     ) {
         self.clientToken = clientToken
@@ -11225,16 +11429,19 @@ public struct CreateGatewayTargetInput: Swift.Sendable {
         self.gatewayIdentifier = gatewayIdentifier
         self.metadataConfiguration = metadataConfiguration
         self.name = name
+        self.privateEndpoint = privateEndpoint
         self.targetConfiguration = targetConfiguration
     }
 }
 
 extension CreateGatewayTargetInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGatewayTargetInput(clientToken: \(Swift.String(describing: clientToken)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayIdentifier: \(Swift.String(describing: gatewayIdentifier)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateGatewayTargetInput(clientToken: \(Swift.String(describing: clientToken)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayIdentifier: \(Swift.String(describing: gatewayIdentifier)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateGatewayTargetOutput: Swift.Sendable {
+    /// OAuth2 authorization data for the created gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
+    public var authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData?
     /// The timestamp when the target was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -11253,6 +11460,10 @@ public struct CreateGatewayTargetOutput: Swift.Sendable {
     /// The name of the target.
     /// This member is required.
     public var name: Swift.String?
+    /// The private endpoint configuration for the gateway target.
+    public var privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint?
+    /// The managed resources created by the gateway for private endpoint connectivity.
+    public var privateEndpointManagedResources: [BedrockAgentCoreControlClientTypes.ManagedResourceDetails]?
     /// The current status of the target.
     /// This member is required.
     public var status: BedrockAgentCoreControlClientTypes.TargetStatus?
@@ -11269,6 +11480,7 @@ public struct CreateGatewayTargetOutput: Swift.Sendable {
     public var updatedAt: Foundation.Date?
 
     public init(
+        authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData? = nil,
         createdAt: Foundation.Date? = nil,
         credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]? = nil,
         description: Swift.String? = nil,
@@ -11276,12 +11488,15 @@ public struct CreateGatewayTargetOutput: Swift.Sendable {
         lastSynchronizedAt: Foundation.Date? = nil,
         metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration? = nil,
         name: Swift.String? = nil,
+        privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint? = nil,
+        privateEndpointManagedResources: [BedrockAgentCoreControlClientTypes.ManagedResourceDetails]? = nil,
         status: BedrockAgentCoreControlClientTypes.TargetStatus? = nil,
         statusReasons: [Swift.String]? = nil,
         targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration? = nil,
         targetId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
+        self.authorizationData = authorizationData
         self.createdAt = createdAt
         self.credentialProviderConfigurations = credentialProviderConfigurations
         self.description = description
@@ -11289,6 +11504,8 @@ public struct CreateGatewayTargetOutput: Swift.Sendable {
         self.lastSynchronizedAt = lastSynchronizedAt
         self.metadataConfiguration = metadataConfiguration
         self.name = name
+        self.privateEndpoint = privateEndpoint
+        self.privateEndpointManagedResources = privateEndpointManagedResources
         self.status = status
         self.statusReasons = statusReasons
         self.targetConfiguration = targetConfiguration
@@ -11299,10 +11516,12 @@ public struct CreateGatewayTargetOutput: Swift.Sendable {
 
 extension CreateGatewayTargetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGatewayTargetOutput(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateGatewayTargetOutput(authorizationData: \(Swift.String(describing: authorizationData)), createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), privateEndpointManagedResources: \(Swift.String(describing: privateEndpointManagedResources)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetGatewayTargetOutput: Swift.Sendable {
+    /// OAuth2 authorization data for the gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
+    public var authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData?
     /// The timestamp when the gateway target was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -11321,6 +11540,10 @@ public struct GetGatewayTargetOutput: Swift.Sendable {
     /// The name of the gateway target.
     /// This member is required.
     public var name: Swift.String?
+    /// The private endpoint configuration for the gateway target.
+    public var privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint?
+    /// The managed resources created by the gateway for private endpoint connectivity.
+    public var privateEndpointManagedResources: [BedrockAgentCoreControlClientTypes.ManagedResourceDetails]?
     /// The current status of the gateway target.
     /// This member is required.
     public var status: BedrockAgentCoreControlClientTypes.TargetStatus?
@@ -11337,6 +11560,7 @@ public struct GetGatewayTargetOutput: Swift.Sendable {
     public var updatedAt: Foundation.Date?
 
     public init(
+        authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData? = nil,
         createdAt: Foundation.Date? = nil,
         credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]? = nil,
         description: Swift.String? = nil,
@@ -11344,12 +11568,15 @@ public struct GetGatewayTargetOutput: Swift.Sendable {
         lastSynchronizedAt: Foundation.Date? = nil,
         metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration? = nil,
         name: Swift.String? = nil,
+        privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint? = nil,
+        privateEndpointManagedResources: [BedrockAgentCoreControlClientTypes.ManagedResourceDetails]? = nil,
         status: BedrockAgentCoreControlClientTypes.TargetStatus? = nil,
         statusReasons: [Swift.String]? = nil,
         targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration? = nil,
         targetId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
+        self.authorizationData = authorizationData
         self.createdAt = createdAt
         self.credentialProviderConfigurations = credentialProviderConfigurations
         self.description = description
@@ -11357,6 +11584,8 @@ public struct GetGatewayTargetOutput: Swift.Sendable {
         self.lastSynchronizedAt = lastSynchronizedAt
         self.metadataConfiguration = metadataConfiguration
         self.name = name
+        self.privateEndpoint = privateEndpoint
+        self.privateEndpointManagedResources = privateEndpointManagedResources
         self.status = status
         self.statusReasons = statusReasons
         self.targetConfiguration = targetConfiguration
@@ -11367,7 +11596,7 @@ public struct GetGatewayTargetOutput: Swift.Sendable {
 
 extension GetGatewayTargetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetGatewayTargetOutput(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetGatewayTargetOutput(authorizationData: \(Swift.String(describing: authorizationData)), createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), privateEndpointManagedResources: \(Swift.String(describing: privateEndpointManagedResources)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateGatewayTargetInput: Swift.Sendable {
@@ -11383,6 +11612,8 @@ public struct UpdateGatewayTargetInput: Swift.Sendable {
     /// The updated name for the gateway target.
     /// This member is required.
     public var name: Swift.String?
+    /// The private endpoint configuration for the gateway target. Use this to connect the gateway to private resources in your VPC.
+    public var privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint?
     /// The configuration for a gateway target. This structure defines how the gateway connects to and interacts with the target endpoint.
     /// This member is required.
     public var targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration?
@@ -11396,6 +11627,7 @@ public struct UpdateGatewayTargetInput: Swift.Sendable {
         gatewayIdentifier: Swift.String? = nil,
         metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration? = nil,
         name: Swift.String? = nil,
+        privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint? = nil,
         targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration? = nil,
         targetId: Swift.String? = nil
     ) {
@@ -11404,6 +11636,7 @@ public struct UpdateGatewayTargetInput: Swift.Sendable {
         self.gatewayIdentifier = gatewayIdentifier
         self.metadataConfiguration = metadataConfiguration
         self.name = name
+        self.privateEndpoint = privateEndpoint
         self.targetConfiguration = targetConfiguration
         self.targetId = targetId
     }
@@ -11411,10 +11644,12 @@ public struct UpdateGatewayTargetInput: Swift.Sendable {
 
 extension UpdateGatewayTargetInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGatewayTargetInput(credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayIdentifier: \(Swift.String(describing: gatewayIdentifier)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateGatewayTargetInput(credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayIdentifier: \(Swift.String(describing: gatewayIdentifier)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateGatewayTargetOutput: Swift.Sendable {
+    /// OAuth2 authorization data for the updated gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
+    public var authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData?
     /// The timestamp when the gateway target was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -11433,6 +11668,10 @@ public struct UpdateGatewayTargetOutput: Swift.Sendable {
     /// The updated name of the gateway target.
     /// This member is required.
     public var name: Swift.String?
+    /// The private endpoint configuration for the gateway target.
+    public var privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint?
+    /// The managed resources created by the gateway for private endpoint connectivity.
+    public var privateEndpointManagedResources: [BedrockAgentCoreControlClientTypes.ManagedResourceDetails]?
     /// The current status of the updated gateway target.
     /// This member is required.
     public var status: BedrockAgentCoreControlClientTypes.TargetStatus?
@@ -11449,6 +11688,7 @@ public struct UpdateGatewayTargetOutput: Swift.Sendable {
     public var updatedAt: Foundation.Date?
 
     public init(
+        authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData? = nil,
         createdAt: Foundation.Date? = nil,
         credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]? = nil,
         description: Swift.String? = nil,
@@ -11456,12 +11696,15 @@ public struct UpdateGatewayTargetOutput: Swift.Sendable {
         lastSynchronizedAt: Foundation.Date? = nil,
         metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration? = nil,
         name: Swift.String? = nil,
+        privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint? = nil,
+        privateEndpointManagedResources: [BedrockAgentCoreControlClientTypes.ManagedResourceDetails]? = nil,
         status: BedrockAgentCoreControlClientTypes.TargetStatus? = nil,
         statusReasons: [Swift.String]? = nil,
         targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration? = nil,
         targetId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
+        self.authorizationData = authorizationData
         self.createdAt = createdAt
         self.credentialProviderConfigurations = credentialProviderConfigurations
         self.description = description
@@ -11469,6 +11712,8 @@ public struct UpdateGatewayTargetOutput: Swift.Sendable {
         self.lastSynchronizedAt = lastSynchronizedAt
         self.metadataConfiguration = metadataConfiguration
         self.name = name
+        self.privateEndpoint = privateEndpoint
+        self.privateEndpointManagedResources = privateEndpointManagedResources
         self.status = status
         self.statusReasons = statusReasons
         self.targetConfiguration = targetConfiguration
@@ -11479,7 +11724,7 @@ public struct UpdateGatewayTargetOutput: Swift.Sendable {
 
 extension UpdateGatewayTargetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGatewayTargetOutput(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateGatewayTargetOutput(authorizationData: \(Swift.String(describing: authorizationData)), createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), privateEndpointManagedResources: \(Swift.String(describing: privateEndpointManagedResources)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct SynchronizeGatewayTargetsOutput: Swift.Sendable {
@@ -12755,6 +13000,7 @@ extension CreateGatewayTargetInput {
         try writer["description"].write(value.description)
         try writer["metadataConfiguration"].write(value.metadataConfiguration, with: BedrockAgentCoreControlClientTypes.MetadataConfiguration.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["privateEndpoint"].write(value.privateEndpoint, with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.write(value:to:))
         try writer["targetConfiguration"].write(value.targetConfiguration, with: BedrockAgentCoreControlClientTypes.TargetConfiguration.write(value:to:))
     }
 }
@@ -13055,6 +13301,7 @@ extension UpdateGatewayTargetInput {
         try writer["description"].write(value.description)
         try writer["metadataConfiguration"].write(value.metadataConfiguration, with: BedrockAgentCoreControlClientTypes.MetadataConfiguration.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["privateEndpoint"].write(value.privateEndpoint, with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.write(value:to:))
         try writer["targetConfiguration"].write(value.targetConfiguration, with: BedrockAgentCoreControlClientTypes.TargetConfiguration.write(value:to:))
     }
 }
@@ -13269,6 +13516,7 @@ extension CreateGatewayTargetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateGatewayTargetOutput()
+        value.authorizationData = try reader["authorizationData"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AuthorizationData.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.description = try reader["description"].readIfPresent()
@@ -13276,6 +13524,8 @@ extension CreateGatewayTargetOutput {
         value.lastSynchronizedAt = try reader["lastSynchronizedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.metadataConfiguration = try reader["metadataConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.MetadataConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.privateEndpoint = try reader["privateEndpoint"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.read(from:))
+        value.privateEndpointManagedResources = try reader["privateEndpointManagedResources"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.ManagedResourceDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.targetConfiguration = try reader["targetConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.TargetConfiguration.read(from:))
@@ -13791,6 +14041,7 @@ extension GetGatewayTargetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetGatewayTargetOutput()
+        value.authorizationData = try reader["authorizationData"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AuthorizationData.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.description = try reader["description"].readIfPresent()
@@ -13798,6 +14049,8 @@ extension GetGatewayTargetOutput {
         value.lastSynchronizedAt = try reader["lastSynchronizedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.metadataConfiguration = try reader["metadataConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.MetadataConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.privateEndpoint = try reader["privateEndpoint"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.read(from:))
+        value.privateEndpointManagedResources = try reader["privateEndpointManagedResources"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.ManagedResourceDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.targetConfiguration = try reader["targetConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.TargetConfiguration.read(from:))
@@ -14390,6 +14643,7 @@ extension UpdateGatewayTargetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateGatewayTargetOutput()
+        value.authorizationData = try reader["authorizationData"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AuthorizationData.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.description = try reader["description"].readIfPresent()
@@ -14397,6 +14651,8 @@ extension UpdateGatewayTargetOutput {
         value.lastSynchronizedAt = try reader["lastSynchronizedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.metadataConfiguration = try reader["metadataConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.MetadataConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.privateEndpoint = try reader["privateEndpoint"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.read(from:))
+        value.privateEndpointManagedResources = try reader["privateEndpointManagedResources"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.ManagedResourceDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.targetConfiguration = try reader["targetConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.TargetConfiguration.read(from:))
@@ -16518,6 +16774,20 @@ extension BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigOutput
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.AuthorizationData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AuthorizationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "oauth2":
+                return .oauth2(try reader["oauth2"].read(with: BedrockAgentCoreControlClientTypes.OAuth2AuthorizationData.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.AuthorizerConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -16957,6 +17227,8 @@ extension BedrockAgentCoreControlClientTypes.CredentialProvider {
         switch value {
             case let .apikeycredentialprovider(apikeycredentialprovider):
                 try writer["apiKeyCredentialProvider"].write(apikeycredentialprovider, with: BedrockAgentCoreControlClientTypes.GatewayApiKeyCredentialProvider.write(value:to:))
+            case let .iamcredentialprovider(iamcredentialprovider):
+                try writer["iamCredentialProvider"].write(iamcredentialprovider, with: BedrockAgentCoreControlClientTypes.IamCredentialProvider.write(value:to:))
             case let .oauthcredentialprovider(oauthcredentialprovider):
                 try writer["oauthCredentialProvider"].write(oauthcredentialprovider, with: BedrockAgentCoreControlClientTypes.OAuthCredentialProvider.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -16972,6 +17244,8 @@ extension BedrockAgentCoreControlClientTypes.CredentialProvider {
                 return .oauthcredentialprovider(try reader["oauthCredentialProvider"].read(with: BedrockAgentCoreControlClientTypes.OAuthCredentialProvider.read(from:)))
             case "apiKeyCredentialProvider":
                 return .apikeycredentialprovider(try reader["apiKeyCredentialProvider"].read(with: BedrockAgentCoreControlClientTypes.GatewayApiKeyCredentialProvider.read(from:)))
+            case "iamCredentialProvider":
+                return .iamcredentialprovider(try reader["iamCredentialProvider"].read(with: BedrockAgentCoreControlClientTypes.IamCredentialProvider.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -17640,6 +17914,9 @@ extension BedrockAgentCoreControlClientTypes.GatewayTarget {
         value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.lastSynchronizedAt = try reader["lastSynchronizedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.metadataConfiguration = try reader["metadataConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.MetadataConfiguration.read(from:))
+        value.privateEndpoint = try reader["privateEndpoint"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.read(from:))
+        value.privateEndpointManagedResources = try reader["privateEndpointManagedResources"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.ManagedResourceDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.authorizationData = try reader["authorizationData"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AuthorizationData.read(from:))
         return value
     }
 }
@@ -17680,6 +17957,23 @@ extension BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput {
         var value = BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput()
         value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
         value.clientId = try reader["clientId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.IamCredentialProvider {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.IamCredentialProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["region"].write(value.region)
+        try writer["service"].write(value.service)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.IamCredentialProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.IamCredentialProvider()
+        value.service = try reader["service"].readIfPresent() ?? ""
+        value.region = try reader["region"].readIfPresent()
         return value
     }
 }
@@ -17909,6 +18203,43 @@ extension BedrockAgentCoreControlClientTypes.LlmAsAJudgeEvaluatorConfig {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.ManagedLatticeResource {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ManagedLatticeResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endpointIpAddressType"].write(value.endpointIpAddressType)
+        try writer["routingDomain"].write(value.routingDomain)
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["vpcIdentifier"].write(value.vpcIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ManagedLatticeResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.ManagedLatticeResource()
+        value.vpcIdentifier = try reader["vpcIdentifier"].readIfPresent() ?? ""
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.endpointIpAddressType = try reader["endpointIpAddressType"].readIfPresent() ?? .sdkUnknown("")
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.routingDomain = try reader["routingDomain"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ManagedResourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ManagedResourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.ManagedResourceDetails()
+        value.domain = try reader["domain"].readIfPresent()
+        value.resourceGatewayArn = try reader["resourceGatewayArn"].readIfPresent()
+        value.resourceAssociationArn = try reader["resourceAssociationArn"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -17950,12 +18281,14 @@ extension BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration {
     static func write(value: BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["endpoint"].write(value.endpoint)
+        try writer["mcpToolSchema"].write(value.mcpToolSchema, with: BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration()
         value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.mcpToolSchema = try reader["mcpToolSchema"].readIfPresent(with: BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration.read(from:))
         return value
     }
 }
@@ -17994,6 +18327,34 @@ extension BedrockAgentCoreControlClientTypes.McpTargetConfiguration {
                 return .mcpserver(try reader["mcpServer"].read(with: BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration.read(from:)))
             case "apiGateway":
                 return .apigateway(try reader["apiGateway"].read(with: BedrockAgentCoreControlClientTypes.ApiGatewayTargetConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .inlinepayload(inlinepayload):
+                try writer["inlinePayload"].write(inlinepayload)
+            case let .s3(s3):
+                try writer["s3"].write(s3, with: BedrockAgentCoreControlClientTypes.S3Configuration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3":
+                return .s3(try reader["s3"].read(with: BedrockAgentCoreControlClientTypes.S3Configuration.read(from:)))
+            case "inlinePayload":
+                return .inlinepayload(try reader["inlinePayload"].read())
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -18259,6 +18620,17 @@ extension BedrockAgentCoreControlClientTypes.NumericalScaleDefinition {
         value.definition = try reader["definition"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent() ?? 0.0
         value.label = try reader["label"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.OAuth2AuthorizationData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.OAuth2AuthorizationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.OAuth2AuthorizationData()
+        value.authorizationUrl = try reader["authorizationUrl"].readIfPresent() ?? ""
+        value.userId = try reader["userId"].readIfPresent()
         return value
     }
 }
@@ -18549,6 +18921,34 @@ extension BedrockAgentCoreControlClientTypes.PolicyGenerationDetails {
         value.policyGenerationId = try reader["policyGenerationId"].readIfPresent() ?? ""
         value.policyGenerationAssetId = try reader["policyGenerationAssetId"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.PrivateEndpoint {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.PrivateEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .managedlatticeresource(managedlatticeresource):
+                try writer["managedLatticeResource"].write(managedlatticeresource, with: BedrockAgentCoreControlClientTypes.ManagedLatticeResource.write(value:to:))
+            case let .selfmanagedlatticeresource(selfmanagedlatticeresource):
+                try writer["selfManagedLatticeResource"].write(selfmanagedlatticeresource, with: BedrockAgentCoreControlClientTypes.SelfManagedLatticeResource.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.PrivateEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "selfManagedLatticeResource":
+                return .selfmanagedlatticeresource(try reader["selfManagedLatticeResource"].read(with: BedrockAgentCoreControlClientTypes.SelfManagedLatticeResource.read(from:)))
+            case "managedLatticeResource":
+                return .managedlatticeresource(try reader["managedLatticeResource"].read(with: BedrockAgentCoreControlClientTypes.ManagedLatticeResource.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -18872,6 +19272,30 @@ extension BedrockAgentCoreControlClientTypes.SelfManagedConfigurationInput {
         try writer["historicalContextWindowSize"].write(value.historicalContextWindowSize)
         try writer["invocationConfiguration"].write(value.invocationConfiguration, with: BedrockAgentCoreControlClientTypes.InvocationConfigurationInput.write(value:to:))
         try writer["triggerConditions"].writeList(value.triggerConditions, memberWritingClosure: BedrockAgentCoreControlClientTypes.TriggerConditionInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SelfManagedLatticeResource {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.SelfManagedLatticeResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .resourceconfigurationidentifier(resourceconfigurationidentifier):
+                try writer["resourceConfigurationIdentifier"].write(resourceconfigurationidentifier)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SelfManagedLatticeResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "resourceConfigurationIdentifier":
+                return .resourceconfigurationidentifier(try reader["resourceConfigurationIdentifier"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 

@@ -4567,6 +4567,8 @@ extension OdbClientTypes {
         public var defaultDnsPrefix: Swift.String?
         /// The user-friendly name of the ODB network.
         public var displayName: Swift.String?
+        /// The list of EC2 Placement Group IDs associated with your ODB network.
+        public var ec2PlacementGroupIds: [Swift.String]?
         /// The managed services configuration for the ODB network.
         public var managedServices: OdbClientTypes.ManagedServices?
         /// The DNS resolver endpoint in OCI for forwarding DNS queries for the ociPrivateZone domain.
@@ -4604,6 +4606,7 @@ extension OdbClientTypes {
             customDomainName: Swift.String? = nil,
             defaultDnsPrefix: Swift.String? = nil,
             displayName: Swift.String? = nil,
+            ec2PlacementGroupIds: [Swift.String]? = nil,
             managedServices: OdbClientTypes.ManagedServices? = nil,
             ociDnsForwardingConfigs: [OdbClientTypes.OciDnsForwardingConfig]? = nil,
             ociNetworkAnchorId: Swift.String? = nil,
@@ -4626,6 +4629,7 @@ extension OdbClientTypes {
             self.customDomainName = customDomainName
             self.defaultDnsPrefix = defaultDnsPrefix
             self.displayName = displayName
+            self.ec2PlacementGroupIds = ec2PlacementGroupIds
             self.managedServices = managedServices
             self.ociDnsForwardingConfigs = ociDnsForwardingConfigs
             self.ociNetworkAnchorId = ociNetworkAnchorId
@@ -4873,6 +4877,8 @@ extension OdbClientTypes {
         public var defaultDnsPrefix: Swift.String?
         /// The user-friendly name of the ODB network.
         public var displayName: Swift.String?
+        /// The list of EC2 Placement Group IDs associated with your ODB network.
+        public var ec2PlacementGroupIds: [Swift.String]?
         /// The managed services configuration for the ODB network.
         public var managedServices: OdbClientTypes.ManagedServices?
         /// The DNS resolver endpoint in OCI for forwarding DNS queries for the ociPrivateZone domain.
@@ -4910,6 +4916,7 @@ extension OdbClientTypes {
             customDomainName: Swift.String? = nil,
             defaultDnsPrefix: Swift.String? = nil,
             displayName: Swift.String? = nil,
+            ec2PlacementGroupIds: [Swift.String]? = nil,
             managedServices: OdbClientTypes.ManagedServices? = nil,
             ociDnsForwardingConfigs: [OdbClientTypes.OciDnsForwardingConfig]? = nil,
             ociNetworkAnchorId: Swift.String? = nil,
@@ -4932,6 +4939,7 @@ extension OdbClientTypes {
             self.customDomainName = customDomainName
             self.defaultDnsPrefix = defaultDnsPrefix
             self.displayName = displayName
+            self.ec2PlacementGroupIds = ec2PlacementGroupIds
             self.managedServices = managedServices
             self.ociDnsForwardingConfigs = ociDnsForwardingConfigs
             self.ociNetworkAnchorId = ociNetworkAnchorId
@@ -8266,6 +8274,7 @@ extension OdbClientTypes.OdbNetwork {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.percentProgress = try reader["percentProgress"].readIfPresent()
         value.managedServices = try reader["managedServices"].readIfPresent(with: OdbClientTypes.ManagedServices.read(from:))
+        value.ec2PlacementGroupIds = try reader["ec2PlacementGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -8296,6 +8305,7 @@ extension OdbClientTypes.OdbNetworkSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.percentProgress = try reader["percentProgress"].readIfPresent()
         value.managedServices = try reader["managedServices"].readIfPresent(with: OdbClientTypes.ManagedServices.read(from:))
+        value.ec2PlacementGroupIds = try reader["ec2PlacementGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

@@ -10571,12 +10571,14 @@ extension QuickSightClientTypes {
     public enum SelectedTooltipType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case basic
         case detailed
+        case sheet
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SelectedTooltipType] {
             return [
                 .basic,
-                .detailed
+                .detailed,
+                .sheet
             ]
         }
 
@@ -10589,8 +10591,24 @@ extension QuickSightClientTypes {
             switch self {
             case .basic: return "BASIC"
             case .detailed: return "DETAILED"
+            case .sheet: return "SHEET"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The configuration of the sheet tooltip.
+    public struct SheetTooltip: Swift.Sendable {
+        /// The sheet ID of the tooltip sheet that is used by the tooltip.
+        public var sheetId: Swift.String?
+
+        public init(
+            sheetId: Swift.String? = nil
+        ) {
+            self.sheetId = sheetId
         }
     }
 }
@@ -10607,16 +10625,20 @@ extension QuickSightClientTypes {
         ///
         /// * DETAILED: A detailed tooltip.
         public var selectedTooltipType: QuickSightClientTypes.SelectedTooltipType?
+        /// The configuration of the sheet tooltip.
+        public var sheetTooltip: QuickSightClientTypes.SheetTooltip?
         /// Determines whether or not the tooltip is visible.
         public var tooltipVisibility: QuickSightClientTypes.Visibility?
 
         public init(
             fieldBasedTooltip: QuickSightClientTypes.FieldBasedTooltip? = nil,
             selectedTooltipType: QuickSightClientTypes.SelectedTooltipType? = nil,
+            sheetTooltip: QuickSightClientTypes.SheetTooltip? = nil,
             tooltipVisibility: QuickSightClientTypes.Visibility? = nil
         ) {
             self.fieldBasedTooltip = fieldBasedTooltip
             self.selectedTooltipType = selectedTooltipType
+            self.sheetTooltip = sheetTooltip
             self.tooltipVisibility = tooltipVisibility
         }
     }
@@ -18066,6 +18088,8 @@ extension QuickSightClientTypes {
         public var sortConfiguration: QuickSightClientTypes.PivotTableSortConfiguration?
         /// The table options for a pivot table visual.
         public var tableOptions: QuickSightClientTypes.PivotTableOptions?
+        /// The display options for the visual tooltip.
+        public var tooltip: QuickSightClientTypes.TooltipOptions?
         /// The total options for a pivot table visual.
         public var totalOptions: QuickSightClientTypes.PivotTableTotalOptions?
 
@@ -18077,6 +18101,7 @@ extension QuickSightClientTypes {
             paginatedReportOptions: QuickSightClientTypes.PivotTablePaginatedReportOptions? = nil,
             sortConfiguration: QuickSightClientTypes.PivotTableSortConfiguration? = nil,
             tableOptions: QuickSightClientTypes.PivotTableOptions? = nil,
+            tooltip: QuickSightClientTypes.TooltipOptions? = nil,
             totalOptions: QuickSightClientTypes.PivotTableTotalOptions? = nil
         ) {
             self.dashboardCustomizationVisualOptions = dashboardCustomizationVisualOptions
@@ -18086,6 +18111,7 @@ extension QuickSightClientTypes {
             self.paginatedReportOptions = paginatedReportOptions
             self.sortConfiguration = sortConfiguration
             self.tableOptions = tableOptions
+            self.tooltip = tooltip
             self.totalOptions = totalOptions
         }
     }
@@ -19478,15 +19504,126 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    public enum SparklineVisualType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case areaLine
+        case line
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SparklineVisualType] {
+            return [
+                .areaLine,
+                .line
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .areaLine: return "AREA_LINE"
+            case .line: return "LINE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum SparklineAxisBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case independent
+        case shared
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SparklineAxisBehavior] {
+            return [
+                .independent,
+                .shared
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .independent: return "INDEPENDENT"
+            case .shared: return "SHARED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The options for sparklines in a table.
+    public struct SparklinesOptions: Swift.Sendable {
+        /// Marker styles options for a line series in LineChartVisual.
+        public var allPointsMarker: QuickSightClientTypes.LineChartMarkerStyleSettings?
+        /// The field ID of the value column that the sparkline is applied to.
+        /// This member is required.
+        public var fieldId: Swift.String?
+        /// The color of the sparkline line.
+        public var lineColor: Swift.String?
+        /// The interpolation style for the sparkline line.
+        public var lineInterpolation: QuickSightClientTypes.LineInterpolation?
+        /// Marker styles options for a line series in LineChartVisual.
+        public var maxValueMarker: QuickSightClientTypes.LineChartMarkerStyleSettings?
+        /// Marker styles options for a line series in LineChartVisual.
+        public var minValueMarker: QuickSightClientTypes.LineChartMarkerStyleSettings?
+        /// The type of the sparkline. Valid values are LINE and AREA_LINE.
+        public var visualType: QuickSightClientTypes.SparklineVisualType?
+        /// The dimension type field.
+        /// This member is required.
+        public var xAxisField: QuickSightClientTypes.DimensionField?
+        /// Determines whether the Y axis is shared across all sparklines or independent for each sparkline.
+        public var yAxisBehavior: QuickSightClientTypes.SparklineAxisBehavior?
+
+        public init(
+            allPointsMarker: QuickSightClientTypes.LineChartMarkerStyleSettings? = nil,
+            fieldId: Swift.String? = nil,
+            lineColor: Swift.String? = nil,
+            lineInterpolation: QuickSightClientTypes.LineInterpolation? = nil,
+            maxValueMarker: QuickSightClientTypes.LineChartMarkerStyleSettings? = nil,
+            minValueMarker: QuickSightClientTypes.LineChartMarkerStyleSettings? = nil,
+            visualType: QuickSightClientTypes.SparklineVisualType? = nil,
+            xAxisField: QuickSightClientTypes.DimensionField? = nil,
+            yAxisBehavior: QuickSightClientTypes.SparklineAxisBehavior? = nil
+        ) {
+            self.allPointsMarker = allPointsMarker
+            self.fieldId = fieldId
+            self.lineColor = lineColor
+            self.lineInterpolation = lineInterpolation
+            self.maxValueMarker = maxValueMarker
+            self.minValueMarker = minValueMarker
+            self.visualType = visualType
+            self.xAxisField = xAxisField
+            self.yAxisBehavior = yAxisBehavior
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The inline visualization of a specific type to display within a chart.
     public struct TableInlineVisualization: Swift.Sendable {
         /// The configuration of the inline visualization of the data bars within a chart.
         public var dataBars: QuickSightClientTypes.DataBarsOptions?
+        /// The configuration of the inline visualization of the sparklines within a chart.
+        public var sparklines: QuickSightClientTypes.SparklinesOptions?
 
         public init(
-            dataBars: QuickSightClientTypes.DataBarsOptions? = nil
+            dataBars: QuickSightClientTypes.DataBarsOptions? = nil,
+            sparklines: QuickSightClientTypes.SparklinesOptions? = nil
         ) {
             self.dataBars = dataBars
+            self.sparklines = sparklines
         }
     }
 }
@@ -19602,6 +19739,8 @@ extension QuickSightClientTypes {
         public var tableInlineVisualizations: [QuickSightClientTypes.TableInlineVisualization]?
         /// The table options for a table visual.
         public var tableOptions: QuickSightClientTypes.TableOptions?
+        /// The display options for the visual tooltip.
+        public var tooltip: QuickSightClientTypes.TooltipOptions?
         /// The total options for a table visual.
         public var totalOptions: QuickSightClientTypes.TotalOptions?
 
@@ -19614,6 +19753,7 @@ extension QuickSightClientTypes {
             sortConfiguration: QuickSightClientTypes.TableSortConfiguration? = nil,
             tableInlineVisualizations: [QuickSightClientTypes.TableInlineVisualization]? = nil,
             tableOptions: QuickSightClientTypes.TableOptions? = nil,
+            tooltip: QuickSightClientTypes.TooltipOptions? = nil,
             totalOptions: QuickSightClientTypes.TotalOptions? = nil
         ) {
             self.dashboardCustomizationVisualOptions = dashboardCustomizationVisualOptions
@@ -19624,6 +19764,7 @@ extension QuickSightClientTypes {
             self.sortConfiguration = sortConfiguration
             self.tableInlineVisualizations = tableInlineVisualizations
             self.tableOptions = tableOptions
+            self.tooltip = tooltip
             self.totalOptions = totalOptions
         }
     }
@@ -20710,6 +20851,42 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// A tooltip sheet is an object that contains a set of visuals that are used as a tooltip. Every analysis and dashboard must contain at least one non-tooltip sheet.
+    public struct TooltipSheetDefinition: Swift.Sendable {
+        /// A list of images on a tooltip sheet.
+        public var images: [QuickSightClientTypes.SheetImage]?
+        /// Layouts define how the components of a tooltip sheet are arranged. For more information, see [Types of layout](https://docs.aws.amazon.com/quicksight/latest/user/types-of-layout.html) in the Amazon Quick Suite User Guide.
+        public var layouts: [QuickSightClientTypes.Layout]?
+        /// The name of the tooltip sheet. This name is displayed on the sheet's tab in the Quick console.
+        public var name: Swift.String?
+        /// The unique identifier of a tooltip sheet.
+        /// This member is required.
+        public var sheetId: Swift.String?
+        /// The text boxes that are on a tooltip sheet.
+        public var textBoxes: [QuickSightClientTypes.SheetTextBox]?
+        /// A list of the visuals that are on a tooltip sheet.
+        public var visuals: [QuickSightClientTypes.Visual]?
+
+        public init(
+            images: [QuickSightClientTypes.SheetImage]? = nil,
+            layouts: [QuickSightClientTypes.Layout]? = nil,
+            name: Swift.String? = nil,
+            sheetId: Swift.String? = nil,
+            textBoxes: [QuickSightClientTypes.SheetTextBox]? = nil,
+            visuals: [QuickSightClientTypes.Visual]? = nil
+        ) {
+            self.images = images
+            self.layouts = layouts
+            self.name = name
+            self.sheetId = sheetId
+            self.textBoxes = textBoxes
+            self.visuals = visuals
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The definition of an analysis.
     public struct AnalysisDefinition: Swift.Sendable {
         /// The configuration for default analysis settings.
@@ -20733,6 +20910,8 @@ extension QuickSightClientTypes {
         public var sheets: [QuickSightClientTypes.SheetDefinition]?
         /// The static files for the definition.
         public var staticFiles: [QuickSightClientTypes.StaticFile]?
+        /// An array of tooltip sheet definitions for an analysis. Each TooltipSheetDefinition provides detailed information about a tooltip sheet within this analysis.
+        public var tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]?
 
         public init(
             analysisDefaults: QuickSightClientTypes.AnalysisDefaults? = nil,
@@ -20744,7 +20923,8 @@ extension QuickSightClientTypes {
             parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]? = nil,
             queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions? = nil,
             sheets: [QuickSightClientTypes.SheetDefinition]? = nil,
-            staticFiles: [QuickSightClientTypes.StaticFile]? = nil
+            staticFiles: [QuickSightClientTypes.StaticFile]? = nil,
+            tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]? = nil
         ) {
             self.analysisDefaults = analysisDefaults
             self.calculatedFields = calculatedFields
@@ -20756,6 +20936,7 @@ extension QuickSightClientTypes {
             self.queryExecutionOptions = queryExecutionOptions
             self.sheets = sheets
             self.staticFiles = staticFiles
+            self.tooltipSheets = tooltipSheets
         }
     }
 }
@@ -23397,6 +23578,7 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes {
 
     public enum AuthenticationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case keypair
         case password
         case token
         case x509
@@ -23404,6 +23586,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [AuthenticationType] {
             return [
+                .keypair,
                 .password,
                 .token,
                 .x509
@@ -23417,6 +23600,7 @@ extension QuickSightClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .keypair: return "KEYPAIR"
             case .password: return "PASSWORD"
             case .token: return "TOKEN"
             case .x509: return "X509"
@@ -24891,6 +25075,44 @@ extension QuickSightClientTypes {
             case .sum: return "SUM"
             case .var: return "VAR"
             case .varp: return "VARP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum AutomationJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case queued
+        case running
+        case stopped
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutomationJobStatus] {
+            return [
+                .failed,
+                .queued,
+                .running,
+                .stopped,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .queued: return "QUEUED"
+            case .running: return "RUNNING"
+            case .stopped: return "STOPPED"
+            case .succeeded: return "SUCCEEDED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -26915,6 +27137,8 @@ extension QuickSightClientTypes {
         public var createSPICEDataset: QuickSightClientTypes.CapabilityState?
         /// The ability to create shared folders.
         public var createSharedFolders: QuickSightClientTypes.CapabilityState?
+        /// The ability to create spaces.
+        public var createSpaces: QuickSightClientTypes.CapabilityState?
         /// The ability to perform dashboard-related actions.
         public var dashboard: QuickSightClientTypes.CapabilityState?
         /// The ability to Edit Visual with AI
@@ -27025,6 +27249,8 @@ extension QuickSightClientTypes {
         public var shareBoxAgentAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Canva Agent actions.
         public var shareCanvaAgentAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share chat agents with other users and groups.
+        public var shareChatAgents: QuickSightClientTypes.CapabilityState?
         /// The ability to share Comprehend actions.
         public var shareComprehendAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Comprehend Medical actions.
@@ -27099,6 +27325,8 @@ extension QuickSightClientTypes {
         public var shareSlackAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Smartsheet actions.
         public var shareSmartsheetAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share spaces with other users and groups.
+        public var shareSpaces: QuickSightClientTypes.CapabilityState?
         /// The ability to share Textract actions.
         public var shareTextractAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Zendesk actions.
@@ -27281,6 +27509,7 @@ extension QuickSightClientTypes {
             createDashboardExecutiveSummaryWithQ: QuickSightClientTypes.CapabilityState? = nil,
             createSPICEDataset: QuickSightClientTypes.CapabilityState? = nil,
             createSharedFolders: QuickSightClientTypes.CapabilityState? = nil,
+            createSpaces: QuickSightClientTypes.CapabilityState? = nil,
             dashboard: QuickSightClientTypes.CapabilityState? = nil,
             editVisualWithQ: QuickSightClientTypes.CapabilityState? = nil,
             exportToCsv: QuickSightClientTypes.CapabilityState? = nil,
@@ -27336,6 +27565,7 @@ extension QuickSightClientTypes {
             shareBambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
             shareBoxAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             shareCanvaAgentAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareChatAgents: QuickSightClientTypes.CapabilityState? = nil,
             shareComprehendAction: QuickSightClientTypes.CapabilityState? = nil,
             shareComprehendMedicalAction: QuickSightClientTypes.CapabilityState? = nil,
             shareConfluenceAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -27373,6 +27603,7 @@ extension QuickSightClientTypes {
             shareSharePointAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSlackAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSmartsheetAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareSpaces: QuickSightClientTypes.CapabilityState? = nil,
             shareTextractAction: QuickSightClientTypes.CapabilityState? = nil,
             shareZendeskAction: QuickSightClientTypes.CapabilityState? = nil,
             slackAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -27499,6 +27730,7 @@ extension QuickSightClientTypes {
             self.createDashboardExecutiveSummaryWithQ = createDashboardExecutiveSummaryWithQ
             self.createSPICEDataset = createSPICEDataset
             self.createSharedFolders = createSharedFolders
+            self.createSpaces = createSpaces
             self.dashboard = dashboard
             self.editVisualWithQ = editVisualWithQ
             self.exportToCsv = exportToCsv
@@ -27554,6 +27786,7 @@ extension QuickSightClientTypes {
             self.shareBambooHRAction = shareBambooHRAction
             self.shareBoxAgentAction = shareBoxAgentAction
             self.shareCanvaAgentAction = shareCanvaAgentAction
+            self.shareChatAgents = shareChatAgents
             self.shareComprehendAction = shareComprehendAction
             self.shareComprehendMedicalAction = shareComprehendMedicalAction
             self.shareConfluenceAction = shareConfluenceAction
@@ -27591,6 +27824,7 @@ extension QuickSightClientTypes {
             self.shareSharePointAction = shareSharePointAction
             self.shareSlackAction = shareSlackAction
             self.shareSmartsheetAction = shareSmartsheetAction
+            self.shareSpaces = shareSpaces
             self.shareTextractAction = shareTextractAction
             self.shareZendeskAction = shareZendeskAction
             self.slackAction = slackAction
@@ -29450,6 +29684,8 @@ extension QuickSightClientTypes {
         public var sheets: [QuickSightClientTypes.SheetDefinition]?
         /// The static files for the definition.
         public var staticFiles: [QuickSightClientTypes.StaticFile]?
+        /// An array of tooltip sheet definitions for a dashboard.
+        public var tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]?
 
         public init(
             analysisDefaults: QuickSightClientTypes.AnalysisDefaults? = nil,
@@ -29460,7 +29696,8 @@ extension QuickSightClientTypes {
             options: QuickSightClientTypes.AssetOptions? = nil,
             parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]? = nil,
             sheets: [QuickSightClientTypes.SheetDefinition]? = nil,
-            staticFiles: [QuickSightClientTypes.StaticFile]? = nil
+            staticFiles: [QuickSightClientTypes.StaticFile]? = nil,
+            tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]? = nil
         ) {
             self.analysisDefaults = analysisDefaults
             self.calculatedFields = calculatedFields
@@ -29471,6 +29708,7 @@ extension QuickSightClientTypes {
             self.parameterDeclarations = parameterDeclarations
             self.sheets = sheets
             self.staticFiles = staticFiles
+            self.tooltipSheets = tooltipSheets
         }
     }
 }
@@ -32087,6 +32325,34 @@ extension QuickSightClientTypes.KeyPairCredentials: Swift.CustomDebugStringConve
 
 extension QuickSightClientTypes {
 
+    /// The OAuth 2.0 client credentials used for authenticating a data source connection. Use this structure to provide a client ID, client secret, and username directly instead of referencing a secret stored in Amazon Secrets Manager. This structure supports data sources that use two-legged OAuth (2LO) authentication, such as Snowflake.
+    public struct OAuthClientCredentials: Swift.Sendable {
+        /// The client ID of the OAuth 2.0 application that is registered with the data source provider.
+        public var clientId: Swift.String?
+        /// The client secret of the OAuth 2.0 application that is registered with the data source provider.
+        public var clientSecret: Swift.String?
+        /// The username of the account that is used for OAuth 2.0 client credentials authentication with the data source provider.
+        public var username: Swift.String?
+
+        public init(
+            clientId: Swift.String? = nil,
+            clientSecret: Swift.String? = nil,
+            username: Swift.String? = nil
+        ) {
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+            self.username = username
+        }
+    }
+}
+
+extension QuickSightClientTypes.OAuthClientCredentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OAuthClientCredentials(clientId: \"CONTENT_REDACTED\", clientSecret: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
     /// The credentials for authenticating with a web proxy server.
     public struct WebProxyCredentials: Swift.Sendable {
         /// The password for authenticating with the web proxy server.
@@ -32116,6 +32382,8 @@ extension QuickSightClientTypes {
         public var credentialPair: QuickSightClientTypes.CredentialPair?
         /// The credentials for connecting using key-pair.
         public var keyPairCredentials: QuickSightClientTypes.KeyPairCredentials?
+        /// The OAuth client credentials for connecting to a data source using OAuth 2.0 client credentials (2LO) authentication. For more information, see [OAuthClientCredentials](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_OAuthClientCredentials.html).
+        public var oAuthClientCredentials: QuickSightClientTypes.OAuthClientCredentials?
         /// The Amazon Resource Name (ARN) of the secret associated with the data source in Amazon Secrets Manager.
         public var secretArn: Swift.String?
         /// The credentials for connecting through a web proxy server.
@@ -32125,12 +32393,14 @@ extension QuickSightClientTypes {
             copySourceArn: Swift.String? = nil,
             credentialPair: QuickSightClientTypes.CredentialPair? = nil,
             keyPairCredentials: QuickSightClientTypes.KeyPairCredentials? = nil,
+            oAuthClientCredentials: QuickSightClientTypes.OAuthClientCredentials? = nil,
             secretArn: Swift.String? = nil,
             webProxyCredentials: QuickSightClientTypes.WebProxyCredentials? = nil
         ) {
             self.copySourceArn = copySourceArn
             self.credentialPair = credentialPair
             self.keyPairCredentials = keyPairCredentials
+            self.oAuthClientCredentials = oAuthClientCredentials
             self.secretArn = secretArn
             self.webProxyCredentials = webProxyCredentials
         }
@@ -33435,6 +33705,8 @@ extension QuickSightClientTypes {
         public var sheets: [QuickSightClientTypes.SheetDefinition]?
         /// The static files for the definition.
         public var staticFiles: [QuickSightClientTypes.StaticFile]?
+        /// An array of tooltip sheet definitions for a template.
+        public var tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]?
 
         public init(
             analysisDefaults: QuickSightClientTypes.AnalysisDefaults? = nil,
@@ -33446,7 +33718,8 @@ extension QuickSightClientTypes {
             parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]? = nil,
             queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions? = nil,
             sheets: [QuickSightClientTypes.SheetDefinition]? = nil,
-            staticFiles: [QuickSightClientTypes.StaticFile]? = nil
+            staticFiles: [QuickSightClientTypes.StaticFile]? = nil,
+            tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]? = nil
         ) {
             self.analysisDefaults = analysisDefaults
             self.calculatedFields = calculatedFields
@@ -33458,6 +33731,7 @@ extension QuickSightClientTypes {
             self.queryExecutionOptions = queryExecutionOptions
             self.sheets = sheets
             self.staticFiles = staticFiles
+            self.tooltipSheets = tooltipSheets
         }
     }
 }
@@ -38502,6 +38776,87 @@ public struct DescribeAssetBundleImportJobOutput: Swift.Sendable {
         self.status = status
         self.warnings = warnings
     }
+}
+
+public struct DescribeAutomationJobInput: Swift.Sendable {
+    /// The ID of the automation group that contains the automation.
+    /// This member is required.
+    public var automationGroupId: Swift.String?
+    /// The ID of the automation that the job belongs to.
+    /// This member is required.
+    public var automationId: Swift.String?
+    /// The ID of the Amazon Web Services account that contains the automation job.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// A Boolean value that indicates whether to include the input payload in the response. If set to true, the input payload will be included. If set to false, the input payload will be returned as null.
+    public var includeInputPayload: Swift.Bool?
+    /// A Boolean value that indicates whether to include the output payload in the response. If set to true, the output payload will be included. If set to false, the output payload will be returned as null.
+    public var includeOutputPayload: Swift.Bool?
+    /// The ID of the automation job to describe.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        automationGroupId: Swift.String? = nil,
+        automationId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil,
+        includeInputPayload: Swift.Bool? = false,
+        includeOutputPayload: Swift.Bool? = false,
+        jobId: Swift.String? = nil
+    ) {
+        self.automationGroupId = automationGroupId
+        self.automationId = automationId
+        self.awsAccountId = awsAccountId
+        self.includeInputPayload = includeInputPayload
+        self.includeOutputPayload = includeOutputPayload
+        self.jobId = jobId
+    }
+}
+
+public struct DescribeAutomationJobOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the automation job.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The time that the automation job was created.
+    public var createdAt: Foundation.Date?
+    /// The time that the automation job finished running.
+    public var endedAt: Foundation.Date?
+    /// The input payload that was provided when the automation job was started. This field is only included when IncludeInputPayload is set to true in the request.
+    public var inputPayload: Swift.String?
+    /// The current status of the automation job.
+    /// This member is required.
+    public var jobStatus: QuickSightClientTypes.AutomationJobStatus?
+    /// The output payload that was generated by the automation job. This field is only included when IncludeOutputPayload is set to true in the request.
+    public var outputPayload: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The time that the automation job started running.
+    public var startedAt: Foundation.Date?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        endedAt: Foundation.Date? = nil,
+        inputPayload: Swift.String? = nil,
+        jobStatus: QuickSightClientTypes.AutomationJobStatus? = nil,
+        outputPayload: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        startedAt: Foundation.Date? = nil
+    ) {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.endedAt = endedAt
+        self.inputPayload = inputPayload
+        self.jobStatus = jobStatus
+        self.outputPayload = outputPayload
+        self.requestId = requestId
+        self.startedAt = startedAt
+    }
+}
+
+extension DescribeAutomationJobOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DescribeAutomationJobOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), endedAt: \(Swift.String(describing: endedAt)), jobStatus: \(Swift.String(describing: jobStatus)), requestId: \(Swift.String(describing: requestId)), startedAt: \(Swift.String(describing: startedAt)), inputPayload: \"CONTENT_REDACTED\", outputPayload: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeBrandInput: Swift.Sendable {
@@ -46752,6 +47107,62 @@ public struct StartAssetBundleImportJobOutput: Swift.Sendable {
     }
 }
 
+public struct StartAutomationJobInput: Swift.Sendable {
+    /// The ID of the automation group that contains the automation to run.
+    /// This member is required.
+    public var automationGroupId: Swift.String?
+    /// The ID of the automation to run.
+    /// This member is required.
+    public var automationId: Swift.String?
+    /// The ID of the Amazon Web Services account that contains the automation.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The input payload for the automation job, provided as a JSON string.
+    public var inputPayload: Swift.String?
+
+    public init(
+        automationGroupId: Swift.String? = nil,
+        automationId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil,
+        inputPayload: Swift.String? = nil
+    ) {
+        self.automationGroupId = automationGroupId
+        self.automationId = automationId
+        self.awsAccountId = awsAccountId
+        self.inputPayload = inputPayload
+    }
+}
+
+extension StartAutomationJobInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartAutomationJobInput(automationGroupId: \(Swift.String(describing: automationGroupId)), automationId: \(Swift.String(describing: automationId)), awsAccountId: \(Swift.String(describing: awsAccountId)), inputPayload: \"CONTENT_REDACTED\")"}
+}
+
+public struct StartAutomationJobOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the automation job.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The ID of the automation job that was started.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        arn: Swift.String? = nil,
+        jobId: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.arn = arn
+        self.jobId = jobId
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 extension QuickSightClientTypes {
 
     /// A structure that contains information on the anonymous user configuration.
@@ -50762,6 +51173,41 @@ extension DescribeAssetBundleImportJobInput {
     }
 }
 
+extension DescribeAutomationJobInput {
+
+    static func urlPathProvider(_ value: DescribeAutomationJobInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let automationGroupId = value.automationGroupId else {
+            return nil
+        }
+        guard let automationId = value.automationId else {
+            return nil
+        }
+        guard let jobId = value.jobId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/automation-groups/\(automationGroupId.urlPercentEncoding())/automations/\(automationId.urlPercentEncoding())/jobs/\(jobId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeAutomationJobInput {
+
+    static func queryItemProvider(_ value: DescribeAutomationJobInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let includeInputPayload = value.includeInputPayload {
+            let includeInputPayloadQueryItem = Smithy.URIQueryItem(name: "includeInputPayload".urlPercentEncoding(), value: Swift.String(includeInputPayload).urlPercentEncoding())
+            items.append(includeInputPayloadQueryItem)
+        }
+        if let includeOutputPayload = value.includeOutputPayload {
+            let includeOutputPayloadQueryItem = Smithy.URIQueryItem(name: "includeOutputPayload".urlPercentEncoding(), value: Swift.String(includeOutputPayload).urlPercentEncoding())
+            items.append(includeOutputPayloadQueryItem)
+        }
+        return items
+    }
+}
+
 extension DescribeBrandInput {
 
     static func urlPathProvider(_ value: DescribeBrandInput) -> Swift.String? {
@@ -52845,6 +53291,22 @@ extension StartAssetBundleImportJobInput {
     }
 }
 
+extension StartAutomationJobInput {
+
+    static func urlPathProvider(_ value: StartAutomationJobInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let automationGroupId = value.automationGroupId else {
+            return nil
+        }
+        guard let automationId = value.automationId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/automation-groups/\(automationGroupId.urlPercentEncoding())/automations/\(automationId.urlPercentEncoding())/jobs"
+    }
+}
+
 extension StartDashboardSnapshotJobInput {
 
     static func urlPathProvider(_ value: StartDashboardSnapshotJobInput) -> Swift.String? {
@@ -54082,6 +54544,14 @@ extension StartAssetBundleImportJobInput {
         try writer["OverridePermissions"].write(value.overridePermissions, with: QuickSightClientTypes.AssetBundleImportJobOverridePermissions.write(value:to:))
         try writer["OverrideTags"].write(value.overrideTags, with: QuickSightClientTypes.AssetBundleImportJobOverrideTags.write(value:to:))
         try writer["OverrideValidationStrategy"].write(value.overrideValidationStrategy, with: QuickSightClientTypes.AssetBundleImportJobOverrideValidationStrategy.write(value:to:))
+    }
+}
+
+extension StartAutomationJobInput {
+
+    static func write(value: StartAutomationJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InputPayload"].write(value.inputPayload)
     }
 }
 
@@ -55653,6 +56123,25 @@ extension DescribeAssetBundleImportJobOutput {
     }
 }
 
+extension DescribeAutomationJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAutomationJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeAutomationJobOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.inputPayload = try reader["InputPayload"].readIfPresent()
+        value.jobStatus = try reader["JobStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.outputPayload = try reader["OutputPayload"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension DescribeBrandOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeBrandOutput {
@@ -57218,6 +57707,21 @@ extension StartAssetBundleImportJobOutput {
         var value = StartAssetBundleImportJobOutput()
         value.arn = try reader["Arn"].readIfPresent()
         value.assetBundleImportJobId = try reader["AssetBundleImportJobId"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension StartAutomationJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartAutomationJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartAutomationJobOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
         return value
@@ -59450,6 +59954,24 @@ enum DescribeAssetBundleImportJobOutputError {
     }
 }
 
+enum DescribeAutomationJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeBrandOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -61459,6 +61981,25 @@ enum StartAssetBundleImportJobOutputError {
     }
 }
 
+enum StartAutomationJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartDashboardSnapshotJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -63211,6 +63752,7 @@ extension QuickSightClientTypes.AnalysisDefinition {
         try writer["QueryExecutionOptions"].write(value.queryExecutionOptions, with: QuickSightClientTypes.QueryExecutionOptions.write(value:to:))
         try writer["Sheets"].writeList(value.sheets, memberWritingClosure: QuickSightClientTypes.SheetDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["StaticFiles"].writeList(value.staticFiles, memberWritingClosure: QuickSightClientTypes.StaticFile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TooltipSheets"].writeList(value.tooltipSheets, memberWritingClosure: QuickSightClientTypes.TooltipSheetDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AnalysisDefinition {
@@ -63218,6 +63760,7 @@ extension QuickSightClientTypes.AnalysisDefinition {
         var value = QuickSightClientTypes.AnalysisDefinition()
         value.dataSetIdentifierDeclarations = try reader["DataSetIdentifierDeclarations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSetIdentifierDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.sheets = try reader["Sheets"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SheetDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tooltipSheets = try reader["TooltipSheets"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TooltipSheetDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.calculatedFields = try reader["CalculatedFields"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.CalculatedField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.parameterDeclarations = try reader["ParameterDeclarations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ParameterDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.filterGroups = try reader["FilterGroups"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FilterGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -65551,6 +66094,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["CreateDashboardExecutiveSummaryWithQ"].write(value.createDashboardExecutiveSummaryWithQ)
         try writer["CreateSPICEDataset"].write(value.createSPICEDataset)
         try writer["CreateSharedFolders"].write(value.createSharedFolders)
+        try writer["CreateSpaces"].write(value.createSpaces)
         try writer["Dashboard"].write(value.dashboard)
         try writer["EditVisualWithQ"].write(value.editVisualWithQ)
         try writer["ExportToCsv"].write(value.exportToCsv)
@@ -65606,6 +66150,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["ShareBambooHRAction"].write(value.shareBambooHRAction)
         try writer["ShareBoxAgentAction"].write(value.shareBoxAgentAction)
         try writer["ShareCanvaAgentAction"].write(value.shareCanvaAgentAction)
+        try writer["ShareChatAgents"].write(value.shareChatAgents)
         try writer["ShareComprehendAction"].write(value.shareComprehendAction)
         try writer["ShareComprehendMedicalAction"].write(value.shareComprehendMedicalAction)
         try writer["ShareConfluenceAction"].write(value.shareConfluenceAction)
@@ -65643,6 +66188,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["ShareSharePointAction"].write(value.shareSharePointAction)
         try writer["ShareSlackAction"].write(value.shareSlackAction)
         try writer["ShareSmartsheetAction"].write(value.shareSmartsheetAction)
+        try writer["ShareSpaces"].write(value.shareSpaces)
         try writer["ShareTextractAction"].write(value.shareTextractAction)
         try writer["ShareZendeskAction"].write(value.shareZendeskAction)
         try writer["SlackAction"].write(value.slackAction)
@@ -65914,8 +66460,11 @@ extension QuickSightClientTypes.Capabilities {
         value.buildCalculatedFieldWithQ = try reader["BuildCalculatedFieldWithQ"].readIfPresent()
         value.createDashboardExecutiveSummaryWithQ = try reader["CreateDashboardExecutiveSummaryWithQ"].readIfPresent()
         value.space = try reader["Space"].readIfPresent()
+        value.createSpaces = try reader["CreateSpaces"].readIfPresent()
+        value.shareSpaces = try reader["ShareSpaces"].readIfPresent()
         value.chatAgent = try reader["ChatAgent"].readIfPresent()
         value.createChatAgents = try reader["CreateChatAgents"].readIfPresent()
+        value.shareChatAgents = try reader["ShareChatAgents"].readIfPresent()
         value.research = try reader["Research"].readIfPresent()
         value.selfUpgradeUserRole = try reader["SelfUpgradeUserRole"].readIfPresent()
         value.`extension` = try reader["Extension"].readIfPresent()
@@ -67573,6 +68122,7 @@ extension QuickSightClientTypes.DashboardVersionDefinition {
         try writer["ParameterDeclarations"].writeList(value.parameterDeclarations, memberWritingClosure: QuickSightClientTypes.ParameterDeclaration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Sheets"].writeList(value.sheets, memberWritingClosure: QuickSightClientTypes.SheetDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["StaticFiles"].writeList(value.staticFiles, memberWritingClosure: QuickSightClientTypes.StaticFile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TooltipSheets"].writeList(value.tooltipSheets, memberWritingClosure: QuickSightClientTypes.TooltipSheetDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DashboardVersionDefinition {
@@ -67580,6 +68130,7 @@ extension QuickSightClientTypes.DashboardVersionDefinition {
         var value = QuickSightClientTypes.DashboardVersionDefinition()
         value.dataSetIdentifierDeclarations = try reader["DataSetIdentifierDeclarations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSetIdentifierDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.sheets = try reader["Sheets"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SheetDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tooltipSheets = try reader["TooltipSheets"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TooltipSheetDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.calculatedFields = try reader["CalculatedFields"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.CalculatedField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.parameterDeclarations = try reader["ParameterDeclarations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ParameterDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.filterGroups = try reader["FilterGroups"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FilterGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -68560,6 +69111,7 @@ extension QuickSightClientTypes.DataSourceCredentials {
         try writer["CopySourceArn"].write(value.copySourceArn)
         try writer["CredentialPair"].write(value.credentialPair, with: QuickSightClientTypes.CredentialPair.write(value:to:))
         try writer["KeyPairCredentials"].write(value.keyPairCredentials, with: QuickSightClientTypes.KeyPairCredentials.write(value:to:))
+        try writer["OAuthClientCredentials"].write(value.oAuthClientCredentials, with: QuickSightClientTypes.OAuthClientCredentials.write(value:to:))
         try writer["SecretArn"].write(value.secretArn)
         try writer["WebProxyCredentials"].write(value.webProxyCredentials, with: QuickSightClientTypes.WebProxyCredentials.write(value:to:))
     }
@@ -74763,6 +75315,16 @@ extension QuickSightClientTypes.NumericSeparatorConfiguration {
     }
 }
 
+extension QuickSightClientTypes.OAuthClientCredentials {
+
+    static func write(value: QuickSightClientTypes.OAuthClientCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientId"].write(value.clientId)
+        try writer["ClientSecret"].write(value.clientSecret)
+        try writer["Username"].write(value.username)
+    }
+}
+
 extension QuickSightClientTypes.OAuthParameters {
 
     static func write(value: QuickSightClientTypes.OAuthParameters?, to writer: SmithyJSON.Writer) throws {
@@ -75648,6 +76210,7 @@ extension QuickSightClientTypes.PivotTableConfiguration {
         try writer["PaginatedReportOptions"].write(value.paginatedReportOptions, with: QuickSightClientTypes.PivotTablePaginatedReportOptions.write(value:to:))
         try writer["SortConfiguration"].write(value.sortConfiguration, with: QuickSightClientTypes.PivotTableSortConfiguration.write(value:to:))
         try writer["TableOptions"].write(value.tableOptions, with: QuickSightClientTypes.PivotTableOptions.write(value:to:))
+        try writer["Tooltip"].write(value.tooltip, with: QuickSightClientTypes.TooltipOptions.write(value:to:))
         try writer["TotalOptions"].write(value.totalOptions, with: QuickSightClientTypes.PivotTableTotalOptions.write(value:to:))
     }
 
@@ -75660,6 +76223,7 @@ extension QuickSightClientTypes.PivotTableConfiguration {
         value.totalOptions = try reader["TotalOptions"].readIfPresent(with: QuickSightClientTypes.PivotTableTotalOptions.read(from:))
         value.fieldOptions = try reader["FieldOptions"].readIfPresent(with: QuickSightClientTypes.PivotTableFieldOptions.read(from:))
         value.paginatedReportOptions = try reader["PaginatedReportOptions"].readIfPresent(with: QuickSightClientTypes.PivotTablePaginatedReportOptions.read(from:))
+        value.tooltip = try reader["Tooltip"].readIfPresent(with: QuickSightClientTypes.TooltipOptions.read(from:))
         value.dashboardCustomizationVisualOptions = try reader["DashboardCustomizationVisualOptions"].readIfPresent(with: QuickSightClientTypes.DashboardCustomizationVisualOptions.read(from:))
         value.interactions = try reader["Interactions"].readIfPresent(with: QuickSightClientTypes.VisualInteractionOptions.read(from:))
         return value
@@ -78403,6 +78967,21 @@ extension QuickSightClientTypes.SheetTextBox {
     }
 }
 
+extension QuickSightClientTypes.SheetTooltip {
+
+    static func write(value: QuickSightClientTypes.SheetTooltip?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SheetId"].write(value.sheetId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SheetTooltip {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SheetTooltip()
+        value.sheetId = try reader["SheetId"].readIfPresent()
+        return value
+    }
+}
+
 extension QuickSightClientTypes.SheetVisualScopingConfiguration {
 
     static func write(value: QuickSightClientTypes.SheetVisualScopingConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -78807,6 +79386,37 @@ extension QuickSightClientTypes.Spacing {
         value.bottom = try reader["Bottom"].readIfPresent()
         value.`left` = try reader["Left"].readIfPresent()
         value.`right` = try reader["Right"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SparklinesOptions {
+
+    static func write(value: QuickSightClientTypes.SparklinesOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllPointsMarker"].write(value.allPointsMarker, with: QuickSightClientTypes.LineChartMarkerStyleSettings.write(value:to:))
+        try writer["FieldId"].write(value.fieldId)
+        try writer["LineColor"].write(value.lineColor)
+        try writer["LineInterpolation"].write(value.lineInterpolation)
+        try writer["MaxValueMarker"].write(value.maxValueMarker, with: QuickSightClientTypes.LineChartMarkerStyleSettings.write(value:to:))
+        try writer["MinValueMarker"].write(value.minValueMarker, with: QuickSightClientTypes.LineChartMarkerStyleSettings.write(value:to:))
+        try writer["VisualType"].write(value.visualType)
+        try writer["XAxisField"].write(value.xAxisField, with: QuickSightClientTypes.DimensionField.write(value:to:))
+        try writer["YAxisBehavior"].write(value.yAxisBehavior)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SparklinesOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SparklinesOptions()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
+        value.xAxisField = try reader["XAxisField"].readIfPresent(with: QuickSightClientTypes.DimensionField.read(from:))
+        value.yAxisBehavior = try reader["YAxisBehavior"].readIfPresent()
+        value.visualType = try reader["VisualType"].readIfPresent()
+        value.lineColor = try reader["LineColor"].readIfPresent()
+        value.lineInterpolation = try reader["LineInterpolation"].readIfPresent()
+        value.allPointsMarker = try reader["AllPointsMarker"].readIfPresent(with: QuickSightClientTypes.LineChartMarkerStyleSettings.read(from:))
+        value.maxValueMarker = try reader["MaxValueMarker"].readIfPresent(with: QuickSightClientTypes.LineChartMarkerStyleSettings.read(from:))
+        value.minValueMarker = try reader["MinValueMarker"].readIfPresent(with: QuickSightClientTypes.LineChartMarkerStyleSettings.read(from:))
         return value
     }
 }
@@ -79300,6 +79910,7 @@ extension QuickSightClientTypes.TableConfiguration {
         try writer["SortConfiguration"].write(value.sortConfiguration, with: QuickSightClientTypes.TableSortConfiguration.write(value:to:))
         try writer["TableInlineVisualizations"].writeList(value.tableInlineVisualizations, memberWritingClosure: QuickSightClientTypes.TableInlineVisualization.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TableOptions"].write(value.tableOptions, with: QuickSightClientTypes.TableOptions.write(value:to:))
+        try writer["Tooltip"].write(value.tooltip, with: QuickSightClientTypes.TooltipOptions.write(value:to:))
         try writer["TotalOptions"].write(value.totalOptions, with: QuickSightClientTypes.TotalOptions.write(value:to:))
     }
 
@@ -79313,6 +79924,7 @@ extension QuickSightClientTypes.TableConfiguration {
         value.fieldOptions = try reader["FieldOptions"].readIfPresent(with: QuickSightClientTypes.TableFieldOptions.read(from:))
         value.paginatedReportOptions = try reader["PaginatedReportOptions"].readIfPresent(with: QuickSightClientTypes.TablePaginatedReportOptions.read(from:))
         value.tableInlineVisualizations = try reader["TableInlineVisualizations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TableInlineVisualization.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tooltip = try reader["Tooltip"].readIfPresent(with: QuickSightClientTypes.TooltipOptions.read(from:))
         value.dashboardCustomizationVisualOptions = try reader["DashboardCustomizationVisualOptions"].readIfPresent(with: QuickSightClientTypes.DashboardCustomizationVisualOptions.read(from:))
         value.interactions = try reader["Interactions"].readIfPresent(with: QuickSightClientTypes.VisualInteractionOptions.read(from:))
         return value
@@ -79483,12 +80095,14 @@ extension QuickSightClientTypes.TableInlineVisualization {
     static func write(value: QuickSightClientTypes.TableInlineVisualization?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DataBars"].write(value.dataBars, with: QuickSightClientTypes.DataBarsOptions.write(value:to:))
+        try writer["Sparklines"].write(value.sparklines, with: QuickSightClientTypes.SparklinesOptions.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TableInlineVisualization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TableInlineVisualization()
         value.dataBars = try reader["DataBars"].readIfPresent(with: QuickSightClientTypes.DataBarsOptions.read(from:))
+        value.sparklines = try reader["Sparklines"].readIfPresent(with: QuickSightClientTypes.SparklinesOptions.read(from:))
         return value
     }
 }
@@ -79825,6 +80439,7 @@ extension QuickSightClientTypes.TemplateVersionDefinition {
         try writer["QueryExecutionOptions"].write(value.queryExecutionOptions, with: QuickSightClientTypes.QueryExecutionOptions.write(value:to:))
         try writer["Sheets"].writeList(value.sheets, memberWritingClosure: QuickSightClientTypes.SheetDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["StaticFiles"].writeList(value.staticFiles, memberWritingClosure: QuickSightClientTypes.StaticFile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TooltipSheets"].writeList(value.tooltipSheets, memberWritingClosure: QuickSightClientTypes.TooltipSheetDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TemplateVersionDefinition {
@@ -79832,6 +80447,7 @@ extension QuickSightClientTypes.TemplateVersionDefinition {
         var value = QuickSightClientTypes.TemplateVersionDefinition()
         value.dataSetConfigurations = try reader["DataSetConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSetConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.sheets = try reader["Sheets"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SheetDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tooltipSheets = try reader["TooltipSheets"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TooltipSheetDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.calculatedFields = try reader["CalculatedFields"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.CalculatedField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.parameterDeclarations = try reader["ParameterDeclarations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ParameterDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.filterGroups = try reader["FilterGroups"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FilterGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -80298,6 +80914,7 @@ extension QuickSightClientTypes.TooltipOptions {
         guard let value else { return }
         try writer["FieldBasedTooltip"].write(value.fieldBasedTooltip, with: QuickSightClientTypes.FieldBasedTooltip.write(value:to:))
         try writer["SelectedTooltipType"].write(value.selectedTooltipType)
+        try writer["SheetTooltip"].write(value.sheetTooltip, with: QuickSightClientTypes.SheetTooltip.write(value:to:))
         try writer["TooltipVisibility"].write(value.tooltipVisibility)
     }
 
@@ -80307,6 +80924,32 @@ extension QuickSightClientTypes.TooltipOptions {
         value.tooltipVisibility = try reader["TooltipVisibility"].readIfPresent()
         value.selectedTooltipType = try reader["SelectedTooltipType"].readIfPresent()
         value.fieldBasedTooltip = try reader["FieldBasedTooltip"].readIfPresent(with: QuickSightClientTypes.FieldBasedTooltip.read(from:))
+        value.sheetTooltip = try reader["SheetTooltip"].readIfPresent(with: QuickSightClientTypes.SheetTooltip.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TooltipSheetDefinition {
+
+    static func write(value: QuickSightClientTypes.TooltipSheetDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Images"].writeList(value.images, memberWritingClosure: QuickSightClientTypes.SheetImage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Layouts"].writeList(value.layouts, memberWritingClosure: QuickSightClientTypes.Layout.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["SheetId"].write(value.sheetId)
+        try writer["TextBoxes"].writeList(value.textBoxes, memberWritingClosure: QuickSightClientTypes.SheetTextBox.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Visuals"].writeList(value.visuals, memberWritingClosure: QuickSightClientTypes.Visual.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TooltipSheetDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TooltipSheetDefinition()
+        value.sheetId = try reader["SheetId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent()
+        value.visuals = try reader["Visuals"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Visual.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.textBoxes = try reader["TextBoxes"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SheetTextBox.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.images = try reader["Images"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SheetImage.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.layouts = try reader["Layouts"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Layout.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
