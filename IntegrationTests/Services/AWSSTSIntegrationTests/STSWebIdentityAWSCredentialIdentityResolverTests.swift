@@ -22,7 +22,7 @@ class STSWebIdentityAWSCredentialIdentityResolverTests: XCTestCase {
 
     // STS client with only the STS web identity credentials provider configured.
     private var webIdentityStsClient: STSClient!
-    private var stsConfig: STSClient.STSClientConfiguration!
+    private var stsConfig: STSClient.STSClientConfig!
 
     // MARK: - Cognito things
 
@@ -229,7 +229,7 @@ class STSWebIdentityAWSCredentialIdentityResolverTests: XCTestCase {
         setenv("AWS_ROLE_SESSION_NAME", roleSessionName, 1)
         setenv("AWS_WEB_IDENTITY_TOKEN_FILE", oidcTokenFilePath, 1)
         let webIdentityAWSCredentialIdentityResolver = try STSWebIdentityAWSCredentialIdentityResolver(source: .env)
-        stsConfig = try await STSClient.STSClientConfiguration(
+        stsConfig = try await STSClient.STSClientConfig(
             awsCredentialIdentityResolver: webIdentityAWSCredentialIdentityResolver,
             region: region
         )

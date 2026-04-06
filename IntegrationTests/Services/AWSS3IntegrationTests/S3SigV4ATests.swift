@@ -22,7 +22,7 @@ class S3SigV4ATests: S3XCTestCase {
     // The custom S3 client configured with only SigV4A auth scheme
     // Used to put object to bucket via MRAP
     private var sigv4aClient: S3Client!
-    private var sigv4aConfig: S3Client.S3ClientConfiguration!
+    private var sigv4aConfig: S3Client.S3ClientConfig!
 
     // MRAP ARN format
     // arn:aws:s3::\{account-id}:accesspoint/\{MultiRegionAccessPoint_alias}
@@ -51,7 +51,7 @@ class S3SigV4ATests: S3XCTestCase {
         s3ControlClient = try S3ControlClient(region: region)
 
         // Create sigv4a-only S3 client to be used for tests.
-        sigv4aConfig = try await S3Client.S3ClientConfiguration(region: region)
+        sigv4aConfig = try await S3Client.S3ClientConfig(region: region)
         sigv4aConfig.authSchemes = [SigV4AAuthScheme()]
         sigv4aClient = S3Client(config: sigv4aConfig)
 

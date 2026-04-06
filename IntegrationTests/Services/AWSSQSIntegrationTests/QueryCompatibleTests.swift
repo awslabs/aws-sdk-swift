@@ -36,7 +36,7 @@ final class QueryCompatibleTests: XCTestCase {
             return response
         }
 
-        let config = try await SQSClient.SQSClientConfiguration(
+        let config = try await SQSClient.SQSClientConfig(
             region: "us-west-2",
             httpClientEngine: mockHTTPClient
         )
@@ -71,7 +71,7 @@ final class QueryCompatibleTests: XCTestCase {
             return response
         }
 
-        let config = try await SQSClient.SQSClientConfiguration(
+        let config = try await SQSClient.SQSClientConfig(
             region: "us-west-2",
             httpClientEngine: mockHTTPClient
         )
@@ -106,7 +106,7 @@ final class QueryCompatibleTests: XCTestCase {
             return response
         }
 
-        let config = try await SQSClient.SQSClientConfiguration(
+        let config = try await SQSClient.SQSClientConfig(
             region: "us-west-2",
             httpClientEngine: mockHTTPClient
         )
@@ -144,7 +144,7 @@ final class QueryCompatibleTests: XCTestCase {
             return response
         }
 
-        let config = try await SQSClient.SQSClientConfiguration(
+        let config = try await SQSClient.SQSClientConfig(
             region: "us-west-2",
             httpClientEngine: mockHTTPClient
         )
@@ -161,8 +161,8 @@ final class QueryCompatibleTests: XCTestCase {
 
 // Mock HTTP Client Implementation
 
-private class MockHTTPClient: HTTPClient {
-    private let handler: (HTTPRequest) async throws -> HTTPResponse
+private final class MockHTTPClient: HTTPClient {
+    private let handler: @Sendable (HTTPRequest) async throws -> HTTPResponse
 
     init(handler: @escaping (HTTPRequest) -> HTTPResponse) {
         self.handler = { request in

@@ -408,6 +408,8 @@ extension BCMDataExportsClientTypes {
         /// The name of the Amazon S3 bucket used as the destination of a data export file.
         /// This member is required.
         public var s3Bucket: Swift.String?
+        /// The AWS Account ID that owns the S3 bucket used as the destination for the data export.
+        public var s3BucketOwner: Swift.String?
         /// The output configuration for the data export.
         /// This member is required.
         public var s3OutputConfigurations: BCMDataExportsClientTypes.S3OutputConfigurations?
@@ -420,11 +422,13 @@ extension BCMDataExportsClientTypes {
 
         public init(
             s3Bucket: Swift.String? = nil,
+            s3BucketOwner: Swift.String? = nil,
             s3OutputConfigurations: BCMDataExportsClientTypes.S3OutputConfigurations? = nil,
             s3Prefix: Swift.String? = nil,
             s3Region: Swift.String? = nil
         ) {
             self.s3Bucket = s3Bucket
+            self.s3BucketOwner = s3BucketOwner
             self.s3OutputConfigurations = s3OutputConfigurations
             self.s3Prefix = s3Prefix
             self.s3Region = s3Region
@@ -2011,6 +2015,7 @@ extension BCMDataExportsClientTypes.S3Destination {
     static func write(value: BCMDataExportsClientTypes.S3Destination?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["S3Bucket"].write(value.s3Bucket)
+        try writer["S3BucketOwner"].write(value.s3BucketOwner)
         try writer["S3OutputConfigurations"].write(value.s3OutputConfigurations, with: BCMDataExportsClientTypes.S3OutputConfigurations.write(value:to:))
         try writer["S3Prefix"].write(value.s3Prefix)
         try writer["S3Region"].write(value.s3Region)
@@ -2020,6 +2025,7 @@ extension BCMDataExportsClientTypes.S3Destination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BCMDataExportsClientTypes.S3Destination()
         value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
+        value.s3BucketOwner = try reader["S3BucketOwner"].readIfPresent()
         value.s3Prefix = try reader["S3Prefix"].readIfPresent() ?? ""
         value.s3Region = try reader["S3Region"].readIfPresent() ?? ""
         value.s3OutputConfigurations = try reader["S3OutputConfigurations"].readIfPresent(with: BCMDataExportsClientTypes.S3OutputConfigurations.read(from:))

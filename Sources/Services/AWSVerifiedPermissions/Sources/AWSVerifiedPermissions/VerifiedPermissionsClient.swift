@@ -910,7 +910,7 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same time.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
@@ -1013,7 +1013,7 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same time.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
@@ -1109,7 +1109,7 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same time.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
     /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
@@ -1192,6 +1192,101 @@ extension VerifiedPermissionsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreatePolicyStoreAlias` operation on the `VerifiedPermissions` service.
+    ///
+    /// Creates a policy store alias for the specified policy store. A policy store alias is an alternative identifier that you can use to reference a policy store in API operations. This operation is idempotent. If multiple CreatePolicyStoreAlias requests are made where the aliasName and policyStoreId fields are the same between the requests, subsequent requests will be ignored. For each duplicate CreatePolicyStoreAlias request, a Success response will be returned and a new policy store alias will not be created. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreatePolicyStoreAliasInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreatePolicyStoreAliasOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same time.
+    /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
+    /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
+    /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
+    ///
+    /// * UnrecognizedEntityType The policy includes an entity type that isn't found in the schema.
+    ///
+    /// * UnrecognizedActionId The policy includes an action id that isn't found in the schema.
+    ///
+    /// * InvalidActionApplication The policy includes an action that, according to the schema, doesn't support the specified principal and resource.
+    ///
+    /// * UnexpectedType The policy included an operand that isn't a valid type for the specified operation.
+    ///
+    /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
+    ///
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    ///
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    ///
+    /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
+    ///
+    /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
+    ///
+    /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
+    public func createPolicyStoreAlias(input: CreatePolicyStoreAliasInput) async throws -> CreatePolicyStoreAliasOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createPolicyStoreAlias")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "verifiedpermissions")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreatePolicyStoreAliasInput, CreatePolicyStoreAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreatePolicyStoreAliasInput, CreatePolicyStoreAliasOutput>(CreatePolicyStoreAliasInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreatePolicyStoreAliasInput, CreatePolicyStoreAliasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePolicyStoreAliasInput, CreatePolicyStoreAliasOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePolicyStoreAliasOutput>(CreatePolicyStoreAliasOutput.httpOutput(from:), CreatePolicyStoreAliasOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePolicyStoreAliasInput, CreatePolicyStoreAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreatePolicyStoreAliasOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("VerifiedPermissions", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePolicyStoreAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePolicyStoreAliasInput, CreatePolicyStoreAliasOutput>(overrides: ["X-Amz-Target": "VerifiedPermissions.CreatePolicyStoreAlias"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreatePolicyStoreAliasInput, CreatePolicyStoreAliasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePolicyStoreAliasInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePolicyStoreAliasInput, CreatePolicyStoreAliasOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePolicyStoreAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePolicyStoreAliasInput, CreatePolicyStoreAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePolicyStoreAliasInput, CreatePolicyStoreAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePolicyStoreAliasInput, CreatePolicyStoreAliasOutput>(serviceID: serviceName, version: VerifiedPermissionsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "VerifiedPermissions")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreatePolicyStoreAlias")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreatePolicyTemplate` operation on the `VerifiedPermissions` service.
     ///
     /// Creates a policy template. A template can use placeholders for the principal and resource. A template must be instantiated into a policy by associating it with specific principals and resources to use for the placeholders. That instantiated policy can then be considered in authorization decisions. The instantiated policy works identically to any other policy, except that it is dynamically linked to the template. If the template changes, then any policies that are linked to that template are immediately updated as well. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
@@ -1204,7 +1299,7 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same time.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
@@ -1300,7 +1395,7 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same time.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
@@ -1394,7 +1489,7 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same time.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
@@ -1569,6 +1664,99 @@ extension VerifiedPermissionsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeletePolicyStoreAlias` operation on the `VerifiedPermissions` service.
+    ///
+    /// Deletes the specified policy store alias. This operation is idempotent. If you specify a policy store alias that does not exist, the request response will still return a successful HTTP 200 status code. When a policy store alias is deleted, it enters the PendingDeletion state. When a policy store alias is in the PendingDeletion state, new policy store aliases cannot be created with the same name. If the policy store alias is used in an API that has a policyStoreId field, the operation will fail with a ResourceNotFound exception.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeletePolicyStoreAliasInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeletePolicyStoreAliasOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `InvalidStateException` : The policy store can't be deleted because deletion protection is enabled. To delete this policy store, disable deletion protection.
+    /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
+    /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
+    ///
+    /// * UnrecognizedEntityType The policy includes an entity type that isn't found in the schema.
+    ///
+    /// * UnrecognizedActionId The policy includes an action id that isn't found in the schema.
+    ///
+    /// * InvalidActionApplication The policy includes an action that, according to the schema, doesn't support the specified principal and resource.
+    ///
+    /// * UnexpectedType The policy included an operand that isn't a valid type for the specified operation.
+    ///
+    /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
+    ///
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    ///
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    ///
+    /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
+    ///
+    /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
+    ///
+    /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
+    public func deletePolicyStoreAlias(input: DeletePolicyStoreAliasInput) async throws -> DeletePolicyStoreAliasOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deletePolicyStoreAlias")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "verifiedpermissions")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeletePolicyStoreAliasInput, DeletePolicyStoreAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePolicyStoreAliasInput, DeletePolicyStoreAliasOutput>(DeletePolicyStoreAliasInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePolicyStoreAliasInput, DeletePolicyStoreAliasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePolicyStoreAliasInput, DeletePolicyStoreAliasOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePolicyStoreAliasOutput>(DeletePolicyStoreAliasOutput.httpOutput(from:), DeletePolicyStoreAliasOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePolicyStoreAliasInput, DeletePolicyStoreAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeletePolicyStoreAliasOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("VerifiedPermissions", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePolicyStoreAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeletePolicyStoreAliasInput, DeletePolicyStoreAliasOutput>(overrides: ["X-Amz-Target": "VerifiedPermissions.DeletePolicyStoreAlias"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeletePolicyStoreAliasInput, DeletePolicyStoreAliasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePolicyStoreAliasInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePolicyStoreAliasInput, DeletePolicyStoreAliasOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePolicyStoreAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePolicyStoreAliasInput, DeletePolicyStoreAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePolicyStoreAliasInput, DeletePolicyStoreAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePolicyStoreAliasInput, DeletePolicyStoreAliasOutput>(serviceID: serviceName, version: VerifiedPermissionsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "VerifiedPermissions")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeletePolicyStoreAlias")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeletePolicyTemplate` operation on the `VerifiedPermissions` service.
     ///
     /// Deletes the specified policy template from the policy store. This operation also deletes any policies that were created from the specified policy template. Those policies are immediately removed from all future API responses, and are asynchronously deleted from the policy store.
@@ -1581,7 +1769,7 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same time.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
@@ -1930,6 +2118,99 @@ extension VerifiedPermissionsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "VerifiedPermissions")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetPolicyStore")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetPolicyStoreAlias` operation on the `VerifiedPermissions` service.
+    ///
+    /// Retrieves details about the specified policy store alias.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetPolicyStoreAliasInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetPolicyStoreAliasOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
+    /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
+    /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
+    ///
+    /// * UnrecognizedEntityType The policy includes an entity type that isn't found in the schema.
+    ///
+    /// * UnrecognizedActionId The policy includes an action id that isn't found in the schema.
+    ///
+    /// * InvalidActionApplication The policy includes an action that, according to the schema, doesn't support the specified principal and resource.
+    ///
+    /// * UnexpectedType The policy included an operand that isn't a valid type for the specified operation.
+    ///
+    /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
+    ///
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    ///
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    ///
+    /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
+    ///
+    /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
+    ///
+    /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
+    public func getPolicyStoreAlias(input: GetPolicyStoreAliasInput) async throws -> GetPolicyStoreAliasOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getPolicyStoreAlias")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "verifiedpermissions")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetPolicyStoreAliasInput, GetPolicyStoreAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPolicyStoreAliasInput, GetPolicyStoreAliasOutput>(GetPolicyStoreAliasInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPolicyStoreAliasInput, GetPolicyStoreAliasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPolicyStoreAliasInput, GetPolicyStoreAliasOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPolicyStoreAliasOutput>(GetPolicyStoreAliasOutput.httpOutput(from:), GetPolicyStoreAliasOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPolicyStoreAliasInput, GetPolicyStoreAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetPolicyStoreAliasOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("VerifiedPermissions", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPolicyStoreAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPolicyStoreAliasInput, GetPolicyStoreAliasOutput>(overrides: ["X-Amz-Target": "VerifiedPermissions.GetPolicyStoreAlias"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetPolicyStoreAliasInput, GetPolicyStoreAliasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPolicyStoreAliasInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPolicyStoreAliasInput, GetPolicyStoreAliasOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPolicyStoreAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPolicyStoreAliasInput, GetPolicyStoreAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPolicyStoreAliasInput, GetPolicyStoreAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPolicyStoreAliasInput, GetPolicyStoreAliasOutput>(serviceID: serviceName, version: VerifiedPermissionsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "VerifiedPermissions")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetPolicyStoreAlias")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2500,6 +2781,98 @@ extension VerifiedPermissionsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListPolicyStoreAliases` operation on the `VerifiedPermissions` service.
+    ///
+    /// Returns a paginated list of all policy store aliases in the calling Amazon Web Services account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListPolicyStoreAliasesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListPolicyStoreAliasesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
+    /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
+    ///
+    /// * UnrecognizedEntityType The policy includes an entity type that isn't found in the schema.
+    ///
+    /// * UnrecognizedActionId The policy includes an action id that isn't found in the schema.
+    ///
+    /// * InvalidActionApplication The policy includes an action that, according to the schema, doesn't support the specified principal and resource.
+    ///
+    /// * UnexpectedType The policy included an operand that isn't a valid type for the specified operation.
+    ///
+    /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
+    ///
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    ///
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    ///
+    /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
+    ///
+    /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
+    ///
+    /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
+    public func listPolicyStoreAliases(input: ListPolicyStoreAliasesInput) async throws -> ListPolicyStoreAliasesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listPolicyStoreAliases")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "verifiedpermissions")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListPolicyStoreAliasesInput, ListPolicyStoreAliasesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPolicyStoreAliasesInput, ListPolicyStoreAliasesOutput>(ListPolicyStoreAliasesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPolicyStoreAliasesInput, ListPolicyStoreAliasesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPolicyStoreAliasesInput, ListPolicyStoreAliasesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPolicyStoreAliasesOutput>(ListPolicyStoreAliasesOutput.httpOutput(from:), ListPolicyStoreAliasesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPolicyStoreAliasesInput, ListPolicyStoreAliasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListPolicyStoreAliasesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("VerifiedPermissions", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPolicyStoreAliasesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPolicyStoreAliasesInput, ListPolicyStoreAliasesOutput>(overrides: ["X-Amz-Target": "VerifiedPermissions.ListPolicyStoreAliases"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListPolicyStoreAliasesInput, ListPolicyStoreAliasesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPolicyStoreAliasesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPolicyStoreAliasesInput, ListPolicyStoreAliasesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPolicyStoreAliasesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPolicyStoreAliasesInput, ListPolicyStoreAliasesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPolicyStoreAliasesInput, ListPolicyStoreAliasesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPolicyStoreAliasesInput, ListPolicyStoreAliasesOutput>(serviceID: serviceName, version: VerifiedPermissionsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "VerifiedPermissions")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPolicyStoreAliases")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListPolicyStores` operation on the `VerifiedPermissions` service.
     ///
     /// Returns a paginated list of all policy stores in the calling Amazon Web Services account.
@@ -2790,7 +3163,7 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same time.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
@@ -3072,7 +3445,7 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same time.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
@@ -3193,7 +3566,7 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same time.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
@@ -3288,7 +3661,7 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same time.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
@@ -3382,7 +3755,7 @@ extension VerifiedPermissionsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
-    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same time.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.

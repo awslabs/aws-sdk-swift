@@ -42,6 +42,16 @@ public struct CancelRunOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteBatchOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteRunCacheOutput: Swift.Sendable {
 
     public init() { }
@@ -2257,6 +2267,143 @@ public struct BatchDeleteReadSetOutput: Swift.Sendable {
 
 extension OmicsClientTypes {
 
+    public enum BatchStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
+        case failed
+        case inprogress
+        case pending
+        case processed
+        case runsDeleted
+        case runsDeleting
+        case stopping
+        case submitting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchStatus] {
+            return [
+                .cancelled,
+                .failed,
+                .inprogress,
+                .pending,
+                .processed,
+                .runsDeleted,
+                .runsDeleting,
+                .stopping,
+                .submitting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case .failed: return "FAILED"
+            case .inprogress: return "INPROGRESS"
+            case .pending: return "PENDING"
+            case .processed: return "PROCESSED"
+            case .runsDeleted: return "RUNS_DELETED"
+            case .runsDeleting: return "RUNS_DELETING"
+            case .stopping: return "STOPPING"
+            case .submitting: return "SUBMITTING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OmicsClientTypes {
+
+    /// A summary of a batch returned by ListBatch.
+    public struct BatchListItem: Swift.Sendable {
+        /// The timestamp when the batch was created.
+        public var createdAt: Foundation.Date?
+        /// The batch identifier.
+        public var id: Swift.String?
+        /// The batch name.
+        public var name: Swift.String?
+        /// The current batch status.
+        public var status: OmicsClientTypes.BatchStatus?
+        /// The total number of runs in the batch.
+        public var totalRuns: Swift.Int?
+        /// The identifier of the workflow used for the batch.
+        public var workflowId: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: OmicsClientTypes.BatchStatus? = nil,
+            totalRuns: Swift.Int? = nil,
+            workflowId: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.id = id
+            self.name = name
+            self.status = status
+            self.totalRuns = totalRuns
+            self.workflowId = workflowId
+        }
+    }
+}
+
+extension OmicsClientTypes {
+
+    /// A per-run configuration that overrides or merges with fields from DefaultRunSetting for a specific run.
+    public struct InlineSetting: Swift.Sendable {
+        /// An optional user-friendly name for this run.
+        public var name: Swift.String?
+        /// The expected AWS account ID of the owner of the output S3 bucket for this run.
+        public var outputBucketOwnerId: Swift.String?
+        /// Override the destination S3 URI for this run's outputs.
+        public var outputUri: Swift.String?
+        /// Per-run workflow parameters. Merged with defaultRunSetting.parameters; values in this object take precedence when keys overlap.
+        public var parameters: Smithy.Document?
+        /// Override the priority for this run.
+        public var priority: Swift.Int?
+        /// A customer-provided unique identifier for this run configuration within the batch. After submission, use ListRunsInBatch to map each runSettingId to the HealthOmics-generated runId.
+        /// This member is required.
+        public var runSettingId: Swift.String?
+        /// Per-run AWS tags. Merged with defaultRunSetting.runTags; values in this object take precedence when keys overlap.
+        public var runTags: [Swift.String: Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            outputBucketOwnerId: Swift.String? = nil,
+            outputUri: Swift.String? = nil,
+            parameters: Smithy.Document? = nil,
+            priority: Swift.Int? = nil,
+            runSettingId: Swift.String? = nil,
+            runTags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.name = name
+            self.outputBucketOwnerId = outputBucketOwnerId
+            self.outputUri = outputUri
+            self.parameters = parameters
+            self.priority = priority
+            self.runSettingId = runSettingId
+            self.runTags = runTags
+        }
+    }
+}
+
+extension OmicsClientTypes {
+
+    /// A union type representing per-run configurations for the batch. Specify exactly one of the following members.
+    public enum BatchRunSettings: Swift.Sendable {
+        /// A list of per-run configurations provided inline in the request. Each entry must include a unique runSettingId. Supports up to 100 entries. For batches with more than 100 runs, use s3UriSettings.
+        case inlinesettings([OmicsClientTypes.InlineSetting])
+        /// An Amazon S3 URI pointing to a JSON file containing per-run configurations. The file must be a JSON array in the same format as inlineSettings. Supports up to 100,000 run configurations. The maximum file size is 6 GB. The IAM service role in roleArn must have read access to this S3 object. HealthOmics validates access to the file during the synchronous API call and records the file's ETag. If the file is modified after submission, the batch fails.
+        case s3urisettings(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension OmicsClientTypes {
+
     public enum CacheBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cacheAlways
         case cacheOnFailure
@@ -2294,6 +2441,23 @@ public struct CancelRunInput: Swift.Sendable {
     ) {
         self.id = id
     }
+}
+
+public struct CancelRunBatchInput: Swift.Sendable {
+    /// The identifier portion of the run batch ARN.
+    /// This member is required.
+    public var batchId: Swift.String?
+
+    public init(
+        batchId: Swift.String? = nil
+    ) {
+        self.batchId = batchId
+    }
+}
+
+public struct CancelRunBatchOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct CancelVariantImportJobInput: Swift.Sendable {
@@ -2399,6 +2563,335 @@ public struct CompleteMultipartReadSetUploadOutput: Swift.Sendable {
         readSetId: Swift.String? = nil
     ) {
         self.readSetId = readSetId
+    }
+}
+
+extension OmicsClientTypes {
+
+    /// Minimal details for a configuration resource.
+    public struct ConfigurationDetails: Swift.Sendable {
+        /// Unique resource identifier for the configuration.
+        public var arn: Swift.String?
+        /// User-friendly name for the configuration.
+        public var name: Swift.String?
+        /// Unique identifier for the configuration.
+        public var uuid: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            uuid: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.name = name
+            self.uuid = uuid
+        }
+    }
+}
+
+extension OmicsClientTypes {
+
+    public enum ConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleted
+        case deleting
+        case failed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfigurationStatus] {
+            return [
+                .active,
+                .creating,
+                .deleted,
+                .deleting,
+                .failed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleted: return "DELETED"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OmicsClientTypes {
+
+    /// Configuration list item with summary information.
+    public struct ConfigurationListItem: Swift.Sendable {
+        /// Unique resource identifier for the configuration.
+        public var arn: Swift.String?
+        /// Configuration creation timestamp.
+        public var creationTime: Foundation.Date?
+        /// Description for the configuration.
+        public var description: Swift.String?
+        /// User-friendly name for the configuration.
+        public var name: Swift.String?
+        /// Current configuration status.
+        public var status: OmicsClientTypes.ConfigurationStatus?
+
+        public init(
+            arn: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: OmicsClientTypes.ConfigurationStatus? = nil
+        ) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.description = description
+            self.name = name
+            self.status = status
+        }
+    }
+}
+
+extension OmicsClientTypes {
+
+    /// VPC configuration for workflow runs.
+    public struct VpcConfig: Swift.Sendable {
+        /// List of security group IDs. Maximum of 5 security groups allowed.
+        public var securityGroupIds: [Swift.String]?
+        /// List of subnet IDs. Maximum of 16 subnets allowed.
+        public var subnetIds: [Swift.String]?
+
+        public init(
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil
+        ) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+        }
+    }
+}
+
+extension OmicsClientTypes {
+
+    /// Run-specific configuration settings.
+    public struct RunConfigurations: Swift.Sendable {
+        /// VPC configuration for workflow runs.
+        public var vpcConfig: OmicsClientTypes.VpcConfig?
+
+        public init(
+            vpcConfig: OmicsClientTypes.VpcConfig? = nil
+        ) {
+            self.vpcConfig = vpcConfig
+        }
+    }
+}
+
+public struct CreateConfigurationInput: Swift.Sendable {
+    /// Optional description for the configuration.
+    public var description: Swift.String?
+    /// User-friendly name for the configuration.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Optional request idempotency token. If not specified, a universally unique identifier (UUID) will be automatically generated for the request.
+    /// This member is required.
+    public var requestId: Swift.String?
+    /// Required run-specific configurations.
+    /// This member is required.
+    public var runConfigurations: OmicsClientTypes.RunConfigurations?
+    /// Optional tags for the configuration.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        runConfigurations: OmicsClientTypes.RunConfigurations? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.description = description
+        self.name = name
+        self.requestId = requestId
+        self.runConfigurations = runConfigurations
+        self.tags = tags
+    }
+}
+
+extension OmicsClientTypes {
+
+    /// VPC configuration for workflow runs with computed VPC ID.
+    public struct VpcConfigResponse: Swift.Sendable {
+        /// List of security group IDs.
+        public var securityGroupIds: [Swift.String]?
+        /// List of subnet IDs.
+        public var subnetIds: [Swift.String]?
+        /// VPC ID computed from the provided subnet IDs.
+        public var vpcId: Swift.String?
+
+        public init(
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension OmicsClientTypes {
+
+    /// Run-specific configuration settings with computed values.
+    public struct RunConfigurationsResponse: Swift.Sendable {
+        /// VPC configuration for workflow runs with computed VPC ID.
+        public var vpcConfig: OmicsClientTypes.VpcConfigResponse?
+
+        public init(
+            vpcConfig: OmicsClientTypes.VpcConfigResponse? = nil
+        ) {
+            self.vpcConfig = vpcConfig
+        }
+    }
+}
+
+public struct CreateConfigurationOutput: Swift.Sendable {
+    /// Unique resource identifier for the configuration.
+    public var arn: Swift.String?
+    /// Configuration creation timestamp.
+    public var creationTime: Foundation.Date?
+    /// Description for the configuration.
+    public var description: Swift.String?
+    /// User-friendly name for the configuration.
+    public var name: Swift.String?
+    /// Run-specific configurations.
+    public var runConfigurations: OmicsClientTypes.RunConfigurationsResponse?
+    /// Current configuration status.
+    public var status: OmicsClientTypes.ConfigurationStatus?
+    /// Tags for the configuration.
+    public var tags: [Swift.String: Swift.String]?
+    /// Unique identifier for the configuration.
+    public var uuid: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        runConfigurations: OmicsClientTypes.RunConfigurationsResponse? = nil,
+        status: OmicsClientTypes.ConfigurationStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        uuid: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.creationTime = creationTime
+        self.description = description
+        self.name = name
+        self.runConfigurations = runConfigurations
+        self.status = status
+        self.tags = tags
+        self.uuid = uuid
+    }
+}
+
+public struct DeleteConfigurationInput: Swift.Sendable {
+    /// Configuration name to delete.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    ) {
+        self.name = name
+    }
+}
+
+public struct GetConfigurationInput: Swift.Sendable {
+    /// Configuration name to retrieve.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    ) {
+        self.name = name
+    }
+}
+
+public struct GetConfigurationOutput: Swift.Sendable {
+    /// Unique resource identifier for the configuration.
+    public var arn: Swift.String?
+    /// Configuration creation timestamp.
+    public var creationTime: Foundation.Date?
+    /// Description for the configuration.
+    public var description: Swift.String?
+    /// User-friendly name for the configuration.
+    public var name: Swift.String?
+    /// Run-specific configurations.
+    public var runConfigurations: OmicsClientTypes.RunConfigurationsResponse?
+    /// Current configuration status.
+    public var status: OmicsClientTypes.ConfigurationStatus?
+    /// Tags for the configuration.
+    public var tags: [Swift.String: Swift.String]?
+    /// Unique identifier for the configuration.
+    public var uuid: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        runConfigurations: OmicsClientTypes.RunConfigurationsResponse? = nil,
+        status: OmicsClientTypes.ConfigurationStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        uuid: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.creationTime = creationTime
+        self.description = description
+        self.name = name
+        self.runConfigurations = runConfigurations
+        self.status = status
+        self.tags = tags
+        self.uuid = uuid
+    }
+}
+
+public struct ListConfigurationsInput: Swift.Sendable {
+    /// Maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// Pagination token for retrieving next page of results.
+    public var startingToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        startingToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.startingToken = startingToken
+    }
+}
+
+public struct ListConfigurationsOutput: Swift.Sendable {
+    /// List of configuration items.
+    public var items: [OmicsClientTypes.ConfigurationListItem]?
+    /// Token for retrieving next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [OmicsClientTypes.ConfigurationListItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
     }
 }
 
@@ -3310,7 +3803,7 @@ public struct CreateWorkflowInput: Swift.Sendable {
     public var definitionZip: Foundation.Data?
     /// A description for the workflow.
     public var description: Swift.String?
-    /// The workflow engine for the workflow. This is only required if you have workflow definition files from more than one engine in your zip file. Otherwise, the service can detect the engine automatically from your workflow definition.
+    /// The workflow engine for the workflow. By default, Amazon Web Services HealthOmics detects the engine automatically from your workflow definition. Provide a value if you have workflow definition files from more than one engine in your zip file, or to use WDL lenient. WDL lenient is designed to handle workflows migrated from Cromwell. It supports customer Cromwell directives and some non-conformant logic. For details, see [Implicit type conversion in WDL lenient](https://docs.aws.amazon.com/omics/latest/dev/workflow-wdl-type-conversion.html) in the Amazon Web Services HealthOmics User Guide.
     public var engine: OmicsClientTypes.WorkflowEngine?
     /// The path of the main definition file for the workflow. This parameter is not required if the ZIP archive contains only one workflow definition file, or if the main definition file is named “main”. An example path is: workflow-definition/main-file.wdl.
     public var main: Swift.String?
@@ -3619,6 +4112,184 @@ extension OmicsClientTypes {
 
 extension OmicsClientTypes {
 
+    public enum RunLogLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case error
+        case fatal
+        case off
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RunLogLevel] {
+            return [
+                .all,
+                .error,
+                .fatal,
+                .off
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .error: return "ERROR"
+            case .fatal: return "FATAL"
+            case .off: return "OFF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OmicsClientTypes {
+
+    public enum RunRetentionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case remove
+        case retain
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RunRetentionMode] {
+            return [
+                .remove,
+                .retain
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .remove: return "REMOVE"
+            case .retain: return "RETAIN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OmicsClientTypes {
+
+    public enum WorkflowType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `private`
+        case ready2run
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkflowType] {
+            return [
+                .private,
+                .ready2run
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .private: return "PRIVATE"
+            case .ready2run: return "READY2RUN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OmicsClientTypes {
+
+    /// Shared configuration applied to all runs in a batch. Fields specified in a per-run InlineSetting entry override the corresponding fields in this object for that run. The parameters and runTags fields are merged rather than replaced — run-specific values take precedence when keys overlap.
+    public struct DefaultRunSetting: Swift.Sendable {
+        /// The cache behavior for the runs. Requires cacheId to be set.
+        public var cacheBehavior: OmicsClientTypes.CacheBehavior?
+        /// The identifier of the run cache to associate with the runs.
+        public var cacheId: Swift.String?
+        /// The verbosity level for CloudWatch Logs emitted during each run.
+        public var logLevel: OmicsClientTypes.RunLogLevel?
+        /// An optional user-friendly name applied to each workflow run. Can be overridden per run.
+        public var name: Swift.String?
+        /// The expected AWS account ID of the owner of the output S3 bucket. Can be overridden per run.
+        public var outputBucketOwnerId: Swift.String?
+        /// The destination S3 URI for workflow outputs. Must begin with s3://. The roleArn must grant write permissions to this bucket. Can be overridden per run.
+        public var outputUri: Swift.String?
+        /// Workflow parameter names and values shared across all runs. Merged with per-run parameters; run-specific values take precedence when keys overlap. Can be overridden per run.
+        public var parameters: Smithy.Document?
+        /// An integer priority for the workflow runs. Higher values correspond to higher priority. A value of 0 corresponds to the lowest priority. Can be overridden per run.
+        public var priority: Swift.Int?
+        /// The retention behavior for runs after completion.
+        public var retentionMode: OmicsClientTypes.RunRetentionMode?
+        /// The IAM role ARN that grants HealthOmics permissions to access required AWS resources such as Amazon S3 and CloudWatch. The role must have the same permissions required for individual StartRun calls.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// The ID of the run group to contain all workflow runs in the batch.
+        public var runGroupId: Swift.String?
+        /// AWS tags to associate with each workflow run. Merged with per-run runTags; run-specific values take precedence when keys overlap.
+        public var runTags: [Swift.String: Swift.String]?
+        /// The filesystem size in gibibytes (GiB) provisioned for each workflow run and shared by all tasks in that run. Defaults to 1200 GiB if not specified.
+        public var storageCapacity: Swift.Int?
+        /// The storage type for the workflow runs.
+        public var storageType: OmicsClientTypes.StorageType?
+        /// The identifier of the workflow to run.
+        /// This member is required.
+        public var workflowId: Swift.String?
+        /// The AWS account ID of the workflow owner, used for cross-account workflow sharing.
+        public var workflowOwnerId: Swift.String?
+        /// The type of the originating workflow. Batch runs are not supported with READY2RUN workflows.
+        public var workflowType: OmicsClientTypes.WorkflowType?
+        /// The version name of the specified workflow.
+        public var workflowVersionName: Swift.String?
+
+        public init(
+            cacheBehavior: OmicsClientTypes.CacheBehavior? = nil,
+            cacheId: Swift.String? = nil,
+            logLevel: OmicsClientTypes.RunLogLevel? = nil,
+            name: Swift.String? = nil,
+            outputBucketOwnerId: Swift.String? = nil,
+            outputUri: Swift.String? = nil,
+            parameters: Smithy.Document? = nil,
+            priority: Swift.Int? = nil,
+            retentionMode: OmicsClientTypes.RunRetentionMode? = nil,
+            roleArn: Swift.String? = nil,
+            runGroupId: Swift.String? = nil,
+            runTags: [Swift.String: Swift.String]? = nil,
+            storageCapacity: Swift.Int? = nil,
+            storageType: OmicsClientTypes.StorageType? = nil,
+            workflowId: Swift.String? = nil,
+            workflowOwnerId: Swift.String? = nil,
+            workflowType: OmicsClientTypes.WorkflowType? = nil,
+            workflowVersionName: Swift.String? = nil
+        ) {
+            self.cacheBehavior = cacheBehavior
+            self.cacheId = cacheId
+            self.logLevel = logLevel
+            self.name = name
+            self.outputBucketOwnerId = outputBucketOwnerId
+            self.outputUri = outputUri
+            self.parameters = parameters
+            self.priority = priority
+            self.retentionMode = retentionMode
+            self.roleArn = roleArn
+            self.runGroupId = runGroupId
+            self.runTags = runTags
+            self.storageCapacity = storageCapacity
+            self.storageType = storageType
+            self.workflowId = workflowId
+            self.workflowOwnerId = workflowOwnerId
+            self.workflowType = workflowType
+            self.workflowVersionName = workflowVersionName
+        }
+    }
+}
+
+extension OmicsClientTypes {
+
     /// Contains detailed information about the source code repository that hosts the workflow definition files.
     public struct DefinitionRepositoryDetails: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the connection to the source code repository.
@@ -3645,6 +4316,18 @@ extension OmicsClientTypes {
             self.providerType = providerType
             self.sourceReference = sourceReference
         }
+    }
+}
+
+public struct DeleteBatchInput: Swift.Sendable {
+    /// The identifier portion of the run batch ARN.
+    /// This member is required.
+    public var batchId: Swift.String?
+
+    public init(
+        batchId: Swift.String? = nil
+    ) {
+        self.batchId = batchId
     }
 }
 
@@ -3697,6 +4380,23 @@ public struct DeleteRunInput: Swift.Sendable {
     ) {
         self.id = id
     }
+}
+
+public struct DeleteRunBatchInput: Swift.Sendable {
+    /// The identifier portion of the run batch ARN.
+    /// This member is required.
+    public var batchId: Swift.String?
+
+    public init(
+        batchId: Swift.String? = nil
+    ) {
+        self.batchId = batchId
+    }
+}
+
+public struct DeleteRunBatchOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DeleteRunCacheInput: Swift.Sendable {
@@ -4190,6 +4890,167 @@ extension OmicsClientTypes {
             self.status = status
             self.type = type
         }
+    }
+}
+
+public struct GetBatchInput: Swift.Sendable {
+    /// The identifier portion of the run batch ARN.
+    /// This member is required.
+    public var batchId: Swift.String?
+
+    public init(
+        batchId: Swift.String? = nil
+    ) {
+        self.batchId = batchId
+    }
+}
+
+extension OmicsClientTypes {
+
+    /// A summary of the runs in a batch.
+    public struct RunSummary: Swift.Sendable {
+        /// The number of cancelled runs.
+        public var cancelledRunCount: Swift.Int?
+        /// The number of completed runs.
+        public var completedRunCount: Swift.Int?
+        /// The number of deleted runs.
+        public var deletedRunCount: Swift.Int?
+        /// The number of failed runs.
+        public var failedRunCount: Swift.Int?
+        /// The number of pending runs.
+        public var pendingRunCount: Swift.Int?
+        /// The number of running runs.
+        public var runningRunCount: Swift.Int?
+        /// The number of starting runs.
+        public var startingRunCount: Swift.Int?
+        /// The number of stopping runs.
+        public var stoppingRunCount: Swift.Int?
+
+        public init(
+            cancelledRunCount: Swift.Int? = nil,
+            completedRunCount: Swift.Int? = nil,
+            deletedRunCount: Swift.Int? = nil,
+            failedRunCount: Swift.Int? = nil,
+            pendingRunCount: Swift.Int? = nil,
+            runningRunCount: Swift.Int? = nil,
+            startingRunCount: Swift.Int? = nil,
+            stoppingRunCount: Swift.Int? = nil
+        ) {
+            self.cancelledRunCount = cancelledRunCount
+            self.completedRunCount = completedRunCount
+            self.deletedRunCount = deletedRunCount
+            self.failedRunCount = failedRunCount
+            self.pendingRunCount = pendingRunCount
+            self.runningRunCount = runningRunCount
+            self.startingRunCount = startingRunCount
+            self.stoppingRunCount = stoppingRunCount
+        }
+    }
+}
+
+extension OmicsClientTypes {
+
+    /// A summary of the submissions in a batch.
+    public struct SubmissionSummary: Swift.Sendable {
+        /// The number of failed cancel submissions.
+        public var failedCancelSubmissionCount: Swift.Int?
+        /// The number of failed delete submissions.
+        public var failedDeleteSubmissionCount: Swift.Int?
+        /// The number of failed start submissions.
+        public var failedStartSubmissionCount: Swift.Int?
+        /// The number of pending start submissions.
+        public var pendingStartSubmissionCount: Swift.Int?
+        /// The number of successful cancel submissions.
+        public var successfulCancelSubmissionCount: Swift.Int?
+        /// The number of successful delete submissions.
+        public var successfulDeleteSubmissionCount: Swift.Int?
+        /// The number of successful start submissions.
+        public var successfulStartSubmissionCount: Swift.Int?
+
+        public init(
+            failedCancelSubmissionCount: Swift.Int? = nil,
+            failedDeleteSubmissionCount: Swift.Int? = nil,
+            failedStartSubmissionCount: Swift.Int? = nil,
+            pendingStartSubmissionCount: Swift.Int? = nil,
+            successfulCancelSubmissionCount: Swift.Int? = nil,
+            successfulDeleteSubmissionCount: Swift.Int? = nil,
+            successfulStartSubmissionCount: Swift.Int? = nil
+        ) {
+            self.failedCancelSubmissionCount = failedCancelSubmissionCount
+            self.failedDeleteSubmissionCount = failedDeleteSubmissionCount
+            self.failedStartSubmissionCount = failedStartSubmissionCount
+            self.pendingStartSubmissionCount = pendingStartSubmissionCount
+            self.successfulCancelSubmissionCount = successfulCancelSubmissionCount
+            self.successfulDeleteSubmissionCount = successfulDeleteSubmissionCount
+            self.successfulStartSubmissionCount = successfulStartSubmissionCount
+        }
+    }
+}
+
+public struct GetBatchOutput: Swift.Sendable {
+    /// The unique ARN of the run batch.
+    public var arn: Swift.String?
+    /// The timestamp when the batch was created.
+    public var creationTime: Foundation.Date?
+    /// The shared configuration applied to all runs in the batch. See DefaultRunSetting.
+    public var defaultRunSetting: OmicsClientTypes.DefaultRunSetting?
+    /// The timestamp when the batch transitioned to a FAILED status.
+    public var failedTime: Foundation.Date?
+    /// A description of the batch failure. Present only when status is FAILED.
+    public var failureReason: Swift.String?
+    /// The identifier portion of the run batch ARN.
+    public var id: Swift.String?
+    /// The optional user-friendly name of the batch.
+    public var name: Swift.String?
+    /// The timestamp when all run executions completed.
+    public var processedTime: Foundation.Date?
+    /// A summary of run execution states. Run execution counts are eventually consistent and may lag behind actual run states. Final counts are accurate once the batch reaches PROCESSED status. See RunSummary.
+    public var runSummary: OmicsClientTypes.RunSummary?
+    /// The current status of the run batch.
+    public var status: OmicsClientTypes.BatchStatus?
+    /// A summary of run submission outcomes. See SubmissionSummary.
+    public var submissionSummary: OmicsClientTypes.SubmissionSummary?
+    /// The timestamp when all run submissions completed.
+    public var submittedTime: Foundation.Date?
+    /// AWS tags associated with the run batch.
+    public var tags: [Swift.String: Swift.String]?
+    /// The total number of runs in the batch.
+    public var totalRuns: Swift.Int?
+    /// The universally unique identifier (UUID) for the run batch.
+    public var uuid: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        defaultRunSetting: OmicsClientTypes.DefaultRunSetting? = nil,
+        failedTime: Foundation.Date? = nil,
+        failureReason: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        processedTime: Foundation.Date? = nil,
+        runSummary: OmicsClientTypes.RunSummary? = nil,
+        status: OmicsClientTypes.BatchStatus? = nil,
+        submissionSummary: OmicsClientTypes.SubmissionSummary? = nil,
+        submittedTime: Foundation.Date? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        totalRuns: Swift.Int? = nil,
+        uuid: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.creationTime = creationTime
+        self.defaultRunSetting = defaultRunSetting
+        self.failedTime = failedTime
+        self.failureReason = failureReason
+        self.id = id
+        self.name = name
+        self.processedTime = processedTime
+        self.runSummary = runSummary
+        self.status = status
+        self.submissionSummary = submissionSummary
+        self.submittedTime = submittedTime
+        self.tags = tags
+        self.totalRuns = totalRuns
+        self.uuid = uuid
     }
 }
 
@@ -5316,41 +6177,6 @@ public struct GetRunInput: Swift.Sendable {
 
 extension OmicsClientTypes {
 
-    public enum RunLogLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case all
-        case error
-        case fatal
-        case off
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [RunLogLevel] {
-            return [
-                .all,
-                .error,
-                .fatal,
-                .off
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .all: return "ALL"
-            case .error: return "ERROR"
-            case .fatal: return "FATAL"
-            case .off: return "OFF"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension OmicsClientTypes {
-
     /// The URI for the run log.
     public struct RunLogLocation: Swift.Sendable {
         /// The log stream ARN for the engine log.
@@ -5370,15 +6196,15 @@ extension OmicsClientTypes {
 
 extension OmicsClientTypes {
 
-    public enum RunRetentionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case remove
-        case retain
+    public enum NetworkingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case restricted
+        case vpc
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [RunRetentionMode] {
+        public static var allCases: [NetworkingMode] {
             return [
-                .remove,
-                .retain
+                .restricted,
+                .vpc
             ]
         }
 
@@ -5389,8 +6215,8 @@ extension OmicsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .remove: return "REMOVE"
-            case .retain: return "RETAIN"
+            case .restricted: return "RESTRICTED"
+            case .vpc: return "VPC"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5444,44 +6270,19 @@ extension OmicsClientTypes {
     }
 }
 
-extension OmicsClientTypes {
-
-    public enum WorkflowType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case `private`
-        case ready2run
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [WorkflowType] {
-            return [
-                .private,
-                .ready2run
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .private: return "PRIVATE"
-            case .ready2run: return "READY2RUN"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
 public struct GetRunOutput: Swift.Sendable {
     /// The computational accelerator used to run the workflow.
     public var accelerators: OmicsClientTypes.Accelerators?
     /// The run's ARN.
     public var arn: Swift.String?
+    /// The run's batch ID.
+    public var batchId: Swift.String?
     /// The run cache behavior for the run.
     public var cacheBehavior: OmicsClientTypes.CacheBehavior?
     /// The run cache associated with the run.
     public var cacheId: Swift.String?
+    /// Configuration details for the workflow run.
+    public var configuration: OmicsClientTypes.ConfigurationDetails?
     /// When the run was created.
     public var creationTime: Foundation.Date?
     /// The run's definition.
@@ -5500,6 +6301,8 @@ public struct GetRunOutput: Swift.Sendable {
     public var logLocation: OmicsClientTypes.RunLogLocation?
     /// The run's name.
     public var name: Swift.String?
+    /// Configuration for run networking behavior. If absent, this will default to RESTRICTED.
+    public var networkingMode: OmicsClientTypes.NetworkingMode?
     /// The run's output URI.
     public var outputUri: Swift.String?
     /// The run's parameters.
@@ -5536,6 +6339,8 @@ public struct GetRunOutput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
     /// The universally unique identifier for a run.
     public var uuid: Swift.String?
+    /// VPC configuration for the workflow run.
+    public var vpcConfig: OmicsClientTypes.VpcConfigResponse?
     /// The run's workflow ID.
     public var workflowId: Swift.String?
     /// The ID of the workflow owner.
@@ -5550,8 +6355,10 @@ public struct GetRunOutput: Swift.Sendable {
     public init(
         accelerators: OmicsClientTypes.Accelerators? = nil,
         arn: Swift.String? = nil,
+        batchId: Swift.String? = nil,
         cacheBehavior: OmicsClientTypes.CacheBehavior? = nil,
         cacheId: Swift.String? = nil,
+        configuration: OmicsClientTypes.ConfigurationDetails? = nil,
         creationTime: Foundation.Date? = nil,
         definition: Swift.String? = nil,
         digest: Swift.String? = nil,
@@ -5561,6 +6368,7 @@ public struct GetRunOutput: Swift.Sendable {
         logLevel: OmicsClientTypes.RunLogLevel? = nil,
         logLocation: OmicsClientTypes.RunLogLocation? = nil,
         name: Swift.String? = nil,
+        networkingMode: OmicsClientTypes.NetworkingMode? = nil,
         outputUri: Swift.String? = nil,
         parameters: Smithy.Document? = nil,
         priority: Swift.Int? = nil,
@@ -5579,6 +6387,7 @@ public struct GetRunOutput: Swift.Sendable {
         storageType: OmicsClientTypes.StorageType? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         uuid: Swift.String? = nil,
+        vpcConfig: OmicsClientTypes.VpcConfigResponse? = nil,
         workflowId: Swift.String? = nil,
         workflowOwnerId: Swift.String? = nil,
         workflowType: OmicsClientTypes.WorkflowType? = nil,
@@ -5587,8 +6396,10 @@ public struct GetRunOutput: Swift.Sendable {
     ) {
         self.accelerators = accelerators
         self.arn = arn
+        self.batchId = batchId
         self.cacheBehavior = cacheBehavior
         self.cacheId = cacheId
+        self.configuration = configuration
         self.creationTime = creationTime
         self.definition = definition
         self.digest = digest
@@ -5598,6 +6409,7 @@ public struct GetRunOutput: Swift.Sendable {
         self.logLevel = logLevel
         self.logLocation = logLocation
         self.name = name
+        self.networkingMode = networkingMode
         self.outputUri = outputUri
         self.parameters = parameters
         self.priority = priority
@@ -5616,6 +6428,7 @@ public struct GetRunOutput: Swift.Sendable {
         self.storageType = storageType
         self.tags = tags
         self.uuid = uuid
+        self.vpcConfig = vpcConfig
         self.workflowId = workflowId
         self.workflowOwnerId = workflowOwnerId
         self.workflowType = workflowType
@@ -6696,6 +7509,48 @@ extension OmicsClientTypes {
     }
 }
 
+public struct ListBatchInput: Swift.Sendable {
+    /// The maximum number of batches to return. If not specified, defaults to 100.
+    public var maxItems: Swift.Int?
+    /// Filter batches by name.
+    public var name: Swift.String?
+    /// Filter batches by run group ID.
+    public var runGroupId: Swift.String?
+    /// A pagination token returned from a prior ListBatch call.
+    public var startingToken: Swift.String?
+    /// Filter batches by status.
+    public var status: OmicsClientTypes.BatchStatus?
+
+    public init(
+        maxItems: Swift.Int? = nil,
+        name: Swift.String? = nil,
+        runGroupId: Swift.String? = nil,
+        startingToken: Swift.String? = nil,
+        status: OmicsClientTypes.BatchStatus? = nil
+    ) {
+        self.maxItems = maxItems
+        self.name = name
+        self.runGroupId = runGroupId
+        self.startingToken = startingToken
+        self.status = status
+    }
+}
+
+public struct ListBatchOutput: Swift.Sendable {
+    /// A list of batch summary objects. See BatchListItem.
+    public var items: [OmicsClientTypes.BatchListItem]?
+    /// A pagination token to retrieve the next page of results. Absent when no further results are available.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [OmicsClientTypes.BatchListItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListMultipartReadSetUploadsInput: Swift.Sendable {
     /// The maximum number of multipart uploads returned in a page.
     public var maxResults: Swift.Int?
@@ -7584,6 +8439,8 @@ public struct ListRunGroupsOutput: Swift.Sendable {
 }
 
 public struct ListRunsInput: Swift.Sendable {
+    /// Filter by batch ID.
+    public var batchId: Swift.String?
     /// The maximum number of runs to return in one page of results.
     public var maxResults: Swift.Int?
     /// Filter the list by run name.
@@ -7596,12 +8453,14 @@ public struct ListRunsInput: Swift.Sendable {
     public var status: OmicsClientTypes.RunStatus?
 
     public init(
+        batchId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         runGroupId: Swift.String? = nil,
         startingToken: Swift.String? = nil,
         status: OmicsClientTypes.RunStatus? = nil
     ) {
+        self.batchId = batchId
         self.maxResults = maxResults
         self.name = name
         self.runGroupId = runGroupId
@@ -7616,6 +8475,8 @@ extension OmicsClientTypes {
     public struct RunListItem: Swift.Sendable {
         /// The run's ARN.
         public var arn: Swift.String?
+        /// The run's batch ID.
+        public var batchId: Swift.String?
         /// When the run was created.
         public var creationTime: Foundation.Date?
         /// The run's ID.
@@ -7641,6 +8502,7 @@ extension OmicsClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            batchId: Swift.String? = nil,
             creationTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -7654,6 +8516,7 @@ extension OmicsClientTypes {
             workflowVersionName: Swift.String? = nil
         ) {
             self.arn = arn
+            self.batchId = batchId
             self.creationTime = creationTime
             self.id = id
             self.name = name
@@ -7681,6 +8544,133 @@ public struct ListRunsOutput: Swift.Sendable {
     ) {
         self.items = items
         self.nextToken = nextToken
+    }
+}
+
+extension OmicsClientTypes {
+
+    public enum SubmissionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelFailed
+        case cancelSuccess
+        case deleteFailed
+        case deleteSuccess
+        case failed
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SubmissionStatus] {
+            return [
+                .cancelFailed,
+                .cancelSuccess,
+                .deleteFailed,
+                .deleteSuccess,
+                .failed,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelFailed: return "CANCEL_FAILED"
+            case .cancelSuccess: return "CANCEL_SUCCESS"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleteSuccess: return "DELETE_SUCCESS"
+            case .failed: return "FAILED"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListRunsInBatchInput: Swift.Sendable {
+    /// The identifier portion of the run batch ARN.
+    /// This member is required.
+    public var batchId: Swift.String?
+    /// The maximum number of runs to return.
+    public var maxItems: Swift.Int?
+    /// Filter runs by the HealthOmics-generated run ID.
+    public var runId: Swift.String?
+    /// Filter runs by the customer-provided run setting ID.
+    public var runSettingId: Swift.String?
+    /// A pagination token returned from a prior ListRunsInBatch call.
+    public var startingToken: Swift.String?
+    /// Filter runs by submission status.
+    public var submissionStatus: OmicsClientTypes.SubmissionStatus?
+
+    public init(
+        batchId: Swift.String? = nil,
+        maxItems: Swift.Int? = nil,
+        runId: Swift.String? = nil,
+        runSettingId: Swift.String? = nil,
+        startingToken: Swift.String? = nil,
+        submissionStatus: OmicsClientTypes.SubmissionStatus? = nil
+    ) {
+        self.batchId = batchId
+        self.maxItems = maxItems
+        self.runId = runId
+        self.runSettingId = runSettingId
+        self.startingToken = startingToken
+        self.submissionStatus = submissionStatus
+    }
+}
+
+extension OmicsClientTypes {
+
+    /// A single run entry returned by ListRunsInBatch.
+    public struct RunBatchListItem: Swift.Sendable {
+        /// The unique ARN of the workflow run.
+        public var runArn: Swift.String?
+        /// The HealthOmics-generated identifier for the workflow run. Empty if submission failed.
+        public var runId: Swift.String?
+        /// The universally unique identifier (UUID) for the run.
+        public var runInternalUuid: Swift.String?
+        /// The customer-provided identifier for the run configuration. Use this to correlate results back to the input configuration provided in inlineSettings or s3UriSettings.
+        public var runSettingId: Swift.String?
+        /// A detailed message describing the submission failure.
+        public var submissionFailureMessage: Swift.String?
+        /// The error category for a failed submission. See the run-level failure table in the HealthOmics User Guide for details on each value.
+        public var submissionFailureReason: Swift.String?
+        /// The submission outcome for this run.
+        public var submissionStatus: OmicsClientTypes.SubmissionStatus?
+
+        public init(
+            runArn: Swift.String? = nil,
+            runId: Swift.String? = nil,
+            runInternalUuid: Swift.String? = nil,
+            runSettingId: Swift.String? = nil,
+            submissionFailureMessage: Swift.String? = nil,
+            submissionFailureReason: Swift.String? = nil,
+            submissionStatus: OmicsClientTypes.SubmissionStatus? = nil
+        ) {
+            self.runArn = runArn
+            self.runId = runId
+            self.runInternalUuid = runInternalUuid
+            self.runSettingId = runSettingId
+            self.submissionFailureMessage = submissionFailureMessage
+            self.submissionFailureReason = submissionFailureReason
+            self.submissionStatus = submissionStatus
+        }
+    }
+}
+
+public struct ListRunsInBatchOutput: Swift.Sendable {
+    /// A pagination token to retrieve the next page of results. Absent when the last run has been returned.
+    public var nextToken: Swift.String?
+    /// A list of run entries in the batch. See RunBatchListItem.
+    public var runs: [OmicsClientTypes.RunBatchListItem]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        runs: [OmicsClientTypes.RunBatchListItem]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.runs = runs
     }
 }
 
@@ -8528,6 +9518,63 @@ public struct StartReferenceImportJobOutput: Swift.Sendable {
     }
 }
 
+public struct StartRunBatchInput: Swift.Sendable {
+    /// An optional user-friendly name for the run batch.
+    public var batchName: Swift.String?
+    /// The individual run configurations. Specify exactly one of inlineSettings or s3UriSettings. See BatchRunSettings.
+    /// This member is required.
+    public var batchRunSettings: OmicsClientTypes.BatchRunSettings?
+    /// Shared configuration applied to all runs in the batch. See DefaultRunSetting.
+    /// This member is required.
+    public var defaultRunSetting: OmicsClientTypes.DefaultRunSetting?
+    /// A client token used to deduplicate retry requests and prevent duplicate batches from being created.
+    /// This member is required.
+    public var requestId: Swift.String?
+    /// AWS tags to associate with the batch resource. These tags are not inherited by individual runs. To tag individual runs, use defaultRunSetting.runTags.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        batchName: Swift.String? = nil,
+        batchRunSettings: OmicsClientTypes.BatchRunSettings? = nil,
+        defaultRunSetting: OmicsClientTypes.DefaultRunSetting? = nil,
+        requestId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.batchName = batchName
+        self.batchRunSettings = batchRunSettings
+        self.defaultRunSetting = defaultRunSetting
+        self.requestId = requestId
+        self.tags = tags
+    }
+}
+
+public struct StartRunBatchOutput: Swift.Sendable {
+    /// The unique ARN of the run batch.
+    public var arn: Swift.String?
+    /// The identifier portion of the run batch ARN.
+    public var id: Swift.String?
+    /// The initial status of the run batch.
+    public var status: OmicsClientTypes.BatchStatus?
+    /// AWS tags associated with the run batch.
+    public var tags: [Swift.String: Swift.String]?
+    /// The universally unique identifier (UUID) for the run batch.
+    public var uuid: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        status: OmicsClientTypes.BatchStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        uuid: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.id = id
+        self.status = status
+        self.tags = tags
+        self.uuid = uuid
+    }
+}
+
 public struct UpdateRunCacheInput: Swift.Sendable {
     /// Update the default run cache behavior.
     public var cacheBehavior: OmicsClientTypes.CacheBehavior?
@@ -8589,10 +9636,14 @@ public struct StartRunInput: Swift.Sendable {
     public var cacheBehavior: OmicsClientTypes.CacheBehavior?
     /// Identifier of the cache associated with this run. If you don't specify a cache ID, no task outputs are cached for this run.
     public var cacheId: Swift.String?
+    /// Optional configuration name to use for the workflow run.
+    public var configurationName: Swift.String?
     /// A log level for the run.
     public var logLevel: OmicsClientTypes.RunLogLevel?
     /// A name for the run. This is recommended to view and organize runs in the Amazon Web Services HealthOmics console and CloudWatch logs.
     public var name: Swift.String?
+    /// Optional configuration for run networking behavior. If not specified, this will default to RESTRICTED.
+    public var networkingMode: OmicsClientTypes.NetworkingMode?
     /// An output S3 URI for the run. The S3 bucket must be in the same region as the workflow. The role ARN must have permission to write to this S3 bucket.
     /// This member is required.
     public var outputUri: Swift.String?
@@ -8630,8 +9681,10 @@ public struct StartRunInput: Swift.Sendable {
     public init(
         cacheBehavior: OmicsClientTypes.CacheBehavior? = nil,
         cacheId: Swift.String? = nil,
+        configurationName: Swift.String? = nil,
         logLevel: OmicsClientTypes.RunLogLevel? = nil,
         name: Swift.String? = nil,
+        networkingMode: OmicsClientTypes.NetworkingMode? = nil,
         outputUri: Swift.String? = nil,
         parameters: Smithy.Document? = nil,
         priority: Swift.Int? = nil,
@@ -8650,8 +9703,10 @@ public struct StartRunInput: Swift.Sendable {
     ) {
         self.cacheBehavior = cacheBehavior
         self.cacheId = cacheId
+        self.configurationName = configurationName
         self.logLevel = logLevel
         self.name = name
+        self.networkingMode = networkingMode
         self.outputUri = outputUri
         self.parameters = parameters
         self.priority = priority
@@ -8673,8 +9728,12 @@ public struct StartRunInput: Swift.Sendable {
 public struct StartRunOutput: Swift.Sendable {
     /// Unique resource identifier for the run.
     public var arn: Swift.String?
+    /// Configuration details for the workflow run.
+    public var configuration: OmicsClientTypes.ConfigurationDetails?
     /// The run's ID.
     public var id: Swift.String?
+    /// Networking mode for the workflow run.
+    public var networkingMode: Swift.String?
     /// The destination for workflow outputs.
     public var runOutputUri: Swift.String?
     /// The run's status.
@@ -8686,14 +9745,18 @@ public struct StartRunOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
+        configuration: OmicsClientTypes.ConfigurationDetails? = nil,
         id: Swift.String? = nil,
+        networkingMode: Swift.String? = nil,
         runOutputUri: Swift.String? = nil,
         status: OmicsClientTypes.RunStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         uuid: Swift.String? = nil
     ) {
         self.arn = arn
+        self.configuration = configuration
         self.id = id
+        self.networkingMode = networkingMode
         self.runOutputUri = runOutputUri
         self.status = status
         self.tags = tags
@@ -9357,6 +10420,13 @@ extension CancelRunInput {
     }
 }
 
+extension CancelRunBatchInput {
+
+    static func urlPathProvider(_ value: CancelRunBatchInput) -> Swift.String? {
+        return "/runBatch/cancel"
+    }
+}
+
 extension CancelVariantImportJobInput {
 
     static func urlPathProvider(_ value: CancelVariantImportJobInput) -> Swift.String? {
@@ -9394,6 +10464,13 @@ extension CreateAnnotationStoreVersionInput {
             return nil
         }
         return "/annotationStore/\(name.urlPercentEncoding())/version"
+    }
+}
+
+extension CreateConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateConfigurationInput) -> Swift.String? {
+        return "/configuration"
     }
 }
 
@@ -9510,6 +10587,26 @@ extension DeleteAnnotationStoreVersionsInput {
     }
 }
 
+extension DeleteBatchInput {
+
+    static func urlPathProvider(_ value: DeleteBatchInput) -> Swift.String? {
+        guard let batchId = value.batchId else {
+            return nil
+        }
+        return "/runBatch/\(batchId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteConfigurationInput) -> Swift.String? {
+        guard let name = value.name else {
+            return nil
+        }
+        return "/configuration/\(name.urlPercentEncoding())"
+    }
+}
+
 extension DeleteReferenceInput {
 
     static func urlPathProvider(_ value: DeleteReferenceInput) -> Swift.String? {
@@ -9540,6 +10637,13 @@ extension DeleteRunInput {
             return nil
         }
         return "/run/\(id.urlPercentEncoding())"
+    }
+}
+
+extension DeleteRunBatchInput {
+
+    static func urlPathProvider(_ value: DeleteRunBatchInput) -> Swift.String? {
+        return "/runBatch/delete"
     }
 }
 
@@ -9668,6 +10772,26 @@ extension GetAnnotationStoreVersionInput {
             return nil
         }
         return "/annotationStore/\(name.urlPercentEncoding())/version/\(versionName.urlPercentEncoding())"
+    }
+}
+
+extension GetBatchInput {
+
+    static func urlPathProvider(_ value: GetBatchInput) -> Swift.String? {
+        guard let batchId = value.batchId else {
+            return nil
+        }
+        return "/runBatch/\(batchId.urlPercentEncoding())"
+    }
+}
+
+extension GetConfigurationInput {
+
+    static func urlPathProvider(_ value: GetConfigurationInput) -> Swift.String? {
+        guard let name = value.name else {
+            return nil
+        }
+        return "/configuration/\(name.urlPercentEncoding())"
     }
 }
 
@@ -10078,6 +11202,64 @@ extension ListAnnotationStoreVersionsInput {
     }
 }
 
+extension ListBatchInput {
+
+    static func urlPathProvider(_ value: ListBatchInput) -> Swift.String? {
+        return "/runBatch"
+    }
+}
+
+extension ListBatchInput {
+
+    static func queryItemProvider(_ value: ListBatchInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let startingToken = value.startingToken {
+            let startingTokenQueryItem = Smithy.URIQueryItem(name: "startingToken".urlPercentEncoding(), value: Swift.String(startingToken).urlPercentEncoding())
+            items.append(startingTokenQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "maxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        if let name = value.name {
+            let nameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            items.append(nameQueryItem)
+        }
+        if let runGroupId = value.runGroupId {
+            let runGroupIdQueryItem = Smithy.URIQueryItem(name: "runGroupId".urlPercentEncoding(), value: Swift.String(runGroupId).urlPercentEncoding())
+            items.append(runGroupIdQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListConfigurationsInput) -> Swift.String? {
+        return "/configuration"
+    }
+}
+
+extension ListConfigurationsInput {
+
+    static func queryItemProvider(_ value: ListConfigurationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let startingToken = value.startingToken {
+            let startingTokenQueryItem = Smithy.URIQueryItem(name: "startingToken".urlPercentEncoding(), value: Swift.String(startingToken).urlPercentEncoding())
+            items.append(startingTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListMultipartReadSetUploadsInput {
 
     static func urlPathProvider(_ value: ListMultipartReadSetUploadsInput) -> Swift.String? {
@@ -10385,6 +11567,10 @@ extension ListRunsInput {
             let nameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
             items.append(nameQueryItem)
         }
+        if let batchId = value.batchId {
+            let batchIdQueryItem = Smithy.URIQueryItem(name: "batchId".urlPercentEncoding(), value: Swift.String(batchId).urlPercentEncoding())
+            items.append(batchIdQueryItem)
+        }
         if let runGroupId = value.runGroupId {
             let runGroupIdQueryItem = Smithy.URIQueryItem(name: "runGroupId".urlPercentEncoding(), value: Swift.String(runGroupId).urlPercentEncoding())
             items.append(runGroupIdQueryItem)
@@ -10392,6 +11578,44 @@ extension ListRunsInput {
         if let status = value.status {
             let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
             items.append(statusQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListRunsInBatchInput {
+
+    static func urlPathProvider(_ value: ListRunsInBatchInput) -> Swift.String? {
+        guard let batchId = value.batchId else {
+            return nil
+        }
+        return "/runBatch/\(batchId.urlPercentEncoding())/run"
+    }
+}
+
+extension ListRunsInBatchInput {
+
+    static func queryItemProvider(_ value: ListRunsInBatchInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let startingToken = value.startingToken {
+            let startingTokenQueryItem = Smithy.URIQueryItem(name: "startingToken".urlPercentEncoding(), value: Swift.String(startingToken).urlPercentEncoding())
+            items.append(startingTokenQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "maxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        if let submissionStatus = value.submissionStatus {
+            let submissionStatusQueryItem = Smithy.URIQueryItem(name: "submissionStatus".urlPercentEncoding(), value: Swift.String(submissionStatus.rawValue).urlPercentEncoding())
+            items.append(submissionStatusQueryItem)
+        }
+        if let runSettingId = value.runSettingId {
+            let runSettingIdQueryItem = Smithy.URIQueryItem(name: "runSettingId".urlPercentEncoding(), value: Swift.String(runSettingId).urlPercentEncoding())
+            items.append(runSettingIdQueryItem)
+        }
+        if let runId = value.runId {
+            let runIdQueryItem = Smithy.URIQueryItem(name: "runId".urlPercentEncoding(), value: Swift.String(runId).urlPercentEncoding())
+            items.append(runIdQueryItem)
         }
         return items
     }
@@ -10658,6 +11882,13 @@ extension StartRunInput {
     }
 }
 
+extension StartRunBatchInput {
+
+    static func urlPathProvider(_ value: StartRunBatchInput) -> Swift.String? {
+        return "/runBatch"
+    }
+}
+
 extension StartVariantImportJobInput {
 
     static func urlPathProvider(_ value: StartVariantImportJobInput) -> Swift.String? {
@@ -10828,6 +12059,14 @@ extension BatchDeleteReadSetInput {
     }
 }
 
+extension CancelRunBatchInput {
+
+    static func write(value: CancelRunBatchInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["batchId"].write(value.batchId)
+    }
+}
+
 extension CompleteMultipartReadSetUploadInput {
 
     static func write(value: CompleteMultipartReadSetUploadInput?, to writer: SmithyJSON.Writer) throws {
@@ -10859,6 +12098,18 @@ extension CreateAnnotationStoreVersionInput {
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["versionName"].write(value.versionName)
         try writer["versionOptions"].write(value.versionOptions, with: OmicsClientTypes.VersionOptions.write(value:to:))
+    }
+}
+
+extension CreateConfigurationInput {
+
+    static func write(value: CreateConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["requestId"].write(value.requestId)
+        try writer["runConfigurations"].write(value.runConfigurations, with: OmicsClientTypes.RunConfigurations.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -11015,6 +12266,14 @@ extension DeleteAnnotationStoreVersionsInput {
     static func write(value: DeleteAnnotationStoreVersionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["versions"].writeList(value.versions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DeleteRunBatchInput {
+
+    static func write(value: DeleteRunBatchInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["batchId"].write(value.batchId)
     }
 }
 
@@ -11212,8 +12471,10 @@ extension StartRunInput {
         guard let value else { return }
         try writer["cacheBehavior"].write(value.cacheBehavior)
         try writer["cacheId"].write(value.cacheId)
+        try writer["configurationName"].write(value.configurationName)
         try writer["logLevel"].write(value.logLevel)
         try writer["name"].write(value.name)
+        try writer["networkingMode"].write(value.networkingMode)
         try writer["outputUri"].write(value.outputUri)
         try writer["parameters"].write(value.parameters)
         try writer["priority"].write(value.priority)
@@ -11229,6 +12490,18 @@ extension StartRunInput {
         try writer["workflowOwnerId"].write(value.workflowOwnerId)
         try writer["workflowType"].write(value.workflowType)
         try writer["workflowVersionName"].write(value.workflowVersionName)
+    }
+}
+
+extension StartRunBatchInput {
+
+    static func write(value: StartRunBatchInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["batchName"].write(value.batchName)
+        try writer["batchRunSettings"].write(value.batchRunSettings, with: OmicsClientTypes.BatchRunSettings.write(value:to:))
+        try writer["defaultRunSetting"].write(value.defaultRunSetting, with: OmicsClientTypes.DefaultRunSetting.write(value:to:))
+        try writer["requestId"].write(value.requestId)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -11387,6 +12660,13 @@ extension CancelRunOutput {
     }
 }
 
+extension CancelRunBatchOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelRunBatchOutput {
+        return CancelRunBatchOutput()
+    }
+}
+
 extension CancelVariantImportJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelVariantImportJobOutput {
@@ -11439,6 +12719,25 @@ extension CreateAnnotationStoreVersionOutput {
         value.storeId = try reader["storeId"].readIfPresent() ?? ""
         value.versionName = try reader["versionName"].readIfPresent() ?? ""
         value.versionOptions = try reader["versionOptions"].readIfPresent(with: OmicsClientTypes.VersionOptions.read(from:))
+        return value
+    }
+}
+
+extension CreateConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateConfigurationOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.description = try reader["description"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.runConfigurations = try reader["runConfigurations"].readIfPresent(with: OmicsClientTypes.RunConfigurationsResponse.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.uuid = try reader["uuid"].readIfPresent()
         return value
     }
 }
@@ -11621,6 +12920,20 @@ extension DeleteAnnotationStoreVersionsOutput {
     }
 }
 
+extension DeleteBatchOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteBatchOutput {
+        return DeleteBatchOutput()
+    }
+}
+
+extension DeleteConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConfigurationOutput {
+        return DeleteConfigurationOutput()
+    }
+}
+
 extension DeleteReferenceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteReferenceOutput {
@@ -11639,6 +12952,13 @@ extension DeleteRunOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRunOutput {
         return DeleteRunOutput()
+    }
+}
+
+extension DeleteRunBatchOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRunBatchOutput {
+        return DeleteRunBatchOutput()
     }
 }
 
@@ -11778,6 +13098,51 @@ extension GetAnnotationStoreVersionOutput {
         value.versionName = try reader["versionName"].readIfPresent() ?? ""
         value.versionOptions = try reader["versionOptions"].readIfPresent(with: OmicsClientTypes.VersionOptions.read(from:))
         value.versionSizeBytes = try reader["versionSizeBytes"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GetBatchOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetBatchOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBatchOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.defaultRunSetting = try reader["defaultRunSetting"].readIfPresent(with: OmicsClientTypes.DefaultRunSetting.read(from:))
+        value.failedTime = try reader["failedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.processedTime = try reader["processedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.runSummary = try reader["runSummary"].readIfPresent(with: OmicsClientTypes.RunSummary.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.submissionSummary = try reader["submissionSummary"].readIfPresent(with: OmicsClientTypes.SubmissionSummary.read(from:))
+        value.submittedTime = try reader["submittedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.totalRuns = try reader["totalRuns"].readIfPresent()
+        value.uuid = try reader["uuid"].readIfPresent()
+        return value
+    }
+}
+
+extension GetConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetConfigurationOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.description = try reader["description"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.runConfigurations = try reader["runConfigurations"].readIfPresent(with: OmicsClientTypes.RunConfigurationsResponse.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.uuid = try reader["uuid"].readIfPresent()
         return value
     }
 }
@@ -11966,8 +13331,10 @@ extension GetRunOutput {
         var value = GetRunOutput()
         value.accelerators = try reader["accelerators"].readIfPresent()
         value.arn = try reader["arn"].readIfPresent()
+        value.batchId = try reader["batchId"].readIfPresent()
         value.cacheBehavior = try reader["cacheBehavior"].readIfPresent()
         value.cacheId = try reader["cacheId"].readIfPresent()
+        value.configuration = try reader["configuration"].readIfPresent(with: OmicsClientTypes.ConfigurationDetails.read(from:))
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.definition = try reader["definition"].readIfPresent()
         value.digest = try reader["digest"].readIfPresent()
@@ -11977,6 +13344,7 @@ extension GetRunOutput {
         value.logLevel = try reader["logLevel"].readIfPresent()
         value.logLocation = try reader["logLocation"].readIfPresent(with: OmicsClientTypes.RunLogLocation.read(from:))
         value.name = try reader["name"].readIfPresent()
+        value.networkingMode = try reader["networkingMode"].readIfPresent()
         value.outputUri = try reader["outputUri"].readIfPresent()
         value.parameters = try reader["parameters"].readIfPresent()
         value.priority = try reader["priority"].readIfPresent()
@@ -11995,6 +13363,7 @@ extension GetRunOutput {
         value.storageType = try reader["storageType"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.uuid = try reader["uuid"].readIfPresent()
+        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: OmicsClientTypes.VpcConfigResponse.read(from:))
         value.workflowId = try reader["workflowId"].readIfPresent()
         value.workflowOwnerId = try reader["workflowOwnerId"].readIfPresent()
         value.workflowType = try reader["workflowType"].readIfPresent()
@@ -12277,6 +13646,32 @@ extension ListAnnotationStoreVersionsOutput {
     }
 }
 
+extension ListBatchOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListBatchOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListBatchOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: OmicsClientTypes.BatchListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListConfigurationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListConfigurationsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: OmicsClientTypes.ConfigurationListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListMultipartReadSetUploadsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMultipartReadSetUploadsOutput {
@@ -12429,6 +13824,19 @@ extension ListRunsOutput {
         var value = ListRunsOutput()
         value.items = try reader["items"].readListIfPresent(memberReadingClosure: OmicsClientTypes.RunListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListRunsInBatchOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRunsInBatchOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRunsInBatchOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.runs = try reader["runs"].readListIfPresent(memberReadingClosure: OmicsClientTypes.RunBatchListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -12633,8 +14041,26 @@ extension StartRunOutput {
         let reader = responseReader
         var value = StartRunOutput()
         value.arn = try reader["arn"].readIfPresent()
+        value.configuration = try reader["configuration"].readIfPresent(with: OmicsClientTypes.ConfigurationDetails.read(from:))
         value.id = try reader["id"].readIfPresent()
+        value.networkingMode = try reader["networkingMode"].readIfPresent()
         value.runOutputUri = try reader["runOutputUri"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.uuid = try reader["uuid"].readIfPresent()
+        return value
+    }
+}
+
+extension StartRunBatchOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartRunBatchOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartRunBatchOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.uuid = try reader["uuid"].readIfPresent()
@@ -12888,6 +14314,27 @@ enum CancelRunOutputError {
     }
 }
 
+enum CancelRunBatchOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CancelVariantImportJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12958,6 +14405,27 @@ enum CreateAnnotationStoreVersionOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -13188,6 +14656,48 @@ enum DeleteAnnotationStoreVersionsOutputError {
     }
 }
 
+enum DeleteBatchOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteReferenceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13229,6 +14739,27 @@ enum DeleteReferenceStoreOutputError {
 }
 
 enum DeleteRunOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteRunBatchOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -13459,6 +14990,46 @@ enum GetAnnotationStoreVersionOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetBatchOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -13916,6 +15487,45 @@ enum ListAnnotationStoreVersionsOutputError {
     }
 }
 
+enum ListBatchOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListMultipartReadSetUploadsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14133,6 +15743,27 @@ enum ListRunGroupsOutputError {
 }
 
 enum ListRunsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRunsInBatchOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -14431,6 +16062,27 @@ enum StartReferenceImportJobOutputError {
 }
 
 enum StartRunOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartRunBatchOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -14936,6 +16588,36 @@ extension OmicsClientTypes.AnnotationStoreVersionItem {
     }
 }
 
+extension OmicsClientTypes.BatchListItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.BatchListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OmicsClientTypes.BatchListItem()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.totalRuns = try reader["totalRuns"].readIfPresent()
+        value.workflowId = try reader["workflowId"].readIfPresent()
+        return value
+    }
+}
+
+extension OmicsClientTypes.BatchRunSettings {
+
+    static func write(value: OmicsClientTypes.BatchRunSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .inlinesettings(inlinesettings):
+                try writer["inlineSettings"].writeList(inlinesettings, memberWritingClosure: OmicsClientTypes.InlineSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .s3urisettings(s3urisettings):
+                try writer["s3UriSettings"].write(s3urisettings)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
 extension OmicsClientTypes.CompleteReadSetUploadPartListItem {
 
     static func write(value: OmicsClientTypes.CompleteReadSetUploadPartListItem?, to writer: SmithyJSON.Writer) throws {
@@ -14943,6 +16625,32 @@ extension OmicsClientTypes.CompleteReadSetUploadPartListItem {
         try writer["checksum"].write(value.checksum)
         try writer["partNumber"].write(value.partNumber)
         try writer["partSource"].write(value.partSource)
+    }
+}
+
+extension OmicsClientTypes.ConfigurationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ConfigurationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OmicsClientTypes.ConfigurationDetails()
+        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.uuid = try reader["uuid"].readIfPresent()
+        return value
+    }
+}
+
+extension OmicsClientTypes.ConfigurationListItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ConfigurationListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OmicsClientTypes.ConfigurationListItem()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
     }
 }
 
@@ -14959,6 +16667,55 @@ extension OmicsClientTypes.ContainerRegistryMap {
         var value = OmicsClientTypes.ContainerRegistryMap()
         value.registryMappings = try reader["registryMappings"].readListIfPresent(memberReadingClosure: OmicsClientTypes.RegistryMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.imageMappings = try reader["imageMappings"].readListIfPresent(memberReadingClosure: OmicsClientTypes.ImageMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OmicsClientTypes.DefaultRunSetting {
+
+    static func write(value: OmicsClientTypes.DefaultRunSetting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cacheBehavior"].write(value.cacheBehavior)
+        try writer["cacheId"].write(value.cacheId)
+        try writer["logLevel"].write(value.logLevel)
+        try writer["name"].write(value.name)
+        try writer["outputBucketOwnerId"].write(value.outputBucketOwnerId)
+        try writer["outputUri"].write(value.outputUri)
+        try writer["parameters"].write(value.parameters)
+        try writer["priority"].write(value.priority)
+        try writer["retentionMode"].write(value.retentionMode)
+        try writer["roleArn"].write(value.roleArn)
+        try writer["runGroupId"].write(value.runGroupId)
+        try writer["runTags"].writeMap(value.runTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["storageCapacity"].write(value.storageCapacity)
+        try writer["storageType"].write(value.storageType)
+        try writer["workflowId"].write(value.workflowId)
+        try writer["workflowOwnerId"].write(value.workflowOwnerId)
+        try writer["workflowType"].write(value.workflowType)
+        try writer["workflowVersionName"].write(value.workflowVersionName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.DefaultRunSetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OmicsClientTypes.DefaultRunSetting()
+        value.workflowId = try reader["workflowId"].readIfPresent() ?? ""
+        value.workflowType = try reader["workflowType"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.cacheId = try reader["cacheId"].readIfPresent()
+        value.cacheBehavior = try reader["cacheBehavior"].readIfPresent()
+        value.runGroupId = try reader["runGroupId"].readIfPresent()
+        value.priority = try reader["priority"].readIfPresent()
+        value.parameters = try reader["parameters"].readIfPresent()
+        value.storageCapacity = try reader["storageCapacity"].readIfPresent()
+        value.outputUri = try reader["outputUri"].readIfPresent()
+        value.logLevel = try reader["logLevel"].readIfPresent()
+        value.runTags = try reader["runTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.retentionMode = try reader["retentionMode"].readIfPresent()
+        value.storageType = try reader["storageType"].readIfPresent()
+        value.workflowOwnerId = try reader["workflowOwnerId"].readIfPresent()
+        value.outputBucketOwnerId = try reader["outputBucketOwnerId"].readIfPresent()
+        value.workflowVersionName = try reader["workflowVersionName"].readIfPresent()
         return value
     }
 }
@@ -15209,6 +16966,20 @@ extension OmicsClientTypes.ImportReferenceSourceItem {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.referenceId = try reader["referenceId"].readIfPresent()
         return value
+    }
+}
+
+extension OmicsClientTypes.InlineSetting {
+
+    static func write(value: OmicsClientTypes.InlineSetting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["outputBucketOwnerId"].write(value.outputBucketOwnerId)
+        try writer["outputUri"].write(value.outputUri)
+        try writer["parameters"].write(value.parameters)
+        try writer["priority"].write(value.priority)
+        try writer["runSettingId"].write(value.runSettingId)
+        try writer["runTags"].writeMap(value.runTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -15513,6 +17284,22 @@ extension OmicsClientTypes.RegistryMapping {
     }
 }
 
+extension OmicsClientTypes.RunBatchListItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.RunBatchListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OmicsClientTypes.RunBatchListItem()
+        value.runSettingId = try reader["runSettingId"].readIfPresent()
+        value.runId = try reader["runId"].readIfPresent()
+        value.runInternalUuid = try reader["runInternalUuid"].readIfPresent()
+        value.runArn = try reader["runArn"].readIfPresent()
+        value.submissionStatus = try reader["submissionStatus"].readIfPresent()
+        value.submissionFailureReason = try reader["submissionFailureReason"].readIfPresent()
+        value.submissionFailureMessage = try reader["submissionFailureMessage"].readIfPresent()
+        return value
+    }
+}
+
 extension OmicsClientTypes.RunCacheListItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.RunCacheListItem {
@@ -15525,6 +17312,24 @@ extension OmicsClientTypes.RunCacheListItem {
         value.id = try reader["id"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension OmicsClientTypes.RunConfigurations {
+
+    static func write(value: OmicsClientTypes.RunConfigurations?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["vpcConfig"].write(value.vpcConfig, with: OmicsClientTypes.VpcConfig.write(value:to:))
+    }
+}
+
+extension OmicsClientTypes.RunConfigurationsResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.RunConfigurationsResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OmicsClientTypes.RunConfigurationsResponse()
+        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: OmicsClientTypes.VpcConfigResponse.read(from:))
         return value
     }
 }
@@ -15555,6 +17360,7 @@ extension OmicsClientTypes.RunListItem {
         value.id = try reader["id"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.workflowId = try reader["workflowId"].readIfPresent()
+        value.batchId = try reader["batchId"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.priority = try reader["priority"].readIfPresent()
         value.storageCapacity = try reader["storageCapacity"].readIfPresent()
@@ -15574,6 +17380,23 @@ extension OmicsClientTypes.RunLogLocation {
         var value = OmicsClientTypes.RunLogLocation()
         value.engineLogStream = try reader["engineLogStream"].readIfPresent()
         value.runLogStream = try reader["runLogStream"].readIfPresent()
+        return value
+    }
+}
+
+extension OmicsClientTypes.RunSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.RunSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OmicsClientTypes.RunSummary()
+        value.pendingRunCount = try reader["pendingRunCount"].readIfPresent()
+        value.startingRunCount = try reader["startingRunCount"].readIfPresent()
+        value.runningRunCount = try reader["runningRunCount"].readIfPresent()
+        value.stoppingRunCount = try reader["stoppingRunCount"].readIfPresent()
+        value.completedRunCount = try reader["completedRunCount"].readIfPresent()
+        value.deletedRunCount = try reader["deletedRunCount"].readIfPresent()
+        value.failedRunCount = try reader["failedRunCount"].readIfPresent()
+        value.cancelledRunCount = try reader["cancelledRunCount"].readIfPresent()
         return value
     }
 }
@@ -15773,6 +17596,22 @@ extension OmicsClientTypes.StoreOptions {
     }
 }
 
+extension OmicsClientTypes.SubmissionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.SubmissionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OmicsClientTypes.SubmissionSummary()
+        value.successfulStartSubmissionCount = try reader["successfulStartSubmissionCount"].readIfPresent()
+        value.failedStartSubmissionCount = try reader["failedStartSubmissionCount"].readIfPresent()
+        value.pendingStartSubmissionCount = try reader["pendingStartSubmissionCount"].readIfPresent()
+        value.successfulCancelSubmissionCount = try reader["successfulCancelSubmissionCount"].readIfPresent()
+        value.failedCancelSubmissionCount = try reader["failedCancelSubmissionCount"].readIfPresent()
+        value.successfulDeleteSubmissionCount = try reader["successfulDeleteSubmissionCount"].readIfPresent()
+        value.failedDeleteSubmissionCount = try reader["failedDeleteSubmissionCount"].readIfPresent()
+        return value
+    }
+}
+
 extension OmicsClientTypes.TaskListItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.TaskListItem {
@@ -15954,6 +17793,27 @@ extension OmicsClientTypes.VersionOptions {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension OmicsClientTypes.VpcConfig {
+
+    static func write(value: OmicsClientTypes.VpcConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension OmicsClientTypes.VpcConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.VpcConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OmicsClientTypes.VpcConfigResponse()
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcId = try reader["vpcId"].readIfPresent()
+        return value
     }
 }
 

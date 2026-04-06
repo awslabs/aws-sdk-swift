@@ -415,6 +415,29 @@ extension MailManagerClientTypes {
     }
 }
 
+/// Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 public struct CreateAddonSubscriptionInput: Swift.Sendable {
     /// The name of the Add On to subscribe to. You can only have one subscription for each Add On name.
     /// This member is required.
@@ -578,29 +601,6 @@ extension MailManagerClientTypes {
             self.createdTimestamp = createdTimestamp
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
         }
-    }
-}
-
-/// Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ThrottlingException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -1316,6 +1316,55 @@ public struct UpdateArchiveOutput: Swift.Sendable {
 
 extension MailManagerClientTypes {
 
+    /// The action to send a bounce response for the email. When executed, this action generates a non-delivery report (bounce) back to the sender.
+    public struct BounceAction: Swift.Sendable {
+        /// A policy that states what to do in the case of failure. The action will fail if there are configuration errors. For example, the caller does not have the permissions to call the SendBounce API.
+        public var actionFailurePolicy: MailManagerClientTypes.ActionFailurePolicy?
+        /// The diagnostic message included in the Diagnostic-Code header of the bounce.
+        /// This member is required.
+        public var diagnosticMessage: Swift.String?
+        /// The human-readable text to include in the bounce message.
+        public var message: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IAM role to use to send the bounce message.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// The sender email address of the bounce message.
+        /// This member is required.
+        public var sender: Swift.String?
+        /// The SMTP reply code for the bounce, as defined by RFC 5321.
+        /// This member is required.
+        public var smtpReplyCode: Swift.String?
+        /// The enhanced status code for the bounce, in the format of x.y.z (e.g. 5.1.1).
+        /// This member is required.
+        public var statusCode: Swift.String?
+
+        public init(
+            actionFailurePolicy: MailManagerClientTypes.ActionFailurePolicy? = nil,
+            diagnosticMessage: Swift.String? = nil,
+            message: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            sender: Swift.String? = nil,
+            smtpReplyCode: Swift.String? = nil,
+            statusCode: Swift.String? = nil
+        ) {
+            self.actionFailurePolicy = actionFailurePolicy
+            self.diagnosticMessage = diagnosticMessage
+            self.message = message
+            self.roleArn = roleArn
+            self.sender = sender
+            self.smtpReplyCode = smtpReplyCode
+            self.statusCode = statusCode
+        }
+    }
+}
+
+extension MailManagerClientTypes.BounceAction: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BounceAction(actionFailurePolicy: \(Swift.String(describing: actionFailurePolicy)), roleArn: \(Swift.String(describing: roleArn)), smtpReplyCode: \(Swift.String(describing: smtpReplyCode)), statusCode: \(Swift.String(describing: statusCode)), diagnosticMessage: \"CONTENT_REDACTED\", message: \"CONTENT_REDACTED\", sender: \"CONTENT_REDACTED\")"}
+}
+
+extension MailManagerClientTypes {
+
     public enum ImportDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case csv
         case json
@@ -1409,12 +1458,58 @@ extension CreateAddressListImportJobOutput: Swift.CustomDebugStringConvertible {
 
 extension MailManagerClientTypes {
 
+    /// The trust store used for mutual TLS authentication. It contains the certificate authority (CA) certificates and optional certificate revocation list (CRL).
+    public struct TrustStore: Swift.Sendable {
+        /// The PEM-encoded certificate authority (CA) certificates bundle for the trust store.
+        /// This member is required.
+        public var caContent: Swift.String?
+        /// The PEM-encoded certificate revocation lists (CRLs) for the trust store. There can be one CRL per certificate authority (CA) in the trust store.
+        public var crlContent: Swift.String?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the trust store contents.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            caContent: Swift.String? = nil,
+            crlContent: Swift.String? = nil,
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.caContent = caContent
+            self.crlContent = crlContent
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
+extension MailManagerClientTypes.TrustStore: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TrustStore(kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), caContent: \"CONTENT_REDACTED\", crlContent: \"CONTENT_REDACTED\")"}
+}
+
+extension MailManagerClientTypes {
+
+    /// The mutual TLS authentication configuration for an ingress endpoint.
+    public struct TlsAuthConfiguration: Swift.Sendable {
+        /// The trust store configuration for mutual TLS authentication.
+        public var trustStore: MailManagerClientTypes.TrustStore?
+
+        public init(
+            trustStore: MailManagerClientTypes.TrustStore? = nil
+        ) {
+            self.trustStore = trustStore
+        }
+    }
+}
+
+extension MailManagerClientTypes {
+
     /// The configuration of the ingress endpoint resource.
     public enum IngressPointConfiguration: Swift.Sendable {
         /// The password of the ingress endpoint resource.
         case smtppassword(Swift.String)
         /// The SecretsManager::Secret ARN of the ingress endpoint resource.
         case secretarn(Swift.String)
+        /// The mutual TLS authentication configuration of the ingress endpoint resource.
+        case tlsauthconfiguration(MailManagerClientTypes.TlsAuthConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1494,14 +1589,48 @@ extension MailManagerClientTypes {
 
 extension MailManagerClientTypes {
 
+    public enum TlsPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fips
+        case `optional`
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TlsPolicy] {
+            return [
+                .fips,
+                .optional,
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fips: return "FIPS"
+            case .optional: return "OPTIONAL"
+            case .required: return "REQUIRED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MailManagerClientTypes {
+
     public enum IngressPointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case auth
+        case mtls
         case `open`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [IngressPointType] {
             return [
                 .auth,
+                .mtls,
                 .open
             ]
         }
@@ -1514,6 +1643,7 @@ extension MailManagerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .auth: return "AUTH"
+            case .mtls: return "MTLS"
             case .open: return "OPEN"
             case let .sdkUnknown(s): return s
             }
@@ -1536,6 +1666,8 @@ public struct CreateIngressPointInput: Swift.Sendable {
     public var ruleSetId: Swift.String?
     /// The tags used to organize, track, or control access for the resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [MailManagerClientTypes.Tag]?
+    /// The Transport Layer Security (TLS) policy for the ingress point. The FIPS value is only valid in US and Canada regions.
+    public var tlsPolicy: MailManagerClientTypes.TlsPolicy?
     /// The identifier of an existing traffic policy that you attach to an ingress endpoint resource.
     /// This member is required.
     public var trafficPolicyId: Swift.String?
@@ -1550,6 +1682,7 @@ public struct CreateIngressPointInput: Swift.Sendable {
         networkConfiguration: MailManagerClientTypes.NetworkConfiguration? = nil,
         ruleSetId: Swift.String? = nil,
         tags: [MailManagerClientTypes.Tag]? = nil,
+        tlsPolicy: MailManagerClientTypes.TlsPolicy? = nil,
         trafficPolicyId: Swift.String? = nil,
         type: MailManagerClientTypes.IngressPointType? = nil
     ) {
@@ -1559,6 +1692,7 @@ public struct CreateIngressPointInput: Swift.Sendable {
         self.networkConfiguration = networkConfiguration
         self.ruleSetId = ruleSetId
         self.tags = tags
+        self.tlsPolicy = tlsPolicy
         self.trafficPolicyId = trafficPolicyId
         self.type = type
     }
@@ -1705,6 +1839,69 @@ extension MailManagerClientTypes {
     public struct DropAction: Swift.Sendable {
 
         public init() { }
+    }
+}
+
+extension MailManagerClientTypes {
+
+    public enum LambdaInvocationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case event
+        case requestResponse
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LambdaInvocationType] {
+            return [
+                .event,
+                .requestResponse
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .event: return "EVENT"
+            case .requestResponse: return "REQUEST_RESPONSE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MailManagerClientTypes {
+
+    /// The action to invoke an Amazon Web Services Lambda function for processing the email.
+    public struct InvokeLambdaAction: Swift.Sendable {
+        /// A policy that states what to do in the case of failure. The action will fail if there are configuration errors. For example, the Amazon Web Services Lambda function no longer exists.
+        public var actionFailurePolicy: MailManagerClientTypes.ActionFailurePolicy?
+        /// The Amazon Resource Name (ARN) of the Lambda function to invoke.
+        /// This member is required.
+        public var functionArn: Swift.String?
+        /// The invocation type of the Lambda function. Use EVENT for asynchronous invocation or REQUEST_RESPONSE for synchronous invocation.
+        /// This member is required.
+        public var invocationType: MailManagerClientTypes.LambdaInvocationType?
+        /// The maximum time in minutes that the email processing can be retried if the Lambda invocation fails. The maximum value is 2160 minutes (36 hours).
+        public var retryTimeMinutes: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the IAM role to use to invoke the Lambda function.
+        /// This member is required.
+        public var roleArn: Swift.String?
+
+        public init(
+            actionFailurePolicy: MailManagerClientTypes.ActionFailurePolicy? = nil,
+            functionArn: Swift.String? = nil,
+            invocationType: MailManagerClientTypes.LambdaInvocationType? = nil,
+            retryTimeMinutes: Swift.Int? = nil,
+            roleArn: Swift.String? = nil
+        ) {
+            self.actionFailurePolicy = actionFailurePolicy
+            self.functionArn = functionArn
+            self.invocationType = invocationType
+            self.retryTimeMinutes = retryTimeMinutes
+            self.roleArn = roleArn
+        }
     }
 }
 
@@ -1949,6 +2146,10 @@ extension MailManagerClientTypes {
         case delivertoqbusiness(MailManagerClientTypes.DeliverToQBusinessAction)
         /// This action publishes the email content to an Amazon SNS topic.
         case publishtosns(MailManagerClientTypes.SnsAction)
+        /// This action sends a bounce response for the email.
+        case bounce(MailManagerClientTypes.BounceAction)
+        /// This action invokes an Amazon Web Services Lambda function to process the email.
+        case invokelambda(MailManagerClientTypes.InvokeLambdaAction)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2436,6 +2637,54 @@ extension MailManagerClientTypes {
 
 extension MailManagerClientTypes {
 
+    /// The client certificate attribute to evaluate in a rule condition. These attributes are extracted from the client certificate presented during mutual TLS authentication.
+    public enum RuleClientCertificateAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cn
+        case sanDirectoryName
+        case sanDnsName
+        case sanIpAddress
+        case sanRegisteredId
+        case sanRfc822Name
+        case sanUniformResourceIdentifier
+        case serialNumber
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuleClientCertificateAttribute] {
+            return [
+                .cn,
+                .sanDirectoryName,
+                .sanDnsName,
+                .sanIpAddress,
+                .sanRegisteredId,
+                .sanRfc822Name,
+                .sanUniformResourceIdentifier,
+                .serialNumber
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cn: return "CN"
+            case .sanDirectoryName: return "SAN_DIRECTORY_NAME"
+            case .sanDnsName: return "SAN_DNS_NAME"
+            case .sanIpAddress: return "SAN_IP_ADDRESS"
+            case .sanRegisteredId: return "SAN_REGISTERED_ID"
+            case .sanRfc822Name: return "SAN_RFC822_NAME"
+            case .sanUniformResourceIdentifier: return "SAN_UNIFORM_RESOURCE_IDENTIFIER"
+            case .serialNumber: return "SERIAL_NUMBER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MailManagerClientTypes {
+
     /// The string to evaluate in a string condition expression.
     public enum RuleStringToEvaluate: Swift.Sendable {
         /// The email attribute to evaluate in a string condition expression.
@@ -2444,6 +2693,8 @@ extension MailManagerClientTypes {
         case mimeheaderattribute(Swift.String)
         /// The Add On ARN and its returned value to evaluate in a string condition expression.
         case analysis(MailManagerClientTypes.Analysis)
+        /// The client certificate attribute to evaluate in a string condition expression.
+        case clientcertificateattribute(MailManagerClientTypes.RuleClientCertificateAttribute)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2510,6 +2761,11 @@ extension MailManagerClientTypes {
             self.values = values
         }
     }
+}
+
+extension MailManagerClientTypes.RuleStringExpression: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RuleStringExpression(operator: \(Swift.String(describing: `operator`)), evaluate: \(Swift.String(describing: evaluate)), values: \"CONTENT_REDACTED\")"}
 }
 
 extension MailManagerClientTypes {
@@ -4092,14 +4348,48 @@ public struct GetArchiveSearchResultsOutput: Swift.Sendable {
     }
 }
 
+extension MailManagerClientTypes {
+
+    /// Specifies whether to include trust store contents in the GetIngressPoint response.
+    public enum TrustStoreResponseOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exclude
+        case include
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrustStoreResponseOption] {
+            return [
+                .exclude,
+                .include
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exclude: return "EXCLUDE"
+            case .include: return "INCLUDE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetIngressPointInput: Swift.Sendable {
+    /// Whether to include the trust store contents in the response. Use INCLUDE to retrieve trust store certificate and CRL contents.
+    public var includeTrustStoreContents: MailManagerClientTypes.TrustStoreResponseOption?
     /// The identifier of an ingress endpoint.
     /// This member is required.
     public var ingressPointId: Swift.String?
 
     public init(
+        includeTrustStoreContents: MailManagerClientTypes.TrustStoreResponseOption? = nil,
         ingressPointId: Swift.String? = nil
     ) {
+        self.includeTrustStoreContents = includeTrustStoreContents
         self.ingressPointId = ingressPointId
     }
 }
@@ -4135,13 +4425,17 @@ extension MailManagerClientTypes {
         public var ingressPointPasswordConfiguration: MailManagerClientTypes.IngressPointPasswordConfiguration?
         /// The ingress endpoint SecretsManager::Secret ARN configuration for the ingress endpoint resource.
         public var secretArn: Swift.String?
+        /// The mutual TLS authentication configuration for the ingress endpoint resource.
+        public var tlsAuthConfiguration: MailManagerClientTypes.TlsAuthConfiguration?
 
         public init(
             ingressPointPasswordConfiguration: MailManagerClientTypes.IngressPointPasswordConfiguration? = nil,
-            secretArn: Swift.String? = nil
+            secretArn: Swift.String? = nil,
+            tlsAuthConfiguration: MailManagerClientTypes.TlsAuthConfiguration? = nil
         ) {
             self.ingressPointPasswordConfiguration = ingressPointPasswordConfiguration
             self.secretArn = secretArn
+            self.tlsAuthConfiguration = tlsAuthConfiguration
         }
     }
 }
@@ -4150,6 +4444,7 @@ extension MailManagerClientTypes {
 
     public enum IngressPointStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
+        case associatedVpcEndpointDoesNotExist
         case closed
         case deprovisioning
         case failed
@@ -4160,6 +4455,7 @@ extension MailManagerClientTypes {
         public static var allCases: [IngressPointStatus] {
             return [
                 .active,
+                .associatedVpcEndpointDoesNotExist,
                 .closed,
                 .deprovisioning,
                 .failed,
@@ -4176,6 +4472,7 @@ extension MailManagerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .active: return "ACTIVE"
+            case .associatedVpcEndpointDoesNotExist: return "ASSOCIATED_VPC_ENDPOINT_DOES_NOT_EXIST"
             case .closed: return "CLOSED"
             case .deprovisioning: return "DEPROVISIONING"
             case .failed: return "FAILED"
@@ -4210,6 +4507,8 @@ public struct GetIngressPointOutput: Swift.Sendable {
     public var ruleSetId: Swift.String?
     /// The status of the ingress endpoint resource.
     public var status: MailManagerClientTypes.IngressPointStatus?
+    /// The selected Transport Layer Security (TLS) policy of the ingress point.
+    public var tlsPolicy: MailManagerClientTypes.TlsPolicy?
     /// The identifier of the traffic policy resource associated with the ingress endpoint.
     public var trafficPolicyId: Swift.String?
     /// The type of ingress endpoint.
@@ -4226,6 +4525,7 @@ public struct GetIngressPointOutput: Swift.Sendable {
         networkConfiguration: MailManagerClientTypes.NetworkConfiguration? = nil,
         ruleSetId: Swift.String? = nil,
         status: MailManagerClientTypes.IngressPointStatus? = nil,
+        tlsPolicy: MailManagerClientTypes.TlsPolicy? = nil,
         trafficPolicyId: Swift.String? = nil,
         type: MailManagerClientTypes.IngressPointType? = nil
     ) {
@@ -4239,6 +4539,7 @@ public struct GetIngressPointOutput: Swift.Sendable {
         self.networkConfiguration = networkConfiguration
         self.ruleSetId = ruleSetId
         self.status = status
+        self.tlsPolicy = tlsPolicy
         self.trafficPolicyId = trafficPolicyId
         self.type = type
     }
@@ -4619,6 +4920,8 @@ public struct UpdateIngressPointInput: Swift.Sendable {
     public var ruleSetId: Swift.String?
     /// The update status of an ingress endpoint.
     public var statusToUpdate: MailManagerClientTypes.IngressPointStatusToUpdate?
+    /// The Transport Layer Security (TLS) policy for the ingress point. Valid values are REQUIRED, OPTIONAL. Only ingress endpoints using REQUIRED or OPTIONAL as TlsPolicy can be updated.
+    public var tlsPolicy: MailManagerClientTypes.TlsPolicy?
     /// The identifier of an existing traffic policy that you attach to an ingress endpoint resource.
     public var trafficPolicyId: Swift.String?
 
@@ -4628,6 +4931,7 @@ public struct UpdateIngressPointInput: Swift.Sendable {
         ingressPointName: Swift.String? = nil,
         ruleSetId: Swift.String? = nil,
         statusToUpdate: MailManagerClientTypes.IngressPointStatusToUpdate? = nil,
+        tlsPolicy: MailManagerClientTypes.TlsPolicy? = nil,
         trafficPolicyId: Swift.String? = nil
     ) {
         self.ingressPointConfiguration = ingressPointConfiguration
@@ -4635,6 +4939,7 @@ public struct UpdateIngressPointInput: Swift.Sendable {
         self.ingressPointName = ingressPointName
         self.ruleSetId = ruleSetId
         self.statusToUpdate = statusToUpdate
+        self.tlsPolicy = tlsPolicy
         self.trafficPolicyId = trafficPolicyId
     }
 }
@@ -5840,6 +6145,7 @@ extension CreateIngressPointInput {
         try writer["NetworkConfiguration"].write(value.networkConfiguration, with: MailManagerClientTypes.NetworkConfiguration.write(value:to:))
         try writer["RuleSetId"].write(value.ruleSetId)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: MailManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TlsPolicy"].write(value.tlsPolicy)
         try writer["TrafficPolicyId"].write(value.trafficPolicyId)
         try writer["Type"].write(value.type)
     }
@@ -6039,6 +6345,7 @@ extension GetIngressPointInput {
 
     static func write(value: GetIngressPointInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["IncludeTrustStoreContents"].write(value.includeTrustStoreContents)
         try writer["IngressPointId"].write(value.ingressPointId)
     }
 }
@@ -6301,6 +6608,7 @@ extension UpdateIngressPointInput {
         try writer["IngressPointName"].write(value.ingressPointName)
         try writer["RuleSetId"].write(value.ruleSetId)
         try writer["StatusToUpdate"].write(value.statusToUpdate)
+        try writer["TlsPolicy"].write(value.tlsPolicy)
         try writer["TrafficPolicyId"].write(value.trafficPolicyId)
     }
 }
@@ -6688,6 +6996,7 @@ extension GetIngressPointOutput {
         value.networkConfiguration = try reader["NetworkConfiguration"].readIfPresent(with: MailManagerClientTypes.NetworkConfiguration.read(from:))
         value.ruleSetId = try reader["RuleSetId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        value.tlsPolicy = try reader["TlsPolicy"].readIfPresent()
         value.trafficPolicyId = try reader["TrafficPolicyId"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
         return value
@@ -7065,6 +7374,7 @@ enum CreateAddonSubscriptionOutputError {
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -7229,6 +7539,7 @@ enum DeleteAddressListOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -7323,6 +7634,7 @@ enum DeregisterMemberFromAddressListOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -7778,6 +8090,7 @@ enum RegisterMemberToAddressListOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -8061,11 +8374,11 @@ extension ValidationException {
     }
 }
 
-extension AccessDeniedException {
+extension ThrottlingException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8074,11 +8387,11 @@ extension AccessDeniedException {
     }
 }
 
-extension ThrottlingException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8350,6 +8663,33 @@ extension MailManagerClientTypes.ArchiveStringToEvaluate {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension MailManagerClientTypes.BounceAction {
+
+    static func write(value: MailManagerClientTypes.BounceAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionFailurePolicy"].write(value.actionFailurePolicy)
+        try writer["DiagnosticMessage"].write(value.diagnosticMessage)
+        try writer["Message"].write(value.message)
+        try writer["RoleArn"].write(value.roleArn)
+        try writer["Sender"].write(value.sender)
+        try writer["SmtpReplyCode"].write(value.smtpReplyCode)
+        try writer["StatusCode"].write(value.statusCode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.BounceAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.BounceAction()
+        value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.sender = try reader["Sender"].readIfPresent() ?? ""
+        value.statusCode = try reader["StatusCode"].readIfPresent() ?? ""
+        value.smtpReplyCode = try reader["SmtpReplyCode"].readIfPresent() ?? ""
+        value.diagnosticMessage = try reader["DiagnosticMessage"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent()
+        return value
     }
 }
 
@@ -8688,6 +9028,7 @@ extension MailManagerClientTypes.IngressPointAuthConfiguration {
         var value = MailManagerClientTypes.IngressPointAuthConfiguration()
         value.ingressPointPasswordConfiguration = try reader["IngressPointPasswordConfiguration"].readIfPresent(with: MailManagerClientTypes.IngressPointPasswordConfiguration.read(from:))
         value.secretArn = try reader["SecretArn"].readIfPresent()
+        value.tlsAuthConfiguration = try reader["TlsAuthConfiguration"].readIfPresent(with: MailManagerClientTypes.TlsAuthConfiguration.read(from:))
         return value
     }
 }
@@ -8701,6 +9042,8 @@ extension MailManagerClientTypes.IngressPointConfiguration {
                 try writer["SecretArn"].write(secretarn)
             case let .smtppassword(smtppassword):
                 try writer["SmtpPassword"].write(smtppassword)
+            case let .tlsauthconfiguration(tlsauthconfiguration):
+                try writer["TlsAuthConfiguration"].write(tlsauthconfiguration, with: MailManagerClientTypes.TlsAuthConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -8806,6 +9149,29 @@ extension MailManagerClientTypes.IngressTlsProtocolToEvaluate {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension MailManagerClientTypes.InvokeLambdaAction {
+
+    static func write(value: MailManagerClientTypes.InvokeLambdaAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionFailurePolicy"].write(value.actionFailurePolicy)
+        try writer["FunctionArn"].write(value.functionArn)
+        try writer["InvocationType"].write(value.invocationType)
+        try writer["RetryTimeMinutes"].write(value.retryTimeMinutes)
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.InvokeLambdaAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.InvokeLambdaAction()
+        value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
+        value.functionArn = try reader["FunctionArn"].readIfPresent() ?? ""
+        value.invocationType = try reader["InvocationType"].readIfPresent() ?? .sdkUnknown("")
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.retryTimeMinutes = try reader["RetryTimeMinutes"].readIfPresent()
+        return value
     }
 }
 
@@ -9103,12 +9469,16 @@ extension MailManagerClientTypes.RuleAction {
                 try writer["AddHeader"].write(addheader, with: MailManagerClientTypes.AddHeaderAction.write(value:to:))
             case let .archive(archive):
                 try writer["Archive"].write(archive, with: MailManagerClientTypes.ArchiveAction.write(value:to:))
+            case let .bounce(bounce):
+                try writer["Bounce"].write(bounce, with: MailManagerClientTypes.BounceAction.write(value:to:))
             case let .delivertomailbox(delivertomailbox):
                 try writer["DeliverToMailbox"].write(delivertomailbox, with: MailManagerClientTypes.DeliverToMailboxAction.write(value:to:))
             case let .delivertoqbusiness(delivertoqbusiness):
                 try writer["DeliverToQBusiness"].write(delivertoqbusiness, with: MailManagerClientTypes.DeliverToQBusinessAction.write(value:to:))
             case let .drop(drop):
                 try writer["Drop"].write(drop, with: MailManagerClientTypes.DropAction.write(value:to:))
+            case let .invokelambda(invokelambda):
+                try writer["InvokeLambda"].write(invokelambda, with: MailManagerClientTypes.InvokeLambdaAction.write(value:to:))
             case let .publishtosns(publishtosns):
                 try writer["PublishToSns"].write(publishtosns, with: MailManagerClientTypes.SnsAction.write(value:to:))
             case let .relay(relay):
@@ -9148,6 +9518,10 @@ extension MailManagerClientTypes.RuleAction {
                 return .delivertoqbusiness(try reader["DeliverToQBusiness"].read(with: MailManagerClientTypes.DeliverToQBusinessAction.read(from:)))
             case "PublishToSns":
                 return .publishtosns(try reader["PublishToSns"].read(with: MailManagerClientTypes.SnsAction.read(from:)))
+            case "Bounce":
+                return .bounce(try reader["Bounce"].read(with: MailManagerClientTypes.BounceAction.read(from:)))
+            case "InvokeLambda":
+                return .invokelambda(try reader["InvokeLambda"].read(with: MailManagerClientTypes.InvokeLambdaAction.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -9407,6 +9781,8 @@ extension MailManagerClientTypes.RuleStringToEvaluate {
                 try writer["Analysis"].write(analysis, with: MailManagerClientTypes.Analysis.write(value:to:))
             case let .attribute(attribute):
                 try writer["Attribute"].write(attribute)
+            case let .clientcertificateattribute(clientcertificateattribute):
+                try writer["ClientCertificateAttribute"].write(clientcertificateattribute)
             case let .mimeheaderattribute(mimeheaderattribute):
                 try writer["MimeHeaderAttribute"].write(mimeheaderattribute)
             case let .sdkUnknown(sdkUnknown):
@@ -9424,6 +9800,8 @@ extension MailManagerClientTypes.RuleStringToEvaluate {
                 return .mimeheaderattribute(try reader["MimeHeaderAttribute"].read())
             case "Analysis":
                 return .analysis(try reader["Analysis"].read(with: MailManagerClientTypes.Analysis.read(from:)))
+            case "ClientCertificateAttribute":
+                return .clientcertificateattribute(try reader["ClientCertificateAttribute"].read())
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -9607,6 +9985,21 @@ extension MailManagerClientTypes.Tag {
     }
 }
 
+extension MailManagerClientTypes.TlsAuthConfiguration {
+
+    static func write(value: MailManagerClientTypes.TlsAuthConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TrustStore"].write(value.trustStore, with: MailManagerClientTypes.TrustStore.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.TlsAuthConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.TlsAuthConfiguration()
+        value.trustStore = try reader["TrustStore"].readIfPresent(with: MailManagerClientTypes.TrustStore.read(from:))
+        return value
+    }
+}
+
 extension MailManagerClientTypes.TrafficPolicy {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.TrafficPolicy {
@@ -9615,6 +10008,25 @@ extension MailManagerClientTypes.TrafficPolicy {
         value.trafficPolicyName = try reader["TrafficPolicyName"].readIfPresent() ?? ""
         value.trafficPolicyId = try reader["TrafficPolicyId"].readIfPresent() ?? ""
         value.defaultAction = try reader["DefaultAction"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension MailManagerClientTypes.TrustStore {
+
+    static func write(value: MailManagerClientTypes.TrustStore?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CAContent"].write(value.caContent)
+        try writer["CrlContent"].write(value.crlContent)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.TrustStore {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.TrustStore()
+        value.caContent = try reader["CAContent"].readIfPresent() ?? ""
+        value.crlContent = try reader["CrlContent"].readIfPresent()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
         return value
     }
 }

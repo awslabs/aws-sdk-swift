@@ -51,7 +51,7 @@ extension OpenSearchServerlessClientTypes {
     }
 }
 
-/// When creating a resource, thrown when a resource with the same name already exists or is being created.
+/// When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE, FAILED, or UPDATE_FAILED state.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -563,6 +563,10 @@ extension OpenSearchServerlessClientTypes {
         case deleting
         /// Collection resource create or delete failed
         case failed
+        /// Collection resource update failed
+        case updateFailed
+        /// Updating collection resource
+        case updating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CollectionStatus] {
@@ -570,7 +574,9 @@ extension OpenSearchServerlessClientTypes {
                 .active,
                 .creating,
                 .deleting,
-                .failed
+                .failed,
+                .updateFailed,
+                .updating
             ]
         }
 
@@ -585,6 +591,8 @@ extension OpenSearchServerlessClientTypes {
             case .creating: return "CREATING"
             case .deleting: return "DELETING"
             case .failed: return "FAILED"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1673,15 +1681,19 @@ public struct UpdateCollectionInput: Swift.Sendable {
     /// The unique identifier of the collection.
     /// This member is required.
     public var id: Swift.String?
+    /// Configuration options for vector search capabilities in the collection.
+    public var vectorOptions: OpenSearchServerlessClientTypes.VectorOptions?
 
     public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
-        id: Swift.String? = nil
+        id: Swift.String? = nil,
+        vectorOptions: OpenSearchServerlessClientTypes.VectorOptions? = nil
     ) {
         self.clientToken = clientToken
         self.description = description
         self.id = id
+        self.vectorOptions = vectorOptions
     }
 }
 
@@ -1705,6 +1717,8 @@ extension OpenSearchServerlessClientTypes {
         public var status: OpenSearchServerlessClientTypes.CollectionStatus?
         /// The collection type.
         public var type: OpenSearchServerlessClientTypes.CollectionType?
+        /// Configuration options for vector search capabilities in the collection.
+        public var vectorOptions: OpenSearchServerlessClientTypes.VectorOptions?
 
         public init(
             arn: Swift.String? = nil,
@@ -1714,7 +1728,8 @@ extension OpenSearchServerlessClientTypes {
             lastModifiedDate: Swift.Int? = nil,
             name: Swift.String? = nil,
             status: OpenSearchServerlessClientTypes.CollectionStatus? = nil,
-            type: OpenSearchServerlessClientTypes.CollectionType? = nil
+            type: OpenSearchServerlessClientTypes.CollectionType? = nil,
+            vectorOptions: OpenSearchServerlessClientTypes.VectorOptions? = nil
         ) {
             self.arn = arn
             self.createdDate = createdDate
@@ -1724,6 +1739,7 @@ extension OpenSearchServerlessClientTypes {
             self.name = name
             self.status = status
             self.type = type
+            self.vectorOptions = vectorOptions
         }
     }
 }
@@ -4212,6 +4228,7 @@ extension UpdateCollectionInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
         try writer["id"].write(value.id)
+        try writer["vectorOptions"].write(value.vectorOptions, with: OpenSearchServerlessClientTypes.VectorOptions.write(value:to:))
     }
 }
 
@@ -6206,6 +6223,7 @@ extension OpenSearchServerlessClientTypes.UpdateCollectionDetail {
         value.status = try reader["status"].readIfPresent()
         value.type = try reader["type"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
+        value.vectorOptions = try reader["vectorOptions"].readIfPresent(with: OpenSearchServerlessClientTypes.VectorOptions.read(from:))
         value.arn = try reader["arn"].readIfPresent()
         value.createdDate = try reader["createdDate"].readIfPresent()
         value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()

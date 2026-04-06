@@ -160,7 +160,7 @@ extension BackupClientTypes {
 
     /// The backup options for each resource type.
     public struct AdvancedBackupSetting: Swift.Sendable {
-        /// Specifies the backup option for a selected resource. This option is available for Windows VSS backup jobs and S3 backups. Valid values: Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a Windows VSS backup. Set to "WindowsVSS":"disabled" to create a regular backup. The WindowsVSS option is not enabled by default. For S3 backups, set to "S3BackupACLs":"disabled" to exclude ACLs from the backup, or "S3BackupObjectTags":"disabled" to exclude object tags from the backup. By default, both ACLs and object tags are included in S3 backups. If you specify an invalid option, you get an InvalidParameterValueException exception. For more information about Windows VSS backups, see [Creating a VSS-Enabled Windows Backup](https://docs.aws.amazon.com/aws-backup/latest/devguide/windows-backups.html).
+        /// Specifies the backup option for a selected resource. This option is available for Windows VSS backup jobs and S3 backups. Valid values: Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a Windows VSS backup. Set to "WindowsVSS":"disabled" to create a regular backup. The WindowsVSS option is not enabled by default. For S3 backups, set to "BackupACLs":"disabled" to exclude ACLs from the backup, or "BackupObjectTags":"disabled" to exclude object tags from the backup. By default, both ACLs and object tags are included in S3 backups. If you specify an invalid option, you get an InvalidParameterValueException exception. For more information about Windows VSS backups, see [Creating a VSS-Enabled Windows Backup](https://docs.aws.amazon.com/aws-backup/latest/devguide/windows-backups.html).
         public var backupOptions: [Swift.String: Swift.String]?
         /// Specifies an object containing resource type and backup options. The only supported resource type is Amazon EC2 instances with Windows Volume Shadow Copy Service (VSS). For a CloudFormation example, see the [sample CloudFormation template to enable Windows VSS](https://docs.aws.amazon.com/aws-backup/latest/devguide/integrate-cloudformation-with-aws-backup.html) in the Backup User Guide. Valid values: EC2.
         public var resourceType: Swift.String?
@@ -659,6 +659,8 @@ extension BackupClientTypes {
         /// * Amazon EC2 and Amazon EBS show volume size (provisioned storage) returned as part of this value. Amazon EBS does not return backup size information; snapshot size will have the same value as the original resource that was backed up.
         ///
         /// * For Amazon EFS, this value refers to the delta bytes transferred during a backup.
+        ///
+        /// * For Amazon EKS, this value refers to the size of your nested EKS recovery point.
         ///
         /// * Amazon FSx does not populate this value from the operation GetBackupJobStatus for FSx file systems.
         ///
@@ -1403,7 +1405,7 @@ extension BackupClientTypes {
         public var listOfTags: [BackupClientTypes.Condition]?
         /// The Amazon Resource Names (ARNs) of the resources to exclude from a backup plan. The maximum number of ARNs is 500 without wildcards, or 30 ARNs with wildcards. If you need to exclude many resources from a backup plan, consider a different resource selection strategy, such as assigning only one or a few resource types or refining your resource selection using tags.
         public var notResources: [Swift.String]?
-        /// The Amazon Resource Names (ARNs) of the resources to assign to a backup plan. The maximum number of ARNs is 500 without wildcards, or 30 ARNs with wildcards. If you need to assign many resources to a backup plan, consider a different resource selection strategy, such as assigning all resources of a resource type or refining your resource selection using tags. If you specify multiple ARNs, the resources much match any of the ARNs (OR logic).
+        /// The Amazon Resource Names (ARNs) of the resources to assign to a backup plan. The maximum number of ARNs is 500 without wildcards, or 30 ARNs with wildcards. If you need to assign many resources to a backup plan, consider a different resource selection strategy, such as assigning all resources of a resource type or refining your resource selection using tags. If you specify multiple ARNs, the resources much match any of the ARNs (OR logic). When using wildcards in ARN patterns for backup selections, the asterisk (*) must appear at the end of the ARN string (prefix pattern). For example, arn:aws:s3:::my-bucket-* is valid, but arn:aws:s3:::*-logs is not supported.
         public var resources: [Swift.String]?
         /// The display name of a resource selection document. Must contain 1 to 50 alphanumeric or '-_.' characters.
         /// This member is required.
@@ -3421,6 +3423,8 @@ public struct DescribeBackupJobOutput: Swift.Sendable {
     ///
     /// * For Amazon EFS, this value refers to the delta bytes transferred during a backup.
     ///
+    /// * For Amazon EKS, this value refers to the size of your nested EKS recovery point.
+    ///
     /// * Amazon FSx does not populate this value from the operation GetBackupJobStatus for FSx file systems.
     ///
     /// * An Amazon RDS instance will show as 0.
@@ -3796,8 +3800,14 @@ public struct DescribeGlobalSettingsInput: Swift.Sendable {
 
 public struct DescribeGlobalSettingsOutput: Swift.Sendable {
     /// The status of the flags isCrossAccountBackupEnabled, isMpaEnabled ('Mpa' refers to multi-party approval), and isDelegatedAdministratorEnabled.
+    ///
+    /// * isCrossAccountBackupEnabled: Allow accounts in your organization to copy backups to other accounts.
+    ///
+    /// * isMpaEnabled: Add cross-account access to your organization with the option to assign a Multi-party approval team to a logically air-gapped vault.
+    ///
+    /// * isDelegatedAdministratorEnabled: Allow Backup to automatically synchronize delegated administrator permissions with Organizations.
     public var globalSettings: [Swift.String: Swift.String]?
-    /// The date and time that the flag isCrossAccountBackupEnabled was last updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+    /// The date and time that the supported flags were last updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var lastUpdateTime: Foundation.Date?
 
     public init(
@@ -5636,6 +5646,8 @@ public struct GetSupportedResourceTypesOutput: Swift.Sendable {
     ///
     /// * EFS for Amazon Elastic File System
     ///
+    /// * EKS for Amazon Elastic Kubernetes Service
+    ///
     /// * FSx for Amazon FSx
     ///
     /// * Neptune for Amazon Neptune
@@ -5761,6 +5773,8 @@ public struct ListBackupJobsInput: Swift.Sendable {
     /// * EC2 for Amazon Elastic Compute Cloud
     ///
     /// * EFS for Amazon Elastic File System
+    ///
+    /// * EKS for Amazon Elastic Kubernetes Service
     ///
     /// * FSx for Amazon FSx
     ///
@@ -6105,6 +6119,8 @@ public struct ListCopyJobsInput: Swift.Sendable {
     /// * EC2 for Amazon Elastic Compute Cloud
     ///
     /// * EFS for Amazon Elastic File System
+    ///
+    /// * EKS for Amazon Elastic Kubernetes Service
     ///
     /// * FSx for Amazon FSx
     ///
@@ -6621,6 +6637,8 @@ public struct ListRecoveryPointsByBackupVaultInput: Swift.Sendable {
     /// * EC2 for Amazon Elastic Compute Cloud
     ///
     /// * EFS for Amazon Elastic File System
+    ///
+    /// * EKS for Amazon Elastic Kubernetes Service
     ///
     /// * FSx for Amazon FSx
     ///
@@ -7210,6 +7228,8 @@ public struct ListRestoreJobsInput: Swift.Sendable {
     /// * EC2 for Amazon Elastic Compute Cloud
     ///
     /// * EFS for Amazon Elastic File System
+    ///
+    /// * EKS for Amazon Elastic Kubernetes Service
     ///
     /// * FSx for Amazon FSx
     ///
@@ -8209,7 +8229,7 @@ public struct PutBackupVaultLockConfigurationInput: Swift.Sendable {
     /// The Backup Vault Lock configuration that specifies the name of the backup vault it protects.
     /// This member is required.
     public var backupVaultName: Swift.String?
-    /// The Backup Vault Lock configuration that specifies the number of days before the lock date. For example, setting ChangeableForDays to 30 on Jan. 1, 2022 at 8pm UTC will set the lock date to Jan. 31, 2022 at 8pm UTC. Backup enforces a 72-hour cooling-off period before Vault Lock takes effect and becomes immutable. Therefore, you must set ChangeableForDays to 3 or greater. Before the lock date, you can delete Vault Lock from the vault using DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using PutBackupVaultLockConfiguration. On and after the lock date, the Vault Lock becomes immutable and cannot be changed or deleted. If this parameter is not specified, you can delete Vault Lock from the vault using DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using PutBackupVaultLockConfiguration at any time.
+    /// The Backup Vault Lock configuration that specifies the number of days before the lock date. For example, setting ChangeableForDays to 30 on Jan. 1, 2022 at 8pm UTC will set the lock date to Jan. 31, 2022 at 8pm UTC. Backup enforces a 72-hour cooling-off period before Vault Lock takes effect and becomes immutable. Therefore, you must set ChangeableForDays to 3 or greater. The maximum value you can specify is 36,500 days (approximately 100 years). Before the lock date, you can delete Vault Lock from the vault using DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using PutBackupVaultLockConfiguration. On and after the lock date, the Vault Lock becomes immutable and cannot be changed or deleted. If this parameter is not specified, you can delete Vault Lock from the vault using DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using PutBackupVaultLockConfiguration at any time.
     public var changeableForDays: Swift.Int?
     /// The Backup Vault Lock configuration that specifies the maximum retention period that the vault retains its recovery points. This setting can be useful if, for example, your organization's policies require you to destroy certain data after retaining it for four years (1460 days). If this parameter is not included, Vault Lock does not enforce a maximum retention period on the recovery points in the vault. If this parameter is included without a value, Vault Lock will not enforce a maximum retention period. If this parameter is specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or shorter than the maximum retention period. If the job's retention period is longer than that maximum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault. The longest maximum retention period you can specify is 36500 days (approximately 100 years). Recovery points already saved in the vault prior to Vault Lock are not affected.
     public var maxRetentionDays: Swift.Int?
@@ -8520,6 +8540,8 @@ public struct StartRestoreJobInput: Swift.Sendable {
     ///
     /// * [Metadata for Amazon EFS](https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-efs.html#efs-restore-cli)
     ///
+    /// * [Metadata for Amazon EKS](https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-eks.html#eks-restore-backup-section)
+    ///
     /// * [Metadata for Amazon FSx](https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-fsx.html#fsx-restore-cli)
     ///
     /// * [Metadata for Amazon Neptune](https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-nep.html#nep-restore-cli)
@@ -8555,6 +8577,8 @@ public struct StartRestoreJobInput: Swift.Sendable {
     /// * EC2 - Amazon Elastic Compute Cloud
     ///
     /// * EFS - Amazon Elastic File System
+    ///
+    /// * EKS - Amazon Elastic Kubernetes Service
     ///
     /// * FSx - Amazon FSx
     ///
@@ -8820,7 +8844,7 @@ public struct UpdateFrameworkOutput: Swift.Sendable {
 }
 
 public struct UpdateGlobalSettingsInput: Swift.Sendable {
-    /// Inputs can include: A value for isCrossAccountBackupEnabled and a Region. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false --region us-west-2. A value for Multi-party approval, styled as "Mpa": isMpaEnabled. Values can be true or false. Example: update-global-settings --global-settings isMpaEnabled=false --region us-west-2. A value for Backup Service-Linked Role creation, styled asisDelegatedAdministratorEnabled. Values can be true or false. Example: update-global-settings --global-settings isDelegatedAdministratorEnabled=false --region us-west-2.
+    /// Inputs can include: A value for isCrossAccountBackupEnabled. Values can be true or false. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false. A value for Multi-party approval, styled as isMpaEnabled. Values can be true or false. Example: update-global-settings --global-settings isMpaEnabled=false. A value for Backup Service-Linked Role creation, styled as isDelegatedAdministratorEnabled. Values can be true or false. Example: update-global-settings --global-settings isDelegatedAdministratorEnabled=false.
     public var globalSettings: [Swift.String: Swift.String]?
 
     public init(

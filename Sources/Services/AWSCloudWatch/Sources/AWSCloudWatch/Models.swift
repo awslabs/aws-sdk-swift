@@ -312,6 +312,30 @@ extension CloudWatchClientTypes {
 
 extension CloudWatchClientTypes {
 
+    /// Contains the configuration that determines how a PromQL alarm evaluates its contributors, including the query to run and the durations that define when contributors transition between states.
+    public struct AlarmPromQLCriteria: Swift.Sendable {
+        /// The duration, in seconds, that a contributor must be continuously breaching before it transitions to the ALARM state.
+        public var pendingPeriod: Swift.Int?
+        /// The PromQL query that the alarm evaluates. The query must return a result of vector type. Each entry in the vector result represents an alarm contributor.
+        /// This member is required.
+        public var query: Swift.String?
+        /// The duration, in seconds, that a contributor must continuously not be breaching before it transitions back to the OK state.
+        public var recoveryPeriod: Swift.Int?
+
+        public init(
+            pendingPeriod: Swift.Int? = nil,
+            query: Swift.String? = nil,
+            recoveryPeriod: Swift.Int? = nil
+        ) {
+            self.pendingPeriod = pendingPeriod
+            self.query = query
+            self.recoveryPeriod = recoveryPeriod
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
     /// Specifies one range of days or times to exclude from use for training an anomaly detection model.
     public struct Range: Swift.Sendable {
         /// The end time of the range to exclude. The format is yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
@@ -1605,6 +1629,16 @@ public struct DescribeAlarmsInput: Swift.Sendable {
 
 extension CloudWatchClientTypes {
 
+    /// The evaluation criteria for an alarm. This is a union type that currently supports PromQLCriteria.
+    public enum EvaluationCriteria: Swift.Sendable {
+        /// The PromQL criteria for the alarm evaluation.
+        case promqlcriteria(CloudWatchClientTypes.AlarmPromQLCriteria)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CloudWatchClientTypes {
+
     public enum EvaluationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case evaluationError
         case evaluationFailure
@@ -1697,6 +1731,10 @@ extension CloudWatchClientTypes {
         public var dimensions: [CloudWatchClientTypes.Dimension]?
         /// Used only for alarms based on percentiles. If ignore, the alarm state does not change during periods with too few data points to be statistically significant. If evaluate or this parameter is not used, the alarm is always evaluated and possibly changes state no matter how many data points are available.
         public var evaluateLowSampleCountPercentile: Swift.String?
+        /// The evaluation criteria for the alarm.
+        public var evaluationCriteria: CloudWatchClientTypes.EvaluationCriteria?
+        /// The frequency, in seconds, at which the alarm is evaluated.
+        public var evaluationInterval: Swift.Int?
         /// The number of periods over which data is compared to the specified threshold.
         public var evaluationPeriods: Swift.Int?
         /// If the value of this field is PARTIAL_DATA, it indicates that not all the available data was able to be retrieved due to quota limitations. For more information, see [Create alarms on Metrics Insights queries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Create_Metrics_Insights_Alarm.html). If the value of this field is EVALUATION_ERROR, it indicates configuration errors in alarm setup that require review and correction. Refer to StateReason field of the alarm for more details. If the value of this field is EVALUATION_FAILURE, it indicates temporary CloudWatch issues. We recommend manual monitoring until the issue is resolved
@@ -1731,7 +1769,7 @@ extension CloudWatchClientTypes {
         public var threshold: Swift.Double?
         /// In an alarm based on an anomaly detection model, this is the ID of the ANOMALY_DETECTION_BAND function used as the threshold for the alarm.
         public var thresholdMetricId: Swift.String?
-        /// Sets how this alarm is to handle missing data points. The valid values are breaching, notBreaching, ignore, and missing. For more information, see [Configuring how CloudWatch alarms treat missing data](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarms-and-missing-data). If this parameter is omitted, the default behavior of missing is used.
+        /// Sets how this alarm is to handle missing data points. The valid values are breaching, notBreaching, ignore, and missing. For more information, see [Configuring how CloudWatch alarms treat missing data](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarms-and-missing-data). If this parameter is omitted, the default behavior of missing is used. This parameter is not applicable to PromQL alarms.
         public var treatMissingData: Swift.String?
         /// The unit of the metric associated with the alarm.
         public var unit: CloudWatchClientTypes.StandardUnit?
@@ -1747,6 +1785,8 @@ extension CloudWatchClientTypes {
             datapointsToAlarm: Swift.Int? = nil,
             dimensions: [CloudWatchClientTypes.Dimension]? = nil,
             evaluateLowSampleCountPercentile: Swift.String? = nil,
+            evaluationCriteria: CloudWatchClientTypes.EvaluationCriteria? = nil,
+            evaluationInterval: Swift.Int? = nil,
             evaluationPeriods: Swift.Int? = nil,
             evaluationState: CloudWatchClientTypes.EvaluationState? = nil,
             extendedStatistic: Swift.String? = nil,
@@ -1777,6 +1817,8 @@ extension CloudWatchClientTypes {
             self.datapointsToAlarm = datapointsToAlarm
             self.dimensions = dimensions
             self.evaluateLowSampleCountPercentile = evaluateLowSampleCountPercentile
+            self.evaluationCriteria = evaluationCriteria
+            self.evaluationInterval = evaluationInterval
             self.evaluationPeriods = evaluationPeriods
             self.evaluationState = evaluationState
             self.extendedStatistic = extendedStatistic
@@ -3037,6 +3079,53 @@ public struct GetMetricWidgetImageOutput: Swift.Sendable {
     }
 }
 
+public struct GetOTelEnrichmentInput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension CloudWatchClientTypes {
+
+    /// The status of OTel enrichment for the account.
+    public enum OTelEnrichmentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case running
+        case stopped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OTelEnrichmentStatus] {
+            return [
+                .running,
+                .stopped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .running: return "Running"
+            case .stopped: return "Stopped"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetOTelEnrichmentOutput: Swift.Sendable {
+    /// The status of OTel enrichment for the account. Valid values are Running (enrichment is enabled) and Stopped (enrichment is disabled).
+    /// This member is required.
+    public var status: CloudWatchClientTypes.OTelEnrichmentStatus?
+
+    public init(
+        status: CloudWatchClientTypes.OTelEnrichmentStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
 public struct ListAlarmMuteRulesInput: Swift.Sendable {
     /// Filter results to show only mute rules that target the specified alarm name.
     public var alarmName: Swift.String?
@@ -3774,7 +3863,6 @@ public struct PutMetricAlarmInput: Swift.Sendable {
     /// This member is required.
     public var alarmName: Swift.String?
     /// The arithmetic operation to use when comparing the specified statistic and threshold. The specified statistic value is used as the first operand. The values LessThanLowerOrGreaterThanUpperThreshold, LessThanLowerThreshold, and GreaterThanUpperThreshold are used only for alarms based on anomaly detection models.
-    /// This member is required.
     public var comparisonOperator: CloudWatchClientTypes.ComparisonOperator?
     /// The number of data points that must be breaching to trigger the alarm. This is used only if you are setting an "M out of N" alarm. In that case, this value is the M. For more information, see [Evaluating an Alarm](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarm-evaluation) in the Amazon CloudWatch User Guide.
     public var datapointsToAlarm: Swift.Int?
@@ -3782,8 +3870,11 @@ public struct PutMetricAlarmInput: Swift.Sendable {
     public var dimensions: [CloudWatchClientTypes.Dimension]?
     /// Used only for alarms based on percentiles. If you specify ignore, the alarm state does not change during periods with too few data points to be statistically significant. If you specify evaluate or omit this parameter, the alarm is always evaluated and possibly changes state no matter how many data points are available. For more information, see [Percentile-Based CloudWatch Alarms and Low Data Samples](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#percentiles-with-low-samples). Valid Values: evaluate | ignore
     public var evaluateLowSampleCountPercentile: Swift.String?
+    /// The evaluation criteria for the alarm. For each PutMetricAlarm operation, you must specify either MetricName, a Metrics array, or an EvaluationCriteria. If you use the EvaluationCriteria parameter, you cannot include the Namespace, MetricName, Dimensions, Period, Unit, Statistic, ExtendedStatistic, Metrics, Threshold, ComparisonOperator, ThresholdMetricId, EvaluationPeriods, or DatapointsToAlarm parameters of PutMetricAlarm in the same operation. Instead, all evaluation parameters are defined within this structure. For an example of how to use this parameter, see the PromQL alarm example on this page.
+    public var evaluationCriteria: CloudWatchClientTypes.EvaluationCriteria?
+    /// The frequency, in seconds, at which the alarm is evaluated. Valid values are 10, 20, 30, and any multiple of 60. This parameter is required for alarms that use EvaluationCriteria, and cannot be specified for alarms configured with MetricName or Metrics.
+    public var evaluationInterval: Swift.Int?
     /// The number of periods over which data is compared to the specified threshold. If you are setting an alarm that requires that a number of consecutive data points be breaching to trigger the alarm, this value specifies that number. If you are setting an "M out of N" alarm, this value is the N.
-    /// This member is required.
     public var evaluationPeriods: Swift.Int?
     /// The extended statistic for the metric specified in MetricName. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic but not both. If you specify ExtendedStatistic, the following are valid values:
     ///
@@ -3856,9 +3947,9 @@ public struct PutMetricAlarmInput: Swift.Sendable {
     ///
     /// * arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
     public var insufficientDataActions: [Swift.String]?
-    /// The name for the metric associated with the alarm. For each PutMetricAlarm operation, you must specify either MetricName or a Metrics array. If you are creating an alarm based on a math expression, you cannot specify this parameter, or any of the Namespace, Dimensions, Period, Unit, Statistic, or ExtendedStatistic parameters. Instead, you specify all this information in the Metrics array.
+    /// The name for the metric associated with the alarm. For each PutMetricAlarm operation, you must specify either MetricName, a Metrics array, or an EvaluationCriteria. If you are creating an alarm based on a math expression, you cannot specify this parameter, or any of the Namespace, Dimensions, Period, Unit, Statistic, or ExtendedStatistic parameters. Instead, you specify all this information in the Metrics array.
     public var metricName: Swift.String?
-    /// An array of MetricDataQuery structures that enable you to create an alarm based on the result of a metric math expression. For each PutMetricAlarm operation, you must specify either MetricName or a Metrics array. Each item in the Metrics array either retrieves a metric or performs a math expression. One item in the Metrics array is the expression that the alarm watches. You designate this expression by setting ReturnData to true for this object in the array. For more information, see [MetricDataQuery](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDataQuery.html). If you use the Metrics parameter, you cannot include the Namespace, MetricName, Dimensions, Period, Unit, Statistic, or ExtendedStatistic parameters of PutMetricAlarm in the same operation. Instead, you retrieve the metrics you are using in your math expression as part of the Metrics array.
+    /// An array of MetricDataQuery structures that enable you to create an alarm based on the result of a metric math expression. For each PutMetricAlarm operation, you must specify either MetricName, a Metrics array, or an EvaluationCriteria. Each item in the Metrics array either retrieves a metric or performs a math expression. One item in the Metrics array is the expression that the alarm watches. You designate this expression by setting ReturnData to true for this object in the array. For more information, see [MetricDataQuery](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDataQuery.html). If you use the Metrics parameter, you cannot include the Namespace, MetricName, Dimensions, Period, Unit, Statistic, or ExtendedStatistic parameters of PutMetricAlarm in the same operation. Instead, you retrieve the metrics you are using in your math expression as part of the Metrics array.
     public var metrics: [CloudWatchClientTypes.MetricDataQuery]?
     /// The namespace for the metric associated specified in MetricName.
     public var namespace: Swift.String?
@@ -3916,7 +4007,7 @@ public struct PutMetricAlarmInput: Swift.Sendable {
     public var threshold: Swift.Double?
     /// If this is an alarm based on an anomaly detection model, make this value match the ID of the ANOMALY_DETECTION_BAND function. For an example of how to use this parameter, see the Anomaly Detection Model Alarm example on this page. If your alarm uses this parameter, it cannot have Auto Scaling actions.
     public var thresholdMetricId: Swift.String?
-    /// Sets how this alarm is to handle missing data points. If TreatMissingData is omitted, the default behavior of missing is used. For more information, see [Configuring How CloudWatch Alarms Treats Missing Data](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarms-and-missing-data). Valid Values: breaching | notBreaching | ignore | missing Alarms that evaluate metrics in the AWS/DynamoDB namespace always ignore missing data even if you choose a different option for TreatMissingData. When an AWS/DynamoDB metric has missing data, alarms that evaluate that metric remain in their current state.
+    /// Sets how this alarm is to handle missing data points. If TreatMissingData is omitted, the default behavior of missing is used. For more information, see [Configuring How CloudWatch Alarms Treats Missing Data](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarms-and-missing-data). Valid Values: breaching | notBreaching | ignore | missing Alarms that evaluate metrics in the AWS/DynamoDB namespace always ignore missing data even if you choose a different option for TreatMissingData. When an AWS/DynamoDB metric has missing data, alarms that evaluate that metric remain in their current state. This parameter is not applicable to PromQL alarms.
     public var treatMissingData: Swift.String?
     /// The unit of measure for the statistic. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately. If you are creating an alarm based on a metric math expression, you can specify the unit for each metric (if needed) within the objects in the Metrics array. If you don't specify Unit, CloudWatch retrieves all unit types that have been published for the metric and attempts to evaluate the alarm. Usually, metrics are published with only one unit, so the alarm works as intended. However, if the metric is published with multiple types of units and you don't specify a unit, the alarm's behavior is not defined and it behaves unpredictably. We recommend omitting Unit so that you don't inadvertently specify an incorrect unit that is not published for this metric. Doing so causes the alarm to be stuck in the INSUFFICIENT DATA state.
     public var unit: CloudWatchClientTypes.StandardUnit?
@@ -3930,6 +4021,8 @@ public struct PutMetricAlarmInput: Swift.Sendable {
         datapointsToAlarm: Swift.Int? = nil,
         dimensions: [CloudWatchClientTypes.Dimension]? = nil,
         evaluateLowSampleCountPercentile: Swift.String? = nil,
+        evaluationCriteria: CloudWatchClientTypes.EvaluationCriteria? = nil,
+        evaluationInterval: Swift.Int? = nil,
         evaluationPeriods: Swift.Int? = nil,
         extendedStatistic: Swift.String? = nil,
         insufficientDataActions: [Swift.String]? = nil,
@@ -3953,6 +4046,8 @@ public struct PutMetricAlarmInput: Swift.Sendable {
         self.datapointsToAlarm = datapointsToAlarm
         self.dimensions = dimensions
         self.evaluateLowSampleCountPercentile = evaluateLowSampleCountPercentile
+        self.evaluationCriteria = evaluationCriteria
+        self.evaluationInterval = evaluationInterval
         self.evaluationPeriods = evaluationPeriods
         self.extendedStatistic = extendedStatistic
         self.insufficientDataActions = insufficientDataActions
@@ -4145,6 +4240,16 @@ public struct StartMetricStreamsOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct StartOTelEnrichmentInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct StartOTelEnrichmentOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct StopMetricStreamsInput: Swift.Sendable {
     /// The array of the names of metric streams to stop streaming. This is an "all or nothing" operation. If you do not have permission to access all of the metric streams that you list here, then none of the streams that you list in the operation will stop streaming.
     /// This member is required.
@@ -4158,6 +4263,16 @@ public struct StopMetricStreamsInput: Swift.Sendable {
 }
 
 public struct StopMetricStreamsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct StopOTelEnrichmentInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct StopOTelEnrichmentOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -4367,6 +4482,13 @@ extension GetMetricWidgetImageInput {
     }
 }
 
+extension GetOTelEnrichmentInput {
+
+    static func urlPathProvider(_ value: GetOTelEnrichmentInput) -> Swift.String? {
+        return "/service/GraniteServiceVersion20100801/operation/GetOTelEnrichment"
+    }
+}
+
 extension ListAlarmMuteRulesInput {
 
     static func urlPathProvider(_ value: ListAlarmMuteRulesInput) -> Swift.String? {
@@ -4486,10 +4608,24 @@ extension StartMetricStreamsInput {
     }
 }
 
+extension StartOTelEnrichmentInput {
+
+    static func urlPathProvider(_ value: StartOTelEnrichmentInput) -> Swift.String? {
+        return "/service/GraniteServiceVersion20100801/operation/StartOTelEnrichment"
+    }
+}
+
 extension StopMetricStreamsInput {
 
     static func urlPathProvider(_ value: StopMetricStreamsInput) -> Swift.String? {
         return "/service/GraniteServiceVersion20100801/operation/StopMetricStreams"
+    }
+}
+
+extension StopOTelEnrichmentInput {
+
+    static func urlPathProvider(_ value: StopOTelEnrichmentInput) -> Swift.String? {
+        return "/service/GraniteServiceVersion20100801/operation/StopOTelEnrichment"
     }
 }
 
@@ -4746,6 +4882,14 @@ extension GetMetricWidgetImageInput {
     }
 }
 
+extension GetOTelEnrichmentInput {
+
+    static func write(value: GetOTelEnrichmentInput?, to writer: SmithyCBOR.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+}
+
 extension ListAlarmMuteRulesInput {
 
     static func write(value: ListAlarmMuteRulesInput?, to writer: SmithyCBOR.Writer) throws {
@@ -4895,6 +5039,8 @@ extension PutMetricAlarmInput {
         try writer["DatapointsToAlarm"].write(value.datapointsToAlarm)
         try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: CloudWatchClientTypes.Dimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EvaluateLowSampleCountPercentile"].write(value.evaluateLowSampleCountPercentile)
+        try writer["EvaluationCriteria"].write(value.evaluationCriteria, with: CloudWatchClientTypes.EvaluationCriteria.write(value:to:))
+        try writer["EvaluationInterval"].write(value.evaluationInterval)
         try writer["EvaluationPeriods"].write(value.evaluationPeriods)
         try writer["ExtendedStatistic"].write(value.extendedStatistic)
         try writer["InsufficientDataActions"].writeList(value.insufficientDataActions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -4958,11 +5104,27 @@ extension StartMetricStreamsInput {
     }
 }
 
+extension StartOTelEnrichmentInput {
+
+    static func write(value: StartOTelEnrichmentInput?, to writer: SmithyCBOR.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+}
+
 extension StopMetricStreamsInput {
 
     static func write(value: StopMetricStreamsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["Names"].writeList(value.names, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension StopOTelEnrichmentInput {
+
+    static func write(value: StopOTelEnrichmentInput?, to writer: SmithyCBOR.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 }
 
@@ -5261,6 +5423,18 @@ extension GetMetricWidgetImageOutput {
     }
 }
 
+extension GetOTelEnrichmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetOTelEnrichmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetOTelEnrichmentOutput()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension ListAlarmMuteRulesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAlarmMuteRulesOutput {
@@ -5431,10 +5605,24 @@ extension StartMetricStreamsOutput {
     }
 }
 
+extension StartOTelEnrichmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartOTelEnrichmentOutput {
+        return StartOTelEnrichmentOutput()
+    }
+}
+
 extension StopMetricStreamsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopMetricStreamsOutput {
         return StopMetricStreamsOutput()
+    }
+}
+
+extension StopOTelEnrichmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopOTelEnrichmentOutput {
+        return StopOTelEnrichmentOutput()
     }
 }
 
@@ -5820,6 +6008,20 @@ enum GetMetricWidgetImageOutputError {
     }
 }
 
+enum GetOTelEnrichmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAlarmMuteRulesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6104,6 +6306,20 @@ enum StartMetricStreamsOutputError {
     }
 }
 
+enum StartOTelEnrichmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StopMetricStreamsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6116,6 +6332,20 @@ enum StopMetricStreamsOutputError {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameter": return try MissingRequiredParameterException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopOTelEnrichmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
+        let baseError: ClientRuntime.RpcV2CborError = try ClientRuntime.QueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -6388,6 +6618,25 @@ extension CloudWatchClientTypes.AlarmMuteRuleSummary {
     }
 }
 
+extension CloudWatchClientTypes.AlarmPromQLCriteria {
+
+    static func write(value: CloudWatchClientTypes.AlarmPromQLCriteria?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["PendingPeriod"].write(value.pendingPeriod)
+        try writer["Query"].write(value.query)
+        try writer["RecoveryPeriod"].write(value.recoveryPeriod)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.AlarmPromQLCriteria {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.AlarmPromQLCriteria()
+        value.query = try reader["Query"].readIfPresent() ?? ""
+        value.pendingPeriod = try reader["PendingPeriod"].readIfPresent()
+        value.recoveryPeriod = try reader["RecoveryPeriod"].readIfPresent()
+        return value
+    }
+}
+
 extension CloudWatchClientTypes.AnomalyDetector {
 
     static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.AnomalyDetector {
@@ -6533,6 +6782,30 @@ extension CloudWatchClientTypes.EntityMetricData {
         guard let value else { return }
         try writer["Entity"].write(value.entity, with: CloudWatchClientTypes.Entity.write(value:to:))
         try writer["MetricData"].writeList(value.metricData, memberWritingClosure: CloudWatchClientTypes.MetricDatum.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CloudWatchClientTypes.EvaluationCriteria {
+
+    static func write(value: CloudWatchClientTypes.EvaluationCriteria?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .promqlcriteria(promqlcriteria):
+                try writer["PromQLCriteria"].write(promqlcriteria, with: CloudWatchClientTypes.AlarmPromQLCriteria.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.EvaluationCriteria {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "PromQLCriteria":
+                return .promqlcriteria(try reader["PromQLCriteria"].read(with: CloudWatchClientTypes.AlarmPromQLCriteria.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -6696,6 +6969,8 @@ extension CloudWatchClientTypes.MetricAlarm {
         value.thresholdMetricId = try reader["ThresholdMetricId"].readIfPresent()
         value.evaluationState = try reader["EvaluationState"].readIfPresent()
         value.stateTransitionedTimestamp = try reader["StateTransitionedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.evaluationCriteria = try reader["EvaluationCriteria"].readIfPresent(with: CloudWatchClientTypes.EvaluationCriteria.read(from:))
+        value.evaluationInterval = try reader["EvaluationInterval"].readIfPresent()
         return value
     }
 }

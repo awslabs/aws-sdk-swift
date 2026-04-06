@@ -2594,6 +2594,8 @@ extension DynamoDBClientTypes {
         public var provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride?
         /// The name of the Region.
         public var regionName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the global table replica.
+        public var replicaArn: Swift.String?
         /// The time at which the replica was first detected as inaccessible. To determine cause of inaccessibility check the ReplicaStatus property.
         public var replicaInaccessibleDateTime: Foundation.Date?
         /// The current state of the replica:
@@ -2626,6 +2628,7 @@ extension DynamoDBClientTypes {
             onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughputOverride? = nil,
             provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride? = nil,
             regionName: Swift.String? = nil,
+            replicaArn: Swift.String? = nil,
             replicaInaccessibleDateTime: Foundation.Date? = nil,
             replicaStatus: DynamoDBClientTypes.ReplicaStatus? = nil,
             replicaStatusDescription: Swift.String? = nil,
@@ -2639,6 +2642,7 @@ extension DynamoDBClientTypes {
             self.onDemandThroughputOverride = onDemandThroughputOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
             self.regionName = regionName
+            self.replicaArn = replicaArn
             self.replicaInaccessibleDateTime = replicaInaccessibleDateTime
             self.replicaStatus = replicaStatus
             self.replicaStatusDescription = replicaStatusDescription
@@ -13424,6 +13428,7 @@ extension DynamoDBClientTypes.ReplicaDescription {
         var value = DynamoDBClientTypes.ReplicaDescription()
         value.regionName = try reader["RegionName"].readIfPresent()
         value.replicaStatus = try reader["ReplicaStatus"].readIfPresent()
+        value.replicaArn = try reader["ReplicaArn"].readIfPresent()
         value.replicaStatusDescription = try reader["ReplicaStatusDescription"].readIfPresent()
         value.replicaStatusPercentProgress = try reader["ReplicaStatusPercentProgress"].readIfPresent()
         value.kmsMasterKeyId = try reader["KMSMasterKeyId"].readIfPresent()

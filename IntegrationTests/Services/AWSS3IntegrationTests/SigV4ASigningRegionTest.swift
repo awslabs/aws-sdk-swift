@@ -17,10 +17,10 @@ import XCTest
 // Checks that S3's rules-based SigV4A operations resolve signing region to "*" using PutObject with MRAP ARN.
 class SigV4ASigningRegionTest: XCTestCase {
     private var sigv4aClient: S3Client!
-    private var sigv4aConfig: S3Client.S3ClientConfiguration!
+    private var sigv4aConfig: S3Client.S3ClientConfig!
 
     override func setUp() async throws {
-        sigv4aConfig = try await S3Client.S3ClientConfiguration(region: "dummy-region")
+        sigv4aConfig = try await S3Client.S3ClientConfig(region: "dummy-region")
         sigv4aConfig.authSchemes = [SigV4AAuthScheme()]
         sigv4aConfig.httpClientEngine = ProtocolTestClient() // Mock HTTP client that doesn't actually send a request
         sigv4aConfig.addInterceptorProvider(SigningRegionAssertInterceptorProvider())

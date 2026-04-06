@@ -277,6 +277,73 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+extension PartnerCentralAccountClientTypes {
+
+    public enum ServiceQuotaExceededExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case limitExceededNumberOfActiveConnection
+        case limitExceededNumberOfConnectionInvitationPerDay
+        case limitExceededNumberOfDomain
+        case limitExceededNumberOfEmail
+        case limitExceededNumberOfOpenConnectionInvitation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceQuotaExceededExceptionReason] {
+            return [
+                .limitExceededNumberOfActiveConnection,
+                .limitExceededNumberOfConnectionInvitationPerDay,
+                .limitExceededNumberOfDomain,
+                .limitExceededNumberOfEmail,
+                .limitExceededNumberOfOpenConnectionInvitation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .limitExceededNumberOfActiveConnection: return "LIMIT_EXCEEDED_NUMBER_OF_ACTIVE_CONNECTION"
+            case .limitExceededNumberOfConnectionInvitationPerDay: return "LIMIT_EXCEEDED_NUMBER_OF_CONNECTION_INVITATION_PER_DAY"
+            case .limitExceededNumberOfDomain: return "LIMIT_EXCEEDED_NUMBER_OF_DOMAIN"
+            case .limitExceededNumberOfEmail: return "LIMIT_EXCEEDED_NUMBER_OF_EMAIL"
+            case .limitExceededNumberOfOpenConnectionInvitation: return "LIMIT_EXCEEDED_NUMBER_OF_OPEN_CONNECTION_INVITATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The request was rejected because it would exceed a service quota or limit. This may occur when trying to create more resources than allowed by the service limits.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The specific reason for the service quota being exceeded.
+        /// This member is required.
+        public internal(set) var reason: PartnerCentralAccountClientTypes.ServiceQuotaExceededExceptionReason? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        reason: PartnerCentralAccountClientTypes.ServiceQuotaExceededExceptionReason? = nil
+    ) {
+        self.properties.message = message
+        self.properties.reason = reason
+    }
+}
+
 /// The request was throttled due to too many requests being sent in a short period of time. The client should implement exponential backoff and retry the request.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -840,64 +907,6 @@ extension PartnerCentralAccountClientTypes.AllianceLeadContact: Swift.CustomDebu
         "AllianceLeadContact(email: \(Swift.String(describing: email)), businessTitle: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\")"}
 }
 
-extension PartnerCentralAccountClientTypes {
-
-    public enum ServiceQuotaExceededExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case limitExceededNumberOfDomain
-        case limitExceededNumberOfEmail
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ServiceQuotaExceededExceptionReason] {
-            return [
-                .limitExceededNumberOfDomain,
-                .limitExceededNumberOfEmail
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .limitExceededNumberOfDomain: return "LIMIT_EXCEEDED_NUMBER_OF_DOMAIN"
-            case .limitExceededNumberOfEmail: return "LIMIT_EXCEEDED_NUMBER_OF_EMAIL"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-/// The request was rejected because it would exceed a service quota or limit. This may occur when trying to create more resources than allowed by the service limits.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The specific reason for the service quota being exceeded.
-        /// This member is required.
-        public internal(set) var reason: PartnerCentralAccountClientTypes.ServiceQuotaExceededExceptionReason? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        reason: PartnerCentralAccountClientTypes.ServiceQuotaExceededExceptionReason? = nil
-    ) {
-        self.properties.message = message
-        self.properties.reason = reason
-    }
-}
-
 public struct AssociateAwsTrainingCertificationEmailDomainInput: Swift.Sendable {
     /// The catalog identifier for the partner account.
     /// This member is required.
@@ -981,11 +990,19 @@ extension PartnerCentralAccountClientTypes {
         /// The business verification details that were processed and verified, potentially including additional information discovered during the verification process.
         /// This member is required.
         public var businessVerificationDetails: PartnerCentralAccountClientTypes.BusinessVerificationDetails?
+        /// A secure URL where the registrant can complete additional verification steps, such as document upload or identity confirmation through a third-party verification service.
+        public var completionUrl: Swift.String?
+        /// The timestamp when the completion URL expires and is no longer valid for accessing the verification workflow.
+        public var completionUrlExpiresAt: Foundation.Date?
 
         public init(
-            businessVerificationDetails: PartnerCentralAccountClientTypes.BusinessVerificationDetails? = nil
+            businessVerificationDetails: PartnerCentralAccountClientTypes.BusinessVerificationDetails? = nil,
+            completionUrl: Swift.String? = nil,
+            completionUrlExpiresAt: Foundation.Date? = nil
         ) {
             self.businessVerificationDetails = businessVerificationDetails
+            self.completionUrl = completionUrl
+            self.completionUrlExpiresAt = completionUrlExpiresAt
         }
     }
 }
@@ -4412,6 +4429,7 @@ enum AcceptConnectionInvitationOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -4507,6 +4525,7 @@ enum CreateConnectionInvitationOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -4984,6 +5003,20 @@ extension ResourceNotFoundException {
     }
 }
 
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["Reason"].readIfPresent() ?? .sdkUnknown("")
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ThrottlingException {
 
     static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
@@ -5005,20 +5038,6 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.errorDetails = try reader["ErrorDetails"].readListIfPresent(memberReadingClosure: PartnerCentralAccountClientTypes.ValidationError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["Message"].readIfPresent() ?? ""
-        value.properties.reason = try reader["Reason"].readIfPresent() ?? .sdkUnknown("")
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.reason = try reader["Reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
@@ -5097,6 +5116,8 @@ extension PartnerCentralAccountClientTypes.BusinessVerificationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PartnerCentralAccountClientTypes.BusinessVerificationResponse()
         value.businessVerificationDetails = try reader["BusinessVerificationDetails"].readIfPresent(with: PartnerCentralAccountClientTypes.BusinessVerificationDetails.read(from:))
+        value.completionUrl = try reader["CompletionUrl"].readIfPresent()
+        value.completionUrlExpiresAt = try reader["CompletionUrlExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }

@@ -5410,15 +5410,19 @@ extension BedrockAgentClientTypes {
         /// The name of the tool.
         /// This member is required.
         public var name: Swift.String?
+        /// Whether to enforce strict JSON schema adherence for the tool input
+        public var strict: Swift.Bool?
 
         public init(
             description: Swift.String? = nil,
             inputSchema: BedrockAgentClientTypes.ToolInputSchema? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            strict: Swift.Bool? = nil
         ) {
             self.description = description
             self.inputSchema = inputSchema
             self.name = name
+            self.strict = strict
         }
     }
 }
@@ -19686,6 +19690,7 @@ extension BedrockAgentClientTypes.ToolSpecification {
         try writer["description"].write(value.description)
         try writer["inputSchema"].write(value.inputSchema, with: BedrockAgentClientTypes.ToolInputSchema.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["strict"].write(value.strict)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.ToolSpecification {
@@ -19694,6 +19699,7 @@ extension BedrockAgentClientTypes.ToolSpecification {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.inputSchema = try reader["inputSchema"].readIfPresent(with: BedrockAgentClientTypes.ToolInputSchema.read(from:))
+        value.strict = try reader["strict"].readIfPresent()
         return value
     }
 }

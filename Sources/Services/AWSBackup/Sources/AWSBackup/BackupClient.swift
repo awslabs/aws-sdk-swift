@@ -2663,7 +2663,7 @@ extension BackupClient {
 
     /// Performs the `DescribeGlobalSettings` operation on the `Backup` service.
     ///
-    /// Describes whether the Amazon Web Services account is opted in to cross-account backup. Returns an error if the account is not a member of an Organizations organization. Example: describe-global-settings --region us-west-2
+    /// Describes whether the Amazon Web Services account has enabled different cross-account management options, including cross-account backup, multi-party approval, and delegated administrator. Returns an error if the account is not a member of an Organizations organization. Example: describe-global-settings --region us-west-2
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeGlobalSettingsInput`)
     ///
@@ -7571,7 +7571,7 @@ extension BackupClient {
 
     /// Performs the `UpdateGlobalSettings` operation on the `Backup` service.
     ///
-    /// Updates whether the Amazon Web Services account is opted in to cross-account backup. Returns an error if the account is not an Organizations management account. Use the DescribeGlobalSettings API to determine the current settings.
+    /// Updates whether the Amazon Web Services account has enabled different cross-account management options, including cross-account backup, multi-party approval, and delegated administrator. Returns an error if the account is not an Organizations management account. Use the DescribeGlobalSettings API to determine the current settings.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateGlobalSettingsInput`)
     ///

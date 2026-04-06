@@ -534,13 +534,17 @@ extension ConnectCasesClientTypes {
         case caseCreated
         case caseUpdated
         case relatedItemCreated
+        case relatedItemDeleted
+        case relatedItemUpdated
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AuditEventType] {
             return [
                 .caseCreated,
                 .caseUpdated,
-                .relatedItemCreated
+                .relatedItemCreated,
+                .relatedItemDeleted,
+                .relatedItemUpdated
             ]
         }
 
@@ -554,6 +558,8 @@ extension ConnectCasesClientTypes {
             case .caseCreated: return "Case.Created"
             case .caseUpdated: return "Case.Updated"
             case .relatedItemCreated: return "RelatedItem.Created"
+            case .relatedItemDeleted: return "RelatedItem.Deleted"
+            case .relatedItemUpdated: return "RelatedItem.Updated"
             case let .sdkUnknown(s): return s
             }
         }
@@ -577,7 +583,7 @@ extension ConnectCasesClientTypes {
         public var performedTime: Foundation.Date?
         /// The Type of the related item.
         public var relatedItemType: ConnectCasesClientTypes.RelatedItemType?
-        /// The Type of an audit history event.
+        /// The type of audit history event. Valid Values: Case.Created | Case.Updated | RelatedItem.Created | RelatedItem.Updated | RelatedItem.Deleted
         /// This member is required.
         public var type: ConnectCasesClientTypes.AuditEventType?
 
@@ -1313,6 +1319,130 @@ public struct SearchRelatedItemsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.relatedItems = relatedItems
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Represents the updated content of a Comment related item.
+    public struct CommentUpdateContent: Swift.Sendable {
+        /// Updated text in the body of a Comment on a case.
+        /// This member is required.
+        public var body: Swift.String?
+        /// Type of the text in the box of a Comment on a case.
+        /// This member is required.
+        public var contentType: ConnectCasesClientTypes.CommentBodyTextType?
+
+        public init(
+            body: Swift.String? = nil,
+            contentType: ConnectCasesClientTypes.CommentBodyTextType? = nil
+        ) {
+            self.body = body
+            self.contentType = contentType
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Represents the updated content of a Custom related item.
+    public struct CustomUpdateContent: Swift.Sendable {
+        /// List of updated field values for the Custom related item. All existing and new fields, and their associated values should be included. Fields not included as part of this request will be removed.
+        /// This member is required.
+        public var fields: [ConnectCasesClientTypes.FieldValue]?
+
+        public init(
+            fields: [ConnectCasesClientTypes.FieldValue]? = nil
+        ) {
+            self.fields = fields
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Represents the content of a related item to be updated. This is a union type that can contain either comment content or custom content.
+    public enum RelatedItemUpdateContent: Swift.Sendable {
+        /// Represents the updated content of a Comment related item.
+        case comment(ConnectCasesClientTypes.CommentUpdateContent)
+        /// Represents the updated content of a Custom related item.
+        case custom(ConnectCasesClientTypes.CustomUpdateContent)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct UpdateRelatedItemInput: Swift.Sendable {
+    /// A unique identifier of the case.
+    /// This member is required.
+    public var caseId: Swift.String?
+    /// The content of a related item to be updated.
+    /// This member is required.
+    public var content: ConnectCasesClientTypes.RelatedItemUpdateContent?
+    /// The unique identifier of the Cases domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// Represents the user who performed the update of the related item.
+    public var performedBy: ConnectCasesClientTypes.UserUnion?
+    /// Unique identifier of a related item.
+    /// This member is required.
+    public var relatedItemId: Swift.String?
+
+    public init(
+        caseId: Swift.String? = nil,
+        content: ConnectCasesClientTypes.RelatedItemUpdateContent? = nil,
+        domainId: Swift.String? = nil,
+        performedBy: ConnectCasesClientTypes.UserUnion? = nil,
+        relatedItemId: Swift.String? = nil
+    ) {
+        self.caseId = caseId
+        self.content = content
+        self.domainId = domainId
+        self.performedBy = performedBy
+        self.relatedItemId = relatedItemId
+    }
+}
+
+public struct UpdateRelatedItemOutput: Swift.Sendable {
+    /// Time at which the related item was associated with the case.
+    /// This member is required.
+    public var associationTime: Foundation.Date?
+    /// Represents the content of the updated related item.
+    /// This member is required.
+    public var content: ConnectCasesClientTypes.RelatedItemContent?
+    /// Represents the creator of the related item.
+    public var createdBy: ConnectCasesClientTypes.UserUnion?
+    /// Represents the last user that updated the related item.
+    public var lastUpdatedUser: ConnectCasesClientTypes.UserUnion?
+    /// The Amazon Resource Name (ARN) of the updated related item.
+    /// This member is required.
+    public var relatedItemArn: Swift.String?
+    /// The unique identifier of the updated related item.
+    /// This member is required.
+    public var relatedItemId: Swift.String?
+    /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+    public var tags: [Swift.String: Swift.String?]?
+    /// Type of the updated related item.
+    /// This member is required.
+    public var type: ConnectCasesClientTypes.RelatedItemType?
+
+    public init(
+        associationTime: Foundation.Date? = nil,
+        content: ConnectCasesClientTypes.RelatedItemContent? = nil,
+        createdBy: ConnectCasesClientTypes.UserUnion? = nil,
+        lastUpdatedUser: ConnectCasesClientTypes.UserUnion? = nil,
+        relatedItemArn: Swift.String? = nil,
+        relatedItemId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String?]? = nil,
+        type: ConnectCasesClientTypes.RelatedItemType? = nil
+    ) {
+        self.associationTime = associationTime
+        self.content = content
+        self.createdBy = createdBy
+        self.lastUpdatedUser = lastUpdatedUser
+        self.relatedItemArn = relatedItemArn
+        self.relatedItemId = relatedItemId
+        self.tags = tags
+        self.type = type
     }
 }
 
@@ -4464,6 +4594,22 @@ extension UpdateLayoutInput {
     }
 }
 
+extension UpdateRelatedItemInput {
+
+    static func urlPathProvider(_ value: UpdateRelatedItemInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        guard let caseId = value.caseId else {
+            return nil
+        }
+        guard let relatedItemId = value.relatedItemId else {
+            return nil
+        }
+        return "/domains/\(domainId.urlPercentEncoding())/cases/\(caseId.urlPercentEncoding())/related-items/\(relatedItemId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateTemplateInput {
 
     static func urlPathProvider(_ value: UpdateTemplateInput) -> Swift.String? {
@@ -4688,6 +4834,15 @@ extension UpdateLayoutInput {
         guard let value else { return }
         try writer["content"].write(value.content, with: ConnectCasesClientTypes.LayoutContent.write(value:to:))
         try writer["name"].write(value.name)
+    }
+}
+
+extension UpdateRelatedItemInput {
+
+    static func write(value: UpdateRelatedItemInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["content"].write(value.content, with: ConnectCasesClientTypes.RelatedItemUpdateContent.write(value:to:))
+        try writer["performedBy"].write(value.performedBy, with: ConnectCasesClientTypes.UserUnion.write(value:to:))
     }
 }
 
@@ -5174,6 +5329,25 @@ extension UpdateLayoutOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLayoutOutput {
         return UpdateLayoutOutput()
+    }
+}
+
+extension UpdateRelatedItemOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRelatedItemOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateRelatedItemOutput()
+        value.associationTime = try reader["associationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.content = try reader["content"].readIfPresent(with: ConnectCasesClientTypes.RelatedItemContent.read(from:))
+        value.createdBy = try reader["createdBy"].readIfPresent(with: ConnectCasesClientTypes.UserUnion.read(from:))
+        value.lastUpdatedUser = try reader["lastUpdatedUser"].readIfPresent(with: ConnectCasesClientTypes.UserUnion.read(from:))
+        value.relatedItemArn = try reader["relatedItemArn"].readIfPresent() ?? ""
+        value.relatedItemId = try reader["relatedItemId"].readIfPresent() ?? ""
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
@@ -5944,6 +6118,24 @@ enum UpdateLayoutOutputError {
     }
 }
 
+enum UpdateRelatedItemOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateTemplateOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6331,6 +6523,15 @@ extension ConnectCasesClientTypes.CommentFilter {
     }
 }
 
+extension ConnectCasesClientTypes.CommentUpdateContent {
+
+    static func write(value: ConnectCasesClientTypes.CommentUpdateContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["body"].write(value.body)
+        try writer["contentType"].write(value.contentType)
+    }
+}
+
 extension ConnectCasesClientTypes.CompoundCondition {
 
     static func write(value: ConnectCasesClientTypes.CompoundCondition?, to writer: SmithyJSON.Writer) throws {
@@ -6441,6 +6642,14 @@ extension ConnectCasesClientTypes.CustomFilter {
 extension ConnectCasesClientTypes.CustomInputContent {
 
     static func write(value: ConnectCasesClientTypes.CustomInputContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fields"].writeList(value.fields, memberWritingClosure: ConnectCasesClientTypes.FieldValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ConnectCasesClientTypes.CustomUpdateContent {
+
+    static func write(value: ConnectCasesClientTypes.CustomUpdateContent?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["fields"].writeList(value.fields, memberWritingClosure: ConnectCasesClientTypes.FieldValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -7046,6 +7255,21 @@ extension ConnectCasesClientTypes.RelatedItemTypeFilter {
                 try writer["file"].write(file, with: ConnectCasesClientTypes.FileFilter.write(value:to:))
             case let .sla(sla):
                 try writer["sla"].write(sla, with: ConnectCasesClientTypes.SlaFilter.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ConnectCasesClientTypes.RelatedItemUpdateContent {
+
+    static func write(value: ConnectCasesClientTypes.RelatedItemUpdateContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .comment(comment):
+                try writer["comment"].write(comment, with: ConnectCasesClientTypes.CommentUpdateContent.write(value:to:))
+            case let .custom(custom):
+                try writer["custom"].write(custom, with: ConnectCasesClientTypes.CustomUpdateContent.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }

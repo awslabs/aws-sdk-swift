@@ -1064,7 +1064,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `CreateEvaluator` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Creates a custom evaluator for agent quality assessment. Custom evaluators use LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings to evaluate agent performance at tool call, trace, or session levels.
+    /// Creates a custom evaluator for agent quality assessment. Custom evaluators can use either LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings, or code-based configurations with customer-managed Lambda functions to evaluate agent performance at tool call, trace, or session levels.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateEvaluatorInput`)
     ///
@@ -2309,7 +2309,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `DeleteGatewayTarget` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Deletes a gateway target.
+    /// Deletes a gateway target. You cannot delete a target that is in a pending authorization state (CREATE_PENDING_AUTH, UPDATE_PENDING_AUTH, or SYNCHRONIZE_PENDING_AUTH). Wait for the authorization to complete or fail before deleting the target.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteGatewayTargetInput`)
     ///
@@ -4456,6 +4456,9 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListBrowserProfilesInput, ListBrowserProfilesOutput>(ListBrowserProfilesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBrowserProfilesInput, ListBrowserProfilesOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBrowserProfilesInput, ListBrowserProfilesOutput>(ListBrowserProfilesInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBrowserProfilesInput, ListBrowserProfilesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListBrowserProfilesInput, ListBrowserProfilesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBrowserProfilesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBrowserProfilesInput, ListBrowserProfilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBrowserProfilesOutput>(ListBrowserProfilesOutput.httpOutput(from:), ListBrowserProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBrowserProfilesInput, ListBrowserProfilesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
@@ -5689,7 +5692,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `SynchronizeGatewayTargets` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// The gateway targets.
+    /// Synchronizes the gateway targets by fetching the latest tool definitions from the target endpoints. You cannot synchronize a target that is in a pending authorization state (CREATE_PENDING_AUTH, UPDATE_PENDING_AUTH, or SYNCHRONIZE_PENDING_AUTH). Wait for the authorization to complete or fail before synchronizing. You cannot synchronize a target that has a static tool schema (mcpToolSchema) configured. Remove the static schema through an UpdateGatewayTarget call to enable dynamic tool synchronization.
     ///
     /// - Parameter input: [no documentation found] (Type: `SynchronizeGatewayTargetsInput`)
     ///
@@ -6282,7 +6285,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `UpdateGatewayTarget` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Updates an existing gateway target.
+    /// Updates an existing gateway target. You cannot update a target that is in a pending authorization state (CREATE_PENDING_AUTH, UPDATE_PENDING_AUTH, or SYNCHRONIZE_PENDING_AUTH). Wait for the authorization to complete or fail before updating the target.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateGatewayTargetInput`)
     ///

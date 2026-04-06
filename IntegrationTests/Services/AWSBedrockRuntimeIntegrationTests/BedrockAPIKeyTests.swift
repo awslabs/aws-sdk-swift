@@ -23,7 +23,7 @@ final class BedrockAPIKeyIntegrationTests: XCTestCase {
 
         // Make a BedrockRuntime client.  Add an interceptor that will fail the test
         // if the bearer token was not used.
-        let config = try await BedrockRuntimeClient.Config(
+        let config = try await BedrockRuntimeClient.BedrockRuntimeClientConfig(
             region: region,
             httpInterceptorProviders: [BearerTokenWasUsedInterceptorProvider()]
         )

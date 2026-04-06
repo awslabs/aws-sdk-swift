@@ -992,8 +992,10 @@ public struct GetSpeechSynthesisTaskInput: Swift.Sendable {
 extension PollyClientTypes {
 
     public enum OutputFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alaw
         case json
         case mp3
+        case mulaw
         case oggOpus
         case oggVorbis
         case pcm
@@ -1001,8 +1003,10 @@ extension PollyClientTypes {
 
         public static var allCases: [OutputFormat] {
             return [
+                .alaw,
                 .json,
                 .mp3,
+                .mulaw,
                 .oggOpus,
                 .oggVorbis,
                 .pcm
@@ -1016,8 +1020,10 @@ extension PollyClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .alaw: return "alaw"
             case .json: return "json"
             case .mp3: return "mp3"
+            case .mulaw: return "mulaw"
             case .oggOpus: return "ogg_opus"
             case .oggVorbis: return "ogg_vorbis"
             case .pcm: return "pcm"

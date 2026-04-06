@@ -6867,6 +6867,8 @@ public struct SendMessageInput: Swift.Sendable {
     public var metadata: [Swift.String: Swift.String]?
     /// The orchestrator use case for message processing.
     public var orchestratorUseCase: Swift.String?
+    /// Request identifier from the origin system, used for end-to-end tracing across spans.
+    public var originRequestId: Swift.String?
     /// The identifier of the Amazon Q in Connect session.
     /// This member is required.
     public var sessionId: Swift.String?
@@ -6883,6 +6885,7 @@ public struct SendMessageInput: Swift.Sendable {
         message: QConnectClientTypes.MessageInput? = nil,
         metadata: [Swift.String: Swift.String]? = nil,
         orchestratorUseCase: Swift.String? = nil,
+        originRequestId: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         type: QConnectClientTypes.MessageType? = nil
     ) {
@@ -6894,6 +6897,7 @@ public struct SendMessageInput: Swift.Sendable {
         self.message = message
         self.metadata = metadata
         self.orchestratorUseCase = orchestratorUseCase
+        self.originRequestId = originRequestId
         self.sessionId = sessionId
         self.type = type
     }
@@ -12953,6 +12957,8 @@ extension QConnectClientTypes {
         /// Operation end time in milliseconds since epoch
         /// This member is required.
         public var endTimestamp: Foundation.Date?
+        /// The origin request identifier for end-to-end tracing.
+        public var originRequestId: Swift.String?
         /// Parent span identifier for hierarchy. Null for root spans.
         public var parentSpanId: Swift.String?
         /// The service request ID that initiated the operation
@@ -12981,6 +12987,7 @@ extension QConnectClientTypes {
             assistantId: Swift.String? = nil,
             attributes: QConnectClientTypes.SpanAttributes? = nil,
             endTimestamp: Foundation.Date? = nil,
+            originRequestId: Swift.String? = nil,
             parentSpanId: Swift.String? = nil,
             requestId: Swift.String? = nil,
             sessionId: Swift.String? = nil,
@@ -12993,6 +13000,7 @@ extension QConnectClientTypes {
             self.assistantId = assistantId
             self.attributes = attributes
             self.endTimestamp = endTimestamp
+            self.originRequestId = originRequestId
             self.parentSpanId = parentSpanId
             self.requestId = requestId
             self.sessionId = sessionId
@@ -14898,6 +14906,7 @@ extension SendMessageInput {
         try writer["message"].write(value.message, with: QConnectClientTypes.MessageInput.write(value:to:))
         try writer["metadata"].writeMap(value.metadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["orchestratorUseCase"].write(value.orchestratorUseCase)
+        try writer["originRequestId"].write(value.originRequestId)
         try writer["type"].write(value.type)
     }
 }
@@ -21054,6 +21063,7 @@ extension QConnectClientTypes.Span {
         value.endTimestamp = try reader["endTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.requestId = try reader["requestId"].readIfPresent() ?? ""
+        value.originRequestId = try reader["originRequestId"].readIfPresent()
         value.attributes = try reader["attributes"].readIfPresent(with: QConnectClientTypes.SpanAttributes.read(from:))
         return value
     }

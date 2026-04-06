@@ -2307,7 +2307,7 @@ extension MediaPackageV2ClientTypes {
 
     /// The parameters for the SPEKE key provider.
     public struct SpekeKeyProvider: Swift.Sendable {
-        /// The ARN for the certificate that you imported to AWS Certificate Manager to add content key encryption to this endpoint. For this feature to work, your DRM key provider must support content key encryption.
+        /// The ARN for the certificate that you imported to Amazon Web Services Certificate Manager to add content key encryption to this endpoint. For this feature to work, your DRM key provider must support content key encryption.
         public var certificateArn: Swift.String?
         /// The DRM solution provider you're using to protect your content during distribution.
         /// This member is required.

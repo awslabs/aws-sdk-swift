@@ -6117,6 +6117,8 @@ public struct GetDataAccessInput: Swift.Sendable {
     /// The Amazon Web Services account ID of the S3 Access Grants instance.
     /// This member is required.
     public var accountId: Swift.String?
+    /// The context to identify the job or query associated with the credential request. This information will be displayed in CloudTrail log in your account.
+    public var auditContext: Swift.String?
     /// The session duration, in seconds, of the temporary access credential that S3 Access Grants vends to the grantee or client application. The default value is 1 hour, but the grantee can specify a range from 900 seconds (15 minutes) up to 43200 seconds (12 hours). If the grantee requests a value higher than this maximum, the operation fails.
     public var durationSeconds: Swift.Int?
     /// The type of permission granted to your S3 data, which can be set to one of the following values:
@@ -6142,6 +6144,7 @@ public struct GetDataAccessInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil,
+        auditContext: Swift.String? = nil,
         durationSeconds: Swift.Int? = nil,
         permission: S3ControlClientTypes.Permission? = nil,
         privilege: S3ControlClientTypes.Privilege? = nil,
@@ -6149,6 +6152,7 @@ public struct GetDataAccessInput: Swift.Sendable {
         targetType: S3ControlClientTypes.S3PrefixType? = nil
     ) {
         self.accountId = accountId
+        self.auditContext = auditContext
         self.durationSeconds = durationSeconds
         self.permission = permission
         self.privilege = privilege
@@ -9699,6 +9703,10 @@ extension GetDataAccessInput {
         if let privilege = value.privilege {
             let privilegeQueryItem = Smithy.URIQueryItem(name: "privilege".urlPercentEncoding(), value: Swift.String(privilege.rawValue).urlPercentEncoding())
             items.append(privilegeQueryItem)
+        }
+        if let auditContext = value.auditContext {
+            let auditContextQueryItem = Smithy.URIQueryItem(name: "auditContext".urlPercentEncoding(), value: Swift.String(auditContext).urlPercentEncoding())
+            items.append(auditContextQueryItem)
         }
         return items
     }
