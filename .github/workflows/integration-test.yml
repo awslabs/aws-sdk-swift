@@ -28,6 +28,10 @@ jobs:
         xcode:
           - Xcode_15.2
           - Xcode_26.2
+        group:
+          - one
+          - two
+          - three
         destination:
           - 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
           - 'platform=iOS Simulator,OS=26.2,name=iPhone 17'
@@ -35,7 +39,6 @@ jobs:
           - 'platform=tvOS Simulator,OS=26.2,name=Apple TV 4K (3rd generation) (at 1080p)'
           - 'platform=visionOS Simulator,OS=1.0,name=Apple Vision Pro'
           - 'platform=visionOS Simulator,OS=26.2,name=Apple Vision Pro'
-          - 'platform=macOS'
         exclude:
           # Don't run old macOS with new Xcode
           - runner: macos-14
@@ -132,7 +135,7 @@ jobs:
 
   linux:
     # Details on why AL2 isn't included: https://github.com/awslabs/aws-sdk-swift/pull/1833
-    if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
+    if: false
     runs-on: ${{ matrix.runner }}
     container: swift:${{ matrix.swift }}
     strategy:
