@@ -659,6 +659,42 @@ extension DataExchangeClientTypes {
 
 extension DataExchangeClientTypes {
 
+    /// A tag consisting of a key-value pair that can be applied to a resource.
+    public struct Tag: Swift.Sendable {
+        /// The key of the tag.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the tag.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension DataExchangeClientTypes {
+
+    /// The configuration for the asset, which can include tags.
+    public struct AssetConfiguration: Swift.Sendable {
+        /// The tags to be applied to assets created by the job.
+        public var tags: [DataExchangeClientTypes.Tag]?
+
+        public init(
+            tags: [DataExchangeClientTypes.Tag]? = nil
+        ) {
+            self.tags = tags
+        }
+    }
+}
+
+extension DataExchangeClientTypes {
+
     /// The destination for the asset.
     public struct AssetDestinationEntry: Swift.Sendable {
         /// The unique identifier for the asset.
@@ -2221,6 +2257,8 @@ extension DataExchangeClientTypes {
 }
 
 public struct CreateJobInput: Swift.Sendable {
+    /// The configuration for the asset, including tags to be applied to assets created by the job.
+    public var assetConfiguration: DataExchangeClientTypes.AssetConfiguration?
     /// The details for the CreateJob request.
     /// This member is required.
     public var details: DataExchangeClientTypes.RequestDetails?
@@ -2229,9 +2267,11 @@ public struct CreateJobInput: Swift.Sendable {
     public var type: DataExchangeClientTypes.ModelType?
 
     public init(
+        assetConfiguration: DataExchangeClientTypes.AssetConfiguration? = nil,
         details: DataExchangeClientTypes.RequestDetails? = nil,
         type: DataExchangeClientTypes.ModelType? = nil
     ) {
+        self.assetConfiguration = assetConfiguration
         self.details = details
         self.type = type
     }
@@ -2786,6 +2826,8 @@ extension DataExchangeClientTypes {
 public struct CreateJobOutput: Swift.Sendable {
     /// The ARN for the job.
     public var arn: Swift.String?
+    /// The configuration for the asset, including tags applied to assets created by the job.
+    public var assetConfiguration: DataExchangeClientTypes.AssetConfiguration?
     /// The date and time that the job was created, in ISO 8601 format.
     public var createdAt: Foundation.Date?
     /// Details about the job.
@@ -2803,6 +2845,7 @@ public struct CreateJobOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
+        assetConfiguration: DataExchangeClientTypes.AssetConfiguration? = nil,
         createdAt: Foundation.Date? = nil,
         details: DataExchangeClientTypes.ResponseDetails? = nil,
         errors: [DataExchangeClientTypes.JobError]? = nil,
@@ -2812,6 +2855,7 @@ public struct CreateJobOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil
     ) {
         self.arn = arn
+        self.assetConfiguration = assetConfiguration
         self.createdAt = createdAt
         self.details = details
         self.errors = errors
@@ -3013,6 +3057,8 @@ public struct GetAssetOutput: Swift.Sendable {
     public var revisionId: Swift.String?
     /// The asset ID of the owned asset corresponding to the entitled asset being viewed. This parameter is returned when an asset owner is viewing the entitled copy of its owned asset.
     public var sourceId: Swift.String?
+    /// The tags for the asset.
+    public var tags: [Swift.String: Swift.String]?
     /// The date and time that the asset was last updated, in ISO 8601 format.
     public var updatedAt: Foundation.Date?
 
@@ -3026,6 +3072,7 @@ public struct GetAssetOutput: Swift.Sendable {
         name: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         sourceId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
         self.arn = arn
@@ -3037,6 +3084,7 @@ public struct GetAssetOutput: Swift.Sendable {
         self.name = name
         self.revisionId = revisionId
         self.sourceId = sourceId
+        self.tags = tags
         self.updatedAt = updatedAt
     }
 }
@@ -3256,6 +3304,8 @@ public struct GetJobInput: Swift.Sendable {
 public struct GetJobOutput: Swift.Sendable {
     /// The ARN for the job.
     public var arn: Swift.String?
+    /// The configuration for the asset, including tags applied to assets created by the job.
+    public var assetConfiguration: DataExchangeClientTypes.AssetConfiguration?
     /// The date and time that the job was created, in ISO 8601 format.
     public var createdAt: Foundation.Date?
     /// Details about the job.
@@ -3273,6 +3323,7 @@ public struct GetJobOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
+        assetConfiguration: DataExchangeClientTypes.AssetConfiguration? = nil,
         createdAt: Foundation.Date? = nil,
         details: DataExchangeClientTypes.ResponseDetails? = nil,
         errors: [DataExchangeClientTypes.JobError]? = nil,
@@ -3282,6 +3333,7 @@ public struct GetJobOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil
     ) {
         self.arn = arn
+        self.assetConfiguration = assetConfiguration
         self.createdAt = createdAt
         self.details = details
         self.errors = errors
@@ -3836,6 +3888,8 @@ extension DataExchangeClientTypes {
         /// The ARN for the job.
         /// This member is required.
         public var arn: Swift.String?
+        /// The configuration for the asset, including tags applied to assets created by the job.
+        public var assetConfiguration: DataExchangeClientTypes.AssetConfiguration?
         /// The date and time that the job was created, in ISO 8601 format.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -3859,6 +3913,7 @@ extension DataExchangeClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            assetConfiguration: DataExchangeClientTypes.AssetConfiguration? = nil,
             createdAt: Foundation.Date? = nil,
             details: DataExchangeClientTypes.ResponseDetails? = nil,
             errors: [DataExchangeClientTypes.JobError]? = nil,
@@ -3868,6 +3923,7 @@ extension DataExchangeClientTypes {
             updatedAt: Foundation.Date? = nil
         ) {
             self.arn = arn
+            self.assetConfiguration = assetConfiguration
             self.createdAt = createdAt
             self.details = details
             self.errors = errors
@@ -5410,6 +5466,7 @@ extension CreateJobInput {
 
     static func write(value: CreateJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AssetConfiguration"].write(value.assetConfiguration, with: DataExchangeClientTypes.AssetConfiguration.write(value:to:))
         try writer["Details"].write(value.details, with: DataExchangeClientTypes.RequestDetails.write(value:to:))
         try writer["Type"].write(value.type)
     }
@@ -5599,6 +5656,7 @@ extension CreateJobOutput {
         let reader = responseReader
         var value = CreateJobOutput()
         value.arn = try reader["Arn"].readIfPresent()
+        value.assetConfiguration = try reader["AssetConfiguration"].readIfPresent(with: DataExchangeClientTypes.AssetConfiguration.read(from:))
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.details = try reader["Details"].readIfPresent(with: DataExchangeClientTypes.ResponseDetails.read(from:))
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.JobError.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -5684,6 +5742,7 @@ extension GetAssetOutput {
         value.name = try reader["Name"].readIfPresent()
         value.revisionId = try reader["RevisionId"].readIfPresent()
         value.sourceId = try reader["SourceId"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -5763,6 +5822,7 @@ extension GetJobOutput {
         let reader = responseReader
         var value = GetJobOutput()
         value.arn = try reader["Arn"].readIfPresent()
+        value.assetConfiguration = try reader["AssetConfiguration"].readIfPresent(with: DataExchangeClientTypes.AssetConfiguration.read(from:))
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.details = try reader["Details"].readIfPresent(with: DataExchangeClientTypes.ResponseDetails.read(from:))
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.JobError.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -6859,6 +6919,21 @@ extension DataExchangeClientTypes.ApiGatewayApiAsset {
     }
 }
 
+extension DataExchangeClientTypes.AssetConfiguration {
+
+    static func write(value: DataExchangeClientTypes.AssetConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: DataExchangeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.AssetConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.AssetConfiguration()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension DataExchangeClientTypes.AssetDestinationEntry {
 
     static func write(value: DataExchangeClientTypes.AssetDestinationEntry?, to writer: SmithyJSON.Writer) throws {
@@ -7346,6 +7421,7 @@ extension DataExchangeClientTypes.JobEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataExchangeClientTypes.JobEntry()
         value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.assetConfiguration = try reader["AssetConfiguration"].readIfPresent(with: DataExchangeClientTypes.AssetConfiguration.read(from:))
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.details = try reader["Details"].readIfPresent(with: DataExchangeClientTypes.ResponseDetails.read(from:))
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.JobError.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -7734,6 +7810,23 @@ extension DataExchangeClientTypes.TableLFTagPolicyAndPermissions {
         var value = DataExchangeClientTypes.TableLFTagPolicyAndPermissions()
         value.expression = try reader["Expression"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.LFTag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataExchangeClientTypes.TableTagPolicyLFPermission>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.Tag {
+
+    static func write(value: DataExchangeClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

@@ -1635,7 +1635,7 @@ extension ElastiCacheClientTypes {
         public var dataTiering: ElastiCacheClientTypes.DataTieringStatus?
         /// The user supplied description of the replication group.
         public var description: Swift.String?
-        /// The engine used in a replication group. The options are redis, memcached or valkey.
+        /// The engine used in a replication group. The options are valkey, memcached or redis.
         public var engine: Swift.String?
         /// The name of the Global datastore and role of this replication group in the Global datastore.
         public var globalReplicationGroupInfo: ElastiCacheClientTypes.GlobalReplicationGroupInfo?
@@ -1834,7 +1834,7 @@ public struct CopyServerlessCacheSnapshotInput: Swift.Sendable {
     public var sourceServerlessCacheSnapshotName: Swift.String?
     /// A list of tags to be added to the target snapshot resource. A tag is a key-value pair. Available for Valkey, Redis OSS and Serverless Memcached only. Default: NULL
     public var tags: [ElastiCacheClientTypes.Tag]?
-    /// The identifier for the snapshot to be created. Available for Valkey, Redis OSS and Serverless Memcached only.
+    /// The identifier for the snapshot to be created. Available for Valkey, Redis OSS and Serverless Memcached only. This value is stored as a lowercase string.
     /// This member is required.
     public var targetServerlessCacheSnapshotName: Swift.String?
 
@@ -2012,7 +2012,7 @@ public struct CopySnapshotInput: Swift.Sendable {
     public var tags: [ElastiCacheClientTypes.Tag]?
     /// The Amazon S3 bucket to which the snapshot is exported. This parameter is used only when exporting a snapshot for external access. When using this parameter to export a snapshot, be sure Amazon ElastiCache has the needed permissions to this S3 bucket. For more information, see [Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-grant-access) in the Amazon ElastiCache User Guide. For more information, see [Exporting a Snapshot](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html) in the Amazon ElastiCache User Guide.
     public var targetBucket: Swift.String?
-    /// A name for the snapshot copy. ElastiCache does not permit overwriting a snapshot, therefore this name must be unique within its context - ElastiCache or an Amazon S3 bucket if exporting.
+    /// A name for the snapshot copy. ElastiCache does not permit overwriting a snapshot, therefore this name must be unique within its context - ElastiCache or an Amazon S3 bucket if exporting. This value is stored as a lowercase string.
     /// This member is required.
     public var targetSnapshotName: Swift.String?
 
@@ -3221,7 +3221,7 @@ public struct CreateCacheParameterGroupInput: Swift.Sendable {
     /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: valkey8 | valkey7 | memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7
     /// This member is required.
     public var cacheParameterGroupFamily: Swift.String?
-    /// A user-specified name for the cache parameter group.
+    /// A user-specified name for the cache parameter group. This value is stored as a lowercase string.
     /// This member is required.
     public var cacheParameterGroupName: Swift.String?
     /// A user-specified description for the cache parameter group.
@@ -3652,7 +3652,7 @@ public struct CreateGlobalReplicationGroupInput: Swift.Sendable {
     /// The suffix name of a Global datastore. Amazon ElastiCache automatically applies a prefix to the Global datastore ID when it is created. Each Amazon Region has its own prefix. For instance, a Global datastore ID created in the US-West-1 region will begin with "dsdfu" along with the suffix name you provide. The suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global datastore name across multiple regions. For a full list of Amazon Regions and their respective Global datastore iD prefixes, see [Using the Amazon CLI with Global datastores ](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Redis-Global-Datastores-CLI.html).
     /// This member is required.
     public var globalReplicationGroupIdSuffix: Swift.String?
-    /// The name of the primary cluster that accepts writes and will replicate updates to the secondary cluster.
+    /// The name of the primary cluster that accepts writes and will replicate updates to the secondary cluster. This value is stored as a lowercase string.
     /// This member is required.
     public var primaryReplicationGroupId: Swift.String?
 
@@ -4356,6 +4356,8 @@ public struct CreateServerlessCacheInput: Swift.Sendable {
     public var kmsKeyId: Swift.String?
     /// The version of the cache engine that will be used to create the serverless cache.
     public var majorEngineVersion: Swift.String?
+    /// The IP protocol version used by the serverless cache. Must be either ipv4 | ipv6 | dual_stack. ipv6 is only supported with ipv6-only subnets. If not specified, defaults to ipv4, unless all provided subnets are IPv6-only, in which case it defaults to ipv6.
+    public var networkType: ElastiCacheClientTypes.NetworkType?
     /// A list of the one or more VPC security groups to be associated with the serverless cache. The security group will authorize traffic access for the VPC end-point (private-link). If no other information is given this will be the VPC’s Default Security Group that is associated with the cluster VPC end-point.
     public var securityGroupIds: [Swift.String]?
     /// User-provided identifier for the serverless cache. This parameter is stored as a lowercase string.
@@ -4363,7 +4365,7 @@ public struct CreateServerlessCacheInput: Swift.Sendable {
     public var serverlessCacheName: Swift.String?
     /// The ARN(s) of the snapshot that the new serverless cache will be created from. Available for Valkey, Redis OSS and Serverless Memcached only.
     public var snapshotArnsToRestore: [Swift.String]?
-    /// The number of snapshots that will be retained for the serverless cache that is being created. As new snapshots beyond this limit are added, the oldest snapshots will be deleted on a rolling basis. Available for Valkey, Redis OSS and Serverless Memcached only.
+    /// The number of days for which ElastiCache retains automatic snapshots before deleting them. Available for Valkey, Redis OSS and Serverless Memcached only. The maximum value allowed is 35 days.
     public var snapshotRetentionLimit: Swift.Int?
     /// A list of the identifiers of the subnets where the VPC endpoint for the serverless cache will be deployed. All the subnetIds must belong to the same VPC.
     public var subnetIds: [Swift.String]?
@@ -4379,6 +4381,7 @@ public struct CreateServerlessCacheInput: Swift.Sendable {
         engine: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         majorEngineVersion: Swift.String? = nil,
+        networkType: ElastiCacheClientTypes.NetworkType? = nil,
         securityGroupIds: [Swift.String]? = nil,
         serverlessCacheName: Swift.String? = nil,
         snapshotArnsToRestore: [Swift.String]? = nil,
@@ -4393,6 +4396,7 @@ public struct CreateServerlessCacheInput: Swift.Sendable {
         self.engine = engine
         self.kmsKeyId = kmsKeyId
         self.majorEngineVersion = majorEngineVersion
+        self.networkType = networkType
         self.securityGroupIds = securityGroupIds
         self.serverlessCacheName = serverlessCacheName
         self.snapshotArnsToRestore = snapshotArnsToRestore
@@ -4427,13 +4431,15 @@ extension ElastiCacheClientTypes {
         public var kmsKeyId: Swift.String?
         /// The version number of the engine the serverless cache is compatible with.
         public var majorEngineVersion: Swift.String?
+        /// The type of IP address protocol used by the serverless cache. Must be either ipv4 | ipv6 | dual_stack. ipv6 is only supported with IPv6-only subnets. If not specified, defaults to ipv4, unless all provided subnets are IPv6-only, in which case it defaults to ipv6.
+        public var networkType: ElastiCacheClientTypes.NetworkType?
         /// Represents the information required for client programs to connect to a cache node. This value is read-only.
         public var readerEndpoint: ElastiCacheClientTypes.Endpoint?
         /// The IDs of the EC2 security groups associated with the serverless cache.
         public var securityGroupIds: [Swift.String]?
         /// The unique identifier of the serverless cache.
         public var serverlessCacheName: Swift.String?
-        /// The current setting for the number of serverless cache snapshots the system will retain. Available for Valkey, Redis OSS and Serverless Memcached only.
+        /// The number of days for which ElastiCache retains automatic snapshots before deleting them. Available for Valkey, Redis OSS and Serverless Memcached only. The maximum value allowed is 35 days.
         public var snapshotRetentionLimit: Swift.Int?
         /// The current status of the serverless cache. The allowed values are CREATING, AVAILABLE, DELETING, CREATE-FAILED and MODIFYING.
         public var status: Swift.String?
@@ -4453,6 +4459,7 @@ extension ElastiCacheClientTypes {
             fullEngineVersion: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
             majorEngineVersion: Swift.String? = nil,
+            networkType: ElastiCacheClientTypes.NetworkType? = nil,
             readerEndpoint: ElastiCacheClientTypes.Endpoint? = nil,
             securityGroupIds: [Swift.String]? = nil,
             serverlessCacheName: Swift.String? = nil,
@@ -4471,6 +4478,7 @@ extension ElastiCacheClientTypes {
             self.fullEngineVersion = fullEngineVersion
             self.kmsKeyId = kmsKeyId
             self.majorEngineVersion = majorEngineVersion
+            self.networkType = networkType
             self.readerEndpoint = readerEndpoint
             self.securityGroupIds = securityGroupIds
             self.serverlessCacheName = serverlessCacheName
@@ -4499,7 +4507,7 @@ public struct CreateServerlessCacheSnapshotInput: Swift.Sendable {
     /// The name of an existing serverless cache. The snapshot is created from this cache. Available for Valkey, Redis OSS and Serverless Memcached only.
     /// This member is required.
     public var serverlessCacheName: Swift.String?
-    /// The name for the snapshot being created. Must be unique for the customer account. Available for Valkey, Redis OSS and Serverless Memcached only. Must be between 1 and 255 characters.
+    /// The name for the snapshot being created. Must be unique for the customer account. Available for Valkey, Redis OSS and Serverless Memcached only. Must be between 1 and 255 characters. This value is stored as a lowercase string.
     /// This member is required.
     public var serverlessCacheSnapshotName: Swift.String?
     /// A list of tags to be added to the snapshot resource. A tag is a key-value pair. Available for Valkey, Redis OSS and Serverless Memcached only.
@@ -4567,7 +4575,7 @@ public struct CreateSnapshotInput: Swift.Sendable {
     public var kmsKeyId: Swift.String?
     /// The identifier of an existing replication group. The snapshot is created from this replication group.
     public var replicationGroupId: Swift.String?
-    /// A name for the snapshot being created.
+    /// A name for the snapshot being created. This value is stored as a lowercase string.
     /// This member is required.
     public var snapshotName: Swift.String?
     /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
@@ -4734,7 +4742,7 @@ public struct CreateUserInput: Swift.Sendable {
     public var passwords: [Swift.String]?
     /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
     public var tags: [ElastiCacheClientTypes.Tag]?
-    /// The ID of the user.
+    /// The ID of the user. This value is stored as a lowercase string.
     /// This member is required.
     public var userId: Swift.String?
     /// The username of the user.
@@ -4931,7 +4939,7 @@ public struct CreateUserGroupInput: Swift.Sendable {
     public var engine: Swift.String?
     /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted. Available for Valkey and Redis OSS only.
     public var tags: [ElastiCacheClientTypes.Tag]?
-    /// The ID of the user group.
+    /// The ID of the user group. This value is stored as a lowercase string.
     /// This member is required.
     public var userGroupId: Swift.String?
     /// The list of user IDs that belong to the user group.
@@ -8176,7 +8184,7 @@ public struct ModifyGlobalReplicationGroupInput: Swift.Sendable {
     public var cacheNodeType: Swift.String?
     /// The name of the cache parameter group to use with the Global datastore. It must be compatible with the major engine version used by the Global datastore.
     public var cacheParameterGroupName: Swift.String?
-    /// Modifies the engine listed in a global replication group message. The options are redis, memcached or valkey.
+    /// Modifies the engine listed in a global replication group message. The options are valkey, memcached or redis.
     public var engine: Swift.String?
     /// The upgraded version of the cache engine to be run on the clusters in the Global datastore.
     public var engineVersion: Swift.String?
@@ -8258,7 +8266,7 @@ public struct ModifyReplicationGroupInput: Swift.Sendable {
     public var cacheSecurityGroupNames: [Swift.String]?
     /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Valkey or Redis OSS clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Valkey or Redis OSS clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
     public var clusterMode: ElastiCacheClientTypes.ClusterMode?
-    /// Modifies the engine listed in a replication group message. The options are redis, memcached or valkey.
+    /// Modifies the engine listed in a replication group message. The options are valkey, memcached or redis.
     public var engine: Swift.String?
     /// The upgraded version of the cache engine to be run on the clusters in the replication group. Important: You can upgrade to a newer engine version (see [Selecting a Cache Engine and Version](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SelectEngine.html#VersionManagement)), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing replication group and create it anew with the earlier engine version.
     public var engineVersion: Swift.String?
@@ -8449,7 +8457,7 @@ public struct ModifyServerlessCacheInput: Swift.Sendable {
     public var dailySnapshotTime: Swift.String?
     /// User provided description for the serverless cache. Default = NULL, i.e. the existing description is not removed/modified. The description has a maximum length of 255 characters.
     public var description: Swift.String?
-    /// Modifies the engine listed in a serverless cache request. The options are redis, memcached or valkey.
+    /// Modifies the engine listed in a serverless cache request. The options are valkey, memcached or redis.
     public var engine: Swift.String?
     /// Modifies the engine vesion listed in a serverless cache request.
     public var majorEngineVersion: Swift.String?
@@ -9893,6 +9901,7 @@ extension CreateServerlessCacheInput {
         try writer["Engine"].write(value.engine)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["MajorEngineVersion"].write(value.majorEngineVersion)
+        try writer["NetworkType"].write(value.networkType)
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "SecurityGroupId", isFlattened: false)
         try writer["ServerlessCacheName"].write(value.serverlessCacheName)
         try writer["SnapshotArnsToRestore"].writeList(value.snapshotArnsToRestore, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "SnapshotArn", isFlattened: false)
@@ -14927,6 +14936,7 @@ extension ElastiCacheClientTypes.ServerlessCache {
         value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "SubnetId", isFlattened: false)
         value.snapshotRetentionLimit = try reader["SnapshotRetentionLimit"].readIfPresent()
         value.dailySnapshotTime = try reader["DailySnapshotTime"].readIfPresent()
+        value.networkType = try reader["NetworkType"].readIfPresent()
         return value
     }
 }

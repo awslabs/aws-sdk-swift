@@ -1360,6 +1360,8 @@ extension OrganizationsClientTypes {
         public var joinedTimestamp: Foundation.Date?
         /// The friendly name of the account. The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public var name: Swift.String?
+        /// The paths in the organization where the account exists.
+        public var paths: [Swift.String]?
         /// Each state represents a specific phase in the account lifecycle. Use this information to manage account access, automate workflows, or trigger actions based on account state changes. For more information about account states and their implications, see [Monitor the state of your Amazon Web Services accounts ](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_account_state.html) in the Organizations User Guide.
         public var state: OrganizationsClientTypes.AccountState?
         /// The status of the account in the organization. The Status parameter in the Account object will be retired on September 9, 2026. Although both the account State and account Status parameters are currently available in the Organizations APIs (DescribeAccount, ListAccounts, ListAccountsForParent), we recommend that you update your scripts or other code to use the State parameter instead of Status before September 9, 2026.
@@ -1372,6 +1374,7 @@ extension OrganizationsClientTypes {
             joinedMethod: OrganizationsClientTypes.AccountJoinedMethod? = nil,
             joinedTimestamp: Foundation.Date? = nil,
             name: Swift.String? = nil,
+            paths: [Swift.String]? = nil,
             state: OrganizationsClientTypes.AccountState? = nil,
             status: OrganizationsClientTypes.AccountStatus? = nil
         ) {
@@ -1381,6 +1384,7 @@ extension OrganizationsClientTypes {
             self.joinedMethod = joinedMethod
             self.joinedTimestamp = joinedTimestamp
             self.name = name
+            self.paths = paths
             self.state = state
             self.status = status
         }
@@ -1389,7 +1393,7 @@ extension OrganizationsClientTypes {
 
 extension OrganizationsClientTypes.Account: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Account(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), joinedMethod: \(Swift.String(describing: joinedMethod)), joinedTimestamp: \(Swift.String(describing: joinedTimestamp)), state: \(Swift.String(describing: state)), status: \(Swift.String(describing: status)), email: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "Account(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), joinedMethod: \(Swift.String(describing: joinedMethod)), joinedTimestamp: \(Swift.String(describing: joinedTimestamp)), paths: \(Swift.String(describing: paths)), state: \(Swift.String(describing: state)), status: \(Swift.String(describing: status)), email: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 /// You attempted to close an account that is already closed.
@@ -2430,15 +2434,19 @@ extension OrganizationsClientTypes {
         public var id: Swift.String?
         /// The friendly name of this OU. The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public var name: Swift.String?
+        /// The path in the organization where this OU exists.
+        public var path: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            path: Swift.String? = nil
         ) {
             self.arn = arn
             self.id = id
             self.name = name
+            self.path = path
         }
     }
 }
@@ -9180,6 +9188,7 @@ extension OrganizationsClientTypes.Account {
         value.name = try reader["Name"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
+        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.joinedMethod = try reader["JoinedMethod"].readIfPresent()
         value.joinedTimestamp = try reader["JoinedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
@@ -9359,6 +9368,7 @@ extension OrganizationsClientTypes.OrganizationalUnit {
         value.id = try reader["Id"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
+        value.path = try reader["Path"].readIfPresent()
         return value
     }
 }

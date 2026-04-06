@@ -623,6 +623,7 @@ extension PricingClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : General authentication failure. The request wasn't signed correctly.
     /// - `ExpiredNextTokenException` : The pagination token expired. Try again without a pagination token.
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
@@ -697,6 +698,7 @@ extension PricingClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : General authentication failure. The request wasn't signed correctly.
     /// - `ExpiredNextTokenException` : The pagination token expired. Try again without a pagination token.
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
@@ -845,6 +847,7 @@ extension PricingClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : General authentication failure. The request wasn't signed correctly.
     /// - `ExpiredNextTokenException` : The pagination token expired. Try again without a pagination token.
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.

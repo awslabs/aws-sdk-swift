@@ -2018,11 +2018,11 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `InvokeAgentRuntimeCommand` operation on the `BedrockAgentCore` service.
     ///
-    /// Executes a command in a runtime session container. Returns streaming output with contentStart, contentDelta, and contentStop events.
+    /// Executes a command in a runtime session container and streams the output back to the caller. This operation allows you to run shell commands within the agent runtime environment and receive real-time streaming responses including standard output and standard error. To invoke a command, you must specify the agent runtime ARN and a runtime session ID. The command execution supports streaming responses, allowing you to receive output as it becomes available through contentStart, contentDelta, and contentStop events. To use this operation, you must have the bedrock-agentcore:InvokeAgentRuntimeCommand permission.
     ///
-    /// - Parameter input: Request for InvokeAgentRuntimeCommand operation (Type: `InvokeAgentRuntimeCommandInput`)
+    /// - Parameter input: Request for InvokeAgentRuntimeCommand operation. (Type: `InvokeAgentRuntimeCommandInput`)
     ///
-    /// - Returns: Response for InvokeAgentRuntimeCommand operation (Type: `InvokeAgentRuntimeCommandOutput`)
+    /// - Returns: Response for InvokeAgentRuntimeCommand operation. (Type: `InvokeAgentRuntimeCommandOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

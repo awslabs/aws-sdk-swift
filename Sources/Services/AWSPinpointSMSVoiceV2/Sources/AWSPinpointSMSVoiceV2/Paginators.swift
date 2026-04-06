@@ -136,6 +136,70 @@ extension PaginatorSequence where OperationStackInput == DescribeKeywordsInput, 
     }
 }
 extension PinpointSMSVoiceV2Client {
+    /// Paginate over `[DescribeNotifyConfigurationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeNotifyConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeNotifyConfigurationsOutput`
+    public func describeNotifyConfigurationsPaginated(input: DescribeNotifyConfigurationsInput) -> ClientRuntime.PaginatorSequence<DescribeNotifyConfigurationsInput, DescribeNotifyConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeNotifyConfigurationsInput, DescribeNotifyConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeNotifyConfigurations(input:))
+    }
+}
+
+extension DescribeNotifyConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeNotifyConfigurationsInput {
+        return DescribeNotifyConfigurationsInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            notifyConfigurationIds: self.notifyConfigurationIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeNotifyConfigurationsInput, OperationStackOutput == DescribeNotifyConfigurationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeNotifyConfigurationsPaginated`
+    /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.NotifyConfigurationInformation]`
+    /// - Returns: `[PinpointSMSVoiceV2ClientTypes.NotifyConfigurationInformation]`
+    public func notifyConfigurations() async throws -> [PinpointSMSVoiceV2ClientTypes.NotifyConfigurationInformation] {
+        return try await self.asyncCompactMap { item in item.notifyConfigurations }
+    }
+}
+extension PinpointSMSVoiceV2Client {
+    /// Paginate over `[DescribeNotifyTemplatesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeNotifyTemplatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeNotifyTemplatesOutput`
+    public func describeNotifyTemplatesPaginated(input: DescribeNotifyTemplatesInput) -> ClientRuntime.PaginatorSequence<DescribeNotifyTemplatesInput, DescribeNotifyTemplatesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeNotifyTemplatesInput, DescribeNotifyTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeNotifyTemplates(input:))
+    }
+}
+
+extension DescribeNotifyTemplatesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeNotifyTemplatesInput {
+        return DescribeNotifyTemplatesInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            templateIds: self.templateIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeNotifyTemplatesInput, OperationStackOutput == DescribeNotifyTemplatesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeNotifyTemplatesPaginated`
+    /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.NotifyTemplateInformation]`
+    /// - Returns: `[PinpointSMSVoiceV2ClientTypes.NotifyTemplateInformation]`
+    public func notifyTemplates() async throws -> [PinpointSMSVoiceV2ClientTypes.NotifyTemplateInformation] {
+        return try await self.asyncCompactMap { item in item.notifyTemplates }
+    }
+}
+extension PinpointSMSVoiceV2Client {
     /// Paginate over `[DescribeOptedOutNumbersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -296,6 +360,72 @@ extension PaginatorSequence where OperationStackInput == DescribeProtectConfigur
     /// - Returns: `[PinpointSMSVoiceV2ClientTypes.ProtectConfigurationInformation]`
     public func protectConfigurations() async throws -> [PinpointSMSVoiceV2ClientTypes.ProtectConfigurationInformation] {
         return try await self.asyncCompactMap { item in item.protectConfigurations }
+    }
+}
+extension PinpointSMSVoiceV2Client {
+    /// Paginate over `[DescribeRcsAgentCountryLaunchStatusOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeRcsAgentCountryLaunchStatusInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRcsAgentCountryLaunchStatusOutput`
+    public func describeRcsAgentCountryLaunchStatusPaginated(input: DescribeRcsAgentCountryLaunchStatusInput) -> ClientRuntime.PaginatorSequence<DescribeRcsAgentCountryLaunchStatusInput, DescribeRcsAgentCountryLaunchStatusOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeRcsAgentCountryLaunchStatusInput, DescribeRcsAgentCountryLaunchStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRcsAgentCountryLaunchStatus(input:))
+    }
+}
+
+extension DescribeRcsAgentCountryLaunchStatusInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeRcsAgentCountryLaunchStatusInput {
+        return DescribeRcsAgentCountryLaunchStatusInput(
+            filters: self.filters,
+            isoCountryCodes: self.isoCountryCodes,
+            maxResults: self.maxResults,
+            nextToken: token,
+            rcsAgentId: self.rcsAgentId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeRcsAgentCountryLaunchStatusInput, OperationStackOutput == DescribeRcsAgentCountryLaunchStatusOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeRcsAgentCountryLaunchStatusPaginated`
+    /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.CountryLaunchStatusInformation]`
+    /// - Returns: `[PinpointSMSVoiceV2ClientTypes.CountryLaunchStatusInformation]`
+    public func countryLaunchStatus() async throws -> [PinpointSMSVoiceV2ClientTypes.CountryLaunchStatusInformation] {
+        return try await self.asyncCompactMap { item in item.countryLaunchStatus }
+    }
+}
+extension PinpointSMSVoiceV2Client {
+    /// Paginate over `[DescribeRcsAgentsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeRcsAgentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRcsAgentsOutput`
+    public func describeRcsAgentsPaginated(input: DescribeRcsAgentsInput) -> ClientRuntime.PaginatorSequence<DescribeRcsAgentsInput, DescribeRcsAgentsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeRcsAgentsInput, DescribeRcsAgentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRcsAgents(input:))
+    }
+}
+
+extension DescribeRcsAgentsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeRcsAgentsInput {
+        return DescribeRcsAgentsInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            owner: self.owner,
+            rcsAgentIds: self.rcsAgentIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeRcsAgentsInput, OperationStackOutput == DescribeRcsAgentsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeRcsAgentsPaginated`
+    /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.RcsAgentInformation]`
+    /// - Returns: `[PinpointSMSVoiceV2ClientTypes.RcsAgentInformation]`
+    public func rcsAgents() async throws -> [PinpointSMSVoiceV2ClientTypes.RcsAgentInformation] {
+        return try await self.asyncCompactMap { item in item.rcsAgents }
     }
 }
 extension PinpointSMSVoiceV2Client {
@@ -620,6 +750,39 @@ extension PaginatorSequence where OperationStackInput == DescribeVerifiedDestina
     /// - Returns: `[PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberInformation]`
     public func verifiedDestinationNumbers() async throws -> [PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberInformation] {
         return try await self.asyncCompactMap { item in item.verifiedDestinationNumbers }
+    }
+}
+extension PinpointSMSVoiceV2Client {
+    /// Paginate over `[ListNotifyCountriesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListNotifyCountriesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListNotifyCountriesOutput`
+    public func listNotifyCountriesPaginated(input: ListNotifyCountriesInput) -> ClientRuntime.PaginatorSequence<ListNotifyCountriesInput, ListNotifyCountriesOutput> {
+        return ClientRuntime.PaginatorSequence<ListNotifyCountriesInput, ListNotifyCountriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNotifyCountries(input:))
+    }
+}
+
+extension ListNotifyCountriesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListNotifyCountriesInput {
+        return ListNotifyCountriesInput(
+            channels: self.channels,
+            maxResults: self.maxResults,
+            nextToken: token,
+            tier: self.tier,
+            useCases: self.useCases
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListNotifyCountriesInput, OperationStackOutput == ListNotifyCountriesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listNotifyCountriesPaginated`
+    /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.NotifyCountryInformation]`
+    /// - Returns: `[PinpointSMSVoiceV2ClientTypes.NotifyCountryInformation]`
+    public func notifyCountries() async throws -> [PinpointSMSVoiceV2ClientTypes.NotifyCountryInformation] {
+        return try await self.asyncCompactMap { item in item.notifyCountries }
     }
 }
 extension PinpointSMSVoiceV2Client {

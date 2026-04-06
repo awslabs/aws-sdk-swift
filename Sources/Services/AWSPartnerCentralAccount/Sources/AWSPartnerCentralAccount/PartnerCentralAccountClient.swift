@@ -628,6 +628,7 @@ extension PartnerCentralAccountClient {
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource. This typically occurs when trying to create a resource that already exists or modify a resource that has been changed by another process.
     /// - `InternalServerException` : An internal server error occurred while processing the request. This is typically a temporary condition and the request may be retried.
     /// - `ResourceNotFoundException` : The specified resource could not be found. This may occur when referencing a resource that does not exist or has been deleted.
+    /// - `ServiceQuotaExceededException` : The request was rejected because it would exceed a service quota or limit. This may occur when trying to create more resources than allowed by the service limits.
     /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period of time. The client should implement exponential backoff and retry the request.
     /// - `ValidationException` : The request failed validation. One or more input parameters are invalid, missing, or do not meet the required format or constraints.
     public func acceptConnectionInvitation(input: AcceptConnectionInvitationInput) async throws -> AcceptConnectionInvitationOutput {
@@ -1003,6 +1004,7 @@ extension PartnerCentralAccountClient {
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource. This typically occurs when trying to create a resource that already exists or modify a resource that has been changed by another process.
     /// - `InternalServerException` : An internal server error occurred while processing the request. This is typically a temporary condition and the request may be retried.
     /// - `ResourceNotFoundException` : The specified resource could not be found. This may occur when referencing a resource that does not exist or has been deleted.
+    /// - `ServiceQuotaExceededException` : The request was rejected because it would exceed a service quota or limit. This may occur when trying to create more resources than allowed by the service limits.
     /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period of time. The client should implement exponential backoff and retry the request.
     /// - `ValidationException` : The request failed validation. One or more input parameters are invalid, missing, or do not meet the required format or constraints.
     public func createConnectionInvitation(input: CreateConnectionInvitationInput) async throws -> CreateConnectionInvitationOutput {

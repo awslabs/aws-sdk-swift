@@ -1440,13 +1440,15 @@ extension ElasticsearchClientTypes {
         case policyMinTls10201907
         case policyMinTls12201907
         case policyMinTls12Pfs202310
+        case policyMinTls12Rfc9151Fips202408
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TLSSecurityPolicy] {
             return [
                 .policyMinTls10201907,
                 .policyMinTls12201907,
-                .policyMinTls12Pfs202310
+                .policyMinTls12Pfs202310,
+                .policyMinTls12Rfc9151Fips202408
             ]
         }
 
@@ -1460,6 +1462,7 @@ extension ElasticsearchClientTypes {
             case .policyMinTls10201907: return "Policy-Min-TLS-1-0-2019-07"
             case .policyMinTls12201907: return "Policy-Min-TLS-1-2-2019-07"
             case .policyMinTls12Pfs202310: return "Policy-Min-TLS-1-2-PFS-2023-10"
+            case .policyMinTls12Rfc9151Fips202408: return "Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1491,6 +1494,8 @@ extension ElasticsearchClientTypes {
         /// * Policy-Min-TLS-1-2-2019-07: TLS security policy that supports only TLS version 1.2
         ///
         /// * Policy-Min-TLS-1-2-PFS-2023-10: TLS security policy that supports TLS version 1.2 to TLS version 1.3 with perfect forward secrecy cipher suites
+        ///
+        /// * Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08: TLS security policy that supports TLS version 1.3 with FIPS
         public var tlsSecurityPolicy: ElasticsearchClientTypes.TLSSecurityPolicy?
 
         public init(

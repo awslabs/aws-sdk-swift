@@ -1703,6 +1703,12 @@ extension AppStreamClientTypes {
         public var desired: Swift.Int?
         /// The total number of sessions slots that are either running or pending. This represents the total number of concurrent streaming sessions your fleet can support in a steady state. DesiredUserSessionCapacity = ActualUserSessionCapacity + PendingUserSessionCapacity This only applies to multi-session fleets.
         public var desiredUserSessions: Swift.Int?
+        /// The number of active user sessions on instances in drain mode. This only applies to multi-session fleets.
+        public var drainModeActiveUserSessions: Swift.Int?
+        /// The number of unused session slots on instances in drain mode that cannot be used for user session provisioning. This only applies to multi-session fleets.
+        public var drainModeUnusedUserSessions: Swift.Int?
+        /// The number of instances in drain mode. This only applies to multi-session fleets.
+        public var draining: Swift.Int?
         /// The number of instances in use for streaming.
         public var inUse: Swift.Int?
         /// The total number of simultaneous streaming instances that are running.
@@ -1715,6 +1721,9 @@ extension AppStreamClientTypes {
             availableUserSessions: Swift.Int? = nil,
             desired: Swift.Int? = nil,
             desiredUserSessions: Swift.Int? = nil,
+            drainModeActiveUserSessions: Swift.Int? = nil,
+            drainModeUnusedUserSessions: Swift.Int? = nil,
+            draining: Swift.Int? = nil,
             inUse: Swift.Int? = nil,
             running: Swift.Int? = nil
         ) {
@@ -1724,8 +1733,50 @@ extension AppStreamClientTypes {
             self.availableUserSessions = availableUserSessions
             self.desired = desired
             self.desiredUserSessions = desiredUserSessions
+            self.drainModeActiveUserSessions = drainModeActiveUserSessions
+            self.drainModeUnusedUserSessions = drainModeUnusedUserSessions
+            self.draining = draining
             self.inUse = inUse
             self.running = running
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    /// Configuration for URL redirection in a specific direction (host-to-client or client-to-host). When enabled, URLs matching the allowed or denied patterns are redirected accordingly. The denied list takes precedence over the allowed list.
+    public struct UrlRedirectionConfig: Swift.Sendable {
+        /// List of URL patterns that are allowed to be redirected. URLs matching these patterns will be redirected unless they also match a pattern in the denied list.
+        public var allowedUrls: [Swift.String]?
+        /// List of URL patterns that are denied from redirection. This list takes precedence over the allowed list.
+        public var deniedUrls: [Swift.String]?
+        /// Whether URL redirection is enabled for this direction.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+
+        public init(
+            allowedUrls: [Swift.String]? = nil,
+            deniedUrls: [Swift.String]? = nil,
+            enabled: Swift.Bool? = nil
+        ) {
+            self.allowedUrls = allowedUrls
+            self.deniedUrls = deniedUrls
+            self.enabled = enabled
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    /// Configuration for bidirectional URL redirection between the streaming session and the local client. Use HostToClient to redirect URLs from the remote desktop to the local browser.
+    public struct ContentRedirection: Swift.Sendable {
+        /// Configuration for redirecting URLs from the remote desktop to the local client browser.
+        public var hostToClient: AppStreamClientTypes.UrlRedirectionConfig?
+
+        public init(
+            hostToClient: AppStreamClientTypes.UrlRedirectionConfig? = nil
+        ) {
+            self.hostToClient = hostToClient
         }
     }
 }
@@ -4330,6 +4381,8 @@ public struct CreateStackInput: Swift.Sendable {
     public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
     /// The persistent application settings for users of a stack. When these settings are enabled, changes that users make to applications and Windows settings are automatically saved after each session and applied to the next session.
     public var applicationSettings: AppStreamClientTypes.ApplicationSettings?
+    /// Configuration for bidirectional URL redirection between the streaming session and the local client. Use HostToClient to redirect URLs from the remote desktop to the local browser.
+    public var contentRedirection: AppStreamClientTypes.ContentRedirection?
     /// The description to display.
     public var description: Swift.String?
     /// The stack name to display.
@@ -4355,6 +4408,7 @@ public struct CreateStackInput: Swift.Sendable {
     public init(
         accessEndpoints: [AppStreamClientTypes.AccessEndpoint]? = nil,
         applicationSettings: AppStreamClientTypes.ApplicationSettings? = nil,
+        contentRedirection: AppStreamClientTypes.ContentRedirection? = nil,
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         embedHostDomains: [Swift.String]? = nil,
@@ -4368,6 +4422,7 @@ public struct CreateStackInput: Swift.Sendable {
     ) {
         self.accessEndpoints = accessEndpoints
         self.applicationSettings = applicationSettings
+        self.contentRedirection = contentRedirection
         self.description = description
         self.displayName = displayName
         self.embedHostDomains = embedHostDomains
@@ -4439,6 +4494,8 @@ extension AppStreamClientTypes {
         public var applicationSettings: AppStreamClientTypes.ApplicationSettingsResponse?
         /// The ARN of the stack.
         public var arn: Swift.String?
+        /// Configuration for bidirectional URL redirection between the streaming session and the local client. Use HostToClient to redirect URLs from the remote desktop to the local browser.
+        public var contentRedirection: AppStreamClientTypes.ContentRedirection?
         /// The time the stack was created.
         public var createdTime: Foundation.Date?
         /// The description to display.
@@ -4467,6 +4524,7 @@ extension AppStreamClientTypes {
             accessEndpoints: [AppStreamClientTypes.AccessEndpoint]? = nil,
             applicationSettings: AppStreamClientTypes.ApplicationSettingsResponse? = nil,
             arn: Swift.String? = nil,
+            contentRedirection: AppStreamClientTypes.ContentRedirection? = nil,
             createdTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
@@ -4482,6 +4540,7 @@ extension AppStreamClientTypes {
             self.accessEndpoints = accessEndpoints
             self.applicationSettings = applicationSettings
             self.arn = arn
+            self.contentRedirection = contentRedirection
             self.createdTime = createdTime
             self.description = description
             self.displayName = displayName
@@ -5686,6 +5745,39 @@ extension AppStreamClientTypes {
 
 extension AppStreamClientTypes {
 
+    /// Possible values for the drain status of a streaming instance.
+    public enum InstanceDrainStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case draining
+        case notApplicable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceDrainStatus] {
+            return [
+                .active,
+                .draining,
+                .notApplicable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .draining: return "DRAINING"
+            case .notApplicable: return "NOT_APPLICABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
     /// Possible values for the state of a streaming session.
     public enum SessionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
@@ -5731,6 +5823,8 @@ extension AppStreamClientTypes {
         /// The identifier of the streaming session.
         /// This member is required.
         public var id: Swift.String?
+        /// The drain status of the instance hosting the streaming session. This only applies to multi-session fleets.
+        public var instanceDrainStatus: AppStreamClientTypes.InstanceDrainStatus?
         /// The identifier for the instance hosting the session.
         public var instanceId: Swift.String?
         /// The time when the streaming session is set to expire. This time is based on the MaxUserDurationinSeconds value, which determines the maximum length of time that a streaming session can run. A streaming session might end earlier than the time specified in SessionMaxExpirationTime, when the DisconnectTimeOutInSeconds elapses or the user chooses to end his or her session. If the DisconnectTimeOutInSeconds elapses, or the user chooses to end his or her session, the streaming instance is terminated and the streaming session ends.
@@ -5754,6 +5848,7 @@ extension AppStreamClientTypes {
             connectionState: AppStreamClientTypes.SessionConnectionState? = nil,
             fleetName: Swift.String? = nil,
             id: Swift.String? = nil,
+            instanceDrainStatus: AppStreamClientTypes.InstanceDrainStatus? = nil,
             instanceId: Swift.String? = nil,
             maxExpirationTime: Foundation.Date? = nil,
             networkAccessConfiguration: AppStreamClientTypes.NetworkAccessConfiguration? = nil,
@@ -5766,6 +5861,7 @@ extension AppStreamClientTypes {
             self.connectionState = connectionState
             self.fleetName = fleetName
             self.id = id
+            self.instanceDrainStatus = instanceDrainStatus
             self.instanceId = instanceId
             self.maxExpirationTime = maxExpirationTime
             self.networkAccessConfiguration = networkAccessConfiguration
@@ -6442,6 +6538,23 @@ public struct DisassociateSoftwareFromImageBuilderInput: Swift.Sendable {
 }
 
 public struct DisassociateSoftwareFromImageBuilderOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DrainSessionInstanceInput: Swift.Sendable {
+    /// The identifier of the streaming session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        sessionId: Swift.String? = nil
+    ) {
+        self.sessionId = sessionId
+    }
+}
+
+public struct DrainSessionInstanceOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -7409,6 +7522,7 @@ extension AppStreamClientTypes {
 
     public enum StackAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessEndpoints
+        case contentRedirection
         case embedHostDomains
         case feedbackUrl
         case iamRoleArn
@@ -7425,6 +7539,7 @@ extension AppStreamClientTypes {
         public static var allCases: [StackAttribute] {
             return [
                 .accessEndpoints,
+                .contentRedirection,
                 .embedHostDomains,
                 .feedbackUrl,
                 .iamRoleArn,
@@ -7447,6 +7562,7 @@ extension AppStreamClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .accessEndpoints: return "ACCESS_ENDPOINTS"
+            case .contentRedirection: return "CONTENT_REDIRECTION"
             case .embedHostDomains: return "EMBED_HOST_DOMAINS"
             case .feedbackUrl: return "FEEDBACK_URL"
             case .iamRoleArn: return "IAM_ROLE_ARN"
@@ -8054,6 +8170,13 @@ extension DisassociateSoftwareFromImageBuilderInput {
     }
 }
 
+extension DrainSessionInstanceInput {
+
+    static func urlPathProvider(_ value: DrainSessionInstanceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension EnableUserInput {
 
     static func urlPathProvider(_ value: EnableUserInput) -> Swift.String? {
@@ -8484,6 +8607,7 @@ extension CreateStackInput {
         guard let value else { return }
         try writer["AccessEndpoints"].writeList(value.accessEndpoints, memberWritingClosure: AppStreamClientTypes.AccessEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ApplicationSettings"].write(value.applicationSettings, with: AppStreamClientTypes.ApplicationSettings.write(value:to:))
+        try writer["ContentRedirection"].write(value.contentRedirection, with: AppStreamClientTypes.ContentRedirection.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["DisplayName"].write(value.displayName)
         try writer["EmbedHostDomains"].writeList(value.embedHostDomains, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -8912,6 +9036,14 @@ extension DisassociateSoftwareFromImageBuilderInput {
         guard let value else { return }
         try writer["ImageBuilderName"].write(value.imageBuilderName)
         try writer["SoftwareNames"].writeList(value.softwareNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DrainSessionInstanceInput {
+
+    static func write(value: DrainSessionInstanceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SessionId"].write(value.sessionId)
     }
 }
 
@@ -9869,6 +10001,13 @@ extension DisassociateSoftwareFromImageBuilderOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateSoftwareFromImageBuilderOutput {
         return DisassociateSoftwareFromImageBuilderOutput()
+    }
+}
+
+extension DrainSessionInstanceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DrainSessionInstanceOutput {
+        return DrainSessionInstanceOutput()
     }
 }
 
@@ -11186,6 +11325,22 @@ enum DisassociateSoftwareFromImageBuilderOutputError {
     }
 }
 
+enum DrainSessionInstanceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum EnableUserOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12010,6 +12165,24 @@ extension AppStreamClientTypes.ComputeCapacityStatus {
         value.availableUserSessions = try reader["AvailableUserSessions"].readIfPresent()
         value.activeUserSessions = try reader["ActiveUserSessions"].readIfPresent()
         value.actualUserSessions = try reader["ActualUserSessions"].readIfPresent()
+        value.draining = try reader["Draining"].readIfPresent()
+        value.drainModeActiveUserSessions = try reader["DrainModeActiveUserSessions"].readIfPresent()
+        value.drainModeUnusedUserSessions = try reader["DrainModeUnusedUserSessions"].readIfPresent()
+        return value
+    }
+}
+
+extension AppStreamClientTypes.ContentRedirection {
+
+    static func write(value: AppStreamClientTypes.ContentRedirection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HostToClient"].write(value.hostToClient, with: AppStreamClientTypes.UrlRedirectionConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ContentRedirection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.ContentRedirection()
+        value.hostToClient = try reader["HostToClient"].readIfPresent(with: AppStreamClientTypes.UrlRedirectionConfig.read(from:))
         return value
     }
 }
@@ -12388,6 +12561,7 @@ extension AppStreamClientTypes.Session {
         value.authenticationType = try reader["AuthenticationType"].readIfPresent()
         value.networkAccessConfiguration = try reader["NetworkAccessConfiguration"].readIfPresent(with: AppStreamClientTypes.NetworkAccessConfiguration.read(from:))
         value.instanceId = try reader["InstanceId"].readIfPresent()
+        value.instanceDrainStatus = try reader["InstanceDrainStatus"].readIfPresent()
         return value
     }
 }
@@ -12434,6 +12608,7 @@ extension AppStreamClientTypes.Stack {
         value.accessEndpoints = try reader["AccessEndpoints"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.AccessEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.embedHostDomains = try reader["EmbedHostDomains"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.streamingExperienceSettings = try reader["StreamingExperienceSettings"].readIfPresent(with: AppStreamClientTypes.StreamingExperienceSettings.read(from:))
+        value.contentRedirection = try reader["ContentRedirection"].readIfPresent(with: AppStreamClientTypes.ContentRedirection.read(from:))
         return value
     }
 }
@@ -12515,6 +12690,25 @@ extension AppStreamClientTypes.ThemeFooterLink {
         var value = AppStreamClientTypes.ThemeFooterLink()
         value.displayName = try reader["DisplayName"].readIfPresent()
         value.footerLinkURL = try reader["FooterLinkURL"].readIfPresent()
+        return value
+    }
+}
+
+extension AppStreamClientTypes.UrlRedirectionConfig {
+
+    static func write(value: AppStreamClientTypes.UrlRedirectionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedUrls"].writeList(value.allowedUrls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DeniedUrls"].writeList(value.deniedUrls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.UrlRedirectionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.UrlRedirectionConfig()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.allowedUrls = try reader["AllowedUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.deniedUrls = try reader["DeniedUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
