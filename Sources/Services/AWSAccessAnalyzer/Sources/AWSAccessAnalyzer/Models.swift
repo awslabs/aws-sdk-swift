@@ -1169,6 +1169,23 @@ public struct CancelPolicyGenerationOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct CancelPolicyPreviewJobInput: Swift.Sendable {
+    /// The unique identifier of the policy preview job to cancel.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil
+    ) {
+        self.jobId = jobId
+    }
+}
+
+public struct CancelPolicyPreviewJobOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 /// The specified parameter is invalid.
 public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2276,6 +2293,107 @@ public struct CreateAccessPreviewOutput: Swift.Sendable {
     ) {
         self.id = id
     }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    public enum PolicyPreviewScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case global
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PolicyPreviewScope] {
+            return [
+                .global
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .global: return "GLOBAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreatePolicyPreviewConfigurationInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request and have no additional effect.
+    public var clientToken: Swift.String?
+    /// The scope of the policy preview configuration. Currently only GLOBAL is supported.
+    public var scope: AccessAnalyzerClientTypes.PolicyPreviewScope?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        scope: AccessAnalyzerClientTypes.PolicyPreviewScope? = nil
+    ) {
+        self.clientToken = clientToken
+        self.scope = scope
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    public enum PolicyPreviewStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case failed
+        case pendingCreation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PolicyPreviewStatus] {
+            return [
+                .active,
+                .failed,
+                .pendingCreation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .failed: return "FAILED"
+            case .pendingCreation: return "PENDING_CREATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreatePolicyPreviewConfigurationOutput: Swift.Sendable {
+    /// The status of the policy preview configuration after creation. The status is PENDING_CREATION until the configuration is fully provisioned and becomes ACTIVE. If provisioning fails, the status is FAILED.
+    /// This member is required.
+    public var status: AccessAnalyzerClientTypes.PolicyPreviewStatus?
+
+    public init(
+        status: AccessAnalyzerClientTypes.PolicyPreviewStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
+public struct DeletePolicyPreviewConfigurationInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request and have no additional effect.
+    public var clientToken: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+    }
+}
+
+public struct DeletePolicyPreviewConfigurationOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct GenerateFindingRecommendationInput: Swift.Sendable {
@@ -3794,7 +3912,16 @@ extension AccessAnalyzerClientTypes {
 
     public enum JobErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case authorizationError
+        case canceledJobError
+        case insufficientPermissionsError
+        case invalidOrganizationConfiguration
+        case invalidPolicyPreviewConfiguration
+        case invalidServiceLinkedRole
+        case invalidTargetError
+        case organizationAccessDeniedError
         case resourceNotFoundError
+        case s3BucketNotFoundError
+        case s3BucketPermissionError
         case serviceError
         case serviceQuotaExceededError
         case sdkUnknown(Swift.String)
@@ -3802,7 +3929,16 @@ extension AccessAnalyzerClientTypes {
         public static var allCases: [JobErrorCode] {
             return [
                 .authorizationError,
+                .canceledJobError,
+                .insufficientPermissionsError,
+                .invalidOrganizationConfiguration,
+                .invalidPolicyPreviewConfiguration,
+                .invalidServiceLinkedRole,
+                .invalidTargetError,
+                .organizationAccessDeniedError,
                 .resourceNotFoundError,
+                .s3BucketNotFoundError,
+                .s3BucketPermissionError,
                 .serviceError,
                 .serviceQuotaExceededError
             ]
@@ -3816,7 +3952,16 @@ extension AccessAnalyzerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .authorizationError: return "AUTHORIZATION_ERROR"
+            case .canceledJobError: return "CANCELED_JOB_ERROR"
+            case .insufficientPermissionsError: return "INSUFFICIENT_PERMISSIONS_ERROR"
+            case .invalidOrganizationConfiguration: return "INVALID_ORGANIZATION_CONFIGURATION"
+            case .invalidPolicyPreviewConfiguration: return "INVALID_POLICY_PREVIEW_CONFIGURATION"
+            case .invalidServiceLinkedRole: return "INVALID_SERVICE_LINKED_ROLE"
+            case .invalidTargetError: return "INVALID_TARGET_ERROR"
+            case .organizationAccessDeniedError: return "ORGANIZATION_ACCESS_DENIED_ERROR"
             case .resourceNotFoundError: return "RESOURCE_NOT_FOUND_ERROR"
+            case .s3BucketNotFoundError: return "S3_BUCKET_NOT_FOUND_ERROR"
+            case .s3BucketPermissionError: return "S3_BUCKET_PERMISSION_ERROR"
             case .serviceError: return "SERVICE_ERROR"
             case .serviceQuotaExceededError: return "SERVICE_QUOTA_EXCEEDED_ERROR"
             case let .sdkUnknown(s): return s
@@ -3929,6 +4074,250 @@ public struct GetGeneratedPolicyOutput: Swift.Sendable {
     ) {
         self.generatedPolicyResult = generatedPolicyResult
         self.jobDetails = jobDetails
+    }
+}
+
+public struct GetPolicyPreviewConfigurationInput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    /// Contains the configuration details for policy preview, including the scope, status, and timestamps.
+    public struct PolicyPreviewConfiguration: Swift.Sendable {
+        /// The time at which the policy preview configuration was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The scope of the policy preview configuration. Currently only GLOBAL is supported.
+        /// This member is required.
+        public var scope: AccessAnalyzerClientTypes.PolicyPreviewScope?
+        /// The status of the policy preview configuration. A value of ACTIVE indicates the configuration is enabled and CloudTrail authorization events are being collected.
+        /// This member is required.
+        public var status: AccessAnalyzerClientTypes.PolicyPreviewStatus?
+        /// The time at which the policy preview configuration was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            scope: AccessAnalyzerClientTypes.PolicyPreviewScope? = nil,
+            status: AccessAnalyzerClientTypes.PolicyPreviewStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.createdAt = createdAt
+            self.scope = scope
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct GetPolicyPreviewConfigurationOutput: Swift.Sendable {
+    /// A list of policy preview configurations for the account.
+    public var policyPreviewConfigurations: [AccessAnalyzerClientTypes.PolicyPreviewConfiguration]?
+
+    public init(
+        policyPreviewConfigurations: [AccessAnalyzerClientTypes.PolicyPreviewConfiguration]? = nil
+    ) {
+        self.policyPreviewConfigurations = policyPreviewConfigurations
+    }
+}
+
+public struct GetPolicyPreviewJobInput: Swift.Sendable {
+    /// The unique identifier of the policy preview job to retrieve. This is the job ID returned by StartPolicyPreviewJob.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil
+    ) {
+        self.jobId = jobId
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    /// The status of a policy preview job.
+    public enum ImpactAnalysisJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case canceled
+        case completed
+        case failed
+        case inProgress
+        case submitted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImpactAnalysisJobStatus] {
+            return [
+                .canceled,
+                .completed,
+                .failed,
+                .inProgress,
+                .submitted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .canceled: return "CANCELED"
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .submitted: return "SUBMITTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    /// Contains details about the execution of a policy preview job.
+    public struct PolicyPreviewJobDetails: Swift.Sendable {
+        /// The time at which the job completed. This field is populated only when the job reaches a terminal state (COMPLETED, FAILED, or CANCELED).
+        public var completedAt: Foundation.Date?
+        /// Detailed information about the error that caused the job to fail. This field is populated only when the job status is FAILED.
+        public var jobError: AccessAnalyzerClientTypes.JobError?
+        /// The current status of the job. Possible values are:
+        ///
+        /// * SUBMITTED - The job has been submitted but not yet started.
+        ///
+        /// * IN_PROGRESS - The job is currently executing.
+        ///
+        /// * COMPLETED - The job completed successfully.
+        ///
+        /// * FAILED - The job failed with an error.
+        ///
+        /// * CANCELED - The job was canceled by the user.
+        /// This member is required.
+        public var jobStatus: AccessAnalyzerClientTypes.ImpactAnalysisJobStatus?
+        /// The time at which the job execution started. This field is not populated until the job begins processing.
+        public var startedAt: Foundation.Date?
+        /// The time at which the job was submitted.
+        /// This member is required.
+        public var submittedAt: Foundation.Date?
+
+        public init(
+            completedAt: Foundation.Date? = nil,
+            jobError: AccessAnalyzerClientTypes.JobError? = nil,
+            jobStatus: AccessAnalyzerClientTypes.ImpactAnalysisJobStatus? = nil,
+            startedAt: Foundation.Date? = nil,
+            submittedAt: Foundation.Date? = nil
+        ) {
+            self.completedAt = completedAt
+            self.jobError = jobError
+            self.jobStatus = jobStatus
+            self.startedAt = startedAt
+            self.submittedAt = submittedAt
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    /// The type of impact analysis job. Currently only SCP (Service Control Policy) analysis is supported.
+    public enum ImpactAnalysisJobType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case scp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImpactAnalysisJobType] {
+            return [
+                .scp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .scp: return "SCP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    /// Specifies the configuration for a policy preview analysis, including the type of analysis, the target resource, and the policy documents to evaluate.
+    public struct PolicyConfiguration: Swift.Sendable {
+        /// The type of impact analysis job. Currently only SCP (Service Control Policy) is supported.
+        /// This member is required.
+        public var jobType: AccessAnalyzerClientTypes.ImpactAnalysisJobType?
+        /// A list of SCP policy documents to test. Each policy document is a JSON string with a maximum length of 5,120 characters. The analysis evaluates how these policies would affect access to resources.
+        /// This member is required.
+        public var policyDocumentsList: [Swift.String]?
+        /// The identifier of the target resource for the policy analysis. This can be an Amazon Web Services account ID (12-digit number), an organization root ID (format: r-[0-9a-z]{4,32}), or an organizational unit ID (format: ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}).
+        /// This member is required.
+        public var targetId: Swift.String?
+
+        public init(
+            jobType: AccessAnalyzerClientTypes.ImpactAnalysisJobType? = nil,
+            policyDocumentsList: [Swift.String]? = nil,
+            targetId: Swift.String? = nil
+        ) {
+            self.jobType = jobType
+            self.policyDocumentsList = policyDocumentsList
+            self.targetId = targetId
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    /// Contains the parameters used to create a policy preview job.
+    public struct PolicyPreviewJobParameters: Swift.Sendable {
+        /// The end of the CloudTrail event analysis window.
+        /// This member is required.
+        public var endTime: Foundation.Date?
+        /// The list of policy configurations that were analyzed.
+        /// This member is required.
+        public var policyConfigurations: [AccessAnalyzerClientTypes.PolicyConfiguration]?
+        /// The start of the CloudTrail event analysis window.
+        /// This member is required.
+        public var startTime: Foundation.Date?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            policyConfigurations: [AccessAnalyzerClientTypes.PolicyConfiguration]? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.endTime = endTime
+            self.policyConfigurations = policyConfigurations
+            self.startTime = startTime
+        }
+    }
+}
+
+public struct GetPolicyPreviewJobOutput: Swift.Sendable {
+    /// Details about the job execution, including current status, submission time, start time, completion time, and any errors that occurred.
+    public var jobDetails: AccessAnalyzerClientTypes.PolicyPreviewJobDetails?
+    /// The unique identifier of the policy preview job.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The original parameters used to create the policy preview job, including the analysis time window and policy configurations.
+    public var jobParameters: AccessAnalyzerClientTypes.PolicyPreviewJobParameters?
+    /// The Amazon S3 URI where the analysis report is stored. The report contains metadata for CloudTrail events that would be denied by the proposed policy.
+    /// This member is required.
+    public var outputS3Uri: Swift.String?
+
+    public init(
+        jobDetails: AccessAnalyzerClientTypes.PolicyPreviewJobDetails? = nil,
+        jobId: Swift.String? = nil,
+        jobParameters: AccessAnalyzerClientTypes.PolicyPreviewJobParameters? = nil,
+        outputS3Uri: Swift.String? = nil
+    ) {
+        self.jobDetails = jobDetails
+        self.jobId = jobId
+        self.jobParameters = jobParameters
+        self.outputS3Uri = outputS3Uri
     }
 }
 
@@ -4589,6 +4978,110 @@ public struct ListPolicyGenerationsOutput: Swift.Sendable {
     }
 }
 
+extension AccessAnalyzerClientTypes {
+
+    /// The name of the filter to apply when listing policy preview jobs. Valid values are jobStatus to filter by job status, or targetId to filter by the target resource ID.
+    public enum PolicyPreviewJobFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case jobStatus
+        case targetId
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PolicyPreviewJobFilterName] {
+            return [
+                .jobStatus,
+                .targetId
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .jobStatus: return "jobStatus"
+            case .targetId: return "targetId"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListPolicyPreviewJobsInput: Swift.Sendable {
+    /// Optional filter criteria to narrow the list of returned jobs. You can filter by job status or target ID. Maximum of one filter can be specified.
+    public var filters: [Swift.String: Swift.String]?
+    /// The maximum number of results to return in a single page. Minimum value is 1.
+    public var maxResults: Swift.Int?
+    /// A token used for pagination of results. Use the token returned in the previous response to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [Swift.String: Swift.String]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    /// Contains summary information about a policy preview job.
+    public struct PolicyPreviewAnalysisReport: Swift.Sendable {
+        /// The time at which the job completed.
+        public var completedAt: Foundation.Date?
+        /// The unique identifier of the policy preview job.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The Amazon S3 URI where the analysis report is stored.
+        /// This member is required.
+        public var outputS3Uri: Swift.String?
+        /// The time at which the job execution started.
+        public var startedAt: Foundation.Date?
+        /// The current status of the job.
+        /// This member is required.
+        public var status: AccessAnalyzerClientTypes.ImpactAnalysisJobStatus?
+        /// The time at which the job was submitted.
+        /// This member is required.
+        public var submittedAt: Foundation.Date?
+
+        public init(
+            completedAt: Foundation.Date? = nil,
+            jobId: Swift.String? = nil,
+            outputS3Uri: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: AccessAnalyzerClientTypes.ImpactAnalysisJobStatus? = nil,
+            submittedAt: Foundation.Date? = nil
+        ) {
+            self.completedAt = completedAt
+            self.jobId = jobId
+            self.outputS3Uri = outputS3Uri
+            self.startedAt = startedAt
+            self.status = status
+            self.submittedAt = submittedAt
+        }
+    }
+}
+
+public struct ListPolicyPreviewJobsOutput: Swift.Sendable {
+    /// A list of policy preview job summaries that match the specified filter criteria.
+    /// This member is required.
+    public var analysisReports: [AccessAnalyzerClientTypes.PolicyPreviewAnalysisReport]?
+    /// A token used for pagination. If present, indicates there are more results available. Pass this token to the next request to retrieve the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        analysisReports: [AccessAnalyzerClientTypes.PolicyPreviewAnalysisReport]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.analysisReports = analysisReports
+        self.nextToken = nextToken
+    }
+}
+
 /// Retrieves a list of tags applied to the specified resource.
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The ARN of the resource to retrieve tags from.
@@ -4706,6 +5199,48 @@ public struct StartPolicyGenerationInput: Swift.Sendable {
 
 public struct StartPolicyGenerationOutput: Swift.Sendable {
     /// The JobId that is returned by the StartPolicyGeneration operation. The JobId can be used with GetGeneratedPolicy to retrieve the generated policies or used with CancelPolicyGeneration to cancel the policy generation request.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil
+    ) {
+        self.jobId = jobId
+    }
+}
+
+public struct StartPolicyPreviewJobInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request and have no additional effect.
+    public var clientToken: Swift.String?
+    /// The end of the analysis window. If not specified, defaults to the time of the request. The analysis will evaluate CloudTrail events up to this time.
+    public var endTime: Foundation.Date?
+    /// The Amazon S3 URI where the completed analysis report will be stored. The Amazon S3 bucket must grant access to the IAM Access Analyzer service principal in its resource policy. The report will be stored at the path: outputS3Uri/jobId/timestamp/.
+    /// This member is required.
+    public var outputS3Uri: Swift.String?
+    /// A list of policy configurations to analyze. Currently limited to one configuration per request. Each configuration specifies the job type, target ID, and policy documents to test.
+    /// This member is required.
+    public var policyConfigurations: [AccessAnalyzerClientTypes.PolicyConfiguration]?
+    /// The start of the CloudTrail event analysis window. The analysis will evaluate events from this time forward.
+    /// This member is required.
+    public var startTime: Foundation.Date?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        endTime: Foundation.Date? = nil,
+        outputS3Uri: Swift.String? = nil,
+        policyConfigurations: [AccessAnalyzerClientTypes.PolicyConfiguration]? = nil,
+        startTime: Foundation.Date? = nil
+    ) {
+        self.clientToken = clientToken
+        self.endTime = endTime
+        self.outputS3Uri = outputS3Uri
+        self.policyConfigurations = policyConfigurations
+        self.startTime = startTime
+    }
+}
+
+public struct StartPolicyPreviewJobOutput: Swift.Sendable {
+    /// The unique identifier for the created policy preview job. Use this ID with GetPolicyPreviewJob to retrieve job status and details, or with CancelPolicyPreviewJob to cancel the job.
     /// This member is required.
     public var jobId: Swift.String?
 
@@ -5216,6 +5751,16 @@ extension CancelPolicyGenerationInput {
     }
 }
 
+extension CancelPolicyPreviewJobInput {
+
+    static func urlPathProvider(_ value: CancelPolicyPreviewJobInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
+            return nil
+        }
+        return "/policy/preview/\(jobId.urlPercentEncoding())"
+    }
+}
+
 extension CheckAccessNotGrantedInput {
 
     static func urlPathProvider(_ value: CheckAccessNotGrantedInput) -> Swift.String? {
@@ -5261,6 +5806,13 @@ extension CreateArchiveRuleInput {
     }
 }
 
+extension CreatePolicyPreviewConfigurationInput {
+
+    static func urlPathProvider(_ value: CreatePolicyPreviewConfigurationInput) -> Swift.String? {
+        return "/policy/preview-configuration"
+    }
+}
+
 extension DeleteAnalyzerInput {
 
     static func urlPathProvider(_ value: DeleteAnalyzerInput) -> Swift.String? {
@@ -5299,6 +5851,25 @@ extension DeleteArchiveRuleInput {
 extension DeleteArchiveRuleInput {
 
     static func queryItemProvider(_ value: DeleteArchiveRuleInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension DeletePolicyPreviewConfigurationInput {
+
+    static func urlPathProvider(_ value: DeletePolicyPreviewConfigurationInput) -> Swift.String? {
+        return "/policy/preview-configuration"
+    }
+}
+
+extension DeletePolicyPreviewConfigurationInput {
+
+    static func queryItemProvider(_ value: DeletePolicyPreviewConfigurationInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
             let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
@@ -5527,6 +6098,23 @@ extension GetGeneratedPolicyInput {
     }
 }
 
+extension GetPolicyPreviewConfigurationInput {
+
+    static func urlPathProvider(_ value: GetPolicyPreviewConfigurationInput) -> Swift.String? {
+        return "/policy/preview-configuration"
+    }
+}
+
+extension GetPolicyPreviewJobInput {
+
+    static func urlPathProvider(_ value: GetPolicyPreviewJobInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
+            return nil
+        }
+        return "/policy/preview/\(jobId.urlPercentEncoding())"
+    }
+}
+
 extension ListAccessPreviewFindingsInput {
 
     static func urlPathProvider(_ value: ListAccessPreviewFindingsInput) -> Swift.String? {
@@ -5667,6 +6255,38 @@ extension ListPolicyGenerationsInput {
     }
 }
 
+extension ListPolicyPreviewJobsInput {
+
+    static func urlPathProvider(_ value: ListPolicyPreviewJobsInput) -> Swift.String? {
+        return "/policy/preview"
+    }
+}
+
+extension ListPolicyPreviewJobsInput {
+
+    static func queryItemProvider(_ value: ListPolicyPreviewJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let filters = value.filters {
+            let currentQueryItemNames = items.map({$0.name})
+            filters.forEach { key0, value0 in
+                if !currentQueryItemNames.contains(key0) {
+                    let queryItem = Smithy.URIQueryItem(name: key0.urlPercentEncoding(), value: value0.urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
+        }
+        return items
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
@@ -5681,6 +6301,13 @@ extension StartPolicyGenerationInput {
 
     static func urlPathProvider(_ value: StartPolicyGenerationInput) -> Swift.String? {
         return "/policy/generation"
+    }
+}
+
+extension StartPolicyPreviewJobInput {
+
+    static func urlPathProvider(_ value: StartPolicyPreviewJobInput) -> Swift.String? {
+        return "/policy/preview"
     }
 }
 
@@ -5852,6 +6479,15 @@ extension CreateArchiveRuleInput {
     }
 }
 
+extension CreatePolicyPreviewConfigurationInput {
+
+    static func write(value: CreatePolicyPreviewConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["scope"].write(value.scope)
+    }
+}
+
 extension GetFindingsStatisticsInput {
 
     static func write(value: GetFindingsStatisticsInput?, to writer: SmithyJSON.Writer) throws {
@@ -5913,6 +6549,18 @@ extension StartPolicyGenerationInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["cloudTrailDetails"].write(value.cloudTrailDetails, with: AccessAnalyzerClientTypes.CloudTrailDetails.write(value:to:))
         try writer["policyGenerationDetails"].write(value.policyGenerationDetails, with: AccessAnalyzerClientTypes.PolicyGenerationDetails.write(value:to:))
+    }
+}
+
+extension StartPolicyPreviewJobInput {
+
+    static func write(value: StartPolicyPreviewJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["outputS3Uri"].write(value.outputS3Uri)
+        try writer["policyConfigurations"].writeList(value.policyConfigurations, memberWritingClosure: AccessAnalyzerClientTypes.PolicyConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.dateTime)
     }
 }
 
@@ -5985,6 +6633,13 @@ extension CancelPolicyGenerationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelPolicyGenerationOutput {
         return CancelPolicyGenerationOutput()
+    }
+}
+
+extension CancelPolicyPreviewJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelPolicyPreviewJobOutput {
+        return CancelPolicyPreviewJobOutput()
     }
 }
 
@@ -6061,6 +6716,18 @@ extension CreateArchiveRuleOutput {
     }
 }
 
+extension CreatePolicyPreviewConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePolicyPreviewConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePolicyPreviewConfigurationOutput()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension DeleteAnalyzerOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAnalyzerOutput {
@@ -6072,6 +6739,13 @@ extension DeleteArchiveRuleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteArchiveRuleOutput {
         return DeleteArchiveRuleOutput()
+    }
+}
+
+extension DeletePolicyPreviewConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePolicyPreviewConfigurationOutput {
+        return DeletePolicyPreviewConfigurationOutput()
     }
 }
 
@@ -6210,6 +6884,33 @@ extension GetGeneratedPolicyOutput {
     }
 }
 
+extension GetPolicyPreviewConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPolicyPreviewConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPolicyPreviewConfigurationOutput()
+        value.policyPreviewConfigurations = try reader["policyPreviewConfigurations"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.PolicyPreviewConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GetPolicyPreviewJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPolicyPreviewJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPolicyPreviewJobOutput()
+        value.jobDetails = try reader["jobDetails"].readIfPresent(with: AccessAnalyzerClientTypes.PolicyPreviewJobDetails.read(from:))
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.jobParameters = try reader["jobParameters"].readIfPresent(with: AccessAnalyzerClientTypes.PolicyPreviewJobParameters.read(from:))
+        value.outputS3Uri = try reader["outputS3Uri"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ListAccessPreviewFindingsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAccessPreviewFindingsOutput {
@@ -6314,6 +7015,19 @@ extension ListPolicyGenerationsOutput {
     }
 }
 
+extension ListPolicyPreviewJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPolicyPreviewJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPolicyPreviewJobsOutput()
+        value.analysisReports = try reader["analysisReports"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.PolicyPreviewAnalysisReport.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListTagsForResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
@@ -6333,6 +7047,18 @@ extension StartPolicyGenerationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartPolicyGenerationOutput()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension StartPolicyPreviewJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartPolicyPreviewJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartPolicyPreviewJobOutput()
         value.jobId = try reader["jobId"].readIfPresent() ?? ""
         return value
     }
@@ -6426,6 +7152,24 @@ enum CancelPolicyGenerationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CancelPolicyPreviewJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6549,6 +7293,25 @@ enum CreateArchiveRuleOutputError {
     }
 }
 
+enum CreatePolicyPreviewConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteAnalyzerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6568,6 +7331,24 @@ enum DeleteAnalyzerOutputError {
 }
 
 enum DeleteArchiveRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeletePolicyPreviewConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6763,6 +7544,42 @@ enum GetGeneratedPolicyOutputError {
     }
 }
 
+enum GetPolicyPreviewConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetPolicyPreviewJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAccessPreviewFindingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6905,6 +7722,23 @@ enum ListPolicyGenerationsOutputError {
     }
 }
 
+enum ListPolicyPreviewJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTagsForResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6924,6 +7758,25 @@ enum ListTagsForResourceOutputError {
 }
 
 enum StartPolicyGenerationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartPolicyPreviewJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8099,6 +8952,25 @@ extension AccessAnalyzerClientTypes.PathElement {
     }
 }
 
+extension AccessAnalyzerClientTypes.PolicyConfiguration {
+
+    static func write(value: AccessAnalyzerClientTypes.PolicyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jobType"].write(value.jobType)
+        try writer["policyDocumentsList"].writeList(value.policyDocumentsList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["targetId"].write(value.targetId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.PolicyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AccessAnalyzerClientTypes.PolicyConfiguration()
+        value.jobType = try reader["jobType"].readIfPresent() ?? .sdkUnknown("")
+        value.targetId = try reader["targetId"].readIfPresent() ?? ""
+        value.policyDocumentsList = try reader["policyDocumentsList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension AccessAnalyzerClientTypes.PolicyGeneration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.PolicyGeneration {
@@ -8118,6 +8990,60 @@ extension AccessAnalyzerClientTypes.PolicyGenerationDetails {
     static func write(value: AccessAnalyzerClientTypes.PolicyGenerationDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["principalArn"].write(value.principalArn)
+    }
+}
+
+extension AccessAnalyzerClientTypes.PolicyPreviewAnalysisReport {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.PolicyPreviewAnalysisReport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AccessAnalyzerClientTypes.PolicyPreviewAnalysisReport()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.submittedAt = try reader["submittedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.outputS3Uri = try reader["outputS3Uri"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AccessAnalyzerClientTypes.PolicyPreviewConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.PolicyPreviewConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AccessAnalyzerClientTypes.PolicyPreviewConfiguration()
+        value.scope = try reader["scope"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension AccessAnalyzerClientTypes.PolicyPreviewJobDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.PolicyPreviewJobDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AccessAnalyzerClientTypes.PolicyPreviewJobDetails()
+        value.jobStatus = try reader["jobStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.submittedAt = try reader["submittedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.jobError = try reader["jobError"].readIfPresent(with: AccessAnalyzerClientTypes.JobError.read(from:))
+        return value
+    }
+}
+
+extension AccessAnalyzerClientTypes.PolicyPreviewJobParameters {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.PolicyPreviewJobParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AccessAnalyzerClientTypes.PolicyPreviewJobParameters()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.policyConfigurations = try reader["policyConfigurations"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.PolicyConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 

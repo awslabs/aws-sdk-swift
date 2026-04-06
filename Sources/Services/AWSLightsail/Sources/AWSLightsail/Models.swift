@@ -607,6 +607,7 @@ extension LightsailClientTypes {
         case apSoutheast1
         case apSoutheast2
         case apSoutheast3
+        case apSoutheast5
         case apSouth1
         case caCentral1
         case euCentral1
@@ -627,6 +628,7 @@ extension LightsailClientTypes {
                 .apSoutheast1,
                 .apSoutheast2,
                 .apSoutheast3,
+                .apSoutheast5,
                 .apSouth1,
                 .caCentral1,
                 .euCentral1,
@@ -653,6 +655,7 @@ extension LightsailClientTypes {
             case .apSoutheast1: return "ap-southeast-1"
             case .apSoutheast2: return "ap-southeast-2"
             case .apSoutheast3: return "ap-southeast-3"
+            case .apSoutheast5: return "ap-southeast-5"
             case .apSouth1: return "ap-south-1"
             case .caCentral1: return "ca-central-1"
             case .euCentral1: return "eu-central-1"
