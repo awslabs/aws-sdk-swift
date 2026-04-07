@@ -4642,6 +4642,37 @@ extension PaginatorSequence where OperationStackInput == GetCapacityManagerMetri
     }
 }
 extension EC2Client {
+    /// Paginate over `[GetCapacityManagerMonitoredTagKeysOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetCapacityManagerMonitoredTagKeysInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetCapacityManagerMonitoredTagKeysOutput`
+    public func getCapacityManagerMonitoredTagKeysPaginated(input: GetCapacityManagerMonitoredTagKeysInput) -> ClientRuntime.PaginatorSequence<GetCapacityManagerMonitoredTagKeysInput, GetCapacityManagerMonitoredTagKeysOutput> {
+        return ClientRuntime.PaginatorSequence<GetCapacityManagerMonitoredTagKeysInput, GetCapacityManagerMonitoredTagKeysOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getCapacityManagerMonitoredTagKeys(input:))
+    }
+}
+
+extension GetCapacityManagerMonitoredTagKeysInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetCapacityManagerMonitoredTagKeysInput {
+        return GetCapacityManagerMonitoredTagKeysInput(
+            dryRun: self.dryRun,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetCapacityManagerMonitoredTagKeysInput, OperationStackOutput == GetCapacityManagerMonitoredTagKeysOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getCapacityManagerMonitoredTagKeysPaginated`
+    /// to access the nested member `[EC2ClientTypes.CapacityManagerMonitoredTagKey]`
+    /// - Returns: `[EC2ClientTypes.CapacityManagerMonitoredTagKey]`
+    public func capacityManagerTagKeys() async throws -> [EC2ClientTypes.CapacityManagerMonitoredTagKey] {
+        return try await self.asyncCompactMap { item in item.capacityManagerTagKeys }
+    }
+}
+extension EC2Client {
     /// Paginate over `[GetGroupsForCapacityReservationOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

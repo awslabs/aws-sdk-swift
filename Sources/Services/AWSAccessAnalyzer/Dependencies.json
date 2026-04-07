@@ -14,7 +14,6 @@
     "SmithyReadWrite",
     "SmithyRetries",
     "SmithyRetriesAPI",
-    "SmithyTimestamps",
-    "SmithyWaitersAPI"
+    "SmithyTimestamps"
   ]
 }

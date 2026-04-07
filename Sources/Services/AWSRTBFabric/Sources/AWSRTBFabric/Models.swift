@@ -349,17 +349,57 @@ public struct AcceptLinkInput: Swift.Sendable {
     /// Settings for the application logs.
     /// This member is required.
     public var logSettings: RTBFabricClientTypes.LinkLogSettings?
+    /// The timeout value in milliseconds.
+    public var timeoutInMillis: Swift.Int?
 
     public init(
         attributes: RTBFabricClientTypes.LinkAttributes? = nil,
         gatewayId: Swift.String? = nil,
         linkId: Swift.String? = nil,
-        logSettings: RTBFabricClientTypes.LinkLogSettings? = nil
+        logSettings: RTBFabricClientTypes.LinkLogSettings? = nil,
+        timeoutInMillis: Swift.Int? = nil
     ) {
         self.attributes = attributes
         self.gatewayId = gatewayId
         self.linkId = linkId
         self.logSettings = logSettings
+        self.timeoutInMillis = timeoutInMillis
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// The connectivity type for a link or gateway.
+    public enum ConnectivityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `default`
+        case externalInbound
+        case publicEgress
+        case publicIngress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectivityType] {
+            return [
+                .default,
+                .externalInbound,
+                .publicEgress,
+                .publicIngress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .default: return "DEFAULT"
+            case .externalInbound: return "EXTERNAL_INBOUND"
+            case .publicEgress: return "PUBLIC_EGRESS"
+            case .publicIngress: return "PUBLIC_INGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -682,6 +722,8 @@ extension RTBFabricClientTypes {
 public struct AcceptLinkOutput: Swift.Sendable {
     /// Attributes of the link.
     public var attributes: RTBFabricClientTypes.LinkAttributes?
+    /// The connectivity type of the link.
+    public var connectivityType: RTBFabricClientTypes.ConnectivityType?
     /// The timestamp of when the link was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -695,6 +737,8 @@ public struct AcceptLinkOutput: Swift.Sendable {
     /// The unique identifier of the link.
     /// This member is required.
     public var linkId: Swift.String?
+    /// Describes the settings for a link log.
+    public var logSettings: RTBFabricClientTypes.LinkLogSettings?
     /// The unique identifier of the peer gateway.
     /// This member is required.
     public var peerGatewayId: Swift.String?
@@ -709,22 +753,26 @@ public struct AcceptLinkOutput: Swift.Sendable {
 
     public init(
         attributes: RTBFabricClientTypes.LinkAttributes? = nil,
+        connectivityType: RTBFabricClientTypes.ConnectivityType? = nil,
         createdAt: Foundation.Date? = nil,
         direction: RTBFabricClientTypes.LinkDirection? = nil,
         flowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
         gatewayId: Swift.String? = nil,
         linkId: Swift.String? = nil,
+        logSettings: RTBFabricClientTypes.LinkLogSettings? = nil,
         peerGatewayId: Swift.String? = nil,
         pendingFlowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
         status: RTBFabricClientTypes.LinkStatus? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
         self.attributes = attributes
+        self.connectivityType = connectivityType
         self.createdAt = createdAt
         self.direction = direction
         self.flowModules = flowModules
         self.gatewayId = gatewayId
         self.linkId = linkId
+        self.logSettings = logSettings
         self.peerGatewayId = peerGatewayId
         self.pendingFlowModules = pendingFlowModules
         self.status = status
@@ -786,7 +834,7 @@ public struct CreateInboundExternalLinkInput: Swift.Sendable {
     /// The unique identifier of the gateway.
     /// This member is required.
     public var gatewayId: Swift.String?
-    /// Describes the settings for a link log.
+    /// Settings for the application logs.
     /// This member is required.
     public var logSettings: RTBFabricClientTypes.LinkLogSettings?
     /// A map of the key-value pairs of the tag or tags to assign to the resource.
@@ -850,6 +898,8 @@ public struct CreateLinkInput: Swift.Sendable {
     public var peerGatewayId: Swift.String?
     /// A map of the key-value pairs of the tag or tags to assign to the resource.
     public var tags: [Swift.String: Swift.String]?
+    /// The timeout value in milliseconds.
+    public var timeoutInMillis: Swift.Int?
 
     public init(
         attributes: RTBFabricClientTypes.LinkAttributes? = nil,
@@ -857,7 +907,8 @@ public struct CreateLinkInput: Swift.Sendable {
         httpResponderAllowed: Swift.Bool? = nil,
         logSettings: RTBFabricClientTypes.LinkLogSettings? = nil,
         peerGatewayId: Swift.String? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        timeoutInMillis: Swift.Int? = nil
     ) {
         self.attributes = attributes
         self.gatewayId = gatewayId
@@ -865,12 +916,15 @@ public struct CreateLinkInput: Swift.Sendable {
         self.logSettings = logSettings
         self.peerGatewayId = peerGatewayId
         self.tags = tags
+        self.timeoutInMillis = timeoutInMillis
     }
 }
 
 public struct CreateLinkOutput: Swift.Sendable {
     /// Attributes of the link.
     public var attributes: RTBFabricClientTypes.LinkAttributes?
+    /// The connectivity type of the link.
+    public var connectivityType: RTBFabricClientTypes.ConnectivityType?
     /// The timestamp of when the link was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -886,6 +940,8 @@ public struct CreateLinkOutput: Swift.Sendable {
     /// The unique identifier of the link.
     /// This member is required.
     public var linkId: Swift.String?
+    /// Describes the settings for a link log.
+    public var logSettings: RTBFabricClientTypes.LinkLogSettings?
     /// The unique identifier of the peer gateway.
     /// This member is required.
     public var peerGatewayId: Swift.String?
@@ -900,24 +956,28 @@ public struct CreateLinkOutput: Swift.Sendable {
 
     public init(
         attributes: RTBFabricClientTypes.LinkAttributes? = nil,
+        connectivityType: RTBFabricClientTypes.ConnectivityType? = nil,
         createdAt: Foundation.Date? = nil,
         customerProvidedId: Swift.String? = nil,
         direction: RTBFabricClientTypes.LinkDirection? = nil,
         flowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
         gatewayId: Swift.String? = nil,
         linkId: Swift.String? = nil,
+        logSettings: RTBFabricClientTypes.LinkLogSettings? = nil,
         peerGatewayId: Swift.String? = nil,
         pendingFlowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
         status: RTBFabricClientTypes.LinkStatus? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
         self.attributes = attributes
+        self.connectivityType = connectivityType
         self.createdAt = createdAt
         self.customerProvidedId = customerProvidedId
         self.direction = direction
         self.flowModules = flowModules
         self.gatewayId = gatewayId
         self.linkId = linkId
+        self.logSettings = logSettings
         self.peerGatewayId = peerGatewayId
         self.pendingFlowModules = pendingFlowModules
         self.status = status
@@ -926,7 +986,7 @@ public struct CreateLinkOutput: Swift.Sendable {
 }
 
 public struct CreateOutboundExternalLinkInput: Swift.Sendable {
-    /// Describes the attributes of a link.
+    /// Attributes of the link.
     public var attributes: RTBFabricClientTypes.LinkAttributes?
     /// The unique client token.
     /// This member is required.
@@ -934,7 +994,7 @@ public struct CreateOutboundExternalLinkInput: Swift.Sendable {
     /// The unique identifier of the gateway.
     /// This member is required.
     public var gatewayId: Swift.String?
-    /// Describes the settings for a link log.
+    /// Settings for the application logs.
     /// This member is required.
     public var logSettings: RTBFabricClientTypes.LinkLogSettings?
     /// The public endpoint of the link.
@@ -1091,6 +1151,81 @@ public struct CreateRequesterGatewayOutput: Swift.Sendable {
 
 extension RTBFabricClientTypes {
 
+    /// The type of gateway.
+    public enum GatewayType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case external
+        case `internal`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GatewayType] {
+            return [
+                .external,
+                .internal
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .external: return "EXTERNAL"
+            case .internal: return "INTERNAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    public enum ModelProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case http
+        case https
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ModelProtocol] {
+            return [
+                .http,
+                .https
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .http: return "HTTP"
+            case .https: return "HTTPS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// Listener configuration for the protocols (HTTP, HTTPS, or both) accepted by the gateway.
+    public struct ListenerConfig: Swift.Sendable {
+        /// The protocol for connections from clients to the gateway
+        /// This member is required.
+        public var protocols: [RTBFabricClientTypes.ModelProtocol]?
+
+        public init(
+            protocols: [RTBFabricClientTypes.ModelProtocol]? = nil
+        ) {
+            self.protocols = protocols
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
     /// Describes the configuration of an Amazon Elastic Kubernetes Service endpoint.
     public struct EksEndpointsConfiguration: Swift.Sendable {
         /// The CA certificate chain of the cluster API server.
@@ -1149,35 +1284,6 @@ extension RTBFabricClientTypes {
 
 extension RTBFabricClientTypes {
 
-    public enum ModelProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case http
-        case https
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ModelProtocol] {
-            return [
-                .http,
-                .https
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .http: return "HTTP"
-            case .https: return "HTTPS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension RTBFabricClientTypes {
-
     /// Describes the configuration of a trust store.
     public struct TrustStoreConfiguration: Swift.Sendable {
         /// The certificate authority certificate.
@@ -1205,6 +1311,10 @@ public struct CreateResponderGatewayInput: Swift.Sendable {
     public var description: Swift.String?
     /// The domain name for the responder gateway.
     public var domainName: Swift.String?
+    /// The type of gateway. Valid values are EXTERNAL or INTERNAL.
+    public var gatewayType: RTBFabricClientTypes.GatewayType?
+    /// Listener configuration for the protocols (HTTP, HTTPS, or both) accepted by the gateway.
+    public var listenerConfig: RTBFabricClientTypes.ListenerConfig?
     /// The configuration for the managed endpoint.
     public var managedEndpointConfiguration: RTBFabricClientTypes.ManagedEndpointConfiguration?
     /// The networking port to use.
@@ -1231,6 +1341,8 @@ public struct CreateResponderGatewayInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         domainName: Swift.String? = nil,
+        gatewayType: RTBFabricClientTypes.GatewayType? = nil,
+        listenerConfig: RTBFabricClientTypes.ListenerConfig? = nil,
         managedEndpointConfiguration: RTBFabricClientTypes.ManagedEndpointConfiguration? = nil,
         port: Swift.Int? = nil,
         `protocol`: RTBFabricClientTypes.ModelProtocol? = nil,
@@ -1243,6 +1355,8 @@ public struct CreateResponderGatewayInput: Swift.Sendable {
         self.clientToken = clientToken
         self.description = description
         self.domainName = domainName
+        self.gatewayType = gatewayType
+        self.listenerConfig = listenerConfig
         self.managedEndpointConfiguration = managedEndpointConfiguration
         self.port = port
         self.`protocol` = `protocol`
@@ -1305,18 +1419,26 @@ extension RTBFabricClientTypes {
 }
 
 public struct CreateResponderGatewayOutput: Swift.Sendable {
+    /// The external inbound endpoint for the responder gateway.
+    public var externalInboundEndpoint: Swift.String?
     /// The unique identifier of the gateway.
     /// This member is required.
     public var gatewayId: Swift.String?
+    /// The listener configuration for the responder gateway.
+    public var listenerConfig: RTBFabricClientTypes.ListenerConfig?
     /// The status of the request.
     /// This member is required.
     public var status: RTBFabricClientTypes.ResponderGatewayStatus?
 
     public init(
+        externalInboundEndpoint: Swift.String? = nil,
         gatewayId: Swift.String? = nil,
+        listenerConfig: RTBFabricClientTypes.ListenerConfig? = nil,
         status: RTBFabricClientTypes.ResponderGatewayStatus? = nil
     ) {
+        self.externalInboundEndpoint = externalInboundEndpoint
         self.gatewayId = gatewayId
+        self.listenerConfig = listenerConfig
         self.status = status
     }
 }
@@ -1501,6 +1623,8 @@ public struct GetLinkInput: Swift.Sendable {
 public struct GetLinkOutput: Swift.Sendable {
     /// Attributes of the link.
     public var attributes: RTBFabricClientTypes.LinkAttributes?
+    /// The connectivity type of the link.
+    public var connectivityType: RTBFabricClientTypes.ConnectivityType?
     /// The timestamp of when the link was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -1511,6 +1635,8 @@ public struct GetLinkOutput: Swift.Sendable {
     /// The unique identifier of the gateway.
     /// This member is required.
     public var gatewayId: Swift.String?
+    /// Boolean to specify if an HTTP responder is allowed.
+    public var httpResponderAllowed: Swift.Bool?
     /// The unique identifier of the link.
     /// This member is required.
     public var linkId: Swift.String?
@@ -1526,35 +1652,43 @@ public struct GetLinkOutput: Swift.Sendable {
     public var status: RTBFabricClientTypes.LinkStatus?
     /// A map of the key-value pairs for the tag or tags assigned to the specified resource.
     public var tags: [Swift.String: Swift.String]?
+    /// The timeout value in milliseconds.
+    public var timeoutInMillis: Swift.Int?
     /// The timestamp of when the link was updated.
     /// This member is required.
     public var updatedAt: Foundation.Date?
 
     public init(
         attributes: RTBFabricClientTypes.LinkAttributes? = nil,
+        connectivityType: RTBFabricClientTypes.ConnectivityType? = nil,
         createdAt: Foundation.Date? = nil,
         direction: RTBFabricClientTypes.LinkDirection? = nil,
         flowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
         gatewayId: Swift.String? = nil,
+        httpResponderAllowed: Swift.Bool? = nil,
         linkId: Swift.String? = nil,
         logSettings: RTBFabricClientTypes.LinkLogSettings? = nil,
         peerGatewayId: Swift.String? = nil,
         pendingFlowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
         status: RTBFabricClientTypes.LinkStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
+        timeoutInMillis: Swift.Int? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
         self.attributes = attributes
+        self.connectivityType = connectivityType
         self.createdAt = createdAt
         self.direction = direction
         self.flowModules = flowModules
         self.gatewayId = gatewayId
+        self.httpResponderAllowed = httpResponderAllowed
         self.linkId = linkId
         self.logSettings = logSettings
         self.peerGatewayId = peerGatewayId
         self.pendingFlowModules = pendingFlowModules
         self.status = status
         self.tags = tags
+        self.timeoutInMillis = timeoutInMillis
         self.updatedAt = updatedAt
     }
 }
@@ -1585,6 +1719,8 @@ extension RTBFabricClientTypes {
     public struct ListLinksResponseStructure: Swift.Sendable {
         /// Describes attributes of a link.
         public var attributes: RTBFabricClientTypes.LinkAttributes?
+        /// The connectivity type of the link.
+        public var connectivityType: RTBFabricClientTypes.ConnectivityType?
         /// The timestamp of when the link was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -1598,11 +1734,15 @@ extension RTBFabricClientTypes {
         /// The unique identifier of the link.
         /// This member is required.
         public var linkId: Swift.String?
+        /// Describes the settings for a link log.
+        public var logSettings: RTBFabricClientTypes.LinkLogSettings?
         /// The unique identifier of the peer gateway.
         /// This member is required.
         public var peerGatewayId: Swift.String?
         /// Describes the configuration of pending flow modules.
         public var pendingFlowModules: [RTBFabricClientTypes.ModuleConfiguration]?
+        /// The public endpoint of the outbound link.
+        public var publicEndpoint: Swift.String?
         /// The status of the link.
         /// This member is required.
         public var status: RTBFabricClientTypes.LinkStatus?
@@ -1614,25 +1754,31 @@ extension RTBFabricClientTypes {
 
         public init(
             attributes: RTBFabricClientTypes.LinkAttributes? = nil,
+            connectivityType: RTBFabricClientTypes.ConnectivityType? = nil,
             createdAt: Foundation.Date? = nil,
             direction: RTBFabricClientTypes.LinkDirection? = nil,
             flowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
             gatewayId: Swift.String? = nil,
             linkId: Swift.String? = nil,
+            logSettings: RTBFabricClientTypes.LinkLogSettings? = nil,
             peerGatewayId: Swift.String? = nil,
             pendingFlowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
+            publicEndpoint: Swift.String? = nil,
             status: RTBFabricClientTypes.LinkStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.attributes = attributes
+            self.connectivityType = connectivityType
             self.createdAt = createdAt
             self.direction = direction
             self.flowModules = flowModules
             self.gatewayId = gatewayId
             self.linkId = linkId
+            self.logSettings = logSettings
             self.peerGatewayId = peerGatewayId
             self.pendingFlowModules = pendingFlowModules
+            self.publicEndpoint = publicEndpoint
             self.status = status
             self.tags = tags
             self.updatedAt = updatedAt
@@ -1675,6 +1821,8 @@ public struct RejectLinkInput: Swift.Sendable {
 public struct RejectLinkOutput: Swift.Sendable {
     /// Attributes of the link.
     public var attributes: RTBFabricClientTypes.LinkAttributes?
+    /// The connectivity type of the link.
+    public var connectivityType: RTBFabricClientTypes.ConnectivityType?
     /// The timestamp of when the link was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -1688,6 +1836,8 @@ public struct RejectLinkOutput: Swift.Sendable {
     /// The unique identifier of the link.
     /// This member is required.
     public var linkId: Swift.String?
+    /// Describes the settings for a link log.
+    public var logSettings: RTBFabricClientTypes.LinkLogSettings?
     /// The unique identifier of the peer gateway.
     /// This member is required.
     public var peerGatewayId: Swift.String?
@@ -1702,22 +1852,26 @@ public struct RejectLinkOutput: Swift.Sendable {
 
     public init(
         attributes: RTBFabricClientTypes.LinkAttributes? = nil,
+        connectivityType: RTBFabricClientTypes.ConnectivityType? = nil,
         createdAt: Foundation.Date? = nil,
         direction: RTBFabricClientTypes.LinkDirection? = nil,
         flowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
         gatewayId: Swift.String? = nil,
         linkId: Swift.String? = nil,
+        logSettings: RTBFabricClientTypes.LinkLogSettings? = nil,
         peerGatewayId: Swift.String? = nil,
         pendingFlowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
         status: RTBFabricClientTypes.LinkStatus? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
         self.attributes = attributes
+        self.connectivityType = connectivityType
         self.createdAt = createdAt
         self.direction = direction
         self.flowModules = flowModules
         self.gatewayId = gatewayId
         self.linkId = linkId
+        self.logSettings = logSettings
         self.peerGatewayId = peerGatewayId
         self.pendingFlowModules = pendingFlowModules
         self.status = status
@@ -1734,15 +1888,19 @@ public struct UpdateLinkInput: Swift.Sendable {
     public var linkId: Swift.String?
     /// Settings for the application logs.
     public var logSettings: RTBFabricClientTypes.LinkLogSettings?
+    /// The timeout value in milliseconds.
+    public var timeoutInMillis: Swift.Int?
 
     public init(
         gatewayId: Swift.String? = nil,
         linkId: Swift.String? = nil,
-        logSettings: RTBFabricClientTypes.LinkLogSettings? = nil
+        logSettings: RTBFabricClientTypes.LinkLogSettings? = nil,
+        timeoutInMillis: Swift.Int? = nil
     ) {
         self.gatewayId = gatewayId
         self.linkId = linkId
         self.logSettings = logSettings
+        self.timeoutInMillis = timeoutInMillis
     }
 }
 
@@ -1832,6 +1990,8 @@ public struct GetInboundExternalLinkInput: Swift.Sendable {
 public struct GetInboundExternalLinkOutput: Swift.Sendable {
     /// Attributes of the link.
     public var attributes: RTBFabricClientTypes.LinkAttributes?
+    /// The connectivity type of the link.
+    public var connectivityType: RTBFabricClientTypes.ConnectivityType?
     /// The timestamp of when the inbound external link was created.
     public var createdAt: Foundation.Date?
     /// The domain name.
@@ -1845,7 +2005,7 @@ public struct GetInboundExternalLinkOutput: Swift.Sendable {
     /// The unique identifier of the link.
     /// This member is required.
     public var linkId: Swift.String?
-    /// Describes the settings for a link log.
+    /// Settings for the application logs.
     public var logSettings: RTBFabricClientTypes.LinkLogSettings?
     /// The configuration of pending flow modules.
     public var pendingFlowModules: [RTBFabricClientTypes.ModuleConfiguration]?
@@ -1859,6 +2019,7 @@ public struct GetInboundExternalLinkOutput: Swift.Sendable {
 
     public init(
         attributes: RTBFabricClientTypes.LinkAttributes? = nil,
+        connectivityType: RTBFabricClientTypes.ConnectivityType? = nil,
         createdAt: Foundation.Date? = nil,
         domainName: Swift.String? = nil,
         flowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
@@ -1871,6 +2032,7 @@ public struct GetInboundExternalLinkOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil
     ) {
         self.attributes = attributes
+        self.connectivityType = connectivityType
         self.createdAt = createdAt
         self.domainName = domainName
         self.flowModules = flowModules
@@ -1902,16 +2064,24 @@ public struct GetOutboundExternalLinkInput: Swift.Sendable {
 }
 
 public struct GetOutboundExternalLinkOutput: Swift.Sendable {
+    /// Describes the attributes of a link.
+    public var attributes: RTBFabricClientTypes.LinkAttributes?
+    /// The connectivity type of the link.
+    public var connectivityType: RTBFabricClientTypes.ConnectivityType?
     /// The timestamp of when the outbound external link was created.
     public var createdAt: Foundation.Date?
+    /// The configuration of flow modules.
+    public var flowModules: [RTBFabricClientTypes.ModuleConfiguration]?
     /// The unique identifier of the gateway.
     /// This member is required.
     public var gatewayId: Swift.String?
     /// The unique identifier of the link.
     /// This member is required.
     public var linkId: Swift.String?
-    /// Describes the settings for a link log.
+    /// Settings for the application logs.
     public var logSettings: RTBFabricClientTypes.LinkLogSettings?
+    /// The configuration of pending flow modules.
+    public var pendingFlowModules: [RTBFabricClientTypes.ModuleConfiguration]?
     /// The public endpoint for the link.
     /// This member is required.
     public var publicEndpoint: Swift.String?
@@ -1924,19 +2094,27 @@ public struct GetOutboundExternalLinkOutput: Swift.Sendable {
     public var updatedAt: Foundation.Date?
 
     public init(
+        attributes: RTBFabricClientTypes.LinkAttributes? = nil,
+        connectivityType: RTBFabricClientTypes.ConnectivityType? = nil,
         createdAt: Foundation.Date? = nil,
+        flowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
         gatewayId: Swift.String? = nil,
         linkId: Swift.String? = nil,
         logSettings: RTBFabricClientTypes.LinkLogSettings? = nil,
+        pendingFlowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
         publicEndpoint: Swift.String? = nil,
         status: RTBFabricClientTypes.LinkStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
+        self.attributes = attributes
+        self.connectivityType = connectivityType
         self.createdAt = createdAt
+        self.flowModules = flowModules
         self.gatewayId = gatewayId
         self.linkId = linkId
         self.logSettings = logSettings
+        self.pendingFlowModules = pendingFlowModules
         self.publicEndpoint = publicEndpoint
         self.status = status
         self.tags = tags
@@ -2038,11 +2216,17 @@ public struct GetResponderGatewayOutput: Swift.Sendable {
     public var description: Swift.String?
     /// The domain name of the responder gateway.
     public var domainName: Swift.String?
+    /// The external inbound endpoint for the responder gateway.
+    public var externalInboundEndpoint: Swift.String?
     /// The unique identifier of the gateway.
     /// This member is required.
     public var gatewayId: Swift.String?
+    /// The type of gateway. Valid values are EXTERNAL or INTERNAL.
+    public var gatewayType: RTBFabricClientTypes.GatewayType?
     /// The count of inbound links for the responder gateway.
     public var inboundLinksCount: Swift.Int?
+    /// The listener configuration for the responder gateway.
+    public var listenerConfig: RTBFabricClientTypes.ListenerConfig?
     /// The configuration of the managed endpoint.
     public var managedEndpointConfiguration: RTBFabricClientTypes.ManagedEndpointConfiguration?
     /// The networking port.
@@ -2077,8 +2261,11 @@ public struct GetResponderGatewayOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         domainName: Swift.String? = nil,
+        externalInboundEndpoint: Swift.String? = nil,
         gatewayId: Swift.String? = nil,
+        gatewayType: RTBFabricClientTypes.GatewayType? = nil,
         inboundLinksCount: Swift.Int? = nil,
+        listenerConfig: RTBFabricClientTypes.ListenerConfig? = nil,
         managedEndpointConfiguration: RTBFabricClientTypes.ManagedEndpointConfiguration? = nil,
         port: Swift.Int? = nil,
         `protocol`: RTBFabricClientTypes.ModelProtocol? = nil,
@@ -2095,8 +2282,11 @@ public struct GetResponderGatewayOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.description = description
         self.domainName = domainName
+        self.externalInboundEndpoint = externalInboundEndpoint
         self.gatewayId = gatewayId
+        self.gatewayType = gatewayType
         self.inboundLinksCount = inboundLinksCount
+        self.listenerConfig = listenerConfig
         self.managedEndpointConfiguration = managedEndpointConfiguration
         self.port = port
         self.`protocol` = `protocol`
@@ -2243,6 +2433,8 @@ public struct UpdateResponderGatewayInput: Swift.Sendable {
     /// The unique identifier of the gateway.
     /// This member is required.
     public var gatewayId: Swift.String?
+    /// The listener configuration for the responder gateway.
+    public var listenerConfig: RTBFabricClientTypes.ListenerConfig?
     /// The configuration for the managed endpoint.
     public var managedEndpointConfiguration: RTBFabricClientTypes.ManagedEndpointConfiguration?
     /// The networking port to use.
@@ -2259,6 +2451,7 @@ public struct UpdateResponderGatewayInput: Swift.Sendable {
         description: Swift.String? = nil,
         domainName: Swift.String? = nil,
         gatewayId: Swift.String? = nil,
+        listenerConfig: RTBFabricClientTypes.ListenerConfig? = nil,
         managedEndpointConfiguration: RTBFabricClientTypes.ManagedEndpointConfiguration? = nil,
         port: Swift.Int? = nil,
         `protocol`: RTBFabricClientTypes.ModelProtocol? = nil,
@@ -2268,6 +2461,7 @@ public struct UpdateResponderGatewayInput: Swift.Sendable {
         self.description = description
         self.domainName = domainName
         self.gatewayId = gatewayId
+        self.listenerConfig = listenerConfig
         self.managedEndpointConfiguration = managedEndpointConfiguration
         self.port = port
         self.`protocol` = `protocol`
@@ -2694,6 +2888,7 @@ extension AcceptLinkInput {
         guard let value else { return }
         try writer["attributes"].write(value.attributes, with: RTBFabricClientTypes.LinkAttributes.write(value:to:))
         try writer["logSettings"].write(value.logSettings, with: RTBFabricClientTypes.LinkLogSettings.write(value:to:))
+        try writer["timeoutInMillis"].write(value.timeoutInMillis)
     }
 }
 
@@ -2717,6 +2912,7 @@ extension CreateLinkInput {
         try writer["logSettings"].write(value.logSettings, with: RTBFabricClientTypes.LinkLogSettings.write(value:to:))
         try writer["peerGatewayId"].write(value.peerGatewayId)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["timeoutInMillis"].write(value.timeoutInMillis)
     }
 }
 
@@ -2752,6 +2948,8 @@ extension CreateResponderGatewayInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
         try writer["domainName"].write(value.domainName)
+        try writer["gatewayType"].write(value.gatewayType)
+        try writer["listenerConfig"].write(value.listenerConfig, with: RTBFabricClientTypes.ListenerConfig.write(value:to:))
         try writer["managedEndpointConfiguration"].write(value.managedEndpointConfiguration, with: RTBFabricClientTypes.ManagedEndpointConfiguration.write(value:to:))
         try writer["port"].write(value.port)
         try writer["protocol"].write(value.`protocol`)
@@ -2776,6 +2974,7 @@ extension UpdateLinkInput {
     static func write(value: UpdateLinkInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["logSettings"].write(value.logSettings, with: RTBFabricClientTypes.LinkLogSettings.write(value:to:))
+        try writer["timeoutInMillis"].write(value.timeoutInMillis)
     }
 }
 
@@ -2804,6 +3003,7 @@ extension UpdateResponderGatewayInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
         try writer["domainName"].write(value.domainName)
+        try writer["listenerConfig"].write(value.listenerConfig, with: RTBFabricClientTypes.ListenerConfig.write(value:to:))
         try writer["managedEndpointConfiguration"].write(value.managedEndpointConfiguration, with: RTBFabricClientTypes.ManagedEndpointConfiguration.write(value:to:))
         try writer["port"].write(value.port)
         try writer["protocol"].write(value.`protocol`)
@@ -2819,11 +3019,13 @@ extension AcceptLinkOutput {
         let reader = responseReader
         var value = AcceptLinkOutput()
         value.attributes = try reader["attributes"].readIfPresent(with: RTBFabricClientTypes.LinkAttributes.read(from:))
+        value.connectivityType = try reader["connectivityType"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.direction = try reader["direction"].readIfPresent()
         value.flowModules = try reader["flowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.linkId = try reader["linkId"].readIfPresent() ?? ""
+        value.logSettings = try reader["logSettings"].readIfPresent(with: RTBFabricClientTypes.LinkLogSettings.read(from:))
         value.peerGatewayId = try reader["peerGatewayId"].readIfPresent() ?? ""
         value.pendingFlowModules = try reader["pendingFlowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
@@ -2855,12 +3057,14 @@ extension CreateLinkOutput {
         let reader = responseReader
         var value = CreateLinkOutput()
         value.attributes = try reader["attributes"].readIfPresent(with: RTBFabricClientTypes.LinkAttributes.read(from:))
+        value.connectivityType = try reader["connectivityType"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customerProvidedId = try reader["customerProvidedId"].readIfPresent()
         value.direction = try reader["direction"].readIfPresent()
         value.flowModules = try reader["flowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.linkId = try reader["linkId"].readIfPresent() ?? ""
+        value.logSettings = try reader["logSettings"].readIfPresent(with: RTBFabricClientTypes.LinkLogSettings.read(from:))
         value.peerGatewayId = try reader["peerGatewayId"].readIfPresent() ?? ""
         value.pendingFlowModules = try reader["pendingFlowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
@@ -2904,7 +3108,9 @@ extension CreateResponderGatewayOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateResponderGatewayOutput()
+        value.externalInboundEndpoint = try reader["externalInboundEndpoint"].readIfPresent()
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
+        value.listenerConfig = try reader["listenerConfig"].readIfPresent(with: RTBFabricClientTypes.ListenerConfig.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
@@ -2983,6 +3189,7 @@ extension GetInboundExternalLinkOutput {
         let reader = responseReader
         var value = GetInboundExternalLinkOutput()
         value.attributes = try reader["attributes"].readIfPresent(with: RTBFabricClientTypes.LinkAttributes.read(from:))
+        value.connectivityType = try reader["connectivityType"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.domainName = try reader["domainName"].readIfPresent() ?? ""
         value.flowModules = try reader["flowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3005,16 +3212,19 @@ extension GetLinkOutput {
         let reader = responseReader
         var value = GetLinkOutput()
         value.attributes = try reader["attributes"].readIfPresent(with: RTBFabricClientTypes.LinkAttributes.read(from:))
+        value.connectivityType = try reader["connectivityType"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.direction = try reader["direction"].readIfPresent()
         value.flowModules = try reader["flowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
+        value.httpResponderAllowed = try reader["httpResponderAllowed"].readIfPresent()
         value.linkId = try reader["linkId"].readIfPresent() ?? ""
         value.logSettings = try reader["logSettings"].readIfPresent(with: RTBFabricClientTypes.LinkLogSettings.read(from:))
         value.peerGatewayId = try reader["peerGatewayId"].readIfPresent() ?? ""
         value.pendingFlowModules = try reader["pendingFlowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.timeoutInMillis = try reader["timeoutInMillis"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
@@ -3027,10 +3237,14 @@ extension GetOutboundExternalLinkOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetOutboundExternalLinkOutput()
+        value.attributes = try reader["attributes"].readIfPresent(with: RTBFabricClientTypes.LinkAttributes.read(from:))
+        value.connectivityType = try reader["connectivityType"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.flowModules = try reader["flowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.linkId = try reader["linkId"].readIfPresent() ?? ""
         value.logSettings = try reader["logSettings"].readIfPresent(with: RTBFabricClientTypes.LinkLogSettings.read(from:))
+        value.pendingFlowModules = try reader["pendingFlowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.publicEndpoint = try reader["publicEndpoint"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -3073,8 +3287,11 @@ extension GetResponderGatewayOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
         value.domainName = try reader["domainName"].readIfPresent()
+        value.externalInboundEndpoint = try reader["externalInboundEndpoint"].readIfPresent()
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
+        value.gatewayType = try reader["gatewayType"].readIfPresent()
         value.inboundLinksCount = try reader["inboundLinksCount"].readIfPresent()
+        value.listenerConfig = try reader["listenerConfig"].readIfPresent(with: RTBFabricClientTypes.ListenerConfig.read(from:))
         value.managedEndpointConfiguration = try reader["managedEndpointConfiguration"].readIfPresent(with: RTBFabricClientTypes.ManagedEndpointConfiguration.read(from:))
         value.port = try reader["port"].readIfPresent() ?? 0
         value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
@@ -3149,11 +3366,13 @@ extension RejectLinkOutput {
         let reader = responseReader
         var value = RejectLinkOutput()
         value.attributes = try reader["attributes"].readIfPresent(with: RTBFabricClientTypes.LinkAttributes.read(from:))
+        value.connectivityType = try reader["connectivityType"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.direction = try reader["direction"].readIfPresent()
         value.flowModules = try reader["flowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.linkId = try reader["linkId"].readIfPresent() ?? ""
+        value.logSettings = try reader["logSettings"].readIfPresent(with: RTBFabricClientTypes.LinkLogSettings.read(from:))
         value.peerGatewayId = try reader["peerGatewayId"].readIfPresent() ?? ""
         value.pendingFlowModules = try reader["pendingFlowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
@@ -4001,6 +4220,21 @@ extension RTBFabricClientTypes.LinkLogSettings {
     }
 }
 
+extension RTBFabricClientTypes.ListenerConfig {
+
+    static func write(value: RTBFabricClientTypes.ListenerConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["protocols"].writeList(value.protocols, memberWritingClosure: SmithyReadWrite.WritingClosureBox<RTBFabricClientTypes.ModelProtocol>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.ListenerConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.ListenerConfig()
+        value.protocols = try reader["protocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<RTBFabricClientTypes.ModelProtocol>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension RTBFabricClientTypes.ListLinksResponseStructure {
 
     static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.ListLinksResponseStructure {
@@ -4015,8 +4249,11 @@ extension RTBFabricClientTypes.ListLinksResponseStructure {
         value.flowModules = try reader["flowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.pendingFlowModules = try reader["pendingFlowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.attributes = try reader["attributes"].readIfPresent(with: RTBFabricClientTypes.LinkAttributes.read(from:))
+        value.logSettings = try reader["logSettings"].readIfPresent(with: RTBFabricClientTypes.LinkLogSettings.read(from:))
+        value.connectivityType = try reader["connectivityType"].readIfPresent()
         value.linkId = try reader["linkId"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.publicEndpoint = try reader["publicEndpoint"].readIfPresent()
         return value
     }
 }

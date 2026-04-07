@@ -162,11 +162,19 @@ extension OutpostsClientTypes {
 
     public enum AssetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case compute
+        case networking
+        case powershelf
+        case storage
+        case `switch`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AssetType] {
             return [
-                .compute
+                .compute,
+                .networking,
+                .powershelf,
+                .storage,
+                .switch
             ]
         }
 
@@ -178,6 +186,10 @@ extension OutpostsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .compute: return "COMPUTE"
+            case .networking: return "NETWORKING"
+            case .powershelf: return "POWERSHELF"
+            case .storage: return "STORAGE"
+            case .switch: return "SWITCH"
             case let .sdkUnknown(s): return s
             }
         }
@@ -209,6 +221,7 @@ extension OutpostsClientTypes {
 
     public enum ComputeAssetState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
+        case installing
         case isolated
         case retiring
         case sdkUnknown(Swift.String)
@@ -216,6 +229,7 @@ extension OutpostsClientTypes {
         public static var allCases: [ComputeAssetState] {
             return [
                 .active,
+                .installing,
                 .isolated,
                 .retiring
             ]
@@ -229,6 +243,7 @@ extension OutpostsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .active: return "ACTIVE"
+            case .installing: return "INSTALLING"
             case .isolated: return "ISOLATED"
             case .retiring: return "RETIRING"
             case let .sdkUnknown(s): return s
@@ -256,6 +271,8 @@ extension OutpostsClientTypes {
         /// * ISOLATED - The asset is undergoing maintenance and can't provide capacity for new compute resources. Existing compute resources on the asset are not affected.
         ///
         /// * RETIRING - The underlying hardware for the asset is degraded. Capacity for new compute resources is reduced. Amazon Web Services sends notifications for resources that must be stopped before the asset can be replaced.
+        ///
+        /// * INSTALLING - The asset is being installed and can't yet provide capacity for new compute resources.
         public var state: OutpostsClientTypes.ComputeAssetState?
 
         public init(
@@ -381,6 +398,7 @@ extension OutpostsClientTypes {
 
     public enum AssetState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
+        case installing
         case isolated
         case retiring
         case sdkUnknown(Swift.String)
@@ -388,6 +406,7 @@ extension OutpostsClientTypes {
         public static var allCases: [AssetState] {
             return [
                 .active,
+                .installing,
                 .isolated,
                 .retiring
             ]
@@ -401,6 +420,7 @@ extension OutpostsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .active: return "ACTIVE"
+            case .installing: return "INSTALLING"
             case .isolated: return "ISOLATED"
             case .retiring: return "RETIRING"
             case let .sdkUnknown(s): return s
@@ -2767,6 +2787,18 @@ public struct ListAssetInstancesOutput: Swift.Sendable {
 }
 
 public struct ListAssetsInput: Swift.Sendable {
+    /// Filters the results by asset type.
+    ///
+    /// * COMPUTE - Server asset used for customer compute
+    ///
+    /// * STORAGE - Server asset used by storage services
+    ///
+    /// * POWERSHELF - Powershelf assets
+    ///
+    /// * SWITCH - Switch assets
+    ///
+    /// * NETWORKING - Asset managed by Amazon Web Services for networking purposes
+    public var assetTypeFilter: [OutpostsClientTypes.AssetType]?
     /// Filters the results by the host ID of a Dedicated Host.
     public var hostIdFilter: [Swift.String]?
     /// The maximum page size.
@@ -2780,12 +2812,14 @@ public struct ListAssetsInput: Swift.Sendable {
     public var statusFilter: [OutpostsClientTypes.AssetState]?
 
     public init(
+        assetTypeFilter: [OutpostsClientTypes.AssetType]? = nil,
         hostIdFilter: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         outpostIdentifier: Swift.String? = nil,
         statusFilter: [OutpostsClientTypes.AssetState]? = nil
     ) {
+        self.assetTypeFilter = assetTypeFilter
         self.hostIdFilter = hostIdFilter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3862,6 +3896,12 @@ extension ListAssetsInput {
 
     static func queryItemProvider(_ value: ListAssetsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let assetTypeFilter = value.assetTypeFilter {
+            assetTypeFilter.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "AssetTypeFilter".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)

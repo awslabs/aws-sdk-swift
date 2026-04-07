@@ -1882,6 +1882,7 @@ extension S3ClientTypes {
         case eu
         case afSouth1
         case apEast1
+        case apEast2
         case apNortheast1
         case apNortheast2
         case apNortheast3
@@ -1892,7 +1893,10 @@ extension S3ClientTypes {
         case apSoutheast3
         case apSoutheast4
         case apSoutheast5
+        case apSoutheast6
+        case apSoutheast7
         case caCentral1
+        case caWest1
         case cnNorth1
         case cnNorthwest1
         case euCentral1
@@ -1906,6 +1910,7 @@ extension S3ClientTypes {
         case ilCentral1
         case meCentral1
         case meSouth1
+        case mxCentral1
         case saEast1
         case usEast2
         case usGovEast1
@@ -1919,6 +1924,7 @@ extension S3ClientTypes {
                 .eu,
                 .afSouth1,
                 .apEast1,
+                .apEast2,
                 .apNortheast1,
                 .apNortheast2,
                 .apNortheast3,
@@ -1929,7 +1935,10 @@ extension S3ClientTypes {
                 .apSoutheast3,
                 .apSoutheast4,
                 .apSoutheast5,
+                .apSoutheast6,
+                .apSoutheast7,
                 .caCentral1,
+                .caWest1,
                 .cnNorth1,
                 .cnNorthwest1,
                 .euCentral1,
@@ -1943,6 +1952,7 @@ extension S3ClientTypes {
                 .ilCentral1,
                 .meCentral1,
                 .meSouth1,
+                .mxCentral1,
                 .saEast1,
                 .usEast2,
                 .usGovEast1,
@@ -1962,6 +1972,7 @@ extension S3ClientTypes {
             case .eu: return "EU"
             case .afSouth1: return "af-south-1"
             case .apEast1: return "ap-east-1"
+            case .apEast2: return "ap-east-2"
             case .apNortheast1: return "ap-northeast-1"
             case .apNortheast2: return "ap-northeast-2"
             case .apNortheast3: return "ap-northeast-3"
@@ -1972,7 +1983,10 @@ extension S3ClientTypes {
             case .apSoutheast3: return "ap-southeast-3"
             case .apSoutheast4: return "ap-southeast-4"
             case .apSoutheast5: return "ap-southeast-5"
+            case .apSoutheast6: return "ap-southeast-6"
+            case .apSoutheast7: return "ap-southeast-7"
             case .caCentral1: return "ca-central-1"
+            case .caWest1: return "ca-west-1"
             case .cnNorth1: return "cn-north-1"
             case .cnNorthwest1: return "cn-northwest-1"
             case .euCentral1: return "eu-central-1"
@@ -1986,6 +2000,7 @@ extension S3ClientTypes {
             case .ilCentral1: return "il-central-1"
             case .meCentral1: return "me-central-1"
             case .meSouth1: return "me-south-1"
+            case .mxCentral1: return "mx-central-1"
             case .saEast1: return "sa-east-1"
             case .usEast2: return "us-east-2"
             case .usGovEast1: return "us-gov-east-1"

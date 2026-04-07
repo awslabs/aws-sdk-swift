@@ -7898,7 +7898,35 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// The data volume configuration for tasks launched using this task definition. Specifying a volume configuration in a task definition is optional. The volume configuration may contain multiple volumes but only one volume configured at launch is supported. Each volume defined in the volume configuration may only specify a name and one of either configuredAtLaunch, dockerVolumeConfiguration, efsVolumeConfiguration, fsxWindowsFileServerVolumeConfiguration, or host. If an empty volume configuration is specified, by default Amazon ECS uses a host volume. For more information, see [Using data volumes in tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html).
+    /// This parameter is specified when you're using an Amazon S3 Files file system for task storage. For more information, see [Amazon S3 Files volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/s3files-volumes.html) in the Amazon Elastic Container Service Developer Guide. Your task definition must include a Task IAM Role. See [ IAM role for attaching your file system to AWS compute resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-files-prereq-policies.html#s3-files-prereq-iam-compute-role) for required permissions.
+    public struct S3FilesVolumeConfiguration: Swift.Sendable {
+        /// The full ARN of the S3 Files access point to use. If an access point is specified, the root directory value specified in the S3FilesVolumeConfiguration must either be omitted or set to / which will enforce the path set on the S3 Files access point. For more information, see [Creating S3 Files access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-files-access-points-creating.html).
+        public var accessPointArn: Swift.String?
+        /// The full ARN of the S3 Files file system to mount.
+        /// This member is required.
+        public var fileSystemArn: Swift.String?
+        /// The directory within the Amazon S3 Files file system to mount as the root directory. If this parameter is omitted, the root of the Amazon S3 Files file system will be used. Specifying / will have the same effect as omitting this parameter. If a S3 Files access point is specified in the accessPointArn, the root directory parameter must either be omitted or set to / which will enforce the path set on the S3 Files access point.
+        public var rootDirectory: Swift.String?
+        /// The port to use for sending encrypted data between the ECS host and the S3 Files file system. If you do not specify a transit encryption port, it will use the port selection strategy that the Amazon S3 Files mount helper uses. For more information, see [S3 Files mount helper](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-files-mounting.html).
+        public var transitEncryptionPort: Swift.Int?
+
+        public init(
+            accessPointArn: Swift.String? = nil,
+            fileSystemArn: Swift.String? = nil,
+            rootDirectory: Swift.String? = nil,
+            transitEncryptionPort: Swift.Int? = nil
+        ) {
+            self.accessPointArn = accessPointArn
+            self.fileSystemArn = fileSystemArn
+            self.rootDirectory = rootDirectory
+            self.transitEncryptionPort = transitEncryptionPort
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The data volume configuration for tasks launched using this task definition. Specifying a volume configuration in a task definition is optional. The volume configuration may contain multiple volumes but only one volume configured at launch is supported. Each volume defined in the volume configuration may only specify a name and one of either configuredAtLaunch, dockerVolumeConfiguration, efsVolumeConfiguration, s3filesVolumeConfiguration, fsxWindowsFileServerVolumeConfiguration, or host. If an empty volume configuration is specified, by default Amazon ECS uses a host volume. For more information, see [Using data volumes in tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html).
     public struct Volume: Swift.Sendable {
         /// Indicates whether the volume should be configured at launch time. This is used to create Amazon EBS volumes for standalone tasks or tasks created as part of a service. Each task definition revision may only have one volume configured at launch in the volume configuration. To configure a volume at launch time, use this task definition revision and specify a volumeConfigurations object when calling the CreateService, UpdateService, RunTask or StartTask APIs.
         public var configuredAtLaunch: Swift.Bool?
@@ -7910,8 +7938,10 @@ extension ECSClientTypes {
         public var fsxWindowsFileServerVolumeConfiguration: ECSClientTypes.FSxWindowsFileServerVolumeConfiguration?
         /// This parameter is specified when you use bind mount host volumes. The contents of the host parameter determine whether your bind mount host volume persists on the host container instance and where it's stored. If the host parameter is empty, then the Docker daemon assigns a host path for your data volume. However, the data isn't guaranteed to persist after the containers that are associated with it stop running. Windows containers can mount whole directories on the same drive as $env:ProgramData. Windows containers can't mount directories on a different drive, and mount point can't be across drives. For example, you can mount C:\my\path:C:\my\path and D:\:D:\, but not D:\my\path:C:\my\path or D:\:C:\my\path.
         public var host: ECSClientTypes.HostVolumeProperties?
-        /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. When using a volume configured at launch, the name is required and must also be specified as the volume name in the ServiceVolumeConfiguration or TaskVolumeConfiguration parameter when creating your service or standalone task. For all other types of volumes, this name is referenced in the sourceVolume parameter of the mountPoints object in the container definition. When a volume is using the efsVolumeConfiguration, the name is required.
+        /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. When using a volume configured at launch, the name is required and must also be specified as the volume name in the ServiceVolumeConfiguration or TaskVolumeConfiguration parameter when creating your service or standalone task. For all other types of volumes, this name is referenced in the sourceVolume parameter of the mountPoints object in the container definition. When a volume is using the efsVolumeConfiguration, the name is required. When a volume is using the s3filesVolumeConfiguration, the name is required.
         public var name: Swift.String?
+        /// This parameter is specified when you use an Amazon S3 Files file system for task storage.
+        public var s3filesVolumeConfiguration: ECSClientTypes.S3FilesVolumeConfiguration?
 
         public init(
             configuredAtLaunch: Swift.Bool? = nil,
@@ -7919,7 +7949,8 @@ extension ECSClientTypes {
             efsVolumeConfiguration: ECSClientTypes.EFSVolumeConfiguration? = nil,
             fsxWindowsFileServerVolumeConfiguration: ECSClientTypes.FSxWindowsFileServerVolumeConfiguration? = nil,
             host: ECSClientTypes.HostVolumeProperties? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            s3filesVolumeConfiguration: ECSClientTypes.S3FilesVolumeConfiguration? = nil
         ) {
             self.configuredAtLaunch = configuredAtLaunch
             self.dockerVolumeConfiguration = dockerVolumeConfiguration
@@ -7927,6 +7958,7 @@ extension ECSClientTypes {
             self.fsxWindowsFileServerVolumeConfiguration = fsxWindowsFileServerVolumeConfiguration
             self.host = host
             self.name = name
+            self.s3filesVolumeConfiguration = s3filesVolumeConfiguration
         }
     }
 }
@@ -20938,6 +20970,27 @@ extension ECSClientTypes.RuntimePlatform {
     }
 }
 
+extension ECSClientTypes.S3FilesVolumeConfiguration {
+
+    static func write(value: ECSClientTypes.S3FilesVolumeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessPointArn"].write(value.accessPointArn)
+        try writer["fileSystemArn"].write(value.fileSystemArn)
+        try writer["rootDirectory"].write(value.rootDirectory)
+        try writer["transitEncryptionPort"].write(value.transitEncryptionPort)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.S3FilesVolumeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.S3FilesVolumeConfiguration()
+        value.fileSystemArn = try reader["fileSystemArn"].readIfPresent() ?? ""
+        value.rootDirectory = try reader["rootDirectory"].readIfPresent()
+        value.transitEncryptionPort = try reader["transitEncryptionPort"].readIfPresent()
+        value.accessPointArn = try reader["accessPointArn"].readIfPresent()
+        return value
+    }
+}
+
 extension ECSClientTypes.Scale {
 
     static func write(value: ECSClientTypes.Scale?, to writer: SmithyJSON.Writer) throws {
@@ -21823,6 +21876,7 @@ extension ECSClientTypes.Volume {
         try writer["fsxWindowsFileServerVolumeConfiguration"].write(value.fsxWindowsFileServerVolumeConfiguration, with: ECSClientTypes.FSxWindowsFileServerVolumeConfiguration.write(value:to:))
         try writer["host"].write(value.host, with: ECSClientTypes.HostVolumeProperties.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["s3filesVolumeConfiguration"].write(value.s3filesVolumeConfiguration, with: ECSClientTypes.S3FilesVolumeConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.Volume {
@@ -21832,6 +21886,7 @@ extension ECSClientTypes.Volume {
         value.host = try reader["host"].readIfPresent(with: ECSClientTypes.HostVolumeProperties.read(from:))
         value.dockerVolumeConfiguration = try reader["dockerVolumeConfiguration"].readIfPresent(with: ECSClientTypes.DockerVolumeConfiguration.read(from:))
         value.efsVolumeConfiguration = try reader["efsVolumeConfiguration"].readIfPresent(with: ECSClientTypes.EFSVolumeConfiguration.read(from:))
+        value.s3filesVolumeConfiguration = try reader["s3filesVolumeConfiguration"].readIfPresent(with: ECSClientTypes.S3FilesVolumeConfiguration.read(from:))
         value.fsxWindowsFileServerVolumeConfiguration = try reader["fsxWindowsFileServerVolumeConfiguration"].readIfPresent(with: ECSClientTypes.FSxWindowsFileServerVolumeConfiguration.read(from:))
         value.configuredAtLaunch = try reader["configuredAtLaunch"].readIfPresent()
         return value
