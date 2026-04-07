@@ -1299,6 +1299,530 @@ public struct GetBrowserSessionOutput: Swift.Sendable {
     }
 }
 
+extension BedrockAgentCoreClientTypes {
+
+    /// Arguments for a key press action.
+    public struct KeyPressArguments: Swift.Sendable {
+        /// The key name to press (for example, enter, tab, escape).
+        /// This member is required.
+        public var key: Swift.String?
+        /// The number of times to press the key. Valid range: 1–100. Defaults to 1.
+        public var presses: Swift.Int?
+
+        public init(
+            key: Swift.String? = nil,
+            presses: Swift.Int? = nil
+        ) {
+            self.key = key
+            self.presses = presses
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Arguments for a key shortcut action.
+    public struct KeyShortcutArguments: Swift.Sendable {
+        /// The key combination to press (for example, ["ctrl", "s"]). Maximum 5 keys.
+        /// This member is required.
+        public var keys: [Swift.String]?
+
+        public init(
+            keys: [Swift.String]? = nil
+        ) {
+            self.keys = keys
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Arguments for a key type action.
+    public struct KeyTypeArguments: Swift.Sendable {
+        /// The text string to type. Maximum length: 10,000 characters.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            text: Swift.String? = nil
+        ) {
+            self.text = text
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The mouse button to use for a browser mouse action.
+    public enum MouseButton: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `left`
+        case middle
+        case `right`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MouseButton] {
+            return [
+                .left,
+                .middle,
+                .right
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .left: return "LEFT"
+            case .middle: return "MIDDLE"
+            case .right: return "RIGHT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Arguments for a mouse click action.
+    public struct MouseClickArguments: Swift.Sendable {
+        /// The mouse button to use. Defaults to LEFT.
+        public var button: BedrockAgentCoreClientTypes.MouseButton?
+        /// The number of clicks to perform. Valid range: 1–10. Defaults to 1.
+        public var clickCount: Swift.Int?
+        /// The X coordinate on screen where the click occurs.
+        /// This member is required.
+        public var x: Swift.Int?
+        /// The Y coordinate on screen where the click occurs.
+        /// This member is required.
+        public var y: Swift.Int?
+
+        public init(
+            button: BedrockAgentCoreClientTypes.MouseButton? = nil,
+            clickCount: Swift.Int? = nil,
+            x: Swift.Int? = nil,
+            y: Swift.Int? = nil
+        ) {
+            self.button = button
+            self.clickCount = clickCount
+            self.x = x
+            self.y = y
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Arguments for a mouse drag action.
+    public struct MouseDragArguments: Swift.Sendable {
+        /// The mouse button to use for the drag. Defaults to LEFT.
+        public var button: BedrockAgentCoreClientTypes.MouseButton?
+        /// The ending X coordinate for the drag.
+        /// This member is required.
+        public var endx: Swift.Int?
+        /// The ending Y coordinate for the drag.
+        /// This member is required.
+        public var endy: Swift.Int?
+        /// The starting X coordinate for the drag.
+        /// This member is required.
+        public var startx: Swift.Int?
+        /// The starting Y coordinate for the drag.
+        /// This member is required.
+        public var starty: Swift.Int?
+
+        public init(
+            button: BedrockAgentCoreClientTypes.MouseButton? = nil,
+            endx: Swift.Int? = nil,
+            endy: Swift.Int? = nil,
+            startx: Swift.Int? = nil,
+            starty: Swift.Int? = nil
+        ) {
+            self.button = button
+            self.endx = endx
+            self.endy = endy
+            self.startx = startx
+            self.starty = starty
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Arguments for a mouse move action.
+    public struct MouseMoveArguments: Swift.Sendable {
+        /// The target X coordinate on screen.
+        /// This member is required.
+        public var x: Swift.Int?
+        /// The target Y coordinate on screen.
+        /// This member is required.
+        public var y: Swift.Int?
+
+        public init(
+            x: Swift.Int? = nil,
+            y: Swift.Int? = nil
+        ) {
+            self.x = x
+            self.y = y
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Arguments for a mouse scroll action.
+    public struct MouseScrollArguments: Swift.Sendable {
+        /// The horizontal scroll delta. Valid range: -1000 to 1000.
+        public var deltax: Swift.Int?
+        /// The vertical scroll delta. Valid range: -1000 to 1000. Negative values scroll down.
+        public var deltay: Swift.Int?
+        /// The X coordinate on screen where the scroll occurs.
+        /// This member is required.
+        public var x: Swift.Int?
+        /// The Y coordinate on screen where the scroll occurs.
+        /// This member is required.
+        public var y: Swift.Int?
+
+        public init(
+            deltax: Swift.Int? = nil,
+            deltay: Swift.Int? = nil,
+            x: Swift.Int? = nil,
+            y: Swift.Int? = nil
+        ) {
+            self.deltax = deltax
+            self.deltay = deltay
+            self.x = x
+            self.y = y
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The image format for a browser screenshot.
+    public enum ScreenshotFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case png
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScreenshotFormat] {
+            return [
+                .png
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .png: return "PNG"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Arguments for a screenshot action.
+    public struct ScreenshotArguments: Swift.Sendable {
+        /// The image format for the screenshot. Defaults to PNG.
+        public var format: BedrockAgentCoreClientTypes.ScreenshotFormat?
+
+        public init(
+            format: BedrockAgentCoreClientTypes.ScreenshotFormat? = nil
+        ) {
+            self.format = format
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The browser action to perform. Exactly one member must be set per request.
+    public enum BrowserAction: Swift.Sendable {
+        /// Click at the specified coordinates.
+        case mouseclick(BedrockAgentCoreClientTypes.MouseClickArguments)
+        /// Move the cursor to the specified coordinates.
+        case mousemove(BedrockAgentCoreClientTypes.MouseMoveArguments)
+        /// Drag from a start position to an end position.
+        case mousedrag(BedrockAgentCoreClientTypes.MouseDragArguments)
+        /// Scroll at the specified position.
+        case mousescroll(BedrockAgentCoreClientTypes.MouseScrollArguments)
+        /// Type a string of text.
+        case keytype(BedrockAgentCoreClientTypes.KeyTypeArguments)
+        /// Press a key one or more times.
+        case keypress(BedrockAgentCoreClientTypes.KeyPressArguments)
+        /// Press a key combination.
+        case keyshortcut(BedrockAgentCoreClientTypes.KeyShortcutArguments)
+        /// Capture a full-screen screenshot.
+        case screenshot(BedrockAgentCoreClientTypes.ScreenshotArguments)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+/// Request for the InvokeBrowser operation.
+public struct InvokeBrowserInput: Swift.Sendable {
+    /// The browser action to perform. Exactly one member of the BrowserAction union must be set per request.
+    /// This member is required.
+    public var action: BedrockAgentCoreClientTypes.BrowserAction?
+    /// The unique identifier of the browser associated with the session. This must match the identifier used when creating the session with StartBrowserSession.
+    /// This member is required.
+    public var browserIdentifier: Swift.String?
+    /// The unique identifier of the browser session on which to perform the action. This must be an active session created with StartBrowserSession.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        action: BedrockAgentCoreClientTypes.BrowserAction? = nil,
+        browserIdentifier: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.action = action
+        self.browserIdentifier = browserIdentifier
+        self.sessionId = sessionId
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The status of a browser action execution.
+    public enum BrowserActionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BrowserActionStatus] {
+            return [
+                .failed,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The result of a key press action.
+    public struct KeyPressResult: Swift.Sendable {
+        /// The error message. Present only when the action failed.
+        public var error: Swift.String?
+        /// The status of the action execution.
+        /// This member is required.
+        public var status: BedrockAgentCoreClientTypes.BrowserActionStatus?
+
+        public init(
+            error: Swift.String? = nil,
+            status: BedrockAgentCoreClientTypes.BrowserActionStatus? = nil
+        ) {
+            self.error = error
+            self.status = status
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The result of a key shortcut action.
+    public struct KeyShortcutResult: Swift.Sendable {
+        /// The error message. Present only when the action failed.
+        public var error: Swift.String?
+        /// The status of the action execution.
+        /// This member is required.
+        public var status: BedrockAgentCoreClientTypes.BrowserActionStatus?
+
+        public init(
+            error: Swift.String? = nil,
+            status: BedrockAgentCoreClientTypes.BrowserActionStatus? = nil
+        ) {
+            self.error = error
+            self.status = status
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The result of a key type action.
+    public struct KeyTypeResult: Swift.Sendable {
+        /// The error message. Present only when the action failed.
+        public var error: Swift.String?
+        /// The status of the action execution.
+        /// This member is required.
+        public var status: BedrockAgentCoreClientTypes.BrowserActionStatus?
+
+        public init(
+            error: Swift.String? = nil,
+            status: BedrockAgentCoreClientTypes.BrowserActionStatus? = nil
+        ) {
+            self.error = error
+            self.status = status
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The result of a mouse click action.
+    public struct MouseClickResult: Swift.Sendable {
+        /// The error message. Present only when the action failed.
+        public var error: Swift.String?
+        /// The status of the action execution.
+        /// This member is required.
+        public var status: BedrockAgentCoreClientTypes.BrowserActionStatus?
+
+        public init(
+            error: Swift.String? = nil,
+            status: BedrockAgentCoreClientTypes.BrowserActionStatus? = nil
+        ) {
+            self.error = error
+            self.status = status
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The result of a mouse drag action.
+    public struct MouseDragResult: Swift.Sendable {
+        /// The error message. Present only when the action failed.
+        public var error: Swift.String?
+        /// The status of the action execution.
+        /// This member is required.
+        public var status: BedrockAgentCoreClientTypes.BrowserActionStatus?
+
+        public init(
+            error: Swift.String? = nil,
+            status: BedrockAgentCoreClientTypes.BrowserActionStatus? = nil
+        ) {
+            self.error = error
+            self.status = status
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The result of a mouse move action.
+    public struct MouseMoveResult: Swift.Sendable {
+        /// The error message. Present only when the action failed.
+        public var error: Swift.String?
+        /// The status of the action execution.
+        /// This member is required.
+        public var status: BedrockAgentCoreClientTypes.BrowserActionStatus?
+
+        public init(
+            error: Swift.String? = nil,
+            status: BedrockAgentCoreClientTypes.BrowserActionStatus? = nil
+        ) {
+            self.error = error
+            self.status = status
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The result of a mouse scroll action.
+    public struct MouseScrollResult: Swift.Sendable {
+        /// The error message. Present only when the action failed.
+        public var error: Swift.String?
+        /// The status of the action execution.
+        /// This member is required.
+        public var status: BedrockAgentCoreClientTypes.BrowserActionStatus?
+
+        public init(
+            error: Swift.String? = nil,
+            status: BedrockAgentCoreClientTypes.BrowserActionStatus? = nil
+        ) {
+            self.error = error
+            self.status = status
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The result of a screenshot action.
+    public struct ScreenshotResult: Swift.Sendable {
+        /// The base64-encoded image data. Present only when the action succeeded.
+        public var data: Foundation.Data?
+        /// The error message. Present only when the action failed.
+        public var error: Swift.String?
+        /// The status of the action execution.
+        /// This member is required.
+        public var status: BedrockAgentCoreClientTypes.BrowserActionStatus?
+
+        public init(
+            data: Foundation.Data? = nil,
+            error: Swift.String? = nil,
+            status: BedrockAgentCoreClientTypes.BrowserActionStatus? = nil
+        ) {
+            self.data = data
+            self.error = error
+            self.status = status
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The result of a browser action execution. Exactly one member is set, matching the action that was performed.
+    public enum BrowserActionResult: Swift.Sendable {
+        /// The result of a mouse click action.
+        case mouseclick(BedrockAgentCoreClientTypes.MouseClickResult)
+        /// The result of a mouse move action.
+        case mousemove(BedrockAgentCoreClientTypes.MouseMoveResult)
+        /// The result of a mouse drag action.
+        case mousedrag(BedrockAgentCoreClientTypes.MouseDragResult)
+        /// The result of a mouse scroll action.
+        case mousescroll(BedrockAgentCoreClientTypes.MouseScrollResult)
+        /// The result of a key type action.
+        case keytype(BedrockAgentCoreClientTypes.KeyTypeResult)
+        /// The result of a key press action.
+        case keypress(BedrockAgentCoreClientTypes.KeyPressResult)
+        /// The result of a key shortcut action.
+        case keyshortcut(BedrockAgentCoreClientTypes.KeyShortcutResult)
+        /// The result of a screenshot action.
+        case screenshot(BedrockAgentCoreClientTypes.ScreenshotResult)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+/// Response for the InvokeBrowser operation.
+public struct InvokeBrowserOutput: Swift.Sendable {
+    /// The result of the browser action. The member set in the result corresponds to the action that was performed.
+    /// This member is required.
+    public var result: BedrockAgentCoreClientTypes.BrowserActionResult?
+    /// The unique identifier of the browser session on which the action was performed.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        result: BedrockAgentCoreClientTypes.BrowserActionResult? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.result = result
+        self.sessionId = sessionId
+    }
+}
+
 public struct ListBrowserSessionsInput: Swift.Sendable {
     /// The unique identifier of the browser to list sessions for. If specified, only sessions for this browser are returned. If not specified, sessions for all browsers are returned.
     /// This member is required.
@@ -4757,6 +5281,27 @@ extension InvokeAgentRuntimeCommandInput {
     }
 }
 
+extension InvokeBrowserInput {
+
+    static func urlPathProvider(_ value: InvokeBrowserInput) -> Swift.String? {
+        guard let browserIdentifier = value.browserIdentifier else {
+            return nil
+        }
+        return "/browsers/\(browserIdentifier.urlPercentEncoding())/sessions/invoke"
+    }
+}
+
+extension InvokeBrowserInput {
+
+    static func headerProvider(_ value: InvokeBrowserInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let sessionId = value.sessionId {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-browser-session-id", value: Swift.String(sessionId)))
+        }
+        return items
+    }
+}
+
 extension InvokeCodeInterpreterInput {
 
     static func urlPathProvider(_ value: InvokeCodeInterpreterInput) -> Swift.String? {
@@ -5210,6 +5755,14 @@ extension InvokeAgentRuntimeCommandInput {
     static func write(value: InvokeAgentRuntimeCommandInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["body"].write(value.body, with: BedrockAgentCoreClientTypes.InvokeAgentRuntimeCommandRequestBody.write(value:to:))
+    }
+}
+
+extension InvokeBrowserInput {
+
+    static func write(value: InvokeBrowserInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action, with: BedrockAgentCoreClientTypes.BrowserAction.write(value:to:))
     }
 }
 
@@ -5692,6 +6245,21 @@ extension InvokeAgentRuntimeCommandOutput {
             value.stream = decoderStream.toAsyncStream()
         }
         value.statusCode = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension InvokeBrowserOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> InvokeBrowserOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = InvokeBrowserOutput()
+        if let sessionIdHeaderValue = httpResponse.headers.value(for: "x-amzn-browser-session-id") {
+            value.sessionId = sessionIdHeaderValue
+        }
+        value.result = try reader["result"].readIfPresent(with: BedrockAgentCoreClientTypes.BrowserActionResult.read(from:))
         return value
     }
 }
@@ -6309,6 +6877,25 @@ enum InvokeAgentRuntimeCommandOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "RuntimeClientError": return try RuntimeClientError.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum InvokeBrowserOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -7022,6 +7609,61 @@ extension BedrockAgentCoreClientTypes.BranchFilter {
     }
 }
 
+extension BedrockAgentCoreClientTypes.BrowserAction {
+
+    static func write(value: BedrockAgentCoreClientTypes.BrowserAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .keypress(keypress):
+                try writer["keyPress"].write(keypress, with: BedrockAgentCoreClientTypes.KeyPressArguments.write(value:to:))
+            case let .keyshortcut(keyshortcut):
+                try writer["keyShortcut"].write(keyshortcut, with: BedrockAgentCoreClientTypes.KeyShortcutArguments.write(value:to:))
+            case let .keytype(keytype):
+                try writer["keyType"].write(keytype, with: BedrockAgentCoreClientTypes.KeyTypeArguments.write(value:to:))
+            case let .mouseclick(mouseclick):
+                try writer["mouseClick"].write(mouseclick, with: BedrockAgentCoreClientTypes.MouseClickArguments.write(value:to:))
+            case let .mousedrag(mousedrag):
+                try writer["mouseDrag"].write(mousedrag, with: BedrockAgentCoreClientTypes.MouseDragArguments.write(value:to:))
+            case let .mousemove(mousemove):
+                try writer["mouseMove"].write(mousemove, with: BedrockAgentCoreClientTypes.MouseMoveArguments.write(value:to:))
+            case let .mousescroll(mousescroll):
+                try writer["mouseScroll"].write(mousescroll, with: BedrockAgentCoreClientTypes.MouseScrollArguments.write(value:to:))
+            case let .screenshot(screenshot):
+                try writer["screenshot"].write(screenshot, with: BedrockAgentCoreClientTypes.ScreenshotArguments.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.BrowserActionResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.BrowserActionResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "mouseClick":
+                return .mouseclick(try reader["mouseClick"].read(with: BedrockAgentCoreClientTypes.MouseClickResult.read(from:)))
+            case "mouseMove":
+                return .mousemove(try reader["mouseMove"].read(with: BedrockAgentCoreClientTypes.MouseMoveResult.read(from:)))
+            case "mouseDrag":
+                return .mousedrag(try reader["mouseDrag"].read(with: BedrockAgentCoreClientTypes.MouseDragResult.read(from:)))
+            case "mouseScroll":
+                return .mousescroll(try reader["mouseScroll"].read(with: BedrockAgentCoreClientTypes.MouseScrollResult.read(from:)))
+            case "keyType":
+                return .keytype(try reader["keyType"].read(with: BedrockAgentCoreClientTypes.KeyTypeResult.read(from:)))
+            case "keyPress":
+                return .keypress(try reader["keyPress"].read(with: BedrockAgentCoreClientTypes.KeyPressResult.read(from:)))
+            case "keyShortcut":
+                return .keyshortcut(try reader["keyShortcut"].read(with: BedrockAgentCoreClientTypes.KeyShortcutResult.read(from:)))
+            case "screenshot":
+                return .screenshot(try reader["screenshot"].read(with: BedrockAgentCoreClientTypes.ScreenshotResult.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension BedrockAgentCoreClientTypes.BrowserEnterprisePolicy {
 
     static func write(value: BedrockAgentCoreClientTypes.BrowserEnterprisePolicy?, to writer: SmithyJSON.Writer) throws {
@@ -7499,6 +8141,64 @@ extension BedrockAgentCoreClientTypes.InvokeAgentRuntimeCommandRequestBody {
     }
 }
 
+extension BedrockAgentCoreClientTypes.KeyPressArguments {
+
+    static func write(value: BedrockAgentCoreClientTypes.KeyPressArguments?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["presses"].write(value.presses)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.KeyPressResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.KeyPressResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.KeyPressResult()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.error = try reader["error"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.KeyShortcutArguments {
+
+    static func write(value: BedrockAgentCoreClientTypes.KeyShortcutArguments?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["keys"].writeList(value.keys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.KeyShortcutResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.KeyShortcutResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.KeyShortcutResult()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.error = try reader["error"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.KeyTypeArguments {
+
+    static func write(value: BedrockAgentCoreClientTypes.KeyTypeArguments?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["text"].write(value.text)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.KeyTypeResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.KeyTypeResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.KeyTypeResult()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.error = try reader["error"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.LeftExpression {
 
     static func write(value: BedrockAgentCoreClientTypes.LeftExpression?, to writer: SmithyJSON.Writer) throws {
@@ -7665,6 +8365,93 @@ extension BedrockAgentCoreClientTypes.MetadataValue {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.MouseClickArguments {
+
+    static func write(value: BedrockAgentCoreClientTypes.MouseClickArguments?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["button"].write(value.button)
+        try writer["clickCount"].write(value.clickCount)
+        try writer["x"].write(value.x)
+        try writer["y"].write(value.y)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.MouseClickResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.MouseClickResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.MouseClickResult()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.error = try reader["error"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.MouseDragArguments {
+
+    static func write(value: BedrockAgentCoreClientTypes.MouseDragArguments?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["button"].write(value.button)
+        try writer["endX"].write(value.endx)
+        try writer["endY"].write(value.endy)
+        try writer["startX"].write(value.startx)
+        try writer["startY"].write(value.starty)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.MouseDragResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.MouseDragResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.MouseDragResult()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.error = try reader["error"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.MouseMoveArguments {
+
+    static func write(value: BedrockAgentCoreClientTypes.MouseMoveArguments?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["x"].write(value.x)
+        try writer["y"].write(value.y)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.MouseMoveResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.MouseMoveResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.MouseMoveResult()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.error = try reader["error"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.MouseScrollArguments {
+
+    static func write(value: BedrockAgentCoreClientTypes.MouseScrollArguments?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deltaX"].write(value.deltax)
+        try writer["deltaY"].write(value.deltay)
+        try writer["x"].write(value.x)
+        try writer["y"].write(value.y)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.MouseScrollResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.MouseScrollResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.MouseScrollResult()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.error = try reader["error"].readIfPresent()
+        return value
     }
 }
 
@@ -7874,6 +8661,26 @@ extension BedrockAgentCoreClientTypes.S3Location {
         value.bucket = try reader["bucket"].readIfPresent() ?? ""
         value.`prefix` = try reader["prefix"].readIfPresent() ?? ""
         value.versionId = try reader["versionId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ScreenshotArguments {
+
+    static func write(value: BedrockAgentCoreClientTypes.ScreenshotArguments?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["format"].write(value.format)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ScreenshotResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ScreenshotResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ScreenshotResult()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.error = try reader["error"].readIfPresent()
+        value.data = try reader["data"].readIfPresent()
         return value
     }
 }

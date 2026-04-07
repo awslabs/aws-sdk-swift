@@ -763,6 +763,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSS3Control](/sdk-for-swift/latest/api/awss3control/documentation/awss3control)
 
+[AWSS3Files](/sdk-for-swift/latest/api/awss3files/documentation/awss3files)
+
 [AWSS3Outposts](/sdk-for-swift/latest/api/awss3outposts/documentation/awss3outposts)
 
 [AWSS3Tables](/sdk-for-swift/latest/api/awss3tables/documentation/awss3tables)

@@ -917,6 +917,22 @@ extension BraketClientTypes {
         case mlG4dn4xlarge
         case mlG4dn8xlarge
         case mlG4dnXlarge
+        case mlG6e12xlarge
+        case mlG6e16xlarge
+        case mlG6e24xlarge
+        case mlG6e2xlarge
+        case mlG6e48xlarge
+        case mlG6e4xlarge
+        case mlG6e8xlarge
+        case mlG6eXlarge
+        case mlG612xlarge
+        case mlG616xlarge
+        case mlG624xlarge
+        case mlG62xlarge
+        case mlG648xlarge
+        case mlG64xlarge
+        case mlG68xlarge
+        case mlG6Xlarge
         case mlM410xlarge
         case mlM416xlarge
         case mlM42xlarge
@@ -936,6 +952,9 @@ extension BraketClientTypes {
         case mlP32xlarge
         case mlP38xlarge
         case mlP4d24xlarge
+        case mlT32xlarge
+        case mlT3Large
+        case mlT3Xlarge
         case sdkUnknown(Swift.String)
 
         public static var allCases: [InstanceType] {
@@ -960,6 +979,22 @@ extension BraketClientTypes {
                 .mlG4dn4xlarge,
                 .mlG4dn8xlarge,
                 .mlG4dnXlarge,
+                .mlG6e12xlarge,
+                .mlG6e16xlarge,
+                .mlG6e24xlarge,
+                .mlG6e2xlarge,
+                .mlG6e48xlarge,
+                .mlG6e4xlarge,
+                .mlG6e8xlarge,
+                .mlG6eXlarge,
+                .mlG612xlarge,
+                .mlG616xlarge,
+                .mlG624xlarge,
+                .mlG62xlarge,
+                .mlG648xlarge,
+                .mlG64xlarge,
+                .mlG68xlarge,
+                .mlG6Xlarge,
                 .mlM410xlarge,
                 .mlM416xlarge,
                 .mlM42xlarge,
@@ -978,7 +1013,10 @@ extension BraketClientTypes {
                 .mlP316xlarge,
                 .mlP32xlarge,
                 .mlP38xlarge,
-                .mlP4d24xlarge
+                .mlP4d24xlarge,
+                .mlT32xlarge,
+                .mlT3Large,
+                .mlT3Xlarge
             ]
         }
 
@@ -1009,6 +1047,22 @@ extension BraketClientTypes {
             case .mlG4dn4xlarge: return "ml.g4dn.4xlarge"
             case .mlG4dn8xlarge: return "ml.g4dn.8xlarge"
             case .mlG4dnXlarge: return "ml.g4dn.xlarge"
+            case .mlG6e12xlarge: return "ml.g6e.12xlarge"
+            case .mlG6e16xlarge: return "ml.g6e.16xlarge"
+            case .mlG6e24xlarge: return "ml.g6e.24xlarge"
+            case .mlG6e2xlarge: return "ml.g6e.2xlarge"
+            case .mlG6e48xlarge: return "ml.g6e.48xlarge"
+            case .mlG6e4xlarge: return "ml.g6e.4xlarge"
+            case .mlG6e8xlarge: return "ml.g6e.8xlarge"
+            case .mlG6eXlarge: return "ml.g6e.xlarge"
+            case .mlG612xlarge: return "ml.g6.12xlarge"
+            case .mlG616xlarge: return "ml.g6.16xlarge"
+            case .mlG624xlarge: return "ml.g6.24xlarge"
+            case .mlG62xlarge: return "ml.g6.2xlarge"
+            case .mlG648xlarge: return "ml.g6.48xlarge"
+            case .mlG64xlarge: return "ml.g6.4xlarge"
+            case .mlG68xlarge: return "ml.g6.8xlarge"
+            case .mlG6Xlarge: return "ml.g6.xlarge"
             case .mlM410xlarge: return "ml.m4.10xlarge"
             case .mlM416xlarge: return "ml.m4.16xlarge"
             case .mlM42xlarge: return "ml.m4.2xlarge"
@@ -1028,6 +1082,9 @@ extension BraketClientTypes {
             case .mlP32xlarge: return "ml.p3.2xlarge"
             case .mlP38xlarge: return "ml.p3.8xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
+            case .mlT32xlarge: return "ml.t3.2xlarge"
+            case .mlT3Large: return "ml.t3.large"
+            case .mlT3Xlarge: return "ml.t3.xlarge"
             case let .sdkUnknown(s): return s
             }
         }
