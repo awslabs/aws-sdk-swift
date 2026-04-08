@@ -2207,6 +2207,35 @@ extension DrsClientTypes {
 
 extension DrsClientTypes {
 
+    public enum InternetProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InternetProtocol] {
+            return [
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DrsClientTypes {
+
     public enum PITPolicyRuleUnits: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case day
         case hour
@@ -2273,32 +2302,29 @@ extension DrsClientTypes {
 
 public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
     /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration Template.
-    /// This member is required.
     public var associateDefaultSecurityGroup: Swift.Bool?
     /// Whether to allow the AWS replication agent to automatically replicate newly added disks.
     public var autoReplicateNewDisks: Swift.Bool?
     /// Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps.
     /// This member is required.
-    public var bandwidthThrottling: Swift.Int
+    public var bandwidthThrottling: Swift.Int?
     /// Whether to create a Public IP for the Recovery Instance by default.
-    /// This member is required.
     public var createPublicIP: Swift.Bool?
     /// The data plane routing mechanism that will be used for replication.
-    /// This member is required.
     public var dataPlaneRouting: DrsClientTypes.ReplicationConfigurationDataPlaneRouting?
     /// The Staging Disk EBS volume type to be used during replication.
-    /// This member is required.
     public var defaultLargeStagingDiskType: DrsClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType?
     /// The type of EBS encryption to be used during replication.
     /// This member is required.
     public var ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption?
     /// The ARN of the EBS encryption key to be used during replication.
     public var ebsEncryptionKeyArn: Swift.String?
+    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+    public var internetProtocol: DrsClientTypes.InternetProtocol?
     /// The Point in time (PIT) policy to manage snapshots taken during replication.
     /// This member is required.
     public var pitPolicy: [DrsClientTypes.PITPolicyRule]?
     /// The instance type to be used for the replication server.
-    /// This member is required.
     public var replicationServerInstanceType: Swift.String?
     /// The security group IDs that will be used by the replication server.
     /// This member is required.
@@ -2312,18 +2338,18 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
     /// A set of tags to be associated with the Replication Configuration Template resource.
     public var tags: [Swift.String: Swift.String]?
     /// Whether to use a dedicated Replication Server in the replication staging area.
-    /// This member is required.
     public var useDedicatedReplicationServer: Swift.Bool?
 
     public init(
         associateDefaultSecurityGroup: Swift.Bool? = nil,
         autoReplicateNewDisks: Swift.Bool? = nil,
-        bandwidthThrottling: Swift.Int = 0,
+        bandwidthThrottling: Swift.Int? = 0,
         createPublicIP: Swift.Bool? = nil,
         dataPlaneRouting: DrsClientTypes.ReplicationConfigurationDataPlaneRouting? = nil,
         defaultLargeStagingDiskType: DrsClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
+        internetProtocol: DrsClientTypes.InternetProtocol? = nil,
         pitPolicy: [DrsClientTypes.PITPolicyRule]? = nil,
         replicationServerInstanceType: Swift.String? = nil,
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
@@ -2340,6 +2366,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
         self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+        self.internetProtocol = internetProtocol
         self.pitPolicy = pitPolicy
         self.replicationServerInstanceType = replicationServerInstanceType
         self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
@@ -2352,7 +2379,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
 
 extension CreateReplicationConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateReplicationConfigurationTemplateInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateReplicationConfigurationTemplateInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
@@ -2374,6 +2401,8 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
     public var ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption?
     /// The ARN of the EBS encryption key to be used during replication.
     public var ebsEncryptionKeyArn: Swift.String?
+    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+    public var internetProtocol: DrsClientTypes.InternetProtocol?
     /// The Point in time (PIT) policy to manage snapshots taken during replication.
     public var pitPolicy: [DrsClientTypes.PITPolicyRule]?
     /// The Replication Configuration Template ID.
@@ -2402,6 +2431,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
         defaultLargeStagingDiskType: DrsClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
+        internetProtocol: DrsClientTypes.InternetProtocol? = nil,
         pitPolicy: [DrsClientTypes.PITPolicyRule]? = nil,
         replicationConfigurationTemplateID: Swift.String? = nil,
         replicationServerInstanceType: Swift.String? = nil,
@@ -2420,6 +2450,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
         self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+        self.internetProtocol = internetProtocol
         self.pitPolicy = pitPolicy
         self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
         self.replicationServerInstanceType = replicationServerInstanceType
@@ -2433,7 +2464,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
 
 extension CreateReplicationConfigurationTemplateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateSourceNetworkInput: Swift.Sendable {
@@ -2762,12 +2793,16 @@ extension DrsClientTypes {
 
     /// Metadata associated with a Job log.
     public struct JobLogEventData: Swift.Sendable {
+        /// Retries for this operation.
+        public var attemptCount: Swift.Int
         /// Properties of a conversion job
         public var conversionProperties: DrsClientTypes.ConversionProperties?
         /// The ID of a conversion server.
         public var conversionServerID: Swift.String?
         /// Properties of resource related to a job event.
         public var eventResourceData: DrsClientTypes.EventResourceData?
+        /// The maximum number of retries that will be attempted if this operation failed.
+        public var maxAttemptsCount: Swift.Int
         /// A string representing a job error.
         public var rawError: Swift.String?
         /// The ID of a Source Server.
@@ -2776,16 +2811,20 @@ extension DrsClientTypes {
         public var targetInstanceID: Swift.String?
 
         public init(
+            attemptCount: Swift.Int = 0,
             conversionProperties: DrsClientTypes.ConversionProperties? = nil,
             conversionServerID: Swift.String? = nil,
             eventResourceData: DrsClientTypes.EventResourceData? = nil,
+            maxAttemptsCount: Swift.Int = 0,
             rawError: Swift.String? = nil,
             sourceServerID: Swift.String? = nil,
             targetInstanceID: Swift.String? = nil
         ) {
+            self.attemptCount = attemptCount
             self.conversionProperties = conversionProperties
             self.conversionServerID = conversionServerID
             self.eventResourceData = eventResourceData
+            self.maxAttemptsCount = maxAttemptsCount
             self.rawError = rawError
             self.sourceServerID = sourceServerID
             self.targetInstanceID = targetInstanceID
@@ -3870,6 +3909,8 @@ extension DrsClientTypes {
         public var ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption?
         /// The ARN of the EBS encryption key to be used during replication.
         public var ebsEncryptionKeyArn: Swift.String?
+        /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+        public var internetProtocol: DrsClientTypes.InternetProtocol?
         /// The Point in time (PIT) policy to manage snapshots taken during replication.
         public var pitPolicy: [DrsClientTypes.PITPolicyRule]?
         /// The Replication Configuration Template ID.
@@ -3898,6 +3939,7 @@ extension DrsClientTypes {
             defaultLargeStagingDiskType: DrsClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
             ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption? = nil,
             ebsEncryptionKeyArn: Swift.String? = nil,
+            internetProtocol: DrsClientTypes.InternetProtocol? = nil,
             pitPolicy: [DrsClientTypes.PITPolicyRule]? = nil,
             replicationConfigurationTemplateID: Swift.String? = nil,
             replicationServerInstanceType: Swift.String? = nil,
@@ -3916,6 +3958,7 @@ extension DrsClientTypes {
             self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
             self.ebsEncryption = ebsEncryption
             self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+            self.internetProtocol = internetProtocol
             self.pitPolicy = pitPolicy
             self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
             self.replicationServerInstanceType = replicationServerInstanceType
@@ -3930,7 +3973,7 @@ extension DrsClientTypes {
 
 extension DrsClientTypes.ReplicationConfigurationTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ReplicationConfigurationTemplate(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "ReplicationConfigurationTemplate(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeReplicationConfigurationTemplatesOutput: Swift.Sendable {
@@ -4687,6 +4730,8 @@ public struct GetFailbackReplicationConfigurationInput: Swift.Sendable {
 public struct GetFailbackReplicationConfigurationOutput: Swift.Sendable {
     /// Configure bandwidth throttling for the outbound data transfer rate of the Recovery Instance in Mbps.
     public var bandwidthThrottling: Swift.Int
+    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+    public var internetProtocol: DrsClientTypes.InternetProtocol?
     /// The name of the Failback Replication Configuration.
     public var name: Swift.String?
     /// The ID of the Recovery Instance.
@@ -4697,11 +4742,13 @@ public struct GetFailbackReplicationConfigurationOutput: Swift.Sendable {
 
     public init(
         bandwidthThrottling: Swift.Int = 0,
+        internetProtocol: DrsClientTypes.InternetProtocol? = nil,
         name: Swift.String? = nil,
         recoveryInstanceID: Swift.String? = nil,
         usePrivateIP: Swift.Bool? = nil
     ) {
         self.bandwidthThrottling = bandwidthThrottling
+        self.internetProtocol = internetProtocol
         self.name = name
         self.recoveryInstanceID = recoveryInstanceID
         self.usePrivateIP = usePrivateIP
@@ -4801,6 +4848,8 @@ public struct TerminateRecoveryInstancesOutput: Swift.Sendable {
 public struct UpdateFailbackReplicationConfigurationInput: Swift.Sendable {
     /// Configure bandwidth throttling for the outbound data transfer rate of the Recovery Instance in Mbps.
     public var bandwidthThrottling: Swift.Int
+    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+    public var internetProtocol: DrsClientTypes.InternetProtocol?
     /// The name of the Failback Replication Configuration.
     public var name: Swift.String?
     /// The ID of the Recovery Instance.
@@ -4811,11 +4860,13 @@ public struct UpdateFailbackReplicationConfigurationInput: Swift.Sendable {
 
     public init(
         bandwidthThrottling: Swift.Int = 0,
+        internetProtocol: DrsClientTypes.InternetProtocol? = nil,
         name: Swift.String? = nil,
         recoveryInstanceID: Swift.String? = nil,
         usePrivateIP: Swift.Bool? = nil
     ) {
         self.bandwidthThrottling = bandwidthThrottling
+        self.internetProtocol = internetProtocol
         self.name = name
         self.recoveryInstanceID = recoveryInstanceID
         self.usePrivateIP = usePrivateIP
@@ -4841,6 +4892,8 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
     public var ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption?
     /// The ARN of the EBS encryption key to be used during replication.
     public var ebsEncryptionKeyArn: Swift.String?
+    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+    public var internetProtocol: DrsClientTypes.InternetProtocol?
     /// The Point in time (PIT) policy to manage snapshots taken during replication.
     public var pitPolicy: [DrsClientTypes.PITPolicyRule]?
     /// The Replication Configuration Template ID.
@@ -4867,6 +4920,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
         defaultLargeStagingDiskType: DrsClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
+        internetProtocol: DrsClientTypes.InternetProtocol? = nil,
         pitPolicy: [DrsClientTypes.PITPolicyRule]? = nil,
         replicationConfigurationTemplateID: Swift.String? = nil,
         replicationServerInstanceType: Swift.String? = nil,
@@ -4884,6 +4938,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
         self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+        self.internetProtocol = internetProtocol
         self.pitPolicy = pitPolicy
         self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
         self.replicationServerInstanceType = replicationServerInstanceType
@@ -4896,7 +4951,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationTemplateInput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationTemplateInput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
@@ -4918,6 +4973,8 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
     public var ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption?
     /// The ARN of the EBS encryption key to be used during replication.
     public var ebsEncryptionKeyArn: Swift.String?
+    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+    public var internetProtocol: DrsClientTypes.InternetProtocol?
     /// The Point in time (PIT) policy to manage snapshots taken during replication.
     public var pitPolicy: [DrsClientTypes.PITPolicyRule]?
     /// The Replication Configuration Template ID.
@@ -4946,6 +5003,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
         defaultLargeStagingDiskType: DrsClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
+        internetProtocol: DrsClientTypes.InternetProtocol? = nil,
         pitPolicy: [DrsClientTypes.PITPolicyRule]? = nil,
         replicationConfigurationTemplateID: Swift.String? = nil,
         replicationServerInstanceType: Swift.String? = nil,
@@ -4964,6 +5022,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
         self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+        self.internetProtocol = internetProtocol
         self.pitPolicy = pitPolicy
         self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
         self.replicationServerInstanceType = replicationServerInstanceType
@@ -4977,7 +5036,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationTemplateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct ExportSourceNetworkCfnTemplateInput: Swift.Sendable {
@@ -5292,6 +5351,8 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
     public var ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption?
     /// The ARN of the EBS encryption key to be used during replication.
     public var ebsEncryptionKeyArn: Swift.String?
+    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+    public var internetProtocol: DrsClientTypes.InternetProtocol?
     /// The name of the Replication Configuration.
     public var name: Swift.String?
     /// The Point in time (PIT) policy to manage snapshots taken during replication.
@@ -5320,6 +5381,7 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
         defaultLargeStagingDiskType: DrsClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
+        internetProtocol: DrsClientTypes.InternetProtocol? = nil,
         name: Swift.String? = nil,
         pitPolicy: [DrsClientTypes.PITPolicyRule]? = nil,
         replicatedDisks: [DrsClientTypes.ReplicationConfigurationReplicatedDisk]? = nil,
@@ -5338,6 +5400,7 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
         self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+        self.internetProtocol = internetProtocol
         self.name = name
         self.pitPolicy = pitPolicy
         self.replicatedDisks = replicatedDisks
@@ -5352,7 +5415,7 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
 
 extension GetReplicationConfigurationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), name: \(Swift.String(describing: name)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "GetReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 @available(*, deprecated, message: "WARNING: RetryDataReplication is deprecated")
@@ -5646,6 +5709,8 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
     public var ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption?
     /// The ARN of the EBS encryption key to be used during replication.
     public var ebsEncryptionKeyArn: Swift.String?
+    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+    public var internetProtocol: DrsClientTypes.InternetProtocol?
     /// The name of the Replication Configuration.
     public var name: Swift.String?
     /// The Point in time (PIT) policy to manage snapshots taken during replication.
@@ -5675,6 +5740,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
         defaultLargeStagingDiskType: DrsClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
+        internetProtocol: DrsClientTypes.InternetProtocol? = nil,
         name: Swift.String? = nil,
         pitPolicy: [DrsClientTypes.PITPolicyRule]? = nil,
         replicatedDisks: [DrsClientTypes.ReplicationConfigurationReplicatedDisk]? = nil,
@@ -5693,6 +5759,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
         self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+        self.internetProtocol = internetProtocol
         self.name = name
         self.pitPolicy = pitPolicy
         self.replicatedDisks = replicatedDisks
@@ -5707,7 +5774,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), name: \(Swift.String(describing: name)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
@@ -5727,6 +5794,8 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
     public var ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption?
     /// The ARN of the EBS encryption key to be used during replication.
     public var ebsEncryptionKeyArn: Swift.String?
+    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+    public var internetProtocol: DrsClientTypes.InternetProtocol?
     /// The name of the Replication Configuration.
     public var name: Swift.String?
     /// The Point in time (PIT) policy to manage snapshots taken during replication.
@@ -5755,6 +5824,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
         defaultLargeStagingDiskType: DrsClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
+        internetProtocol: DrsClientTypes.InternetProtocol? = nil,
         name: Swift.String? = nil,
         pitPolicy: [DrsClientTypes.PITPolicyRule]? = nil,
         replicatedDisks: [DrsClientTypes.ReplicationConfigurationReplicatedDisk]? = nil,
@@ -5773,6 +5843,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
         self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+        self.internetProtocol = internetProtocol
         self.name = name
         self.pitPolicy = pitPolicy
         self.replicatedDisks = replicatedDisks
@@ -5787,7 +5858,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), name: \(Swift.String(describing: name)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct TagResourceInput: Swift.Sendable {
@@ -6271,6 +6342,7 @@ extension CreateReplicationConfigurationTemplateInput {
         try writer["defaultLargeStagingDiskType"].write(value.defaultLargeStagingDiskType)
         try writer["ebsEncryption"].write(value.ebsEncryption)
         try writer["ebsEncryptionKeyArn"].write(value.ebsEncryptionKeyArn)
+        try writer["internetProtocol"].write(value.internetProtocol)
         try writer["pitPolicy"].writeList(value.pitPolicy, memberWritingClosure: DrsClientTypes.PITPolicyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["replicationServerInstanceType"].write(value.replicationServerInstanceType)
         try writer["replicationServersSecurityGroupsIDs"].writeList(value.replicationServersSecurityGroupsIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6624,6 +6696,7 @@ extension UpdateFailbackReplicationConfigurationInput {
     static func write(value: UpdateFailbackReplicationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["bandwidthThrottling"].write(value.bandwidthThrottling)
+        try writer["internetProtocol"].write(value.internetProtocol)
         try writer["name"].write(value.name)
         try writer["recoveryInstanceID"].write(value.recoveryInstanceID)
         try writer["usePrivateIP"].write(value.usePrivateIP)
@@ -6674,6 +6747,7 @@ extension UpdateReplicationConfigurationInput {
         try writer["defaultLargeStagingDiskType"].write(value.defaultLargeStagingDiskType)
         try writer["ebsEncryption"].write(value.ebsEncryption)
         try writer["ebsEncryptionKeyArn"].write(value.ebsEncryptionKeyArn)
+        try writer["internetProtocol"].write(value.internetProtocol)
         try writer["name"].write(value.name)
         try writer["pitPolicy"].writeList(value.pitPolicy, memberWritingClosure: DrsClientTypes.PITPolicyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["replicatedDisks"].writeList(value.replicatedDisks, memberWritingClosure: DrsClientTypes.ReplicationConfigurationReplicatedDisk.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6699,6 +6773,7 @@ extension UpdateReplicationConfigurationTemplateInput {
         try writer["defaultLargeStagingDiskType"].write(value.defaultLargeStagingDiskType)
         try writer["ebsEncryption"].write(value.ebsEncryption)
         try writer["ebsEncryptionKeyArn"].write(value.ebsEncryptionKeyArn)
+        try writer["internetProtocol"].write(value.internetProtocol)
         try writer["pitPolicy"].writeList(value.pitPolicy, memberWritingClosure: DrsClientTypes.PITPolicyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["replicationConfigurationTemplateID"].write(value.replicationConfigurationTemplateID)
         try writer["replicationServerInstanceType"].write(value.replicationServerInstanceType)
@@ -6761,6 +6836,7 @@ extension CreateReplicationConfigurationTemplateOutput {
         value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
         value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
         value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
+        value.internetProtocol = try reader["internetProtocol"].readIfPresent()
         value.pitPolicy = try reader["pitPolicy"].readListIfPresent(memberReadingClosure: DrsClientTypes.PITPolicyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
         value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
@@ -6990,6 +7066,7 @@ extension GetFailbackReplicationConfigurationOutput {
         let reader = responseReader
         var value = GetFailbackReplicationConfigurationOutput()
         value.bandwidthThrottling = try reader["bandwidthThrottling"].readIfPresent() ?? 0
+        value.internetProtocol = try reader["internetProtocol"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.recoveryInstanceID = try reader["recoveryInstanceID"].readIfPresent() ?? ""
         value.usePrivateIP = try reader["usePrivateIP"].readIfPresent()
@@ -7033,6 +7110,7 @@ extension GetReplicationConfigurationOutput {
         value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
         value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
         value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
+        value.internetProtocol = try reader["internetProtocol"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.pitPolicy = try reader["pitPolicy"].readListIfPresent(memberReadingClosure: DrsClientTypes.PITPolicyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.replicatedDisks = try reader["replicatedDisks"].readListIfPresent(memberReadingClosure: DrsClientTypes.ReplicationConfigurationReplicatedDisk.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -7336,6 +7414,7 @@ extension UpdateReplicationConfigurationOutput {
         value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
         value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
         value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
+        value.internetProtocol = try reader["internetProtocol"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.pitPolicy = try reader["pitPolicy"].readListIfPresent(memberReadingClosure: DrsClientTypes.PITPolicyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.replicatedDisks = try reader["replicatedDisks"].readListIfPresent(memberReadingClosure: DrsClientTypes.ReplicationConfigurationReplicatedDisk.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -7365,6 +7444,7 @@ extension UpdateReplicationConfigurationTemplateOutput {
         value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
         value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
         value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
+        value.internetProtocol = try reader["internetProtocol"].readIfPresent()
         value.pitPolicy = try reader["pitPolicy"].readListIfPresent(memberReadingClosure: DrsClientTypes.PITPolicyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
         value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
@@ -8649,6 +8729,8 @@ extension DrsClientTypes.JobLogEventData {
         value.rawError = try reader["rawError"].readIfPresent()
         value.conversionProperties = try reader["conversionProperties"].readIfPresent(with: DrsClientTypes.ConversionProperties.read(from:))
         value.eventResourceData = try reader["eventResourceData"].readIfPresent(with: DrsClientTypes.EventResourceData.read(from:))
+        value.attemptCount = try reader["attemptCount"].readIfPresent() ?? 0
+        value.maxAttemptsCount = try reader["maxAttemptsCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -9112,6 +9194,7 @@ extension DrsClientTypes.ReplicationConfigurationTemplate {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.pitPolicy = try reader["pitPolicy"].readListIfPresent(memberReadingClosure: DrsClientTypes.PITPolicyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.autoReplicateNewDisks = try reader["autoReplicateNewDisks"].readIfPresent()
+        value.internetProtocol = try reader["internetProtocol"].readIfPresent()
         return value
     }
 }
