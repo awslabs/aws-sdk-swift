@@ -583,6 +583,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSMarketplaceDeployment](../../../../../swift/api/awsmarketplacedeployment/latest)
 
+[AWSMarketplaceDiscovery](../../../../../swift/api/awsmarketplacediscovery/latest)
+
 [AWSMarketplaceEntitlementService](../../../../../swift/api/awsmarketplaceentitlementservice/latest)
 
 [AWSMarketplaceMetering](../../../../../swift/api/awsmarketplacemetering/latest)
@@ -766,6 +768,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSS3](../../../../../swift/api/awss3/latest)
 
 [AWSS3Control](../../../../../swift/api/awss3control/latest)
+
+[AWSS3Files](../../../../../swift/api/awss3files/latest)
 
 [AWSS3Outposts](../../../../../swift/api/awss3outposts/latest)
 

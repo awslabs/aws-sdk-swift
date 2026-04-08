@@ -1702,6 +1702,35 @@ extension TransferClientTypes {
 
 extension TransferClientTypes {
 
+    public enum ConnectorsIpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualstack
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorsIpAddressType] {
+            return [
+                .dualstack,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "DUALSTACK"
+            case .ipv4: return "IPV4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TransferClientTypes {
+
     /// Contains the details for an SFTP connector object. The connector object is used for transferring files to and from a partner's SFTP server.
     public struct SftpConnectorConfig: Swift.Sendable {
         /// Specify the number of concurrent connections that your connector creates to the remote server. The default value is 1. The maximum values is 5. If you are using the Amazon Web Services Management Console, the default value is 5. This parameter specifies the number of active connections that your connector can establish with the remote server at the same time. Increasing this value can enhance connector performance when transferring large file batches by enabling parallel operations.
@@ -1742,6 +1771,8 @@ public struct CreateConnectorInput: Swift.Sendable {
     public var as2Config: TransferClientTypes.As2ConnectorConfig?
     /// Specifies the egress configuration for the connector, which determines how traffic is routed from the connector to the SFTP server. When set to VPC, enables routing through customer VPCs using VPC_LATTICE for private connectivity.
     public var egressConfig: TransferClientTypes.ConnectorEgressConfig?
+    /// Specifies the IP address type for the connector's network connections. When set to IPV4, the connector uses IPv4 addresses only. When set to DUALSTACK, the connector supports both IPv4 and IPv6 addresses, with IPv6 preferred when available.
+    public var ipAddressType: TransferClientTypes.ConnectorsIpAddressType?
     /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
     public var loggingRole: Swift.String?
     /// Specifies the name of the security policy for the connector.
@@ -1757,6 +1788,7 @@ public struct CreateConnectorInput: Swift.Sendable {
         accessRole: Swift.String? = nil,
         as2Config: TransferClientTypes.As2ConnectorConfig? = nil,
         egressConfig: TransferClientTypes.ConnectorEgressConfig? = nil,
+        ipAddressType: TransferClientTypes.ConnectorsIpAddressType? = nil,
         loggingRole: Swift.String? = nil,
         securityPolicyName: Swift.String? = nil,
         sftpConfig: TransferClientTypes.SftpConnectorConfig? = nil,
@@ -1766,6 +1798,7 @@ public struct CreateConnectorInput: Swift.Sendable {
         self.accessRole = accessRole
         self.as2Config = as2Config
         self.egressConfig = egressConfig
+        self.ipAddressType = ipAddressType
         self.loggingRole = loggingRole
         self.securityPolicyName = securityPolicyName
         self.sftpConfig = sftpConfig
@@ -1892,6 +1925,8 @@ extension TransferClientTypes {
         public var egressType: TransferClientTypes.ConnectorEgressType?
         /// Error message providing details when the connector is in ERRORED status. Contains information to help troubleshoot connector creation or operation failures.
         public var errorMessage: Swift.String?
+        /// IP address type for the connector's network connections. When set to IPV4, the connector uses IPv4 addresses only. When set to DUALSTACK, the connector supports both IPv4 and IPv6 addresses, with IPv6 preferred when available.
+        public var ipAddressType: TransferClientTypes.ConnectorsIpAddressType?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
         public var loggingRole: Swift.String?
         /// The text name of the security policy for the specified connector.
@@ -1916,6 +1951,7 @@ extension TransferClientTypes {
             egressConfig: TransferClientTypes.DescribedConnectorEgressConfig? = nil,
             egressType: TransferClientTypes.ConnectorEgressType? = .serviceManaged,
             errorMessage: Swift.String? = nil,
+            ipAddressType: TransferClientTypes.ConnectorsIpAddressType? = nil,
             loggingRole: Swift.String? = nil,
             securityPolicyName: Swift.String? = nil,
             serviceManagedEgressIpAddresses: [Swift.String]? = nil,
@@ -1931,6 +1967,7 @@ extension TransferClientTypes {
             self.egressConfig = egressConfig
             self.egressType = egressType
             self.errorMessage = errorMessage
+            self.ipAddressType = ipAddressType
             self.loggingRole = loggingRole
             self.securityPolicyName = securityPolicyName
             self.serviceManagedEgressIpAddresses = serviceManagedEgressIpAddresses
@@ -2047,6 +2084,8 @@ public struct UpdateConnectorInput: Swift.Sendable {
     public var connectorId: Swift.String?
     /// Updates the egress configuration for the connector, allowing you to modify how traffic is routed from the connector to the SFTP server. Changes to VPC configuration may require connector restart.
     public var egressConfig: TransferClientTypes.UpdateConnectorEgressConfig?
+    /// Specifies the IP address type for the connector's network connections. When set to IPV4, the connector uses IPv4 addresses only. When set to DUALSTACK, the connector supports both IPv4 and IPv6 addresses, with IPv6 preferred when available.
+    public var ipAddressType: TransferClientTypes.ConnectorsIpAddressType?
     /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
     public var loggingRole: Swift.String?
     /// Specifies the name of the security policy for the connector.
@@ -2061,6 +2100,7 @@ public struct UpdateConnectorInput: Swift.Sendable {
         as2Config: TransferClientTypes.As2ConnectorConfig? = nil,
         connectorId: Swift.String? = nil,
         egressConfig: TransferClientTypes.UpdateConnectorEgressConfig? = nil,
+        ipAddressType: TransferClientTypes.ConnectorsIpAddressType? = nil,
         loggingRole: Swift.String? = nil,
         securityPolicyName: Swift.String? = nil,
         sftpConfig: TransferClientTypes.SftpConnectorConfig? = nil,
@@ -2070,6 +2110,7 @@ public struct UpdateConnectorInput: Swift.Sendable {
         self.as2Config = as2Config
         self.connectorId = connectorId
         self.egressConfig = egressConfig
+        self.ipAddressType = ipAddressType
         self.loggingRole = loggingRole
         self.securityPolicyName = securityPolicyName
         self.sftpConfig = sftpConfig
@@ -7247,6 +7288,7 @@ extension CreateConnectorInput {
         try writer["AccessRole"].write(value.accessRole)
         try writer["As2Config"].write(value.as2Config, with: TransferClientTypes.As2ConnectorConfig.write(value:to:))
         try writer["EgressConfig"].write(value.egressConfig, with: TransferClientTypes.ConnectorEgressConfig.write(value:to:))
+        try writer["IpAddressType"].write(value.ipAddressType)
         try writer["LoggingRole"].write(value.loggingRole)
         try writer["SecurityPolicyName"].write(value.securityPolicyName)
         try writer["SftpConfig"].write(value.sftpConfig, with: TransferClientTypes.SftpConnectorConfig.write(value:to:))
@@ -7874,6 +7916,7 @@ extension UpdateConnectorInput {
         try writer["As2Config"].write(value.as2Config, with: TransferClientTypes.As2ConnectorConfig.write(value:to:))
         try writer["ConnectorId"].write(value.connectorId)
         try writer["EgressConfig"].write(value.egressConfig, with: TransferClientTypes.UpdateConnectorEgressConfig.write(value:to:))
+        try writer["IpAddressType"].write(value.ipAddressType)
         try writer["LoggingRole"].write(value.loggingRole)
         try writer["SecurityPolicyName"].write(value.securityPolicyName)
         try writer["SftpConfig"].write(value.sftpConfig, with: TransferClientTypes.SftpConnectorConfig.write(value:to:))
@@ -10437,6 +10480,7 @@ extension TransferClientTypes.DescribedConnector {
         value.egressType = try reader["EgressType"].readIfPresent() ?? TransferClientTypes.ConnectorEgressType.serviceManaged
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         value.status = try reader["Status"].readIfPresent() ?? TransferClientTypes.ConnectorStatus.active
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
         return value
     }
 }

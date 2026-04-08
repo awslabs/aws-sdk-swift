@@ -1478,6 +1478,9 @@ extension BackupClientTypes {
         case copyJobFailed
         case copyJobStarted
         case copyJobSuccessful
+        case eksBackupObjectFailed
+        case eksRestoreObjectFailed
+        case eksRestoreObjectSkipped
         case recoveryPointIndexingFailed
         case recoveryPointIndexCompleted
         case recoveryPointIndexDeleted
@@ -1503,6 +1506,9 @@ extension BackupClientTypes {
                 .copyJobFailed,
                 .copyJobStarted,
                 .copyJobSuccessful,
+                .eksBackupObjectFailed,
+                .eksRestoreObjectFailed,
+                .eksRestoreObjectSkipped,
                 .recoveryPointIndexingFailed,
                 .recoveryPointIndexCompleted,
                 .recoveryPointIndexDeleted,
@@ -1534,6 +1540,9 @@ extension BackupClientTypes {
             case .copyJobFailed: return "COPY_JOB_FAILED"
             case .copyJobStarted: return "COPY_JOB_STARTED"
             case .copyJobSuccessful: return "COPY_JOB_SUCCESSFUL"
+            case .eksBackupObjectFailed: return "EKS_BACKUP_OBJECT_FAILED"
+            case .eksRestoreObjectFailed: return "EKS_RESTORE_OBJECT_FAILED"
+            case .eksRestoreObjectSkipped: return "EKS_RESTORE_OBJECT_SKIPPED"
             case .recoveryPointIndexingFailed: return "RECOVERY_POINT_INDEXING_FAILED"
             case .recoveryPointIndexCompleted: return "RECOVERY_POINT_INDEX_COMPLETED"
             case .recoveryPointIndexDeleted: return "RECOVERY_POINT_INDEX_DELETED"

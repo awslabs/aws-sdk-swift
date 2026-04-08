@@ -1354,6 +1354,38 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    public enum VoiceEnhancementMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case noiseSuppression
+        case `none`
+        case voiceIsolation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VoiceEnhancementMode] {
+            return [
+                .noiseSuppression,
+                .none,
+                .voiceIsolation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .noiseSuppression: return "NOISE_SUPPRESSION"
+            case .none: return "NONE"
+            case .voiceIsolation: return "VOICE_ISOLATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Information about the agent who accepted the contact.
     public struct AgentInfo: Swift.Sendable {
         /// The timestamp when the contact was accepted by the agent.
@@ -1382,6 +1414,8 @@ extension ConnectClientTypes {
         public var previewEndTimestamp: Foundation.Date?
         /// List of StateTransition for a supervisor.
         public var stateTransitions: [ConnectClientTypes.StateTransition]?
+        /// The voice enhancement mode used by the agent as the call is ending. Valid values: VOICE_ISOLATION | NOISE_SUPPRESSION | NONE. A value of null indicates this mode has not yet been set for this user.
+        public var voiceEnhancementMode: ConnectClientTypes.VoiceEnhancementMode?
 
         public init(
             acceptedByAgentTimestamp: Foundation.Date? = nil,
@@ -1396,7 +1430,8 @@ extension ConnectClientTypes {
             hierarchyGroups: ConnectClientTypes.HierarchyGroups? = nil,
             id: Swift.String? = nil,
             previewEndTimestamp: Foundation.Date? = nil,
-            stateTransitions: [ConnectClientTypes.StateTransition]? = nil
+            stateTransitions: [ConnectClientTypes.StateTransition]? = nil,
+            voiceEnhancementMode: ConnectClientTypes.VoiceEnhancementMode? = nil
         ) {
             self.acceptedByAgentTimestamp = acceptedByAgentTimestamp
             self.afterContactWorkDuration = afterContactWorkDuration
@@ -1411,6 +1446,7 @@ extension ConnectClientTypes {
             self.id = id
             self.previewEndTimestamp = previewEndTimestamp
             self.stateTransitions = stateTransitions
+            self.voiceEnhancementMode = voiceEnhancementMode
         }
     }
 }
@@ -10289,38 +10325,6 @@ extension ConnectClientTypes {
 extension ConnectClientTypes.PhoneNumberConfig: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "PhoneNumberConfig(channel: \(Swift.String(describing: channel)), phoneType: \(Swift.String(describing: phoneType)), phoneNumber: \"CONTENT_REDACTED\")"}
-}
-
-extension ConnectClientTypes {
-
-    public enum VoiceEnhancementMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case noiseSuppression
-        case `none`
-        case voiceIsolation
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [VoiceEnhancementMode] {
-            return [
-                .noiseSuppression,
-                .none,
-                .voiceIsolation
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .noiseSuppression: return "NOISE_SUPPRESSION"
-            case .none: return "NONE"
-            case .voiceIsolation: return "VOICE_ISOLATION"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
 }
 
 extension ConnectClientTypes {
@@ -55360,6 +55364,7 @@ extension ConnectClientTypes.AgentInfo {
         value.afterContactWorkEndTimestamp = try reader["AfterContactWorkEndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.agentInitiatedHoldDuration = try reader["AgentInitiatedHoldDuration"].readIfPresent()
         value.stateTransitions = try reader["StateTransitions"].readListIfPresent(memberReadingClosure: ConnectClientTypes.StateTransition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.voiceEnhancementMode = try reader["VoiceEnhancementMode"].readIfPresent()
         return value
     }
 }

@@ -1521,6 +1521,11 @@ extension EKSClientTypes {
         case updateStrategy
         case upgradePolicy
         case version
+        case warmPoolEnabled
+        case warmPoolMaxGroupPreparedCapacity
+        case warmPoolMinSize
+        case warmPoolReuseOnScaleIn
+        case warmPoolState
         case zonalShiftConfig
         case sdkUnknown(Swift.String)
 
@@ -1565,6 +1570,11 @@ extension EKSClientTypes {
                 .updateStrategy,
                 .upgradePolicy,
                 .version,
+                .warmPoolEnabled,
+                .warmPoolMaxGroupPreparedCapacity,
+                .warmPoolMinSize,
+                .warmPoolReuseOnScaleIn,
+                .warmPoolState,
                 .zonalShiftConfig
             ]
         }
@@ -1615,6 +1625,11 @@ extension EKSClientTypes {
             case .updateStrategy: return "UpdateStrategy"
             case .upgradePolicy: return "UpgradePolicy"
             case .version: return "Version"
+            case .warmPoolEnabled: return "WarmPoolEnabled"
+            case .warmPoolMaxGroupPreparedCapacity: return "WarmPoolMaxGroupPreparedCapacity"
+            case .warmPoolMinSize: return "WarmPoolMinSize"
+            case .warmPoolReuseOnScaleIn: return "WarmPoolReuseOnScaleIn"
+            case .warmPoolState: return "WarmPoolState"
             case .zonalShiftConfig: return "ZonalShiftConfig"
             case let .sdkUnknown(s): return s
             }
@@ -4380,6 +4395,69 @@ extension EKSClientTypes {
     }
 }
 
+extension EKSClientTypes {
+
+    public enum WarmPoolState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hibernated
+        case running
+        case stopped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WarmPoolState] {
+            return [
+                .hibernated,
+                .running,
+                .stopped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hibernated: return "HIBERNATED"
+            case .running: return "RUNNING"
+            case .stopped: return "STOPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The configuration for an Amazon EC2 Auto Scaling warm pool attached to an Amazon EKS managed node group. Warm pools maintain pre-initialized EC2 instances alongside your Auto Scaling group that have already completed the bootup initialization process and can be kept in a Stopped, Running, or Hibernated state.
+    public struct WarmPoolConfig: Swift.Sendable {
+        /// Specifies whether to attach warm pools on the managed node group. Set to true to enable the warm pool, or false to disable and remove it. If not specified during an update, the current value is preserved.
+        public var enabled: Swift.Bool?
+        /// The maximum total number of instances across the warm pool and Auto Scaling group combined. This value controls the total prepared capacity available for your node group.
+        public var maxGroupPreparedCapacity: Swift.Int?
+        /// The minimum number of instances to maintain in the warm pool. Default: 0. Size your warm pool based on scaling patterns to balance cost and availability. Start with 10-20% of expected peak capacity.
+        public var minSize: Swift.Int?
+        /// The desired state for warm pool instances. Default: Stopped. Valid values are Stopped (most cost-effective with EBS storage costs only), Running (fastest transition time with full EC2 costs), and Hibernated (balance between cost and speed, only supported on specific instance types). Warm pool instances in the Hibernated state are not supported with Bottlerocket AMIs.
+        public var poolState: EKSClientTypes.WarmPoolState?
+        /// Indicates whether instances should return to the warm pool during scale-in events instead of being terminated. Default: false. Enable this to reduce costs by reusing instances. This feature is not supported for Bottlerocket AMIs.
+        public var reuseOnScaleIn: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            maxGroupPreparedCapacity: Swift.Int? = nil,
+            minSize: Swift.Int? = nil,
+            poolState: EKSClientTypes.WarmPoolState? = nil,
+            reuseOnScaleIn: Swift.Bool? = nil
+        ) {
+            self.enabled = enabled
+            self.maxGroupPreparedCapacity = maxGroupPreparedCapacity
+            self.minSize = minSize
+            self.poolState = poolState
+            self.reuseOnScaleIn = reuseOnScaleIn
+        }
+    }
+}
+
 public struct CreateNodegroupInput: Swift.Sendable {
     /// The AMI type for your node group. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify amiType, or the node group deployment will fail. If your launch template uses a Windows custom AMI, then add eks:kube-proxy-windows to your Windows nodes rolearn in the aws-authConfigMap. For more information about using launch templates with Amazon EKS, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
     public var amiType: EKSClientTypes.AMITypes?
@@ -4423,6 +4501,8 @@ public struct CreateNodegroupInput: Swift.Sendable {
     public var updateConfig: EKSClientTypes.NodegroupUpdateConfig?
     /// The Kubernetes version to use for your managed nodes. By default, the Kubernetes version of the cluster is used, and this is the only accepted specified value. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify version, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
     public var version: Swift.String?
+    /// The warm pool configuration for the node group. Warm pools maintain pre-initialized EC2 instances that can quickly join your cluster during scale-out events, improving application scaling performance and reducing costs.
+    public var warmPoolConfig: EKSClientTypes.WarmPoolConfig?
 
     public init(
         amiType: EKSClientTypes.AMITypes? = nil,
@@ -4443,7 +4523,8 @@ public struct CreateNodegroupInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         taints: [EKSClientTypes.Taint]? = nil,
         updateConfig: EKSClientTypes.NodegroupUpdateConfig? = nil,
-        version: Swift.String? = nil
+        version: Swift.String? = nil,
+        warmPoolConfig: EKSClientTypes.WarmPoolConfig? = nil
     ) {
         self.amiType = amiType
         self.capacityType = capacityType
@@ -4464,6 +4545,7 @@ public struct CreateNodegroupInput: Swift.Sendable {
         self.taints = taints
         self.updateConfig = updateConfig
         self.version = version
+        self.warmPoolConfig = warmPoolConfig
     }
 }
 
@@ -4783,6 +4865,8 @@ extension EKSClientTypes {
         public var updateConfig: EKSClientTypes.NodegroupUpdateConfig?
         /// The Kubernetes version of the managed node group.
         public var version: Swift.String?
+        /// The warm pool configuration attached to the node group. Amazon EKS manages warm pools throughout the node group lifecycle using the AWSServiceRoleForAmazonEKSNodegroup service-linked role to create, update, and delete warm pool resources.
+        public var warmPoolConfig: EKSClientTypes.WarmPoolConfig?
 
         public init(
             amiType: EKSClientTypes.AMITypes? = nil,
@@ -4808,7 +4892,8 @@ extension EKSClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             taints: [EKSClientTypes.Taint]? = nil,
             updateConfig: EKSClientTypes.NodegroupUpdateConfig? = nil,
-            version: Swift.String? = nil
+            version: Swift.String? = nil,
+            warmPoolConfig: EKSClientTypes.WarmPoolConfig? = nil
         ) {
             self.amiType = amiType
             self.capacityType = capacityType
@@ -4834,6 +4919,7 @@ extension EKSClientTypes {
             self.taints = taints
             self.updateConfig = updateConfig
             self.version = version
+            self.warmPoolConfig = warmPoolConfig
         }
     }
 }
@@ -7699,6 +7785,8 @@ public struct UpdateNodegroupConfigInput: Swift.Sendable {
     public var taints: EKSClientTypes.UpdateTaintsPayload?
     /// The node group update configuration.
     public var updateConfig: EKSClientTypes.NodegroupUpdateConfig?
+    /// The warm pool configuration to apply to the node group. You can use this to add a warm pool to an existing node group or modify the settings of an existing warm pool.
+    public var warmPoolConfig: EKSClientTypes.WarmPoolConfig?
 
     public init(
         clientRequestToken: Swift.String? = nil,
@@ -7708,7 +7796,8 @@ public struct UpdateNodegroupConfigInput: Swift.Sendable {
         nodegroupName: Swift.String? = nil,
         scalingConfig: EKSClientTypes.NodegroupScalingConfig? = nil,
         taints: EKSClientTypes.UpdateTaintsPayload? = nil,
-        updateConfig: EKSClientTypes.NodegroupUpdateConfig? = nil
+        updateConfig: EKSClientTypes.NodegroupUpdateConfig? = nil,
+        warmPoolConfig: EKSClientTypes.WarmPoolConfig? = nil
     ) {
         self.clientRequestToken = clientRequestToken
         self.clusterName = clusterName
@@ -7718,6 +7807,7 @@ public struct UpdateNodegroupConfigInput: Swift.Sendable {
         self.scalingConfig = scalingConfig
         self.taints = taints
         self.updateConfig = updateConfig
+        self.warmPoolConfig = warmPoolConfig
     }
 }
 
@@ -9043,6 +9133,7 @@ extension CreateNodegroupInput {
         try writer["taints"].writeList(value.taints, memberWritingClosure: EKSClientTypes.Taint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["updateConfig"].write(value.updateConfig, with: EKSClientTypes.NodegroupUpdateConfig.write(value:to:))
         try writer["version"].write(value.version)
+        try writer["warmPoolConfig"].write(value.warmPoolConfig, with: EKSClientTypes.WarmPoolConfig.write(value:to:))
     }
 }
 
@@ -9189,6 +9280,7 @@ extension UpdateNodegroupConfigInput {
         try writer["scalingConfig"].write(value.scalingConfig, with: EKSClientTypes.NodegroupScalingConfig.write(value:to:))
         try writer["taints"].write(value.taints, with: EKSClientTypes.UpdateTaintsPayload.write(value:to:))
         try writer["updateConfig"].write(value.updateConfig, with: EKSClientTypes.NodegroupUpdateConfig.write(value:to:))
+        try writer["warmPoolConfig"].write(value.warmPoolConfig, with: EKSClientTypes.WarmPoolConfig.write(value:to:))
     }
 }
 
@@ -12339,6 +12431,7 @@ extension EKSClientTypes.Nodegroup {
         value.nodeRepairConfig = try reader["nodeRepairConfig"].readIfPresent(with: EKSClientTypes.NodeRepairConfig.read(from:))
         value.launchTemplate = try reader["launchTemplate"].readIfPresent(with: EKSClientTypes.LaunchTemplateSpecification.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.warmPoolConfig = try reader["warmPoolConfig"].readIfPresent(with: EKSClientTypes.WarmPoolConfig.read(from:))
         return value
     }
 }
@@ -12810,6 +12903,29 @@ extension EKSClientTypes.VpcConfigResponse {
         value.endpointPublicAccess = try reader["endpointPublicAccess"].readIfPresent() ?? false
         value.endpointPrivateAccess = try reader["endpointPrivateAccess"].readIfPresent() ?? false
         value.publicAccessCidrs = try reader["publicAccessCidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.WarmPoolConfig {
+
+    static func write(value: EKSClientTypes.WarmPoolConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["maxGroupPreparedCapacity"].write(value.maxGroupPreparedCapacity)
+        try writer["minSize"].write(value.minSize)
+        try writer["poolState"].write(value.poolState)
+        try writer["reuseOnScaleIn"].write(value.reuseOnScaleIn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.WarmPoolConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.WarmPoolConfig()
+        value.enabled = try reader["enabled"].readIfPresent()
+        value.minSize = try reader["minSize"].readIfPresent()
+        value.maxGroupPreparedCapacity = try reader["maxGroupPreparedCapacity"].readIfPresent()
+        value.poolState = try reader["poolState"].readIfPresent()
+        value.reuseOnScaleIn = try reader["reuseOnScaleIn"].readIfPresent()
         return value
     }
 }
