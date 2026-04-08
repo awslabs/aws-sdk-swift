@@ -76,7 +76,7 @@ struct DocIndexBuilder {
         let header = "## Smithy Runtime Module Documentation\n\n"
         return header + smithyRuntimeModules.map { module in
             let urlModule = module.lowercased(with: Locale(identifier: "en_US_POSIX"))
-            return "[\(module)](../../../../../swift/api/\(urlModule)/latest)\n"
+            return "[\(module)](/sdk-for-swift/latest/api/\(urlModule)/documentation/\(urlModule))\n"
         }.joined(separator: "\n")
     }
 
@@ -87,7 +87,7 @@ struct DocIndexBuilder {
         let header = "## AWS Runtime Module Documentation\n\n"
         return header + awsRuntimeModules.map { module in
             let urlModule = module.lowercased(with: Locale(identifier: "en_US_POSIX"))
-            return "[\(module)](../../../../../swift/api/\(urlModule)/latest)\n"
+            return "[\(module)](/sdk-for-swift/latest/api/\(urlModule)/documentation/\(urlModule))\n"
         }.joined(separator: "\n")
     }
 
@@ -98,7 +98,7 @@ struct DocIndexBuilder {
         let header = "## Service Documentation\n\n"
         return header + services.map { service in
             let urlService = service.lowercased(with: Locale(identifier: "en_US_POSIX"))
-            return "[\(service)](../../../../../swift/api/\(urlService)/latest)\n"
+            return "[\(service)](/sdk-for-swift/latest/api/\(urlService)/documentation/\(urlService))\n"
         }.joined(separator: "\n")
     }
 }

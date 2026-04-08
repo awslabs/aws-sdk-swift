@@ -229,7 +229,6 @@ class PrepareReleaseTests: CLITestCase {
             "Package.version.next",
             "packageDependencies.plist",
             "Sources/Services",
-            "Sources/Core/AWSSDKForSwift/Documentation.docc/AWSSDKForSwift.md",
             "Sources/Core/SDKForSwift/Documentation.docc/SDKForSwift.md",
             "Sources/Core/AWSSDKIdentity/",
             "Sources/Core/AWSSDKDynamic/Sources/AWSSDKDynamic/PackageVersion.swift",

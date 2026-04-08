@@ -2292,11 +2292,6 @@ private var doccDependencyOrNil: Package.Dependency? {
 private var runtimeTargets: [Target] {
     [
         .target(
-            name: "AWSSDKForSwift",
-            path: "Sources/Core/AWSSDKForSwift",
-            exclude: ["Documentation.docc/AWSSDKForSwift.md"]
-        ),
-        .target(
             name: "SDKForSwift",
             path: "Sources/Core/SDKForSwift",
             exclude: ["Documentation.docc/SDKForSwift.md"]
