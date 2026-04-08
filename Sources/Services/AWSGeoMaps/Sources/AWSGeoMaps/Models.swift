@@ -1098,11 +1098,11 @@ public struct GetStyleDescriptorInput: Swift.Sendable {
     public var buildings: GeoMapsClientTypes.Buildings?
     /// Sets the color tone for the map, such as dark and light. Example: Light Default value: Light Valid values for ColorScheme are case sensitive.
     public var colorScheme: GeoMapsClientTypes.ColorScheme?
-    /// Displays the shape and steepness of terrain features using elevation lines. The density value controls how densely the available contour line information is rendered on the map. This parameter is valid for all map styles except Satellite.
+    /// Displays the shape and steepness of terrain features using elevation lines. The density value controls how densely the available contour line information is rendered on the map. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. This parameter is valid for all map styles except Satellite.
     public var contourDensity: GeoMapsClientTypes.ContourDensity?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
-    /// Specifies the political view using ISO 3166-2 or ISO 3166-3 country code format. The following political views are currently supported:
+    /// Specifies the political view using ISO 3166-2 or ISO 3166-3 country code format. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. The following political views are currently supported:
     ///
     /// * ARG: Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands
     ///
@@ -1132,10 +1132,10 @@ public struct GetStyleDescriptorInput: Swift.Sendable {
     ///
     /// * VNM: Vietnam's view on the Paracel Islands and Spratly Islands
     public var politicalView: Swift.String?
-    /// Style specifies the desired map style.
+    /// Style specifies the desired map style. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the Standard and Monochrome values.
     /// This member is required.
     public var style: GeoMapsClientTypes.MapStyle?
-    /// Adjusts how physical terrain details are rendered on the map. The following terrain styles are currently supported:
+    /// Adjusts how physical terrain details are rendered on the map. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. The following terrain styles are currently supported:
     ///
     /// * Hillshade: Displays the physical terrain details through shading and highlighting of elevation change and geographic features.
     ///
@@ -1144,9 +1144,9 @@ public struct GetStyleDescriptorInput: Swift.Sendable {
     ///
     /// Hillshade is valid only for the Standard and Monochrome map styles.
     public var terrain: GeoMapsClientTypes.Terrain?
-    /// Displays real-time traffic information overlay on map, such as incident events and flow events. This parameter is valid for all map styles except Satellite.
+    /// Displays real-time traffic information overlay on map, such as incident events and flow events. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. This parameter is valid for all map styles except Satellite.
     public var traffic: GeoMapsClientTypes.Traffic?
-    /// Renders additional map information relevant to selected travel modes. Information for multiple travel modes can be displayed simultaneously, although this increases the overall information density rendered on the map. This parameter is valid for all map styles except Satellite.
+    /// Renders additional map information relevant to selected travel modes. Information for multiple travel modes can be displayed simultaneously, although this increases the overall information density rendered on the map. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. This parameter is valid for all map styles except Satellite.
     public var travelModes: [GeoMapsClientTypes.TravelMode]?
 
     public init(
@@ -1264,14 +1264,14 @@ extension GeoMapsClientTypes {
 }
 
 public struct GetTileInput: Swift.Sendable {
-    /// A list of optional additional parameters such as map styles that can be requested for each result.
+    /// A list of optional additional parameters such as map styles that can be requested for each result. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var additionalFeatures: [GeoMapsClientTypes.TileAdditionalFeature]?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
-    /// Specifies the desired tile set. Valid Values: raster.satellite | vector.basemap | vector.traffic | raster.dem
+    /// Specifies the desired tile set. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the vector.basemap value. Valid Values: raster.satellite | vector.basemap | vector.traffic | raster.dem
     /// This member is required.
     public var tileset: Swift.String?
-    /// The X axis value for the map tile. Must be between 0 and 19.
+    /// The X axis value for the map tile.
     /// This member is required.
     public var x: Swift.String?
     /// The Y axis value for the map tile.

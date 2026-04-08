@@ -1896,6 +1896,8 @@ extension MediaTailorClientTypes {
         public var scheduleType: MediaTailorClientTypes.PrefetchScheduleType?
         /// An optional stream identifier that you can specify in order to prefetch for multiple streams that use the same playback configuration.
         public var streamId: Swift.String?
+        /// The tags assigned to the prefetch schedule. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
+        public var tags: [Swift.String: Swift.String]?
 
         public init(
             arn: Swift.String? = nil,
@@ -1905,7 +1907,8 @@ extension MediaTailorClientTypes {
             recurringPrefetchConfiguration: MediaTailorClientTypes.RecurringPrefetchConfiguration? = nil,
             retrieval: MediaTailorClientTypes.PrefetchRetrieval? = nil,
             scheduleType: MediaTailorClientTypes.PrefetchScheduleType? = nil,
-            streamId: Swift.String? = nil
+            streamId: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil
         ) {
             self.arn = arn
             self.consumption = consumption
@@ -1915,6 +1918,7 @@ extension MediaTailorClientTypes {
             self.retrieval = retrieval
             self.scheduleType = scheduleType
             self.streamId = streamId
+            self.tags = tags
         }
     }
 }
@@ -2879,6 +2883,8 @@ public struct CreateProgramInput: Swift.Sendable {
     /// The name of the source location.
     /// This member is required.
     public var sourceLocationName: Swift.String?
+    /// The tags to assign to the program. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
+    public var tags: [Swift.String: Swift.String]?
     /// The name that's used to refer to a VOD source.
     public var vodSourceName: Swift.String?
 
@@ -2890,6 +2896,7 @@ public struct CreateProgramInput: Swift.Sendable {
         programName: Swift.String? = nil,
         scheduleConfiguration: MediaTailorClientTypes.ScheduleConfiguration? = nil,
         sourceLocationName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
         vodSourceName: Swift.String? = nil
     ) {
         self.adBreaks = adBreaks
@@ -2899,6 +2906,7 @@ public struct CreateProgramInput: Swift.Sendable {
         self.programName = programName
         self.scheduleConfiguration = scheduleConfiguration
         self.sourceLocationName = sourceLocationName
+        self.tags = tags
         self.vodSourceName = vodSourceName
     }
 }
@@ -2926,6 +2934,8 @@ public struct CreateProgramOutput: Swift.Sendable {
     public var scheduledStartTime: Foundation.Date?
     /// The name to assign to the source location for this program.
     public var sourceLocationName: Swift.String?
+    /// The tags to assign to the program. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
+    public var tags: [Swift.String: Swift.String]?
     /// The name that's used to refer to a VOD source.
     public var vodSourceName: Swift.String?
 
@@ -2941,6 +2951,7 @@ public struct CreateProgramOutput: Swift.Sendable {
         programName: Swift.String? = nil,
         scheduledStartTime: Foundation.Date? = nil,
         sourceLocationName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
         vodSourceName: Swift.String? = nil
     ) {
         self.adBreaks = adBreaks
@@ -2954,6 +2965,7 @@ public struct CreateProgramOutput: Swift.Sendable {
         self.programName = programName
         self.scheduledStartTime = scheduledStartTime
         self.sourceLocationName = sourceLocationName
+        self.tags = tags
         self.vodSourceName = vodSourceName
     }
 }
@@ -3020,6 +3032,8 @@ public struct DescribeProgramOutput: Swift.Sendable {
     public var scheduledStartTime: Foundation.Date?
     /// The source location name.
     public var sourceLocationName: Swift.String?
+    /// The tags assigned to the program. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
+    public var tags: [Swift.String: Swift.String]?
     /// The name that's used to refer to a VOD source.
     public var vodSourceName: Swift.String?
 
@@ -3035,6 +3049,7 @@ public struct DescribeProgramOutput: Swift.Sendable {
         programName: Swift.String? = nil,
         scheduledStartTime: Foundation.Date? = nil,
         sourceLocationName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
         vodSourceName: Swift.String? = nil
     ) {
         self.adBreaks = adBreaks
@@ -3048,6 +3063,7 @@ public struct DescribeProgramOutput: Swift.Sendable {
         self.programName = programName
         self.scheduledStartTime = scheduledStartTime
         self.sourceLocationName = sourceLocationName
+        self.tags = tags
         self.vodSourceName = vodSourceName
     }
 }
@@ -3143,6 +3159,8 @@ public struct UpdateProgramOutput: Swift.Sendable {
     public var scheduledStartTime: Foundation.Date?
     /// The name to assign to the source location for this program.
     public var sourceLocationName: Swift.String?
+    /// The tags assigned to the program. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
+    public var tags: [Swift.String: Swift.String]?
     /// The name that's used to refer to a VOD source.
     public var vodSourceName: Swift.String?
 
@@ -3158,6 +3176,7 @@ public struct UpdateProgramOutput: Swift.Sendable {
         programName: Swift.String? = nil,
         scheduledStartTime: Foundation.Date? = nil,
         sourceLocationName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
         vodSourceName: Swift.String? = nil
     ) {
         self.adBreaks = adBreaks
@@ -3171,6 +3190,7 @@ public struct UpdateProgramOutput: Swift.Sendable {
         self.programName = programName
         self.scheduledStartTime = scheduledStartTime
         self.sourceLocationName = sourceLocationName
+        self.tags = tags
         self.vodSourceName = vodSourceName
     }
 }
@@ -3429,6 +3449,8 @@ public struct CreatePrefetchScheduleInput: Swift.Sendable {
     public var scheduleType: MediaTailorClientTypes.PrefetchScheduleType?
     /// An optional stream identifier that MediaTailor uses to prefetch ads for multiple streams that use the same playback configuration. If StreamId is specified, MediaTailor returns all of the prefetch schedules with an exact match on StreamId. If not specified, MediaTailor returns all of the prefetch schedules for the playback configuration, regardless of StreamId.
     public var streamId: Swift.String?
+    /// The tags to assign to the prefetch schedule. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         consumption: MediaTailorClientTypes.PrefetchConsumption? = nil,
@@ -3437,7 +3459,8 @@ public struct CreatePrefetchScheduleInput: Swift.Sendable {
         recurringPrefetchConfiguration: MediaTailorClientTypes.RecurringPrefetchConfiguration? = nil,
         retrieval: MediaTailorClientTypes.PrefetchRetrieval? = nil,
         scheduleType: MediaTailorClientTypes.PrefetchScheduleType? = nil,
-        streamId: Swift.String? = nil
+        streamId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.consumption = consumption
         self.name = name
@@ -3446,6 +3469,7 @@ public struct CreatePrefetchScheduleInput: Swift.Sendable {
         self.retrieval = retrieval
         self.scheduleType = scheduleType
         self.streamId = streamId
+        self.tags = tags
     }
 }
 
@@ -3466,6 +3490,8 @@ public struct CreatePrefetchScheduleOutput: Swift.Sendable {
     public var scheduleType: MediaTailorClientTypes.PrefetchScheduleType?
     /// An optional stream identifier that MediaTailor uses to prefetch ads for multiple streams that use the same playback configuration. If StreamId is specified, MediaTailor returns all of the prefetch schedules with an exact match on StreamId. If not specified, MediaTailor returns all of the prefetch schedules for the playback configuration, regardless of StreamId.
     public var streamId: Swift.String?
+    /// The tags to assign to the prefetch schedule. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         arn: Swift.String? = nil,
@@ -3475,7 +3501,8 @@ public struct CreatePrefetchScheduleOutput: Swift.Sendable {
         recurringPrefetchConfiguration: MediaTailorClientTypes.RecurringPrefetchConfiguration? = nil,
         retrieval: MediaTailorClientTypes.PrefetchRetrieval? = nil,
         scheduleType: MediaTailorClientTypes.PrefetchScheduleType? = nil,
-        streamId: Swift.String? = nil
+        streamId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.arn = arn
         self.consumption = consumption
@@ -3485,6 +3512,7 @@ public struct CreatePrefetchScheduleOutput: Swift.Sendable {
         self.retrieval = retrieval
         self.scheduleType = scheduleType
         self.streamId = streamId
+        self.tags = tags
     }
 }
 
@@ -4048,6 +4076,8 @@ public struct GetPrefetchScheduleOutput: Swift.Sendable {
     public var scheduleType: MediaTailorClientTypes.PrefetchScheduleType?
     /// An optional stream identifier that you can specify in order to prefetch for multiple streams that use the same playback configuration.
     public var streamId: Swift.String?
+    /// The tags assigned to the prefetch schedule. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         arn: Swift.String? = nil,
@@ -4057,7 +4087,8 @@ public struct GetPrefetchScheduleOutput: Swift.Sendable {
         recurringPrefetchConfiguration: MediaTailorClientTypes.RecurringPrefetchConfiguration? = nil,
         retrieval: MediaTailorClientTypes.PrefetchRetrieval? = nil,
         scheduleType: MediaTailorClientTypes.PrefetchScheduleType? = nil,
-        streamId: Swift.String? = nil
+        streamId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.arn = arn
         self.consumption = consumption
@@ -4067,6 +4098,7 @@ public struct GetPrefetchScheduleOutput: Swift.Sendable {
         self.retrieval = retrieval
         self.scheduleType = scheduleType
         self.streamId = streamId
+        self.tags = tags
     }
 }
 
@@ -5383,6 +5415,7 @@ extension CreatePrefetchScheduleInput {
         try writer["Retrieval"].write(value.retrieval, with: MediaTailorClientTypes.PrefetchRetrieval.write(value:to:))
         try writer["ScheduleType"].write(value.scheduleType)
         try writer["StreamId"].write(value.streamId)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -5395,6 +5428,7 @@ extension CreateProgramInput {
         try writer["LiveSourceName"].write(value.liveSourceName)
         try writer["ScheduleConfiguration"].write(value.scheduleConfiguration, with: MediaTailorClientTypes.ScheduleConfiguration.write(value:to:))
         try writer["SourceLocationName"].write(value.sourceLocationName)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["VodSourceName"].write(value.vodSourceName)
     }
 }
@@ -5604,6 +5638,7 @@ extension CreatePrefetchScheduleOutput {
         value.retrieval = try reader["Retrieval"].readIfPresent(with: MediaTailorClientTypes.PrefetchRetrieval.read(from:))
         value.scheduleType = try reader["ScheduleType"].readIfPresent()
         value.streamId = try reader["StreamId"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -5626,6 +5661,7 @@ extension CreateProgramOutput {
         value.programName = try reader["ProgramName"].readIfPresent()
         value.scheduledStartTime = try reader["ScheduledStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.sourceLocationName = try reader["SourceLocationName"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.vodSourceName = try reader["VodSourceName"].readIfPresent()
         return value
     }
@@ -5785,6 +5821,7 @@ extension DescribeProgramOutput {
         value.programName = try reader["ProgramName"].readIfPresent()
         value.scheduledStartTime = try reader["ScheduledStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.sourceLocationName = try reader["SourceLocationName"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.vodSourceName = try reader["VodSourceName"].readIfPresent()
         return value
     }
@@ -5902,6 +5939,7 @@ extension GetPrefetchScheduleOutput {
         value.retrieval = try reader["Retrieval"].readIfPresent(with: MediaTailorClientTypes.PrefetchRetrieval.read(from:))
         value.scheduleType = try reader["ScheduleType"].readIfPresent()
         value.streamId = try reader["StreamId"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -6136,6 +6174,7 @@ extension UpdateProgramOutput {
         value.programName = try reader["ProgramName"].readIfPresent()
         value.scheduledStartTime = try reader["ScheduledStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.sourceLocationName = try reader["SourceLocationName"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.vodSourceName = try reader["VodSourceName"].readIfPresent()
         return value
     }
@@ -7378,6 +7417,7 @@ extension MediaTailorClientTypes.PrefetchSchedule {
         value.scheduleType = try reader["ScheduleType"].readIfPresent()
         value.recurringPrefetchConfiguration = try reader["RecurringPrefetchConfiguration"].readIfPresent(with: MediaTailorClientTypes.RecurringPrefetchConfiguration.read(from:))
         value.streamId = try reader["StreamId"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

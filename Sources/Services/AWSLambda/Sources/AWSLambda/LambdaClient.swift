@@ -3629,6 +3629,9 @@ extension LambdaClient {
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ResourceNotReadyException` : The function is inactive and its VPC connection is no longer available. Wait for the VPC connection to reestablish and try again.
+    /// - `S3FilesMountConnectivityException` : The Lambda function couldn't make a network connection to the configured S3 Files access point.
+    /// - `S3FilesMountFailureException` : The Lambda function couldn't mount the configured S3 Files access point due to a permission or configuration issue.
+    /// - `S3FilesMountTimeoutException` : The Lambda function made a network connection to the configured S3 Files access point, but the mount operation timed out.
     /// - `SerializedRequestEntityTooLargeException` : The request payload exceeded the maximum allowed size for serialized request entities.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `SnapStartException` : The afterRestore()[runtime hook](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-runtime-hooks.html) encountered an error. For more information, check the Amazon CloudWatch logs.
@@ -3803,6 +3806,9 @@ extension LambdaClient {
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ResourceNotReadyException` : The function is inactive and its VPC connection is no longer available. Wait for the VPC connection to reestablish and try again.
+    /// - `S3FilesMountConnectivityException` : The Lambda function couldn't make a network connection to the configured S3 Files access point.
+    /// - `S3FilesMountFailureException` : The Lambda function couldn't mount the configured S3 Files access point due to a permission or configuration issue.
+    /// - `S3FilesMountTimeoutException` : The Lambda function made a network connection to the configured S3 Files access point, but the mount operation timed out.
     /// - `SerializedRequestEntityTooLargeException` : The request payload exceeded the maximum allowed size for serialized request entities.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `SnapStartException` : The afterRestore()[runtime hook](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-runtime-hooks.html) encountered an error. For more information, check the Amazon CloudWatch logs.

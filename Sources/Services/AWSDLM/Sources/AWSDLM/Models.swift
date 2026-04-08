@@ -953,8 +953,9 @@ extension DLMClientTypes {
 
     /// [Custom snapshot policies only] Specifies a rule for enabling fast snapshot restore for snapshots created by snapshot policies. You can enable fast snapshot restore based on either a count or a time interval.
     public struct FastRestoreRule: Swift.Sendable {
+        /// The Availability Zone Ids in which to enable fast snapshot restore.
+        public var availabilityZoneIds: [Swift.String]?
         /// The Availability Zones in which to enable fast snapshot restore.
-        /// This member is required.
         public var availabilityZones: [Swift.String]?
         /// The number of snapshots to be enabled with fast snapshot restore.
         public var count: Swift.Int?
@@ -964,11 +965,13 @@ extension DLMClientTypes {
         public var intervalUnit: DLMClientTypes.RetentionIntervalUnitValues?
 
         public init(
+            availabilityZoneIds: [Swift.String]? = nil,
             availabilityZones: [Swift.String]? = nil,
             count: Swift.Int? = nil,
             interval: Swift.Int? = nil,
             intervalUnit: DLMClientTypes.RetentionIntervalUnitValues? = nil
         ) {
+            self.availabilityZoneIds = availabilityZoneIds
             self.availabilityZones = availabilityZones
             self.count = count
             self.interval = interval
@@ -2406,6 +2409,7 @@ extension DLMClientTypes.FastRestoreRule {
 
     static func write(value: DLMClientTypes.FastRestoreRule?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AvailabilityZoneIds"].writeList(value.availabilityZoneIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Count"].write(value.count)
         try writer["Interval"].write(value.interval)
@@ -2418,7 +2422,8 @@ extension DLMClientTypes.FastRestoreRule {
         value.count = try reader["Count"].readIfPresent()
         value.interval = try reader["Interval"].readIfPresent()
         value.intervalUnit = try reader["IntervalUnit"].readIfPresent()
-        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.availabilityZoneIds = try reader["AvailabilityZoneIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

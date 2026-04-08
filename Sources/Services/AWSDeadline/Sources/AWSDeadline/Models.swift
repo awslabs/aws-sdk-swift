@@ -1474,6 +1474,426 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
+    /// The identifiers for a job.
+    public struct BatchGetJobIdentifier: Swift.Sendable {
+        /// The farm ID of the job.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The queue ID of the job.
+        /// This member is required.
+        public var queueId: Swift.String?
+
+        public init(
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            queueId: Swift.String? = nil
+        ) {
+            self.farmId = farmId
+            self.jobId = jobId
+            self.queueId = queueId
+        }
+    }
+}
+
+public struct BatchGetJobInput: Swift.Sendable {
+    /// The list of job identifiers to retrieve. You can specify up to 100 identifiers per request.
+    /// This member is required.
+    public var identifiers: [DeadlineClientTypes.BatchGetJobIdentifier]?
+
+    public init(
+        identifiers: [DeadlineClientTypes.BatchGetJobIdentifier]? = nil
+    ) {
+        self.identifiers = identifiers
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum BatchGetJobErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessdeniedexception
+        case internalservererrorexception
+        case resourcenotfoundexception
+        case throttlingexception
+        case validationexception
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchGetJobErrorCode] {
+            return [
+                .accessdeniedexception,
+                .internalservererrorexception,
+                .resourcenotfoundexception,
+                .throttlingexception,
+                .validationexception
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessdeniedexception: return "AccessDeniedException"
+            case .internalservererrorexception: return "InternalServerErrorException"
+            case .resourcenotfoundexception: return "ResourceNotFoundException"
+            case .throttlingexception: return "ThrottlingException"
+            case .validationexception: return "ValidationException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The error details for a job that could not be retrieved in a batch get operation.
+    public struct BatchGetJobError: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var code: DeadlineClientTypes.BatchGetJobErrorCode?
+        /// The farm ID of the job that could not be retrieved.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the job that could not be retrieved.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The queue ID of the job that could not be retrieved.
+        /// This member is required.
+        public var queueId: Swift.String?
+
+        public init(
+            code: DeadlineClientTypes.BatchGetJobErrorCode? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            message: Swift.String? = nil,
+            queueId: Swift.String? = nil
+        ) {
+            self.code = code
+            self.farmId = farmId
+            self.jobId = jobId
+            self.message = message
+            self.queueId = queueId
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum JobLifecycleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case archived
+        case createComplete
+        case createFailed
+        case createInProgress
+        case updateFailed
+        case updateInProgress
+        case updateSucceeded
+        case uploadFailed
+        case uploadInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobLifecycleStatus] {
+            return [
+                .archived,
+                .createComplete,
+                .createFailed,
+                .createInProgress,
+                .updateFailed,
+                .updateInProgress,
+                .updateSucceeded,
+                .uploadFailed,
+                .uploadInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .archived: return "ARCHIVED"
+            case .createComplete: return "CREATE_COMPLETE"
+            case .createFailed: return "CREATE_FAILED"
+            case .createInProgress: return "CREATE_IN_PROGRESS"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updateInProgress: return "UPDATE_IN_PROGRESS"
+            case .updateSucceeded: return "UPDATE_SUCCEEDED"
+            case .uploadFailed: return "UPLOAD_FAILED"
+            case .uploadInProgress: return "UPLOAD_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of job parameters.
+    public enum JobParameter: Swift.Sendable {
+        /// A signed integer represented as a string.
+        case int(Swift.String)
+        /// A double precision IEEE-754 floating point number represented as a string.
+        case float(Swift.String)
+        /// A UTF-8 string.
+        case string(Swift.String)
+        /// A file system path represented as a string.
+        case path(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum JobTargetTaskRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case canceled
+        case failed
+        case pending
+        case ready
+        case succeeded
+        case suspended
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobTargetTaskRunStatus] {
+            return [
+                .canceled,
+                .failed,
+                .pending,
+                .ready,
+                .succeeded,
+                .suspended
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .canceled: return "CANCELED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .ready: return "READY"
+            case .succeeded: return "SUCCEEDED"
+            case .suspended: return "SUSPENDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum TaskRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case assigned
+        case canceled
+        case failed
+        case interrupting
+        case notCompatible
+        case pending
+        case ready
+        case running
+        case scheduled
+        case starting
+        case succeeded
+        case suspended
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TaskRunStatus] {
+            return [
+                .assigned,
+                .canceled,
+                .failed,
+                .interrupting,
+                .notCompatible,
+                .pending,
+                .ready,
+                .running,
+                .scheduled,
+                .starting,
+                .succeeded,
+                .suspended
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .assigned: return "ASSIGNED"
+            case .canceled: return "CANCELED"
+            case .failed: return "FAILED"
+            case .interrupting: return "INTERRUPTING"
+            case .notCompatible: return "NOT_COMPATIBLE"
+            case .pending: return "PENDING"
+            case .ready: return "READY"
+            case .running: return "RUNNING"
+            case .scheduled: return "SCHEDULED"
+            case .starting: return "STARTING"
+            case .succeeded: return "SUCCEEDED"
+            case .suspended: return "SUSPENDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of a job returned in a batch get operation.
+    public struct BatchGetJobItem: Swift.Sendable {
+        /// The attachments for the job.
+        public var attachments: DeadlineClientTypes.Attachments?
+        /// The date and time the resource was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The user or system that created this resource.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The description of the job.
+        public var description: Swift.String?
+        /// The date and time the resource ended running.
+        public var endedAt: Foundation.Date?
+        /// The farm ID of the job.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The life cycle status of the job.
+        /// This member is required.
+        public var lifecycleStatus: DeadlineClientTypes.JobLifecycleStatus?
+        /// A message that communicates the status of the life cycle.
+        /// This member is required.
+        public var lifecycleStatusMessage: Swift.String?
+        /// The number of task failures before the job stops running and is marked as FAILED.
+        public var maxFailedTasksCount: Swift.Int?
+        /// The maximum number of retries per failed tasks.
+        public var maxRetriesPerTask: Swift.Int?
+        /// The maximum number of worker hosts that can concurrently process a job.
+        public var maxWorkerCount: Swift.Int?
+        /// The name of the job.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The parameters for the job.
+        public var parameters: [Swift.String: DeadlineClientTypes.JobParameter]?
+        /// The job priority.
+        /// This member is required.
+        public var priority: Swift.Int?
+        /// The queue ID of the job.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The job ID for the source job.
+        public var sourceJobId: Swift.String?
+        /// The date and time the resource started running.
+        public var startedAt: Foundation.Date?
+        /// The storage profile ID associated with the job.
+        public var storageProfileId: Swift.String?
+        /// The task status to start with on the job.
+        public var targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus?
+        /// The number of times that tasks failed and were retried.
+        public var taskFailureRetryCount: Swift.Int?
+        /// The task run status for the job.
+        public var taskRunStatus: DeadlineClientTypes.TaskRunStatus?
+        /// The number of tasks for each run status for the job.
+        public var taskRunStatusCounts: [Swift.String: Swift.Int]?
+        /// The date and time the resource was updated.
+        public var updatedAt: Foundation.Date?
+        /// The user or system that updated this resource.
+        public var updatedBy: Swift.String?
+
+        public init(
+            attachments: DeadlineClientTypes.Attachments? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            description: Swift.String? = nil,
+            endedAt: Foundation.Date? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            lifecycleStatus: DeadlineClientTypes.JobLifecycleStatus? = nil,
+            lifecycleStatusMessage: Swift.String? = nil,
+            maxFailedTasksCount: Swift.Int? = nil,
+            maxRetriesPerTask: Swift.Int? = nil,
+            maxWorkerCount: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            parameters: [Swift.String: DeadlineClientTypes.JobParameter]? = nil,
+            priority: Swift.Int? = nil,
+            queueId: Swift.String? = nil,
+            sourceJobId: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil,
+            storageProfileId: Swift.String? = nil,
+            targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus? = nil,
+            taskFailureRetryCount: Swift.Int? = nil,
+            taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
+            taskRunStatusCounts: [Swift.String: Swift.Int]? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil
+        ) {
+            self.attachments = attachments
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.endedAt = endedAt
+            self.farmId = farmId
+            self.jobId = jobId
+            self.lifecycleStatus = lifecycleStatus
+            self.lifecycleStatusMessage = lifecycleStatusMessage
+            self.maxFailedTasksCount = maxFailedTasksCount
+            self.maxRetriesPerTask = maxRetriesPerTask
+            self.maxWorkerCount = maxWorkerCount
+            self.name = name
+            self.parameters = parameters
+            self.priority = priority
+            self.queueId = queueId
+            self.sourceJobId = sourceJobId
+            self.startedAt = startedAt
+            self.storageProfileId = storageProfileId
+            self.targetTaskRunStatus = targetTaskRunStatus
+            self.taskFailureRetryCount = taskFailureRetryCount
+            self.taskRunStatus = taskRunStatus
+            self.taskRunStatusCounts = taskRunStatusCounts
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+    }
+}
+
+extension DeadlineClientTypes.BatchGetJobItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BatchGetJobItem(attachments: \(Swift.String(describing: attachments)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), farmId: \(Swift.String(describing: farmId)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskFailureRetryCount: \(Swift.String(describing: taskFailureRetryCount)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+}
+
+public struct BatchGetJobOutput: Swift.Sendable {
+    /// A list of errors for jobs that could not be retrieved.
+    /// This member is required.
+    public var errors: [DeadlineClientTypes.BatchGetJobError]?
+    /// A list of jobs that were successfully retrieved.
+    /// This member is required.
+    public var jobs: [DeadlineClientTypes.BatchGetJobItem]?
+
+    public init(
+        errors: [DeadlineClientTypes.BatchGetJobError]? = nil,
+        jobs: [DeadlineClientTypes.BatchGetJobItem]? = nil
+    ) {
+        self.errors = errors
+        self.jobs = jobs
+    }
+}
+
+extension DeadlineClientTypes {
+
     /// The IDs of the job and environment.
     public struct EnvironmentDetailsIdentifiers: Swift.Sendable {
         /// The environment ID.
@@ -1759,22 +2179,6 @@ extension DeadlineClientTypes {
             self.runAs = runAs
             self.windows = windows
         }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The details of job parameters.
-    public enum JobParameter: Swift.Sendable {
-        /// A signed integer represented as a string.
-        case int(Swift.String)
-        /// A double precision IEEE-754 floating point number represented as a string.
-        case float(Swift.String)
-        /// A UTF-8 string.
-        case string(Swift.String)
-        /// A file system path represented as a string.
-        case path(Swift.String)
-        case sdkUnknown(Swift.String)
     }
 }
 
@@ -2102,6 +2506,2134 @@ public struct BatchGetJobEntityOutput: Swift.Sendable {
         errors: [DeadlineClientTypes.GetJobEntityError]? = nil
     ) {
         self.entities = entities
+        self.errors = errors
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The identifiers for a session.
+    public struct BatchGetSessionIdentifier: Swift.Sendable {
+        /// The farm ID of the session.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the session.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The queue ID of the session.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The session ID.
+        /// This member is required.
+        public var sessionId: Swift.String?
+
+        public init(
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            sessionId: Swift.String? = nil
+        ) {
+            self.farmId = farmId
+            self.jobId = jobId
+            self.queueId = queueId
+            self.sessionId = sessionId
+        }
+    }
+}
+
+public struct BatchGetSessionInput: Swift.Sendable {
+    /// The list of session identifiers to retrieve. You can specify up to 100 identifiers per request.
+    /// This member is required.
+    public var identifiers: [DeadlineClientTypes.BatchGetSessionIdentifier]?
+
+    public init(
+        identifiers: [DeadlineClientTypes.BatchGetSessionIdentifier]? = nil
+    ) {
+        self.identifiers = identifiers
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum BatchGetSessionErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case internalservererrorexception
+        case resourcenotfoundexception
+        case validationexception
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchGetSessionErrorCode] {
+            return [
+                .internalservererrorexception,
+                .resourcenotfoundexception,
+                .validationexception
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .internalservererrorexception: return "InternalServerErrorException"
+            case .resourcenotfoundexception: return "ResourceNotFoundException"
+            case .validationexception: return "ValidationException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The error details for a session that could not be retrieved in a batch get operation.
+    public struct BatchGetSessionError: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var code: DeadlineClientTypes.BatchGetSessionErrorCode?
+        /// The farm ID of the session that could not be retrieved.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the session that could not be retrieved.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The queue ID of the session that could not be retrieved.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The session ID of the session that could not be retrieved.
+        /// This member is required.
+        public var sessionId: Swift.String?
+
+        public init(
+            code: DeadlineClientTypes.BatchGetSessionErrorCode? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            message: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            sessionId: Swift.String? = nil
+        ) {
+            self.code = code
+            self.farmId = farmId
+            self.jobId = jobId
+            self.message = message
+            self.queueId = queueId
+            self.sessionId = sessionId
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The IP addresses for a host.
+    public struct IpAddresses: Swift.Sendable {
+        /// The IpV4 address of the network.
+        public var ipV4Addresses: [Swift.String]?
+        /// The IpV6 address for the network and node component.
+        public var ipV6Addresses: [Swift.String]?
+
+        public init(
+            ipV4Addresses: [Swift.String]? = nil,
+            ipV6Addresses: [Swift.String]? = nil
+        ) {
+            self.ipV4Addresses = ipV4Addresses
+            self.ipV6Addresses = ipV6Addresses
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The host property details.
+    public struct HostPropertiesResponse: Swift.Sendable {
+        /// The ARN of the host EC2 instance.
+        public var ec2InstanceArn: Swift.String?
+        /// The instance type of the host EC2 instance.
+        public var ec2InstanceType: Swift.String?
+        /// The host name.
+        public var hostName: Swift.String?
+        /// The IP address of the host.
+        public var ipAddresses: DeadlineClientTypes.IpAddresses?
+
+        public init(
+            ec2InstanceArn: Swift.String? = nil,
+            ec2InstanceType: Swift.String? = nil,
+            hostName: Swift.String? = nil,
+            ipAddresses: DeadlineClientTypes.IpAddresses? = nil
+        ) {
+            self.ec2InstanceArn = ec2InstanceArn
+            self.ec2InstanceType = ec2InstanceType
+            self.hostName = hostName
+            self.ipAddresses = ipAddresses
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum SessionLifecycleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ended
+        case started
+        case updateFailed
+        case updateInProgress
+        case updateSucceeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionLifecycleStatus] {
+            return [
+                .ended,
+                .started,
+                .updateFailed,
+                .updateInProgress,
+                .updateSucceeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ended: return "ENDED"
+            case .started: return "STARTED"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updateInProgress: return "UPDATE_IN_PROGRESS"
+            case .updateSucceeded: return "UPDATE_SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum SessionLifecycleTargetStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ended
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionLifecycleTargetStatus] {
+            return [
+                .ended
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ended: return "ENDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of a session returned in a batch get operation.
+    public struct BatchGetSessionItem: Swift.Sendable {
+        /// The date and time the resource ended running.
+        public var endedAt: Foundation.Date?
+        /// The farm ID of the session.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The fleet ID of the session.
+        /// This member is required.
+        public var fleetId: Swift.String?
+        /// The host properties for the session.
+        public var hostProperties: DeadlineClientTypes.HostPropertiesResponse?
+        /// The job ID of the session.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The life cycle status of the session.
+        /// This member is required.
+        public var lifecycleStatus: DeadlineClientTypes.SessionLifecycleStatus?
+        /// The session log.
+        /// This member is required.
+        public var log: DeadlineClientTypes.LogConfiguration?
+        /// The queue ID of the session.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The session ID.
+        /// This member is required.
+        public var sessionId: Swift.String?
+        /// The date and time the resource started running.
+        /// This member is required.
+        public var startedAt: Foundation.Date?
+        /// The target life cycle status for the session.
+        public var targetLifecycleStatus: DeadlineClientTypes.SessionLifecycleTargetStatus?
+        /// The date and time the resource was updated.
+        public var updatedAt: Foundation.Date?
+        /// The user or system that updated this resource.
+        public var updatedBy: Swift.String?
+        /// The worker ID of the session.
+        /// This member is required.
+        public var workerId: Swift.String?
+        /// The worker log for the session.
+        public var workerLog: DeadlineClientTypes.LogConfiguration?
+
+        public init(
+            endedAt: Foundation.Date? = nil,
+            farmId: Swift.String? = nil,
+            fleetId: Swift.String? = nil,
+            hostProperties: DeadlineClientTypes.HostPropertiesResponse? = nil,
+            jobId: Swift.String? = nil,
+            lifecycleStatus: DeadlineClientTypes.SessionLifecycleStatus? = nil,
+            log: DeadlineClientTypes.LogConfiguration? = nil,
+            queueId: Swift.String? = nil,
+            sessionId: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil,
+            targetLifecycleStatus: DeadlineClientTypes.SessionLifecycleTargetStatus? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil,
+            workerId: Swift.String? = nil,
+            workerLog: DeadlineClientTypes.LogConfiguration? = nil
+        ) {
+            self.endedAt = endedAt
+            self.farmId = farmId
+            self.fleetId = fleetId
+            self.hostProperties = hostProperties
+            self.jobId = jobId
+            self.lifecycleStatus = lifecycleStatus
+            self.log = log
+            self.queueId = queueId
+            self.sessionId = sessionId
+            self.startedAt = startedAt
+            self.targetLifecycleStatus = targetLifecycleStatus
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+            self.workerId = workerId
+            self.workerLog = workerLog
+        }
+    }
+}
+
+public struct BatchGetSessionOutput: Swift.Sendable {
+    /// A list of errors for sessions that could not be retrieved.
+    /// This member is required.
+    public var errors: [DeadlineClientTypes.BatchGetSessionError]?
+    /// A list of sessions that were successfully retrieved.
+    /// This member is required.
+    public var sessions: [DeadlineClientTypes.BatchGetSessionItem]?
+
+    public init(
+        errors: [DeadlineClientTypes.BatchGetSessionError]? = nil,
+        sessions: [DeadlineClientTypes.BatchGetSessionItem]? = nil
+    ) {
+        self.errors = errors
+        self.sessions = sessions
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The identifiers for a session action.
+    public struct BatchGetSessionActionIdentifier: Swift.Sendable {
+        /// The farm ID of the session action.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the session action.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The queue ID of the session action.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The session action ID.
+        /// This member is required.
+        public var sessionActionId: Swift.String?
+
+        public init(
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            sessionActionId: Swift.String? = nil
+        ) {
+            self.farmId = farmId
+            self.jobId = jobId
+            self.queueId = queueId
+            self.sessionActionId = sessionActionId
+        }
+    }
+}
+
+public struct BatchGetSessionActionInput: Swift.Sendable {
+    /// The list of session action identifiers to retrieve. You can specify up to 100 identifiers per request.
+    /// This member is required.
+    public var identifiers: [DeadlineClientTypes.BatchGetSessionActionIdentifier]?
+
+    public init(
+        identifiers: [DeadlineClientTypes.BatchGetSessionActionIdentifier]? = nil
+    ) {
+        self.identifiers = identifiers
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum BatchGetSessionActionErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case internalservererrorexception
+        case resourcenotfoundexception
+        case validationexception
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchGetSessionActionErrorCode] {
+            return [
+                .internalservererrorexception,
+                .resourcenotfoundexception,
+                .validationexception
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .internalservererrorexception: return "InternalServerErrorException"
+            case .resourcenotfoundexception: return "ResourceNotFoundException"
+            case .validationexception: return "ValidationException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The error details for a session action that could not be retrieved in a batch get operation.
+    public struct BatchGetSessionActionError: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var code: DeadlineClientTypes.BatchGetSessionActionErrorCode?
+        /// The farm ID of the session action that could not be retrieved.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the session action that could not be retrieved.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The queue ID of the session action that could not be retrieved.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The session action ID of the session action that could not be retrieved.
+        /// This member is required.
+        public var sessionActionId: Swift.String?
+
+        public init(
+            code: DeadlineClientTypes.BatchGetSessionActionErrorCode? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            message: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            sessionActionId: Swift.String? = nil
+        ) {
+            self.code = code
+            self.farmId = farmId
+            self.jobId = jobId
+            self.message = message
+            self.queueId = queueId
+            self.sessionActionId = sessionActionId
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The environment ID to use to enter a session action.
+    public struct EnvironmentEnterSessionActionDefinition: Swift.Sendable {
+        /// The environment ID.
+        /// This member is required.
+        public var environmentId: Swift.String?
+
+        public init(
+            environmentId: Swift.String? = nil
+        ) {
+            self.environmentId = environmentId
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Defines the environment a session action exits from.
+    public struct EnvironmentExitSessionActionDefinition: Swift.Sendable {
+        /// The environment ID.
+        /// This member is required.
+        public var environmentId: Swift.String?
+
+        public init(
+            environmentId: Swift.String? = nil
+        ) {
+            self.environmentId = environmentId
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The session action definition for syncing input job attachments.
+    public struct SyncInputJobAttachmentsSessionActionDefinition: Swift.Sendable {
+        /// The step ID for the sync input job attachments session action.
+        public var stepId: Swift.String?
+
+        public init(
+            stepId: Swift.String? = nil
+        ) {
+            self.stepId = stepId
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The task, step, and parameters for the task run in the session action.
+    public struct TaskRunSessionActionDefinition: Swift.Sendable {
+        /// The task parameters.
+        /// This member is required.
+        public var parameters: [Swift.String: DeadlineClientTypes.TaskParameterValue]?
+        /// The step ID.
+        /// This member is required.
+        public var stepId: Swift.String?
+        /// The task ID.
+        public var taskId: Swift.String?
+
+        public init(
+            parameters: [Swift.String: DeadlineClientTypes.TaskParameterValue]? = nil,
+            stepId: Swift.String? = nil,
+            taskId: Swift.String? = nil
+        ) {
+            self.parameters = parameters
+            self.stepId = stepId
+            self.taskId = taskId
+        }
+    }
+}
+
+extension DeadlineClientTypes.TaskRunSessionActionDefinition: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TaskRunSessionActionDefinition(stepId: \(Swift.String(describing: stepId)), taskId: \(Swift.String(describing: taskId)), parameters: \"CONTENT_REDACTED\")"}
+}
+
+extension DeadlineClientTypes {
+
+    /// The definition of the session action.
+    public enum SessionActionDefinition: Swift.Sendable {
+        /// The environment to enter into.
+        case enventer(DeadlineClientTypes.EnvironmentEnterSessionActionDefinition)
+        /// The environment to exit from.
+        case envexit(DeadlineClientTypes.EnvironmentExitSessionActionDefinition)
+        /// The task run in the session.
+        case taskrun(DeadlineClientTypes.TaskRunSessionActionDefinition)
+        /// The session action definition for syncing input job attachments.
+        case syncinputjobattachments(DeadlineClientTypes.SyncInputJobAttachmentsSessionActionDefinition)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The manifest properties for a task run, corresponding to the manifest properties in the job.
+    public struct TaskRunManifestPropertiesResponse: Swift.Sendable {
+        /// The hash value of the file.
+        public var outputManifestHash: Swift.String?
+        /// The manifest file path.
+        public var outputManifestPath: Swift.String?
+
+        public init(
+            outputManifestHash: Swift.String? = nil,
+            outputManifestPath: Swift.String? = nil
+        ) {
+            self.outputManifestHash = outputManifestHash
+            self.outputManifestPath = outputManifestPath
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum SessionActionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case assigned
+        case canceled
+        case canceling
+        case failed
+        case interrupted
+        case neverAttempted
+        case reclaimed
+        case reclaiming
+        case running
+        case scheduled
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionActionStatus] {
+            return [
+                .assigned,
+                .canceled,
+                .canceling,
+                .failed,
+                .interrupted,
+                .neverAttempted,
+                .reclaimed,
+                .reclaiming,
+                .running,
+                .scheduled,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .assigned: return "ASSIGNED"
+            case .canceled: return "CANCELED"
+            case .canceling: return "CANCELING"
+            case .failed: return "FAILED"
+            case .interrupted: return "INTERRUPTED"
+            case .neverAttempted: return "NEVER_ATTEMPTED"
+            case .reclaimed: return "RECLAIMED"
+            case .reclaiming: return "RECLAIMING"
+            case .running: return "RUNNING"
+            case .scheduled: return "SCHEDULED"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of a session action returned in a batch get operation.
+    public struct BatchGetSessionActionItem: Swift.Sendable {
+        /// The limits that were acquired for the session action.
+        public var acquiredLimits: [DeadlineClientTypes.AcquiredLimit]?
+        /// The session action definition.
+        /// This member is required.
+        public var definition: DeadlineClientTypes.SessionActionDefinition?
+        /// The date and time the resource ended running.
+        public var endedAt: Foundation.Date?
+        /// The farm ID of the session action.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the session action.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The manifests for the session action.
+        public var manifests: [DeadlineClientTypes.TaskRunManifestPropertiesResponse]?
+        /// The exit code to apply to the session action.
+        public var processExitCode: Swift.Int?
+        /// The message that communicates the progress of the session action.
+        public var progressMessage: Swift.String?
+        /// The completion percentage for the session action.
+        public var progressPercent: Swift.Float?
+        /// The queue ID of the session action.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The session action ID.
+        /// This member is required.
+        public var sessionActionId: Swift.String?
+        /// The session ID for the session action.
+        /// This member is required.
+        public var sessionId: Swift.String?
+        /// The date and time the resource started running.
+        public var startedAt: Foundation.Date?
+        /// The status of the session action.
+        /// This member is required.
+        public var status: DeadlineClientTypes.SessionActionStatus?
+        /// The date and time the resource was updated by a worker.
+        public var workerUpdatedAt: Foundation.Date?
+
+        public init(
+            acquiredLimits: [DeadlineClientTypes.AcquiredLimit]? = nil,
+            definition: DeadlineClientTypes.SessionActionDefinition? = nil,
+            endedAt: Foundation.Date? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            manifests: [DeadlineClientTypes.TaskRunManifestPropertiesResponse]? = nil,
+            processExitCode: Swift.Int? = nil,
+            progressMessage: Swift.String? = nil,
+            progressPercent: Swift.Float? = nil,
+            queueId: Swift.String? = nil,
+            sessionActionId: Swift.String? = nil,
+            sessionId: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: DeadlineClientTypes.SessionActionStatus? = nil,
+            workerUpdatedAt: Foundation.Date? = nil
+        ) {
+            self.acquiredLimits = acquiredLimits
+            self.definition = definition
+            self.endedAt = endedAt
+            self.farmId = farmId
+            self.jobId = jobId
+            self.manifests = manifests
+            self.processExitCode = processExitCode
+            self.progressMessage = progressMessage
+            self.progressPercent = progressPercent
+            self.queueId = queueId
+            self.sessionActionId = sessionActionId
+            self.sessionId = sessionId
+            self.startedAt = startedAt
+            self.status = status
+            self.workerUpdatedAt = workerUpdatedAt
+        }
+    }
+}
+
+extension DeadlineClientTypes.BatchGetSessionActionItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BatchGetSessionActionItem(acquiredLimits: \(Swift.String(describing: acquiredLimits)), definition: \(Swift.String(describing: definition)), endedAt: \(Swift.String(describing: endedAt)), farmId: \(Swift.String(describing: farmId)), jobId: \(Swift.String(describing: jobId)), manifests: \(Swift.String(describing: manifests)), processExitCode: \(Swift.String(describing: processExitCode)), progressPercent: \(Swift.String(describing: progressPercent)), queueId: \(Swift.String(describing: queueId)), sessionActionId: \(Swift.String(describing: sessionActionId)), sessionId: \(Swift.String(describing: sessionId)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), workerUpdatedAt: \(Swift.String(describing: workerUpdatedAt)), progressMessage: \"CONTENT_REDACTED\")"}
+}
+
+public struct BatchGetSessionActionOutput: Swift.Sendable {
+    /// A list of errors for session actions that could not be retrieved.
+    /// This member is required.
+    public var errors: [DeadlineClientTypes.BatchGetSessionActionError]?
+    /// A list of session actions that were successfully retrieved.
+    /// This member is required.
+    public var sessionActions: [DeadlineClientTypes.BatchGetSessionActionItem]?
+
+    public init(
+        errors: [DeadlineClientTypes.BatchGetSessionActionError]? = nil,
+        sessionActions: [DeadlineClientTypes.BatchGetSessionActionItem]? = nil
+    ) {
+        self.errors = errors
+        self.sessionActions = sessionActions
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The identifiers for a step.
+    public struct BatchGetStepIdentifier: Swift.Sendable {
+        /// The farm ID of the step.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the step.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The queue ID of the step.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The step ID.
+        /// This member is required.
+        public var stepId: Swift.String?
+
+        public init(
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            stepId: Swift.String? = nil
+        ) {
+            self.farmId = farmId
+            self.jobId = jobId
+            self.queueId = queueId
+            self.stepId = stepId
+        }
+    }
+}
+
+public struct BatchGetStepInput: Swift.Sendable {
+    /// The list of step identifiers to retrieve. You can specify up to 100 identifiers per request.
+    /// This member is required.
+    public var identifiers: [DeadlineClientTypes.BatchGetStepIdentifier]?
+
+    public init(
+        identifiers: [DeadlineClientTypes.BatchGetStepIdentifier]? = nil
+    ) {
+        self.identifiers = identifiers
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum BatchGetStepErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessdeniedexception
+        case internalservererrorexception
+        case resourcenotfoundexception
+        case throttlingexception
+        case validationexception
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchGetStepErrorCode] {
+            return [
+                .accessdeniedexception,
+                .internalservererrorexception,
+                .resourcenotfoundexception,
+                .throttlingexception,
+                .validationexception
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessdeniedexception: return "AccessDeniedException"
+            case .internalservererrorexception: return "InternalServerErrorException"
+            case .resourcenotfoundexception: return "ResourceNotFoundException"
+            case .throttlingexception: return "ThrottlingException"
+            case .validationexception: return "ValidationException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The error details for a step that could not be retrieved in a batch get operation.
+    public struct BatchGetStepError: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var code: DeadlineClientTypes.BatchGetStepErrorCode?
+        /// The farm ID of the step that could not be retrieved.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the step that could not be retrieved.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The queue ID of the step that could not be retrieved.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The step ID of the step that could not be retrieved.
+        /// This member is required.
+        public var stepId: Swift.String?
+
+        public init(
+            code: DeadlineClientTypes.BatchGetStepErrorCode? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            message: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            stepId: Swift.String? = nil
+        ) {
+            self.code = code
+            self.farmId = farmId
+            self.jobId = jobId
+            self.message = message
+            self.queueId = queueId
+            self.stepId = stepId
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The number of dependencies for the consumer.
+    public struct DependencyCounts: Swift.Sendable {
+        /// The number of consumers resolved.
+        /// This member is required.
+        public var consumersResolved: Swift.Int?
+        /// The number of unresolved consumers.
+        /// This member is required.
+        public var consumersUnresolved: Swift.Int?
+        /// The number of resolved dependencies.
+        /// This member is required.
+        public var dependenciesResolved: Swift.Int?
+        /// The number of unresolved dependencies.
+        /// This member is required.
+        public var dependenciesUnresolved: Swift.Int?
+
+        public init(
+            consumersResolved: Swift.Int? = nil,
+            consumersUnresolved: Swift.Int? = nil,
+            dependenciesResolved: Swift.Int? = nil,
+            dependenciesUnresolved: Swift.Int? = nil
+        ) {
+            self.consumersResolved = consumersResolved
+            self.consumersUnresolved = consumersUnresolved
+            self.dependenciesResolved = dependenciesResolved
+            self.dependenciesUnresolved = dependenciesUnresolved
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum StepLifecycleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createComplete
+        case updateFailed
+        case updateInProgress
+        case updateSucceeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StepLifecycleStatus] {
+            return [
+                .createComplete,
+                .updateFailed,
+                .updateInProgress,
+                .updateSucceeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createComplete: return "CREATE_COMPLETE"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updateInProgress: return "UPDATE_IN_PROGRESS"
+            case .updateSucceeded: return "UPDATE_SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum RangeConstraint: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contiguous
+        case noncontiguous
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RangeConstraint] {
+            return [
+                .contiguous,
+                .noncontiguous
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contiguous: return "CONTIGUOUS"
+            case .noncontiguous: return "NONCONTIGUOUS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Defines how a step parameter range should be divided into chunks.
+    public struct StepParameterChunks: Swift.Sendable {
+        /// The number of tasks to combine into a single chunk by default.
+        /// This member is required.
+        public var defaultTaskCount: Swift.Int?
+        /// Specifies whether the chunked ranges must be contiguous or can have gaps between them.
+        /// This member is required.
+        public var rangeConstraint: DeadlineClientTypes.RangeConstraint?
+        /// The number of seconds to aim for when forming chunks.
+        public var targetRuntimeSeconds: Swift.Int?
+
+        public init(
+            defaultTaskCount: Swift.Int? = nil,
+            rangeConstraint: DeadlineClientTypes.RangeConstraint? = nil,
+            targetRuntimeSeconds: Swift.Int? = nil
+        ) {
+            self.defaultTaskCount = defaultTaskCount
+            self.rangeConstraint = rangeConstraint
+            self.targetRuntimeSeconds = targetRuntimeSeconds
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum StepParameterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case chunkInt
+        case float
+        case int
+        case path
+        case string
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StepParameterType] {
+            return [
+                .chunkInt,
+                .float,
+                .int,
+                .path,
+                .string
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .chunkInt: return "CHUNK_INT"
+            case .float: return "FLOAT"
+            case .int: return "INT"
+            case .path: return "PATH"
+            case .string: return "STRING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of a step parameter.
+    public struct StepParameter: Swift.Sendable {
+        /// The configuration for task chunking.
+        public var chunks: DeadlineClientTypes.StepParameterChunks?
+        /// The name of the parameter.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The data type of the parameter.
+        /// This member is required.
+        public var type: DeadlineClientTypes.StepParameterType?
+
+        public init(
+            chunks: DeadlineClientTypes.StepParameterChunks? = nil,
+            name: Swift.String? = nil,
+            type: DeadlineClientTypes.StepParameterType? = nil
+        ) {
+            self.chunks = chunks
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of a search for two or more step parameters.
+    public struct ParameterSpace: Swift.Sendable {
+        /// The combination expression to use in the search.
+        public var combination: Swift.String?
+        /// The parameters to search for.
+        /// This member is required.
+        public var parameters: [DeadlineClientTypes.StepParameter]?
+
+        public init(
+            combination: Swift.String? = nil,
+            parameters: [DeadlineClientTypes.StepParameter]? = nil
+        ) {
+            self.combination = combination
+            self.parameters = parameters
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details outlining the minimum and maximum capability of a step.
+    public struct StepAmountCapability: Swift.Sendable {
+        /// The maximum amount.
+        public var max: Swift.Double?
+        /// The minimum amount.
+        public var min: Swift.Double?
+        /// The name of the step.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The amount value.
+        public var value: Swift.Double?
+
+        public init(
+            max: Swift.Double? = nil,
+            min: Swift.Double? = nil,
+            name: Swift.String? = nil,
+            value: Swift.Double? = nil
+        ) {
+            self.max = max
+            self.min = min
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The list of step attributes.
+    public struct StepAttributeCapability: Swift.Sendable {
+        /// Requires all of the step attribute values.
+        public var allOf: [Swift.String]?
+        /// Requires any of the step attributes in a given list.
+        public var anyOf: [Swift.String]?
+        /// The name of the step attribute.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            allOf: [Swift.String]? = nil,
+            anyOf: [Swift.String]? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.allOf = allOf
+            self.anyOf = anyOf
+            self.name = name
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of required step capabilities.
+    public struct StepRequiredCapabilities: Swift.Sendable {
+        /// The capability amounts that the step requires.
+        /// This member is required.
+        public var amounts: [DeadlineClientTypes.StepAmountCapability]?
+        /// The capability attributes that the step requires.
+        /// This member is required.
+        public var attributes: [DeadlineClientTypes.StepAttributeCapability]?
+
+        public init(
+            amounts: [DeadlineClientTypes.StepAmountCapability]? = nil,
+            attributes: [DeadlineClientTypes.StepAttributeCapability]? = nil
+        ) {
+            self.amounts = amounts
+            self.attributes = attributes
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum StepTargetTaskRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case canceled
+        case failed
+        case pending
+        case ready
+        case succeeded
+        case suspended
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StepTargetTaskRunStatus] {
+            return [
+                .canceled,
+                .failed,
+                .pending,
+                .ready,
+                .succeeded,
+                .suspended
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .canceled: return "CANCELED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .ready: return "READY"
+            case .succeeded: return "SUCCEEDED"
+            case .suspended: return "SUSPENDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of a step returned in a batch get operation.
+    public struct BatchGetStepItem: Swift.Sendable {
+        /// The date and time the resource was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The user or system that created this resource.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The number of dependencies for the step.
+        public var dependencyCounts: DeadlineClientTypes.DependencyCounts?
+        /// The description of the step.
+        public var description: Swift.String?
+        /// The date and time the resource ended running.
+        public var endedAt: Foundation.Date?
+        /// The farm ID of the step.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the step.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The life cycle status of the step.
+        /// This member is required.
+        public var lifecycleStatus: DeadlineClientTypes.StepLifecycleStatus?
+        /// A message that communicates the status of the life cycle.
+        public var lifecycleStatusMessage: Swift.String?
+        /// The name of the step.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The parameter space for the step.
+        public var parameterSpace: DeadlineClientTypes.ParameterSpace?
+        /// The queue ID of the step.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The required capabilities for the step.
+        public var requiredCapabilities: DeadlineClientTypes.StepRequiredCapabilities?
+        /// The date and time the resource started running.
+        public var startedAt: Foundation.Date?
+        /// The step ID.
+        /// This member is required.
+        public var stepId: Swift.String?
+        /// The task status to start with on the step.
+        public var targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus?
+        /// The number of times that tasks failed and were retried.
+        public var taskFailureRetryCount: Swift.Int?
+        /// The task run status for the step.
+        /// This member is required.
+        public var taskRunStatus: DeadlineClientTypes.TaskRunStatus?
+        /// The number of tasks for each run status for the step.
+        /// This member is required.
+        public var taskRunStatusCounts: [Swift.String: Swift.Int]?
+        /// The date and time the resource was updated.
+        public var updatedAt: Foundation.Date?
+        /// The user or system that updated this resource.
+        public var updatedBy: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            dependencyCounts: DeadlineClientTypes.DependencyCounts? = nil,
+            description: Swift.String? = nil,
+            endedAt: Foundation.Date? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            lifecycleStatus: DeadlineClientTypes.StepLifecycleStatus? = nil,
+            lifecycleStatusMessage: Swift.String? = nil,
+            name: Swift.String? = nil,
+            parameterSpace: DeadlineClientTypes.ParameterSpace? = nil,
+            queueId: Swift.String? = nil,
+            requiredCapabilities: DeadlineClientTypes.StepRequiredCapabilities? = nil,
+            startedAt: Foundation.Date? = nil,
+            stepId: Swift.String? = nil,
+            targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus? = nil,
+            taskFailureRetryCount: Swift.Int? = nil,
+            taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
+            taskRunStatusCounts: [Swift.String: Swift.Int]? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.dependencyCounts = dependencyCounts
+            self.description = description
+            self.endedAt = endedAt
+            self.farmId = farmId
+            self.jobId = jobId
+            self.lifecycleStatus = lifecycleStatus
+            self.lifecycleStatusMessage = lifecycleStatusMessage
+            self.name = name
+            self.parameterSpace = parameterSpace
+            self.queueId = queueId
+            self.requiredCapabilities = requiredCapabilities
+            self.startedAt = startedAt
+            self.stepId = stepId
+            self.targetTaskRunStatus = targetTaskRunStatus
+            self.taskFailureRetryCount = taskFailureRetryCount
+            self.taskRunStatus = taskRunStatus
+            self.taskRunStatusCounts = taskRunStatusCounts
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+    }
+}
+
+extension DeadlineClientTypes.BatchGetStepItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BatchGetStepItem(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), dependencyCounts: \(Swift.String(describing: dependencyCounts)), endedAt: \(Swift.String(describing: endedAt)), farmId: \(Swift.String(describing: farmId)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), name: \(Swift.String(describing: name)), parameterSpace: \(Swift.String(describing: parameterSpace)), queueId: \(Swift.String(describing: queueId)), requiredCapabilities: \(Swift.String(describing: requiredCapabilities)), startedAt: \(Swift.String(describing: startedAt)), stepId: \(Swift.String(describing: stepId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskFailureRetryCount: \(Swift.String(describing: taskFailureRetryCount)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct BatchGetStepOutput: Swift.Sendable {
+    /// A list of errors for steps that could not be retrieved.
+    /// This member is required.
+    public var errors: [DeadlineClientTypes.BatchGetStepError]?
+    /// A list of steps that were successfully retrieved.
+    /// This member is required.
+    public var steps: [DeadlineClientTypes.BatchGetStepItem]?
+
+    public init(
+        errors: [DeadlineClientTypes.BatchGetStepError]? = nil,
+        steps: [DeadlineClientTypes.BatchGetStepItem]? = nil
+    ) {
+        self.errors = errors
+        self.steps = steps
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The identifiers for a task.
+    public struct BatchGetTaskIdentifier: Swift.Sendable {
+        /// The farm ID of the task.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the task.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The queue ID of the task.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The step ID of the task.
+        /// This member is required.
+        public var stepId: Swift.String?
+        /// The task ID.
+        /// This member is required.
+        public var taskId: Swift.String?
+
+        public init(
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            stepId: Swift.String? = nil,
+            taskId: Swift.String? = nil
+        ) {
+            self.farmId = farmId
+            self.jobId = jobId
+            self.queueId = queueId
+            self.stepId = stepId
+            self.taskId = taskId
+        }
+    }
+}
+
+public struct BatchGetTaskInput: Swift.Sendable {
+    /// The list of task identifiers to retrieve. You can specify up to 100 identifiers per request.
+    /// This member is required.
+    public var identifiers: [DeadlineClientTypes.BatchGetTaskIdentifier]?
+
+    public init(
+        identifiers: [DeadlineClientTypes.BatchGetTaskIdentifier]? = nil
+    ) {
+        self.identifiers = identifiers
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum BatchGetTaskErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessdeniedexception
+        case internalservererrorexception
+        case resourcenotfoundexception
+        case throttlingexception
+        case validationexception
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchGetTaskErrorCode] {
+            return [
+                .accessdeniedexception,
+                .internalservererrorexception,
+                .resourcenotfoundexception,
+                .throttlingexception,
+                .validationexception
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessdeniedexception: return "AccessDeniedException"
+            case .internalservererrorexception: return "InternalServerErrorException"
+            case .resourcenotfoundexception: return "ResourceNotFoundException"
+            case .throttlingexception: return "ThrottlingException"
+            case .validationexception: return "ValidationException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The error details for a task that could not be retrieved in a batch get operation.
+    public struct BatchGetTaskError: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var code: DeadlineClientTypes.BatchGetTaskErrorCode?
+        /// The farm ID of the task that could not be retrieved.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the task that could not be retrieved.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The queue ID of the task that could not be retrieved.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The step ID of the task that could not be retrieved.
+        /// This member is required.
+        public var stepId: Swift.String?
+        /// The task ID of the task that could not be retrieved.
+        /// This member is required.
+        public var taskId: Swift.String?
+
+        public init(
+            code: DeadlineClientTypes.BatchGetTaskErrorCode? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            message: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            stepId: Swift.String? = nil,
+            taskId: Swift.String? = nil
+        ) {
+            self.code = code
+            self.farmId = farmId
+            self.jobId = jobId
+            self.message = message
+            self.queueId = queueId
+            self.stepId = stepId
+            self.taskId = taskId
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum TaskTargetRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case canceled
+        case failed
+        case pending
+        case ready
+        case succeeded
+        case suspended
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TaskTargetRunStatus] {
+            return [
+                .canceled,
+                .failed,
+                .pending,
+                .ready,
+                .succeeded,
+                .suspended
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .canceled: return "CANCELED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .ready: return "READY"
+            case .succeeded: return "SUCCEEDED"
+            case .suspended: return "SUSPENDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of a task returned in a batch get operation.
+    public struct BatchGetTaskItem: Swift.Sendable {
+        /// The date and time the resource was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The user or system that created this resource.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The date and time the resource ended running.
+        public var endedAt: Foundation.Date?
+        /// The number of times the task failed and was retried.
+        public var failureRetryCount: Swift.Int?
+        /// The farm ID of the task.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the task.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The latest session action for the task.
+        public var latestSessionActionId: Swift.String?
+        /// The parameters for the task.
+        public var parameters: [Swift.String: DeadlineClientTypes.TaskParameterValue]?
+        /// The queue ID of the task.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The run status of the task.
+        /// This member is required.
+        public var runStatus: DeadlineClientTypes.TaskRunStatus?
+        /// The date and time the resource started running.
+        public var startedAt: Foundation.Date?
+        /// The step ID of the task.
+        /// This member is required.
+        public var stepId: Swift.String?
+        /// The run status with which to start the task.
+        public var targetRunStatus: DeadlineClientTypes.TaskTargetRunStatus?
+        /// The task ID.
+        /// This member is required.
+        public var taskId: Swift.String?
+        /// The date and time the resource was updated.
+        public var updatedAt: Foundation.Date?
+        /// The user or system that updated this resource.
+        public var updatedBy: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            endedAt: Foundation.Date? = nil,
+            failureRetryCount: Swift.Int? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            latestSessionActionId: Swift.String? = nil,
+            parameters: [Swift.String: DeadlineClientTypes.TaskParameterValue]? = nil,
+            queueId: Swift.String? = nil,
+            runStatus: DeadlineClientTypes.TaskRunStatus? = nil,
+            startedAt: Foundation.Date? = nil,
+            stepId: Swift.String? = nil,
+            targetRunStatus: DeadlineClientTypes.TaskTargetRunStatus? = nil,
+            taskId: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.endedAt = endedAt
+            self.failureRetryCount = failureRetryCount
+            self.farmId = farmId
+            self.jobId = jobId
+            self.latestSessionActionId = latestSessionActionId
+            self.parameters = parameters
+            self.queueId = queueId
+            self.runStatus = runStatus
+            self.startedAt = startedAt
+            self.stepId = stepId
+            self.targetRunStatus = targetRunStatus
+            self.taskId = taskId
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+    }
+}
+
+extension DeadlineClientTypes.BatchGetTaskItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BatchGetTaskItem(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), failureRetryCount: \(Swift.String(describing: failureRetryCount)), farmId: \(Swift.String(describing: farmId)), jobId: \(Swift.String(describing: jobId)), latestSessionActionId: \(Swift.String(describing: latestSessionActionId)), queueId: \(Swift.String(describing: queueId)), runStatus: \(Swift.String(describing: runStatus)), startedAt: \(Swift.String(describing: startedAt)), stepId: \(Swift.String(describing: stepId)), targetRunStatus: \(Swift.String(describing: targetRunStatus)), taskId: \(Swift.String(describing: taskId)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), parameters: \"CONTENT_REDACTED\")"}
+}
+
+public struct BatchGetTaskOutput: Swift.Sendable {
+    /// A list of errors for tasks that could not be retrieved.
+    /// This member is required.
+    public var errors: [DeadlineClientTypes.BatchGetTaskError]?
+    /// A list of tasks that were successfully retrieved.
+    /// This member is required.
+    public var tasks: [DeadlineClientTypes.BatchGetTaskItem]?
+
+    public init(
+        errors: [DeadlineClientTypes.BatchGetTaskError]? = nil,
+        tasks: [DeadlineClientTypes.BatchGetTaskItem]? = nil
+    ) {
+        self.errors = errors
+        self.tasks = tasks
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The identifiers for a worker.
+    public struct BatchGetWorkerIdentifier: Swift.Sendable {
+        /// The farm ID of the worker.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The fleet ID of the worker.
+        /// This member is required.
+        public var fleetId: Swift.String?
+        /// The worker ID.
+        /// This member is required.
+        public var workerId: Swift.String?
+
+        public init(
+            farmId: Swift.String? = nil,
+            fleetId: Swift.String? = nil,
+            workerId: Swift.String? = nil
+        ) {
+            self.farmId = farmId
+            self.fleetId = fleetId
+            self.workerId = workerId
+        }
+    }
+}
+
+public struct BatchGetWorkerInput: Swift.Sendable {
+    /// The list of worker identifiers to retrieve. You can specify up to 100 identifiers per request.
+    /// This member is required.
+    public var identifiers: [DeadlineClientTypes.BatchGetWorkerIdentifier]?
+
+    public init(
+        identifiers: [DeadlineClientTypes.BatchGetWorkerIdentifier]? = nil
+    ) {
+        self.identifiers = identifiers
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum BatchGetWorkerErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case internalservererrorexception
+        case resourcenotfoundexception
+        case validationexception
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchGetWorkerErrorCode] {
+            return [
+                .internalservererrorexception,
+                .resourcenotfoundexception,
+                .validationexception
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .internalservererrorexception: return "InternalServerErrorException"
+            case .resourcenotfoundexception: return "ResourceNotFoundException"
+            case .validationexception: return "ValidationException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The error details for a worker that could not be retrieved in a batch get operation.
+    public struct BatchGetWorkerError: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var code: DeadlineClientTypes.BatchGetWorkerErrorCode?
+        /// The farm ID of the worker that could not be retrieved.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The fleet ID of the worker that could not be retrieved.
+        /// This member is required.
+        public var fleetId: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The worker ID of the worker that could not be retrieved.
+        /// This member is required.
+        public var workerId: Swift.String?
+
+        public init(
+            code: DeadlineClientTypes.BatchGetWorkerErrorCode? = nil,
+            farmId: Swift.String? = nil,
+            fleetId: Swift.String? = nil,
+            message: Swift.String? = nil,
+            workerId: Swift.String? = nil
+        ) {
+            self.code = code
+            self.farmId = farmId
+            self.fleetId = fleetId
+            self.message = message
+            self.workerId = workerId
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum WorkerStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case idle
+        case notCompatible
+        case notResponding
+        case running
+        case started
+        case stopped
+        case stopping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkerStatus] {
+            return [
+                .created,
+                .idle,
+                .notCompatible,
+                .notResponding,
+                .running,
+                .started,
+                .stopped,
+                .stopping
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .idle: return "IDLE"
+            case .notCompatible: return "NOT_COMPATIBLE"
+            case .notResponding: return "NOT_RESPONDING"
+            case .running: return "RUNNING"
+            case .started: return "STARTED"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of a worker returned in a batch get operation.
+    public struct BatchGetWorkerItem: Swift.Sendable {
+        /// The date and time the resource was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The user or system that created this resource.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The farm ID of the worker.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The fleet ID of the worker.
+        /// This member is required.
+        public var fleetId: Swift.String?
+        /// The host properties for the worker.
+        public var hostProperties: DeadlineClientTypes.HostPropertiesResponse?
+        /// The log configuration for the worker.
+        public var log: DeadlineClientTypes.LogConfiguration?
+        /// The status of the worker.
+        /// This member is required.
+        public var status: DeadlineClientTypes.WorkerStatus?
+        /// The date and time the resource was updated.
+        public var updatedAt: Foundation.Date?
+        /// The user or system that updated this resource.
+        public var updatedBy: Swift.String?
+        /// The worker ID.
+        /// This member is required.
+        public var workerId: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            farmId: Swift.String? = nil,
+            fleetId: Swift.String? = nil,
+            hostProperties: DeadlineClientTypes.HostPropertiesResponse? = nil,
+            log: DeadlineClientTypes.LogConfiguration? = nil,
+            status: DeadlineClientTypes.WorkerStatus? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil,
+            workerId: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.farmId = farmId
+            self.fleetId = fleetId
+            self.hostProperties = hostProperties
+            self.log = log
+            self.status = status
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+            self.workerId = workerId
+        }
+    }
+}
+
+public struct BatchGetWorkerOutput: Swift.Sendable {
+    /// A list of errors for workers that could not be retrieved.
+    /// This member is required.
+    public var errors: [DeadlineClientTypes.BatchGetWorkerError]?
+    /// A list of workers that were successfully retrieved.
+    /// This member is required.
+    public var workers: [DeadlineClientTypes.BatchGetWorkerItem]?
+
+    public init(
+        errors: [DeadlineClientTypes.BatchGetWorkerError]? = nil,
+        workers: [DeadlineClientTypes.BatchGetWorkerItem]? = nil
+    ) {
+        self.errors = errors
+        self.workers = workers
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum UpdateJobLifecycleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case archived
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateJobLifecycleStatus] {
+            return [
+                .archived
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .archived: return "ARCHIVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of a job to update in a batch update operation.
+    public struct BatchUpdateJobItem: Swift.Sendable {
+        /// The description of the job to update.
+        public var description: Swift.String?
+        /// The farm ID of the job to update.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the job to update.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The status of a job in its lifecycle. When you change the status of the job to ARCHIVED, the job can't be scheduled or archived. An archived job and its steps and tasks are deleted after 120 days. The job can't be recovered.
+        public var lifecycleStatus: DeadlineClientTypes.UpdateJobLifecycleStatus?
+        /// The number of task failures before the job stops running and is marked as FAILED.
+        public var maxFailedTasksCount: Swift.Int?
+        /// The maximum number of retries per failed tasks.
+        public var maxRetriesPerTask: Swift.Int?
+        /// The maximum number of worker hosts that can concurrently process a job.
+        public var maxWorkerCount: Swift.Int?
+        /// The name of the job to update.
+        public var name: Swift.String?
+        /// The job priority to update.
+        public var priority: Swift.Int?
+        /// The queue ID of the job to update.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The task status to update the job's tasks to.
+        public var targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus?
+
+        public init(
+            description: Swift.String? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            lifecycleStatus: DeadlineClientTypes.UpdateJobLifecycleStatus? = nil,
+            maxFailedTasksCount: Swift.Int? = nil,
+            maxRetriesPerTask: Swift.Int? = nil,
+            maxWorkerCount: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            priority: Swift.Int? = nil,
+            queueId: Swift.String? = nil,
+            targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus? = nil
+        ) {
+            self.description = description
+            self.farmId = farmId
+            self.jobId = jobId
+            self.lifecycleStatus = lifecycleStatus
+            self.maxFailedTasksCount = maxFailedTasksCount
+            self.maxRetriesPerTask = maxRetriesPerTask
+            self.maxWorkerCount = maxWorkerCount
+            self.name = name
+            self.priority = priority
+            self.queueId = queueId
+            self.targetTaskRunStatus = targetTaskRunStatus
+        }
+    }
+}
+
+extension DeadlineClientTypes.BatchUpdateJobItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BatchUpdateJobItem(farmId: \(Swift.String(describing: farmId)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct BatchUpdateJobInput: Swift.Sendable {
+    /// The unique token which the server uses to recognize retries of the same request.
+    public var clientToken: Swift.String?
+    /// The list of jobs to update. You can specify up to 100 jobs per request.
+    /// This member is required.
+    public var jobs: [DeadlineClientTypes.BatchUpdateJobItem]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        jobs: [DeadlineClientTypes.BatchUpdateJobItem]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.jobs = jobs
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum BatchUpdateJobErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessdeniedexception
+        case conflictexception
+        case internalservererrorexception
+        case resourcenotfoundexception
+        case throttlingexception
+        case validationexception
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchUpdateJobErrorCode] {
+            return [
+                .accessdeniedexception,
+                .conflictexception,
+                .internalservererrorexception,
+                .resourcenotfoundexception,
+                .throttlingexception,
+                .validationexception
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessdeniedexception: return "AccessDeniedException"
+            case .conflictexception: return "ConflictException"
+            case .internalservererrorexception: return "InternalServerErrorException"
+            case .resourcenotfoundexception: return "ResourceNotFoundException"
+            case .throttlingexception: return "ThrottlingException"
+            case .validationexception: return "ValidationException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The error details for a job that could not be updated in a batch update operation.
+    public struct BatchUpdateJobError: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var code: DeadlineClientTypes.BatchUpdateJobErrorCode?
+        /// The farm ID of the job that could not be updated.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the job that could not be updated.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The queue ID of the job that could not be updated.
+        /// This member is required.
+        public var queueId: Swift.String?
+
+        public init(
+            code: DeadlineClientTypes.BatchUpdateJobErrorCode? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            message: Swift.String? = nil,
+            queueId: Swift.String? = nil
+        ) {
+            self.code = code
+            self.farmId = farmId
+            self.jobId = jobId
+            self.message = message
+            self.queueId = queueId
+        }
+    }
+}
+
+public struct BatchUpdateJobOutput: Swift.Sendable {
+    /// A list of errors for jobs that could not be updated.
+    /// This member is required.
+    public var errors: [DeadlineClientTypes.BatchUpdateJobError]?
+
+    public init(
+        errors: [DeadlineClientTypes.BatchUpdateJobError]? = nil
+    ) {
+        self.errors = errors
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of a task to update in a batch update operation.
+    public struct BatchUpdateTaskItem: Swift.Sendable {
+        /// The farm ID of the task to update.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the task to update.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The queue ID of the task to update.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The step ID of the task to update.
+        /// This member is required.
+        public var stepId: Swift.String?
+        /// The run status with which to start the task.
+        /// This member is required.
+        public var targetRunStatus: DeadlineClientTypes.TaskTargetRunStatus?
+        /// The task ID of the task to update.
+        /// This member is required.
+        public var taskId: Swift.String?
+
+        public init(
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            stepId: Swift.String? = nil,
+            targetRunStatus: DeadlineClientTypes.TaskTargetRunStatus? = nil,
+            taskId: Swift.String? = nil
+        ) {
+            self.farmId = farmId
+            self.jobId = jobId
+            self.queueId = queueId
+            self.stepId = stepId
+            self.targetRunStatus = targetRunStatus
+            self.taskId = taskId
+        }
+    }
+}
+
+public struct BatchUpdateTaskInput: Swift.Sendable {
+    /// The unique token which the server uses to recognize retries of the same request.
+    public var clientToken: Swift.String?
+    /// The list of tasks to update. You can specify up to 100 tasks per request.
+    /// This member is required.
+    public var tasks: [DeadlineClientTypes.BatchUpdateTaskItem]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        tasks: [DeadlineClientTypes.BatchUpdateTaskItem]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.tasks = tasks
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum BatchUpdateTaskErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessdeniedexception
+        case conflictexception
+        case internalservererrorexception
+        case resourcenotfoundexception
+        case throttlingexception
+        case validationexception
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchUpdateTaskErrorCode] {
+            return [
+                .accessdeniedexception,
+                .conflictexception,
+                .internalservererrorexception,
+                .resourcenotfoundexception,
+                .throttlingexception,
+                .validationexception
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessdeniedexception: return "AccessDeniedException"
+            case .conflictexception: return "ConflictException"
+            case .internalservererrorexception: return "InternalServerErrorException"
+            case .resourcenotfoundexception: return "ResourceNotFoundException"
+            case .throttlingexception: return "ThrottlingException"
+            case .validationexception: return "ValidationException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The error details for a task that could not be updated in a batch update operation.
+    public struct BatchUpdateTaskError: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var code: DeadlineClientTypes.BatchUpdateTaskErrorCode?
+        /// The farm ID of the task that could not be updated.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the task that could not be updated.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The queue ID of the task that could not be updated.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The step ID of the task that could not be updated.
+        /// This member is required.
+        public var stepId: Swift.String?
+        /// The task ID of the task that could not be updated.
+        /// This member is required.
+        public var taskId: Swift.String?
+
+        public init(
+            code: DeadlineClientTypes.BatchUpdateTaskErrorCode? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            message: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            stepId: Swift.String? = nil,
+            taskId: Swift.String? = nil
+        ) {
+            self.code = code
+            self.farmId = farmId
+            self.jobId = jobId
+            self.message = message
+            self.queueId = queueId
+            self.stepId = stepId
+            self.taskId = taskId
+        }
+    }
+}
+
+public struct BatchUpdateTaskOutput: Swift.Sendable {
+    /// A list of errors for tasks that could not be updated.
+    /// This member is required.
+    public var errors: [DeadlineClientTypes.BatchUpdateTaskError]?
+
+    public init(
+        errors: [DeadlineClientTypes.BatchUpdateTaskError]? = nil
+    ) {
         self.errors = errors
     }
 }
@@ -3741,6 +6273,8 @@ public struct CreateMonitorInput: Swift.Sendable {
     /// The Amazon Resource Name of the IAM Identity Center instance that authenticates monitor users.
     /// This member is required.
     public var identityCenterInstanceArn: Swift.String?
+    /// The AWS region where IAM Identity Center is enabled. Required when Identity Center is in a different region than the monitor.
+    public var identityCenterRegion: Swift.String?
     /// The Amazon Resource Name of the IAM role that the monitor uses to connect to Deadline Cloud. Every user that signs in to the monitor using IAM Identity Center uses this role to access Deadline Cloud resources.
     /// This member is required.
     public var roleArn: Swift.String?
@@ -3754,6 +6288,7 @@ public struct CreateMonitorInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         displayName: Swift.String? = nil,
         identityCenterInstanceArn: Swift.String? = nil,
+        identityCenterRegion: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         subdomain: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
@@ -3761,6 +6296,7 @@ public struct CreateMonitorInput: Swift.Sendable {
         self.clientToken = clientToken
         self.displayName = displayName
         self.identityCenterInstanceArn = identityCenterInstanceArn
+        self.identityCenterRegion = identityCenterRegion
         self.roleArn = roleArn
         self.subdomain = subdomain
         self.tags = tags
@@ -4281,25 +6817,6 @@ public struct CreateStorageProfileOutput: Swift.Sendable {
         storageProfileId: Swift.String? = nil
     ) {
         self.storageProfileId = storageProfileId
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The IP addresses for a host.
-    public struct IpAddresses: Swift.Sendable {
-        /// The IpV4 address of the network.
-        public var ipV4Addresses: [Swift.String]?
-        /// The IpV6 address for the network and node component.
-        public var ipV6Addresses: [Swift.String]?
-
-        public init(
-            ipV4Addresses: [Swift.String]? = nil,
-            ipV6Addresses: [Swift.String]? = nil
-        ) {
-            self.ipV4Addresses = ipV4Addresses
-            self.ipV6Addresses = ipV6Addresses
-        }
     }
 }
 
@@ -5081,80 +7598,6 @@ public struct GetWorkerInput: Swift.Sendable {
     }
 }
 
-extension DeadlineClientTypes {
-
-    /// The host property details.
-    public struct HostPropertiesResponse: Swift.Sendable {
-        /// The ARN of the host EC2 instance.
-        public var ec2InstanceArn: Swift.String?
-        /// The instance type of the host EC2 instance.
-        public var ec2InstanceType: Swift.String?
-        /// The host name.
-        public var hostName: Swift.String?
-        /// The IP address of the host.
-        public var ipAddresses: DeadlineClientTypes.IpAddresses?
-
-        public init(
-            ec2InstanceArn: Swift.String? = nil,
-            ec2InstanceType: Swift.String? = nil,
-            hostName: Swift.String? = nil,
-            ipAddresses: DeadlineClientTypes.IpAddresses? = nil
-        ) {
-            self.ec2InstanceArn = ec2InstanceArn
-            self.ec2InstanceType = ec2InstanceType
-            self.hostName = hostName
-            self.ipAddresses = ipAddresses
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum WorkerStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case created
-        case idle
-        case notCompatible
-        case notResponding
-        case running
-        case started
-        case stopped
-        case stopping
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [WorkerStatus] {
-            return [
-                .created,
-                .idle,
-                .notCompatible,
-                .notResponding,
-                .running,
-                .started,
-                .stopped,
-                .stopping
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .created: return "CREATED"
-            case .idle: return "IDLE"
-            case .notCompatible: return "NOT_COMPATIBLE"
-            case .notResponding: return "NOT_RESPONDING"
-            case .running: return "RUNNING"
-            case .started: return "STARTED"
-            case .stopped: return "STOPPED"
-            case .stopping: return "STOPPING"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
 /// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct GetWorkerOutput: Swift.Sendable {
     /// The date and time the resource was created.
@@ -5237,70 +7680,6 @@ public struct ListSessionsForWorkerInput: Swift.Sendable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.workerId = workerId
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum SessionLifecycleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case ended
-        case started
-        case updateFailed
-        case updateInProgress
-        case updateSucceeded
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SessionLifecycleStatus] {
-            return [
-                .ended,
-                .started,
-                .updateFailed,
-                .updateInProgress,
-                .updateSucceeded
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .ended: return "ENDED"
-            case .started: return "STARTED"
-            case .updateFailed: return "UPDATE_FAILED"
-            case .updateInProgress: return "UPDATE_IN_PROGRESS"
-            case .updateSucceeded: return "UPDATE_SUCCEEDED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum SessionLifecycleTargetStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case ended
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SessionLifecycleTargetStatus] {
-            return [
-                .ended
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .ended: return "ENDED"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -6715,156 +9094,6 @@ public struct GetJobInput: Swift.Sendable {
     }
 }
 
-extension DeadlineClientTypes {
-
-    public enum JobLifecycleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case archived
-        case createComplete
-        case createFailed
-        case createInProgress
-        case updateFailed
-        case updateInProgress
-        case updateSucceeded
-        case uploadFailed
-        case uploadInProgress
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [JobLifecycleStatus] {
-            return [
-                .archived,
-                .createComplete,
-                .createFailed,
-                .createInProgress,
-                .updateFailed,
-                .updateInProgress,
-                .updateSucceeded,
-                .uploadFailed,
-                .uploadInProgress
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .archived: return "ARCHIVED"
-            case .createComplete: return "CREATE_COMPLETE"
-            case .createFailed: return "CREATE_FAILED"
-            case .createInProgress: return "CREATE_IN_PROGRESS"
-            case .updateFailed: return "UPDATE_FAILED"
-            case .updateInProgress: return "UPDATE_IN_PROGRESS"
-            case .updateSucceeded: return "UPDATE_SUCCEEDED"
-            case .uploadFailed: return "UPLOAD_FAILED"
-            case .uploadInProgress: return "UPLOAD_IN_PROGRESS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum JobTargetTaskRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case canceled
-        case failed
-        case pending
-        case ready
-        case succeeded
-        case suspended
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [JobTargetTaskRunStatus] {
-            return [
-                .canceled,
-                .failed,
-                .pending,
-                .ready,
-                .succeeded,
-                .suspended
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .canceled: return "CANCELED"
-            case .failed: return "FAILED"
-            case .pending: return "PENDING"
-            case .ready: return "READY"
-            case .succeeded: return "SUCCEEDED"
-            case .suspended: return "SUSPENDED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum TaskRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case assigned
-        case canceled
-        case failed
-        case interrupting
-        case notCompatible
-        case pending
-        case ready
-        case running
-        case scheduled
-        case starting
-        case succeeded
-        case suspended
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TaskRunStatus] {
-            return [
-                .assigned,
-                .canceled,
-                .failed,
-                .interrupting,
-                .notCompatible,
-                .pending,
-                .ready,
-                .running,
-                .scheduled,
-                .starting,
-                .succeeded,
-                .suspended
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .assigned: return "ASSIGNED"
-            case .canceled: return "CANCELED"
-            case .failed: return "FAILED"
-            case .interrupting: return "INTERRUPTING"
-            case .notCompatible: return "NOT_COMPATIBLE"
-            case .pending: return "PENDING"
-            case .ready: return "READY"
-            case .running: return "RUNNING"
-            case .scheduled: return "SCHEDULED"
-            case .starting: return "STARTING"
-            case .succeeded: return "SUCCEEDED"
-            case .suspended: return "SUSPENDED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
 /// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct GetJobOutput: Swift.Sendable {
     /// The attachments for the job.
@@ -7093,174 +9322,6 @@ public struct GetSessionActionInput: Swift.Sendable {
     }
 }
 
-extension DeadlineClientTypes {
-
-    /// The environment ID to use to enter a session action.
-    public struct EnvironmentEnterSessionActionDefinition: Swift.Sendable {
-        /// The environment ID.
-        /// This member is required.
-        public var environmentId: Swift.String?
-
-        public init(
-            environmentId: Swift.String? = nil
-        ) {
-            self.environmentId = environmentId
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// Defines the environment a session action exits from.
-    public struct EnvironmentExitSessionActionDefinition: Swift.Sendable {
-        /// The environment ID.
-        /// This member is required.
-        public var environmentId: Swift.String?
-
-        public init(
-            environmentId: Swift.String? = nil
-        ) {
-            self.environmentId = environmentId
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The session action definition for syncing input job attachments.
-    public struct SyncInputJobAttachmentsSessionActionDefinition: Swift.Sendable {
-        /// The step ID for the sync input job attachments session action.
-        public var stepId: Swift.String?
-
-        public init(
-            stepId: Swift.String? = nil
-        ) {
-            self.stepId = stepId
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The task, step, and parameters for the task run in the session action.
-    public struct TaskRunSessionActionDefinition: Swift.Sendable {
-        /// The task parameters.
-        /// This member is required.
-        public var parameters: [Swift.String: DeadlineClientTypes.TaskParameterValue]?
-        /// The step ID.
-        /// This member is required.
-        public var stepId: Swift.String?
-        /// The task ID.
-        public var taskId: Swift.String?
-
-        public init(
-            parameters: [Swift.String: DeadlineClientTypes.TaskParameterValue]? = nil,
-            stepId: Swift.String? = nil,
-            taskId: Swift.String? = nil
-        ) {
-            self.parameters = parameters
-            self.stepId = stepId
-            self.taskId = taskId
-        }
-    }
-}
-
-extension DeadlineClientTypes.TaskRunSessionActionDefinition: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "TaskRunSessionActionDefinition(stepId: \(Swift.String(describing: stepId)), taskId: \(Swift.String(describing: taskId)), parameters: \"CONTENT_REDACTED\")"}
-}
-
-extension DeadlineClientTypes {
-
-    /// The definition of the session action.
-    public enum SessionActionDefinition: Swift.Sendable {
-        /// The environment to enter into.
-        case enventer(DeadlineClientTypes.EnvironmentEnterSessionActionDefinition)
-        /// The environment to exit from.
-        case envexit(DeadlineClientTypes.EnvironmentExitSessionActionDefinition)
-        /// The task run in the session.
-        case taskrun(DeadlineClientTypes.TaskRunSessionActionDefinition)
-        /// The session action definition for syncing input job attachments.
-        case syncinputjobattachments(DeadlineClientTypes.SyncInputJobAttachmentsSessionActionDefinition)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The manifest properties for a task run, corresponding to the manifest properties in the job.
-    public struct TaskRunManifestPropertiesResponse: Swift.Sendable {
-        /// The hash value of the file.
-        public var outputManifestHash: Swift.String?
-        /// The manifest file path.
-        public var outputManifestPath: Swift.String?
-
-        public init(
-            outputManifestHash: Swift.String? = nil,
-            outputManifestPath: Swift.String? = nil
-        ) {
-            self.outputManifestHash = outputManifestHash
-            self.outputManifestPath = outputManifestPath
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum SessionActionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case assigned
-        case canceled
-        case canceling
-        case failed
-        case interrupted
-        case neverAttempted
-        case reclaimed
-        case reclaiming
-        case running
-        case scheduled
-        case succeeded
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SessionActionStatus] {
-            return [
-                .assigned,
-                .canceled,
-                .canceling,
-                .failed,
-                .interrupted,
-                .neverAttempted,
-                .reclaimed,
-                .reclaiming,
-                .running,
-                .scheduled,
-                .succeeded
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .assigned: return "ASSIGNED"
-            case .canceled: return "CANCELED"
-            case .canceling: return "CANCELING"
-            case .failed: return "FAILED"
-            case .interrupted: return "INTERRUPTED"
-            case .neverAttempted: return "NEVER_ATTEMPTED"
-            case .reclaimed: return "RECLAIMED"
-            case .reclaiming: return "RECLAIMING"
-            case .running: return "RUNNING"
-            case .scheduled: return "SCHEDULED"
-            case .succeeded: return "SUCCEEDED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
 public struct GetSessionActionOutput: Swift.Sendable {
     /// The limits and their amounts acquired during a session action. If no limits were acquired during the session, this field isn't returned.
     public var acquiredLimits: [DeadlineClientTypes.AcquiredLimit]?
@@ -7349,323 +9410,6 @@ public struct GetStepInput: Swift.Sendable {
         self.jobId = jobId
         self.queueId = queueId
         self.stepId = stepId
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The number of dependencies for the consumer.
-    public struct DependencyCounts: Swift.Sendable {
-        /// The number of consumers resolved.
-        /// This member is required.
-        public var consumersResolved: Swift.Int?
-        /// The number of unresolved consumers.
-        /// This member is required.
-        public var consumersUnresolved: Swift.Int?
-        /// The number of resolved dependencies.
-        /// This member is required.
-        public var dependenciesResolved: Swift.Int?
-        /// The number of unresolved dependencies.
-        /// This member is required.
-        public var dependenciesUnresolved: Swift.Int?
-
-        public init(
-            consumersResolved: Swift.Int? = nil,
-            consumersUnresolved: Swift.Int? = nil,
-            dependenciesResolved: Swift.Int? = nil,
-            dependenciesUnresolved: Swift.Int? = nil
-        ) {
-            self.consumersResolved = consumersResolved
-            self.consumersUnresolved = consumersUnresolved
-            self.dependenciesResolved = dependenciesResolved
-            self.dependenciesUnresolved = dependenciesUnresolved
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum StepLifecycleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case createComplete
-        case updateFailed
-        case updateInProgress
-        case updateSucceeded
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [StepLifecycleStatus] {
-            return [
-                .createComplete,
-                .updateFailed,
-                .updateInProgress,
-                .updateSucceeded
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .createComplete: return "CREATE_COMPLETE"
-            case .updateFailed: return "UPDATE_FAILED"
-            case .updateInProgress: return "UPDATE_IN_PROGRESS"
-            case .updateSucceeded: return "UPDATE_SUCCEEDED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum RangeConstraint: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case contiguous
-        case noncontiguous
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [RangeConstraint] {
-            return [
-                .contiguous,
-                .noncontiguous
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .contiguous: return "CONTIGUOUS"
-            case .noncontiguous: return "NONCONTIGUOUS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// Defines how a step parameter range should be divided into chunks.
-    public struct StepParameterChunks: Swift.Sendable {
-        /// The number of tasks to combine into a single chunk by default.
-        /// This member is required.
-        public var defaultTaskCount: Swift.Int?
-        /// Specifies whether the chunked ranges must be contiguous or can have gaps between them.
-        /// This member is required.
-        public var rangeConstraint: DeadlineClientTypes.RangeConstraint?
-        /// The number of seconds to aim for when forming chunks.
-        public var targetRuntimeSeconds: Swift.Int?
-
-        public init(
-            defaultTaskCount: Swift.Int? = nil,
-            rangeConstraint: DeadlineClientTypes.RangeConstraint? = nil,
-            targetRuntimeSeconds: Swift.Int? = nil
-        ) {
-            self.defaultTaskCount = defaultTaskCount
-            self.rangeConstraint = rangeConstraint
-            self.targetRuntimeSeconds = targetRuntimeSeconds
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum StepParameterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case chunkInt
-        case float
-        case int
-        case path
-        case string
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [StepParameterType] {
-            return [
-                .chunkInt,
-                .float,
-                .int,
-                .path,
-                .string
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .chunkInt: return "CHUNK_INT"
-            case .float: return "FLOAT"
-            case .int: return "INT"
-            case .path: return "PATH"
-            case .string: return "STRING"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The details of a step parameter.
-    public struct StepParameter: Swift.Sendable {
-        /// The configuration for task chunking.
-        public var chunks: DeadlineClientTypes.StepParameterChunks?
-        /// The name of the parameter.
-        /// This member is required.
-        public var name: Swift.String?
-        /// The data type of the parameter.
-        /// This member is required.
-        public var type: DeadlineClientTypes.StepParameterType?
-
-        public init(
-            chunks: DeadlineClientTypes.StepParameterChunks? = nil,
-            name: Swift.String? = nil,
-            type: DeadlineClientTypes.StepParameterType? = nil
-        ) {
-            self.chunks = chunks
-            self.name = name
-            self.type = type
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The details of a search for two or more step parameters.
-    public struct ParameterSpace: Swift.Sendable {
-        /// The combination expression to use in the search.
-        public var combination: Swift.String?
-        /// The parameters to search for.
-        /// This member is required.
-        public var parameters: [DeadlineClientTypes.StepParameter]?
-
-        public init(
-            combination: Swift.String? = nil,
-            parameters: [DeadlineClientTypes.StepParameter]? = nil
-        ) {
-            self.combination = combination
-            self.parameters = parameters
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The details outlining the minimum and maximum capability of a step.
-    public struct StepAmountCapability: Swift.Sendable {
-        /// The maximum amount.
-        public var max: Swift.Double?
-        /// The minimum amount.
-        public var min: Swift.Double?
-        /// The name of the step.
-        /// This member is required.
-        public var name: Swift.String?
-        /// The amount value.
-        public var value: Swift.Double?
-
-        public init(
-            max: Swift.Double? = nil,
-            min: Swift.Double? = nil,
-            name: Swift.String? = nil,
-            value: Swift.Double? = nil
-        ) {
-            self.max = max
-            self.min = min
-            self.name = name
-            self.value = value
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The list of step attributes.
-    public struct StepAttributeCapability: Swift.Sendable {
-        /// Requires all of the step attribute values.
-        public var allOf: [Swift.String]?
-        /// Requires any of the step attributes in a given list.
-        public var anyOf: [Swift.String]?
-        /// The name of the step attribute.
-        /// This member is required.
-        public var name: Swift.String?
-
-        public init(
-            allOf: [Swift.String]? = nil,
-            anyOf: [Swift.String]? = nil,
-            name: Swift.String? = nil
-        ) {
-            self.allOf = allOf
-            self.anyOf = anyOf
-            self.name = name
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The details of required step capabilities.
-    public struct StepRequiredCapabilities: Swift.Sendable {
-        /// The capability amounts that the step requires.
-        /// This member is required.
-        public var amounts: [DeadlineClientTypes.StepAmountCapability]?
-        /// The capability attributes that the step requires.
-        /// This member is required.
-        public var attributes: [DeadlineClientTypes.StepAttributeCapability]?
-
-        public init(
-            amounts: [DeadlineClientTypes.StepAmountCapability]? = nil,
-            attributes: [DeadlineClientTypes.StepAttributeCapability]? = nil
-        ) {
-            self.amounts = amounts
-            self.attributes = attributes
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum StepTargetTaskRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case canceled
-        case failed
-        case pending
-        case ready
-        case succeeded
-        case suspended
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [StepTargetTaskRunStatus] {
-            return [
-                .canceled,
-                .failed,
-                .pending,
-                .ready,
-                .succeeded,
-                .suspended
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .canceled: return "CANCELED"
-            case .failed: return "FAILED"
-            case .pending: return "PENDING"
-            case .ready: return "READY"
-            case .succeeded: return "SUCCEEDED"
-            case .suspended: return "SUSPENDED"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -7789,47 +9533,6 @@ public struct GetTaskInput: Swift.Sendable {
         self.queueId = queueId
         self.stepId = stepId
         self.taskId = taskId
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum TaskTargetRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case canceled
-        case failed
-        case pending
-        case ready
-        case succeeded
-        case suspended
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TaskTargetRunStatus] {
-            return [
-                .canceled,
-                .failed,
-                .pending,
-                .ready,
-                .succeeded,
-                .suspended
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .canceled: return "CANCELED"
-            case .failed: return "FAILED"
-            case .pending: return "PENDING"
-            case .ready: return "READY"
-            case .succeeded: return "SUCCEEDED"
-            case .suspended: return "SUSPENDED"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -8933,32 +10636,6 @@ public struct ListTasksOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.tasks = tasks
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum UpdateJobLifecycleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case archived
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [UpdateJobLifecycleStatus] {
-            return [
-                .archived
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .archived: return "ARCHIVED"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -10686,6 +12363,8 @@ public struct GetMonitorOutput: Swift.Sendable {
     /// The Amazon Resource Name of the IAM Identity Center instance responsible for authenticating monitor users.
     /// This member is required.
     public var identityCenterInstanceArn: Swift.String?
+    /// The AWS region where IAM Identity Center is enabled.
+    public var identityCenterRegion: Swift.String?
     /// The unique identifier for the monitor.
     /// This member is required.
     public var monitorId: Swift.String?
@@ -10709,6 +12388,7 @@ public struct GetMonitorOutput: Swift.Sendable {
         displayName: Swift.String? = nil,
         identityCenterApplicationArn: Swift.String? = nil,
         identityCenterInstanceArn: Swift.String? = nil,
+        identityCenterRegion: Swift.String? = nil,
         monitorId: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         subdomain: Swift.String? = nil,
@@ -10721,6 +12401,7 @@ public struct GetMonitorOutput: Swift.Sendable {
         self.displayName = displayName
         self.identityCenterApplicationArn = identityCenterApplicationArn
         self.identityCenterInstanceArn = identityCenterInstanceArn
+        self.identityCenterRegion = identityCenterRegion
         self.monitorId = monitorId
         self.roleArn = roleArn
         self.subdomain = subdomain
@@ -10765,6 +12446,8 @@ extension DeadlineClientTypes {
         /// The Amazon Resource Name of the IAM Identity Center instance responsible for authenticating monitor users.
         /// This member is required.
         public var identityCenterInstanceArn: Swift.String?
+        /// The AWS region where IAM Identity Center is enabled.
+        public var identityCenterRegion: Swift.String?
         /// The unique identifier for the monitor.
         /// This member is required.
         public var monitorId: Swift.String?
@@ -10788,6 +12471,7 @@ extension DeadlineClientTypes {
             displayName: Swift.String? = nil,
             identityCenterApplicationArn: Swift.String? = nil,
             identityCenterInstanceArn: Swift.String? = nil,
+            identityCenterRegion: Swift.String? = nil,
             monitorId: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             subdomain: Swift.String? = nil,
@@ -10800,6 +12484,7 @@ extension DeadlineClientTypes {
             self.displayName = displayName
             self.identityCenterApplicationArn = identityCenterApplicationArn
             self.identityCenterInstanceArn = identityCenterInstanceArn
+            self.identityCenterRegion = identityCenterRegion
             self.monitorId = monitorId
             self.roleArn = roleArn
             self.subdomain = subdomain
@@ -12228,6 +13913,13 @@ extension AssumeQueueRoleForWorkerInput {
     }
 }
 
+extension BatchGetJobInput {
+
+    static func urlPathProvider(_ value: BatchGetJobInput) -> Swift.String? {
+        return "/2023-10-12/batch-get-job"
+    }
+}
+
 extension BatchGetJobEntityInput {
 
     static func urlPathProvider(_ value: BatchGetJobEntityInput) -> Swift.String? {
@@ -12241,6 +13933,77 @@ extension BatchGetJobEntityInput {
             return nil
         }
         return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/fleets/\(fleetId.urlPercentEncoding())/workers/\(workerId.urlPercentEncoding())/batchGetJobEntity"
+    }
+}
+
+extension BatchGetSessionInput {
+
+    static func urlPathProvider(_ value: BatchGetSessionInput) -> Swift.String? {
+        return "/2023-10-12/batch-get-session"
+    }
+}
+
+extension BatchGetSessionActionInput {
+
+    static func urlPathProvider(_ value: BatchGetSessionActionInput) -> Swift.String? {
+        return "/2023-10-12/batch-get-session-action"
+    }
+}
+
+extension BatchGetStepInput {
+
+    static func urlPathProvider(_ value: BatchGetStepInput) -> Swift.String? {
+        return "/2023-10-12/batch-get-step"
+    }
+}
+
+extension BatchGetTaskInput {
+
+    static func urlPathProvider(_ value: BatchGetTaskInput) -> Swift.String? {
+        return "/2023-10-12/batch-get-task"
+    }
+}
+
+extension BatchGetWorkerInput {
+
+    static func urlPathProvider(_ value: BatchGetWorkerInput) -> Swift.String? {
+        return "/2023-10-12/batch-get-worker"
+    }
+}
+
+extension BatchUpdateJobInput {
+
+    static func urlPathProvider(_ value: BatchUpdateJobInput) -> Swift.String? {
+        return "/2023-10-12/batch-update-job"
+    }
+}
+
+extension BatchUpdateJobInput {
+
+    static func headerProvider(_ value: BatchUpdateJobInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let clientToken = value.clientToken {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
+        }
+        return items
+    }
+}
+
+extension BatchUpdateTaskInput {
+
+    static func urlPathProvider(_ value: BatchUpdateTaskInput) -> Swift.String? {
+        return "/2023-10-12/batch-update-task"
+    }
+}
+
+extension BatchUpdateTaskInput {
+
+    static func headerProvider(_ value: BatchUpdateTaskInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let clientToken = value.clientToken {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
+        }
+        return items
     }
 }
 
@@ -14402,11 +16165,75 @@ extension AssociateMemberToQueueInput {
     }
 }
 
+extension BatchGetJobInput {
+
+    static func write(value: BatchGetJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifiers"].writeList(value.identifiers, memberWritingClosure: DeadlineClientTypes.BatchGetJobIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension BatchGetJobEntityInput {
 
     static func write(value: BatchGetJobEntityInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["identifiers"].writeList(value.identifiers, memberWritingClosure: DeadlineClientTypes.JobEntityIdentifiersUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchGetSessionInput {
+
+    static func write(value: BatchGetSessionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifiers"].writeList(value.identifiers, memberWritingClosure: DeadlineClientTypes.BatchGetSessionIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchGetSessionActionInput {
+
+    static func write(value: BatchGetSessionActionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifiers"].writeList(value.identifiers, memberWritingClosure: DeadlineClientTypes.BatchGetSessionActionIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchGetStepInput {
+
+    static func write(value: BatchGetStepInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifiers"].writeList(value.identifiers, memberWritingClosure: DeadlineClientTypes.BatchGetStepIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchGetTaskInput {
+
+    static func write(value: BatchGetTaskInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifiers"].writeList(value.identifiers, memberWritingClosure: DeadlineClientTypes.BatchGetTaskIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchGetWorkerInput {
+
+    static func write(value: BatchGetWorkerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifiers"].writeList(value.identifiers, memberWritingClosure: DeadlineClientTypes.BatchGetWorkerIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchUpdateJobInput {
+
+    static func write(value: BatchUpdateJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jobs"].writeList(value.jobs, memberWritingClosure: DeadlineClientTypes.BatchUpdateJobItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchUpdateTaskInput {
+
+    static func write(value: BatchUpdateTaskInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tasks"].writeList(value.tasks, memberWritingClosure: DeadlineClientTypes.BatchUpdateTaskItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -14508,6 +16335,7 @@ extension CreateMonitorInput {
         guard let value else { return }
         try writer["displayName"].write(value.displayName)
         try writer["identityCenterInstanceArn"].write(value.identityCenterInstanceArn)
+        try writer["identityCenterRegion"].write(value.identityCenterRegion)
         try writer["roleArn"].write(value.roleArn)
         try writer["subdomain"].write(value.subdomain)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -14908,6 +16736,19 @@ extension AssumeQueueRoleForWorkerOutput {
     }
 }
 
+extension BatchGetJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetJobOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetJobError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.jobs = try reader["jobs"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetJobItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension BatchGetJobEntityOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetJobEntityOutput {
@@ -14917,6 +16758,95 @@ extension BatchGetJobEntityOutput {
         var value = BatchGetJobEntityOutput()
         value.entities = try reader["entities"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.JobEntity.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.GetJobEntityError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchGetSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetSessionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetSessionOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetSessionError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sessions = try reader["sessions"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetSessionItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchGetSessionActionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetSessionActionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetSessionActionOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetSessionActionError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sessionActions = try reader["sessionActions"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetSessionActionItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchGetStepOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetStepOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetStepOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetStepError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.steps = try reader["steps"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetStepItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchGetTaskOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetTaskOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetTaskOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetTaskError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tasks = try reader["tasks"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetTaskItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchGetWorkerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetWorkerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetWorkerOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetWorkerError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.workers = try reader["workers"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetWorkerItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchUpdateJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchUpdateJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchUpdateJobOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchUpdateJobError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchUpdateTaskOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchUpdateTaskOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchUpdateTaskOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchUpdateTaskError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -15360,6 +17290,7 @@ extension GetMonitorOutput {
         value.displayName = try reader["displayName"].readIfPresent() ?? ""
         value.identityCenterApplicationArn = try reader["identityCenterApplicationArn"].readIfPresent() ?? ""
         value.identityCenterInstanceArn = try reader["identityCenterInstanceArn"].readIfPresent() ?? ""
+        value.identityCenterRegion = try reader["identityCenterRegion"].readIfPresent()
         value.monitorId = try reader["monitorId"].readIfPresent() ?? ""
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.subdomain = try reader["subdomain"].readIfPresent() ?? ""
@@ -16381,6 +18312,23 @@ enum AssumeQueueRoleForWorkerOutputError {
     }
 }
 
+enum BatchGetJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum BatchGetJobEntityOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16392,6 +18340,125 @@ enum BatchGetJobEntityOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetSessionActionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetStepOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetTaskOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetWorkerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchUpdateJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchUpdateTaskOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -18584,6 +20651,377 @@ extension DeadlineClientTypes.AwsCredentials {
     }
 }
 
+extension DeadlineClientTypes.BatchGetJobError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetJobError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetJobError()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetJobIdentifier {
+
+    static func write(value: DeadlineClientTypes.BatchGetJobIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["farmId"].write(value.farmId)
+        try writer["jobId"].write(value.jobId)
+        try writer["queueId"].write(value.queueId)
+    }
+}
+
+extension DeadlineClientTypes.BatchGetJobItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetJobItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetJobItem()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.lifecycleStatus = try reader["lifecycleStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.lifecycleStatusMessage = try reader["lifecycleStatusMessage"].readIfPresent() ?? ""
+        value.priority = try reader["priority"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.taskRunStatus = try reader["taskRunStatus"].readIfPresent()
+        value.targetTaskRunStatus = try reader["targetTaskRunStatus"].readIfPresent()
+        value.taskRunStatusCounts = try reader["taskRunStatusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.taskFailureRetryCount = try reader["taskFailureRetryCount"].readIfPresent()
+        value.storageProfileId = try reader["storageProfileId"].readIfPresent()
+        value.maxFailedTasksCount = try reader["maxFailedTasksCount"].readIfPresent()
+        value.maxRetriesPerTask = try reader["maxRetriesPerTask"].readIfPresent()
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.JobParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.attachments = try reader["attachments"].readIfPresent(with: DeadlineClientTypes.Attachments.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.maxWorkerCount = try reader["maxWorkerCount"].readIfPresent()
+        value.sourceJobId = try reader["sourceJobId"].readIfPresent()
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetSessionActionError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetSessionActionError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetSessionActionError()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.sessionActionId = try reader["sessionActionId"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetSessionActionIdentifier {
+
+    static func write(value: DeadlineClientTypes.BatchGetSessionActionIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["farmId"].write(value.farmId)
+        try writer["jobId"].write(value.jobId)
+        try writer["queueId"].write(value.queueId)
+        try writer["sessionActionId"].write(value.sessionActionId)
+    }
+}
+
+extension DeadlineClientTypes.BatchGetSessionActionItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetSessionActionItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetSessionActionItem()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.sessionActionId = try reader["sessionActionId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.workerUpdatedAt = try reader["workerUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.progressPercent = try reader["progressPercent"].readIfPresent()
+        value.manifests = try reader["manifests"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.TaskRunManifestPropertiesResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.processExitCode = try reader["processExitCode"].readIfPresent()
+        value.progressMessage = try reader["progressMessage"].readIfPresent()
+        value.acquiredLimits = try reader["acquiredLimits"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.AcquiredLimit.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.definition = try reader["definition"].readIfPresent(with: DeadlineClientTypes.SessionActionDefinition.read(from:))
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetSessionError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetSessionError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetSessionError()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetSessionIdentifier {
+
+    static func write(value: DeadlineClientTypes.BatchGetSessionIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["farmId"].write(value.farmId)
+        try writer["jobId"].write(value.jobId)
+        try writer["queueId"].write(value.queueId)
+        try writer["sessionId"].write(value.sessionId)
+    }
+}
+
+extension DeadlineClientTypes.BatchGetSessionItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetSessionItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetSessionItem()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.fleetId = try reader["fleetId"].readIfPresent() ?? ""
+        value.workerId = try reader["workerId"].readIfPresent() ?? ""
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lifecycleStatus = try reader["lifecycleStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.targetLifecycleStatus = try reader["targetLifecycleStatus"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.log = try reader["log"].readIfPresent(with: DeadlineClientTypes.LogConfiguration.read(from:))
+        value.hostProperties = try reader["hostProperties"].readIfPresent(with: DeadlineClientTypes.HostPropertiesResponse.read(from:))
+        value.workerLog = try reader["workerLog"].readIfPresent(with: DeadlineClientTypes.LogConfiguration.read(from:))
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetStepError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetStepError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetStepError()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.stepId = try reader["stepId"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetStepIdentifier {
+
+    static func write(value: DeadlineClientTypes.BatchGetStepIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["farmId"].write(value.farmId)
+        try writer["jobId"].write(value.jobId)
+        try writer["queueId"].write(value.queueId)
+        try writer["stepId"].write(value.stepId)
+    }
+}
+
+extension DeadlineClientTypes.BatchGetStepItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetStepItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetStepItem()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.stepId = try reader["stepId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.lifecycleStatus = try reader["lifecycleStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.lifecycleStatusMessage = try reader["lifecycleStatusMessage"].readIfPresent()
+        value.taskRunStatus = try reader["taskRunStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.taskRunStatusCounts = try reader["taskRunStatusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.taskFailureRetryCount = try reader["taskFailureRetryCount"].readIfPresent()
+        value.targetTaskRunStatus = try reader["targetTaskRunStatus"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dependencyCounts = try reader["dependencyCounts"].readIfPresent(with: DeadlineClientTypes.DependencyCounts.read(from:))
+        value.requiredCapabilities = try reader["requiredCapabilities"].readIfPresent(with: DeadlineClientTypes.StepRequiredCapabilities.read(from:))
+        value.parameterSpace = try reader["parameterSpace"].readIfPresent(with: DeadlineClientTypes.ParameterSpace.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetTaskError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetTaskError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetTaskError()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.stepId = try reader["stepId"].readIfPresent() ?? ""
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetTaskIdentifier {
+
+    static func write(value: DeadlineClientTypes.BatchGetTaskIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["farmId"].write(value.farmId)
+        try writer["jobId"].write(value.jobId)
+        try writer["queueId"].write(value.queueId)
+        try writer["stepId"].write(value.stepId)
+        try writer["taskId"].write(value.taskId)
+    }
+}
+
+extension DeadlineClientTypes.BatchGetTaskItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetTaskItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetTaskItem()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.stepId = try reader["stepId"].readIfPresent() ?? ""
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.runStatus = try reader["runStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.targetRunStatus = try reader["targetRunStatus"].readIfPresent()
+        value.failureRetryCount = try reader["failureRetryCount"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.latestSessionActionId = try reader["latestSessionActionId"].readIfPresent()
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.TaskParameterValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetWorkerError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetWorkerError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetWorkerError()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.fleetId = try reader["fleetId"].readIfPresent() ?? ""
+        value.workerId = try reader["workerId"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetWorkerIdentifier {
+
+    static func write(value: DeadlineClientTypes.BatchGetWorkerIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["farmId"].write(value.farmId)
+        try writer["fleetId"].write(value.fleetId)
+        try writer["workerId"].write(value.workerId)
+    }
+}
+
+extension DeadlineClientTypes.BatchGetWorkerItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetWorkerItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetWorkerItem()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.fleetId = try reader["fleetId"].readIfPresent() ?? ""
+        value.workerId = try reader["workerId"].readIfPresent() ?? ""
+        value.hostProperties = try reader["hostProperties"].readIfPresent(with: DeadlineClientTypes.HostPropertiesResponse.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.log = try reader["log"].readIfPresent(with: DeadlineClientTypes.LogConfiguration.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchUpdateJobError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchUpdateJobError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchUpdateJobError()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchUpdateJobItem {
+
+    static func write(value: DeadlineClientTypes.BatchUpdateJobItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["farmId"].write(value.farmId)
+        try writer["jobId"].write(value.jobId)
+        try writer["lifecycleStatus"].write(value.lifecycleStatus)
+        try writer["maxFailedTasksCount"].write(value.maxFailedTasksCount)
+        try writer["maxRetriesPerTask"].write(value.maxRetriesPerTask)
+        try writer["maxWorkerCount"].write(value.maxWorkerCount)
+        try writer["name"].write(value.name)
+        try writer["priority"].write(value.priority)
+        try writer["queueId"].write(value.queueId)
+        try writer["targetTaskRunStatus"].write(value.targetTaskRunStatus)
+    }
+}
+
+extension DeadlineClientTypes.BatchUpdateTaskError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchUpdateTaskError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchUpdateTaskError()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.stepId = try reader["stepId"].readIfPresent() ?? ""
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchUpdateTaskItem {
+
+    static func write(value: DeadlineClientTypes.BatchUpdateTaskItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["farmId"].write(value.farmId)
+        try writer["jobId"].write(value.jobId)
+        try writer["queueId"].write(value.queueId)
+        try writer["stepId"].write(value.stepId)
+        try writer["targetRunStatus"].write(value.targetRunStatus)
+        try writer["taskId"].write(value.taskId)
+    }
+}
+
 extension DeadlineClientTypes.BudgetActionToAdd {
 
     static func write(value: DeadlineClientTypes.BudgetActionToAdd?, to writer: SmithyJSON.Writer) throws {
@@ -19476,6 +21914,7 @@ extension DeadlineClientTypes.MonitorSummary {
         value.url = try reader["url"].readIfPresent() ?? ""
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.identityCenterInstanceArn = try reader["identityCenterInstanceArn"].readIfPresent() ?? ""
+        value.identityCenterRegion = try reader["identityCenterRegion"].readIfPresent()
         value.identityCenterApplicationArn = try reader["identityCenterApplicationArn"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
