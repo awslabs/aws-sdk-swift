@@ -6,6 +6,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
 
