@@ -21938,6 +21938,75 @@ extension SageMakerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartClusterHealthCheck` operation on the `SageMaker` service.
+    ///
+    /// Start deep health checks for a SageMaker HyperPod cluster. You can use [DescribeClusterNode](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeClusterNode.html) API to track progress of the deep health checks. The unhealthy nodes will be automatically rebooted or replaced. Please see [ Resilience-related Kubernetes labels by SageMaker HyperPod](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-eks-resiliency-node-labels.html) for details.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartClusterHealthCheckInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartClusterHealthCheckOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFound` : Resource being access is not found.
+    public func startClusterHealthCheck(input: StartClusterHealthCheckInput) async throws -> StartClusterHealthCheckOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startClusterHealthCheck")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartClusterHealthCheckInput, StartClusterHealthCheckOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartClusterHealthCheckInput, StartClusterHealthCheckOutput>(StartClusterHealthCheckInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartClusterHealthCheckInput, StartClusterHealthCheckOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartClusterHealthCheckInput, StartClusterHealthCheckOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartClusterHealthCheckOutput>(StartClusterHealthCheckOutput.httpOutput(from:), StartClusterHealthCheckOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartClusterHealthCheckInput, StartClusterHealthCheckOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartClusterHealthCheckOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SageMaker", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartClusterHealthCheckOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartClusterHealthCheckInput, StartClusterHealthCheckOutput>(overrides: ["X-Amz-Target": "SageMaker.StartClusterHealthCheck"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartClusterHealthCheckInput, StartClusterHealthCheckOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartClusterHealthCheckInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartClusterHealthCheckInput, StartClusterHealthCheckOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartClusterHealthCheckOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartClusterHealthCheckInput, StartClusterHealthCheckOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartClusterHealthCheckInput, StartClusterHealthCheckOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartClusterHealthCheckInput, StartClusterHealthCheckOutput>(serviceID: serviceName, version: SageMakerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartClusterHealthCheck")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartEdgeDeploymentStage` operation on the `SageMaker` service.
     ///
     /// Starts a stage in an edge deployment plan.
