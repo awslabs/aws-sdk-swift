@@ -8,6 +8,9 @@ on:
   workflow_dispatch:
   pull_request:
 
+permissions:
+  contents: read
+
 env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
   AWS_SWIFT_SDK_ENABLE_SERVICE_TESTS: 1
