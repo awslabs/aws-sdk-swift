@@ -1595,7 +1595,7 @@ extension SecurityHubClientTypes {
         /// * ResourceType NOT_EQUALS AwsEc2NetworkInterface
         ///
         ///
-        /// CONTAINS and NOT_CONTAINS operators can be used only with automation rules V1. CONTAINS_WORD operator is only supported in GetFindingsV2, GetFindingStatisticsV2, GetResourcesV2, and GetResourceStatisticsV2 APIs. For more information, see [Automation rules](https://docs.aws.amazon.com/securityhub/latest/userguide/automation-rules.html) in the Security Hub CSPM User Guide.
+        /// CONTAINS and NOT_CONTAINS operators can be used only with automation rules V1. CONTAINS_WORD operator is only supported in GetFindingsV2, GetFindingStatisticsV2, GetResourcesV2, and GetResourcesStatisticsV2 APIs. For more information, see [Automation rules](https://docs.aws.amazon.com/securityhub/latest/userguide/automation-rules.html) in the Security Hub CSPM User Guide.
         public var comparison: SecurityHubClientTypes.StringFilterComparison?
         /// The string filter value. Filter values are case sensitive. For example, the product name for control-based findings is Security Hub CSPM. If you provide security hub as the filter value, there's no match.
         public var value: Swift.String?
@@ -13857,6 +13857,25 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    /// Specifies an Organizations scope. Data from the specified organization or organizational unit is included in the response. To scope to a specific organizational unit, provide OrganizationalUnitId. You can optionally include OrganizationId. If you omit OrganizationId, Security Hub uses the caller's organization ID. To scope to the delegated administrator's entire organization, provide only OrganizationId. The organization ID and organizational unit must belong to the delegated administrator's own organization. Each request must use one scoping approach: either scope to the entire organization by providing an AwsOrganizationScope entry with only OrganizationId, or scope to specific organizational units by providing AwsOrganizationScope entries with OrganizationalUnitId. You can't combine both approaches in the same request.
+    public struct AwsOrganizationScope: Swift.Sendable {
+        /// The unique identifier (ID) of the organization (for example, o-abcd1234567890). The organization must be the delegated administrator's own organization. If you omit this value and provide OrganizationalUnitId, Security Hub uses the caller's organization ID.
+        public var organizationId: Swift.String?
+        /// The unique identifier (ID) of the organizational unit (OU) (for example, ou-ab12-cd345678). The OU must exist within the delegated administrator's own organization. When specified, the results include only data from accounts in this OU.
+        public var organizationalUnitId: Swift.String?
+
+        public init(
+            organizationId: Swift.String? = nil,
+            organizationalUnitId: Swift.String? = nil
+        ) {
+            self.organizationId = organizationId
+            self.organizationalUnitId = organizationalUnitId
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     /// An IAM role that is associated with the Amazon RDS DB cluster.
     public struct AwsRdsDbClusterAssociatedRole: Swift.Sendable {
         /// The ARN of the IAM role.
@@ -22554,9 +22573,9 @@ public struct BatchUpdateFindingsV2Input: Swift.Sendable {
     public var findingIdentifiers: [SecurityHubClientTypes.OcsfFindingIdentifier]?
     /// The list of finding metadata.uid to indicate findings to update. Finding metadata.uid is a globally unique identifier associated with the finding. Customers cannot use MetadataUids together with FindingIdentifiers.
     public var metadataUids: [Swift.String]?
-    /// The updated value for the normalized severity identifier. The severity ID is an integer with the allowed enum values [0, 1, 2, 3, 4, 5, 99]. When customer provides the updated severity ID, the string sibling severity will automatically be updated in the finding.
+    /// The updated value for the normalized severity identifier. The severity ID is an integer with the allowed enum values [0, 1, 2, 3, 4, 5, 6, 99]. When customer provides the updated severity ID, the string sibling severity will automatically be updated in the finding.
     public var severityId: Swift.Int?
-    /// The updated value for the normalized status identifier. The status ID is an integer with the allowed enum values [0, 1, 2, 3, 4, 5, 6, 99]. When customer provides the updated status ID, the string sibling status will automatically be updated in the finding.
+    /// The updated value for the normalized status identifier. The status ID is an integer with the allowed enum values [0, 1, 2, 3, 4, 5, 99]. When customer provides the updated status ID, the string sibling status will automatically be updated in the finding.
     public var statusId: Swift.Int?
 
     public init(
@@ -24953,7 +24972,7 @@ extension SecurityHubClientTypes {
         public var description: Swift.String?
         /// The type of integration.
         public var integrationV2Types: [SecurityHubClientTypes.IntegrationV2Type]?
-        /// The identifier for the AWS Marketplace product associated with this integration.
+        /// The identifier for the Amazon Web Services Marketplace product associated with this integration.
         public var marketplaceProductId: Swift.String?
         /// The console URL where you can purchase or subscribe to products.
         public var marketplaceUrl: Swift.String?
@@ -25525,6 +25544,21 @@ extension SecurityHubClientTypes {
             self.updateSource = updateSource
             self.updateTime = updateTime
             self.updates = updates
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Defines the data boundary for a findings query. Scopes determine which organizational units or organizations to retrieve data from.
+    public struct FindingScopes: Swift.Sendable {
+        /// A list of Organizations scopes to include in the query results. Each entry in the list specifies an organization or organizational unit to include for the delegated administrator's account. If the list specifies multiple entries, the entries are combined using OR logic.
+        public var awsOrganizations: [SecurityHubClientTypes.AwsOrganizationScope]?
+
+        public init(
+            awsOrganizations: [SecurityHubClientTypes.AwsOrganizationScope]? = nil
+        ) {
+            self.awsOrganizations = awsOrganizations
         }
     }
 }
@@ -26135,6 +26169,58 @@ public struct GetFindingsOutput: Swift.Sendable {
     ) {
         self.findings = findings
         self.nextToken = nextToken
+    }
+}
+
+/// The request failed because one or more organizational units specified in the request don't exist within the caller's organization.
+public struct OrganizationalUnitNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var code: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OrganizationalUnitNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.code = code
+        self.properties.message = message
+    }
+}
+
+/// The request failed because one or more organizations specified in the request don't exist or don't belong to the caller's organization.
+public struct OrganizationNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var code: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OrganizationNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.code = code
+        self.properties.message = message
     }
 }
 
@@ -26960,6 +27046,21 @@ extension SecurityHubClientTypes {
     }
 }
 
+extension SecurityHubClientTypes {
+
+    /// Defines the data boundary for a resources query. Scopes determine which organizational units or organizations to retrieve data from.
+    public struct ResourceScopes: Swift.Sendable {
+        /// A list of Organizations scopes to include in the query results. Each entry in the list specifies an organization or organizational unit to include for the delegated administrator's account. If the list specifies multiple entries, the entries are combined using OR logic.
+        public var awsOrganizations: [SecurityHubClientTypes.AwsOrganizationScope]?
+
+        public init(
+            awsOrganizations: [SecurityHubClientTypes.AwsOrganizationScope]? = nil
+        ) {
+            self.awsOrganizations = awsOrganizations
+        }
+    }
+}
+
 public struct GetResourcesStatisticsV2Output: Swift.Sendable {
     /// The aggregated statistics about resources based on the specified grouping rule.
     /// This member is required.
@@ -27308,7 +27409,7 @@ extension SecurityHubClientTypes {
 public struct GetResourcesV2Output: Swift.Sendable {
     /// The pagination token to use to request the next page of results. Otherwise, this parameter is null.
     public var nextToken: Swift.String?
-    /// Filters resources based on a set of criteria.
+    /// An array of resources returned by the operation.
     /// This member is required.
     public var resources: [SecurityHubClientTypes.ResourceResult]?
 
@@ -28835,6 +28936,8 @@ public struct GetFindingsV2Input: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
     public var nextToken: Swift.String?
+    /// Limits the results to findings from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees findings from all accounts across the entire organization. Other accounts see only their own findings. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
+    public var scopes: SecurityHubClientTypes.FindingScopes?
     /// The finding attributes used to sort the list of returned findings.
     public var sortCriteria: [SecurityHubClientTypes.SortCriterion]?
 
@@ -28842,11 +28945,13 @@ public struct GetFindingsV2Input: Swift.Sendable {
         filters: SecurityHubClientTypes.OcsfFindingFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        scopes: SecurityHubClientTypes.FindingScopes? = nil,
         sortCriteria: [SecurityHubClientTypes.SortCriterion]? = nil
     ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.scopes = scopes
         self.sortCriteria = sortCriteria
     }
 }
@@ -28887,18 +28992,22 @@ public struct GetResourcesV2Input: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
     public var nextToken: Swift.String?
-    /// The finding attributes used to sort the list of returned findings.
+    /// Limits the results to resources from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees resources from all accounts across the entire organization. Other accounts see only their own resources. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
+    public var scopes: SecurityHubClientTypes.ResourceScopes?
+    /// The resource attributes used to sort the list of returned resources.
     public var sortCriteria: [SecurityHubClientTypes.SortCriterion]?
 
     public init(
         filters: SecurityHubClientTypes.ResourcesFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        scopes: SecurityHubClientTypes.ResourceScopes? = nil,
         sortCriteria: [SecurityHubClientTypes.SortCriterion]? = nil
     ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.scopes = scopes
         self.sortCriteria = sortCriteria
     }
 }
@@ -29036,16 +29145,20 @@ public struct GetFindingStatisticsV2Input: Swift.Sendable {
     public var groupByRules: [SecurityHubClientTypes.GroupByRule]?
     /// The maximum number of results to be returned.
     public var maxStatisticResults: Swift.Int?
+    /// Limits the results to findings from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees statistics from all accounts across the entire organization. Other accounts see only statistics for their own findings. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
+    public var scopes: SecurityHubClientTypes.FindingScopes?
     /// Orders the aggregation count in descending or ascending order. Descending order is the default.
     public var sortOrder: SecurityHubClientTypes.SortOrder?
 
     public init(
         groupByRules: [SecurityHubClientTypes.GroupByRule]? = nil,
         maxStatisticResults: Swift.Int? = nil,
+        scopes: SecurityHubClientTypes.FindingScopes? = nil,
         sortOrder: SecurityHubClientTypes.SortOrder? = nil
     ) {
         self.groupByRules = groupByRules
         self.maxStatisticResults = maxStatisticResults
+        self.scopes = scopes
         self.sortOrder = sortOrder
     }
 }
@@ -29056,16 +29169,20 @@ public struct GetResourcesStatisticsV2Input: Swift.Sendable {
     public var groupByRules: [SecurityHubClientTypes.ResourceGroupByRule]?
     /// The maximum number of results to be returned.
     public var maxStatisticResults: Swift.Int?
+    /// Limits the results to resources from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees statistics from all accounts across the entire organization. Other accounts see only statistics for their own resources. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
+    public var scopes: SecurityHubClientTypes.ResourceScopes?
     /// Sorts aggregated statistics.
     public var sortOrder: SecurityHubClientTypes.SortOrder?
 
     public init(
         groupByRules: [SecurityHubClientTypes.ResourceGroupByRule]? = nil,
         maxStatisticResults: Swift.Int? = nil,
+        scopes: SecurityHubClientTypes.ResourceScopes? = nil,
         sortOrder: SecurityHubClientTypes.SortOrder? = nil
     ) {
         self.groupByRules = groupByRules
         self.maxStatisticResults = maxStatisticResults
+        self.scopes = scopes
         self.sortOrder = sortOrder
     }
 }
@@ -30595,6 +30712,7 @@ extension GetFindingStatisticsV2Input {
         guard let value else { return }
         try writer["GroupByRules"].writeList(value.groupByRules, memberWritingClosure: SecurityHubClientTypes.GroupByRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MaxStatisticResults"].write(value.maxStatisticResults)
+        try writer["Scopes"].write(value.scopes, with: SecurityHubClientTypes.FindingScopes.write(value:to:))
         try writer["SortOrder"].write(value.sortOrder)
     }
 }
@@ -30618,6 +30736,7 @@ extension GetFindingsV2Input {
         try writer["Filters"].write(value.filters, with: SecurityHubClientTypes.OcsfFindingFilters.write(value:to:))
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+        try writer["Scopes"].write(value.scopes, with: SecurityHubClientTypes.FindingScopes.write(value:to:))
         try writer["SortCriteria"].writeList(value.sortCriteria, memberWritingClosure: SecurityHubClientTypes.SortCriterion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -30646,6 +30765,7 @@ extension GetResourcesStatisticsV2Input {
         guard let value else { return }
         try writer["GroupByRules"].writeList(value.groupByRules, memberWritingClosure: SecurityHubClientTypes.ResourceGroupByRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MaxStatisticResults"].write(value.maxStatisticResults)
+        try writer["Scopes"].write(value.scopes, with: SecurityHubClientTypes.ResourceScopes.write(value:to:))
         try writer["SortOrder"].write(value.sortOrder)
     }
 }
@@ -30669,6 +30789,7 @@ extension GetResourcesV2Input {
         try writer["Filters"].write(value.filters, with: SecurityHubClientTypes.ResourcesFilters.write(value:to:))
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+        try writer["Scopes"].write(value.scopes, with: SecurityHubClientTypes.ResourceScopes.write(value:to:))
         try writer["SortCriteria"].writeList(value.sortCriteria, memberWritingClosure: SecurityHubClientTypes.SortCriterion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -33263,6 +33384,8 @@ enum GetFindingStatisticsV2OutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "OrganizationalUnitNotFoundException": return try OrganizationalUnitNotFoundException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -33298,6 +33421,8 @@ enum GetFindingsV2OutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "OrganizationalUnitNotFoundException": return try OrganizationalUnitNotFoundException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -33405,6 +33530,8 @@ enum GetResourcesStatisticsV2OutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "OrganizationalUnitNotFoundException": return try OrganizationalUnitNotFoundException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -33441,6 +33568,8 @@ enum GetResourcesV2OutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "OrganizationalUnitNotFoundException": return try OrganizationalUnitNotFoundException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -34204,6 +34333,34 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension OrganizationalUnitNotFoundException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> OrganizationalUnitNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = OrganizationalUnitNotFoundException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension OrganizationNotFoundException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> OrganizationNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = OrganizationNotFoundException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -42766,6 +42923,15 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainVpcOptionsDetails {
     }
 }
 
+extension SecurityHubClientTypes.AwsOrganizationScope {
+
+    static func write(value: SecurityHubClientTypes.AwsOrganizationScope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OrganizationId"].write(value.organizationId)
+        try writer["OrganizationalUnitId"].write(value.organizationalUnitId)
+    }
+}
+
 extension SecurityHubClientTypes.AwsRdsDbClusterAssociatedRole {
 
     static func write(value: SecurityHubClientTypes.AwsRdsDbClusterAssociatedRole?, to writer: SmithyJSON.Writer) throws {
@@ -46798,6 +46964,14 @@ extension SecurityHubClientTypes.FindingProviderSeverity {
     }
 }
 
+extension SecurityHubClientTypes.FindingScopes {
+
+    static func write(value: SecurityHubClientTypes.FindingScopes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AwsOrganizations"].writeList(value.awsOrganizations, memberWritingClosure: SecurityHubClientTypes.AwsOrganizationScope.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension SecurityHubClientTypes.FindingsTrendsCompositeFilter {
 
     static func write(value: SecurityHubClientTypes.FindingsTrendsCompositeFilter?, to writer: SmithyJSON.Writer) throws {
@@ -48456,6 +48630,14 @@ extension SecurityHubClientTypes.ResourcesCompositeFilter {
         try writer["NumberFilters"].writeList(value.numberFilters, memberWritingClosure: SecurityHubClientTypes.ResourcesNumberFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Operator"].write(value.`operator`)
         try writer["StringFilters"].writeList(value.stringFilters, memberWritingClosure: SecurityHubClientTypes.ResourcesStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SecurityHubClientTypes.ResourceScopes {
+
+    static func write(value: SecurityHubClientTypes.ResourceScopes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AwsOrganizations"].writeList(value.awsOrganizations, memberWritingClosure: SecurityHubClientTypes.AwsOrganizationScope.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

@@ -6,6 +6,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
 
@@ -62,7 +65,7 @@ jobs:
       - name: Checkout smithy-swift with composite action
         uses: ./aws-sdk-swift/.github/actions/checkout-smithy-swift-composite-action
         with:
-          AUTOMATION_USER_SSH_PRIVATE_KEY: ${{ secrets.AUTOMATION_USER_SSH_PRIVATE_KEY }}
+          STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY: ${{ secrets.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
           STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
       - name: Cache Gradle
         uses: actions/cache@v4
@@ -133,8 +136,10 @@ jobs:
           - ubuntu-24.04
           - ubuntu-24.04-arm
         swift:
-          - "5.9-jammy"
-          - "6.2-noble"
+          - 5.9-jammy
+          - 5.9-rhel-ubi9
+          - 6.2-noble
+          - 6.3-rhel-ubi9
     env:
       ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
     steps:
@@ -145,7 +150,7 @@ jobs:
       - name: Checkout smithy-swift with composite action
         uses: ./aws-sdk-swift/.github/actions/checkout-smithy-swift-composite-action
         with:
-          AUTOMATION_USER_SSH_PRIVATE_KEY: ${{ secrets.AUTOMATION_USER_SSH_PRIVATE_KEY }}
+          STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY: ${{ secrets.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
           STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
       - name: Cache Gradle
         uses: actions/cache@v4

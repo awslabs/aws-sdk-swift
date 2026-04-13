@@ -782,20 +782,98 @@ public struct AcceptLinkOutput: Swift.Sendable {
 
 extension RTBFabricClientTypes {
 
+    public enum ModelProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case http
+        case https
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ModelProtocol] {
+            return [
+                .http,
+                .https
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .http: return "HTTP"
+            case .https: return "HTTPS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// The health check configuration for a managed endpoint. Defines how the service probes instances in the Auto Scaling group to determine their health status.
+    public struct HealthCheckConfig: Swift.Sendable {
+        /// The number of consecutive successful health checks required before an instance is considered healthy. Valid range is 2 to 10.
+        public var healthyThresholdCount: Swift.Int?
+        /// The interval between health check probes, in seconds. Valid range is 5 to 60.
+        public var intervalSeconds: Swift.Int?
+        /// The destination path for the health check request. Must start with /.
+        /// This member is required.
+        public var path: Swift.String?
+        /// The port to use for health check probes. Valid range is 80 to 65535.
+        /// This member is required.
+        public var port: Swift.Int?
+        /// The protocol to use for health check probes.
+        public var `protocol`: RTBFabricClientTypes.ModelProtocol?
+        /// The expected HTTP status code or status code pattern from healthy instances. Supports a single code (for example, 200), a range (for example, 200-299), or a comma-separated list (for example, 200,204).
+        public var statusCodeMatcher: Swift.String?
+        /// The timeout for each health check probe, in milliseconds. Valid range is 100 to 5000.
+        public var timeoutMs: Swift.Int?
+        /// The number of consecutive failed health checks required before an instance is considered unhealthy. Valid range is 2 to 10.
+        public var unhealthyThresholdCount: Swift.Int?
+
+        public init(
+            healthyThresholdCount: Swift.Int? = nil,
+            intervalSeconds: Swift.Int? = nil,
+            path: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            `protocol`: RTBFabricClientTypes.ModelProtocol? = nil,
+            statusCodeMatcher: Swift.String? = nil,
+            timeoutMs: Swift.Int? = nil,
+            unhealthyThresholdCount: Swift.Int? = nil
+        ) {
+            self.healthyThresholdCount = healthyThresholdCount
+            self.intervalSeconds = intervalSeconds
+            self.path = path
+            self.port = port
+            self.`protocol` = `protocol`
+            self.statusCodeMatcher = statusCodeMatcher
+            self.timeoutMs = timeoutMs
+            self.unhealthyThresholdCount = unhealthyThresholdCount
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
     /// Describes the configuration of an auto scaling group.
     public struct AutoScalingGroupsConfiguration: Swift.Sendable {
         /// The names of the auto scaling group.
         /// This member is required.
         public var autoScalingGroupNames: [Swift.String]?
+        /// The health check configuration for the Auto Scaling group managed endpoint.
+        public var healthCheckConfig: RTBFabricClientTypes.HealthCheckConfig?
         /// The role ARN of the auto scaling group.
         /// This member is required.
         public var roleArn: Swift.String?
 
         public init(
             autoScalingGroupNames: [Swift.String]? = nil,
+            healthCheckConfig: RTBFabricClientTypes.HealthCheckConfig? = nil,
             roleArn: Swift.String? = nil
         ) {
             self.autoScalingGroupNames = autoScalingGroupNames
+            self.healthCheckConfig = healthCheckConfig
             self.roleArn = roleArn
         }
     }
@@ -1173,35 +1251,6 @@ extension RTBFabricClientTypes {
             switch self {
             case .external: return "EXTERNAL"
             case .internal: return "INTERNAL"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension RTBFabricClientTypes {
-
-    public enum ModelProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case http
-        case https
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ModelProtocol] {
-            return [
-                .http,
-                .https
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .http: return "HTTP"
-            case .https: return "HTTPS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4070,6 +4119,7 @@ extension RTBFabricClientTypes.AutoScalingGroupsConfiguration {
     static func write(value: RTBFabricClientTypes.AutoScalingGroupsConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["autoScalingGroupNames"].writeList(value.autoScalingGroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["healthCheckConfig"].write(value.healthCheckConfig, with: RTBFabricClientTypes.HealthCheckConfig.write(value:to:))
         try writer["roleArn"].write(value.roleArn)
     }
 
@@ -4078,6 +4128,7 @@ extension RTBFabricClientTypes.AutoScalingGroupsConfiguration {
         var value = RTBFabricClientTypes.AutoScalingGroupsConfiguration()
         value.autoScalingGroupNames = try reader["autoScalingGroupNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.healthCheckConfig = try reader["healthCheckConfig"].readIfPresent(with: RTBFabricClientTypes.HealthCheckConfig.read(from:))
         return value
     }
 }
@@ -4152,6 +4203,35 @@ extension RTBFabricClientTypes.HeaderTagAction {
         var value = RTBFabricClientTypes.HeaderTagAction()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension RTBFabricClientTypes.HealthCheckConfig {
+
+    static func write(value: RTBFabricClientTypes.HealthCheckConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["healthyThresholdCount"].write(value.healthyThresholdCount)
+        try writer["intervalSeconds"].write(value.intervalSeconds)
+        try writer["path"].write(value.path)
+        try writer["port"].write(value.port)
+        try writer["protocol"].write(value.`protocol`)
+        try writer["statusCodeMatcher"].write(value.statusCodeMatcher)
+        try writer["timeoutMs"].write(value.timeoutMs)
+        try writer["unhealthyThresholdCount"].write(value.unhealthyThresholdCount)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.HealthCheckConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.HealthCheckConfig()
+        value.port = try reader["port"].readIfPresent() ?? 0
+        value.path = try reader["path"].readIfPresent() ?? ""
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        value.timeoutMs = try reader["timeoutMs"].readIfPresent()
+        value.intervalSeconds = try reader["intervalSeconds"].readIfPresent()
+        value.statusCodeMatcher = try reader["statusCodeMatcher"].readIfPresent()
+        value.healthyThresholdCount = try reader["healthyThresholdCount"].readIfPresent()
+        value.unhealthyThresholdCount = try reader["unhealthyThresholdCount"].readIfPresent()
         return value
     }
 }

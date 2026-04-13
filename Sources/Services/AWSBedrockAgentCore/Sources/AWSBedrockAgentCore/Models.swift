@@ -37,6 +37,41 @@ import struct SmithyHTTPAPI.Headers
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 import typealias SmithyEventStreamsAPI.UnmarshalClosure
 
+extension BedrockAgentCoreClientTypes {
+
+    /// The agent card definition for A2A descriptors, including the schema version and inline content that describes the agent's capabilities.
+    public struct AgentCardDefinition: Swift.Sendable {
+        /// The inline content of the agent card definition.
+        public var inlineContent: Swift.String?
+        /// The schema version of the agent card definition.
+        public var schemaVersion: Swift.String?
+
+        public init(
+            inlineContent: Swift.String? = nil,
+            schemaVersion: Swift.String? = nil
+        ) {
+            self.inlineContent = inlineContent
+            self.schemaVersion = schemaVersion
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The A2A (Agent-to-Agent) descriptor configuration for a registry record.
+    public struct A2aDescriptor: Swift.Sendable {
+        /// The agent card definition that describes the agent's capabilities and interface.
+        /// This member is required.
+        public var agentCard: BedrockAgentCoreClientTypes.AgentCardDefinition?
+
+        public init(
+            agentCard: BedrockAgentCoreClientTypes.AgentCardDefinition? = nil
+        ) {
+            self.agentCard = agentCard
+        }
+    }
+}
+
 /// The exception that occurs when you do not have sufficient permissions to perform an action. Verify that your IAM policy includes the necessary permissions for the operation you are trying to perform.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -754,6 +789,60 @@ public struct StopRuntimeSessionOutput: Swift.Sendable {
     ) {
         self.runtimeSessionId = runtimeSessionId
         self.statusCode = statusCode
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The structured skill definition with a schema version and inline content.
+    public struct SkillDefinition: Swift.Sendable {
+        /// The inline content of the skill definition.
+        public var inlineContent: Swift.String?
+        /// The schema version of the skill definition. If you don't specify a version, the service detects it automatically.
+        public var schemaVersion: Swift.String?
+
+        public init(
+            inlineContent: Swift.String? = nil,
+            schemaVersion: Swift.String? = nil
+        ) {
+            self.inlineContent = inlineContent
+            self.schemaVersion = schemaVersion
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The skill markdown definition for agent skills descriptors.
+    public struct SkillMdDefinition: Swift.Sendable {
+        /// The inline markdown content of the skill definition.
+        public var inlineContent: Swift.String?
+
+        public init(
+            inlineContent: Swift.String? = nil
+        ) {
+            self.inlineContent = inlineContent
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The agent skills descriptor configuration for a registry record.
+    public struct AgentSkillsDescriptor: Swift.Sendable {
+        /// The structured skill definition with a schema version and content.
+        public var skillDefinition: BedrockAgentCoreClientTypes.SkillDefinition?
+        /// The skill description in markdown format.
+        /// This member is required.
+        public var skillMd: BedrockAgentCoreClientTypes.SkillMdDefinition?
+
+        public init(
+            skillDefinition: BedrockAgentCoreClientTypes.SkillDefinition? = nil,
+            skillMd: BedrockAgentCoreClientTypes.SkillMdDefinition? = nil
+        ) {
+            self.skillDefinition = skillDefinition
+            self.skillMd = skillMd
+        }
     }
 }
 
@@ -4925,6 +5014,289 @@ public struct StartMemoryExtractionJobOutput: Swift.Sendable {
     }
 }
 
+public struct SearchRegistryRecordsInput: Swift.Sendable {
+    /// A metadata filter expression to narrow search results. Uses structured JSON operators including field-level operators ($eq, $ne, $in) and logical operators ($and, $or) on filterable fields (name, descriptorType, version). For example, to filter by descriptor type: {"descriptorType": {"$eq": "MCP"}}. To combine filters: {"$and": [{"descriptorType": {"$eq": "MCP"}}, {"name": {"$eq": "my-tool"}}]}.
+    public var filters: Smithy.Document?
+    /// The maximum number of records to return in a single call. Valid values are 1 through 20. The default value is 10.
+    public var maxResults: Swift.Int?
+    /// The list of registry identifiers to search within. Currently, you can specify exactly one registry identifier. You can provide either the full Amazon Web Services Resource Name (ARN) or the 12-character alphanumeric registry ID.
+    /// This member is required.
+    public var registryIds: [Swift.String]?
+    /// The search query to find matching registry records.
+    /// This member is required.
+    public var searchQuery: Swift.String?
+
+    public init(
+        filters: Smithy.Document? = nil,
+        maxResults: Swift.Int? = nil,
+        registryIds: [Swift.String]? = nil,
+        searchQuery: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.registryIds = registryIds
+        self.searchQuery = searchQuery
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A custom descriptor configuration for a registry record.
+    public struct CustomDescriptor: Swift.Sendable {
+        /// The inline content of the custom descriptor.
+        public var inlineContent: Swift.String?
+
+        public init(
+            inlineContent: Swift.String? = nil
+        ) {
+            self.inlineContent = inlineContent
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The MCP server definition with a schema version and inline content. The schemaVersion identifies the version of the MCP server configuration schema.
+    public struct ServerDefinition: Swift.Sendable {
+        /// The inline content of the server definition.
+        public var inlineContent: Swift.String?
+        /// The schema version of the MCP server configuration. The schema version identifies the format of the server definition content.
+        public var schemaVersion: Swift.String?
+
+        public init(
+            inlineContent: Swift.String? = nil,
+            schemaVersion: Swift.String? = nil
+        ) {
+            self.inlineContent = inlineContent
+            self.schemaVersion = schemaVersion
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The MCP tools definition with a protocol version and inline content. The protocolVersion identifies the MCP protocol version that the tools conform to. This differs from schemaVersion in the server definition, which identifies the server configuration schema format.
+    public struct ToolsDefinition: Swift.Sendable {
+        /// The inline content of the tools definition.
+        public var inlineContent: Swift.String?
+        /// The MCP protocol version that the tools conform to. This differs from the schemaVersion field in the server definition, which identifies the server configuration schema format.
+        public var protocolVersion: Swift.String?
+
+        public init(
+            inlineContent: Swift.String? = nil,
+            protocolVersion: Swift.String? = nil
+        ) {
+            self.inlineContent = inlineContent
+            self.protocolVersion = protocolVersion
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The MCP (Model Context Protocol) descriptor configuration for a registry record. Contains the server definition and tools definition.
+    public struct McpDescriptor: Swift.Sendable {
+        /// The MCP server definition that describes the server configuration.
+        /// This member is required.
+        public var server: BedrockAgentCoreClientTypes.ServerDefinition?
+        /// The MCP tools definition that describes the available tools.
+        /// This member is required.
+        public var tools: BedrockAgentCoreClientTypes.ToolsDefinition?
+
+        public init(
+            server: BedrockAgentCoreClientTypes.ServerDefinition? = nil,
+            tools: BedrockAgentCoreClientTypes.ToolsDefinition? = nil
+        ) {
+            self.server = server
+            self.tools = tools
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Contains the descriptor configuration for a registry record. Only the field that matches the record's descriptorType is populated.
+    public struct Descriptors: Swift.Sendable {
+        /// The A2A (Agent-to-Agent) descriptor configuration. Populated when the record's descriptorType is A2A.
+        public var a2a: BedrockAgentCoreClientTypes.A2aDescriptor?
+        /// The agent skills descriptor configuration. Populated when the record's descriptorType is AGENT_SKILLS.
+        public var agentSkills: BedrockAgentCoreClientTypes.AgentSkillsDescriptor?
+        /// The custom descriptor configuration. Populated when the record's descriptorType is CUSTOM.
+        public var custom: BedrockAgentCoreClientTypes.CustomDescriptor?
+        /// The MCP (Model Context Protocol) descriptor configuration. Populated when the record's descriptorType is MCP.
+        public var mcp: BedrockAgentCoreClientTypes.McpDescriptor?
+
+        public init(
+            a2a: BedrockAgentCoreClientTypes.A2aDescriptor? = nil,
+            agentSkills: BedrockAgentCoreClientTypes.AgentSkillsDescriptor? = nil,
+            custom: BedrockAgentCoreClientTypes.CustomDescriptor? = nil,
+            mcp: BedrockAgentCoreClientTypes.McpDescriptor? = nil
+        ) {
+            self.a2a = a2a
+            self.agentSkills = agentSkills
+            self.custom = custom
+            self.mcp = mcp
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The type of descriptor associated with a registry record.
+    public enum DescriptorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case a2a
+        case agentSkills
+        case custom
+        case mcp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DescriptorType] {
+            return [
+                .a2a,
+                .agentSkills,
+                .custom,
+                .mcp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .a2a: return "A2A"
+            case .agentSkills: return "AGENT_SKILLS"
+            case .custom: return "CUSTOM"
+            case .mcp: return "MCP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The status of a registry record in its lifecycle.
+    public enum RegistryRecordStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approved
+        case deprecated
+        case draft
+        case pendingApproval
+        case rejected
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RegistryRecordStatus] {
+            return [
+                .approved,
+                .deprecated,
+                .draft,
+                .pendingApproval,
+                .rejected
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approved: return "APPROVED"
+            case .deprecated: return "DEPRECATED"
+            case .draft: return "DRAFT"
+            case .pendingApproval: return "PENDING_APPROVAL"
+            case .rejected: return "REJECTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Summary information about a registry record.
+    public struct RegistryRecordSummary: Swift.Sendable {
+        /// The date and time when the registry record was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// A description of the registry record.
+        public var description: Swift.String?
+        /// The type of descriptor associated with this registry record.
+        /// This member is required.
+        public var descriptorType: BedrockAgentCoreClientTypes.DescriptorType?
+        /// The descriptor configurations for this registry record.
+        /// This member is required.
+        public var descriptors: BedrockAgentCoreClientTypes.Descriptors?
+        /// The name of the registry record.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the registry record.
+        /// This member is required.
+        public var recordArn: Swift.String?
+        /// The unique identifier of the registry record.
+        /// This member is required.
+        public var recordId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the registry that this record belongs to.
+        /// This member is required.
+        public var registryArn: Swift.String?
+        /// The current status of the registry record.
+        /// This member is required.
+        public var status: BedrockAgentCoreClientTypes.RegistryRecordStatus?
+        /// The date and time when the registry record was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+        /// The version of the registry record.
+        /// This member is required.
+        public var version: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            descriptorType: BedrockAgentCoreClientTypes.DescriptorType? = nil,
+            descriptors: BedrockAgentCoreClientTypes.Descriptors? = nil,
+            name: Swift.String? = nil,
+            recordArn: Swift.String? = nil,
+            recordId: Swift.String? = nil,
+            registryArn: Swift.String? = nil,
+            status: BedrockAgentCoreClientTypes.RegistryRecordStatus? = nil,
+            updatedAt: Foundation.Date? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.description = description
+            self.descriptorType = descriptorType
+            self.descriptors = descriptors
+            self.name = name
+            self.recordArn = recordArn
+            self.recordId = recordId
+            self.registryArn = registryArn
+            self.status = status
+            self.updatedAt = updatedAt
+            self.version = version
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.RegistryRecordSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RegistryRecordSummary(createdAt: \(Swift.String(describing: createdAt)), descriptorType: \(Swift.String(describing: descriptorType)), descriptors: \(Swift.String(describing: descriptors)), name: \(Swift.String(describing: name)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct SearchRegistryRecordsOutput: Swift.Sendable {
+    /// The list of registry records that match the search query, ordered by relevance.
+    /// This member is required.
+    public var registryRecords: [BedrockAgentCoreClientTypes.RegistryRecordSummary]?
+
+    public init(
+        registryRecords: [BedrockAgentCoreClientTypes.RegistryRecordSummary]? = nil
+    ) {
+        self.registryRecords = registryRecords
+    }
+}
+
 extension BatchCreateMemoryRecordsInput {
 
     static func urlPathProvider(_ value: BatchCreateMemoryRecordsInput) -> Swift.String? {
@@ -5442,6 +5814,13 @@ extension SaveBrowserSessionProfileInput {
     }
 }
 
+extension SearchRegistryRecordsInput {
+
+    static func urlPathProvider(_ value: SearchRegistryRecordsInput) -> Swift.String? {
+        return "/registry-records/search"
+    }
+}
+
 extension StartBrowserSessionInput {
 
     static func urlPathProvider(_ value: StartBrowserSessionInput) -> Swift.String? {
@@ -5864,6 +6243,17 @@ extension SaveBrowserSessionProfileInput {
         try writer["browserIdentifier"].write(value.browserIdentifier)
         try writer["clientToken"].write(value.clientToken)
         try writer["sessionId"].write(value.sessionId)
+    }
+}
+
+extension SearchRegistryRecordsInput {
+
+    static func write(value: SearchRegistryRecordsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].write(value.filters)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["registryIds"].writeList(value.registryIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["searchQuery"].write(value.searchQuery)
     }
 }
 
@@ -6395,6 +6785,18 @@ extension SaveBrowserSessionProfileOutput {
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.profileIdentifier = try reader["profileIdentifier"].readIfPresent() ?? ""
         value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SearchRegistryRecordsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchRegistryRecordsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchRegistryRecordsOutput()
+        value.registryRecords = try reader["registryRecords"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.RegistryRecordSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7098,6 +7500,25 @@ enum SaveBrowserSessionProfileOutputError {
     }
 }
 
+enum SearchRegistryRecordsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartBrowserSessionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7529,6 +7950,16 @@ extension BedrockAgentCoreClientTypes.CodeInterpreterStreamOutput {
     }
 }
 
+extension BedrockAgentCoreClientTypes.A2aDescriptor {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.A2aDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.A2aDescriptor()
+        value.agentCard = try reader["agentCard"].readIfPresent(with: BedrockAgentCoreClientTypes.AgentCardDefinition.read(from:))
+        return value
+    }
+}
+
 extension AccessDeniedException {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessDeniedException {
@@ -7545,6 +7976,28 @@ extension BedrockAgentCoreClientTypes.ActorSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreClientTypes.ActorSummary()
         value.actorId = try reader["actorId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.AgentCardDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.AgentCardDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.AgentCardDefinition()
+        value.schemaVersion = try reader["schemaVersion"].readIfPresent()
+        value.inlineContent = try reader["inlineContent"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.AgentSkillsDescriptor {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.AgentSkillsDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.AgentSkillsDescriptor()
+        value.skillMd = try reader["skillMd"].readIfPresent(with: BedrockAgentCoreClientTypes.SkillMdDefinition.read(from:))
+        value.skillDefinition = try reader["skillDefinition"].readIfPresent(with: BedrockAgentCoreClientTypes.SkillDefinition.read(from:))
         return value
     }
 }
@@ -7926,6 +8379,29 @@ extension BedrockAgentCoreClientTypes.Conversational {
     }
 }
 
+extension BedrockAgentCoreClientTypes.CustomDescriptor {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.CustomDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.CustomDescriptor()
+        value.inlineContent = try reader["inlineContent"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.Descriptors {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.Descriptors {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.Descriptors()
+        value.mcp = try reader["mcp"].readIfPresent(with: BedrockAgentCoreClientTypes.McpDescriptor.read(from:))
+        value.a2a = try reader["a2a"].readIfPresent(with: BedrockAgentCoreClientTypes.A2aDescriptor.read(from:))
+        value.custom = try reader["custom"].readIfPresent(with: BedrockAgentCoreClientTypes.CustomDescriptor.read(from:))
+        value.agentSkills = try reader["agentSkills"].readIfPresent(with: BedrockAgentCoreClientTypes.AgentSkillsDescriptor.read(from:))
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.EvaluationContent {
 
     static func write(value: BedrockAgentCoreClientTypes.EvaluationContent?, to writer: SmithyJSON.Writer) throws {
@@ -8218,6 +8694,17 @@ extension BedrockAgentCoreClientTypes.LiveViewStream {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreClientTypes.LiveViewStream()
         value.streamEndpoint = try reader["streamEndpoint"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.McpDescriptor {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.McpDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.McpDescriptor()
+        value.server = try reader["server"].readIfPresent(with: BedrockAgentCoreClientTypes.ServerDefinition.read(from:))
+        value.tools = try reader["tools"].readIfPresent(with: BedrockAgentCoreClientTypes.ToolsDefinition.read(from:))
         return value
     }
 }
@@ -8563,6 +9050,26 @@ extension BedrockAgentCoreClientTypes.ProxyCredentials {
     }
 }
 
+extension BedrockAgentCoreClientTypes.RegistryRecordSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.RegistryRecordSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.RegistryRecordSummary()
+        value.registryArn = try reader["registryArn"].readIfPresent() ?? ""
+        value.recordArn = try reader["recordArn"].readIfPresent() ?? ""
+        value.recordId = try reader["recordId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.descriptorType = try reader["descriptorType"].readIfPresent() ?? .sdkUnknown("")
+        value.descriptors = try reader["descriptors"].readIfPresent(with: BedrockAgentCoreClientTypes.Descriptors.read(from:))
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.ResourceContent {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ResourceContent {
@@ -8711,6 +9218,17 @@ extension BedrockAgentCoreClientTypes.SecretsManagerLocation {
     }
 }
 
+extension BedrockAgentCoreClientTypes.ServerDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ServerDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ServerDefinition()
+        value.schemaVersion = try reader["schemaVersion"].readIfPresent()
+        value.inlineContent = try reader["inlineContent"].readIfPresent()
+        return value
+    }
+}
+
 extension ServiceQuotaExceededException {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotaExceededException {
@@ -8737,6 +9255,27 @@ extension BedrockAgentCoreClientTypes.SessionSummary {
         value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
         value.actorId = try reader["actorId"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.SkillDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.SkillDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.SkillDefinition()
+        value.schemaVersion = try reader["schemaVersion"].readIfPresent()
+        value.inlineContent = try reader["inlineContent"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.SkillMdDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.SkillMdDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.SkillMdDefinition()
+        value.inlineContent = try reader["inlineContent"].readIfPresent()
         return value
     }
 }
@@ -8823,6 +9362,17 @@ extension BedrockAgentCoreClientTypes.ToolResultStructuredContent {
         value.stderr = try reader["stderr"].readIfPresent()
         value.exitCode = try reader["exitCode"].readIfPresent()
         value.executionTime = try reader["executionTime"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ToolsDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ToolsDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ToolsDefinition()
+        value.protocolVersion = try reader["protocolVersion"].readIfPresent()
+        value.inlineContent = try reader["inlineContent"].readIfPresent()
         return value
     }
 }

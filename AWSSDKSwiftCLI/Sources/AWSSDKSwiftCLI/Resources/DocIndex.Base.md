@@ -1,4 +1,4 @@
-# ``AWSSDKForSwift``
+# ``SDKForSwift``
 
 @Metadata {
     @DisplayName("AWS SDK for Swift API Reference")
