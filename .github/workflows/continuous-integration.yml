@@ -13,7 +13,7 @@ env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
 
 jobs:
-  apple:
+  apple-ci:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: ${{ matrix.runner }}
     strategy:
@@ -125,7 +125,7 @@ jobs:
             | xcbeautify
           cd ..
 
-  linux:
+  linux-ci:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: ${{ matrix.runner }}
     container: swift:${{ matrix.swift }}
