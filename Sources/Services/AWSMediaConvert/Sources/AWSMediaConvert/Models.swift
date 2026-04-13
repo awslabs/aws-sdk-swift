@@ -6728,6 +6728,36 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Input settings for MultiView Settings. You can include exactly one input as enhancement layer.
+    public struct MultiViewInput: Swift.Sendable {
+        /// Specify the input file S3, HTTP, or HTTPS URL for your right eye view video.
+        public var fileInput: Swift.String?
+
+        public init(
+            fileInput: Swift.String? = nil
+        ) {
+            self.fileInput = fileInput
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Specify the enhancement layer input video file path for Multi View outputs. The base layer input is treated as the left eye and this Multi View input is treated as the right eye. Only one Multi View input is currently supported. MediaConvert encodes both views into a single MV-HEVC output codec. When you add MultiViewSettings to your job, you can only produce Multi View outputs. Adding any other codec output to the same job is not supported.
+    public struct MultiViewSettings: Swift.Sendable {
+        /// Input settings for MultiView Settings. You can include exactly one input as enhancement layer.
+        public var input: MediaConvertClientTypes.MultiViewInput?
+
+        public init(
+            input: MediaConvertClientTypes.MultiViewInput? = nil
+        ) {
+            self.input = input
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Set PSI control for transport stream inputs to specify which data the demux process to scans.
     ///
     /// * Ignore PSI - Scan all PIDs for audio and video.
@@ -7526,6 +7556,8 @@ extension MediaConvertClientTypes {
         public var inputClippings: [MediaConvertClientTypes.InputClipping]?
         /// When you have a progressive segmented frame (PsF) input, use this setting to flag the input as PsF. MediaConvert doesn't automatically detect PsF. Therefore, flagging your input as PsF results in better preservation of video quality when you do deinterlacing and frame rate conversion. If you don't specify, the default value is Auto. Auto is the correct setting for all inputs that are not PsF. Don't set this value to PsF when your input is interlaced. Doing so creates horizontal interlacing artifacts.
         public var inputScanType: MediaConvertClientTypes.InputScanType?
+        /// Specify the enhancement layer input video file path for Multi View outputs. The base layer input is treated as the left eye and this Multi View input is treated as the right eye. Only one Multi View input is currently supported. MediaConvert encodes both views into a single MV-HEVC output codec. When you add MultiViewSettings to your job, you can only produce Multi View outputs. Adding any other codec output to the same job is not supported.
+        public var multiViewSettings: [MediaConvertClientTypes.MultiViewSettings]?
         /// Use Selection placement to define the video area in your output frame. The area outside of the rectangle that you specify here is black. If you specify a value here, it will override any value that you specify in the output setting Selection placement. If you specify a value here, this will override any AFD values in your input, even if you set Respond to AFD to Respond. If you specify a value here, this will ignore anything that you specify for the setting Scaling Behavior.
         public var position: MediaConvertClientTypes.Rectangle?
         /// Use Program to select a specific program from within a multi-program transport stream. Note that Quad 4K is not currently supported. Default is the first program within the transport stream. If the program you specify doesn't exist, the transcoding service will use this default.
@@ -7569,6 +7601,7 @@ extension MediaConvertClientTypes {
             imageInserter: MediaConvertClientTypes.ImageInserter? = nil,
             inputClippings: [MediaConvertClientTypes.InputClipping]? = nil,
             inputScanType: MediaConvertClientTypes.InputScanType? = nil,
+            multiViewSettings: [MediaConvertClientTypes.MultiViewSettings]? = nil,
             position: MediaConvertClientTypes.Rectangle? = nil,
             programNumber: Swift.Int? = nil,
             psiControl: MediaConvertClientTypes.InputPsiControl? = nil,
@@ -7597,6 +7630,7 @@ extension MediaConvertClientTypes {
             self.imageInserter = imageInserter
             self.inputClippings = inputClippings
             self.inputScanType = inputScanType
+            self.multiViewSettings = multiViewSettings
             self.position = position
             self.programNumber = programNumber
             self.psiControl = psiControl
@@ -7645,6 +7679,8 @@ extension MediaConvertClientTypes {
         public var inputClippings: [MediaConvertClientTypes.InputClipping]?
         /// When you have a progressive segmented frame (PsF) input, use this setting to flag the input as PsF. MediaConvert doesn't automatically detect PsF. Therefore, flagging your input as PsF results in better preservation of video quality when you do deinterlacing and frame rate conversion. If you don't specify, the default value is Auto. Auto is the correct setting for all inputs that are not PsF. Don't set this value to PsF when your input is interlaced. Doing so creates horizontal interlacing artifacts.
         public var inputScanType: MediaConvertClientTypes.InputScanType?
+        /// Specify the enhancement layer input video file path for Multi View outputs. The base layer input is treated as the left eye and this Multi View input is treated as the right eye. Only one Multi View input is currently supported. MediaConvert encodes both views into a single MV-HEVC output codec. When you add MultiViewSettings to your job, you can only produce Multi View outputs. Adding any other codec output to the same job is not supported.
+        public var multiViewSettings: [MediaConvertClientTypes.MultiViewSettings]?
         /// Use Selection placement to define the video area in your output frame. The area outside of the rectangle that you specify here is black. If you specify a value here, it will override any value that you specify in the output setting Selection placement. If you specify a value here, this will override any AFD values in your input, even if you set Respond to AFD to Respond. If you specify a value here, this will ignore anything that you specify for the setting Scaling Behavior.
         public var position: MediaConvertClientTypes.Rectangle?
         /// Use Program to select a specific program from within a multi-program transport stream. Note that Quad 4K is not currently supported. Default is the first program within the transport stream. If the program you specify doesn't exist, the transcoding service will use this default.
@@ -7680,6 +7716,7 @@ extension MediaConvertClientTypes {
             imageInserter: MediaConvertClientTypes.ImageInserter? = nil,
             inputClippings: [MediaConvertClientTypes.InputClipping]? = nil,
             inputScanType: MediaConvertClientTypes.InputScanType? = nil,
+            multiViewSettings: [MediaConvertClientTypes.MultiViewSettings]? = nil,
             position: MediaConvertClientTypes.Rectangle? = nil,
             programNumber: Swift.Int? = nil,
             psiControl: MediaConvertClientTypes.InputPsiControl? = nil,
@@ -7703,6 +7740,7 @@ extension MediaConvertClientTypes {
             self.imageInserter = imageInserter
             self.inputClippings = inputClippings
             self.inputScanType = inputScanType
+            self.multiViewSettings = multiViewSettings
             self.position = position
             self.programNumber = programNumber
             self.psiControl = psiControl
@@ -8804,7 +8842,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Enable Clear Lead DRM to reduce video startup latency by leaving the first segment unencrypted while DRM license retrieval occurs in parallel. This optimization allows immediate playback startup while maintaining content protection for the remainder of the stream. When enabled, the first output segment remains fully unencrypted, and encryption begins at the start of the second segment. The HLS manifest will omit #EXT-X-KEY tags during the clear segment and insert the first #EXT-X-KEY immediately before the first encrypted fragment. This feature is supported exclusively for CMAF HLS (fMP4) outputs and is compatible with all existing key provider integrations (SPEKE v1, SPEKE v2, and Static Key encryption). Supported codecs: H.264 and H.265 video codecs, and AAC audio codec. Choose Enabled to activate Clear Lead DRM optimization. Choose Disabled to use standard encryption where all segments are encrypted from the beginning.
+    /// Enable Clear Lead DRM to reduce video startup latency by leaving the first segment unencrypted while DRM license retrieval occurs in parallel. This optimization allows immediate playback startup while maintaining content protection for the remainder of the stream. When enabled, the first output segment remains fully unencrypted, and encryption begins at the start of the second segment. The HLS manifest will omit #EXT-X-KEY tags during the clear segment and insert the first #EXT-X-KEY immediately before the first encrypted fragment. This feature is supported exclusively for CMAF HLS (fMP4) outputs and is compatible with all existing key provider integrations (SPEKE v1, SPEKE v2, and Static Key encryption). Supported codecs: H.264, H.265, and AV1 video codecs, and AAC audio codec. Choose Enabled to activate Clear Lead DRM optimization. Choose Disabled to use standard encryption where all segments are encrypted from the beginning.
     public enum HlsClearLead: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -9100,7 +9138,7 @@ extension MediaConvertClientTypes {
 
     /// Settings for CMAF encryption
     public struct CmafEncryptionSettings: Swift.Sendable {
-        /// Enable Clear Lead DRM to reduce video startup latency by leaving the first segment unencrypted while DRM license retrieval occurs in parallel. This optimization allows immediate playback startup while maintaining content protection for the remainder of the stream. When enabled, the first output segment remains fully unencrypted, and encryption begins at the start of the second segment. The HLS manifest will omit #EXT-X-KEY tags during the clear segment and insert the first #EXT-X-KEY immediately before the first encrypted fragment. This feature is supported exclusively for CMAF HLS (fMP4) outputs and is compatible with all existing key provider integrations (SPEKE v1, SPEKE v2, and Static Key encryption). Supported codecs: H.264 and H.265 video codecs, and AAC audio codec. Choose Enabled to activate Clear Lead DRM optimization. Choose Disabled to use standard encryption where all segments are encrypted from the beginning.
+        /// Enable Clear Lead DRM to reduce video startup latency by leaving the first segment unencrypted while DRM license retrieval occurs in parallel. This optimization allows immediate playback startup while maintaining content protection for the remainder of the stream. When enabled, the first output segment remains fully unencrypted, and encryption begins at the start of the second segment. The HLS manifest will omit #EXT-X-KEY tags during the clear segment and insert the first #EXT-X-KEY immediately before the first encrypted fragment. This feature is supported exclusively for CMAF HLS (fMP4) outputs and is compatible with all existing key provider integrations (SPEKE v1, SPEKE v2, and Static Key encryption). Supported codecs: H.264, H.265, and AV1 video codecs, and AAC audio codec. Choose Enabled to activate Clear Lead DRM optimization. Choose Disabled to use standard encryption where all segments are encrypted from the beginning.
         public var clearLead: MediaConvertClientTypes.HlsClearLead?
         /// This is a 128-bit, 16-byte hex value represented by a 32-character text string. If this parameter is not set then the Initialization Vector will follow the segment number by default.
         public var constantInitializationVector: Swift.String?
@@ -23499,16 +23537,20 @@ extension MediaConvertClientTypes {
         public var duration: Swift.Double?
         /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM, MXF, Wave, AVI, or MPEG-TS. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
         public var format: MediaConvertClientTypes.Format?
+        /// The start timecode of the media file, in HH:MM:SS:FF format (or HH:MM:SS;FF for drop frame timecode). Note that this field is null when the container does not include an embedded start timecode.
+        public var startTimecode: Swift.String?
         /// Details about each track (video, audio, or data) in the media file.
         public var tracks: [MediaConvertClientTypes.Track]?
 
         public init(
             duration: Swift.Double? = nil,
             format: MediaConvertClientTypes.Format? = nil,
+            startTimecode: Swift.String? = nil,
             tracks: [MediaConvertClientTypes.Track]? = nil
         ) {
             self.duration = duration
             self.format = format
+            self.startTimecode = startTimecode
             self.tracks = tracks
         }
     }
@@ -28235,6 +28277,7 @@ extension MediaConvertClientTypes.Container {
         var value = MediaConvertClientTypes.Container()
         value.duration = try reader["duration"].readIfPresent()
         value.format = try reader["format"].readIfPresent()
+        value.startTimecode = try reader["startTimecode"].readIfPresent()
         value.tracks = try reader["tracks"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.Track.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -29638,6 +29681,7 @@ extension MediaConvertClientTypes.Input {
         try writer["imageInserter"].write(value.imageInserter, with: MediaConvertClientTypes.ImageInserter.write(value:to:))
         try writer["inputClippings"].writeList(value.inputClippings, memberWritingClosure: MediaConvertClientTypes.InputClipping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inputScanType"].write(value.inputScanType)
+        try writer["multiViewSettings"].writeList(value.multiViewSettings, memberWritingClosure: MediaConvertClientTypes.MultiViewSettings.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["position"].write(value.position, with: MediaConvertClientTypes.Rectangle.write(value:to:))
         try writer["programNumber"].write(value.programNumber)
         try writer["psiControl"].write(value.psiControl)
@@ -29670,6 +29714,7 @@ extension MediaConvertClientTypes.Input {
         value.imageInserter = try reader["imageInserter"].readIfPresent(with: MediaConvertClientTypes.ImageInserter.read(from:))
         value.inputClippings = try reader["inputClippings"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.InputClipping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputScanType = try reader["inputScanType"].readIfPresent()
+        value.multiViewSettings = try reader["multiViewSettings"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.MultiViewSettings.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.position = try reader["position"].readIfPresent(with: MediaConvertClientTypes.Rectangle.read(from:))
         value.programNumber = try reader["programNumber"].readIfPresent()
         value.psiControl = try reader["psiControl"].readIfPresent()
@@ -29762,6 +29807,7 @@ extension MediaConvertClientTypes.InputTemplate {
         try writer["imageInserter"].write(value.imageInserter, with: MediaConvertClientTypes.ImageInserter.write(value:to:))
         try writer["inputClippings"].writeList(value.inputClippings, memberWritingClosure: MediaConvertClientTypes.InputClipping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inputScanType"].write(value.inputScanType)
+        try writer["multiViewSettings"].writeList(value.multiViewSettings, memberWritingClosure: MediaConvertClientTypes.MultiViewSettings.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["position"].write(value.position, with: MediaConvertClientTypes.Rectangle.write(value:to:))
         try writer["programNumber"].write(value.programNumber)
         try writer["psiControl"].write(value.psiControl)
@@ -29789,6 +29835,7 @@ extension MediaConvertClientTypes.InputTemplate {
         value.imageInserter = try reader["imageInserter"].readIfPresent(with: MediaConvertClientTypes.ImageInserter.read(from:))
         value.inputClippings = try reader["inputClippings"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.InputClipping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputScanType = try reader["inputScanType"].readIfPresent()
+        value.multiViewSettings = try reader["multiViewSettings"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.MultiViewSettings.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.position = try reader["position"].readIfPresent(with: MediaConvertClientTypes.Rectangle.read(from:))
         value.programNumber = try reader["programNumber"].readIfPresent()
         value.psiControl = try reader["psiControl"].readIfPresent()
@@ -30632,6 +30679,36 @@ extension MediaConvertClientTypes.MsSmoothGroupSettings {
         value.fragmentLength = try reader["fragmentLength"].readIfPresent()
         value.fragmentLengthControl = try reader["fragmentLengthControl"].readIfPresent()
         value.manifestEncoding = try reader["manifestEncoding"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.MultiViewInput {
+
+    static func write(value: MediaConvertClientTypes.MultiViewInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fileInput"].write(value.fileInput)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.MultiViewInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.MultiViewInput()
+        value.fileInput = try reader["fileInput"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.MultiViewSettings {
+
+    static func write(value: MediaConvertClientTypes.MultiViewSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["input"].write(value.input, with: MediaConvertClientTypes.MultiViewInput.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.MultiViewSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.MultiViewSettings()
+        value.input = try reader["input"].readIfPresent(with: MediaConvertClientTypes.MultiViewInput.read(from:))
         return value
     }
 }

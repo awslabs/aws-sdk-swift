@@ -545,6 +545,8 @@ public struct CreateIngestConfigurationInput: Swift.Sendable {
     public var insecureIngest: Swift.Bool?
     /// Optional name that can be specified for the IngestConfiguration being created.
     public var name: Swift.String?
+    /// Indicates whether redundant ingest is enabled for the ingest configuration. Default: false.
+    public var redundantIngest: Swift.Bool?
     /// ARN of the stage with which the IngestConfiguration is associated.
     public var stageArn: Swift.String?
     /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
@@ -557,6 +559,7 @@ public struct CreateIngestConfigurationInput: Swift.Sendable {
         ingestProtocol: IVSRealTimeClientTypes.IngestProtocol? = nil,
         insecureIngest: Swift.Bool? = false,
         name: Swift.String? = nil,
+        redundantIngest: Swift.Bool? = false,
         stageArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         userId: Swift.String? = nil
@@ -565,10 +568,35 @@ public struct CreateIngestConfigurationInput: Swift.Sendable {
         self.ingestProtocol = ingestProtocol
         self.insecureIngest = insecureIngest
         self.name = name
+        self.redundantIngest = redundantIngest
         self.stageArn = stageArn
         self.tags = tags
         self.userId = userId
     }
+}
+
+extension IVSRealTimeClientTypes {
+
+    /// An object representing a redundant ingest credential.
+    public struct RedundantIngestCredential: Swift.Sendable {
+        /// ID of the participant within the stage.
+        public var participantId: Swift.String?
+        /// Ingest-key value.
+        public var streamKey: Swift.String?
+
+        public init(
+            participantId: Swift.String? = nil,
+            streamKey: Swift.String? = nil
+        ) {
+            self.participantId = participantId
+            self.streamKey = streamKey
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes.RedundantIngestCredential: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RedundantIngestCredential(participantId: \(Swift.String(describing: participantId)), streamKey: \"CONTENT_REDACTED\")"}
 }
 
 extension IVSRealTimeClientTypes {
@@ -617,6 +645,10 @@ extension IVSRealTimeClientTypes {
         /// ID of the participant within the stage.
         /// This member is required.
         public var participantId: Swift.String?
+        /// Indicates whether redundant ingest is enabled for the ingest configuration.
+        public var redundantIngest: Swift.Bool
+        /// A list of redundant ingest credentials, present only when redundantIngest is set to true. See [Redundant Ingest](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/rt-rtmp-publishing.html#redundant-ingest) in IVS RTMP Publishing for details.
+        public var redundantIngestCredentials: [IVSRealTimeClientTypes.RedundantIngestCredential]?
         /// ARN of the stage with which the IngestConfiguration is associated.
         /// This member is required.
         public var stageArn: Swift.String?
@@ -637,6 +669,8 @@ extension IVSRealTimeClientTypes {
             ingestProtocol: IVSRealTimeClientTypes.IngestProtocol? = nil,
             name: Swift.String? = nil,
             participantId: Swift.String? = nil,
+            redundantIngest: Swift.Bool = false,
+            redundantIngestCredentials: [IVSRealTimeClientTypes.RedundantIngestCredential]? = nil,
             stageArn: Swift.String? = nil,
             state: IVSRealTimeClientTypes.IngestConfigurationState? = nil,
             streamKey: Swift.String? = nil,
@@ -648,6 +682,8 @@ extension IVSRealTimeClientTypes {
             self.ingestProtocol = ingestProtocol
             self.name = name
             self.participantId = participantId
+            self.redundantIngest = redundantIngest
+            self.redundantIngestCredentials = redundantIngestCredentials
             self.stageArn = stageArn
             self.state = state
             self.streamKey = streamKey
@@ -659,7 +695,7 @@ extension IVSRealTimeClientTypes {
 
 extension IVSRealTimeClientTypes.IngestConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "IngestConfiguration(arn: \(Swift.String(describing: arn)), attributes: \(Swift.String(describing: attributes)), ingestProtocol: \(Swift.String(describing: ingestProtocol)), name: \(Swift.String(describing: name)), participantId: \(Swift.String(describing: participantId)), stageArn: \(Swift.String(describing: stageArn)), state: \(Swift.String(describing: state)), tags: \(Swift.String(describing: tags)), userId: \(Swift.String(describing: userId)), streamKey: \"CONTENT_REDACTED\")"}
+        "IngestConfiguration(arn: \(Swift.String(describing: arn)), attributes: \(Swift.String(describing: attributes)), ingestProtocol: \(Swift.String(describing: ingestProtocol)), name: \(Swift.String(describing: name)), participantId: \(Swift.String(describing: participantId)), redundantIngest: \(Swift.String(describing: redundantIngest)), redundantIngestCredentials: \(Swift.String(describing: redundantIngestCredentials)), stageArn: \(Swift.String(describing: stageArn)), state: \(Swift.String(describing: state)), tags: \(Swift.String(describing: tags)), userId: \(Swift.String(describing: userId)), streamKey: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateIngestConfigurationOutput: Swift.Sendable {
@@ -2123,6 +2159,8 @@ extension IVSRealTimeClientTypes {
         public var browserVersion: Swift.String?
         /// ISO 8601 timestamp (returned as a string) when the participant first joined the stage session.
         public var firstJoinTime: Foundation.Date?
+        /// The participant’s ingest configuration.
+        public var ingestConfigurationArn: Swift.String?
         /// The participant’s Internet Service Provider.
         public var ispName: Swift.String?
         /// The participant’s operating system.
@@ -2141,6 +2179,8 @@ extension IVSRealTimeClientTypes {
         public var recordingS3Prefix: Swift.String?
         /// The participant’s recording state.
         public var recordingState: IVSRealTimeClientTypes.ParticipantRecordingState?
+        /// Indicates whether redundant ingest is enabled for the participant.
+        public var redundantIngest: Swift.Bool
         /// The participant's replication state.
         public var replicationState: IVSRealTimeClientTypes.ReplicationState?
         /// Indicates if the participant has been replicated to another stage or is a replica from another stage. Default: NONE.
@@ -2161,6 +2201,7 @@ extension IVSRealTimeClientTypes {
             browserName: Swift.String? = nil,
             browserVersion: Swift.String? = nil,
             firstJoinTime: Foundation.Date? = nil,
+            ingestConfigurationArn: Swift.String? = nil,
             ispName: Swift.String? = nil,
             osName: Swift.String? = nil,
             osVersion: Swift.String? = nil,
@@ -2170,6 +2211,7 @@ extension IVSRealTimeClientTypes {
             recordingS3BucketName: Swift.String? = nil,
             recordingS3Prefix: Swift.String? = nil,
             recordingState: IVSRealTimeClientTypes.ParticipantRecordingState? = nil,
+            redundantIngest: Swift.Bool = false,
             replicationState: IVSRealTimeClientTypes.ReplicationState? = nil,
             replicationType: IVSRealTimeClientTypes.ReplicationType? = nil,
             sdkVersion: Swift.String? = nil,
@@ -2182,6 +2224,7 @@ extension IVSRealTimeClientTypes {
             self.browserName = browserName
             self.browserVersion = browserVersion
             self.firstJoinTime = firstJoinTime
+            self.ingestConfigurationArn = ingestConfigurationArn
             self.ispName = ispName
             self.osName = osName
             self.osVersion = osVersion
@@ -2191,6 +2234,7 @@ extension IVSRealTimeClientTypes {
             self.recordingS3BucketName = recordingS3BucketName
             self.recordingS3Prefix = recordingS3Prefix
             self.recordingState = recordingState
+            self.redundantIngest = redundantIngest
             self.replicationState = replicationState
             self.replicationType = replicationType
             self.sdkVersion = sdkVersion
@@ -2599,6 +2643,8 @@ extension IVSRealTimeClientTypes {
         /// ID of the participant within the stage.
         /// This member is required.
         public var participantId: Swift.String?
+        /// Indicates whether redundant ingest is enabled for the ingest configuration.
+        public var redundantIngest: Swift.Bool
         /// ARN of the stage with which the IngestConfiguration is associated.
         /// This member is required.
         public var stageArn: Swift.String?
@@ -2613,6 +2659,7 @@ extension IVSRealTimeClientTypes {
             ingestProtocol: IVSRealTimeClientTypes.IngestProtocol? = nil,
             name: Swift.String? = nil,
             participantId: Swift.String? = nil,
+            redundantIngest: Swift.Bool = false,
             stageArn: Swift.String? = nil,
             state: IVSRealTimeClientTypes.IngestConfigurationState? = nil,
             userId: Swift.String? = nil
@@ -2621,6 +2668,7 @@ extension IVSRealTimeClientTypes {
             self.ingestProtocol = ingestProtocol
             self.name = name
             self.participantId = participantId
+            self.redundantIngest = redundantIngest
             self.stageArn = stageArn
             self.state = state
             self.userId = userId
@@ -3087,12 +3135,16 @@ extension IVSRealTimeClientTypes {
     public struct ParticipantSummary: Swift.Sendable {
         /// ISO 8601 timestamp (returned as a string) when the participant first joined the stage session.
         public var firstJoinTime: Foundation.Date?
+        /// The participant’s ingest configuration.
+        public var ingestConfigurationArn: Swift.String?
         /// Unique identifier for this participant, assigned by IVS.
         public var participantId: Swift.String?
         /// Whether the participant ever published to the stage session.
         public var published: Swift.Bool
         /// The participant’s recording state.
         public var recordingState: IVSRealTimeClientTypes.ParticipantRecordingState?
+        /// Indicates whether redundant ingest is enabled for the participant.
+        public var redundantIngest: Swift.Bool
         /// The participant's replication state.
         public var replicationState: IVSRealTimeClientTypes.ReplicationState?
         /// Indicates if the participant has been replicated to another stage or is a replica from another stage. Default: NONE.
@@ -3108,9 +3160,11 @@ extension IVSRealTimeClientTypes {
 
         public init(
             firstJoinTime: Foundation.Date? = nil,
+            ingestConfigurationArn: Swift.String? = nil,
             participantId: Swift.String? = nil,
             published: Swift.Bool = false,
             recordingState: IVSRealTimeClientTypes.ParticipantRecordingState? = nil,
+            redundantIngest: Swift.Bool = false,
             replicationState: IVSRealTimeClientTypes.ReplicationState? = nil,
             replicationType: IVSRealTimeClientTypes.ReplicationType? = nil,
             sourceSessionId: Swift.String? = nil,
@@ -3119,9 +3173,11 @@ extension IVSRealTimeClientTypes {
             userId: Swift.String? = nil
         ) {
             self.firstJoinTime = firstJoinTime
+            self.ingestConfigurationArn = ingestConfigurationArn
             self.participantId = participantId
             self.published = published
             self.recordingState = recordingState
+            self.redundantIngest = redundantIngest
             self.replicationState = replicationState
             self.replicationType = replicationType
             self.sourceSessionId = sourceSessionId
@@ -3474,19 +3530,19 @@ public struct StartParticipantReplicationInput: Swift.Sendable {
 }
 
 public struct StartParticipantReplicationOutput: Swift.Sendable {
-    ///
+    /// See [Access-Control-Allow-Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin) in the MDN Web Docs.
     public var accessControlAllowOrigin: Swift.String?
-    ///
+    /// See [Access-Control-Expose-Headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Expose-Headers) in the MDN Web Docs.
     public var accessControlExposeHeaders: Swift.String?
-    ///
+    /// See [Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control) in the MDN Web Docs.
     public var cacheControl: Swift.String?
-    ///
+    /// See [Content-Security-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy) in the MDN Web Docs.
     public var contentSecurityPolicy: Swift.String?
-    ///
+    /// See [Strict-Transport-Security](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Strict-Transport-Security) in the MDN Web Docs.
     public var strictTransportSecurity: Swift.String?
-    ///
+    /// See [X-Content-Type-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Content-Type-Options) in the MDN Web Docs.
     public var xContentTypeOptions: Swift.String?
-    ///
+    /// See [X-Frame-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Frame-Options) in the MDN Web Docs.
     public var xFrameOptions: Swift.String?
 
     public init(
@@ -3548,19 +3604,19 @@ public struct StopParticipantReplicationInput: Swift.Sendable {
 }
 
 public struct StopParticipantReplicationOutput: Swift.Sendable {
-    ///
+    /// See [Access-Control-Allow-Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin) in the MDN Web Docs.
     public var accessControlAllowOrigin: Swift.String?
-    ///
+    /// See [Access-Control-Expose-Headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Expose-Headers) in the MDN Web Docs.
     public var accessControlExposeHeaders: Swift.String?
-    ///
+    /// See [Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control) in the MDN Web Docs.
     public var cacheControl: Swift.String?
-    ///
+    /// See [Content-Security-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy) in the MDN Web Docs.
     public var contentSecurityPolicy: Swift.String?
-    ///
+    /// See [Strict-Transport-Security](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Strict-Transport-Security) in the MDN Web Docs.
     public var strictTransportSecurity: Swift.String?
-    ///
+    /// See [X-Content-Type-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Content-Type-Options) in the MDN Web Docs.
     public var xContentTypeOptions: Swift.String?
-    ///
+    /// See [X-Frame-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Frame-Options) in the MDN Web Docs.
     public var xFrameOptions: Swift.String?
 
     public init(
@@ -3630,14 +3686,18 @@ public struct UpdateIngestConfigurationInput: Swift.Sendable {
     /// ARN of the IngestConfiguration, for which the related stage ARN needs to be updated.
     /// This member is required.
     public var arn: Swift.String?
+    /// Indicates whether redundant ingest is enabled for the ingest configuration. Default: false.
+    public var redundantIngest: Swift.Bool?
     /// Stage ARN that needs to be updated.
     public var stageArn: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
+        redundantIngest: Swift.Bool? = false,
         stageArn: Swift.String? = nil
     ) {
         self.arn = arn
+        self.redundantIngest = redundantIngest
         self.stageArn = stageArn
     }
 }
@@ -4000,6 +4060,7 @@ extension CreateIngestConfigurationInput {
         try writer["ingestProtocol"].write(value.ingestProtocol)
         try writer["insecureIngest"].write(value.insecureIngest)
         try writer["name"].write(value.name)
+        try writer["redundantIngest"].write(value.redundantIngest)
         try writer["stageArn"].write(value.stageArn)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["userId"].write(value.userId)
@@ -4328,6 +4389,7 @@ extension UpdateIngestConfigurationInput {
     static func write(value: UpdateIngestConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["arn"].write(value.arn)
+        try writer["redundantIngest"].write(value.redundantIngest)
         try writer["stageArn"].write(value.stageArn)
     }
 }
@@ -6012,6 +6074,8 @@ extension IVSRealTimeClientTypes.IngestConfiguration {
         value.participantId = try reader["participantId"].readIfPresent() ?? ""
         value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         value.userId = try reader["userId"].readIfPresent()
+        value.redundantIngest = try reader["redundantIngest"].readIfPresent() ?? false
+        value.redundantIngestCredentials = try reader["redundantIngestCredentials"].readListIfPresent(memberReadingClosure: IVSRealTimeClientTypes.RedundantIngestCredential.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.attributes = try reader["attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -6030,6 +6094,7 @@ extension IVSRealTimeClientTypes.IngestConfigurationSummary {
         value.participantId = try reader["participantId"].readIfPresent() ?? ""
         value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         value.userId = try reader["userId"].readIfPresent()
+        value.redundantIngest = try reader["redundantIngest"].readIfPresent() ?? false
         return value
     }
 }
@@ -6076,6 +6141,8 @@ extension IVSRealTimeClientTypes.Participant {
         value.replicationState = try reader["replicationState"].readIfPresent()
         value.sourceStageArn = try reader["sourceStageArn"].readIfPresent()
         value.sourceSessionId = try reader["sourceSessionId"].readIfPresent()
+        value.redundantIngest = try reader["redundantIngest"].readIfPresent() ?? false
+        value.ingestConfigurationArn = try reader["ingestConfigurationArn"].readIfPresent()
         return value
     }
 }
@@ -6125,6 +6192,8 @@ extension IVSRealTimeClientTypes.ParticipantSummary {
         value.replicationState = try reader["replicationState"].readIfPresent()
         value.sourceStageArn = try reader["sourceStageArn"].readIfPresent()
         value.sourceSessionId = try reader["sourceSessionId"].readIfPresent()
+        value.redundantIngest = try reader["redundantIngest"].readIfPresent() ?? false
+        value.ingestConfigurationArn = try reader["ingestConfigurationArn"].readIfPresent()
         return value
     }
 }
@@ -6249,6 +6318,17 @@ extension IVSRealTimeClientTypes.RecordingConfiguration {
         var value = IVSRealTimeClientTypes.RecordingConfiguration()
         value.hlsConfiguration = try reader["hlsConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration.read(from:))
         value.format = try reader["format"].readIfPresent()
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.RedundantIngestCredential {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.RedundantIngestCredential {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.RedundantIngestCredential()
+        value.participantId = try reader["participantId"].readIfPresent()
+        value.streamKey = try reader["streamKey"].readIfPresent()
         return value
     }
 }

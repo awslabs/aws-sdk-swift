@@ -465,6 +465,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSInspectorScan](/sdk-for-swift/latest/api/awsinspectorscan/documentation/awsinspectorscan)
 
+[AWSInterconnect](/sdk-for-swift/latest/api/awsinterconnect/documentation/awsinterconnect)
+
 [AWSInternetMonitor](/sdk-for-swift/latest/api/awsinternetmonitor/documentation/awsinternetmonitor)
 
 [AWSInvoicing](/sdk-for-swift/latest/api/awsinvoicing/documentation/awsinvoicing)
@@ -582,6 +584,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSMarketplaceCommerceAnalytics](/sdk-for-swift/latest/api/awsmarketplacecommerceanalytics/documentation/awsmarketplacecommerceanalytics)
 
 [AWSMarketplaceDeployment](/sdk-for-swift/latest/api/awsmarketplacedeployment/documentation/awsmarketplacedeployment)
+
+[AWSMarketplaceDiscovery](/sdk-for-swift/latest/api/awsmarketplacediscovery/documentation/awsmarketplacediscovery)
 
 [AWSMarketplaceEntitlementService](/sdk-for-swift/latest/api/awsmarketplaceentitlementservice/documentation/awsmarketplaceentitlementservice)
 
@@ -766,6 +770,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSS3](/sdk-for-swift/latest/api/awss3/documentation/awss3)
 
 [AWSS3Control](/sdk-for-swift/latest/api/awss3control/documentation/awss3control)
+
+[AWSS3Files](/sdk-for-swift/latest/api/awss3files/documentation/awss3files)
 
 [AWSS3Outposts](/sdk-for-swift/latest/api/awss3outposts/documentation/awss3outposts)
 

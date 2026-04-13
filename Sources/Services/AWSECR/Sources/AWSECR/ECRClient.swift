@@ -3090,6 +3090,7 @@ extension ECRClient {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnableToListUpstreamImageReferrersException` : The referrer or referrers were unable to be listed using the pull through cache rule. This is usually caused because of an issue with the Secrets Manager secret containing the credentials for the upstream registry.
     /// - `ValidationException` : There was an exception validating this request.
     public func listImageReferrers(input: ListImageReferrersInput) async throws -> ListImageReferrersOutput {
         let context = Smithy.ContextBuilder()

@@ -910,6 +910,31 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
+    /// Configuration for Model Context Protocol (MCP) server integration.
+    public struct MCPServerConfiguration: Swift.Sendable {
+        /// List of MCP tools can be used with the association.
+        /// This member is required.
+        public var tools: [Swift.String]?
+
+        public init(
+            tools: [Swift.String]? = nil
+        ) {
+            self.tools = tools
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Mixin for webhook update support.
+    public struct MCPServerDatadogConfiguration: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
     /// Configuration for Grafana MCP server integration, used with an AWS-hosted MCP server.
     public struct MCPServerGrafanaConfiguration: Swift.Sendable {
         /// Grafana instance URL (e.g., https://your-instance.grafana.net)
@@ -950,6 +975,15 @@ extension DevOpsAgentClientTypes {
             self.accountId = accountId
             self.endpoint = endpoint
         }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Mixin for webhook update support.
+    public struct MCPServerSplunkConfiguration: Swift.Sendable {
+
+        public init() { }
     }
 }
 
@@ -1139,8 +1173,14 @@ extension DevOpsAgentClientTypes {
         case servicenow(DevOpsAgentClientTypes.ServiceNowConfiguration)
         /// NewRelic instance integration configuration.
         case mcpservernewrelic(DevOpsAgentClientTypes.MCPServerNewRelicConfiguration)
+        /// Datadog MCP server integration configuration.
+        case mcpserverdatadog(DevOpsAgentClientTypes.MCPServerDatadogConfiguration)
+        /// MCP (Model Context Protocol) server integration configuration.
+        case mcpserver(DevOpsAgentClientTypes.MCPServerConfiguration)
         /// GitLab project integration configuration.
         case gitlab(DevOpsAgentClientTypes.GitLabConfiguration)
+        /// Splunk MCP server integration configuration.
+        case mcpserversplunk(DevOpsAgentClientTypes.MCPServerSplunkConfiguration)
         /// Event Channel instance integration configuration.
         case eventchannel(DevOpsAgentClientTypes.EventChannelConfiguration)
         /// Azure subscription integration configuration.
@@ -2624,7 +2664,7 @@ extension DevOpsAgentClientTypes {
     public struct SelfManagedInput: Swift.Sendable {
         /// Certificate for the Private Connection.
         public var certificate: Swift.String?
-        /// The ARN of the Resource Configuration.
+        /// The ID or ARN of the resource configuration.
         /// This member is required.
         public var resourceConfigurationId: Swift.String?
 
@@ -8779,6 +8819,34 @@ extension DevOpsAgentClientTypes.MCPServerBearerTokenConfig {
     }
 }
 
+extension DevOpsAgentClientTypes.MCPServerConfiguration {
+
+    static func write(value: DevOpsAgentClientTypes.MCPServerConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tools"].writeList(value.tools, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.MCPServerConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.MCPServerConfiguration()
+        value.tools = try reader["tools"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.MCPServerDatadogConfiguration {
+
+    static func write(value: DevOpsAgentClientTypes.MCPServerDatadogConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.MCPServerDatadogConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DevOpsAgentClientTypes.MCPServerDatadogConfiguration()
+    }
+}
+
 extension DevOpsAgentClientTypes.MCPServerDetails {
 
     static func write(value: DevOpsAgentClientTypes.MCPServerDetails?, to writer: SmithyJSON.Writer) throws {
@@ -8852,6 +8920,19 @@ extension DevOpsAgentClientTypes.MCPServerOAuthClientCredentialsConfig {
         try writer["exchangeParameters"].writeMap(value.exchangeParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["exchangeUrl"].write(value.exchangeUrl)
         try writer["scopes"].writeList(value.scopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DevOpsAgentClientTypes.MCPServerSplunkConfiguration {
+
+    static func write(value: DevOpsAgentClientTypes.MCPServerSplunkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.MCPServerSplunkConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DevOpsAgentClientTypes.MCPServerSplunkConfiguration()
     }
 }
 
@@ -9398,10 +9479,16 @@ extension DevOpsAgentClientTypes.ServiceConfiguration {
                 try writer["github"].write(github, with: DevOpsAgentClientTypes.GitHubConfiguration.write(value:to:))
             case let .gitlab(gitlab):
                 try writer["gitlab"].write(gitlab, with: DevOpsAgentClientTypes.GitLabConfiguration.write(value:to:))
+            case let .mcpserver(mcpserver):
+                try writer["mcpserver"].write(mcpserver, with: DevOpsAgentClientTypes.MCPServerConfiguration.write(value:to:))
+            case let .mcpserverdatadog(mcpserverdatadog):
+                try writer["mcpserverdatadog"].write(mcpserverdatadog, with: DevOpsAgentClientTypes.MCPServerDatadogConfiguration.write(value:to:))
             case let .mcpservergrafana(mcpservergrafana):
                 try writer["mcpservergrafana"].write(mcpservergrafana, with: DevOpsAgentClientTypes.MCPServerGrafanaConfiguration.write(value:to:))
             case let .mcpservernewrelic(mcpservernewrelic):
                 try writer["mcpservernewrelic"].write(mcpservernewrelic, with: DevOpsAgentClientTypes.MCPServerNewRelicConfiguration.write(value:to:))
+            case let .mcpserversplunk(mcpserversplunk):
+                try writer["mcpserversplunk"].write(mcpserversplunk, with: DevOpsAgentClientTypes.MCPServerSplunkConfiguration.write(value:to:))
             case let .pagerduty(pagerduty):
                 try writer["pagerduty"].write(pagerduty, with: DevOpsAgentClientTypes.PagerDutyConfiguration.write(value:to:))
             case let .servicenow(servicenow):
@@ -9433,8 +9520,14 @@ extension DevOpsAgentClientTypes.ServiceConfiguration {
                 return .servicenow(try reader["servicenow"].read(with: DevOpsAgentClientTypes.ServiceNowConfiguration.read(from:)))
             case "mcpservernewrelic":
                 return .mcpservernewrelic(try reader["mcpservernewrelic"].read(with: DevOpsAgentClientTypes.MCPServerNewRelicConfiguration.read(from:)))
+            case "mcpserverdatadog":
+                return .mcpserverdatadog(try reader["mcpserverdatadog"].read(with: DevOpsAgentClientTypes.MCPServerDatadogConfiguration.read(from:)))
+            case "mcpserver":
+                return .mcpserver(try reader["mcpserver"].read(with: DevOpsAgentClientTypes.MCPServerConfiguration.read(from:)))
             case "gitlab":
                 return .gitlab(try reader["gitlab"].read(with: DevOpsAgentClientTypes.GitLabConfiguration.read(from:)))
+            case "mcpserversplunk":
+                return .mcpserversplunk(try reader["mcpserversplunk"].read(with: DevOpsAgentClientTypes.MCPServerSplunkConfiguration.read(from:)))
             case "eventChannel":
                 return .eventchannel(try reader["eventChannel"].read(with: DevOpsAgentClientTypes.EventChannelConfiguration.read(from:)))
             case "azure":

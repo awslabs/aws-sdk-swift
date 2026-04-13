@@ -40,3 +40,23 @@ tasks.register<JavaExec>("ktlintFormat") {
     main = "com.pinterest.ktlint.Main"
     args = listOf("-F") + lintPaths
 }
+
+// Swift lint tasks (mirrors CI lint.yml workflow)
+
+tasks.register<Exec>("swiftlint") {
+    description = "Run swiftlint (standard + analyzer on compiled code), matching CI."
+    group = "Verification"
+    commandLine("bash", "scripts/swiftlint-ci.sh")
+}
+
+tasks.register<Exec>("swiftlintFormat") {
+    description = "Auto fix Swift lint violations (standard + analyzer)."
+    group = "formatting"
+    commandLine("bash", "scripts/swiftlint-ci.sh", "--fix")
+}
+
+tasks.register<Exec>("swiftlintAnalyze") {
+    description = "Run swiftlint analyzer only (requires compilation)."
+    group = "Verification"
+    commandLine("bash", "scripts/swiftlint-ci.sh", "--analyze-only")
+}

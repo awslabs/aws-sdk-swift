@@ -218,7 +218,7 @@ extension Macie2ClientTypes {
     public struct AutomatedDiscoveryAccountUpdateError: Swift.Sendable {
         /// The Amazon Web Services account ID for the account that the request applied to.
         public var accountId: Swift.String?
-        /// The error code for the error that caused the request to fail for the account (accountId). Possible values are: ACCOUNT_NOT_FOUND, the account doesn’t exist or you're not the Amazon Macie administrator for the account; and, ACCOUNT_PAUSED, Macie isn’t enabled for the account in the current Amazon Web Services Region.
+        /// The error code for the error that caused the request to fail for the account (accountId). Possible values are: ACCOUNT_NOT_FOUND, the account doesn't exist or you're not the Amazon Macie administrator for the account; and, ACCOUNT_PAUSED, Macie isn't enabled for the account in the current Amazon Web Services Region.
         public var errorCode: Macie2ClientTypes.AutomatedDiscoveryAccountUpdateErrorCode?
 
         public init(
@@ -4645,7 +4645,7 @@ public struct BatchUpdateAutomatedDiscoveryAccountsInput: Swift.Sendable {
 }
 
 public struct BatchUpdateAutomatedDiscoveryAccountsOutput: Swift.Sendable {
-    /// An array of objects, one for each account whose status wasn’t changed. Each object identifies the account and explains why the status of automated sensitive data discovery wasn’t changed for the account. This value is null if the request succeeded for all specified accounts.
+    /// An array of objects, one for each account whose status wasn't changed. Each object identifies the account and explains why the status of automated sensitive data discovery wasn't changed for the account. This value is null if the request succeeded for all specified accounts.
     public var errors: [Macie2ClientTypes.AutomatedDiscoveryAccountUpdateError]?
 
     public init(
@@ -4902,11 +4902,13 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes {
 
-    /// Specifies an S3 bucket to store data classification results in, and the encryption settings to use when storing results in that bucket.
+    /// Specifies an S3 bucket to store data classification results in, and the encryption settings to use when storing results in that bucket. The bucket must be an existing general purpose bucket. It can be a bucket in your own account or a bucket that another account owns. If another account owns the bucket, you must specify both the unique identifier for the account and the name of the bucket.
     public struct S3Destination: Swift.Sendable {
         /// The name of the bucket. This must be the name of an existing general purpose bucket.
         /// This member is required.
         public var bucketName: Swift.String?
+        /// The unique identifier (ID) for the Amazon Web Services account that owns the bucket. This must be the ID for the account that owns the specified bucket.
+        public var expectedBucketOwner: Swift.String?
         /// The path prefix to use in the path to the location in the bucket. This prefix specifies where to store classification results in the bucket.
         public var keyPrefix: Swift.String?
         /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for encryption of the results. This must be the ARN of an existing, symmetric encryption KMS key that's enabled in the same Amazon Web Services Region as the bucket.
@@ -4915,10 +4917,12 @@ extension Macie2ClientTypes {
 
         public init(
             bucketName: Swift.String? = nil,
+            expectedBucketOwner: Swift.String? = nil,
             keyPrefix: Swift.String? = nil,
             kmsKeyArn: Swift.String? = nil
         ) {
             self.bucketName = bucketName
+            self.expectedBucketOwner = expectedBucketOwner
             self.keyPrefix = keyPrefix
             self.kmsKeyArn = kmsKeyArn
         }
@@ -13812,6 +13816,7 @@ extension Macie2ClientTypes.S3Destination {
     static func write(value: Macie2ClientTypes.S3Destination?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["bucketName"].write(value.bucketName)
+        try writer["expectedBucketOwner"].write(value.expectedBucketOwner)
         try writer["keyPrefix"].write(value.keyPrefix)
         try writer["kmsKeyArn"].write(value.kmsKeyArn)
     }
@@ -13820,6 +13825,7 @@ extension Macie2ClientTypes.S3Destination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.S3Destination()
         value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
+        value.expectedBucketOwner = try reader["expectedBucketOwner"].readIfPresent()
         value.keyPrefix = try reader["keyPrefix"].readIfPresent()
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent() ?? ""
         return value
