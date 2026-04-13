@@ -1,0 +1,18 @@
+{
+  "modelPath": "codegen/sdk-codegen/aws-models/interconnect.json",
+  "dependencies": [
+    "AWSClientRuntime",
+    "AWSSDKChecksums",
+    "AWSSDKHTTPAuth",
+    "AWSSDKIdentity",
+    "ClientRuntime",
+    "Smithy",
+    "SmithyCBOR",
+    "SmithyHTTPAPI",
+    "SmithyHTTPAuthAPI",
+    "SmithyIdentity",
+    "SmithyReadWrite",
+    "SmithyRetries",
+    "SmithyRetriesAPI"
+  ]
+}
