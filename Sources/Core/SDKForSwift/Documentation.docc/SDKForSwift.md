@@ -461,6 +461,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSInspectorScan](/sdk-for-swift/latest/api/awsinspectorscan/documentation/awsinspectorscan)
 
+[AWSInterconnect](/sdk-for-swift/latest/api/awsinterconnect/documentation/awsinterconnect)
+
 [AWSInternetMonitor](/sdk-for-swift/latest/api/awsinternetmonitor/documentation/awsinternetmonitor)
 
 [AWSInvoicing](/sdk-for-swift/latest/api/awsinvoicing/documentation/awsinvoicing)
