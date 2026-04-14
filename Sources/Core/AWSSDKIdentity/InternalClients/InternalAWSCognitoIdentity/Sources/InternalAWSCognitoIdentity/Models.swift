@@ -227,11 +227,6 @@ package struct GetCredentialsForIdentityInput: Swift.Sendable {
     }
 }
 
-extension GetCredentialsForIdentityInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "GetCredentialsForIdentityInput(customRoleArn: \(Swift.String(describing: customRoleArn)), identityId: \(Swift.String(describing: identityId)), logins: [keys: \(Swift.String(describing: logins?.keys)), values: \"CONTENT_REDACTED\"])"}
-}
-
 extension CognitoIdentityClientTypes {
 
     /// Credentials for the provided identity ID.
@@ -257,11 +252,6 @@ extension CognitoIdentityClientTypes {
             self.sessionToken = sessionToken
         }
     }
-}
-
-extension CognitoIdentityClientTypes.Credentials: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "Credentials(accessKeyId: \(Swift.String(describing: accessKeyId)), expiration: \(Swift.String(describing: expiration)), sessionToken: \(Swift.String(describing: sessionToken)), secretKey: \"CONTENT_REDACTED\")"}
 }
 
 /// Returned in response to a successful GetCredentialsForIdentity operation.
@@ -335,11 +325,6 @@ package struct GetIdInput: Swift.Sendable {
         self.identityPoolId = identityPoolId
         self.logins = logins
     }
-}
-
-extension GetIdInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "GetIdInput(accountId: \(Swift.String(describing: accountId)), identityPoolId: \(Swift.String(describing: identityPoolId)), logins: [keys: \(Swift.String(describing: logins?.keys)), values: \"CONTENT_REDACTED\"])"}
 }
 
 /// Returned in response to a GetId request.
