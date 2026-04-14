@@ -243,7 +243,7 @@ task("stageSdks") {
     doLast {
         discoveredServices.forEach {
             logger.info("copying ${it.outputDir} source to ${it.sourcesDir}")
-            sync {
+            copy {
                 from(it.outputDir)
                 into(it.sourcesDir)
                 exclude { details ->
