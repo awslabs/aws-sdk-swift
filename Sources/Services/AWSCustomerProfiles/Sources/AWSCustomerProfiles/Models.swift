@@ -5050,6 +5050,147 @@ extension CustomerProfilesClientTypes.SegmentGroup: Swift.CustomDebugStringConve
     }
 }
 
+extension CustomerProfilesClientTypes {
+
+    public enum SegmentSortDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case date
+        case number
+        case string
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SegmentSortDataType] {
+            return [
+                .date,
+                .number,
+                .string
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .date: return "DATE"
+            case .number: return "NUMBER"
+            case .string: return "STRING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum SegmentSortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case asc
+        case desc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SegmentSortOrder] {
+            return [
+                .asc,
+                .desc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .asc: return "ASC"
+            case .desc: return "DESC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum SortAttributeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case calculated
+        case profile
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortAttributeType] {
+            return [
+                .calculated,
+                .profile
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .calculated: return "CALCULATED"
+            case .profile: return "PROFILE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Defines the characteristics and rules for sorting by a specific attribute.
+    public struct SortAttribute: Swift.Sendable {
+        /// The data type of the sort attribute (e.g., string, number, date).
+        public var dataType: CustomerProfilesClientTypes.SegmentSortDataType?
+        /// The name of the attribute to sort by.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The sort order for the attribute (ascending or descending).
+        /// This member is required.
+        public var order: CustomerProfilesClientTypes.SegmentSortOrder?
+        /// The type of attribute (e.g., profile, calculated).
+        public var type: CustomerProfilesClientTypes.SortAttributeType?
+
+        public init(
+            dataType: CustomerProfilesClientTypes.SegmentSortDataType? = nil,
+            name: Swift.String? = nil,
+            order: CustomerProfilesClientTypes.SegmentSortOrder? = nil,
+            type: CustomerProfilesClientTypes.SortAttributeType? = .profile
+        ) {
+            self.dataType = dataType
+            self.name = name
+            self.order = order
+            self.type = type
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Defines how segments should be sorted and ordered in the results.
+    public struct SegmentSort: Swift.Sendable {
+        /// A list of attributes used to sort the segments and their ordering preferences.
+        /// This member is required.
+        public var attributes: [CustomerProfilesClientTypes.SortAttribute]?
+
+        public init(
+            attributes: [CustomerProfilesClientTypes.SortAttribute]? = nil
+        ) {
+            self.attributes = attributes
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes.SegmentSort: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 public struct CreateSegmentDefinitionInput: Swift.Sendable {
     /// The description of the segment definition.
     public var description: Swift.String?
@@ -5064,6 +5205,8 @@ public struct CreateSegmentDefinitionInput: Swift.Sendable {
     public var segmentDefinitionName: Swift.String?
     /// Specifies the base segments and dimensions for a segment definition along with their respective relationship.
     public var segmentGroups: CustomerProfilesClientTypes.SegmentGroup?
+    /// The segment sort.
+    public var segmentSort: CustomerProfilesClientTypes.SegmentSort?
     /// The segment SQL query.
     public var segmentSqlQuery: Swift.String?
     /// The tags used to organize, track, or control access for this resource.
@@ -5075,6 +5218,7 @@ public struct CreateSegmentDefinitionInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         segmentDefinitionName: Swift.String? = nil,
         segmentGroups: CustomerProfilesClientTypes.SegmentGroup? = nil,
+        segmentSort: CustomerProfilesClientTypes.SegmentSort? = nil,
         segmentSqlQuery: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
@@ -5083,6 +5227,7 @@ public struct CreateSegmentDefinitionInput: Swift.Sendable {
         self.domainName = domainName
         self.segmentDefinitionName = segmentDefinitionName
         self.segmentGroups = segmentGroups
+        self.segmentSort = segmentSort
         self.segmentSqlQuery = segmentSqlQuery
         self.tags = tags
     }
@@ -5090,7 +5235,7 @@ public struct CreateSegmentDefinitionInput: Swift.Sendable {
 
 extension CreateSegmentDefinitionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateSegmentDefinitionInput(displayName: \(Swift.String(describing: displayName)), domainName: \(Swift.String(describing: domainName)), segmentDefinitionName: \(Swift.String(describing: segmentDefinitionName)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", segmentGroups: \"CONTENT_REDACTED\", segmentSqlQuery: \"CONTENT_REDACTED\")"}
+        "CreateSegmentDefinitionInput(displayName: \(Swift.String(describing: displayName)), domainName: \(Swift.String(describing: domainName)), segmentDefinitionName: \(Swift.String(describing: segmentDefinitionName)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", segmentGroups: \"CONTENT_REDACTED\", segmentSort: \"CONTENT_REDACTED\", segmentSqlQuery: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateSegmentDefinitionOutput: Swift.Sendable {
@@ -7841,6 +7986,8 @@ public struct GetSegmentDefinitionOutput: Swift.Sendable {
     public var segmentDefinitionName: Swift.String?
     /// The segment criteria associated with this definition.
     public var segmentGroups: CustomerProfilesClientTypes.SegmentGroup?
+    /// The segment sort.
+    public var segmentSort: CustomerProfilesClientTypes.SegmentSort?
     /// The segment SQL query.
     public var segmentSqlQuery: Swift.String?
     /// The segment type. Classic : Segments created using traditional SegmentGroup structure Enhanced : Segments created using SQL queries
@@ -7855,6 +8002,7 @@ public struct GetSegmentDefinitionOutput: Swift.Sendable {
         segmentDefinitionArn: Swift.String? = nil,
         segmentDefinitionName: Swift.String? = nil,
         segmentGroups: CustomerProfilesClientTypes.SegmentGroup? = nil,
+        segmentSort: CustomerProfilesClientTypes.SegmentSort? = nil,
         segmentSqlQuery: Swift.String? = nil,
         segmentType: CustomerProfilesClientTypes.SegmentType? = nil,
         tags: [Swift.String: Swift.String]? = nil
@@ -7865,6 +8013,7 @@ public struct GetSegmentDefinitionOutput: Swift.Sendable {
         self.segmentDefinitionArn = segmentDefinitionArn
         self.segmentDefinitionName = segmentDefinitionName
         self.segmentGroups = segmentGroups
+        self.segmentSort = segmentSort
         self.segmentSqlQuery = segmentSqlQuery
         self.segmentType = segmentType
         self.tags = tags
@@ -7873,7 +8022,7 @@ public struct GetSegmentDefinitionOutput: Swift.Sendable {
 
 extension GetSegmentDefinitionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetSegmentDefinitionOutput(createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), segmentDefinitionArn: \(Swift.String(describing: segmentDefinitionArn)), segmentDefinitionName: \(Swift.String(describing: segmentDefinitionName)), segmentType: \(Swift.String(describing: segmentType)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", segmentGroups: \"CONTENT_REDACTED\", segmentSqlQuery: \"CONTENT_REDACTED\")"}
+        "GetSegmentDefinitionOutput(createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), segmentDefinitionArn: \(Swift.String(describing: segmentDefinitionArn)), segmentDefinitionName: \(Swift.String(describing: segmentDefinitionName)), segmentType: \(Swift.String(describing: segmentType)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", segmentGroups: \"CONTENT_REDACTED\", segmentSort: \"CONTENT_REDACTED\", segmentSqlQuery: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetSegmentEstimateInput: Swift.Sendable {
@@ -13525,6 +13674,7 @@ extension CreateSegmentDefinitionInput {
         try writer["Description"].write(value.description)
         try writer["DisplayName"].write(value.displayName)
         try writer["SegmentGroups"].write(value.segmentGroups, with: CustomerProfilesClientTypes.SegmentGroup.write(value:to:))
+        try writer["SegmentSort"].write(value.segmentSort, with: CustomerProfilesClientTypes.SegmentSort.write(value:to:))
         try writer["SegmentSqlQuery"].write(value.segmentSqlQuery)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -14634,6 +14784,7 @@ extension GetSegmentDefinitionOutput {
         value.segmentDefinitionArn = try reader["SegmentDefinitionArn"].readIfPresent() ?? ""
         value.segmentDefinitionName = try reader["SegmentDefinitionName"].readIfPresent()
         value.segmentGroups = try reader["SegmentGroups"].readIfPresent(with: CustomerProfilesClientTypes.SegmentGroup.read(from:))
+        value.segmentSort = try reader["SegmentSort"].readIfPresent(with: CustomerProfilesClientTypes.SegmentSort.read(from:))
         value.segmentSqlQuery = try reader["SegmentSqlQuery"].readIfPresent()
         value.segmentType = try reader["SegmentType"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -19015,11 +19166,47 @@ extension CustomerProfilesClientTypes.SegmentGroupStructure {
     }
 }
 
+extension CustomerProfilesClientTypes.SegmentSort {
+
+    static func write(value: CustomerProfilesClientTypes.SegmentSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: CustomerProfilesClientTypes.SortAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.SegmentSort {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.SegmentSort()
+        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.SortAttribute.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension CustomerProfilesClientTypes.ServiceNowSourceProperties {
 
     static func write(value: CustomerProfilesClientTypes.ServiceNowSourceProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Object"].write(value.object)
+    }
+}
+
+extension CustomerProfilesClientTypes.SortAttribute {
+
+    static func write(value: CustomerProfilesClientTypes.SortAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataType"].write(value.dataType)
+        try writer["Name"].write(value.name)
+        try writer["Order"].write(value.order)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.SortAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.SortAttribute()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.dataType = try reader["DataType"].readIfPresent()
+        value.order = try reader["Order"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["Type"].readIfPresent() ?? CustomerProfilesClientTypes.SortAttributeType.profile
+        return value
     }
 }
 

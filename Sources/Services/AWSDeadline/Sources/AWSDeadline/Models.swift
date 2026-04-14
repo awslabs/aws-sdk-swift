@@ -12411,6 +12411,30 @@ public struct GetMonitorOutput: Swift.Sendable {
     }
 }
 
+public struct GetMonitorSettingsInput: Swift.Sendable {
+    /// The unique identifier of the monitor. This ID is returned by the CreateMonitor operation, and is included in the response to the GetMonitor operation.
+    /// This member is required.
+    public var monitorId: Swift.String?
+
+    public init(
+        monitorId: Swift.String? = nil
+    ) {
+        self.monitorId = monitorId
+    }
+}
+
+public struct GetMonitorSettingsOutput: Swift.Sendable {
+    /// Monitor settings as key-value pairs.
+    /// This member is required.
+    public var settings: [Swift.String: Swift.String]?
+
+    public init(
+        settings: [Swift.String: Swift.String]? = nil
+    ) {
+        self.settings = settings
+    }
+}
+
 /// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListMonitorsInput: Swift.Sendable {
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
@@ -12537,6 +12561,28 @@ public struct UpdateMonitorInput: Swift.Sendable {
 }
 
 public struct UpdateMonitorOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateMonitorSettingsInput: Swift.Sendable {
+    /// The unique identifier of the monitor to update settings for.
+    /// This member is required.
+    public var monitorId: Swift.String?
+    /// Monitor settings as key-value pairs. Keys present in the request are upserted; keys absent are left unchanged. Send an empty string value to delete a key.
+    /// This member is required.
+    public var settings: [Swift.String: Swift.String]?
+
+    public init(
+        monitorId: Swift.String? = nil,
+        settings: [Swift.String: Swift.String]? = nil
+    ) {
+        self.monitorId = monitorId
+        self.settings = settings
+    }
+}
+
+public struct UpdateMonitorSettingsOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -14606,6 +14652,16 @@ extension GetMonitorInput {
     }
 }
 
+extension GetMonitorSettingsInput {
+
+    static func urlPathProvider(_ value: GetMonitorSettingsInput) -> Swift.String? {
+        guard let monitorId = value.monitorId else {
+            return nil
+        }
+        return "/2023-10-12/monitors/\(monitorId.urlPercentEncoding())/settings"
+    }
+}
+
 extension GetQueueInput {
 
     static func urlPathProvider(_ value: GetQueueInput) -> Swift.String? {
@@ -15893,6 +15949,16 @@ extension UpdateMonitorInput {
     }
 }
 
+extension UpdateMonitorSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateMonitorSettingsInput) -> Swift.String? {
+        guard let monitorId = value.monitorId else {
+            return nil
+        }
+        return "/2023-10-12/monitors/\(monitorId.urlPercentEncoding())/settings"
+    }
+}
+
 extension UpdateQueueInput {
 
     static func urlPathProvider(_ value: UpdateQueueInput) -> Swift.String? {
@@ -16548,6 +16614,14 @@ extension UpdateMonitorInput {
         try writer["displayName"].write(value.displayName)
         try writer["roleArn"].write(value.roleArn)
         try writer["subdomain"].write(value.subdomain)
+    }
+}
+
+extension UpdateMonitorSettingsInput {
+
+    static func write(value: UpdateMonitorSettingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["settings"].writeMap(value.settings, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -17297,6 +17371,18 @@ extension GetMonitorOutput {
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         value.url = try reader["url"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GetMonitorSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetMonitorSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetMonitorSettingsOutput()
+        value.settings = try reader["settings"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -18057,6 +18143,13 @@ extension UpdateMonitorOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateMonitorOutput {
         return UpdateMonitorOutput()
+    }
+}
+
+extension UpdateMonitorSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateMonitorSettingsOutput {
+        return UpdateMonitorSettingsOutput()
     }
 }
 
@@ -19165,6 +19258,24 @@ enum GetMonitorOutputError {
     }
 }
 
+enum GetMonitorSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetQueueOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -20135,6 +20246,24 @@ enum UpdateLimitOutputError {
 }
 
 enum UpdateMonitorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateMonitorSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()

@@ -40,3 +40,33 @@ extension PaginatorSequence where OperationStackInput == ListDashboardsInput, Op
         return try await self.asyncCompactMap { item in item.dashboards }
     }
 }
+extension BCMDashboardsClient {
+    /// Paginate over `[ListScheduledReportsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListScheduledReportsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListScheduledReportsOutput`
+    public func listScheduledReportsPaginated(input: ListScheduledReportsInput) -> ClientRuntime.PaginatorSequence<ListScheduledReportsInput, ListScheduledReportsOutput> {
+        return ClientRuntime.PaginatorSequence<ListScheduledReportsInput, ListScheduledReportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listScheduledReports(input:))
+    }
+}
+
+extension ListScheduledReportsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListScheduledReportsInput {
+        return ListScheduledReportsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListScheduledReportsInput, OperationStackOutput == ListScheduledReportsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listScheduledReportsPaginated`
+    /// to access the nested member `[BCMDashboardsClientTypes.ScheduledReportSummary]`
+    /// - Returns: `[BCMDashboardsClientTypes.ScheduledReportSummary]`
+    public func scheduledReports() async throws -> [BCMDashboardsClientTypes.ScheduledReportSummary] {
+        return try await self.asyncCompactMap { item in item.scheduledReports }
+    }
+}

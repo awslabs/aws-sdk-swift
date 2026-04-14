@@ -77,7 +77,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-/// The request would exceed service quotas. For example, attempting to create more than 20 widgets in a dashboard or exceeding the maximum number of dashboards per account.
+/// The request would exceed a service quota. Review the service quotas for Amazon Web Services Billing and Cost Management Dashboards and retry your request.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -681,6 +681,180 @@ public struct CreateDashboardOutput: Swift.Sendable {
     }
 }
 
+/// The request could not be completed due to a conflict with the current state of the resource. For example, attempting to create a resource that already exists or is being created.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension BCMDashboardsClientTypes {
+
+    /// Defines the active time period for execution of the scheduled report.
+    public struct SchedulePeriod: Swift.Sendable {
+        /// The end time of the schedule period. If not specified, defaults to 3 years from the time of the create or update request. The maximum allowed value is 3 years from the current time. Setting an end time beyond this limit returns a ValidationException.
+        public var endTime: Foundation.Date?
+        /// The start time of the schedule period. If not specified, defaults to the time of the create or update request. The start time cannot be more than 5 minutes before the time of the request.
+        public var startTime: Foundation.Date?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+    }
+}
+
+extension BCMDashboardsClientTypes {
+
+    public enum ScheduleState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScheduleState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BCMDashboardsClientTypes {
+
+    /// Defines the schedule for a scheduled report, including the cron expression, time zone, active period, and the schedule state.
+    public struct ScheduleConfig: Swift.Sendable {
+        /// The schedule expression that specifies when to trigger the scheduled report run. This value must be a cron expression consisting of six fields separated by white spaces: cron(minutes hours day_of_month month day_of_week year).
+        public var scheduleExpression: Swift.String?
+        /// The time zone for the schedule expression, for example, UTC.
+        public var scheduleExpressionTimeZone: Swift.String?
+        /// The time period during which the schedule is active.
+        public var schedulePeriod: BCMDashboardsClientTypes.SchedulePeriod?
+        /// The state of the schedule. ENABLED means the scheduled report runs according to its schedule expression. DISABLED means the scheduled report is paused and will not run until re-enabled.
+        public var state: BCMDashboardsClientTypes.ScheduleState?
+
+        public init(
+            scheduleExpression: Swift.String? = nil,
+            scheduleExpressionTimeZone: Swift.String? = nil,
+            schedulePeriod: BCMDashboardsClientTypes.SchedulePeriod? = nil,
+            state: BCMDashboardsClientTypes.ScheduleState? = nil
+        ) {
+            self.scheduleExpression = scheduleExpression
+            self.scheduleExpressionTimeZone = scheduleExpressionTimeZone
+            self.schedulePeriod = schedulePeriod
+            self.state = state
+        }
+    }
+}
+
+extension BCMDashboardsClientTypes {
+
+    /// Defines the configuration for creating a new scheduled report, including the dashboard, schedule, execution role, and optional widget settings.
+    public struct ScheduledReportInput: Swift.Sendable {
+        /// The ARN of the dashboard to generate the scheduled report from.
+        /// This member is required.
+        public var dashboardArn: Swift.String?
+        /// A description of the scheduled report's purpose or contents.
+        public var description: Swift.String?
+        /// The name of the scheduled report.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The schedule configuration that defines when and how often the report is generated. If the schedule state is not specified, it defaults to ENABLED.
+        /// This member is required.
+        public var scheduleConfig: BCMDashboardsClientTypes.ScheduleConfig?
+        /// The ARN of the IAM role that the scheduled report uses to execute. Amazon Web Services Billing and Cost Management Dashboards will assume this IAM role while executing the scheduled report.
+        /// This member is required.
+        public var scheduledReportExecutionRoleArn: Swift.String?
+        /// The date range override to apply to widgets in the scheduled report.
+        public var widgetDateRangeOverride: BCMDashboardsClientTypes.DateTimeRange?
+        /// The list of widget identifiers to include in the scheduled report. If not specified, all widgets in the dashboard are included.
+        public var widgetIds: [Swift.String]?
+
+        public init(
+            dashboardArn: Swift.String? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            scheduleConfig: BCMDashboardsClientTypes.ScheduleConfig? = nil,
+            scheduledReportExecutionRoleArn: Swift.String? = nil,
+            widgetDateRangeOverride: BCMDashboardsClientTypes.DateTimeRange? = nil,
+            widgetIds: [Swift.String]? = nil
+        ) {
+            self.dashboardArn = dashboardArn
+            self.description = description
+            self.name = name
+            self.scheduleConfig = scheduleConfig
+            self.scheduledReportExecutionRoleArn = scheduledReportExecutionRoleArn
+            self.widgetDateRangeOverride = widgetDateRangeOverride
+            self.widgetIds = widgetIds
+        }
+    }
+}
+
+public struct CreateScheduledReportInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The tags to apply to the scheduled report resource for organization and management.
+    public var resourceTags: [BCMDashboardsClientTypes.ResourceTag]?
+    /// The configuration for the scheduled report, including the dashboard to report on, the schedule, and the execution role that the service will use to generate the dashboard snapshot.
+    /// This member is required.
+    public var scheduledReport: BCMDashboardsClientTypes.ScheduledReportInput?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        resourceTags: [BCMDashboardsClientTypes.ResourceTag]? = nil,
+        scheduledReport: BCMDashboardsClientTypes.ScheduledReportInput? = nil
+    ) {
+        self.clientToken = clientToken
+        self.resourceTags = resourceTags
+        self.scheduledReport = scheduledReport
+    }
+}
+
+public struct CreateScheduledReportOutput: Swift.Sendable {
+    /// The ARN of the newly created scheduled report.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
 public struct DeleteDashboardInput: Swift.Sendable {
     /// The ARN of the dashboard to be deleted.
     /// This member is required.
@@ -726,6 +900,162 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+public struct DeleteScheduledReportInput: Swift.Sendable {
+    /// The ARN of the scheduled report to delete.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct DeleteScheduledReportOutput: Swift.Sendable {
+    /// The ARN of the scheduled report that was deleted.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct ExecuteScheduledReportInput: Swift.Sendable {
+    /// The ARN of the scheduled report to execute.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// When set to true, validates the scheduled report configuration without triggering an actual execution.
+    public var dryRun: Swift.Bool?
+
+    public init(
+        arn: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil
+    ) {
+        self.arn = arn
+        self.clientToken = clientToken
+        self.dryRun = dryRun
+    }
+}
+
+extension BCMDashboardsClientTypes {
+
+    public enum HealthStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case healthy
+        case unhealthy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HealthStatusCode] {
+            return [
+                .healthy,
+                .unhealthy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .healthy: return "HEALTHY"
+            case .unhealthy: return "UNHEALTHY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BCMDashboardsClientTypes {
+
+    public enum StatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dashboardAccessDenied
+        case dashboardNotFound
+        case dataSourceAccessDenied
+        case executionRoleAssumeFailed
+        case executionRoleInsufficientPermissions
+        case internalFailure
+        case widgetIdNotFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StatusReason] {
+            return [
+                .dashboardAccessDenied,
+                .dashboardNotFound,
+                .dataSourceAccessDenied,
+                .executionRoleAssumeFailed,
+                .executionRoleInsufficientPermissions,
+                .internalFailure,
+                .widgetIdNotFound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dashboardAccessDenied: return "DASHBOARD_ACCESS_DENIED"
+            case .dashboardNotFound: return "DASHBOARD_NOT_FOUND"
+            case .dataSourceAccessDenied: return "DATA_SOURCE_ACCESS_DENIED"
+            case .executionRoleAssumeFailed: return "EXECUTION_ROLE_ASSUME_FAILED"
+            case .executionRoleInsufficientPermissions: return "EXECUTION_ROLE_INSUFFICIENT_PERMISSIONS"
+            case .internalFailure: return "INTERNAL_FAILURE"
+            case .widgetIdNotFound: return "WIDGET_ID_NOT_FOUND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BCMDashboardsClientTypes {
+
+    /// Contains the health status information for a scheduled report, including the status code and any reasons for an unhealthy state.
+    public struct HealthStatus: Swift.Sendable {
+        /// The timestamp when the health status was last refreshed.
+        public var lastRefreshedAt: Foundation.Date?
+        /// The health status code. HEALTHY indicates the scheduled report is configured properly and has all required permissions to execute. UNHEALTHY indicates the scheduled report is unable to deliver the notification to the default Amazon EventBridge EventBus in your account and your action is needed. The reason for the unhealthy state is captured in the health status reasons.
+        /// This member is required.
+        public var statusCode: BCMDashboardsClientTypes.HealthStatusCode?
+        /// The list of reasons for the current health status. Only present when the status is UNHEALTHY.
+        public var statusReasons: [BCMDashboardsClientTypes.StatusReason]?
+
+        public init(
+            lastRefreshedAt: Foundation.Date? = nil,
+            statusCode: BCMDashboardsClientTypes.HealthStatusCode? = nil,
+            statusReasons: [BCMDashboardsClientTypes.StatusReason]? = nil
+        ) {
+            self.lastRefreshedAt = lastRefreshedAt
+            self.statusCode = statusCode
+            self.statusReasons = statusReasons
+        }
+    }
+}
+
+public struct ExecuteScheduledReportOutput: Swift.Sendable {
+    /// Indicates whether the execution was successfully triggered.
+    public var executionTriggered: Swift.Bool?
+    /// The health status of the scheduled report after the execution request.
+    public var healthStatus: BCMDashboardsClientTypes.HealthStatus?
+
+    public init(
+        executionTriggered: Swift.Bool? = nil,
+        healthStatus: BCMDashboardsClientTypes.HealthStatus? = nil
+    ) {
+        self.executionTriggered = executionTriggered
+        self.healthStatus = healthStatus
     }
 }
 
@@ -793,6 +1123,93 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
     ) {
         self.policyDocument = policyDocument
         self.resourceArn = resourceArn
+    }
+}
+
+public struct GetScheduledReportInput: Swift.Sendable {
+    /// The ARN of the scheduled report to retrieve.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+extension BCMDashboardsClientTypes {
+
+    /// Contains the full configuration and metadata of a scheduled report.
+    public struct ScheduledReport: Swift.Sendable {
+        /// The ARN of the scheduled report.
+        public var arn: Swift.String?
+        /// The timestamp when the scheduled report was created.
+        public var createdAt: Foundation.Date?
+        /// The ARN of the dashboard associated with the scheduled report.
+        /// This member is required.
+        public var dashboardArn: Swift.String?
+        /// A description of the scheduled report's purpose or contents.
+        public var description: Swift.String?
+        /// The health status of the scheduled report at last refresh time.
+        public var healthStatus: BCMDashboardsClientTypes.HealthStatus?
+        /// The timestamp of the most recent execution of the scheduled report.
+        public var lastExecutionAt: Foundation.Date?
+        /// The name of the scheduled report.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The schedule configuration that defines when and how often the report is generated.
+        /// This member is required.
+        public var scheduleConfig: BCMDashboardsClientTypes.ScheduleConfig?
+        /// The ARN of the IAM role that the scheduled report uses to execute. Amazon Web Services Billing and Cost Management Dashboards will assume this IAM role while executing the scheduled report.
+        /// This member is required.
+        public var scheduledReportExecutionRoleArn: Swift.String?
+        /// The timestamp when the scheduled report was last modified.
+        public var updatedAt: Foundation.Date?
+        /// The date range override applied to widgets in the scheduled report.
+        public var widgetDateRangeOverride: BCMDashboardsClientTypes.DateTimeRange?
+        /// The list of widget identifiers included in the scheduled report.
+        public var widgetIds: [Swift.String]?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            dashboardArn: Swift.String? = nil,
+            description: Swift.String? = nil,
+            healthStatus: BCMDashboardsClientTypes.HealthStatus? = nil,
+            lastExecutionAt: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            scheduleConfig: BCMDashboardsClientTypes.ScheduleConfig? = nil,
+            scheduledReportExecutionRoleArn: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil,
+            widgetDateRangeOverride: BCMDashboardsClientTypes.DateTimeRange? = nil,
+            widgetIds: [Swift.String]? = nil
+        ) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dashboardArn = dashboardArn
+            self.description = description
+            self.healthStatus = healthStatus
+            self.lastExecutionAt = lastExecutionAt
+            self.name = name
+            self.scheduleConfig = scheduleConfig
+            self.scheduledReportExecutionRoleArn = scheduledReportExecutionRoleArn
+            self.updatedAt = updatedAt
+            self.widgetDateRangeOverride = widgetDateRangeOverride
+            self.widgetIds = widgetIds
+        }
+    }
+}
+
+public struct GetScheduledReportOutput: Swift.Sendable {
+    /// The scheduled report configuration and metadata.
+    /// This member is required.
+    public var scheduledReport: BCMDashboardsClientTypes.ScheduledReport?
+
+    public init(
+        scheduledReport: BCMDashboardsClientTypes.ScheduledReport? = nil
+    ) {
+        self.scheduledReport = scheduledReport
     }
 }
 
@@ -867,6 +1284,86 @@ public struct ListDashboardsOutput: Swift.Sendable {
     }
 }
 
+public struct ListScheduledReportsInput: Swift.Sendable {
+    /// The maximum number of results to return in a single call. Valid range is 1 to 100. The default value is 50.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results. Use the value returned in the previous response.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BCMDashboardsClientTypes {
+
+    /// Contains summary information for a scheduled report.
+    public struct ScheduledReportSummary: Swift.Sendable {
+        /// The ARN of the scheduled report.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The ARN of the dashboard associated with the scheduled report.
+        /// This member is required.
+        public var dashboardArn: Swift.String?
+        /// The health status of the scheduled report as of its last refresh time.
+        /// This member is required.
+        public var healthStatus: BCMDashboardsClientTypes.HealthStatus?
+        /// The name of the scheduled report.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The schedule expression that defines when the report runs.
+        /// This member is required.
+        public var scheduleExpression: Swift.String?
+        /// The time zone for the schedule expression, for example, UTC.
+        public var scheduleExpressionTimeZone: Swift.String?
+        /// The state of the schedule: ENABLED or DISABLED.
+        /// This member is required.
+        public var state: BCMDashboardsClientTypes.ScheduleState?
+        /// The list of widget identifiers included in the scheduled report.
+        public var widgetIds: [Swift.String]?
+
+        public init(
+            arn: Swift.String? = nil,
+            dashboardArn: Swift.String? = nil,
+            healthStatus: BCMDashboardsClientTypes.HealthStatus? = nil,
+            name: Swift.String? = nil,
+            scheduleExpression: Swift.String? = nil,
+            scheduleExpressionTimeZone: Swift.String? = nil,
+            state: BCMDashboardsClientTypes.ScheduleState? = nil,
+            widgetIds: [Swift.String]? = nil
+        ) {
+            self.arn = arn
+            self.dashboardArn = dashboardArn
+            self.healthStatus = healthStatus
+            self.name = name
+            self.scheduleExpression = scheduleExpression
+            self.scheduleExpressionTimeZone = scheduleExpressionTimeZone
+            self.state = state
+            self.widgetIds = widgetIds
+        }
+    }
+}
+
+public struct ListScheduledReportsOutput: Swift.Sendable {
+    /// The token to use to retrieve the next page of results. Not returned if there are no more results to retrieve.
+    public var nextToken: Swift.String?
+    /// An array of scheduled report summaries, containing basic information about each scheduled report.
+    /// This member is required.
+    public var scheduledReports: [BCMDashboardsClientTypes.ScheduledReportSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        scheduledReports: [BCMDashboardsClientTypes.ScheduledReportSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.scheduledReports = scheduledReports
+    }
+}
+
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The unique identifier for the resource.
     /// This member is required.
@@ -936,6 +1433,66 @@ public struct UntagResourceOutput: Swift.Sendable {
 
 public struct UpdateDashboardOutput: Swift.Sendable {
     /// The ARN of the updated dashboard.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct UpdateScheduledReportInput: Swift.Sendable {
+    /// The ARN of the scheduled report to update.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// Set to true to clear existing widgetDateRangeOverride.
+    public var clearWidgetDateRangeOverride: Swift.Bool?
+    /// Set to true to clear existing widgetIds.
+    public var clearWidgetIds: Swift.Bool?
+    /// The ARN of the dashboard to associate with the scheduled report.
+    public var dashboardArn: Swift.String?
+    /// The new description for the scheduled report.
+    public var description: Swift.String?
+    /// The new name for the scheduled report.
+    public var name: Swift.String?
+    /// The updated schedule configuration for the report.
+    public var scheduleConfig: BCMDashboardsClientTypes.ScheduleConfig?
+    /// The ARN of the IAM role that the scheduled report uses to execute. Amazon Web Services Billing and Cost Management Dashboards will assume this IAM role while executing the scheduled report.
+    public var scheduledReportExecutionRoleArn: Swift.String?
+    /// The date range override to apply to widgets in the scheduled report.
+    public var widgetDateRangeOverride: BCMDashboardsClientTypes.DateTimeRange?
+    /// The list of widget identifiers to include in the scheduled report. If not specified, all widgets in the dashboard are included.
+    public var widgetIds: [Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        clearWidgetDateRangeOverride: Swift.Bool? = nil,
+        clearWidgetIds: Swift.Bool? = nil,
+        dashboardArn: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        scheduleConfig: BCMDashboardsClientTypes.ScheduleConfig? = nil,
+        scheduledReportExecutionRoleArn: Swift.String? = nil,
+        widgetDateRangeOverride: BCMDashboardsClientTypes.DateTimeRange? = nil,
+        widgetIds: [Swift.String]? = nil
+    ) {
+        self.arn = arn
+        self.clearWidgetDateRangeOverride = clearWidgetDateRangeOverride
+        self.clearWidgetIds = clearWidgetIds
+        self.dashboardArn = dashboardArn
+        self.description = description
+        self.name = name
+        self.scheduleConfig = scheduleConfig
+        self.scheduledReportExecutionRoleArn = scheduledReportExecutionRoleArn
+        self.widgetDateRangeOverride = widgetDateRangeOverride
+        self.widgetIds = widgetIds
+    }
+}
+
+public struct UpdateScheduledReportOutput: Swift.Sendable {
+    /// The ARN of the updated scheduled report.
     /// This member is required.
     public var arn: Swift.String?
 
@@ -1281,9 +1838,10 @@ public struct UpdateDashboardInput: Swift.Sendable {
     /// The ARN of the dashboard to update.
     /// This member is required.
     public var arn: Swift.String?
-    /// The new description for the dashboard. If not specified, the existing description is retained.
+    /// The new description for the dashboard.
     public var description: Swift.String?
-    /// The new name for the dashboard. If not specified, the existing name is retained.
+    /// The new name for the dashboard.
+    /// This member is required.
     public var name: Swift.String?
     /// The updated array of widget configurations for the dashboard. Replaces all existing widgets.
     public var widgets: [BCMDashboardsClientTypes.Widget]?
@@ -1308,9 +1866,30 @@ extension CreateDashboardInput {
     }
 }
 
+extension CreateScheduledReportInput {
+
+    static func urlPathProvider(_ value: CreateScheduledReportInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteDashboardInput {
 
     static func urlPathProvider(_ value: DeleteDashboardInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteScheduledReportInput {
+
+    static func urlPathProvider(_ value: DeleteScheduledReportInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ExecuteScheduledReportInput {
+
+    static func urlPathProvider(_ value: ExecuteScheduledReportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1329,9 +1908,23 @@ extension GetResourcePolicyInput {
     }
 }
 
+extension GetScheduledReportInput {
+
+    static func urlPathProvider(_ value: GetScheduledReportInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListDashboardsInput {
 
     static func urlPathProvider(_ value: ListDashboardsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListScheduledReportsInput {
+
+    static func urlPathProvider(_ value: ListScheduledReportsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1364,6 +1957,13 @@ extension UpdateDashboardInput {
     }
 }
 
+extension UpdateScheduledReportInput {
+
+    static func urlPathProvider(_ value: UpdateScheduledReportInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateDashboardInput {
 
     static func write(value: CreateDashboardInput?, to writer: SmithyJSON.Writer) throws {
@@ -1375,11 +1975,39 @@ extension CreateDashboardInput {
     }
 }
 
+extension CreateScheduledReportInput {
+
+    static func write(value: CreateScheduledReportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["resourceTags"].writeList(value.resourceTags, memberWritingClosure: BCMDashboardsClientTypes.ResourceTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["scheduledReport"].write(value.scheduledReport, with: BCMDashboardsClientTypes.ScheduledReportInput.write(value:to:))
+    }
+}
+
 extension DeleteDashboardInput {
 
     static func write(value: DeleteDashboardInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["arn"].write(value.arn)
+    }
+}
+
+extension DeleteScheduledReportInput {
+
+    static func write(value: DeleteScheduledReportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+    }
+}
+
+extension ExecuteScheduledReportInput {
+
+    static func write(value: ExecuteScheduledReportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["dryRun"].write(value.dryRun)
     }
 }
 
@@ -1399,9 +2027,26 @@ extension GetResourcePolicyInput {
     }
 }
 
+extension GetScheduledReportInput {
+
+    static func write(value: GetScheduledReportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+    }
+}
+
 extension ListDashboardsInput {
 
     static func write(value: ListDashboardsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListScheduledReportsInput {
+
+    static func write(value: ListScheduledReportsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
@@ -1445,6 +2090,23 @@ extension UpdateDashboardInput {
     }
 }
 
+extension UpdateScheduledReportInput {
+
+    static func write(value: UpdateScheduledReportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+        try writer["clearWidgetDateRangeOverride"].write(value.clearWidgetDateRangeOverride)
+        try writer["clearWidgetIds"].write(value.clearWidgetIds)
+        try writer["dashboardArn"].write(value.dashboardArn)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["scheduleConfig"].write(value.scheduleConfig, with: BCMDashboardsClientTypes.ScheduleConfig.write(value:to:))
+        try writer["scheduledReportExecutionRoleArn"].write(value.scheduledReportExecutionRoleArn)
+        try writer["widgetDateRangeOverride"].write(value.widgetDateRangeOverride, with: BCMDashboardsClientTypes.DateTimeRange.write(value:to:))
+        try writer["widgetIds"].writeList(value.widgetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateDashboardOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDashboardOutput {
@@ -1452,6 +2114,18 @@ extension CreateDashboardOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateDashboardOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateScheduledReportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateScheduledReportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateScheduledReportOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         return value
     }
@@ -1465,6 +2139,31 @@ extension DeleteDashboardOutput {
         let reader = responseReader
         var value = DeleteDashboardOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeleteScheduledReportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteScheduledReportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteScheduledReportOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ExecuteScheduledReportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ExecuteScheduledReportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ExecuteScheduledReportOutput()
+        value.executionTriggered = try reader["executionTriggered"].readIfPresent()
+        value.healthStatus = try reader["healthStatus"].readIfPresent(with: BCMDashboardsClientTypes.HealthStatus.read(from:))
         return value
     }
 }
@@ -1500,6 +2199,18 @@ extension GetResourcePolicyOutput {
     }
 }
 
+extension GetScheduledReportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetScheduledReportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetScheduledReportOutput()
+        value.scheduledReport = try reader["scheduledReport"].readIfPresent(with: BCMDashboardsClientTypes.ScheduledReport.read(from:))
+        return value
+    }
+}
+
 extension ListDashboardsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDashboardsOutput {
@@ -1509,6 +2220,19 @@ extension ListDashboardsOutput {
         var value = ListDashboardsOutput()
         value.dashboards = try reader["dashboards"].readListIfPresent(memberReadingClosure: BCMDashboardsClientTypes.DashboardReference.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListScheduledReportsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListScheduledReportsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListScheduledReportsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.scheduledReports = try reader["scheduledReports"].readListIfPresent(memberReadingClosure: BCMDashboardsClientTypes.ScheduledReportSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1551,6 +2275,18 @@ extension UpdateDashboardOutput {
     }
 }
 
+extension UpdateScheduledReportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateScheduledReportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateScheduledReportOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 enum CreateDashboardOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1560,6 +2296,25 @@ enum CreateDashboardOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateScheduledReportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -1579,6 +2334,43 @@ enum DeleteDashboardOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteScheduledReportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ExecuteScheduledReportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1622,7 +2414,42 @@ enum GetResourcePolicyOutputError {
     }
 }
 
+enum GetScheduledReportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListDashboardsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListScheduledReportsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -1708,6 +2535,25 @@ enum UpdateDashboardOutputError {
     }
 }
 
+enum UpdateScheduledReportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension AccessDeniedException {
 
     static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
@@ -1765,6 +2611,19 @@ extension ValidationException {
     static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1981,6 +2840,18 @@ extension BCMDashboardsClientTypes.GroupDefinition {
     }
 }
 
+extension BCMDashboardsClientTypes.HealthStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.HealthStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDashboardsClientTypes.HealthStatus()
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
+        value.lastRefreshedAt = try reader["lastRefreshedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BCMDashboardsClientTypes.StatusReason>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension BCMDashboardsClientTypes.QueryParameters {
 
     static func write(value: BCMDashboardsClientTypes.QueryParameters?, to writer: SmithyJSON.Writer) throws {
@@ -2120,6 +2991,96 @@ extension BCMDashboardsClientTypes.SavingsPlansUtilizationQuery {
         value.timeRange = try reader["timeRange"].readIfPresent(with: BCMDashboardsClientTypes.DateTimeRange.read(from:))
         value.granularity = try reader["granularity"].readIfPresent()
         value.filter = try reader["filter"].readIfPresent(with: BCMDashboardsClientTypes.Expression.read(from:))
+        return value
+    }
+}
+
+extension BCMDashboardsClientTypes.ScheduleConfig {
+
+    static func write(value: BCMDashboardsClientTypes.ScheduleConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scheduleExpression"].write(value.scheduleExpression)
+        try writer["scheduleExpressionTimeZone"].write(value.scheduleExpressionTimeZone)
+        try writer["schedulePeriod"].write(value.schedulePeriod, with: BCMDashboardsClientTypes.SchedulePeriod.write(value:to:))
+        try writer["state"].write(value.state)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.ScheduleConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDashboardsClientTypes.ScheduleConfig()
+        value.scheduleExpression = try reader["scheduleExpression"].readIfPresent()
+        value.scheduleExpressionTimeZone = try reader["scheduleExpressionTimeZone"].readIfPresent()
+        value.schedulePeriod = try reader["schedulePeriod"].readIfPresent(with: BCMDashboardsClientTypes.SchedulePeriod.read(from:))
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
+extension BCMDashboardsClientTypes.ScheduledReport {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.ScheduledReport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDashboardsClientTypes.ScheduledReport()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.dashboardArn = try reader["dashboardArn"].readIfPresent() ?? ""
+        value.scheduledReportExecutionRoleArn = try reader["scheduledReportExecutionRoleArn"].readIfPresent() ?? ""
+        value.scheduleConfig = try reader["scheduleConfig"].readIfPresent(with: BCMDashboardsClientTypes.ScheduleConfig.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.widgetIds = try reader["widgetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.widgetDateRangeOverride = try reader["widgetDateRangeOverride"].readIfPresent(with: BCMDashboardsClientTypes.DateTimeRange.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastExecutionAt = try reader["lastExecutionAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.healthStatus = try reader["healthStatus"].readIfPresent(with: BCMDashboardsClientTypes.HealthStatus.read(from:))
+        return value
+    }
+}
+
+extension BCMDashboardsClientTypes.ScheduledReportInput {
+
+    static func write(value: BCMDashboardsClientTypes.ScheduledReportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dashboardArn"].write(value.dashboardArn)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["scheduleConfig"].write(value.scheduleConfig, with: BCMDashboardsClientTypes.ScheduleConfig.write(value:to:))
+        try writer["scheduledReportExecutionRoleArn"].write(value.scheduledReportExecutionRoleArn)
+        try writer["widgetDateRangeOverride"].write(value.widgetDateRangeOverride, with: BCMDashboardsClientTypes.DateTimeRange.write(value:to:))
+        try writer["widgetIds"].writeList(value.widgetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BCMDashboardsClientTypes.ScheduledReportSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.ScheduledReportSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDashboardsClientTypes.ScheduledReportSummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.dashboardArn = try reader["dashboardArn"].readIfPresent() ?? ""
+        value.scheduleExpression = try reader["scheduleExpression"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.healthStatus = try reader["healthStatus"].readIfPresent(with: BCMDashboardsClientTypes.HealthStatus.read(from:))
+        value.scheduleExpressionTimeZone = try reader["scheduleExpressionTimeZone"].readIfPresent()
+        value.widgetIds = try reader["widgetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BCMDashboardsClientTypes.SchedulePeriod {
+
+    static func write(value: BCMDashboardsClientTypes.SchedulePeriod?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.SchedulePeriod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDashboardsClientTypes.SchedulePeriod()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }

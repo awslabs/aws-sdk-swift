@@ -4802,6 +4802,7 @@ public struct CreateDaemonOutput: Swift.Sendable {
 public struct DaemonNotActiveException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4825,6 +4826,7 @@ public struct DaemonNotActiveException: ClientRuntime.ModeledError, AWSClientRun
 public struct DaemonNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6237,7 +6239,7 @@ extension ECSClientTypes {
 
 extension ECSClientTypes.DaemonContainerDefinition: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DaemonContainerDefinition(command: \(Swift.String(describing: command)), cpu: \(Swift.String(describing: cpu)), dependsOn: \(Swift.String(describing: dependsOn)), entryPoint: \(Swift.String(describing: entryPoint)), environment: \(Swift.String(describing: environment)), environmentFiles: \(Swift.String(describing: environmentFiles)), essential: \(Swift.String(describing: essential)), firelensConfiguration: \(Swift.String(describing: firelensConfiguration)), healthCheck: \(Swift.String(describing: healthCheck)), image: \(Swift.String(describing: image)), interactive: \(Swift.String(describing: interactive)), linuxParameters: \(Swift.String(describing: linuxParameters)), logConfiguration: \(Swift.String(describing: logConfiguration)), memory: \(Swift.String(describing: memory)), memoryReservation: \(Swift.String(describing: memoryReservation)), mountPoints: \(Swift.String(describing: mountPoints)), name: \(Swift.String(describing: name)), privileged: \(Swift.String(describing: privileged)), pseudoTerminal: \(Swift.String(describing: pseudoTerminal)), readonlyRootFilesystem: \(Swift.String(describing: readonlyRootFilesystem)), restartPolicy: \(Swift.String(describing: restartPolicy)), secrets: \(Swift.String(describing: secrets)), startTimeout: \(Swift.String(describing: startTimeout)), stopTimeout: \(Swift.String(describing: stopTimeout)), systemControls: \(Swift.String(describing: systemControls)), ulimits: \(Swift.String(describing: ulimits)), user: \(Swift.String(describing: user)), workingDirectory: \(Swift.String(describing: workingDirectory)), repositoryCredentials: \"CONTENT_REDACTED\")"}
+        "DaemonContainerDefinition(command: \(Swift.String(describing: command)), cpu: \(Swift.String(describing: cpu)), dependsOn: \(Swift.String(describing: dependsOn)), entryPoint: \(Swift.String(describing: entryPoint)), environmentFiles: \(Swift.String(describing: environmentFiles)), essential: \(Swift.String(describing: essential)), firelensConfiguration: \(Swift.String(describing: firelensConfiguration)), healthCheck: \(Swift.String(describing: healthCheck)), image: \(Swift.String(describing: image)), interactive: \(Swift.String(describing: interactive)), linuxParameters: \(Swift.String(describing: linuxParameters)), logConfiguration: \(Swift.String(describing: logConfiguration)), memory: \(Swift.String(describing: memory)), memoryReservation: \(Swift.String(describing: memoryReservation)), mountPoints: \(Swift.String(describing: mountPoints)), name: \(Swift.String(describing: name)), privileged: \(Swift.String(describing: privileged)), pseudoTerminal: \(Swift.String(describing: pseudoTerminal)), readonlyRootFilesystem: \(Swift.String(describing: readonlyRootFilesystem)), restartPolicy: \(Swift.String(describing: restartPolicy)), secrets: \(Swift.String(describing: secrets)), startTimeout: \(Swift.String(describing: startTimeout)), stopTimeout: \(Swift.String(describing: stopTimeout)), systemControls: \(Swift.String(describing: systemControls)), ulimits: \(Swift.String(describing: ulimits)), user: \(Swift.String(describing: user)), workingDirectory: \(Swift.String(describing: workingDirectory)), environment: \"CONTENT_REDACTED\", repositoryCredentials: \"CONTENT_REDACTED\")"}
 }
 
 extension ECSClientTypes {
@@ -6838,7 +6840,7 @@ extension ECSClientTypes {
         public var sharedMemorySize: Swift.Int?
         /// This allows you to tune a container's memory swappiness behavior. A swappiness value of 0 will cause swapping to not happen unless absolutely necessary. A swappiness value of 100 will cause pages to be swapped very aggressively. Accepted values are whole numbers between 0 and 100. If the swappiness parameter is not specified, a default value of 60 is used. If a value is not specified for maxSwap then this parameter is ignored. This parameter maps to the --memory-swappiness option to docker run. If you're using tasks that use the Fargate launch type, the swappiness parameter isn't supported. If you're using tasks on Amazon Linux 2023 the swappiness parameter isn't supported.
         public var swappiness: Swift.Int?
-        /// The container path, mount options, and size (in MiB) of the tmpfs mount. This parameter maps to the --tmpfs option to docker run. If you're using tasks that use the Fargate launch type, the tmpfs parameter isn't supported.
+        /// The container path, mount options, and size (in MiB) of the tmpfs mount. This parameter maps to the --tmpfs option to docker run.
         public var tmpfs: [ECSClientTypes.Tmpfs]?
 
         public init(
@@ -7298,7 +7300,7 @@ extension ECSClientTypes {
 
 extension ECSClientTypes.ContainerDefinition: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ContainerDefinition(command: \(Swift.String(describing: command)), cpu: \(Swift.String(describing: cpu)), credentialSpecs: \(Swift.String(describing: credentialSpecs)), dependsOn: \(Swift.String(describing: dependsOn)), disableNetworking: \(Swift.String(describing: disableNetworking)), dnsSearchDomains: \(Swift.String(describing: dnsSearchDomains)), dnsServers: \(Swift.String(describing: dnsServers)), dockerLabels: \(Swift.String(describing: dockerLabels)), dockerSecurityOptions: \(Swift.String(describing: dockerSecurityOptions)), entryPoint: \(Swift.String(describing: entryPoint)), environment: \(Swift.String(describing: environment)), environmentFiles: \(Swift.String(describing: environmentFiles)), essential: \(Swift.String(describing: essential)), extraHosts: \(Swift.String(describing: extraHosts)), firelensConfiguration: \(Swift.String(describing: firelensConfiguration)), healthCheck: \(Swift.String(describing: healthCheck)), hostname: \(Swift.String(describing: hostname)), image: \(Swift.String(describing: image)), interactive: \(Swift.String(describing: interactive)), links: \(Swift.String(describing: links)), linuxParameters: \(Swift.String(describing: linuxParameters)), logConfiguration: \(Swift.String(describing: logConfiguration)), memory: \(Swift.String(describing: memory)), memoryReservation: \(Swift.String(describing: memoryReservation)), mountPoints: \(Swift.String(describing: mountPoints)), name: \(Swift.String(describing: name)), portMappings: \(Swift.String(describing: portMappings)), privileged: \(Swift.String(describing: privileged)), pseudoTerminal: \(Swift.String(describing: pseudoTerminal)), readonlyRootFilesystem: \(Swift.String(describing: readonlyRootFilesystem)), resourceRequirements: \(Swift.String(describing: resourceRequirements)), restartPolicy: \(Swift.String(describing: restartPolicy)), secrets: \(Swift.String(describing: secrets)), startTimeout: \(Swift.String(describing: startTimeout)), stopTimeout: \(Swift.String(describing: stopTimeout)), systemControls: \(Swift.String(describing: systemControls)), ulimits: \(Swift.String(describing: ulimits)), user: \(Swift.String(describing: user)), versionConsistency: \(Swift.String(describing: versionConsistency)), volumesFrom: \(Swift.String(describing: volumesFrom)), workingDirectory: \(Swift.String(describing: workingDirectory)), repositoryCredentials: \"CONTENT_REDACTED\")"}
+        "ContainerDefinition(command: \(Swift.String(describing: command)), cpu: \(Swift.String(describing: cpu)), credentialSpecs: \(Swift.String(describing: credentialSpecs)), dependsOn: \(Swift.String(describing: dependsOn)), disableNetworking: \(Swift.String(describing: disableNetworking)), dnsSearchDomains: \(Swift.String(describing: dnsSearchDomains)), dnsServers: \(Swift.String(describing: dnsServers)), dockerLabels: \(Swift.String(describing: dockerLabels)), dockerSecurityOptions: \(Swift.String(describing: dockerSecurityOptions)), entryPoint: \(Swift.String(describing: entryPoint)), environmentFiles: \(Swift.String(describing: environmentFiles)), essential: \(Swift.String(describing: essential)), extraHosts: \(Swift.String(describing: extraHosts)), firelensConfiguration: \(Swift.String(describing: firelensConfiguration)), healthCheck: \(Swift.String(describing: healthCheck)), hostname: \(Swift.String(describing: hostname)), image: \(Swift.String(describing: image)), interactive: \(Swift.String(describing: interactive)), links: \(Swift.String(describing: links)), linuxParameters: \(Swift.String(describing: linuxParameters)), logConfiguration: \(Swift.String(describing: logConfiguration)), memory: \(Swift.String(describing: memory)), memoryReservation: \(Swift.String(describing: memoryReservation)), mountPoints: \(Swift.String(describing: mountPoints)), name: \(Swift.String(describing: name)), portMappings: \(Swift.String(describing: portMappings)), privileged: \(Swift.String(describing: privileged)), pseudoTerminal: \(Swift.String(describing: pseudoTerminal)), readonlyRootFilesystem: \(Swift.String(describing: readonlyRootFilesystem)), resourceRequirements: \(Swift.String(describing: resourceRequirements)), restartPolicy: \(Swift.String(describing: restartPolicy)), secrets: \(Swift.String(describing: secrets)), startTimeout: \(Swift.String(describing: startTimeout)), stopTimeout: \(Swift.String(describing: stopTimeout)), systemControls: \(Swift.String(describing: systemControls)), ulimits: \(Swift.String(describing: ulimits)), user: \(Swift.String(describing: user)), versionConsistency: \(Swift.String(describing: versionConsistency)), volumesFrom: \(Swift.String(describing: volumesFrom)), workingDirectory: \(Swift.String(describing: workingDirectory)), environment: \"CONTENT_REDACTED\", repositoryCredentials: \"CONTENT_REDACTED\")"}
 }
 
 extension ECSClientTypes {
@@ -7317,27 +7319,6 @@ extension ECSClientTypes {
             sizeInGiB: Swift.Int = 0
         ) {
             self.sizeInGiB = sizeInGiB
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// Details on an Elastic Inference accelerator. For more information, see [Working with Amazon Elastic Inference on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-inference.html) in the Amazon Elastic Container Service Developer Guide.
-    public struct InferenceAccelerator: Swift.Sendable {
-        /// The Elastic Inference accelerator device name. The deviceName must also be referenced in a container definition as a [ResourceRequirement](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ResourceRequirement.html).
-        /// This member is required.
-        public var deviceName: Swift.String?
-        /// The Elastic Inference accelerator type to use.
-        /// This member is required.
-        public var deviceType: Swift.String?
-
-        public init(
-            deviceName: Swift.String? = nil,
-            deviceType: Swift.String? = nil
-        ) {
-            self.deviceName = deviceName
-            self.deviceType = deviceType
         }
     }
 }
@@ -7985,8 +7966,6 @@ extension ECSClientTypes {
         public var executionRoleArn: Swift.String?
         /// The name of a family that this task definition is registered to. Up to 255 characters are allowed. Letters (both uppercase and lowercase letters), numbers, hyphens (-), and underscores (_) are allowed. A family groups multiple versions of a task definition. Amazon ECS gives the first task definition that you registered to a family a revision number of 1. Amazon ECS gives sequential revision numbers to each task definition that you add.
         public var family: Swift.String?
-        /// The Elastic Inference accelerator that's associated with the task.
-        public var inferenceAccelerators: [ECSClientTypes.InferenceAccelerator]?
         /// The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, then all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, then IPC resources within the containers of a task are private and not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. If the host IPC mode is used, be aware that there is a heightened risk of undesired IPC namespace expose. If you are setting namespaced kernel parameters using systemControls for the containers in the task, the following will apply to your IPC resource namespace. For more information, see [System Controls](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html) in the Amazon Elastic Container Service Developer Guide.
         ///
         /// * For tasks that use the host IPC mode, IPC namespace related systemControls are not supported.
@@ -8051,7 +8030,6 @@ extension ECSClientTypes {
             ephemeralStorage: ECSClientTypes.EphemeralStorage? = nil,
             executionRoleArn: Swift.String? = nil,
             family: Swift.String? = nil,
-            inferenceAccelerators: [ECSClientTypes.InferenceAccelerator]? = nil,
             ipcMode: ECSClientTypes.IpcMode? = nil,
             memory: Swift.String? = nil,
             networkMode: ECSClientTypes.NetworkMode? = nil,
@@ -8078,7 +8056,6 @@ extension ECSClientTypes {
             self.ephemeralStorage = ephemeralStorage
             self.executionRoleArn = executionRoleArn
             self.family = family
-            self.inferenceAccelerators = inferenceAccelerators
             self.ipcMode = ipcMode
             self.memory = memory
             self.networkMode = networkMode
@@ -9296,6 +9273,11 @@ extension ECSClientTypes {
             self.secrets = secrets
         }
     }
+}
+
+extension ECSClientTypes.ExpressGatewayContainer: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ExpressGatewayContainer(awsLogsConfiguration: \(Swift.String(describing: awsLogsConfiguration)), command: \(Swift.String(describing: command)), containerPort: \(Swift.String(describing: containerPort)), image: \(Swift.String(describing: image)), repositoryCredentials: \(Swift.String(describing: repositoryCredentials)), secrets: \(Swift.String(describing: secrets)), environment: \"CONTENT_REDACTED\")"}
 }
 
 extension ECSClientTypes {
@@ -12842,8 +12824,6 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
     /// You must specify a family for a task definition. You can use it track multiple versions of the same task definition. The family is used as a name for your task definition. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
     /// This member is required.
     public var family: Swift.String?
-    /// The Elastic Inference accelerators to use for the containers in the task.
-    public var inferenceAccelerators: [ECSClientTypes.InferenceAccelerator]?
     /// The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, then all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, then IPC resources within the containers of a task are private and not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. If the host IPC mode is used, be aware that there is a heightened risk of undesired IPC namespace expose. If you are setting namespaced kernel parameters using systemControls for the containers in the task, the following will apply to your IPC resource namespace. For more information, see [System Controls](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// * For tasks that use the host IPC mode, IPC namespace related systemControls are not supported.
@@ -12909,7 +12889,6 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
         ephemeralStorage: ECSClientTypes.EphemeralStorage? = nil,
         executionRoleArn: Swift.String? = nil,
         family: Swift.String? = nil,
-        inferenceAccelerators: [ECSClientTypes.InferenceAccelerator]? = nil,
         ipcMode: ECSClientTypes.IpcMode? = nil,
         memory: Swift.String? = nil,
         networkMode: ECSClientTypes.NetworkMode? = nil,
@@ -12928,7 +12907,6 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
         self.ephemeralStorage = ephemeralStorage
         self.executionRoleArn = executionRoleArn
         self.family = family
-        self.inferenceAccelerators = inferenceAccelerators
         self.ipcMode = ipcMode
         self.memory = memory
         self.networkMode = networkMode
@@ -13258,23 +13236,9 @@ extension ECSClientTypes {
     }
 }
 
-extension ECSClientTypes {
-
-    /// Details on an Elastic Inference accelerator task override. This parameter is used to override the Elastic Inference accelerator specified in the task definition. For more information, see [Working with Amazon Elastic Inference on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-inference.html) in the Amazon Elastic Container Service Developer Guide.
-    public struct InferenceAcceleratorOverride: Swift.Sendable {
-        /// The Elastic Inference accelerator device name to override for the task. This parameter must match a deviceName specified in the task definition.
-        public var deviceName: Swift.String?
-        /// The Elastic Inference accelerator type to use.
-        public var deviceType: Swift.String?
-
-        public init(
-            deviceName: Swift.String? = nil,
-            deviceType: Swift.String? = nil
-        ) {
-            self.deviceName = deviceName
-            self.deviceType = deviceType
-        }
-    }
+extension ECSClientTypes.ContainerOverride: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ContainerOverride(command: \(Swift.String(describing: command)), cpu: \(Swift.String(describing: cpu)), environmentFiles: \(Swift.String(describing: environmentFiles)), memory: \(Swift.String(describing: memory)), memoryReservation: \(Swift.String(describing: memoryReservation)), name: \(Swift.String(describing: name)), resourceRequirements: \(Swift.String(describing: resourceRequirements)), environment: \"CONTENT_REDACTED\")"}
 }
 
 extension ECSClientTypes {
@@ -13293,8 +13257,6 @@ extension ECSClientTypes {
         public var ephemeralStorage: ECSClientTypes.EphemeralStorage?
         /// The Amazon Resource Name (ARN) of the task execution role override for the task. For more information, see [Amazon ECS task execution IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_execution_IAM_role.html) in the Amazon Elastic Container Service Developer Guide.
         public var executionRoleArn: Swift.String?
-        /// The Elastic Inference accelerator override for the task.
-        public var inferenceAcceleratorOverrides: [ECSClientTypes.InferenceAcceleratorOverride]?
         /// The memory override for the task.
         public var memory: Swift.String?
         /// The Amazon Resource Name (ARN) of the role that containers in this task can assume. All containers in this task are granted the permissions that are specified in this role. For more information, see [IAM Role for Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html) in the Amazon Elastic Container Service Developer Guide.
@@ -13305,7 +13267,6 @@ extension ECSClientTypes {
             cpu: Swift.String? = nil,
             ephemeralStorage: ECSClientTypes.EphemeralStorage? = nil,
             executionRoleArn: Swift.String? = nil,
-            inferenceAcceleratorOverrides: [ECSClientTypes.InferenceAcceleratorOverride]? = nil,
             memory: Swift.String? = nil,
             taskRoleArn: Swift.String? = nil
         ) {
@@ -13313,7 +13274,6 @@ extension ECSClientTypes {
             self.cpu = cpu
             self.ephemeralStorage = ephemeralStorage
             self.executionRoleArn = executionRoleArn
-            self.inferenceAcceleratorOverrides = inferenceAcceleratorOverrides
             self.memory = memory
             self.taskRoleArn = taskRoleArn
         }
@@ -13401,8 +13361,6 @@ extension ECSClientTypes {
         public var group: Swift.String?
         /// The health status for the task. It's determined by the health of the essential containers in the task. If all essential containers in the task are reporting as HEALTHY, the task status also reports as HEALTHY. If any essential containers in the task are reporting as UNHEALTHY or UNKNOWN, the task status also reports as UNHEALTHY or UNKNOWN. The Amazon ECS container agent doesn't monitor or report on Docker health checks that are embedded in a container image and not specified in the container definition. For example, this includes those specified in a parent image or from the image's Dockerfile. Health check parameters that are specified in a container definition override any Docker health checks that are found in the container image.
         public var healthStatus: ECSClientTypes.HealthStatus?
-        /// The Elastic Inference accelerator that's associated with the task.
-        public var inferenceAccelerators: [ECSClientTypes.InferenceAccelerator]?
         /// The last known status for the task. For more information, see [Task Lifecycle](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-lifecycle.html).
         public var lastStatus: Swift.String?
         /// The infrastructure where your task runs on. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide.
@@ -13487,7 +13445,6 @@ extension ECSClientTypes {
             fargateEphemeralStorage: ECSClientTypes.TaskEphemeralStorage? = nil,
             group: Swift.String? = nil,
             healthStatus: ECSClientTypes.HealthStatus? = nil,
-            inferenceAccelerators: [ECSClientTypes.InferenceAccelerator]? = nil,
             lastStatus: Swift.String? = nil,
             launchType: ECSClientTypes.LaunchType? = nil,
             memory: Swift.String? = nil,
@@ -13525,7 +13482,6 @@ extension ECSClientTypes {
             self.fargateEphemeralStorage = fargateEphemeralStorage
             self.group = group
             self.healthStatus = healthStatus
-            self.inferenceAccelerators = inferenceAccelerators
             self.lastStatus = lastStatus
             self.launchType = launchType
             self.memory = memory
@@ -15466,7 +15422,6 @@ extension RegisterTaskDefinitionInput {
         try writer["ephemeralStorage"].write(value.ephemeralStorage, with: ECSClientTypes.EphemeralStorage.write(value:to:))
         try writer["executionRoleArn"].write(value.executionRoleArn)
         try writer["family"].write(value.family)
-        try writer["inferenceAccelerators"].writeList(value.inferenceAccelerators, memberWritingClosure: ECSClientTypes.InferenceAccelerator.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ipcMode"].write(value.ipcMode)
         try writer["memory"].write(value.memory)
         try writer["networkMode"].write(value.networkMode)
@@ -16706,6 +16661,7 @@ enum CreateCapacityProviderOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -16726,6 +16682,7 @@ enum CreateClusterOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "NamespaceNotFoundException": return try NamespaceNotFoundException.makeError(baseError: baseError)
@@ -16810,6 +16767,7 @@ enum CreateTaskSetOutputError {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "NamespaceNotFoundException": return try NamespaceNotFoundException.makeError(baseError: baseError)
             case "PlatformTaskDefinitionIncompatibilityException": return try PlatformTaskDefinitionIncompatibilityException.makeError(baseError: baseError)
             case "PlatformUnknownException": return try PlatformUnknownException.makeError(baseError: baseError)
@@ -16830,6 +16788,7 @@ enum DeleteAccountSettingOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
@@ -16846,8 +16805,11 @@ enum DeleteAttributesOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
             case "TargetNotFoundException": return try TargetNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -16862,11 +16824,13 @@ enum DeleteCapacityProviderOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
+            case "UpdateInProgressException": return try UpdateInProgressException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -16880,6 +16844,7 @@ enum DeleteClusterOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterContainsCapacityProviderException": return try ClusterContainsCapacityProviderException.makeError(baseError: baseError)
             case "ClusterContainsContainerInstancesException": return try ClusterContainsContainerInstancesException.makeError(baseError: baseError)
@@ -16961,6 +16926,7 @@ enum DeleteServiceOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -17000,6 +16966,7 @@ enum DeleteTaskSetOutputError {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             case "ServiceNotActiveException": return try ServiceNotActiveException.makeError(baseError: baseError)
             case "ServiceNotFoundException": return try ServiceNotFoundException.makeError(baseError: baseError)
@@ -17018,6 +16985,7 @@ enum DeregisterContainerInstanceOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -17035,6 +17003,7 @@ enum DeregisterTaskDefinitionOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
@@ -17051,6 +17020,7 @@ enum DescribeCapacityProvidersOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -17069,6 +17039,7 @@ enum DescribeClustersOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
@@ -17085,6 +17056,7 @@ enum DescribeContainerInstancesOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -17237,6 +17209,7 @@ enum DescribeServicesOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -17254,6 +17227,7 @@ enum DescribeTaskDefinitionOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
@@ -17270,6 +17244,7 @@ enum DescribeTasksOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -17308,7 +17283,9 @@ enum DiscoverPollEndpointOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -17362,6 +17339,7 @@ enum ListAccountSettingsOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
@@ -17378,8 +17356,11 @@ enum ListAttributesOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -17393,6 +17374,7 @@ enum ListClustersOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
@@ -17409,6 +17391,7 @@ enum ListContainerInstancesOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -17483,6 +17466,7 @@ enum ListServiceDeploymentsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             case "ServiceNotFoundException": return try ServiceNotFoundException.makeError(baseError: baseError)
@@ -17500,6 +17484,7 @@ enum ListServicesOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -17517,6 +17502,7 @@ enum ListServicesByNamespaceOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "NamespaceNotFoundException": return try NamespaceNotFoundException.makeError(baseError: baseError)
@@ -17534,6 +17520,7 @@ enum ListTagsForResourceOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -17551,6 +17538,7 @@ enum ListTaskDefinitionFamiliesOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
@@ -17567,6 +17555,7 @@ enum ListTaskDefinitionsOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
@@ -17583,6 +17572,7 @@ enum ListTasksOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -17601,6 +17591,7 @@ enum PutAccountSettingOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
@@ -17617,6 +17608,7 @@ enum PutAccountSettingDefaultOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
@@ -17633,9 +17625,12 @@ enum PutAttributesOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "AttributeLimitExceededException": return try AttributeLimitExceededException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
             case "TargetNotFoundException": return try TargetNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -17650,6 +17645,7 @@ enum PutClusterCapacityProvidersOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -17669,7 +17665,9 @@ enum RegisterContainerInstanceOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -17703,8 +17701,10 @@ enum RegisterTaskDefinitionOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -17742,9 +17742,11 @@ enum StartTaskOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "NamespaceNotFoundException": return try NamespaceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -17780,6 +17782,7 @@ enum StopTaskOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -17799,6 +17802,7 @@ enum SubmitAttachmentStateChangesOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -17816,6 +17820,8 @@ enum SubmitContainerStateChangeOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -17832,6 +17838,7 @@ enum SubmitTaskStateChangeOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -17847,9 +17854,11 @@ enum TagResourceOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -17865,6 +17874,7 @@ enum UntagResourceOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -17883,6 +17893,7 @@ enum UpdateCapacityProviderOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -17901,6 +17912,7 @@ enum UpdateClusterOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -17919,10 +17931,12 @@ enum UpdateClusterSettingsOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "UpdateInProgressException": return try UpdateInProgressException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -17936,6 +17950,7 @@ enum UpdateContainerAgentOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -17956,6 +17971,7 @@ enum UpdateContainerInstancesStateOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -18086,6 +18102,7 @@ enum UpdateTaskSetOutputError {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             case "ServiceNotActiveException": return try ServiceNotActiveException.makeError(baseError: baseError)
             case "ServiceNotFoundException": return try ServiceNotFoundException.makeError(baseError: baseError)
@@ -18093,6 +18110,19 @@ enum UpdateTaskSetOutputError {
             case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
+    }
+}
+
+extension AccessDeniedException {
+
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
     }
 }
 
@@ -18192,19 +18222,6 @@ extension NamespaceNotFoundException {
     static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NamespaceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = NamespaceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccessDeniedException {
-
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20039,40 +20056,6 @@ extension ECSClientTypes.HostVolumeProperties {
     }
 }
 
-extension ECSClientTypes.InferenceAccelerator {
-
-    static func write(value: ECSClientTypes.InferenceAccelerator?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deviceName"].write(value.deviceName)
-        try writer["deviceType"].write(value.deviceType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.InferenceAccelerator {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ECSClientTypes.InferenceAccelerator()
-        value.deviceName = try reader["deviceName"].readIfPresent() ?? ""
-        value.deviceType = try reader["deviceType"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ECSClientTypes.InferenceAcceleratorOverride {
-
-    static func write(value: ECSClientTypes.InferenceAcceleratorOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deviceName"].write(value.deviceName)
-        try writer["deviceType"].write(value.deviceType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.InferenceAcceleratorOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ECSClientTypes.InferenceAcceleratorOverride()
-        value.deviceName = try reader["deviceName"].readIfPresent()
-        value.deviceType = try reader["deviceType"].readIfPresent()
-        return value
-    }
-}
-
 extension ECSClientTypes.InfrastructureOptimization {
 
     static func write(value: ECSClientTypes.InfrastructureOptimization?, to writer: SmithyJSON.Writer) throws {
@@ -21546,7 +21529,6 @@ extension ECSClientTypes.Task {
         value.executionStoppedAt = try reader["executionStoppedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.group = try reader["group"].readIfPresent()
         value.healthStatus = try reader["healthStatus"].readIfPresent()
-        value.inferenceAccelerators = try reader["inferenceAccelerators"].readListIfPresent(memberReadingClosure: ECSClientTypes.InferenceAccelerator.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastStatus = try reader["lastStatus"].readIfPresent()
         value.launchType = try reader["launchType"].readIfPresent()
         value.memory = try reader["memory"].readIfPresent()
@@ -21592,7 +21574,6 @@ extension ECSClientTypes.TaskDefinition {
         value.requiresCompatibilities = try reader["requiresCompatibilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ECSClientTypes.Compatibility>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.cpu = try reader["cpu"].readIfPresent()
         value.memory = try reader["memory"].readIfPresent()
-        value.inferenceAccelerators = try reader["inferenceAccelerators"].readListIfPresent(memberReadingClosure: ECSClientTypes.InferenceAccelerator.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.pidMode = try reader["pidMode"].readIfPresent()
         value.ipcMode = try reader["ipcMode"].readIfPresent()
         value.proxyConfiguration = try reader["proxyConfiguration"].readIfPresent(with: ECSClientTypes.ProxyConfiguration.read(from:))
@@ -21669,7 +21650,6 @@ extension ECSClientTypes.TaskOverride {
         try writer["cpu"].write(value.cpu)
         try writer["ephemeralStorage"].write(value.ephemeralStorage, with: ECSClientTypes.EphemeralStorage.write(value:to:))
         try writer["executionRoleArn"].write(value.executionRoleArn)
-        try writer["inferenceAcceleratorOverrides"].writeList(value.inferenceAcceleratorOverrides, memberWritingClosure: ECSClientTypes.InferenceAcceleratorOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["memory"].write(value.memory)
         try writer["taskRoleArn"].write(value.taskRoleArn)
     }
@@ -21679,7 +21659,6 @@ extension ECSClientTypes.TaskOverride {
         var value = ECSClientTypes.TaskOverride()
         value.containerOverrides = try reader["containerOverrides"].readListIfPresent(memberReadingClosure: ECSClientTypes.ContainerOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.cpu = try reader["cpu"].readIfPresent()
-        value.inferenceAcceleratorOverrides = try reader["inferenceAcceleratorOverrides"].readListIfPresent(memberReadingClosure: ECSClientTypes.InferenceAcceleratorOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
         value.memory = try reader["memory"].readIfPresent()
         value.taskRoleArn = try reader["taskRoleArn"].readIfPresent()

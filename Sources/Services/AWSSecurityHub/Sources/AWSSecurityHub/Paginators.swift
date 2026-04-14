@@ -314,6 +314,7 @@ extension GetFindingsV2Input: ClientRuntime.PaginateToken {
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
+            scopes: self.scopes,
             sortCriteria: self.sortCriteria
         )}
 }
@@ -410,6 +411,7 @@ extension GetResourcesV2Input: ClientRuntime.PaginateToken {
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
+            scopes: self.scopes,
             sortCriteria: self.sortCriteria
         )}
 }

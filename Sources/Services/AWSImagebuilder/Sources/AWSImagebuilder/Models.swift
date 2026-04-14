@@ -2443,6 +2443,8 @@ public struct CreateImagePipelineInput: Swift.Sendable {
     public var imageRecipeArn: Swift.String?
     /// Contains settings for vulnerability scans.
     public var imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration?
+    /// The tags to be applied to the images produced by this pipeline.
+    public var imageTags: [Swift.String: Swift.String]?
     /// The image test configuration of the image pipeline.
     public var imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration?
     /// The Amazon Resource Name (ARN) of the infrastructure configuration that will be used to build images created by this image pipeline.
@@ -2471,6 +2473,7 @@ public struct CreateImagePipelineInput: Swift.Sendable {
         executionRole: Swift.String? = nil,
         imageRecipeArn: Swift.String? = nil,
         imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration? = nil,
+        imageTags: [Swift.String: Swift.String]? = nil,
         imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration? = nil,
         infrastructureConfigurationArn: Swift.String? = nil,
         loggingConfiguration: ImagebuilderClientTypes.PipelineLoggingConfiguration? = nil,
@@ -2488,6 +2491,7 @@ public struct CreateImagePipelineInput: Swift.Sendable {
         self.executionRole = executionRole
         self.imageRecipeArn = imageRecipeArn
         self.imageScanningConfiguration = imageScanningConfiguration
+        self.imageTags = imageTags
         self.imageTestsConfiguration = imageTestsConfiguration
         self.infrastructureConfigurationArn = infrastructureConfigurationArn
         self.loggingConfiguration = loggingConfiguration
@@ -4551,6 +4555,8 @@ extension ImagebuilderClientTypes {
         public var imageRecipeArn: Swift.String?
         /// Contains settings for vulnerability scans.
         public var imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration?
+        /// The tags to be applied to the images produced by this pipeline.
+        public var imageTags: [Swift.String: Swift.String]?
         /// The image tests configuration of the image pipeline.
         public var imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration?
         /// The Amazon Resource Name (ARN) of the infrastructure configuration associated with this image pipeline.
@@ -4586,6 +4592,7 @@ extension ImagebuilderClientTypes {
             executionRole: Swift.String? = nil,
             imageRecipeArn: Swift.String? = nil,
             imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration? = nil,
+            imageTags: [Swift.String: Swift.String]? = nil,
             imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration? = nil,
             infrastructureConfigurationArn: Swift.String? = nil,
             lastRunStatus: ImagebuilderClientTypes.ImageStatus? = nil,
@@ -4610,6 +4617,7 @@ extension ImagebuilderClientTypes {
             self.executionRole = executionRole
             self.imageRecipeArn = imageRecipeArn
             self.imageScanningConfiguration = imageScanningConfiguration
+            self.imageTags = imageTags
             self.imageTestsConfiguration = imageTestsConfiguration
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
             self.lastRunStatus = lastRunStatus
@@ -8363,6 +8371,8 @@ public struct UpdateImagePipelineInput: Swift.Sendable {
     public var imageRecipeArn: Swift.String?
     /// Contains settings for vulnerability scans.
     public var imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration?
+    /// The tags to be applied to the images produced by this pipeline.
+    public var imageTags: [Swift.String: Swift.String]?
     /// The image test configuration of the image pipeline.
     public var imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration?
     /// The Amazon Resource Name (ARN) of the infrastructure configuration that Image Builder uses to build images that this image pipeline has updated.
@@ -8387,6 +8397,7 @@ public struct UpdateImagePipelineInput: Swift.Sendable {
         imagePipelineArn: Swift.String? = nil,
         imageRecipeArn: Swift.String? = nil,
         imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration? = nil,
+        imageTags: [Swift.String: Swift.String]? = nil,
         imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration? = nil,
         infrastructureConfigurationArn: Swift.String? = nil,
         loggingConfiguration: ImagebuilderClientTypes.PipelineLoggingConfiguration? = nil,
@@ -8403,6 +8414,7 @@ public struct UpdateImagePipelineInput: Swift.Sendable {
         self.imagePipelineArn = imagePipelineArn
         self.imageRecipeArn = imageRecipeArn
         self.imageScanningConfiguration = imageScanningConfiguration
+        self.imageTags = imageTags
         self.imageTestsConfiguration = imageTestsConfiguration
         self.infrastructureConfigurationArn = infrastructureConfigurationArn
         self.loggingConfiguration = loggingConfiguration
@@ -9593,6 +9605,7 @@ extension CreateImagePipelineInput {
         try writer["executionRole"].write(value.executionRole)
         try writer["imageRecipeArn"].write(value.imageRecipeArn)
         try writer["imageScanningConfiguration"].write(value.imageScanningConfiguration, with: ImagebuilderClientTypes.ImageScanningConfiguration.write(value:to:))
+        try writer["imageTags"].writeMap(value.imageTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["imageTestsConfiguration"].write(value.imageTestsConfiguration, with: ImagebuilderClientTypes.ImageTestsConfiguration.write(value:to:))
         try writer["infrastructureConfigurationArn"].write(value.infrastructureConfigurationArn)
         try writer["loggingConfiguration"].write(value.loggingConfiguration, with: ImagebuilderClientTypes.PipelineLoggingConfiguration.write(value:to:))
@@ -10087,6 +10100,7 @@ extension UpdateImagePipelineInput {
         try writer["imagePipelineArn"].write(value.imagePipelineArn)
         try writer["imageRecipeArn"].write(value.imageRecipeArn)
         try writer["imageScanningConfiguration"].write(value.imageScanningConfiguration, with: ImagebuilderClientTypes.ImageScanningConfiguration.write(value:to:))
+        try writer["imageTags"].writeMap(value.imageTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["imageTestsConfiguration"].write(value.imageTestsConfiguration, with: ImagebuilderClientTypes.ImageTestsConfiguration.write(value:to:))
         try writer["infrastructureConfigurationArn"].write(value.infrastructureConfigurationArn)
         try writer["loggingConfiguration"].write(value.loggingConfiguration, with: ImagebuilderClientTypes.PipelineLoggingConfiguration.write(value:to:))
@@ -13612,6 +13626,7 @@ extension ImagebuilderClientTypes.ImagePipeline {
         value.dateNextRun = try reader["dateNextRun"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.imageScanningConfiguration = try reader["imageScanningConfiguration"].readIfPresent(with: ImagebuilderClientTypes.ImageScanningConfiguration.read(from:))
+        value.imageTags = try reader["imageTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.executionRole = try reader["executionRole"].readIfPresent()
         value.workflows = try reader["workflows"].readListIfPresent(memberReadingClosure: ImagebuilderClientTypes.WorkflowConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.loggingConfiguration = try reader["loggingConfiguration"].readIfPresent(with: ImagebuilderClientTypes.PipelineLoggingConfiguration.read(from:))

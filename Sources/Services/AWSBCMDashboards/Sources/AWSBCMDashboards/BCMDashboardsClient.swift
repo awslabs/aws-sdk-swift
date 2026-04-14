@@ -55,6 +55,7 @@ import struct ClientRuntime.AuthSchemeMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
+import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
@@ -625,7 +626,7 @@ extension BCMDashboardsClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Verify your IAM permissions and any resource policies.
     /// - `InternalServerException` : An internal error occurred while processing the request. Retry your request. If the problem persists, contact Amazon Web Services Support.
-    /// - `ServiceQuotaExceededException` : The request would exceed service quotas. For example, attempting to create more than 20 widgets in a dashboard or exceeding the maximum number of dashboards per account.
+    /// - `ServiceQuotaExceededException` : The request would exceed a service quota. Review the service quotas for Amazon Web Services Billing and Cost Management Dashboards and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling. Reduce the frequency of requests and use exponential backoff.
     /// - `ValidationException` : The input parameters do not satisfy the requirements. Check the error message for specific validation details.
     public func createDashboard(input: CreateDashboardInput) async throws -> CreateDashboardOutput {
@@ -673,6 +674,81 @@ extension BCMDashboardsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMDashboards")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDashboard")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateScheduledReport` operation on the `BCMDashboards` service.
+    ///
+    /// Creates a new scheduled report for a dashboard. A scheduled report automatically generates and delivers dashboard snapshots on a recurring schedule. Reports are delivered within 15 minutes of the scheduled delivery time.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateScheduledReportInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateScheduledReportOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Verify your IAM permissions and any resource policies.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource. For example, attempting to create a resource that already exists or is being created.
+    /// - `InternalServerException` : An internal error occurred while processing the request. Retry your request. If the problem persists, contact Amazon Web Services Support.
+    /// - `ServiceQuotaExceededException` : The request would exceed a service quota. Review the service quotas for Amazon Web Services Billing and Cost Management Dashboards and retry your request.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Reduce the frequency of requests and use exponential backoff.
+    /// - `ValidationException` : The input parameters do not satisfy the requirements. Check the error message for specific validation details.
+    public func createScheduledReport(input: CreateScheduledReportInput) async throws -> CreateScheduledReportOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createScheduledReport")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bcm-dashboards")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateScheduledReportInput, CreateScheduledReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateScheduledReportInput, CreateScheduledReportOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateScheduledReportInput, CreateScheduledReportOutput>(CreateScheduledReportInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateScheduledReportInput, CreateScheduledReportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateScheduledReportInput, CreateScheduledReportOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateScheduledReportOutput>(CreateScheduledReportOutput.httpOutput(from:), CreateScheduledReportOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateScheduledReportInput, CreateScheduledReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateScheduledReportOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Dashboards", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateScheduledReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateScheduledReportInput, CreateScheduledReportOutput>(overrides: ["X-Amz-Target": "AWSBCMDashboardsService.CreateScheduledReport"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateScheduledReportInput, CreateScheduledReportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateScheduledReportInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateScheduledReportInput, CreateScheduledReportOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateScheduledReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateScheduledReportInput, CreateScheduledReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateScheduledReportInput, CreateScheduledReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateScheduledReportInput, CreateScheduledReportOutput>(serviceID: serviceName, version: BCMDashboardsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMDashboards")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateScheduledReport")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -745,6 +821,154 @@ extension BCMDashboardsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMDashboards")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteDashboard")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteScheduledReport` operation on the `BCMDashboards` service.
+    ///
+    /// Deletes a specified scheduled report. This is an irreversible operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteScheduledReportInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteScheduledReportOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Verify your IAM permissions and any resource policies.
+    /// - `InternalServerException` : An internal error occurred while processing the request. Retry your request. If the problem persists, contact Amazon Web Services Support.
+    /// - `ResourceNotFoundException` : The specified resource (dashboard, policy, or widget) was not found. Verify the ARN and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Reduce the frequency of requests and use exponential backoff.
+    /// - `ValidationException` : The input parameters do not satisfy the requirements. Check the error message for specific validation details.
+    public func deleteScheduledReport(input: DeleteScheduledReportInput) async throws -> DeleteScheduledReportOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteScheduledReport")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bcm-dashboards")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteScheduledReportInput, DeleteScheduledReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteScheduledReportInput, DeleteScheduledReportOutput>(DeleteScheduledReportInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteScheduledReportInput, DeleteScheduledReportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteScheduledReportInput, DeleteScheduledReportOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteScheduledReportOutput>(DeleteScheduledReportOutput.httpOutput(from:), DeleteScheduledReportOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteScheduledReportInput, DeleteScheduledReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScheduledReportOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Dashboards", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteScheduledReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteScheduledReportInput, DeleteScheduledReportOutput>(overrides: ["X-Amz-Target": "AWSBCMDashboardsService.DeleteScheduledReport"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteScheduledReportInput, DeleteScheduledReportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteScheduledReportInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteScheduledReportInput, DeleteScheduledReportOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteScheduledReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteScheduledReportInput, DeleteScheduledReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteScheduledReportInput, DeleteScheduledReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteScheduledReportInput, DeleteScheduledReportOutput>(serviceID: serviceName, version: BCMDashboardsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMDashboards")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteScheduledReport")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ExecuteScheduledReport` operation on the `BCMDashboards` service.
+    ///
+    /// Triggers an immediate execution of a scheduled report, outside of its regular schedule. The scheduled report must be in ENABLED state. Calling this operation on a DISABLED scheduled report returns a ValidationException. If a clientToken is provided, the service uses it for idempotency. Requests with the same client token will not trigger a new execution within the same minute.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ExecuteScheduledReportInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ExecuteScheduledReportOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Verify your IAM permissions and any resource policies.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource. For example, attempting to create a resource that already exists or is being created.
+    /// - `InternalServerException` : An internal error occurred while processing the request. Retry your request. If the problem persists, contact Amazon Web Services Support.
+    /// - `ResourceNotFoundException` : The specified resource (dashboard, policy, or widget) was not found. Verify the ARN and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Reduce the frequency of requests and use exponential backoff.
+    /// - `ValidationException` : The input parameters do not satisfy the requirements. Check the error message for specific validation details.
+    public func executeScheduledReport(input: ExecuteScheduledReportInput) async throws -> ExecuteScheduledReportOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "executeScheduledReport")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bcm-dashboards")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ExecuteScheduledReportInput, ExecuteScheduledReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<ExecuteScheduledReportInput, ExecuteScheduledReportOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ExecuteScheduledReportInput, ExecuteScheduledReportOutput>(ExecuteScheduledReportInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExecuteScheduledReportInput, ExecuteScheduledReportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExecuteScheduledReportInput, ExecuteScheduledReportOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteScheduledReportOutput>(ExecuteScheduledReportOutput.httpOutput(from:), ExecuteScheduledReportOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteScheduledReportInput, ExecuteScheduledReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteScheduledReportOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Dashboards", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExecuteScheduledReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExecuteScheduledReportInput, ExecuteScheduledReportOutput>(overrides: ["X-Amz-Target": "AWSBCMDashboardsService.ExecuteScheduledReport"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<ExecuteScheduledReportInput, ExecuteScheduledReportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExecuteScheduledReportInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExecuteScheduledReportInput, ExecuteScheduledReportOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExecuteScheduledReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExecuteScheduledReportInput, ExecuteScheduledReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ExecuteScheduledReportInput, ExecuteScheduledReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ExecuteScheduledReportInput, ExecuteScheduledReportOutput>(serviceID: serviceName, version: BCMDashboardsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMDashboards")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ExecuteScheduledReport")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -903,6 +1127,79 @@ extension BCMDashboardsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetScheduledReport` operation on the `BCMDashboards` service.
+    ///
+    /// Retrieves the configuration and metadata of a specified scheduled report.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetScheduledReportInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetScheduledReportOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Verify your IAM permissions and any resource policies.
+    /// - `InternalServerException` : An internal error occurred while processing the request. Retry your request. If the problem persists, contact Amazon Web Services Support.
+    /// - `ResourceNotFoundException` : The specified resource (dashboard, policy, or widget) was not found. Verify the ARN and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Reduce the frequency of requests and use exponential backoff.
+    /// - `ValidationException` : The input parameters do not satisfy the requirements. Check the error message for specific validation details.
+    public func getScheduledReport(input: GetScheduledReportInput) async throws -> GetScheduledReportOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getScheduledReport")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bcm-dashboards")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetScheduledReportInput, GetScheduledReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetScheduledReportInput, GetScheduledReportOutput>(GetScheduledReportInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetScheduledReportInput, GetScheduledReportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetScheduledReportInput, GetScheduledReportOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetScheduledReportOutput>(GetScheduledReportOutput.httpOutput(from:), GetScheduledReportOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetScheduledReportInput, GetScheduledReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetScheduledReportOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Dashboards", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetScheduledReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetScheduledReportInput, GetScheduledReportOutput>(overrides: ["X-Amz-Target": "AWSBCMDashboardsService.GetScheduledReport"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetScheduledReportInput, GetScheduledReportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetScheduledReportInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetScheduledReportInput, GetScheduledReportOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetScheduledReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetScheduledReportInput, GetScheduledReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetScheduledReportInput, GetScheduledReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetScheduledReportInput, GetScheduledReportOutput>(serviceID: serviceName, version: BCMDashboardsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMDashboards")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetScheduledReport")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListDashboards` operation on the `BCMDashboards` service.
     ///
     /// Returns a list of all dashboards in your account.
@@ -963,6 +1260,78 @@ extension BCMDashboardsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMDashboards")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDashboards")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListScheduledReports` operation on the `BCMDashboards` service.
+    ///
+    /// Returns a list of scheduled reports in your account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListScheduledReportsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListScheduledReportsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Verify your IAM permissions and any resource policies.
+    /// - `InternalServerException` : An internal error occurred while processing the request. Retry your request. If the problem persists, contact Amazon Web Services Support.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Reduce the frequency of requests and use exponential backoff.
+    /// - `ValidationException` : The input parameters do not satisfy the requirements. Check the error message for specific validation details.
+    public func listScheduledReports(input: ListScheduledReportsInput) async throws -> ListScheduledReportsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listScheduledReports")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bcm-dashboards")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListScheduledReportsInput, ListScheduledReportsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListScheduledReportsInput, ListScheduledReportsOutput>(ListScheduledReportsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListScheduledReportsInput, ListScheduledReportsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListScheduledReportsInput, ListScheduledReportsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListScheduledReportsOutput>(ListScheduledReportsOutput.httpOutput(from:), ListScheduledReportsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListScheduledReportsInput, ListScheduledReportsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListScheduledReportsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Dashboards", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListScheduledReportsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListScheduledReportsInput, ListScheduledReportsOutput>(overrides: ["X-Amz-Target": "AWSBCMDashboardsService.ListScheduledReports"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListScheduledReportsInput, ListScheduledReportsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListScheduledReportsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListScheduledReportsInput, ListScheduledReportsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListScheduledReportsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListScheduledReportsInput, ListScheduledReportsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListScheduledReportsInput, ListScheduledReportsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListScheduledReportsInput, ListScheduledReportsOutput>(serviceID: serviceName, version: BCMDashboardsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMDashboards")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListScheduledReports")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1252,6 +1621,80 @@ extension BCMDashboardsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMDashboards")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateDashboard")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateScheduledReport` operation on the `BCMDashboards` service.
+    ///
+    /// Updates an existing scheduled report's properties, including its name, description, schedule configuration, and widget settings. Only the parameters included in the request are updated; all other properties remain unchanged.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateScheduledReportInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateScheduledReportOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Verify your IAM permissions and any resource policies.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource. For example, attempting to create a resource that already exists or is being created.
+    /// - `InternalServerException` : An internal error occurred while processing the request. Retry your request. If the problem persists, contact Amazon Web Services Support.
+    /// - `ResourceNotFoundException` : The specified resource (dashboard, policy, or widget) was not found. Verify the ARN and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Reduce the frequency of requests and use exponential backoff.
+    /// - `ValidationException` : The input parameters do not satisfy the requirements. Check the error message for specific validation details.
+    public func updateScheduledReport(input: UpdateScheduledReportInput) async throws -> UpdateScheduledReportOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateScheduledReport")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bcm-dashboards")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateScheduledReportInput, UpdateScheduledReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateScheduledReportInput, UpdateScheduledReportOutput>(UpdateScheduledReportInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateScheduledReportInput, UpdateScheduledReportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateScheduledReportInput, UpdateScheduledReportOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateScheduledReportOutput>(UpdateScheduledReportOutput.httpOutput(from:), UpdateScheduledReportOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateScheduledReportInput, UpdateScheduledReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateScheduledReportOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Dashboards", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateScheduledReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateScheduledReportInput, UpdateScheduledReportOutput>(overrides: ["X-Amz-Target": "AWSBCMDashboardsService.UpdateScheduledReport"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateScheduledReportInput, UpdateScheduledReportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateScheduledReportInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateScheduledReportInput, UpdateScheduledReportOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateScheduledReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateScheduledReportInput, UpdateScheduledReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateScheduledReportInput, UpdateScheduledReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateScheduledReportInput, UpdateScheduledReportOutput>(serviceID: serviceName, version: BCMDashboardsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMDashboards")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateScheduledReport")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
