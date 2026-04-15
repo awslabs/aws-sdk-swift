@@ -85,6 +85,12 @@ class EventBridgeSigV4ATests: XCTestCase {
             routingConfig: routingConfig
         ))
 
+        // Pause program execution briefly.
+        // This is needed bc it takes some time for newly created global endpoint to resolve in DNS
+        // Additional time will be taken, if needed, in retry w/ exponential backoff below
+        let seconds = 20.0
+        try await Task.sleep(nanoseconds: UInt64(seconds * Double(NSEC_PER_SEC)))
+
         // Retry getting endpointId with exponential backoff to ensure it's properly set
         var retrievedEndpointId: String?
         for attempt in 0..<3 {
@@ -122,12 +128,6 @@ class EventBridgeSigV4ATests: XCTestCase {
             eventBusName: eventBusName,
             source: "test"
         )
-
-        // Pause program execution briefly.
-        // This is needed bc it takes some time for newly created global endpoint to resolve in DNS
-        // Additional time will be taken, if needed, in retry w/ exponential backoff below
-        let seconds = 20.0
-        try await Task.sleep(nanoseconds: UInt64(seconds * Double(NSEC_PER_SEC)))
 
         // Make multiple attempts with exponential backoff to call PutEvents.  Retry/log on any error.
         // Retry delays are on top of the wait already performed above.
