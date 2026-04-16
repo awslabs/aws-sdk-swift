@@ -5374,7 +5374,7 @@ extension CloudWatchLogsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLogObjectInput, GetLogObjectOutput>(GetLogObjectInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLogObjectInput, GetLogObjectOutput>(hostPrefix: "streaming-"))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLogObjectInput, GetLogObjectOutput>(hostPrefix: "stream-"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLogObjectInput, GetLogObjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLogObjectOutput>(GetLogObjectOutput.httpOutput(from:), GetLogObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLogObjectInput, GetLogObjectOutput>(clientLogMode: config.clientLogMode))
@@ -8120,7 +8120,7 @@ extension CloudWatchLogsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartLiveTailInput, StartLiveTailOutput>(StartLiveTailInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartLiveTailInput, StartLiveTailOutput>(hostPrefix: "streaming-"))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartLiveTailInput, StartLiveTailOutput>(hostPrefix: "stream-"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartLiveTailInput, StartLiveTailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartLiveTailOutput>(StartLiveTailOutput.httpOutput(from:), StartLiveTailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartLiveTailInput, StartLiveTailOutput>(clientLogMode: config.clientLogMode))
