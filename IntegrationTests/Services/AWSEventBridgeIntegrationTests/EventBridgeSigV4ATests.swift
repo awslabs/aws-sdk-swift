@@ -93,13 +93,13 @@ class EventBridgeSigV4ATests: XCTestCase {
 
         // Retry getting endpointId with exponential backoff to ensure it's properly set
         var retrievedEndpointId: String?
-        for attempt in 0..<3 {
+        for attempt in 0..<4 {
             retrievedEndpointId = try await primaryRegionEventBridgeClient.describeEndpoint(input: DescribeEndpointInput(name: endpointName)).endpointId
             if retrievedEndpointId != nil {
                 break
             }
-            // Retry delays are 2, 4, 8 secs for 1st, 2nd, 3rd retry respectively
-            let delay = 2 * UInt64(1 << attempt)
+            // Retry delays are 4, 8, 16, 32 secs for 1st, 2nd, 3rd, 4th retry respectively
+            let delay = UInt64(4 << attempt)
             try await Task.sleep(nanoseconds: delay * UInt64(NSEC_PER_SEC))
         }
 
@@ -135,14 +135,14 @@ class EventBridgeSigV4ATests: XCTestCase {
         // after creation for DNS to resolve it successfully.
         let input = PutEventsInput(endpointId: unwrappedEndpointId, entries: [event])
         var output: PutEventsOutput?
-        for attempt in 0..<3 {
+        for attempt in 0..<4 {
             do {
                 output = try await sigv4aEventBridgeClient.putEvents(input: input)
                 break
             } catch {
                 print("Attempt \(attempt) failed: \(error)")
-                // Retry delays are 2, 4, 8 secs for 1st, 2nd, 3rd retry respectively
-                let delay = 2 * UInt64(1 << attempt)
+                // Retry delays are 4, 8, 16, 32 secs for 1st, 2nd, 3rd, 4th retry respectively
+                let delay = UInt64(4 << attempt)
                 try await Task.sleep(nanoseconds: delay * UInt64(NSEC_PER_SEC))
             }
         }
