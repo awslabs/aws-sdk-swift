@@ -7587,6 +7587,8 @@ public struct UpdateStackInput: Swift.Sendable {
     public var applicationSettings: AppStreamClientTypes.ApplicationSettings?
     /// The stack attributes to delete.
     public var attributesToDelete: [AppStreamClientTypes.StackAttribute]?
+    /// Configuration for bidirectional URL redirection between the streaming session and the local client. Use HostToClient to redirect URLs from the remote desktop to the local browser.
+    public var contentRedirection: AppStreamClientTypes.ContentRedirection?
     /// Deletes the storage connectors currently enabled for the stack.
     @available(*, deprecated)
     public var deleteStorageConnectors: Swift.Bool?
@@ -7614,6 +7616,7 @@ public struct UpdateStackInput: Swift.Sendable {
         accessEndpoints: [AppStreamClientTypes.AccessEndpoint]? = nil,
         applicationSettings: AppStreamClientTypes.ApplicationSettings? = nil,
         attributesToDelete: [AppStreamClientTypes.StackAttribute]? = nil,
+        contentRedirection: AppStreamClientTypes.ContentRedirection? = nil,
         deleteStorageConnectors: Swift.Bool? = nil,
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
@@ -7628,6 +7631,7 @@ public struct UpdateStackInput: Swift.Sendable {
         self.accessEndpoints = accessEndpoints
         self.applicationSettings = applicationSettings
         self.attributesToDelete = attributesToDelete
+        self.contentRedirection = contentRedirection
         self.deleteStorageConnectors = deleteStorageConnectors
         self.description = description
         self.displayName = displayName
@@ -9300,6 +9304,7 @@ extension UpdateStackInput {
         try writer["AccessEndpoints"].writeList(value.accessEndpoints, memberWritingClosure: AppStreamClientTypes.AccessEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ApplicationSettings"].write(value.applicationSettings, with: AppStreamClientTypes.ApplicationSettings.write(value:to:))
         try writer["AttributesToDelete"].writeList(value.attributesToDelete, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AppStreamClientTypes.StackAttribute>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ContentRedirection"].write(value.contentRedirection, with: AppStreamClientTypes.ContentRedirection.write(value:to:))
         try writer["DeleteStorageConnectors"].write(value.deleteStorageConnectors)
         try writer["Description"].write(value.description)
         try writer["DisplayName"].write(value.displayName)

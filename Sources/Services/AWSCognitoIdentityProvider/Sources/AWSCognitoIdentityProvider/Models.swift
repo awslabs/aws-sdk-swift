@@ -3347,6 +3347,21 @@ extension CognitoIdentityProviderClientTypes {
     }
 }
 
+extension CognitoIdentityProviderClientTypes {
+
+    /// A user's preference for using passkey, or WebAuthn, multi-factor authentication (MFA). Turns passkey MFA on and off for the user. Unlike other MFA settings types, this type doesn't include a PreferredMfa option because passkey MFA applies only when passkey is the first authentication factor.
+    public struct WebAuthnMfaSettingsType: Swift.Sendable {
+        /// Specifies whether passkey MFA is activated for a user. When activated, the user's passkey authentication requires user verification, and passkey sign-in is available when MFA is required. The user must also have at least one other MFA method such as SMS, TOTP, or email activated to prevent account lockout.
+        public var enabled: Swift.Bool
+
+        public init(
+            enabled: Swift.Bool = false
+        ) {
+            self.enabled = enabled
+        }
+    }
+}
+
 public struct AdminSetUserMFAPreferenceInput: Swift.Sendable {
     /// User preferences for email message MFA. Activates or deactivates email MFA and sets it as the preferred MFA method when multiple methods are available. To activate this setting, your user pool must be in the [ Essentials tier](https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html) or higher.
     public var emailMfaSettings: CognitoIdentityProviderClientTypes.EmailMfaSettingsType?
@@ -3360,25 +3375,29 @@ public struct AdminSetUserMFAPreferenceInput: Swift.Sendable {
     /// The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
+    /// User preferences for passkey MFA. Activates or deactivates passkey MFA for the user. When activated, passkey authentication requires user verification, and passkey sign-in is available when MFA is required. To activate this setting, the FactorConfiguration of your user pool WebAuthnConfiguration must be MULTI_FACTOR_WITH_USER_VERIFICATION. To activate this setting, your user pool must be in the [ Essentials tier](https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html) or higher.
+    public var webAuthnMfaSettings: CognitoIdentityProviderClientTypes.WebAuthnMfaSettingsType?
 
     public init(
         emailMfaSettings: CognitoIdentityProviderClientTypes.EmailMfaSettingsType? = nil,
         smsMfaSettings: CognitoIdentityProviderClientTypes.SMSMfaSettingsType? = nil,
         softwareTokenMfaSettings: CognitoIdentityProviderClientTypes.SoftwareTokenMfaSettingsType? = nil,
         userPoolId: Swift.String? = nil,
-        username: Swift.String? = nil
+        username: Swift.String? = nil,
+        webAuthnMfaSettings: CognitoIdentityProviderClientTypes.WebAuthnMfaSettingsType? = nil
     ) {
         self.emailMfaSettings = emailMfaSettings
         self.smsMfaSettings = smsMfaSettings
         self.softwareTokenMfaSettings = softwareTokenMfaSettings
         self.userPoolId = userPoolId
         self.username = username
+        self.webAuthnMfaSettings = webAuthnMfaSettings
     }
 }
 
 extension AdminSetUserMFAPreferenceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AdminSetUserMFAPreferenceInput(emailMfaSettings: \(Swift.String(describing: emailMfaSettings)), smsMfaSettings: \(Swift.String(describing: smsMfaSettings)), softwareTokenMfaSettings: \(Swift.String(describing: softwareTokenMfaSettings)), userPoolId: \(Swift.String(describing: userPoolId)), username: \"CONTENT_REDACTED\")"}
+        "AdminSetUserMFAPreferenceInput(emailMfaSettings: \(Swift.String(describing: emailMfaSettings)), smsMfaSettings: \(Swift.String(describing: smsMfaSettings)), softwareTokenMfaSettings: \(Swift.String(describing: softwareTokenMfaSettings)), userPoolId: \(Swift.String(describing: userPoolId)), webAuthnMfaSettings: \(Swift.String(describing: webAuthnMfaSettings)), username: \"CONTENT_REDACTED\")"}
 }
 
 public struct AdminSetUserMFAPreferenceOutput: Swift.Sendable {
@@ -8617,6 +8636,36 @@ extension CognitoIdentityProviderClientTypes {
 
 extension CognitoIdentityProviderClientTypes {
 
+    /// The configuration of passkey authentication as a single factor or a multi-factor authentication (MFA) method. When set to MULTI_FACTOR_WITH_USER_VERIFICATION, your user pool requires passkey authenticators to perform [user verification](https://www.w3.org/TR/webauthn-2/#user-verification), for example a biometric or PIN. User verification combined with the passkey constitutes multi-factor authentication. When set to SINGLE_FACTOR, passkeys are a single authentication factor.
+    public enum WebAuthnFactorConfigurationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case multiFactorWithUserVerification
+        case singleFactor
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WebAuthnFactorConfigurationType] {
+            return [
+                .multiFactorWithUserVerification,
+                .singleFactor
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .multiFactorWithUserVerification: return "MULTI_FACTOR_WITH_USER_VERIFICATION"
+            case .singleFactor: return "SINGLE_FACTOR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
     public enum UserVerificationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case preferred
         case `required`
@@ -8654,6 +8703,8 @@ extension CognitoIdentityProviderClientTypes {
     ///
     /// * The providers that you want to allow as origins for passkey authentication.
     public struct WebAuthnConfigurationType: Swift.Sendable {
+        /// Sets whether passkeys can be used as multi-factor authentication (MFA). When set to MULTI_FACTOR_WITH_USER_VERIFICATION, passkey authentication with user verification satisfies MFA requirements. When set to SINGLE_FACTOR or not set, passkeys are a single authentication factor. To activate this setting, your user pool must be in the [ Essentials tier](https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html) or higher.
+        public var factorConfiguration: CognitoIdentityProviderClientTypes.WebAuthnFactorConfigurationType?
         /// Sets or displays the authentication domain, typically your user pool domain, that passkey providers must use as a relying party (RP) in their configuration. Under the following conditions, the passkey relying party ID must be the fully-qualified domain name of your custom domain:
         ///
         /// * The user pool is configured for passkey authentication.
@@ -8666,9 +8717,11 @@ extension CognitoIdentityProviderClientTypes {
         public var userVerification: CognitoIdentityProviderClientTypes.UserVerificationType?
 
         public init(
+            factorConfiguration: CognitoIdentityProviderClientTypes.WebAuthnFactorConfigurationType? = nil,
             relyingPartyId: Swift.String? = nil,
             userVerification: CognitoIdentityProviderClientTypes.UserVerificationType? = nil
         ) {
+            self.factorConfiguration = factorConfiguration
             self.relyingPartyId = relyingPartyId
             self.userVerification = userVerification
         }
@@ -8684,7 +8737,7 @@ public struct GetUserPoolMfaConfigOutput: Swift.Sendable {
     public var smsMfaConfiguration: CognitoIdentityProviderClientTypes.SmsMfaConfigType?
     /// Shows user pool configuration for time-based one-time password (TOTP) MFA. Includes TOTP enabled or disabled state.
     public var softwareTokenMfaConfiguration: CognitoIdentityProviderClientTypes.SoftwareTokenMfaConfigType?
-    /// Shows user pool configuration for sign-in with passkey authenticators like biometric devices and security keys. Passkeys are not eligible MFA factors. They are instead an eligible primary sign-in factor for [choice-based authentication](https://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flows-selection-sdk.html#authentication-flows-selection-choice), or the USER_AUTH flow.
+    /// Shows user pool configuration for sign-in with passkey authenticators such as biometric devices and security keys. Includes relying-party configuration, user-verification requirements, and whether passkeys can satisfy MFA requirements.
     public var webAuthnConfiguration: CognitoIdentityProviderClientTypes.WebAuthnConfigurationType?
 
     public init(
@@ -9989,23 +10042,27 @@ public struct SetUserMFAPreferenceInput: Swift.Sendable {
     public var smsMfaSettings: CognitoIdentityProviderClientTypes.SMSMfaSettingsType?
     /// User preferences for time-based one-time password (TOTP) MFA. Activates or deactivates TOTP MFA and sets it as the preferred MFA method when multiple methods are available. Users must register a TOTP authenticator before they set this as their preferred MFA method.
     public var softwareTokenMfaSettings: CognitoIdentityProviderClientTypes.SoftwareTokenMfaSettingsType?
+    /// User preferences for passkey MFA. Activates or deactivates passkey MFA for the user. When activated, passkey authentication requires user verification, and passkey sign-in is available when MFA is required. To activate this setting, the FactorConfiguration of your user pool WebAuthnConfiguration must be MULTI_FACTOR_WITH_USER_VERIFICATION. To activate this setting, your user pool must be in the [ Essentials tier](https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html) or higher.
+    public var webAuthnMfaSettings: CognitoIdentityProviderClientTypes.WebAuthnMfaSettingsType?
 
     public init(
         accessToken: Swift.String? = nil,
         emailMfaSettings: CognitoIdentityProviderClientTypes.EmailMfaSettingsType? = nil,
         smsMfaSettings: CognitoIdentityProviderClientTypes.SMSMfaSettingsType? = nil,
-        softwareTokenMfaSettings: CognitoIdentityProviderClientTypes.SoftwareTokenMfaSettingsType? = nil
+        softwareTokenMfaSettings: CognitoIdentityProviderClientTypes.SoftwareTokenMfaSettingsType? = nil,
+        webAuthnMfaSettings: CognitoIdentityProviderClientTypes.WebAuthnMfaSettingsType? = nil
     ) {
         self.accessToken = accessToken
         self.emailMfaSettings = emailMfaSettings
         self.smsMfaSettings = smsMfaSettings
         self.softwareTokenMfaSettings = softwareTokenMfaSettings
+        self.webAuthnMfaSettings = webAuthnMfaSettings
     }
 }
 
 extension SetUserMFAPreferenceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SetUserMFAPreferenceInput(emailMfaSettings: \(Swift.String(describing: emailMfaSettings)), smsMfaSettings: \(Swift.String(describing: smsMfaSettings)), softwareTokenMfaSettings: \(Swift.String(describing: softwareTokenMfaSettings)), accessToken: \"CONTENT_REDACTED\")"}
+        "SetUserMFAPreferenceInput(emailMfaSettings: \(Swift.String(describing: emailMfaSettings)), smsMfaSettings: \(Swift.String(describing: smsMfaSettings)), softwareTokenMfaSettings: \(Swift.String(describing: softwareTokenMfaSettings)), webAuthnMfaSettings: \(Swift.String(describing: webAuthnMfaSettings)), accessToken: \"CONTENT_REDACTED\")"}
 }
 
 public struct SetUserMFAPreferenceOutput: Swift.Sendable {
@@ -10025,7 +10082,7 @@ public struct SetUserPoolMfaConfigInput: Swift.Sendable {
     /// The user pool ID.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The configuration of your user pool for passkey, or WebAuthn, authentication and registration. You can set this configuration independent of the MFA configuration options in this operation.
+    /// The configuration of your user pool for passkey, or WebAuthn, authentication and registration. Includes relying-party configuration, user-verification requirements, and whether passkeys can satisfy MFA requirements.
     public var webAuthnConfiguration: CognitoIdentityProviderClientTypes.WebAuthnConfigurationType?
 
     public init(
@@ -10054,7 +10111,7 @@ public struct SetUserPoolMfaConfigOutput: Swift.Sendable {
     public var smsMfaConfiguration: CognitoIdentityProviderClientTypes.SmsMfaConfigType?
     /// Shows user pool configuration for time-based one-time password (TOTP) MFA. Includes TOTP enabled or disabled state.
     public var softwareTokenMfaConfiguration: CognitoIdentityProviderClientTypes.SoftwareTokenMfaConfigType?
-    /// The configuration of your user pool for passkey, or WebAuthn, sign-in with authenticators like biometric and security-key devices. Includes relying-party configuration and settings for user-verification requirements.
+    /// The configuration of your user pool for passkey, or WebAuthn, sign-in with authenticators such as biometric and security-key devices. Includes relying-party configuration and settings for user-verification requirements.
     public var webAuthnConfiguration: CognitoIdentityProviderClientTypes.WebAuthnConfigurationType?
 
     public init(
@@ -12190,6 +12247,7 @@ extension AdminSetUserMFAPreferenceInput {
         try writer["SoftwareTokenMfaSettings"].write(value.softwareTokenMfaSettings, with: CognitoIdentityProviderClientTypes.SoftwareTokenMfaSettingsType.write(value:to:))
         try writer["UserPoolId"].write(value.userPoolId)
         try writer["Username"].write(value.username)
+        try writer["WebAuthnMfaSettings"].write(value.webAuthnMfaSettings, with: CognitoIdentityProviderClientTypes.WebAuthnMfaSettingsType.write(value:to:))
     }
 }
 
@@ -13024,6 +13082,7 @@ extension SetUserMFAPreferenceInput {
         try writer["EmailMfaSettings"].write(value.emailMfaSettings, with: CognitoIdentityProviderClientTypes.EmailMfaSettingsType.write(value:to:))
         try writer["SMSMfaSettings"].write(value.smsMfaSettings, with: CognitoIdentityProviderClientTypes.SMSMfaSettingsType.write(value:to:))
         try writer["SoftwareTokenMfaSettings"].write(value.softwareTokenMfaSettings, with: CognitoIdentityProviderClientTypes.SoftwareTokenMfaSettingsType.write(value:to:))
+        try writer["WebAuthnMfaSettings"].write(value.webAuthnMfaSettings, with: CognitoIdentityProviderClientTypes.WebAuthnMfaSettingsType.write(value:to:))
     }
 }
 
@@ -19280,6 +19339,7 @@ extension CognitoIdentityProviderClientTypes.WebAuthnConfigurationType {
 
     static func write(value: CognitoIdentityProviderClientTypes.WebAuthnConfigurationType?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["FactorConfiguration"].write(value.factorConfiguration)
         try writer["RelyingPartyId"].write(value.relyingPartyId)
         try writer["UserVerification"].write(value.userVerification)
     }
@@ -19289,6 +19349,7 @@ extension CognitoIdentityProviderClientTypes.WebAuthnConfigurationType {
         var value = CognitoIdentityProviderClientTypes.WebAuthnConfigurationType()
         value.relyingPartyId = try reader["RelyingPartyId"].readIfPresent()
         value.userVerification = try reader["UserVerification"].readIfPresent()
+        value.factorConfiguration = try reader["FactorConfiguration"].readIfPresent()
         return value
     }
 }
@@ -19305,6 +19366,14 @@ extension CognitoIdentityProviderClientTypes.WebAuthnCredentialDescription {
         value.authenticatorTransports = try reader["AuthenticatorTransports"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
+    }
+}
+
+extension CognitoIdentityProviderClientTypes.WebAuthnMfaSettingsType {
+
+    static func write(value: CognitoIdentityProviderClientTypes.WebAuthnMfaSettingsType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
     }
 }
 

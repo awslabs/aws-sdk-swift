@@ -4668,8 +4668,9 @@ public struct ListMemoryRecordsInput: Swift.Sendable {
     /// The memory strategy identifier to filter memory records by. If specified, only memory records with this strategy ID are returned.
     public var memoryStrategyId: Swift.String?
     /// The namespace prefix to filter memory records by. Returns all memory records in namespaces that start with the provided prefix.
-    /// This member is required.
     public var namespace: Swift.String?
+    /// Use namespacePath for hierarchical retrievals. Return all memory records where namespace falls under the same parent hierarchy.
+    public var namespacePath: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
 
@@ -4678,12 +4679,14 @@ public struct ListMemoryRecordsInput: Swift.Sendable {
         memoryId: Swift.String? = nil,
         memoryStrategyId: Swift.String? = nil,
         namespace: Swift.String? = nil,
+        namespacePath: Swift.String? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.maxResults = maxResults
         self.memoryId = memoryId
         self.memoryStrategyId = memoryStrategyId
         self.namespace = namespace
+        self.namespacePath = namespacePath
         self.nextToken = nextToken
     }
 }
@@ -4926,8 +4929,9 @@ public struct RetrieveMemoryRecordsInput: Swift.Sendable {
     /// This member is required.
     public var memoryId: Swift.String?
     /// The namespace prefix to filter memory records by. Searches for memory records in namespaces that start with the provided prefix.
-    /// This member is required.
     public var namespace: Swift.String?
+    /// Use namespacePath for hierarchical retrievals. Return all memory records where namespace falls under the same parent hierarchy.
+    public var namespacePath: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The search criteria to use for finding relevant memory records. This includes the search query, memory strategy ID, and other search parameters.
@@ -4938,12 +4942,14 @@ public struct RetrieveMemoryRecordsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         memoryId: Swift.String? = nil,
         namespace: Swift.String? = nil,
+        namespacePath: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         searchCriteria: BedrockAgentCoreClientTypes.SearchCriteria? = nil
     ) {
         self.maxResults = maxResults
         self.memoryId = memoryId
         self.namespace = namespace
+        self.namespacePath = namespacePath
         self.nextToken = nextToken
         self.searchCriteria = searchCriteria
     }
@@ -6211,6 +6217,7 @@ extension ListMemoryRecordsInput {
         try writer["maxResults"].write(value.maxResults)
         try writer["memoryStrategyId"].write(value.memoryStrategyId)
         try writer["namespace"].write(value.namespace)
+        try writer["namespacePath"].write(value.namespacePath)
         try writer["nextToken"].write(value.nextToken)
     }
 }
@@ -6231,6 +6238,7 @@ extension RetrieveMemoryRecordsInput {
         guard let value else { return }
         try writer["maxResults"].write(value.maxResults)
         try writer["namespace"].write(value.namespace)
+        try writer["namespacePath"].write(value.namespacePath)
         try writer["nextToken"].write(value.nextToken)
         try writer["searchCriteria"].write(value.searchCriteria, with: BedrockAgentCoreClientTypes.SearchCriteria.write(value:to:))
     }

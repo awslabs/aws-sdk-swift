@@ -1031,6 +1031,8 @@ extension RDSClientTypes {
         ///
         /// * os-upgrade
         ///
+        /// * serverless-platform-version-update
+        ///
         /// * system-update
         ///
         ///
@@ -16660,6 +16662,101 @@ public struct DescribeReservedDBInstancesOfferingsOutput: Swift.Sendable {
 }
 
 ///
+public struct DescribeServerlessV2PlatformVersionsInput: Swift.Sendable {
+    /// Specifies whether to return only the default platform versions for each engine. The default platform version is the version used for new DB clusters.
+    public var defaultOnly: Swift.Bool?
+    /// The database engine to return platform version details for. Valid Values:
+    ///
+    /// * aurora-mysql
+    ///
+    /// * aurora-postgresql
+    public var engine: Swift.String?
+    /// This parameter isn't currently supported.
+    public var filters: [RDSClientTypes.Filter]?
+    /// Specifies whether to also include platform versions which are no longer in use.
+    public var includeAll: Swift.Bool?
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so you can retrieve the remaining results. Default: 20 Constraints: Minimum 1, maximum 200.
+    public var maxRecords: Swift.Int?
+    /// A specific platform version to return details for. Example: 3
+    public var serverlessV2PlatformVersion: Swift.String?
+
+    public init(
+        defaultOnly: Swift.Bool? = nil,
+        engine: Swift.String? = nil,
+        filters: [RDSClientTypes.Filter]? = nil,
+        includeAll: Swift.Bool? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        serverlessV2PlatformVersion: Swift.String? = nil
+    ) {
+        self.defaultOnly = defaultOnly
+        self.engine = engine
+        self.filters = filters
+        self.includeAll = includeAll
+        self.marker = marker
+        self.maxRecords = maxRecords
+        self.serverlessV2PlatformVersion = serverlessV2PlatformVersion
+    }
+}
+
+extension RDSClientTypes {
+
+    /// This data type is used as a response element in the action DescribeServerlessV2PlatformVersions.
+    public struct ServerlessV2PlatformVersionInfo: Swift.Sendable {
+        /// The name of the database engine.
+        public var engine: Swift.String?
+        /// Indicates whether this platform version is the default version for the engine. The default platform version is the version used for new DB clusters.
+        public var isDefault: Swift.Bool?
+        /// Specifies any Aurora Serverless v2 properties or limits that differ between Aurora Serverless v2 platform versions. You can retrieve the platform version of an existing DB cluster and check whether that version supports certain Aurora Serverless v2 features before you attempt to use those features.
+        public var serverlessV2FeaturesSupport: RDSClientTypes.ServerlessV2FeaturesSupport?
+        /// The version number of the serverless platform.
+        public var serverlessV2PlatformVersion: Swift.String?
+        /// The description of the serverless platform.
+        public var serverlessV2PlatformVersionDescription: Swift.String?
+        /// The status of the serverless platform. Valid statuses are the following:
+        ///
+        /// * enabled - The platform version is in use.
+        ///
+        /// * disabled - The platform version is not in use.
+        public var status: Swift.String?
+
+        public init(
+            engine: Swift.String? = nil,
+            isDefault: Swift.Bool? = nil,
+            serverlessV2FeaturesSupport: RDSClientTypes.ServerlessV2FeaturesSupport? = nil,
+            serverlessV2PlatformVersion: Swift.String? = nil,
+            serverlessV2PlatformVersionDescription: Swift.String? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.engine = engine
+            self.isDefault = isDefault
+            self.serverlessV2FeaturesSupport = serverlessV2FeaturesSupport
+            self.serverlessV2PlatformVersion = serverlessV2PlatformVersion
+            self.serverlessV2PlatformVersionDescription = serverlessV2PlatformVersionDescription
+            self.status = status
+        }
+    }
+}
+
+/// Contains the result of a successful invocation of the DescribeServerlessV2PlatformVersions action.
+public struct DescribeServerlessV2PlatformVersionsOutput: Swift.Sendable {
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// A list of ServerlessV2PlatformVersionInfo elements.
+    public var serverlessV2PlatformVersions: [RDSClientTypes.ServerlessV2PlatformVersionInfo]?
+
+    public init(
+        marker: Swift.String? = nil,
+        serverlessV2PlatformVersions: [RDSClientTypes.ServerlessV2PlatformVersionInfo]? = nil
+    ) {
+        self.marker = marker
+        self.serverlessV2PlatformVersions = serverlessV2PlatformVersions
+    }
+}
+
+///
 public struct DescribeSourceRegionsInput: Swift.Sendable {
     /// This parameter isn't currently supported.
     public var filters: [RDSClientTypes.Filter]?
@@ -23469,6 +23566,13 @@ extension DescribeReservedDBInstancesOfferingsInput {
     }
 }
 
+extension DescribeServerlessV2PlatformVersionsInput {
+
+    static func urlPathProvider(_ value: DescribeServerlessV2PlatformVersionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeSourceRegionsInput {
 
     static func urlPathProvider(_ value: DescribeSourceRegionsInput) -> Swift.String? {
@@ -25405,6 +25509,22 @@ extension DescribeReservedDBInstancesOfferingsInput {
         try writer["ProductDescription"].write(value.productDescription)
         try writer["ReservedDBInstancesOfferingId"].write(value.reservedDBInstancesOfferingId)
         try writer["Action"].write("DescribeReservedDBInstancesOfferings")
+        try writer["Version"].write("2014-10-31")
+    }
+}
+
+extension DescribeServerlessV2PlatformVersionsInput {
+
+    static func write(value: DescribeServerlessV2PlatformVersionsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultOnly"].write(value.defaultOnly)
+        try writer["Engine"].write(value.engine)
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: RDSClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: false)
+        try writer["IncludeAll"].write(value.includeAll)
+        try writer["Marker"].write(value.marker)
+        try writer["MaxRecords"].write(value.maxRecords)
+        try writer["ServerlessV2PlatformVersion"].write(value.serverlessV2PlatformVersion)
+        try writer["Action"].write("DescribeServerlessV2PlatformVersions")
         try writer["Version"].write("2014-10-31")
     }
 }
@@ -27871,6 +27991,19 @@ extension DescribeReservedDBInstancesOfferingsOutput {
         var value = DescribeReservedDBInstancesOfferingsOutput()
         value.marker = try reader["Marker"].readIfPresent()
         value.reservedDBInstancesOfferings = try reader["ReservedDBInstancesOfferings"].readListIfPresent(memberReadingClosure: RDSClientTypes.ReservedDBInstancesOffering.read(from:), memberNodeInfo: "ReservedDBInstancesOffering", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeServerlessV2PlatformVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeServerlessV2PlatformVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["DescribeServerlessV2PlatformVersionsResult"]
+        var value = DescribeServerlessV2PlatformVersionsOutput()
+        value.marker = try reader["Marker"].readIfPresent()
+        value.serverlessV2PlatformVersions = try reader["ServerlessV2PlatformVersions"].readListIfPresent(memberReadingClosure: RDSClientTypes.ServerlessV2PlatformVersionInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -30342,6 +30475,19 @@ enum DescribeReservedDBInstancesOfferingsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ReservedDBInstancesOfferingNotFound": return try ReservedDBInstancesOfferingNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeServerlessV2PlatformVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -35448,6 +35594,21 @@ extension RDSClientTypes.ServerlessV2FeaturesSupport {
         var value = RDSClientTypes.ServerlessV2FeaturesSupport()
         value.minCapacity = try reader["MinCapacity"].readIfPresent()
         value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.ServerlessV2PlatformVersionInfo {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ServerlessV2PlatformVersionInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ServerlessV2PlatformVersionInfo()
+        value.serverlessV2PlatformVersion = try reader["ServerlessV2PlatformVersion"].readIfPresent()
+        value.serverlessV2PlatformVersionDescription = try reader["ServerlessV2PlatformVersionDescription"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.serverlessV2FeaturesSupport = try reader["ServerlessV2FeaturesSupport"].readIfPresent(with: RDSClientTypes.ServerlessV2FeaturesSupport.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.isDefault = try reader["IsDefault"].readIfPresent()
         return value
     }
 }

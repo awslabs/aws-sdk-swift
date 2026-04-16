@@ -833,15 +833,23 @@ extension DataZoneClientTypes {
     public struct IamUserProfileDetails: Swift.Sendable {
         /// The ARN of the IAM user.
         public var arn: Swift.String?
+        /// The identifier of the group profile associated with the IAM user profile. This links the user to a specific group profile within the Amazon DataZone domain.
+        public var groupProfileId: Swift.String?
         /// The principal ID as part of the IAM user profile details.
         public var principalId: Swift.String?
+        /// The session name for IAM role sessions.
+        public var sessionName: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
-            principalId: Swift.String? = nil
+            groupProfileId: Swift.String? = nil,
+            principalId: Swift.String? = nil,
+            sessionName: Swift.String? = nil
         ) {
             self.arn = arn
+            self.groupProfileId = groupProfileId
             self.principalId = principalId
+            self.sessionName = sessionName
         }
     }
 }
@@ -7883,7 +7891,6 @@ public struct CreateDomainInput: Swift.Sendable {
     /// The description of the Amazon DataZone domain.
     public var description: Swift.String?
     /// The domain execution role that is created when an Amazon DataZone domain is created. The domain execution role is created in the Amazon Web Services account that houses the Amazon DataZone domain.
-    /// This member is required.
     public var domainExecutionRole: Swift.String?
     /// The version of the domain that is created.
     public var domainVersion: DataZoneClientTypes.DomainVersion?
@@ -9326,17 +9333,20 @@ public struct CreateGroupProfileInput: Swift.Sendable {
     /// This member is required.
     public var domainIdentifier: Swift.String?
     /// The identifier of the group for which the group profile is created.
-    /// This member is required.
     public var groupIdentifier: Swift.String?
+    /// The ARN of the IAM role that will be associated with the group profile. This role defines the permissions that group members will assume when accessing Amazon DataZone resources.
+    public var rolePrincipalArn: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
-        groupIdentifier: Swift.String? = nil
+        groupIdentifier: Swift.String? = nil,
+        rolePrincipalArn: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.domainIdentifier = domainIdentifier
         self.groupIdentifier = groupIdentifier
+        self.rolePrincipalArn = rolePrincipalArn
     }
 }
 
@@ -9376,6 +9386,10 @@ public struct CreateGroupProfileOutput: Swift.Sendable {
     public var groupName: Swift.String?
     /// The identifier of the group profile.
     public var id: Swift.String?
+    /// The ARN of the IAM role principal. This role is associated with the group profile.
+    public var rolePrincipalArn: Swift.String?
+    /// The unique identifier of the IAM role principal. This principal is associated with the group profile.
+    public var rolePrincipalId: Swift.String?
     /// The status of the group profile.
     public var status: DataZoneClientTypes.GroupProfileStatus?
 
@@ -9383,18 +9397,22 @@ public struct CreateGroupProfileOutput: Swift.Sendable {
         domainId: Swift.String? = nil,
         groupName: Swift.String? = nil,
         id: Swift.String? = nil,
+        rolePrincipalArn: Swift.String? = nil,
+        rolePrincipalId: Swift.String? = nil,
         status: DataZoneClientTypes.GroupProfileStatus? = nil
     ) {
         self.domainId = domainId
         self.groupName = groupName
         self.id = id
+        self.rolePrincipalArn = rolePrincipalArn
+        self.rolePrincipalId = rolePrincipalId
         self.status = status
     }
 }
 
 extension CreateGroupProfileOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGroupProfileOutput(domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), groupName: \"CONTENT_REDACTED\")"}
+        "CreateGroupProfileOutput(domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), rolePrincipalArn: \(Swift.String(describing: rolePrincipalArn)), rolePrincipalId: \(Swift.String(describing: rolePrincipalId)), status: \(Swift.String(describing: status)), groupName: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -9485,6 +9503,77 @@ public struct CreateListingChangeSetOutput: Swift.Sendable {
 
 extension DataZoneClientTypes {
 
+    public enum UserDesignation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case projectCatalogConsumer
+        case projectCatalogSteward
+        case projectCatalogViewer
+        case projectContributor
+        case projectOwner
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UserDesignation] {
+            return [
+                .projectCatalogConsumer,
+                .projectCatalogSteward,
+                .projectCatalogViewer,
+                .projectContributor,
+                .projectOwner
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .projectCatalogConsumer: return "PROJECT_CATALOG_CONSUMER"
+            case .projectCatalogSteward: return "PROJECT_CATALOG_STEWARD"
+            case .projectCatalogViewer: return "PROJECT_CATALOG_VIEWER"
+            case .projectContributor: return "PROJECT_CONTRIBUTOR"
+            case .projectOwner: return "PROJECT_OWNER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The details about a project member.
+    public enum Member: Swift.Sendable {
+        /// The user ID of a project member.
+        case useridentifier(Swift.String)
+        /// The ID of the group of a project member.
+        case groupidentifier(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// A map of user or group profiles to designations that need to be assigned in the project.
+    public struct ProjectMembershipAssignment: Swift.Sendable {
+        /// The designation of the project membership.
+        /// This member is required.
+        public var designation: DataZoneClientTypes.UserDesignation?
+        /// The details about a project member.
+        /// This member is required.
+        public var member: DataZoneClientTypes.Member?
+
+        public init(
+            designation: DataZoneClientTypes.UserDesignation? = nil,
+            member: DataZoneClientTypes.Member? = nil
+        ) {
+            self.designation = designation
+            self.member = member
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// Specifies the account/Region that is to be used during project creation for a particular blueprint.
     public struct EnvironmentResolvedAccount: Swift.Sendable {
         /// The ID of the resolved account.
@@ -9550,9 +9639,15 @@ public struct CreateProjectInput: Swift.Sendable {
     public var domainUnitId: Swift.String?
     /// The glossary terms that can be used in this Amazon DataZone project.
     public var glossaryTerms: [Swift.String]?
+    /// The members to be assigned to the project.
+    public var membershipAssignments: [DataZoneClientTypes.ProjectMembershipAssignment]?
     /// The name of the Amazon DataZone project.
     /// This member is required.
     public var name: Swift.String?
+    /// The category of the project. Set to 'ADMIN' designates this as an administrative project for the Amazon DataZone domain.
+    public var projectCategory: Swift.String?
+    /// The default project IAM role that is used to access project resources and run computes such as Glue and Sagemaker.
+    public var projectExecutionRole: Swift.String?
     /// The ID of the project profile.
     public var projectProfileId: Swift.String?
     /// The resource tags of the project.
@@ -9565,7 +9660,10 @@ public struct CreateProjectInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         domainUnitId: Swift.String? = nil,
         glossaryTerms: [Swift.String]? = nil,
+        membershipAssignments: [DataZoneClientTypes.ProjectMembershipAssignment]? = nil,
         name: Swift.String? = nil,
+        projectCategory: Swift.String? = nil,
+        projectExecutionRole: Swift.String? = nil,
         projectProfileId: Swift.String? = nil,
         resourceTags: [Swift.String: Swift.String]? = nil,
         userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]? = nil
@@ -9574,7 +9672,10 @@ public struct CreateProjectInput: Swift.Sendable {
         self.domainIdentifier = domainIdentifier
         self.domainUnitId = domainUnitId
         self.glossaryTerms = glossaryTerms
+        self.membershipAssignments = membershipAssignments
         self.name = name
+        self.projectCategory = projectCategory
+        self.projectExecutionRole = projectExecutionRole
         self.projectProfileId = projectProfileId
         self.resourceTags = resourceTags
         self.userParameters = userParameters
@@ -9583,7 +9684,7 @@ public struct CreateProjectInput: Swift.Sendable {
 
 extension CreateProjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateProjectInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), domainUnitId: \(Swift.String(describing: domainUnitId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), projectProfileId: \(Swift.String(describing: projectProfileId)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateProjectInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), domainUnitId: \(Swift.String(describing: domainUnitId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), membershipAssignments: \(Swift.String(describing: membershipAssignments)), projectCategory: \(Swift.String(describing: projectCategory)), projectExecutionRole: \(Swift.String(describing: projectExecutionRole)), projectProfileId: \(Swift.String(describing: projectProfileId)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -9785,6 +9886,8 @@ public struct CreateProjectOutput: Swift.Sendable {
     /// The name of the project.
     /// This member is required.
     public var name: Swift.String?
+    /// The category of the project.
+    public var projectCategory: Swift.String?
     /// The project profile ID.
     public var projectProfileId: Swift.String?
     /// The status of the Amazon DataZone project that was created.
@@ -9806,6 +9909,7 @@ public struct CreateProjectOutput: Swift.Sendable {
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
+        projectCategory: Swift.String? = nil,
         projectProfileId: Swift.String? = nil,
         projectStatus: DataZoneClientTypes.ProjectStatus? = nil,
         resourceTags: [DataZoneClientTypes.ResourceTag]? = nil,
@@ -9822,6 +9926,7 @@ public struct CreateProjectOutput: Swift.Sendable {
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
+        self.projectCategory = projectCategory
         self.projectProfileId = projectProfileId
         self.projectStatus = projectStatus
         self.resourceTags = resourceTags
@@ -9831,57 +9936,7 @@ public struct CreateProjectOutput: Swift.Sendable {
 
 extension CreateProjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectProfileId: \(Swift.String(describing: projectProfileId)), projectStatus: \(Swift.String(describing: projectStatus)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
-}
-
-extension DataZoneClientTypes {
-
-    public enum UserDesignation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case projectCatalogConsumer
-        case projectCatalogSteward
-        case projectCatalogViewer
-        case projectContributor
-        case projectOwner
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [UserDesignation] {
-            return [
-                .projectCatalogConsumer,
-                .projectCatalogSteward,
-                .projectCatalogViewer,
-                .projectContributor,
-                .projectOwner
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .projectCatalogConsumer: return "PROJECT_CATALOG_CONSUMER"
-            case .projectCatalogSteward: return "PROJECT_CATALOG_STEWARD"
-            case .projectCatalogViewer: return "PROJECT_CATALOG_VIEWER"
-            case .projectContributor: return "PROJECT_CONTRIBUTOR"
-            case .projectOwner: return "PROJECT_OWNER"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DataZoneClientTypes {
-
-    /// The details about a project member.
-    public enum Member: Swift.Sendable {
-        /// The user ID of a project member.
-        case useridentifier(Swift.String)
-        /// The ID of the group of a project member.
-        case groupidentifier(Swift.String)
-        case sdkUnknown(Swift.String)
-    }
+        "CreateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectCategory: \(Swift.String(describing: projectCategory)), projectProfileId: \(Swift.String(describing: projectProfileId)), projectStatus: \(Swift.String(describing: projectStatus)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateProjectMembershipInput: Swift.Sendable {
@@ -11308,6 +11363,7 @@ extension DataZoneClientTypes {
 
     public enum UserType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case iamRole
+        case iamRoleSession
         case iamUser
         case ssoUser
         case sdkUnknown(Swift.String)
@@ -11315,6 +11371,7 @@ extension DataZoneClientTypes {
         public static var allCases: [UserType] {
             return [
                 .iamRole,
+                .iamRoleSession,
                 .iamUser,
                 .ssoUser
             ]
@@ -11328,6 +11385,7 @@ extension DataZoneClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .iamRole: return "IAM_ROLE"
+            case .iamRoleSession: return "IAM_ROLE_SESSION"
             case .iamUser: return "IAM_USER"
             case .ssoUser: return "SSO_USER"
             case let .sdkUnknown(s): return s
@@ -11342,6 +11400,8 @@ public struct CreateUserProfileInput: Swift.Sendable {
     /// The identifier of the Amazon DataZone domain in which a user profile is created.
     /// This member is required.
     public var domainIdentifier: Swift.String?
+    /// The session name for IAM role sessions.
+    public var sessionName: Swift.String?
     /// The identifier of the user for which the user profile is created.
     /// This member is required.
     public var userIdentifier: Swift.String?
@@ -11351,11 +11411,13 @@ public struct CreateUserProfileInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
+        sessionName: Swift.String? = nil,
         userIdentifier: Swift.String? = nil,
         userType: DataZoneClientTypes.UserType? = nil
     ) {
         self.clientToken = clientToken
         self.domainIdentifier = domainIdentifier
+        self.sessionName = sessionName
         self.userIdentifier = userIdentifier
         self.userType = userType
     }
@@ -15216,6 +15278,10 @@ public struct GetGroupProfileOutput: Swift.Sendable {
     public var groupName: Swift.String?
     /// The identifier of the group profile.
     public var id: Swift.String?
+    /// The ARN of the IAM role principal. This role is associated with the group profile.
+    public var rolePrincipalArn: Swift.String?
+    /// The unique identifier of the IAM role principal. This principal is associated with the group profile.
+    public var rolePrincipalId: Swift.String?
     /// The identifier of the group profile.
     public var status: DataZoneClientTypes.GroupProfileStatus?
 
@@ -15223,18 +15289,22 @@ public struct GetGroupProfileOutput: Swift.Sendable {
         domainId: Swift.String? = nil,
         groupName: Swift.String? = nil,
         id: Swift.String? = nil,
+        rolePrincipalArn: Swift.String? = nil,
+        rolePrincipalId: Swift.String? = nil,
         status: DataZoneClientTypes.GroupProfileStatus? = nil
     ) {
         self.domainId = domainId
         self.groupName = groupName
         self.id = id
+        self.rolePrincipalArn = rolePrincipalArn
+        self.rolePrincipalId = rolePrincipalId
         self.status = status
     }
 }
 
 extension GetGroupProfileOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetGroupProfileOutput(domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), groupName: \"CONTENT_REDACTED\")"}
+        "GetGroupProfileOutput(domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), rolePrincipalArn: \(Swift.String(describing: rolePrincipalArn)), rolePrincipalId: \(Swift.String(describing: rolePrincipalId)), status: \(Swift.String(describing: status)), groupName: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetIamPortalLoginUrlInput: Swift.Sendable {
@@ -15722,6 +15792,8 @@ public struct GetProjectOutput: Swift.Sendable {
     /// The name of the project.
     /// This member is required.
     public var name: Swift.String?
+    /// The category of the project.
+    public var projectCategory: Swift.String?
     /// The ID of the project profile of a project.
     public var projectProfileId: Swift.String?
     /// The status of the project.
@@ -15743,6 +15815,7 @@ public struct GetProjectOutput: Swift.Sendable {
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
+        projectCategory: Swift.String? = nil,
         projectProfileId: Swift.String? = nil,
         projectStatus: DataZoneClientTypes.ProjectStatus? = nil,
         resourceTags: [DataZoneClientTypes.ResourceTag]? = nil,
@@ -15759,6 +15832,7 @@ public struct GetProjectOutput: Swift.Sendable {
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
+        self.projectCategory = projectCategory
         self.projectProfileId = projectProfileId
         self.projectStatus = projectStatus
         self.resourceTags = resourceTags
@@ -15768,7 +15842,7 @@ public struct GetProjectOutput: Swift.Sendable {
 
 extension GetProjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectProfileId: \(Swift.String(describing: projectProfileId)), projectStatus: \(Swift.String(describing: projectStatus)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectCategory: \(Swift.String(describing: projectCategory)), projectProfileId: \(Swift.String(describing: projectProfileId)), projectStatus: \(Swift.String(describing: projectStatus)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetProjectProfileInput: Swift.Sendable {
@@ -16318,6 +16392,8 @@ public struct GetUserProfileInput: Swift.Sendable {
     /// the ID of the Amazon DataZone domain the data portal of which you want to get.
     /// This member is required.
     public var domainIdentifier: Swift.String?
+    /// The session name for IAM role sessions.
+    public var sessionName: Swift.String?
     /// The type of the user profile.
     public var type: DataZoneClientTypes.UserProfileType?
     /// The identifier of the user for which you want to get the user profile.
@@ -16326,10 +16402,12 @@ public struct GetUserProfileInput: Swift.Sendable {
 
     public init(
         domainIdentifier: Swift.String? = nil,
+        sessionName: Swift.String? = nil,
         type: DataZoneClientTypes.UserProfileType? = nil,
         userIdentifier: Swift.String? = nil
     ) {
         self.domainIdentifier = domainIdentifier
+        self.sessionName = sessionName
         self.type = type
         self.userIdentifier = userIdentifier
     }
@@ -18890,6 +18968,8 @@ public struct ListProjectsInput: Swift.Sendable {
     public var name: Swift.String?
     /// When the number of projects is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of projects, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListProjects to list the next set of projects.
     public var nextToken: Swift.String?
+    /// A parameter to filter projects by their category.
+    public var projectCategory: Swift.String?
     /// The identifier of the Amazon DataZone user.
     public var userIdentifier: Swift.String?
 
@@ -18899,6 +18979,7 @@ public struct ListProjectsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
+        projectCategory: Swift.String? = nil,
         userIdentifier: Swift.String? = nil
     ) {
         self.domainIdentifier = domainIdentifier
@@ -18906,13 +18987,14 @@ public struct ListProjectsInput: Swift.Sendable {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
+        self.projectCategory = projectCategory
         self.userIdentifier = userIdentifier
     }
 }
 
 extension ListProjectsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ListProjectsInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), groupIdentifier: \(Swift.String(describing: groupIdentifier)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), userIdentifier: \(Swift.String(describing: userIdentifier)), name: \"CONTENT_REDACTED\")"}
+        "ListProjectsInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), groupIdentifier: \(Swift.String(describing: groupIdentifier)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), projectCategory: \(Swift.String(describing: projectCategory)), userIdentifier: \(Swift.String(describing: userIdentifier)), name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -18939,6 +19021,8 @@ extension DataZoneClientTypes {
         /// The name of a project.
         /// This member is required.
         public var name: Swift.String?
+        /// The category of the project.
+        public var projectCategory: Swift.String?
         /// The status of the project.
         public var projectStatus: DataZoneClientTypes.ProjectStatus?
         /// The timestamp of when the project was updated.
@@ -18953,6 +19037,7 @@ extension DataZoneClientTypes {
             failureReasons: [DataZoneClientTypes.ProjectDeletionError]? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
+            projectCategory: Swift.String? = nil,
             projectStatus: DataZoneClientTypes.ProjectStatus? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
@@ -18964,6 +19049,7 @@ extension DataZoneClientTypes {
             self.failureReasons = failureReasons
             self.id = id
             self.name = name
+            self.projectCategory = projectCategory
             self.projectStatus = projectStatus
             self.updatedAt = updatedAt
         }
@@ -18972,7 +19058,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.ProjectSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ProjectSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), failureReasons: \(Swift.String(describing: failureReasons)), id: \(Swift.String(describing: id)), projectStatus: \(Swift.String(describing: projectStatus)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "ProjectSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), failureReasons: \(Swift.String(describing: failureReasons)), id: \(Swift.String(describing: id)), projectCategory: \(Swift.String(describing: projectCategory)), projectStatus: \(Swift.String(describing: projectStatus)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListProjectsOutput: Swift.Sendable {
@@ -21611,12 +21697,14 @@ extension DataZoneClientTypes {
 
     public enum GroupSearchType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case datazoneSsoGroup
+        case iamRoleSessionGroup
         case ssoGroup
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GroupSearchType] {
             return [
                 .datazoneSsoGroup,
+                .iamRoleSessionGroup,
                 .ssoGroup
             ]
         }
@@ -21629,6 +21717,7 @@ extension DataZoneClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .datazoneSsoGroup: return "DATAZONE_SSO_GROUP"
+            case .iamRoleSessionGroup: return "IAM_ROLE_SESSION_GROUP"
             case .ssoGroup: return "SSO_GROUP"
             case let .sdkUnknown(s): return s
             }
@@ -21680,6 +21769,10 @@ extension DataZoneClientTypes {
         public var groupName: Swift.String?
         /// The ID of a group profile.
         public var id: Swift.String?
+        /// The ARN of the IAM role principal. This role is associated with the group profile.
+        public var rolePrincipalArn: Swift.String?
+        /// The unique identifier of the IAM role principal. This principal is associated with the group profile.
+        public var rolePrincipalId: Swift.String?
         /// The status of a group profile.
         public var status: DataZoneClientTypes.GroupProfileStatus?
 
@@ -21687,11 +21780,15 @@ extension DataZoneClientTypes {
             domainId: Swift.String? = nil,
             groupName: Swift.String? = nil,
             id: Swift.String? = nil,
+            rolePrincipalArn: Swift.String? = nil,
+            rolePrincipalId: Swift.String? = nil,
             status: DataZoneClientTypes.GroupProfileStatus? = nil
         ) {
             self.domainId = domainId
             self.groupName = groupName
             self.id = id
+            self.rolePrincipalArn = rolePrincipalArn
+            self.rolePrincipalId = rolePrincipalId
             self.status = status
         }
     }
@@ -21699,7 +21796,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.GroupProfileSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GroupProfileSummary(domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), groupName: \"CONTENT_REDACTED\")"}
+        "GroupProfileSummary(domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), rolePrincipalArn: \(Swift.String(describing: rolePrincipalArn)), rolePrincipalId: \(Swift.String(describing: rolePrincipalId)), status: \(Swift.String(describing: status)), groupName: \"CONTENT_REDACTED\")"}
 }
 
 public struct SearchGroupProfilesOutput: Swift.Sendable {
@@ -22763,6 +22860,10 @@ public struct UpdateGroupProfileOutput: Swift.Sendable {
     public var groupName: Swift.String?
     /// The identifier of the group profile that is updated.
     public var id: Swift.String?
+    /// The ARN of the IAM role principal. This role is associated with the updated group profile.
+    public var rolePrincipalArn: Swift.String?
+    /// The unique identifier of the IAM role principal. This principal is associated with the updated group profile.
+    public var rolePrincipalId: Swift.String?
     /// The status of the group profile that is updated.
     public var status: DataZoneClientTypes.GroupProfileStatus?
 
@@ -22770,18 +22871,22 @@ public struct UpdateGroupProfileOutput: Swift.Sendable {
         domainId: Swift.String? = nil,
         groupName: Swift.String? = nil,
         id: Swift.String? = nil,
+        rolePrincipalArn: Swift.String? = nil,
+        rolePrincipalId: Swift.String? = nil,
         status: DataZoneClientTypes.GroupProfileStatus? = nil
     ) {
         self.domainId = domainId
         self.groupName = groupName
         self.id = id
+        self.rolePrincipalArn = rolePrincipalArn
+        self.rolePrincipalId = rolePrincipalId
         self.status = status
     }
 }
 
 extension UpdateGroupProfileOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGroupProfileOutput(domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), groupName: \"CONTENT_REDACTED\")"}
+        "UpdateGroupProfileOutput(domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), rolePrincipalArn: \(Swift.String(describing: rolePrincipalArn)), rolePrincipalId: \(Swift.String(describing: rolePrincipalId)), status: \(Swift.String(describing: status)), groupName: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateProjectInput: Swift.Sendable {
@@ -22865,6 +22970,8 @@ public struct UpdateProjectOutput: Swift.Sendable {
     /// The name of the project that is to be updated.
     /// This member is required.
     public var name: Swift.String?
+    /// The category of the project.
+    public var projectCategory: Swift.String?
     /// The ID of the project profile.
     public var projectProfileId: Swift.String?
     /// The status of the project.
@@ -22886,6 +22993,7 @@ public struct UpdateProjectOutput: Swift.Sendable {
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
+        projectCategory: Swift.String? = nil,
         projectProfileId: Swift.String? = nil,
         projectStatus: DataZoneClientTypes.ProjectStatus? = nil,
         resourceTags: [DataZoneClientTypes.ResourceTag]? = nil,
@@ -22902,6 +23010,7 @@ public struct UpdateProjectOutput: Swift.Sendable {
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
+        self.projectCategory = projectCategory
         self.projectProfileId = projectProfileId
         self.projectStatus = projectStatus
         self.resourceTags = resourceTags
@@ -22911,7 +23020,7 @@ public struct UpdateProjectOutput: Swift.Sendable {
 
 extension UpdateProjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectProfileId: \(Swift.String(describing: projectProfileId)), projectStatus: \(Swift.String(describing: projectStatus)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectCategory: \(Swift.String(describing: projectCategory)), projectProfileId: \(Swift.String(describing: projectProfileId)), projectStatus: \(Swift.String(describing: projectStatus)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateProjectProfileInput: Swift.Sendable {
@@ -23417,6 +23526,8 @@ public struct UpdateUserProfileInput: Swift.Sendable {
     /// The identifier of the Amazon DataZone domain in which a user profile is updated.
     /// This member is required.
     public var domainIdentifier: Swift.String?
+    /// The session name for IAM role sessions.
+    public var sessionName: Swift.String?
     /// The status of the user profile that are to be updated.
     /// This member is required.
     public var status: DataZoneClientTypes.UserProfileStatus?
@@ -23428,11 +23539,13 @@ public struct UpdateUserProfileInput: Swift.Sendable {
 
     public init(
         domainIdentifier: Swift.String? = nil,
+        sessionName: Swift.String? = nil,
         status: DataZoneClientTypes.UserProfileStatus? = nil,
         type: DataZoneClientTypes.UserProfileType? = nil,
         userIdentifier: Swift.String? = nil
     ) {
         self.domainIdentifier = domainIdentifier
+        self.sessionName = sessionName
         self.status = status
         self.type = type
         self.userIdentifier = userIdentifier
@@ -25519,6 +25632,10 @@ extension GetUserProfileInput {
 
     static func queryItemProvider(_ value: GetUserProfileInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let sessionName = value.sessionName {
+            let sessionNameQueryItem = Smithy.URIQueryItem(name: "sessionName".urlPercentEncoding(), value: Swift.String(sessionName).urlPercentEncoding())
+            items.append(sessionNameQueryItem)
+        }
         if let type = value.type {
             let typeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
             items.append(typeQueryItem)
@@ -26485,6 +26602,10 @@ extension ListProjectsInput {
         if let userIdentifier = value.userIdentifier {
             let userIdentifierQueryItem = Smithy.URIQueryItem(name: "userIdentifier".urlPercentEncoding(), value: Swift.String(userIdentifier).urlPercentEncoding())
             items.append(userIdentifierQueryItem)
+        }
+        if let projectCategory = value.projectCategory {
+            let projectCategoryQueryItem = Smithy.URIQueryItem(name: "projectCategory".urlPercentEncoding(), value: Swift.String(projectCategory).urlPercentEncoding())
+            items.append(projectCategoryQueryItem)
         }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -27732,6 +27853,7 @@ extension CreateGroupProfileInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["groupIdentifier"].write(value.groupIdentifier)
+        try writer["rolePrincipalArn"].write(value.rolePrincipalArn)
     }
 }
 
@@ -27754,7 +27876,10 @@ extension CreateProjectInput {
         try writer["description"].write(value.description)
         try writer["domainUnitId"].write(value.domainUnitId)
         try writer["glossaryTerms"].writeList(value.glossaryTerms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["membershipAssignments"].writeList(value.membershipAssignments, memberWritingClosure: DataZoneClientTypes.ProjectMembershipAssignment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
+        try writer["projectCategory"].write(value.projectCategory)
+        try writer["projectExecutionRole"].write(value.projectExecutionRole)
         try writer["projectProfileId"].write(value.projectProfileId)
         try writer["resourceTags"].writeMap(value.resourceTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["userParameters"].writeList(value.userParameters, memberWritingClosure: DataZoneClientTypes.EnvironmentConfigurationUserParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -27846,6 +27971,7 @@ extension CreateUserProfileInput {
     static func write(value: CreateUserProfileInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["sessionName"].write(value.sessionName)
         try writer["userIdentifier"].write(value.userIdentifier)
         try writer["userType"].write(value.userType)
     }
@@ -28293,6 +28419,7 @@ extension UpdateUserProfileInput {
 
     static func write(value: UpdateUserProfileInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["sessionName"].write(value.sessionName)
         try writer["status"].write(value.status)
         try writer["type"].write(value.type)
     }
@@ -28864,6 +28991,8 @@ extension CreateGroupProfileOutput {
         value.domainId = try reader["domainId"].readIfPresent()
         value.groupName = try reader["groupName"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
+        value.rolePrincipalArn = try reader["rolePrincipalArn"].readIfPresent()
+        value.rolePrincipalId = try reader["rolePrincipalId"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         return value
     }
@@ -28901,6 +29030,7 @@ extension CreateProjectOutput {
         value.id = try reader["id"].readIfPresent() ?? ""
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectCategory = try reader["projectCategory"].readIfPresent()
         value.projectProfileId = try reader["projectProfileId"].readIfPresent()
         value.projectStatus = try reader["projectStatus"].readIfPresent()
         value.resourceTags = try reader["resourceTags"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ResourceTag.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -29788,6 +29918,8 @@ extension GetGroupProfileOutput {
         value.domainId = try reader["domainId"].readIfPresent()
         value.groupName = try reader["groupName"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
+        value.rolePrincipalArn = try reader["rolePrincipalArn"].readIfPresent()
+        value.rolePrincipalId = try reader["rolePrincipalId"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         return value
     }
@@ -29950,6 +30082,7 @@ extension GetProjectOutput {
         value.id = try reader["id"].readIfPresent() ?? ""
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectCategory = try reader["projectCategory"].readIfPresent()
         value.projectProfileId = try reader["projectProfileId"].readIfPresent()
         value.projectStatus = try reader["projectStatus"].readIfPresent()
         value.resourceTags = try reader["resourceTags"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ResourceTag.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -31118,6 +31251,8 @@ extension UpdateGroupProfileOutput {
         value.domainId = try reader["domainId"].readIfPresent()
         value.groupName = try reader["groupName"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
+        value.rolePrincipalArn = try reader["rolePrincipalArn"].readIfPresent()
+        value.rolePrincipalId = try reader["rolePrincipalId"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         return value
     }
@@ -31141,6 +31276,7 @@ extension UpdateProjectOutput {
         value.id = try reader["id"].readIfPresent() ?? ""
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectCategory = try reader["projectCategory"].readIfPresent()
         value.projectProfileId = try reader["projectProfileId"].readIfPresent()
         value.projectStatus = try reader["projectStatus"].readIfPresent()
         value.resourceTags = try reader["resourceTags"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ResourceTag.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -37054,6 +37190,8 @@ extension DataZoneClientTypes.GroupProfileSummary {
         value.id = try reader["id"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.groupName = try reader["groupName"].readIfPresent()
+        value.rolePrincipalArn = try reader["rolePrincipalArn"].readIfPresent()
+        value.rolePrincipalId = try reader["rolePrincipalId"].readIfPresent()
         return value
     }
 }
@@ -37112,6 +37250,8 @@ extension DataZoneClientTypes.IamUserProfileDetails {
         var value = DataZoneClientTypes.IamUserProfileDetails()
         value.arn = try reader["arn"].readIfPresent()
         value.principalId = try reader["principalId"].readIfPresent()
+        value.sessionName = try reader["sessionName"].readIfPresent()
+        value.groupProfileId = try reader["groupProfileId"].readIfPresent()
         return value
     }
 }
@@ -38209,6 +38349,15 @@ extension DataZoneClientTypes.ProjectMember {
     }
 }
 
+extension DataZoneClientTypes.ProjectMembershipAssignment {
+
+    static func write(value: DataZoneClientTypes.ProjectMembershipAssignment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["designation"].write(value.designation)
+        try writer["member"].write(value.member, with: DataZoneClientTypes.Member.write(value:to:))
+    }
+}
+
 extension DataZoneClientTypes.ProjectPolicyGrantPrincipal {
 
     static func write(value: DataZoneClientTypes.ProjectPolicyGrantPrincipal?, to writer: SmithyJSON.Writer) throws {
@@ -38278,6 +38427,7 @@ extension DataZoneClientTypes.ProjectSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.domainUnitId = try reader["domainUnitId"].readIfPresent()
+        value.projectCategory = try reader["projectCategory"].readIfPresent()
         return value
     }
 }
