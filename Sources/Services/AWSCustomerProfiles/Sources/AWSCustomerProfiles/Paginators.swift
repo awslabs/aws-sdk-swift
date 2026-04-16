@@ -293,6 +293,37 @@ extension PaginatorSequence where OperationStackInput == ListRecommendersInput, 
     }
 }
 extension CustomerProfilesClient {
+    /// Paginate over `[ListRecommenderSchemasOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRecommenderSchemasInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRecommenderSchemasOutput`
+    public func listRecommenderSchemasPaginated(input: ListRecommenderSchemasInput) -> ClientRuntime.PaginatorSequence<ListRecommenderSchemasInput, ListRecommenderSchemasOutput> {
+        return ClientRuntime.PaginatorSequence<ListRecommenderSchemasInput, ListRecommenderSchemasOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRecommenderSchemas(input:))
+    }
+}
+
+extension ListRecommenderSchemasInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRecommenderSchemasInput {
+        return ListRecommenderSchemasInput(
+            domainName: self.domainName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRecommenderSchemasInput, OperationStackOutput == ListRecommenderSchemasOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRecommenderSchemasPaginated`
+    /// to access the nested member `[CustomerProfilesClientTypes.RecommenderSchemaSummary]`
+    /// - Returns: `[CustomerProfilesClientTypes.RecommenderSchemaSummary]`
+    public func recommenderSchemas() async throws -> [CustomerProfilesClientTypes.RecommenderSchemaSummary] {
+        return try await self.asyncCompactMap { item in item.recommenderSchemas }
+    }
+}
+extension CustomerProfilesClient {
     /// Paginate over `[ListRuleBasedMatchesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

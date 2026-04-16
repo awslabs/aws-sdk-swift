@@ -2029,6 +2029,8 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     public var autoScalingGroupName: Swift.String?
     /// The instance capacity distribution across Availability Zones.
     public var availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution?
+    /// A list of Availability Zone IDs where the Auto Scaling group can launch instances. You cannot specify both AvailabilityZones and AvailabilityZoneIds in the same request.
+    public var availabilityZoneIds: [Swift.String]?
     /// The policy for Availability Zone impairment.
     public var availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?
     /// A list of Availability Zones where instances in the Auto Scaling group can be created. Used for launching into the default VPC subnet in each Availability Zone when not using the VPCZoneIdentifier property, or for attaching a network interface when an existing network interface ID is specified in a launch template.
@@ -2099,6 +2101,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution? = nil,
+        availabilityZoneIds: [Swift.String]? = nil,
         availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy? = nil,
         availabilityZones: [Swift.String]? = nil,
         capacityRebalance: Swift.Bool? = nil,
@@ -2134,6 +2137,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.availabilityZoneDistribution = availabilityZoneDistribution
+        self.availabilityZoneIds = availabilityZoneIds
         self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
         self.availabilityZones = availabilityZones
         self.capacityRebalance = capacityRebalance
@@ -2946,6 +2950,8 @@ extension AutoScalingClientTypes {
         /// The Availability Zone in which the instance is running.
         /// This member is required.
         public var availabilityZone: Swift.String?
+        /// The Availability Zone ID where the instance was launched.
+        public var availabilityZoneId: Swift.String?
         /// The last reported health status of the instance. Healthy means that the instance is healthy and should remain in service. Unhealthy means that the instance is unhealthy and that Amazon EC2 Auto Scaling should terminate and replace it.
         /// This member is required.
         public var healthStatus: Swift.String?
@@ -2982,6 +2988,7 @@ extension AutoScalingClientTypes {
 
         public init(
             availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
             healthStatus: Swift.String? = nil,
             imageId: Swift.String? = nil,
             instanceId: Swift.String? = nil,
@@ -2993,6 +3000,7 @@ extension AutoScalingClientTypes {
             weightedCapacity: Swift.String? = nil
         ) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.healthStatus = healthStatus
             self.imageId = imageId
             self.instanceId = instanceId
@@ -3171,6 +3179,8 @@ extension AutoScalingClientTypes {
         public var autoScalingGroupName: Swift.String?
         /// The EC2 instance capacity distribution across Availability Zones for the Auto Scaling group.
         public var availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution?
+        /// The Availability Zone IDs where the Auto Scaling group can launch instances.
+        public var availabilityZoneIds: [Swift.String]?
         /// The Availability Zone impairment policy for the Auto Scaling group.
         public var availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?
         /// One or more Availability Zones for the Auto Scaling group.
@@ -3257,6 +3267,7 @@ extension AutoScalingClientTypes {
             autoScalingGroupARN: Swift.String? = nil,
             autoScalingGroupName: Swift.String? = nil,
             availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution? = nil,
+            availabilityZoneIds: [Swift.String]? = nil,
             availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy? = nil,
             availabilityZones: [Swift.String]? = nil,
             capacityRebalance: Swift.Bool? = nil,
@@ -3298,6 +3309,7 @@ extension AutoScalingClientTypes {
             self.autoScalingGroupARN = autoScalingGroupARN
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZoneDistribution = availabilityZoneDistribution
+            self.availabilityZoneIds = availabilityZoneIds
             self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
             self.availabilityZones = availabilityZones
             self.capacityRebalance = capacityRebalance
@@ -3384,6 +3396,8 @@ extension AutoScalingClientTypes {
         /// The Availability Zone for the instance.
         /// This member is required.
         public var availabilityZone: Swift.String?
+        /// The Availability Zone ID where the instance is located.
+        public var availabilityZoneId: Swift.String?
         /// The last reported health status of this instance. Healthy means that the instance is healthy and should remain in service. Unhealthy means that the instance is unhealthy and Amazon EC2 Auto Scaling should terminate and replace it.
         /// This member is required.
         public var healthStatus: Swift.String?
@@ -3421,6 +3435,7 @@ extension AutoScalingClientTypes {
         public init(
             autoScalingGroupName: Swift.String? = nil,
             availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
             healthStatus: Swift.String? = nil,
             imageId: Swift.String? = nil,
             instanceId: Swift.String? = nil,
@@ -3433,6 +3448,7 @@ extension AutoScalingClientTypes {
         ) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.healthStatus = healthStatus
             self.imageId = imageId
             self.instanceId = instanceId
@@ -6845,6 +6861,8 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public var autoScalingGroupName: Swift.String?
     /// The instance capacity distribution across Availability Zones.
     public var availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution?
+    /// A list of Availability Zone IDs for the Auto Scaling group. You cannot specify both AvailabilityZones and AvailabilityZoneIds in the same request.
+    public var availabilityZoneIds: [Swift.String]?
     /// The policy for Availability Zone impairment.
     public var availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?
     /// One or more Availability Zones for the group.
@@ -6901,6 +6919,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution? = nil,
+        availabilityZoneIds: [Swift.String]? = nil,
         availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy? = nil,
         availabilityZones: [Swift.String]? = nil,
         capacityRebalance: Swift.Bool? = nil,
@@ -6930,6 +6949,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.availabilityZoneDistribution = availabilityZoneDistribution
+        self.availabilityZoneIds = availabilityZoneIds
         self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
         self.availabilityZones = availabilityZones
         self.capacityRebalance = capacityRebalance
@@ -7519,6 +7539,7 @@ extension CreateAutoScalingGroupInput {
         guard let value else { return }
         try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
         try writer["AvailabilityZoneDistribution"].write(value.availabilityZoneDistribution, with: AutoScalingClientTypes.AvailabilityZoneDistribution.write(value:to:))
+        try writer["AvailabilityZoneIds"].writeList(value.availabilityZoneIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AvailabilityZoneImpairmentPolicy"].write(value.availabilityZoneImpairmentPolicy, with: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy.write(value:to:))
         try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CapacityRebalance"].write(value.capacityRebalance)
@@ -8259,6 +8280,7 @@ extension UpdateAutoScalingGroupInput {
         guard let value else { return }
         try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
         try writer["AvailabilityZoneDistribution"].write(value.availabilityZoneDistribution, with: AutoScalingClientTypes.AvailabilityZoneDistribution.write(value:to:))
+        try writer["AvailabilityZoneIds"].writeList(value.availabilityZoneIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AvailabilityZoneImpairmentPolicy"].write(value.availabilityZoneImpairmentPolicy, with: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy.write(value:to:))
         try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CapacityRebalance"].write(value.capacityRebalance)
@@ -10180,6 +10202,7 @@ extension AutoScalingClientTypes.AutoScalingGroup {
         value.predictedCapacity = try reader["PredictedCapacity"].readIfPresent()
         value.defaultCooldown = try reader["DefaultCooldown"].readIfPresent() ?? 0
         value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.availabilityZoneIds = try reader["AvailabilityZoneIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.loadBalancerNames = try reader["LoadBalancerNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.targetGroupARNs = try reader["TargetGroupARNs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.healthCheckType = try reader["HealthCheckType"].readIfPresent() ?? ""
@@ -10222,6 +10245,7 @@ extension AutoScalingClientTypes.AutoScalingInstanceDetails {
         value.instanceType = try reader["InstanceType"].readIfPresent()
         value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent() ?? ""
         value.availabilityZone = try reader["AvailabilityZone"].readIfPresent() ?? ""
+        value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
         value.lifecycleState = try reader["LifecycleState"].readIfPresent() ?? ""
         value.healthStatus = try reader["HealthStatus"].readIfPresent() ?? ""
         value.launchConfigurationName = try reader["LaunchConfigurationName"].readIfPresent()
@@ -10489,6 +10513,7 @@ extension AutoScalingClientTypes.Instance {
         value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
         value.instanceType = try reader["InstanceType"].readIfPresent()
         value.availabilityZone = try reader["AvailabilityZone"].readIfPresent() ?? ""
+        value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
         value.lifecycleState = try reader["LifecycleState"].readIfPresent() ?? .sdkUnknown("")
         value.healthStatus = try reader["HealthStatus"].readIfPresent() ?? ""
         value.launchConfigurationName = try reader["LaunchConfigurationName"].readIfPresent()

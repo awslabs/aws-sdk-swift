@@ -2136,40 +2136,6 @@ public struct UpdateOperatorAppIdpConfigOutput: Swift.Sendable {
     }
 }
 
-/// Input for authorizing vended log delivery for a resource.
-public struct AllowVendedLogDeliveryForResourceInput: Swift.Sendable {
-    /// The ARN of the delivery source for vended log delivery.
-    /// This member is required.
-    public var deliverySourceArn: Swift.String?
-    /// The type of log to be delivered.
-    public var logType: Swift.String?
-    /// The ARN of the resource being authorized for vended log delivery.
-    /// This member is required.
-    public var resourceArnBeingAuthorized: Swift.String?
-
-    public init(
-        deliverySourceArn: Swift.String? = nil,
-        logType: Swift.String? = nil,
-        resourceArnBeingAuthorized: Swift.String? = nil
-    ) {
-        self.deliverySourceArn = deliverySourceArn
-        self.logType = logType
-        self.resourceArnBeingAuthorized = resourceArnBeingAuthorized
-    }
-}
-
-/// Output for the vended log delivery authorization operation.
-public struct AllowVendedLogDeliveryForResourceOutput: Swift.Sendable {
-    /// A message describing the result of the authorization operation.
-    public var message: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.message = message
-    }
-}
-
 extension DevOpsAgentClientTypes {
 
     /// A block of content in an assistant message.
@@ -2623,8 +2589,8 @@ public struct CreateChatInput: Swift.Sendable {
     /// Unique identifier for an agent space (allows alphanumeric characters and hyphens; 1-64 characters)
     /// This member is required.
     public var agentSpaceId: Swift.String?
-    /// The user identifier for the chat
-    /// This member is required.
+    /// The user identifier for the chat. This field is deprecated and will be ignored — the service resolves user identity from the authenticated session.
+    @available(*, deprecated, message: "userId is managed by the service and should not be provided by the caller API deprecated since 2026-04-15")
     public var userId: Swift.String?
     /// The authentication type of the user
     public var userType: DevOpsAgentClientTypes.UserType?
@@ -3548,8 +3514,8 @@ public struct ListChatsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// Token for pagination
     public var nextToken: Swift.String?
-    /// The user identifier to list chats for
-    /// This member is required.
+    /// The user identifier to list chats for. This field is deprecated and will be ignored — the service resolves user identity from the authenticated session.
+    @available(*, deprecated, message: "userId is managed by the service and should not be provided by the caller API deprecated since 2026-04-15")
     public var userId: Swift.String?
 
     public init(
@@ -4461,8 +4427,8 @@ public struct SendMessageInput: Swift.Sendable {
     /// The execution identifier for the chat session
     /// This member is required.
     public var executionId: Swift.String?
-    /// Required user identifier
-    /// This member is required.
+    /// User identifier. This field is deprecated and will be ignored — the service resolves user identity from the authenticated session.
+    @available(*, deprecated, message: "userId is managed by the service and should not be provided by the caller API deprecated since 2026-04-15")
     public var userId: Swift.String?
 
     public init(
@@ -5893,13 +5859,6 @@ public struct UpdateRecommendationOutput: Swift.Sendable {
     }
 }
 
-extension AllowVendedLogDeliveryForResourceInput {
-
-    static func urlPathProvider(_ value: AllowVendedLogDeliveryForResourceInput) -> Swift.String? {
-        return "/allow-vended-log-delivery-for-resource"
-    }
-}
-
 extension AssociateServiceInput {
 
     static func urlPathProvider(_ value: AssociateServiceInput) -> Swift.String? {
@@ -5945,12 +5904,10 @@ extension CreateChatInput {
             let userTypeQueryItem = Smithy.URIQueryItem(name: "userType".urlPercentEncoding(), value: Swift.String(userType.rawValue).urlPercentEncoding())
             items.append(userTypeQueryItem)
         }
-        guard let userId = value.userId else {
-            let message = "Creating a URL Query Item failed. userId is required and must not be nil."
-            throw Smithy.ClientError.unknownError(message)
+        if let userId = value.userId {
+            let userIdQueryItem = Smithy.URIQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
+            items.append(userIdQueryItem)
         }
-        let userIdQueryItem = Smithy.URIQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
-        items.append(userIdQueryItem)
         return items
     }
 }
@@ -6219,12 +6176,10 @@ extension ListChatsInput {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
-        guard let userId = value.userId else {
-            let message = "Creating a URL Query Item failed. userId is required and must not be nil."
-            throw Smithy.ClientError.unknownError(message)
+        if let userId = value.userId {
+            let userIdQueryItem = Smithy.URIQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
+            items.append(userIdQueryItem)
         }
-        let userIdQueryItem = Smithy.URIQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
-        items.append(userIdQueryItem)
         return items
     }
 }
@@ -6484,16 +6439,6 @@ extension ValidateAwsAssociationsInput {
     }
 }
 
-extension AllowVendedLogDeliveryForResourceInput {
-
-    static func write(value: AllowVendedLogDeliveryForResourceInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deliverySourceArn"].write(value.deliverySourceArn)
-        try writer["logType"].write(value.logType)
-        try writer["resourceArnBeingAuthorized"].write(value.resourceArnBeingAuthorized)
-    }
-}
-
 extension AssociateServiceInput {
 
     static func write(value: AssociateServiceInput?, to writer: SmithyJSON.Writer) throws {
@@ -6709,18 +6654,6 @@ extension UpdateRecommendationInput {
         try writer["additionalContext"].write(value.additionalContext)
         try writer["clientToken"].write(value.clientToken)
         try writer["status"].write(value.status)
-    }
-}
-
-extension AllowVendedLogDeliveryForResourceOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AllowVendedLogDeliveryForResourceOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = AllowVendedLogDeliveryForResourceOutput()
-        value.message = try reader["message"].readIfPresent()
-        return value
     }
 }
 
@@ -7285,20 +7218,6 @@ func httpServiceError(baseError: ClientRuntime.RestJSONError) throws -> Swift.Er
         case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
         case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
         default: return nil
-    }
-}
-
-enum AllowVendedLogDeliveryForResourceOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        if let error = try httpServiceError(baseError: baseError) { return error }
-        switch baseError.code {
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
     }
 }
 

@@ -5273,6 +5273,88 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Elemental Inference feature.
+    public enum ElementalInferenceFeature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case smartCrop
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ElementalInferenceFeature] {
+            return [
+                .smartCrop
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .smartCrop: return "SMART_CROP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Elemental Inference Feed management state.
+    public enum ElementalInferenceFeedManagementState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case associated
+        case created
+        case deleted
+        case pendingDeletion
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ElementalInferenceFeedManagementState] {
+            return [
+                .associated,
+                .created,
+                .deleted,
+                .pendingDeletion
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .associated: return "ASSOCIATED"
+            case .created: return "CREATED"
+            case .deleted: return "DELETED"
+            case .pendingDeletion: return "PENDING_DELETION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Elemental Inference Feed.
+    public struct ElementalInferenceFeed: Swift.Sendable {
+        /// Feed ARN.
+        public var arn: Swift.String?
+        /// Elemental Inference Feed management state.
+        public var feedManagementState: MediaConvertClientTypes.ElementalInferenceFeedManagementState?
+
+        public init(
+            arn: Swift.String? = nil,
+            feedManagementState: MediaConvertClientTypes.ElementalInferenceFeedManagementState? = nil
+        ) {
+            self.arn = arn
+            self.feedManagementState = feedManagementState
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Describes an account-specific API endpoint.
     public struct Endpoint: Swift.Sendable {
         /// URL of endpoint
@@ -7902,6 +7984,25 @@ extension MediaConvertClientTypes {
             case .uploading: return "UPLOADING"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// The Elemental Inference configuration used in this job.
+    public struct ElementalInferenceConfiguration: Swift.Sendable {
+        /// A list of Elemental Inference features used in this job.
+        public var features: [MediaConvertClientTypes.ElementalInferenceFeature]?
+        /// A list of Elemental Inference feeds used by this job.
+        public var feeds: [MediaConvertClientTypes.ElementalInferenceFeed]?
+
+        public init(
+            features: [MediaConvertClientTypes.ElementalInferenceFeature]? = nil,
+            feeds: [MediaConvertClientTypes.ElementalInferenceFeed]? = nil
+        ) {
+            self.features = features
+            self.feeds = feeds
         }
     }
 }
@@ -20881,12 +20982,13 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify the video Scaling behavior when your output has a different resolution than your input. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/video-scaling.html
+    /// Specify the video Scaling behavior when your output has a different resolution than your input. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/video-scaling.html Select Smart Cropping using Elemental Inference as your scaling behavior to have Elemental Inference automatically crop your video. Smart Crop requires a vertical output aspect ratio (1:1 is the widest aspect ratio supported).
     public enum ScalingBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `default`
         case fill
         case fit
         case fitNoUpscale
+        case smartCrop
         case stretchToOutput
         case sdkUnknown(Swift.String)
 
@@ -20896,6 +20998,7 @@ extension MediaConvertClientTypes {
                 .fill,
                 .fit,
                 .fitNoUpscale,
+                .smartCrop,
                 .stretchToOutput
             ]
         }
@@ -20911,6 +21014,7 @@ extension MediaConvertClientTypes {
             case .fill: return "FILL"
             case .fit: return "FIT"
             case .fitNoUpscale: return "FIT_NO_UPSCALE"
+            case .smartCrop: return "SMART_CROP"
             case .stretchToOutput: return "STRETCH_TO_OUTPUT"
             case let .sdkUnknown(s): return s
             }
@@ -21954,7 +22058,7 @@ extension MediaConvertClientTypes {
         public var position: MediaConvertClientTypes.Rectangle?
         /// Use Respond to AFD to specify how the service changes the video itself in response to AFD values in the input. * Choose Respond to clip the input video frame according to the AFD value, input display aspect ratio, and output display aspect ratio. * Choose Passthrough to include the input AFD values. Do not choose this when AfdSignaling is set to NONE. A preferred implementation of this workflow is to set RespondToAfd to and set AfdSignaling to AUTO. * Choose None to remove all input AFD values from this output.
         public var respondToAfd: MediaConvertClientTypes.RespondToAfd?
-        /// Specify the video Scaling behavior when your output has a different resolution than your input. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/video-scaling.html
+        /// Specify the video Scaling behavior when your output has a different resolution than your input. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/video-scaling.html Select Smart Cropping using Elemental Inference as your scaling behavior to have Elemental Inference automatically crop your video. Smart Crop requires a vertical output aspect ratio (1:1 is the widest aspect ratio supported).
         public var scalingBehavior: MediaConvertClientTypes.ScalingBehavior?
         /// Use Sharpness setting to specify the strength of anti-aliasing. This setting changes the width of the anti-alias filter kernel used for scaling. Sharpness only applies if your output resolution is different from your input resolution. 0 is the softest setting, 100 the sharpest, and 50 recommended for most content.
         public var sharpness: Swift.Int?
@@ -22455,6 +22559,8 @@ extension MediaConvertClientTypes {
         public var createdAt: Foundation.Date?
         /// A job's phase can be PROBING, TRANSCODING OR UPLOADING
         public var currentPhase: MediaConvertClientTypes.JobPhase?
+        /// The Elemental Inference configuration used in this job.
+        public var elementalInferenceConfiguration: MediaConvertClientTypes.ElementalInferenceConfiguration?
         /// Error code for the job
         public var errorCode: Swift.Int?
         /// Error message of Job
@@ -22514,6 +22620,7 @@ extension MediaConvertClientTypes {
             clientRequestToken: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             currentPhase: MediaConvertClientTypes.JobPhase? = nil,
+            elementalInferenceConfiguration: MediaConvertClientTypes.ElementalInferenceConfiguration? = nil,
             errorCode: Swift.Int? = nil,
             errorMessage: Swift.String? = nil,
             hopDestinations: [MediaConvertClientTypes.HopDestination]? = nil,
@@ -22546,6 +22653,7 @@ extension MediaConvertClientTypes {
             self.clientRequestToken = clientRequestToken
             self.createdAt = createdAt
             self.currentPhase = currentPhase
+            self.elementalInferenceConfiguration = elementalInferenceConfiguration
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.hopDestinations = hopDestinations
@@ -23852,6 +23960,8 @@ extension MediaConvertClientTypes {
         public var description: Swift.String?
         /// The timestamp in epoch seconds for when you most recently updated the queue.
         public var lastUpdated: Foundation.Date?
+        /// Specify the maximum number of Elemental Inference feeds MediaConvert can process concurrently.
+        public var maximumConcurrentFeeds: Swift.Int?
         /// A name that you create for each queue. Each name must be unique within your account.
         /// This member is required.
         public var name: Swift.String?
@@ -23876,6 +23986,7 @@ extension MediaConvertClientTypes {
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             lastUpdated: Foundation.Date? = nil,
+            maximumConcurrentFeeds: Swift.Int? = nil,
             name: Swift.String? = nil,
             pricingPlan: MediaConvertClientTypes.PricingPlan? = nil,
             progressingJobsCount: Swift.Int? = nil,
@@ -23890,6 +24001,7 @@ extension MediaConvertClientTypes {
             self.createdAt = createdAt
             self.description = description
             self.lastUpdated = lastUpdated
+            self.maximumConcurrentFeeds = maximumConcurrentFeeds
             self.name = name
             self.pricingPlan = pricingPlan
             self.progressingJobsCount = progressingJobsCount
@@ -24304,6 +24416,8 @@ public struct CreateQueueInput: Swift.Sendable {
     public var concurrentJobs: Swift.Int?
     /// Optional. A description of the queue that you are creating.
     public var description: Swift.String?
+    /// Specify the maximum number of Elemental Inference feeds MediaConvert can process concurrently.
+    public var maximumConcurrentFeeds: Swift.Int?
     /// The name of the queue that you are creating.
     /// This member is required.
     public var name: Swift.String?
@@ -24319,6 +24433,7 @@ public struct CreateQueueInput: Swift.Sendable {
     public init(
         concurrentJobs: Swift.Int? = nil,
         description: Swift.String? = nil,
+        maximumConcurrentFeeds: Swift.Int? = nil,
         name: Swift.String? = nil,
         pricingPlan: MediaConvertClientTypes.PricingPlan? = nil,
         reservationPlanSettings: MediaConvertClientTypes.ReservationPlanSettings? = nil,
@@ -24327,6 +24442,7 @@ public struct CreateQueueInput: Swift.Sendable {
     ) {
         self.concurrentJobs = concurrentJobs
         self.description = description
+        self.maximumConcurrentFeeds = maximumConcurrentFeeds
         self.name = name
         self.pricingPlan = pricingPlan
         self.reservationPlanSettings = reservationPlanSettings
@@ -25375,6 +25491,8 @@ public struct UpdateQueueInput: Swift.Sendable {
     public var concurrentJobs: Swift.Int?
     /// The new description for the queue, if you are changing it.
     public var description: Swift.String?
+    /// Specify the maximum number of Elemental Inference feeds MediaConvert can process concurrently.
+    public var maximumConcurrentFeeds: Swift.Int?
     /// The name of the queue that you are modifying.
     /// This member is required.
     public var name: Swift.String?
@@ -25386,12 +25504,14 @@ public struct UpdateQueueInput: Swift.Sendable {
     public init(
         concurrentJobs: Swift.Int? = nil,
         description: Swift.String? = nil,
+        maximumConcurrentFeeds: Swift.Int? = nil,
         name: Swift.String? = nil,
         reservationPlanSettings: MediaConvertClientTypes.ReservationPlanSettings? = nil,
         status: MediaConvertClientTypes.QueueStatus? = nil
     ) {
         self.concurrentJobs = concurrentJobs
         self.description = description
+        self.maximumConcurrentFeeds = maximumConcurrentFeeds
         self.name = name
         self.reservationPlanSettings = reservationPlanSettings
         self.status = status
@@ -25912,6 +26032,7 @@ extension CreateQueueInput {
         guard let value else { return }
         try writer["concurrentJobs"].write(value.concurrentJobs)
         try writer["description"].write(value.description)
+        try writer["maximumConcurrentFeeds"].write(value.maximumConcurrentFeeds)
         try writer["name"].write(value.name)
         try writer["pricingPlan"].write(value.pricingPlan)
         try writer["reservationPlanSettings"].write(value.reservationPlanSettings, with: MediaConvertClientTypes.ReservationPlanSettings.write(value:to:))
@@ -26014,6 +26135,7 @@ extension UpdateQueueInput {
         guard let value else { return }
         try writer["concurrentJobs"].write(value.concurrentJobs)
         try writer["description"].write(value.description)
+        try writer["maximumConcurrentFeeds"].write(value.maximumConcurrentFeeds)
         try writer["reservationPlanSettings"].write(value.reservationPlanSettings, with: MediaConvertClientTypes.ReservationPlanSettings.write(value:to:))
         try writer["status"].write(value.status)
     }
@@ -28784,6 +28906,28 @@ extension MediaConvertClientTypes.Eac3Settings {
     }
 }
 
+extension MediaConvertClientTypes.ElementalInferenceConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.ElementalInferenceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.ElementalInferenceConfiguration()
+        value.features = try reader["features"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.ElementalInferenceFeature>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.feeds = try reader["feeds"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.ElementalInferenceFeed.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.ElementalInferenceFeed {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.ElementalInferenceFeed {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.ElementalInferenceFeed()
+        value.arn = try reader["arn"].readIfPresent()
+        value.feedManagementState = try reader["feedManagementState"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaConvertClientTypes.EmbeddedDestinationSettings {
 
     static func write(value: MediaConvertClientTypes.EmbeddedDestinationSettings?, to writer: SmithyJSON.Writer) throws {
@@ -29923,6 +30067,7 @@ extension MediaConvertClientTypes.Job {
         value.clientRequestToken = try reader["clientRequestToken"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.currentPhase = try reader["currentPhase"].readIfPresent()
+        value.elementalInferenceConfiguration = try reader["elementalInferenceConfiguration"].readIfPresent(with: MediaConvertClientTypes.ElementalInferenceConfiguration.read(from:))
         value.errorCode = try reader["errorCode"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         value.hopDestinations = try reader["hopDestinations"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.HopDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -31213,6 +31358,7 @@ extension MediaConvertClientTypes.Queue {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
         value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.maximumConcurrentFeeds = try reader["maximumConcurrentFeeds"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.pricingPlan = try reader["pricingPlan"].readIfPresent()
         value.progressingJobsCount = try reader["progressingJobsCount"].readIfPresent()

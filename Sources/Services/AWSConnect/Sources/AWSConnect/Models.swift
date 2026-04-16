@@ -9095,6 +9095,7 @@ extension ConnectClientTypes {
         case oncasecreate
         case oncaseupdate
         case oncontactevaluationsubmit
+        case onemailanalysisavailable
         case onmetricdataupdate
         case onpostcallanalysisavailable
         case onpostchatanalysisavailable
@@ -9111,6 +9112,7 @@ extension ConnectClientTypes {
                 .oncasecreate,
                 .oncaseupdate,
                 .oncontactevaluationsubmit,
+                .onemailanalysisavailable,
                 .onmetricdataupdate,
                 .onpostcallanalysisavailable,
                 .onpostchatanalysisavailable,
@@ -9133,6 +9135,7 @@ extension ConnectClientTypes {
             case .oncasecreate: return "OnCaseCreate"
             case .oncaseupdate: return "OnCaseUpdate"
             case .oncontactevaluationsubmit: return "OnContactEvaluationSubmit"
+            case .onemailanalysisavailable: return "OnEmailAnalysisAvailable"
             case .onmetricdataupdate: return "OnMetricDataUpdate"
             case .onpostcallanalysisavailable: return "OnPostCallAnalysisAvailable"
             case .onpostchatanalysisavailable: return "OnPostChatAnalysisAvailable"
