@@ -3872,14 +3872,14 @@ extension MediaConnectClientTypes {
 
     /// Protocol configuration settings for failover router inputs.
     public enum FailoverRouterInputProtocolConfiguration: Swift.Sendable {
-        /// The configuration settings for a Router Input using the RTP (Real-Time Transport Protocol) protocol, including the port and forward error correction state.
-        case rtp(MediaConnectClientTypes.RtpRouterInputConfiguration)
         /// The configuration settings for a router input using the RIST (Reliable Internet Stream Transport) protocol, including the port and recovery latency.
         case rist(MediaConnectClientTypes.RistRouterInputConfiguration)
         /// The configuration settings for a router input using the SRT (Secure Reliable Transport) protocol in listener mode, including the port, minimum latency, and decryption key configuration.
         case srtlistener(MediaConnectClientTypes.SrtListenerRouterInputConfiguration)
         /// The configuration settings for a router input using the SRT (Secure Reliable Transport) protocol in caller mode, including the source address and port, minimum latency, stream ID, and decryption key configuration.
         case srtcaller(MediaConnectClientTypes.SrtCallerRouterInputConfiguration)
+        /// The configuration settings for a Router Input using the RTP (Real-Time Transport Protocol) protocol, including the port and forward error correction state.
+        case rtp(MediaConnectClientTypes.RtpRouterInputConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3969,6 +3969,124 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    public enum MediaLiveChannelPipelineId: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case pipeline0
+        case pipeline1
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MediaLiveChannelPipelineId] {
+            return [
+                .pipeline0,
+                .pipeline1
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .pipeline0: return "PIPELINE_0"
+            case .pipeline1: return "PIPELINE_1"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration settings for the MediaLive transit encryption key.
+    public enum MediaLiveTransitEncryptionKeyConfiguration: Swift.Sendable {
+        /// The configuration settings for transit encryption using Secrets Manager, including the secret ARN and role ARN.
+        case secretsmanager(MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration)
+        /// Configuration settings for automatic encryption key management, where MediaConnect handles key creation and rotation.
+        case automatic(MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum MediaLiveTransitEncryptionKeyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automatic
+        case secretsManager
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MediaLiveTransitEncryptionKeyType] {
+            return [
+                .automatic,
+                .secretsManager
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatic: return "AUTOMATIC"
+            case .secretsManager: return "SECRETS_MANAGER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The encryption configuration that defines how content is encrypted during transit between MediaConnect Router and MediaLive. This configuration determines whether encryption keys are automatically managed by the service or manually managed through Secrets Manager.
+    public struct MediaLiveTransitEncryption: Swift.Sendable {
+        /// The configuration details for the MediaLive encryption key.
+        /// This member is required.
+        public var encryptionKeyConfiguration: MediaConnectClientTypes.MediaLiveTransitEncryptionKeyConfiguration?
+        /// The type of encryption key to use for MediaLive transit encryption.
+        public var encryptionKeyType: MediaConnectClientTypes.MediaLiveTransitEncryptionKeyType?
+
+        public init(
+            encryptionKeyConfiguration: MediaConnectClientTypes.MediaLiveTransitEncryptionKeyConfiguration? = nil,
+            encryptionKeyType: MediaConnectClientTypes.MediaLiveTransitEncryptionKeyType? = nil
+        ) {
+            self.encryptionKeyConfiguration = encryptionKeyConfiguration
+            self.encryptionKeyType = encryptionKeyType
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration settings for connecting a router input to a MediaLive channel output.
+    public struct MediaLiveChannelRouterInputConfiguration: Swift.Sendable {
+        /// The ARN of the MediaLive channel to connect to this router input.
+        public var mediaLiveChannelArn: Swift.String?
+        /// The name of the MediaLive channel output to connect to this router input.
+        public var mediaLiveChannelOutputName: Swift.String?
+        /// The index of the MediaLive pipeline to connect to this router input.
+        public var mediaLivePipelineId: MediaConnectClientTypes.MediaLiveChannelPipelineId?
+        /// The encryption configuration that defines how content is encrypted during transit between MediaConnect Router and MediaLive. This configuration determines whether encryption keys are automatically managed by the service or manually managed through Secrets Manager.
+        /// This member is required.
+        public var sourceTransitDecryption: MediaConnectClientTypes.MediaLiveTransitEncryption?
+
+        public init(
+            mediaLiveChannelArn: Swift.String? = nil,
+            mediaLiveChannelOutputName: Swift.String? = nil,
+            mediaLivePipelineId: MediaConnectClientTypes.MediaLiveChannelPipelineId? = nil,
+            sourceTransitDecryption: MediaConnectClientTypes.MediaLiveTransitEncryption? = nil
+        ) {
+            self.mediaLiveChannelArn = mediaLiveChannelArn
+            self.mediaLiveChannelOutputName = mediaLiveChannelOutputName
+            self.mediaLivePipelineId = mediaLivePipelineId
+            self.sourceTransitDecryption = sourceTransitDecryption
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// Protocol configuration settings for merge router inputs.
     public enum MergeRouterInputProtocolConfiguration: Swift.Sendable {
         /// The configuration settings for a Router Input using the RTP (Real-Time Transport Protocol) protocol, including the port and forward error correction state.
@@ -4044,14 +4162,14 @@ extension MediaConnectClientTypes {
 
     /// The protocol configuration settings for a router input.
     public enum RouterInputProtocolConfiguration: Swift.Sendable {
-        /// The configuration settings for a Router Input using the RTP (Real-Time Transport Protocol) protocol, including the port and forward error correction state.
-        case rtp(MediaConnectClientTypes.RtpRouterInputConfiguration)
         /// The configuration settings for a router input using the RIST (Reliable Internet Stream Transport) protocol, including the port and recovery latency.
         case rist(MediaConnectClientTypes.RistRouterInputConfiguration)
         /// The configuration settings for a router input using the SRT (Secure Reliable Transport) protocol in listener mode, including the port, minimum latency, and decryption key configuration.
         case srtlistener(MediaConnectClientTypes.SrtListenerRouterInputConfiguration)
         /// The configuration settings for a router input using the SRT (Secure Reliable Transport) protocol in caller mode, including the source address and port, minimum latency, stream ID, and decryption key configuration.
         case srtcaller(MediaConnectClientTypes.SrtCallerRouterInputConfiguration)
+        /// The configuration settings for a Router Input using the RTP (Real-Time Transport Protocol) protocol, including the port and forward error correction state.
+        case rtp(MediaConnectClientTypes.RtpRouterInputConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4087,12 +4205,14 @@ extension MediaConnectClientTypes {
     public enum RouterInputConfiguration: Swift.Sendable {
         /// The configuration settings for a standard router input, including the protocol, protocol-specific configuration, network interface, and availability zone.
         case standard(MediaConnectClientTypes.StandardRouterInputConfiguration)
+        /// Configuration settings for connecting a router input to a MediaLive channel output.
+        case medialivechannel(MediaConnectClientTypes.MediaLiveChannelRouterInputConfiguration)
         /// Configuration settings for a failover router input that allows switching between two input sources.
         case failover(MediaConnectClientTypes.FailoverRouterInputConfiguration)
-        /// Configuration settings for a merge router input that combines two input sources.
-        case merge(MediaConnectClientTypes.MergeRouterInputConfiguration)
         /// Configuration settings for connecting a router input to a flow output.
         case mediaconnectflow(MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration)
+        /// Configuration settings for a merge router input that combines two input sources.
+        case merge(MediaConnectClientTypes.MergeRouterInputConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4102,6 +4222,7 @@ extension MediaConnectClientTypes {
     public enum RouterInputType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failover
         case mediaconnectFlow
+        case medialiveChannel
         case merge
         case standard
         case sdkUnknown(Swift.String)
@@ -4110,6 +4231,7 @@ extension MediaConnectClientTypes {
             return [
                 .failover,
                 .mediaconnectFlow,
+                .medialiveChannel,
                 .merge,
                 .standard
             ]
@@ -4124,6 +4246,7 @@ extension MediaConnectClientTypes {
             switch self {
             case .failover: return "FAILOVER"
             case .mediaconnectFlow: return "MEDIACONNECT_FLOW"
+            case .medialiveChannel: return "MEDIALIVE_CHANNEL"
             case .merge: return "MERGE"
             case .standard: return "STANDARD"
             case let .sdkUnknown(s): return s
@@ -4464,6 +4587,15 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    /// Configuration details for a MediaLive channel when used as a router input source.
+    public struct MediaLiveChannelRouterInputStreamDetails: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// Configuration details for an indexed stream in a merge router input setup.
     public struct MergeRouterInputIndexedStreamDetails: Swift.Sendable {
         /// The index number (0 or 1) assigned to this source in the merge configuration.
@@ -4524,12 +4656,14 @@ extension MediaConnectClientTypes {
     public enum RouterInputStreamDetails: Swift.Sendable {
         /// Configuration details for a standard router input stream type.
         case standard(MediaConnectClientTypes.StandardRouterInputStreamDetails)
+        /// Configuration details for a MediaLive channel when used as a router input source.
+        case medialivechannel(MediaConnectClientTypes.MediaLiveChannelRouterInputStreamDetails)
         /// Configuration details for a failover router input that can automatically switch between two sources.
         case failover(MediaConnectClientTypes.FailoverRouterInputStreamDetails)
-        /// Configuration details for a merge router input that combines two input sources.
-        case merge(MediaConnectClientTypes.MergeRouterInputStreamDetails)
         /// Configuration details for a MediaConnect flow when used as a router input source.
         case mediaconnectflow(MediaConnectClientTypes.MediaConnectFlowRouterInputStreamDetails)
+        /// Configuration details for a merge router input that combines two input sources.
+        case merge(MediaConnectClientTypes.MergeRouterInputStreamDetails)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5096,67 +5230,6 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// Configuration settings for the MediaLive transit encryption key.
-    public enum MediaLiveTransitEncryptionKeyConfiguration: Swift.Sendable {
-        /// The configuration settings for transit encryption using Secrets Manager, including the secret ARN and role ARN.
-        case secretsmanager(MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration)
-        /// Configuration settings for automatic encryption key management, where MediaConnect handles key creation and rotation.
-        case automatic(MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension MediaConnectClientTypes {
-
-    public enum MediaLiveTransitEncryptionKeyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case automatic
-        case secretsManager
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [MediaLiveTransitEncryptionKeyType] {
-            return [
-                .automatic,
-                .secretsManager
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .automatic: return "AUTOMATIC"
-            case .secretsManager: return "SECRETS_MANAGER"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension MediaConnectClientTypes {
-
-    /// The encryption configuration that defines how content is encrypted during transit between MediaConnect Router and MediaLive. This configuration determines whether encryption keys are automatically managed by the service or manually managed through Secrets Manager.
-    public struct MediaLiveTransitEncryption: Swift.Sendable {
-        /// The configuration details for the MediaLive encryption key.
-        /// This member is required.
-        public var encryptionKeyConfiguration: MediaConnectClientTypes.MediaLiveTransitEncryptionKeyConfiguration?
-        /// The type of encryption key to use for MediaLive transit encryption.
-        public var encryptionKeyType: MediaConnectClientTypes.MediaLiveTransitEncryptionKeyType?
-
-        public init(
-            encryptionKeyConfiguration: MediaConnectClientTypes.MediaLiveTransitEncryptionKeyConfiguration? = nil,
-            encryptionKeyType: MediaConnectClientTypes.MediaLiveTransitEncryptionKeyType? = nil
-        ) {
-            self.encryptionKeyConfiguration = encryptionKeyConfiguration
-            self.encryptionKeyType = encryptionKeyType
-        }
-    }
-}
-
-extension MediaConnectClientTypes {
-
     public enum MediaLiveInputPipelineId: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case pipeline0
         case pipeline1
@@ -5368,14 +5441,14 @@ extension MediaConnectClientTypes {
 
     /// The protocol configuration settings for a router output.
     public enum RouterOutputProtocolConfiguration: Swift.Sendable {
-        /// The configuration settings for a router output using the RTP (Real-Time Transport Protocol) protocol, including the destination address and port, and forward error correction state.
-        case rtp(MediaConnectClientTypes.RtpRouterOutputConfiguration)
         /// The configuration settings for a router output using the RIST (Reliable Internet Stream Transport) protocol, including the destination address and port.
         case rist(MediaConnectClientTypes.RistRouterOutputConfiguration)
         /// The configuration settings for a router output using the SRT (Secure Reliable Transport) protocol in listener mode, including the port, minimum latency, and encryption key configuration.
         case srtlistener(MediaConnectClientTypes.SrtListenerRouterOutputConfiguration)
         /// The configuration settings for a router output using the SRT (Secure Reliable Transport) protocol in caller mode, including the destination address and port, minimum latency, stream ID, and encryption key configuration.
         case srtcaller(MediaConnectClientTypes.SrtCallerRouterOutputConfiguration)
+        /// The configuration settings for a router output using the RTP (Real-Time Transport Protocol) protocol, including the destination address and port, and forward error correction state.
+        case rtp(MediaConnectClientTypes.RtpRouterOutputConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -9215,16 +9288,16 @@ extension MediaConnectClientTypes {
 
     /// A filter that can be used to retrieve a list of router inputs.
     public enum RouterInputFilter: Swift.Sendable {
-        /// The AWS Regions of the router inputs to include in the filter.
-        case regionnames([Swift.String])
-        /// The types of router inputs to include in the filter.
-        case inputtypes([MediaConnectClientTypes.RouterInputType])
         /// The names of the router inputs to include in the filter.
         case namecontains([Swift.String])
+        /// The AWS Regions of the router inputs to include in the filter.
+        case regionnames([Swift.String])
         /// The Amazon Resource Names (ARNs) of the network interfaces associated with the router inputs to include in the filter.
         case networkinterfacearns([Swift.String])
         /// Filter criteria to list router inputs based on their routing scope (REGIONAL or GLOBAL).
         case routingscopes([MediaConnectClientTypes.RoutingScope])
+        /// The types of router inputs to include in the filter.
+        case inputtypes([MediaConnectClientTypes.RouterInputType])
         case sdkUnknown(Swift.String)
     }
 }
@@ -9319,16 +9392,16 @@ extension MediaConnectClientTypes {
     public enum RouterOutputFilter: Swift.Sendable {
         /// The AWS Regions of the router outputs to include in the filter.
         case regionnames([Swift.String])
-        /// The types of router outputs to include in the filter.
-        case outputtypes([MediaConnectClientTypes.RouterOutputType])
-        /// The names of the router outputs to include in the filter.
-        case namecontains([Swift.String])
         /// The Amazon Resource Names (ARNs) of the network interfaces associated with the router outputs to include in the filter.
         case networkinterfacearns([Swift.String])
-        /// The ARNs of the router inputs associated with the router outputs to include in the filter.
-        case routedinputarns([Swift.String])
         /// Filter criteria to list router outputs based on their routing scope.
         case routingscopes([MediaConnectClientTypes.RoutingScope])
+        /// The types of router outputs to include in the filter.
+        case outputtypes([MediaConnectClientTypes.RouterOutputType])
+        /// The ARNs of the router inputs associated with the router outputs to include in the filter.
+        case routedinputarns([Swift.String])
+        /// The names of the router outputs to include in the filter.
+        case namecontains([Swift.String])
         case sdkUnknown(Swift.String)
     }
 }
@@ -14652,14 +14725,14 @@ extension MediaConnectClientTypes.FailoverRouterInputProtocolConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
-            case "rtp":
-                return .rtp(try reader["rtp"].read(with: MediaConnectClientTypes.RtpRouterInputConfiguration.read(from:)))
             case "rist":
                 return .rist(try reader["rist"].read(with: MediaConnectClientTypes.RistRouterInputConfiguration.read(from:)))
             case "srtListener":
                 return .srtlistener(try reader["srtListener"].read(with: MediaConnectClientTypes.SrtListenerRouterInputConfiguration.read(from:)))
             case "srtCaller":
                 return .srtcaller(try reader["srtCaller"].read(with: MediaConnectClientTypes.SrtCallerRouterInputConfiguration.read(from:)))
+            case "rtp":
+                return .rtp(try reader["rtp"].read(with: MediaConnectClientTypes.RtpRouterInputConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -15175,6 +15248,35 @@ extension MediaConnectClientTypes.MediaConnectFlowRouterOutputStreamDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaConnectFlowRouterOutputStreamDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         return MediaConnectClientTypes.MediaConnectFlowRouterOutputStreamDetails()
+    }
+}
+
+extension MediaConnectClientTypes.MediaLiveChannelRouterInputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.MediaLiveChannelRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mediaLiveChannelArn"].write(value.mediaLiveChannelArn)
+        try writer["mediaLiveChannelOutputName"].write(value.mediaLiveChannelOutputName)
+        try writer["mediaLivePipelineId"].write(value.mediaLivePipelineId)
+        try writer["sourceTransitDecryption"].write(value.sourceTransitDecryption, with: MediaConnectClientTypes.MediaLiveTransitEncryption.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaLiveChannelRouterInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MediaLiveChannelRouterInputConfiguration()
+        value.mediaLiveChannelArn = try reader["mediaLiveChannelArn"].readIfPresent()
+        value.mediaLivePipelineId = try reader["mediaLivePipelineId"].readIfPresent()
+        value.mediaLiveChannelOutputName = try reader["mediaLiveChannelOutputName"].readIfPresent()
+        value.sourceTransitDecryption = try reader["sourceTransitDecryption"].readIfPresent(with: MediaConnectClientTypes.MediaLiveTransitEncryption.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.MediaLiveChannelRouterInputStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaLiveChannelRouterInputStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaConnectClientTypes.MediaLiveChannelRouterInputStreamDetails()
     }
 }
 
@@ -15765,6 +15867,8 @@ extension MediaConnectClientTypes.RouterInputConfiguration {
                 try writer["failover"].write(failover, with: MediaConnectClientTypes.FailoverRouterInputConfiguration.write(value:to:))
             case let .mediaconnectflow(mediaconnectflow):
                 try writer["mediaConnectFlow"].write(mediaconnectflow, with: MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration.write(value:to:))
+            case let .medialivechannel(medialivechannel):
+                try writer["mediaLiveChannel"].write(medialivechannel, with: MediaConnectClientTypes.MediaLiveChannelRouterInputConfiguration.write(value:to:))
             case let .merge(merge):
                 try writer["merge"].write(merge, with: MediaConnectClientTypes.MergeRouterInputConfiguration.write(value:to:))
             case let .standard(standard):
@@ -15780,12 +15884,14 @@ extension MediaConnectClientTypes.RouterInputConfiguration {
         switch name {
             case "standard":
                 return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardRouterInputConfiguration.read(from:)))
+            case "mediaLiveChannel":
+                return .medialivechannel(try reader["mediaLiveChannel"].read(with: MediaConnectClientTypes.MediaLiveChannelRouterInputConfiguration.read(from:)))
             case "failover":
                 return .failover(try reader["failover"].read(with: MediaConnectClientTypes.FailoverRouterInputConfiguration.read(from:)))
-            case "merge":
-                return .merge(try reader["merge"].read(with: MediaConnectClientTypes.MergeRouterInputConfiguration.read(from:)))
             case "mediaConnectFlow":
                 return .mediaconnectflow(try reader["mediaConnectFlow"].read(with: MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration.read(from:)))
+            case "merge":
+                return .merge(try reader["merge"].read(with: MediaConnectClientTypes.MergeRouterInputConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -15860,14 +15966,14 @@ extension MediaConnectClientTypes.RouterInputProtocolConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
-            case "rtp":
-                return .rtp(try reader["rtp"].read(with: MediaConnectClientTypes.RtpRouterInputConfiguration.read(from:)))
             case "rist":
                 return .rist(try reader["rist"].read(with: MediaConnectClientTypes.RistRouterInputConfiguration.read(from:)))
             case "srtListener":
                 return .srtlistener(try reader["srtListener"].read(with: MediaConnectClientTypes.SrtListenerRouterInputConfiguration.read(from:)))
             case "srtCaller":
                 return .srtcaller(try reader["srtCaller"].read(with: MediaConnectClientTypes.SrtCallerRouterInputConfiguration.read(from:)))
+            case "rtp":
+                return .rtp(try reader["rtp"].read(with: MediaConnectClientTypes.RtpRouterInputConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -15894,12 +16000,14 @@ extension MediaConnectClientTypes.RouterInputStreamDetails {
         switch name {
             case "standard":
                 return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardRouterInputStreamDetails.read(from:)))
+            case "mediaLiveChannel":
+                return .medialivechannel(try reader["mediaLiveChannel"].read(with: MediaConnectClientTypes.MediaLiveChannelRouterInputStreamDetails.read(from:)))
             case "failover":
                 return .failover(try reader["failover"].read(with: MediaConnectClientTypes.FailoverRouterInputStreamDetails.read(from:)))
-            case "merge":
-                return .merge(try reader["merge"].read(with: MediaConnectClientTypes.MergeRouterInputStreamDetails.read(from:)))
             case "mediaConnectFlow":
                 return .mediaconnectflow(try reader["mediaConnectFlow"].read(with: MediaConnectClientTypes.MediaConnectFlowRouterInputStreamDetails.read(from:)))
+            case "merge":
+                return .merge(try reader["merge"].read(with: MediaConnectClientTypes.MergeRouterInputStreamDetails.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -16150,14 +16258,14 @@ extension MediaConnectClientTypes.RouterOutputProtocolConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
-            case "rtp":
-                return .rtp(try reader["rtp"].read(with: MediaConnectClientTypes.RtpRouterOutputConfiguration.read(from:)))
             case "rist":
                 return .rist(try reader["rist"].read(with: MediaConnectClientTypes.RistRouterOutputConfiguration.read(from:)))
             case "srtListener":
                 return .srtlistener(try reader["srtListener"].read(with: MediaConnectClientTypes.SrtListenerRouterOutputConfiguration.read(from:)))
             case "srtCaller":
                 return .srtcaller(try reader["srtCaller"].read(with: MediaConnectClientTypes.SrtCallerRouterOutputConfiguration.read(from:)))
+            case "rtp":
+                return .rtp(try reader["rtp"].read(with: MediaConnectClientTypes.RtpRouterOutputConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }

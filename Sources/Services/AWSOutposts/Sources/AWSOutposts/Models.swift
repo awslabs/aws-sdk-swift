@@ -162,11 +162,19 @@ extension OutpostsClientTypes {
 
     public enum AssetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case compute
+        case networking
+        case powershelf
+        case storage
+        case `switch`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AssetType] {
             return [
-                .compute
+                .compute,
+                .networking,
+                .powershelf,
+                .storage,
+                .switch
             ]
         }
 
@@ -178,6 +186,10 @@ extension OutpostsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .compute: return "COMPUTE"
+            case .networking: return "NETWORKING"
+            case .powershelf: return "POWERSHELF"
+            case .storage: return "STORAGE"
+            case .switch: return "SWITCH"
             case let .sdkUnknown(s): return s
             }
         }
@@ -209,6 +221,7 @@ extension OutpostsClientTypes {
 
     public enum ComputeAssetState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
+        case installing
         case isolated
         case retiring
         case sdkUnknown(Swift.String)
@@ -216,6 +229,7 @@ extension OutpostsClientTypes {
         public static var allCases: [ComputeAssetState] {
             return [
                 .active,
+                .installing,
                 .isolated,
                 .retiring
             ]
@@ -229,6 +243,7 @@ extension OutpostsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .active: return "ACTIVE"
+            case .installing: return "INSTALLING"
             case .isolated: return "ISOLATED"
             case .retiring: return "RETIRING"
             case let .sdkUnknown(s): return s
@@ -256,6 +271,8 @@ extension OutpostsClientTypes {
         /// * ISOLATED - The asset is undergoing maintenance and can't provide capacity for new compute resources. Existing compute resources on the asset are not affected.
         ///
         /// * RETIRING - The underlying hardware for the asset is degraded. Capacity for new compute resources is reduced. Amazon Web Services sends notifications for resources that must be stopped before the asset can be replaced.
+        ///
+        /// * INSTALLING - The asset is being installed and can't yet provide capacity for new compute resources.
         public var state: OutpostsClientTypes.ComputeAssetState?
 
         public init(
@@ -381,6 +398,7 @@ extension OutpostsClientTypes {
 
     public enum AssetState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
+        case installing
         case isolated
         case retiring
         case sdkUnknown(Swift.String)
@@ -388,6 +406,7 @@ extension OutpostsClientTypes {
         public static var allCases: [AssetState] {
             return [
                 .active,
+                .installing,
                 .isolated,
                 .retiring
             ]
@@ -401,6 +420,7 @@ extension OutpostsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .active: return "ACTIVE"
+            case .installing: return "INSTALLING"
             case .isolated: return "ISOLATED"
             case .retiring: return "RETIRING"
             case let .sdkUnknown(s): return s
@@ -1567,6 +1587,59 @@ public struct CreateOutpostOutput: Swift.Sendable {
     }
 }
 
+public struct CreateRenewalInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The ID or ARN of the Outpost.
+    /// This member is required.
+    public var outpostIdentifier: Swift.String?
+    /// The payment option.
+    /// This member is required.
+    public var paymentOption: OutpostsClientTypes.PaymentOption?
+    /// The payment term.
+    /// This member is required.
+    public var paymentTerm: OutpostsClientTypes.PaymentTerm?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        outpostIdentifier: Swift.String? = nil,
+        paymentOption: OutpostsClientTypes.PaymentOption? = nil,
+        paymentTerm: OutpostsClientTypes.PaymentTerm? = nil
+    ) {
+        self.clientToken = clientToken
+        self.outpostIdentifier = outpostIdentifier
+        self.paymentOption = paymentOption
+        self.paymentTerm = paymentTerm
+    }
+}
+
+public struct CreateRenewalOutput: Swift.Sendable {
+    /// The monthly recurring price of the renewal.
+    public var monthlyRecurringPrice: Swift.Float?
+    /// The ID of the Outpost.
+    public var outpostId: Swift.String?
+    /// The payment option.
+    public var paymentOption: OutpostsClientTypes.PaymentOption?
+    /// The payment term.
+    public var paymentTerm: OutpostsClientTypes.PaymentTerm?
+    /// The upfront price of the renewal.
+    public var upfrontPrice: Swift.Float?
+
+    public init(
+        monthlyRecurringPrice: Swift.Float? = nil,
+        outpostId: Swift.String? = nil,
+        paymentOption: OutpostsClientTypes.PaymentOption? = nil,
+        paymentTerm: OutpostsClientTypes.PaymentTerm? = nil,
+        upfrontPrice: Swift.Float? = nil
+    ) {
+        self.monthlyRecurringPrice = monthlyRecurringPrice
+        self.outpostId = outpostId
+        self.paymentOption = paymentOption
+        self.paymentTerm = paymentTerm
+        self.upfrontPrice = upfrontPrice
+    }
+}
+
 extension OutpostsClientTypes {
 
     public enum FiberOpticCableType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -2419,13 +2492,15 @@ extension OutpostsClientTypes {
         case active
         case cancelled
         case inactive
+        case pending
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SubscriptionStatus] {
             return [
                 .active,
                 .cancelled,
-                .inactive
+                .inactive,
+                .pending
             ]
         }
 
@@ -2439,6 +2514,7 @@ extension OutpostsClientTypes {
             case .active: return "ACTIVE"
             case .cancelled: return "CANCELLED"
             case .inactive: return "INACTIVE"
+            case .pending: return "PENDING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2497,6 +2573,8 @@ extension OutpostsClientTypes {
         ///
         /// * ACTIVE - Subscription requests that are in progress and have an end date in the future.
         ///
+        /// * PENDING - Subscription has been created but billing has not yet commenced because the subscription begin date has not been reached.
+        ///
         /// * CANCELLED - Subscription requests that are cancelled.
         public var subscriptionStatus: OutpostsClientTypes.SubscriptionStatus?
         /// The type of subscription which can be one of the following:
@@ -2537,16 +2615,24 @@ public struct GetOutpostBillingInformationOutput: Swift.Sendable {
     public var contractEndDate: Swift.String?
     /// The pagination token.
     public var nextToken: Swift.String?
+    /// The payment option.
+    public var paymentOption: OutpostsClientTypes.PaymentOption?
+    /// The payment term.
+    public var paymentTerm: OutpostsClientTypes.PaymentTerm?
     /// The subscription details for the specified Outpost.
     public var subscriptions: [OutpostsClientTypes.Subscription]?
 
     public init(
         contractEndDate: Swift.String? = nil,
         nextToken: Swift.String? = nil,
+        paymentOption: OutpostsClientTypes.PaymentOption? = nil,
+        paymentTerm: OutpostsClientTypes.PaymentTerm? = nil,
         subscriptions: [OutpostsClientTypes.Subscription]? = nil
     ) {
         self.contractEndDate = contractEndDate
         self.nextToken = nextToken
+        self.paymentOption = paymentOption
+        self.paymentTerm = paymentTerm
         self.subscriptions = subscriptions
     }
 }
@@ -2653,6 +2739,134 @@ public struct GetOutpostSupportedInstanceTypesOutput: Swift.Sendable {
     ) {
         self.instanceTypes = instanceTypes
         self.nextToken = nextToken
+    }
+}
+
+public struct GetRenewalPricingInput: Swift.Sendable {
+    /// The ID or ARN of the Outpost.
+    /// This member is required.
+    public var outpostIdentifier: Swift.String?
+
+    public init(
+        outpostIdentifier: Swift.String? = nil
+    ) {
+        self.outpostIdentifier = outpostIdentifier
+    }
+}
+
+extension OutpostsClientTypes {
+
+    public enum QuotePricingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case subscription
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuotePricingType] {
+            return [
+                .subscription
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .subscription: return "SUBSCRIPTION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    /// The pricing details for a subscription.
+    public struct SubscriptionPricingDetails: Swift.Sendable {
+        /// The monthly recurring price.
+        public var monthlyRecurringPrice: Swift.Float?
+        /// The payment option.
+        public var paymentOption: OutpostsClientTypes.PaymentOption?
+        /// The payment term.
+        public var paymentTerm: OutpostsClientTypes.PaymentTerm?
+        /// The upfront price.
+        public var upfrontPrice: Swift.Float?
+
+        public init(
+            monthlyRecurringPrice: Swift.Float? = nil,
+            paymentOption: OutpostsClientTypes.PaymentOption? = nil,
+            paymentTerm: OutpostsClientTypes.PaymentTerm? = nil,
+            upfrontPrice: Swift.Float? = nil
+        ) {
+            self.monthlyRecurringPrice = monthlyRecurringPrice
+            self.paymentOption = paymentOption
+            self.paymentTerm = paymentTerm
+            self.upfrontPrice = upfrontPrice
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    /// A pricing option for the specified Outpost.
+    public struct PricingOption: Swift.Sendable {
+        /// The type of pricing model.
+        public var pricingType: OutpostsClientTypes.QuotePricingType?
+        /// The subscription pricing details for this pricing option.
+        public var subscriptionPricingDetails: OutpostsClientTypes.SubscriptionPricingDetails?
+
+        public init(
+            pricingType: OutpostsClientTypes.QuotePricingType? = nil,
+            subscriptionPricingDetails: OutpostsClientTypes.SubscriptionPricingDetails? = nil
+        ) {
+            self.pricingType = pricingType
+            self.subscriptionPricingDetails = subscriptionPricingDetails
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    public enum PricingResult: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case priced
+        case unableToPrice
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PricingResult] {
+            return [
+                .priced,
+                .unableToPrice
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .priced: return "PRICED"
+            case .unableToPrice: return "UNABLE_TO_PRICE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetRenewalPricingOutput: Swift.Sendable {
+    /// The pricing options for the specified Outpost.
+    public var pricingOptions: [OutpostsClientTypes.PricingOption]?
+    /// The result of the pricing request.
+    public var pricingResult: OutpostsClientTypes.PricingResult?
+
+    public init(
+        pricingOptions: [OutpostsClientTypes.PricingOption]? = nil,
+        pricingResult: OutpostsClientTypes.PricingResult? = nil
+    ) {
+        self.pricingOptions = pricingOptions
+        self.pricingResult = pricingResult
     }
 }
 
@@ -2767,6 +2981,18 @@ public struct ListAssetInstancesOutput: Swift.Sendable {
 }
 
 public struct ListAssetsInput: Swift.Sendable {
+    /// Filters the results by asset type.
+    ///
+    /// * COMPUTE - Server asset used for customer compute
+    ///
+    /// * STORAGE - Server asset used by storage services
+    ///
+    /// * POWERSHELF - Powershelf assets
+    ///
+    /// * SWITCH - Switch assets
+    ///
+    /// * NETWORKING - Asset managed by Amazon Web Services for networking purposes
+    public var assetTypeFilter: [OutpostsClientTypes.AssetType]?
     /// Filters the results by the host ID of a Dedicated Host.
     public var hostIdFilter: [Swift.String]?
     /// The maximum page size.
@@ -2780,12 +3006,14 @@ public struct ListAssetsInput: Swift.Sendable {
     public var statusFilter: [OutpostsClientTypes.AssetState]?
 
     public init(
+        assetTypeFilter: [OutpostsClientTypes.AssetType]? = nil,
         hostIdFilter: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         outpostIdentifier: Swift.String? = nil,
         statusFilter: [OutpostsClientTypes.AssetState]? = nil
     ) {
+        self.assetTypeFilter = assetTypeFilter
         self.hostIdFilter = hostIdFilter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3598,6 +3826,13 @@ extension CreateOutpostInput {
     }
 }
 
+extension CreateRenewalInput {
+
+    static func urlPathProvider(_ value: CreateRenewalInput) -> Swift.String? {
+        return "/renewals"
+    }
+}
+
 extension CreateSiteInput {
 
     static func urlPathProvider(_ value: CreateSiteInput) -> Swift.String? {
@@ -3764,6 +3999,16 @@ extension GetOutpostSupportedInstanceTypesInput {
     }
 }
 
+extension GetRenewalPricingInput {
+
+    static func urlPathProvider(_ value: GetRenewalPricingInput) -> Swift.String? {
+        guard let outpostIdentifier = value.outpostIdentifier else {
+            return nil
+        }
+        return "/outpost/\(outpostIdentifier.urlPercentEncoding())/renewal-pricing"
+    }
+}
+
 extension GetSiteInput {
 
     static func urlPathProvider(_ value: GetSiteInput) -> Swift.String? {
@@ -3862,6 +4107,12 @@ extension ListAssetsInput {
 
     static func queryItemProvider(_ value: ListAssetsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let assetTypeFilter = value.assetTypeFilter {
+            assetTypeFilter.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "AssetTypeFilter".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
@@ -4236,6 +4487,17 @@ extension CreateOutpostInput {
     }
 }
 
+extension CreateRenewalInput {
+
+    static func write(value: CreateRenewalInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["OutpostIdentifier"].write(value.outpostIdentifier)
+        try writer["PaymentOption"].write(value.paymentOption)
+        try writer["PaymentTerm"].write(value.paymentTerm)
+    }
+}
+
 extension CreateSiteInput {
 
     static func write(value: CreateSiteInput?, to writer: SmithyJSON.Writer) throws {
@@ -4373,6 +4635,22 @@ extension CreateOutpostOutput {
     }
 }
 
+extension CreateRenewalOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRenewalOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateRenewalOutput()
+        value.monthlyRecurringPrice = try reader["MonthlyRecurringPrice"].readIfPresent()
+        value.outpostId = try reader["OutpostId"].readIfPresent()
+        value.paymentOption = try reader["PaymentOption"].readIfPresent()
+        value.paymentTerm = try reader["PaymentTerm"].readIfPresent()
+        value.upfrontPrice = try reader["UpfrontPrice"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateSiteOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateSiteOutput {
@@ -4481,6 +4759,8 @@ extension GetOutpostBillingInformationOutput {
         var value = GetOutpostBillingInformationOutput()
         value.contractEndDate = try reader["ContractEndDate"].readIfPresent()
         value.nextToken = try reader["NextToken"].readIfPresent()
+        value.paymentOption = try reader["PaymentOption"].readIfPresent()
+        value.paymentTerm = try reader["PaymentTerm"].readIfPresent()
         value.subscriptions = try reader["Subscriptions"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.Subscription.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -4510,6 +4790,19 @@ extension GetOutpostSupportedInstanceTypesOutput {
         var value = GetOutpostSupportedInstanceTypesOutput()
         value.instanceTypes = try reader["InstanceTypes"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.InstanceTypeItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension GetRenewalPricingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRenewalPricingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRenewalPricingOutput()
+        value.pricingOptions = try reader["PricingOptions"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.PricingOption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.pricingResult = try reader["PricingResult"].readIfPresent()
         return value
     }
 }
@@ -4843,6 +5136,23 @@ enum CreateOutpostOutputError {
     }
 }
 
+enum CreateRenewalOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateSiteOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5015,6 +5325,23 @@ enum GetOutpostInstanceTypesOutputError {
 }
 
 enum GetOutpostSupportedInstanceTypesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetRenewalPricingOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5772,6 +6099,17 @@ extension OutpostsClientTypes.Outpost {
     }
 }
 
+extension OutpostsClientTypes.PricingOption {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.PricingOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OutpostsClientTypes.PricingOption()
+        value.pricingType = try reader["PricingType"].readIfPresent()
+        value.subscriptionPricingDetails = try reader["SubscriptionPricingDetails"].readIfPresent(with: OutpostsClientTypes.SubscriptionPricingDetails.read(from:))
+        return value
+    }
+}
+
 extension OutpostsClientTypes.RackPhysicalProperties {
 
     static func write(value: OutpostsClientTypes.RackPhysicalProperties?, to writer: SmithyJSON.Writer) throws {
@@ -5847,6 +6185,19 @@ extension OutpostsClientTypes.Subscription {
         value.endDate = try reader["EndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.monthlyRecurringPrice = try reader["MonthlyRecurringPrice"].readIfPresent()
         value.upfrontPrice = try reader["UpfrontPrice"].readIfPresent()
+        return value
+    }
+}
+
+extension OutpostsClientTypes.SubscriptionPricingDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.SubscriptionPricingDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OutpostsClientTypes.SubscriptionPricingDetails()
+        value.paymentOption = try reader["PaymentOption"].readIfPresent()
+        value.paymentTerm = try reader["PaymentTerm"].readIfPresent()
+        value.upfrontPrice = try reader["UpfrontPrice"].readIfPresent()
+        value.monthlyRecurringPrice = try reader["MonthlyRecurringPrice"].readIfPresent()
         return value
     }
 }

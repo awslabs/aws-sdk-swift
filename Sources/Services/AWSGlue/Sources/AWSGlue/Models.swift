@@ -9883,7 +9883,7 @@ extension GlueClientTypes {
         public var executionRoleSessionPolicy: Swift.String?
         /// The amount of time (in seconds) that the job run consumed resources.
         public var executionTime: Swift.Int
-        /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark. Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see [Glue version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
+        /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark. Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see [Glue version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide. Jobs that are created without specifying a Glue version default to Glue 5.1.
         public var glueVersion: Swift.String?
         /// The ID of this job run.
         public var id: Swift.String?
@@ -30674,7 +30674,7 @@ extension GlueClientTypes {
         public var executionClass: GlueClientTypes.ExecutionClass?
         /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
         public var executionProperty: GlueClientTypes.ExecutionProperty?
-        /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark. Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see [Glue version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
+        /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark. Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see [Glue version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide. Jobs that are created without specifying a Glue version default to Glue 5.1.
         public var glueVersion: Swift.String?
         /// A mode that describes how a job was created. Valid values are:
         ///
@@ -30833,7 +30833,7 @@ extension GlueClientTypes {
         public var executionClass: GlueClientTypes.ExecutionClass?
         /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
         public var executionProperty: GlueClientTypes.ExecutionProperty?
-        /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark. Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see [Glue version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
+        /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark. Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see [Glue version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide. If not provided in the update request, the Glue version retains the value from the existing job definition.
         public var glueVersion: Swift.String?
         /// A mode that describes how a job was created. Valid values are:
         ///
@@ -30953,7 +30953,7 @@ public struct CreateJobInput: Swift.Sendable {
     public var executionClass: GlueClientTypes.ExecutionClass?
     /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
     public var executionProperty: GlueClientTypes.ExecutionProperty?
-    /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark. Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see [Glue version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
+    /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark. Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see [Glue version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide. Jobs that are created without specifying a Glue version default to Glue 5.1.
     public var glueVersion: Swift.String?
     /// A mode that describes how a job was created. Valid values are:
     ///

@@ -729,7 +729,7 @@ extension GeoMapsClient {
 
     /// Performs the `GetStaticMap` operation on the `GeoMaps` service.
     ///
-    /// GetStaticMap provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots. For more information, see the following topics in the Amazon Location Service Developer Guide:
+    /// This operation is not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. GetStaticMap provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots. For more information, see the following topics in the Amazon Location Service Developer Guide:
     ///
     /// * [Static maps](https://docs.aws.amazon.com/location/latest/developerguide/static-maps.html)
     ///
@@ -865,7 +865,7 @@ extension GeoMapsClient {
 
     /// Performs the `GetTile` operation on the `GeoMaps` service.
     ///
-    /// GetTile returns a tile. Map tiles are used by clients to render a map. they're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level. For more information, see [Tiles](https://docs.aws.amazon.com/location/latest/developerguide/tiles.html) in the Amazon Location Service Developer Guide.
+    /// GetTile returns a tile. Map tiles are used by clients to render a map. They're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level. For more information, see [Tiles](https://docs.aws.amazon.com/location/latest/developerguide/tiles.html) in the Amazon Location Service Developer Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetTileInput`)
     ///

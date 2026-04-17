@@ -1882,6 +1882,7 @@ extension S3ClientTypes {
         case eu
         case afSouth1
         case apEast1
+        case apEast2
         case apNortheast1
         case apNortheast2
         case apNortheast3
@@ -1892,7 +1893,10 @@ extension S3ClientTypes {
         case apSoutheast3
         case apSoutheast4
         case apSoutheast5
+        case apSoutheast6
+        case apSoutheast7
         case caCentral1
+        case caWest1
         case cnNorth1
         case cnNorthwest1
         case euCentral1
@@ -1906,6 +1910,7 @@ extension S3ClientTypes {
         case ilCentral1
         case meCentral1
         case meSouth1
+        case mxCentral1
         case saEast1
         case usEast2
         case usGovEast1
@@ -1919,6 +1924,7 @@ extension S3ClientTypes {
                 .eu,
                 .afSouth1,
                 .apEast1,
+                .apEast2,
                 .apNortheast1,
                 .apNortheast2,
                 .apNortheast3,
@@ -1929,7 +1935,10 @@ extension S3ClientTypes {
                 .apSoutheast3,
                 .apSoutheast4,
                 .apSoutheast5,
+                .apSoutheast6,
+                .apSoutheast7,
                 .caCentral1,
+                .caWest1,
                 .cnNorth1,
                 .cnNorthwest1,
                 .euCentral1,
@@ -1943,6 +1952,7 @@ extension S3ClientTypes {
                 .ilCentral1,
                 .meCentral1,
                 .meSouth1,
+                .mxCentral1,
                 .saEast1,
                 .usEast2,
                 .usGovEast1,
@@ -1962,6 +1972,7 @@ extension S3ClientTypes {
             case .eu: return "EU"
             case .afSouth1: return "af-south-1"
             case .apEast1: return "ap-east-1"
+            case .apEast2: return "ap-east-2"
             case .apNortheast1: return "ap-northeast-1"
             case .apNortheast2: return "ap-northeast-2"
             case .apNortheast3: return "ap-northeast-3"
@@ -1972,7 +1983,10 @@ extension S3ClientTypes {
             case .apSoutheast3: return "ap-southeast-3"
             case .apSoutheast4: return "ap-southeast-4"
             case .apSoutheast5: return "ap-southeast-5"
+            case .apSoutheast6: return "ap-southeast-6"
+            case .apSoutheast7: return "ap-southeast-7"
             case .caCentral1: return "ca-central-1"
+            case .caWest1: return "ca-west-1"
             case .cnNorth1: return "cn-north-1"
             case .cnNorthwest1: return "cn-northwest-1"
             case .euCentral1: return "eu-central-1"
@@ -1986,6 +2000,7 @@ extension S3ClientTypes {
             case .ilCentral1: return "il-central-1"
             case .meCentral1: return "me-central-1"
             case .meSouth1: return "me-south-1"
+            case .mxCentral1: return "mx-central-1"
             case .saEast1: return "sa-east-1"
             case .usEast2: return "us-east-2"
             case .usGovEast1: return "us-gov-east-1"
@@ -3083,10 +3098,10 @@ public struct DeleteBucketMetadataTableConfigurationInput: Swift.Sendable {
 }
 
 public struct DeleteBucketMetricsConfigurationInput: Swift.Sendable {
-    /// The name of the bucket containing the metrics configuration to delete.
+    /// The name of the bucket containing the metrics configuration to delete. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide
     /// This member is required.
     public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied). For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code 501 Not Implemented.
     public var expectedBucketOwner: Swift.String?
     /// The ID used to identify the metrics configuration. The ID has a 64 character limit and can only contain letters, numbers, periods, dashes, and underscores.
     /// This member is required.
@@ -6566,10 +6581,10 @@ public struct GetBucketMetadataTableConfigurationOutput: Swift.Sendable {
 }
 
 public struct GetBucketMetricsConfigurationInput: Swift.Sendable {
-    /// The name of the bucket containing the metrics configuration to retrieve.
+    /// The name of the bucket containing the metrics configuration to retrieve. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide
     /// This member is required.
     public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied). For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code 501 Not Implemented.
     public var expectedBucketOwner: Swift.String?
     /// The ID used to identify the metrics configuration. The ID has a 64 character limit and can only contain letters, numbers, periods, dashes, and underscores.
     /// This member is required.
@@ -6594,7 +6609,7 @@ extension S3ClientTypes {
         public var accessPointArn: Swift.String?
         /// The prefix used when evaluating an AND predicate.
         public var `prefix`: Swift.String?
-        /// The list of tags used when evaluating an AND predicate.
+        /// The list of tags used when evaluating an AND predicate. Tag filters are not supported for directory buckets.
         public var tags: [S3ClientTypes.Tag]?
 
         public init(
@@ -6615,7 +6630,7 @@ extension S3ClientTypes {
     public enum MetricsFilter: Swift.Sendable {
         /// The prefix used when evaluating a metrics filter.
         case `prefix`(Swift.String)
-        /// The tag used when evaluating a metrics filter.
+        /// The tag used when evaluating a metrics filter. Tag filters are not supported for directory buckets.
         case tag(S3ClientTypes.Tag)
         /// The access point ARN used when evaluating a metrics filter.
         case accesspointarn(Swift.String)
@@ -6629,7 +6644,7 @@ extension S3ClientTypes {
 
     /// Specifies a metrics configuration for the CloudWatch request metrics (specified by the metrics configuration ID) from an Amazon S3 bucket. If you're updating an existing metrics configuration, note that this is a full replacement of the existing metrics configuration. If you don't include the elements you want to keep, they are erased. For more information, see [PutBucketMetricsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTMetricConfiguration.html).
     public struct MetricsConfiguration: Swift.Sendable {
-        /// Specifies a metrics configuration filter. The metrics configuration will only include objects that meet the filter's criteria. A filter must be a prefix, an object tag, an access point ARN, or a conjunction (MetricsAndOperator).
+        /// Specifies a metrics configuration filter. The metrics configuration will only include objects that meet the filter's criteria. A filter must be a prefix, an object tag, an access point ARN, or a conjunction (MetricsAndOperator). Metrics configurations for directory buckets do not support tag filters.
         public var filter: S3ClientTypes.MetricsFilter?
         /// The ID used to identify the metrics configuration. The ID has a 64 character limit and can only contain letters, numbers, periods, dashes, and underscores.
         /// This member is required.
@@ -9638,12 +9653,12 @@ public struct ListBucketInventoryConfigurationsOutput: Swift.Sendable {
 }
 
 public struct ListBucketMetricsConfigurationsInput: Swift.Sendable {
-    /// The name of the bucket containing the metrics configurations to retrieve.
+    /// The name of the bucket containing the metrics configurations to retrieve. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide
     /// This member is required.
     public var bucket: Swift.String?
     /// The marker that is used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
     public var continuationToken: Swift.String?
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied). For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code 501 Not Implemented.
     public var expectedBucketOwner: Swift.String?
 
     public init(
@@ -11139,10 +11154,10 @@ public struct PutBucketLoggingInput: Swift.Sendable {
 }
 
 public struct PutBucketMetricsConfigurationInput: Swift.Sendable {
-    /// The name of the bucket for which the metrics configuration is set.
+    /// The name of the bucket for which the metrics configuration is set. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide
     /// This member is required.
     public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied). For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code 501 Not Implemented.
     public var expectedBucketOwner: Swift.String?
     /// The ID used to identify the metrics configuration. The ID has a 64 character limit and can only contain letters, numbers, periods, dashes, and underscores.
     /// This member is required.

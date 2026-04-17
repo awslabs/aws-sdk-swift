@@ -2409,7 +2409,7 @@ extension ECRClientTypes {
 
     /// An object representing a filter on a [DescribeImages] operation.
     public struct DescribeImagesFilter: Swift.Sendable {
-        /// The image status with which to filter your [DescribeImages] results. Valid values are ACTIVE, ARCHIVED, and ACTIVATING.
+        /// The image status with which to filter your [DescribeImages] results. Valid values are ACTIVE, ARCHIVED, and ACTIVATING. If not specified, only images with ACTIVE status are returned.
         public var imageStatus: ECRClientTypes.ImageStatusFilter?
         /// The tag status with which to filter your [DescribeImages] results. You can filter results based on whether they are TAGGED or UNTAGGED.
         public var tagStatus: ECRClientTypes.TagStatus?
@@ -4396,6 +4396,29 @@ public struct InitiateLayerUploadOutput: Swift.Sendable {
     }
 }
 
+/// The referrer or referrers were unable to be listed using the pull through cache rule. This is usually caused because of an issue with the Secrets Manager secret containing the credentials for the upstream registry.
+public struct UnableToListUpstreamImageReferrersException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnableToListUpstreamImageReferrersException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 extension ECRClientTypes {
 
     public enum ArtifactStatusFilter: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -4469,7 +4492,7 @@ extension ECRClientTypes {
 public struct ListImageReferrersInput: Swift.Sendable {
     /// The filter key and value with which to filter your ListImageReferrers results. If no filter is specified, only artifacts with ACTIVE status are returned.
     public var filter: ECRClientTypes.ListImageReferrersFilter?
-    /// The maximum number of image referrer results returned by ListImageReferrers in paginated output. When this parameter is used, ListImageReferrers only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListImageReferrers request with the returned nextToken value. This value can be between 1 and 50. If this parameter is not used, then ListImageReferrers returns up to 50 results and a nextToken value, if applicable.
+    /// The maximum number of image referrer results returned by ListImageReferrers in paginated output. When this parameter is used, ListImageReferrers only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListImageReferrers request with the returned nextToken value. This value can be between 1 and 50. If this parameter is not used, then ListImageReferrers returns up to 20 results and a nextToken value, if applicable.
     public var maxResults: Swift.Int?
     /// The nextToken value returned from a previous paginated ListImageReferrers request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
     public var nextToken: Swift.String?
@@ -4588,7 +4611,7 @@ extension ECRClientTypes {
 
     /// An object representing a filter on a [ListImages] operation.
     public struct ListImagesFilter: Swift.Sendable {
-        /// The image status with which to filter your [ListImages] results. Valid values are ACTIVE, ARCHIVED, and ACTIVATING.
+        /// The image status with which to filter your [ListImages] results. Valid values are ACTIVE, ARCHIVED, and ACTIVATING. If not specified, only images with ACTIVE status are returned.
         public var imageStatus: ECRClientTypes.ImageStatusFilter?
         /// The tag status with which to filter your [ListImages] results.
         public var tagStatus: ECRClientTypes.TagStatus?
@@ -8169,6 +8192,7 @@ enum ListImageReferrersOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "RepositoryNotFoundException": return try RepositoryNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "UnableToListUpstreamImageReferrersException": return try UnableToListUpstreamImageReferrersException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -9030,6 +9054,19 @@ extension LifecyclePolicyPreviewNotFoundException {
     static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> LifecyclePolicyPreviewNotFoundException {
         let reader = baseError.errorBodyReader
         var value = LifecyclePolicyPreviewNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnableToListUpstreamImageReferrersException {
+
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UnableToListUpstreamImageReferrersException {
+        let reader = baseError.errorBodyReader
+        var value = UnableToListUpstreamImageReferrersException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

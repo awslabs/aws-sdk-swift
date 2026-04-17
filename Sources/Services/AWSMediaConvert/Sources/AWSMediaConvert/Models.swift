@@ -5273,6 +5273,88 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Elemental Inference feature.
+    public enum ElementalInferenceFeature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case smartCrop
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ElementalInferenceFeature] {
+            return [
+                .smartCrop
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .smartCrop: return "SMART_CROP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Elemental Inference Feed management state.
+    public enum ElementalInferenceFeedManagementState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case associated
+        case created
+        case deleted
+        case pendingDeletion
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ElementalInferenceFeedManagementState] {
+            return [
+                .associated,
+                .created,
+                .deleted,
+                .pendingDeletion
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .associated: return "ASSOCIATED"
+            case .created: return "CREATED"
+            case .deleted: return "DELETED"
+            case .pendingDeletion: return "PENDING_DELETION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Elemental Inference Feed.
+    public struct ElementalInferenceFeed: Swift.Sendable {
+        /// Feed ARN.
+        public var arn: Swift.String?
+        /// Elemental Inference Feed management state.
+        public var feedManagementState: MediaConvertClientTypes.ElementalInferenceFeedManagementState?
+
+        public init(
+            arn: Swift.String? = nil,
+            feedManagementState: MediaConvertClientTypes.ElementalInferenceFeedManagementState? = nil
+        ) {
+            self.arn = arn
+            self.feedManagementState = feedManagementState
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Describes an account-specific API endpoint.
     public struct Endpoint: Swift.Sendable {
         /// URL of endpoint
@@ -6728,6 +6810,36 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Input settings for MultiView Settings. You can include exactly one input as enhancement layer.
+    public struct MultiViewInput: Swift.Sendable {
+        /// Specify the input file S3, HTTP, or HTTPS URL for your right eye view video.
+        public var fileInput: Swift.String?
+
+        public init(
+            fileInput: Swift.String? = nil
+        ) {
+            self.fileInput = fileInput
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Specify the enhancement layer input video file path for Multi View outputs. The base layer input is treated as the left eye and this Multi View input is treated as the right eye. Only one Multi View input is currently supported. MediaConvert encodes both views into a single MV-HEVC output codec. When you add MultiViewSettings to your job, you can only produce Multi View outputs. Adding any other codec output to the same job is not supported.
+    public struct MultiViewSettings: Swift.Sendable {
+        /// Input settings for MultiView Settings. You can include exactly one input as enhancement layer.
+        public var input: MediaConvertClientTypes.MultiViewInput?
+
+        public init(
+            input: MediaConvertClientTypes.MultiViewInput? = nil
+        ) {
+            self.input = input
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Set PSI control for transport stream inputs to specify which data the demux process to scans.
     ///
     /// * Ignore PSI - Scan all PIDs for audio and video.
@@ -7526,6 +7638,8 @@ extension MediaConvertClientTypes {
         public var inputClippings: [MediaConvertClientTypes.InputClipping]?
         /// When you have a progressive segmented frame (PsF) input, use this setting to flag the input as PsF. MediaConvert doesn't automatically detect PsF. Therefore, flagging your input as PsF results in better preservation of video quality when you do deinterlacing and frame rate conversion. If you don't specify, the default value is Auto. Auto is the correct setting for all inputs that are not PsF. Don't set this value to PsF when your input is interlaced. Doing so creates horizontal interlacing artifacts.
         public var inputScanType: MediaConvertClientTypes.InputScanType?
+        /// Specify the enhancement layer input video file path for Multi View outputs. The base layer input is treated as the left eye and this Multi View input is treated as the right eye. Only one Multi View input is currently supported. MediaConvert encodes both views into a single MV-HEVC output codec. When you add MultiViewSettings to your job, you can only produce Multi View outputs. Adding any other codec output to the same job is not supported.
+        public var multiViewSettings: [MediaConvertClientTypes.MultiViewSettings]?
         /// Use Selection placement to define the video area in your output frame. The area outside of the rectangle that you specify here is black. If you specify a value here, it will override any value that you specify in the output setting Selection placement. If you specify a value here, this will override any AFD values in your input, even if you set Respond to AFD to Respond. If you specify a value here, this will ignore anything that you specify for the setting Scaling Behavior.
         public var position: MediaConvertClientTypes.Rectangle?
         /// Use Program to select a specific program from within a multi-program transport stream. Note that Quad 4K is not currently supported. Default is the first program within the transport stream. If the program you specify doesn't exist, the transcoding service will use this default.
@@ -7569,6 +7683,7 @@ extension MediaConvertClientTypes {
             imageInserter: MediaConvertClientTypes.ImageInserter? = nil,
             inputClippings: [MediaConvertClientTypes.InputClipping]? = nil,
             inputScanType: MediaConvertClientTypes.InputScanType? = nil,
+            multiViewSettings: [MediaConvertClientTypes.MultiViewSettings]? = nil,
             position: MediaConvertClientTypes.Rectangle? = nil,
             programNumber: Swift.Int? = nil,
             psiControl: MediaConvertClientTypes.InputPsiControl? = nil,
@@ -7597,6 +7712,7 @@ extension MediaConvertClientTypes {
             self.imageInserter = imageInserter
             self.inputClippings = inputClippings
             self.inputScanType = inputScanType
+            self.multiViewSettings = multiViewSettings
             self.position = position
             self.programNumber = programNumber
             self.psiControl = psiControl
@@ -7645,6 +7761,8 @@ extension MediaConvertClientTypes {
         public var inputClippings: [MediaConvertClientTypes.InputClipping]?
         /// When you have a progressive segmented frame (PsF) input, use this setting to flag the input as PsF. MediaConvert doesn't automatically detect PsF. Therefore, flagging your input as PsF results in better preservation of video quality when you do deinterlacing and frame rate conversion. If you don't specify, the default value is Auto. Auto is the correct setting for all inputs that are not PsF. Don't set this value to PsF when your input is interlaced. Doing so creates horizontal interlacing artifacts.
         public var inputScanType: MediaConvertClientTypes.InputScanType?
+        /// Specify the enhancement layer input video file path for Multi View outputs. The base layer input is treated as the left eye and this Multi View input is treated as the right eye. Only one Multi View input is currently supported. MediaConvert encodes both views into a single MV-HEVC output codec. When you add MultiViewSettings to your job, you can only produce Multi View outputs. Adding any other codec output to the same job is not supported.
+        public var multiViewSettings: [MediaConvertClientTypes.MultiViewSettings]?
         /// Use Selection placement to define the video area in your output frame. The area outside of the rectangle that you specify here is black. If you specify a value here, it will override any value that you specify in the output setting Selection placement. If you specify a value here, this will override any AFD values in your input, even if you set Respond to AFD to Respond. If you specify a value here, this will ignore anything that you specify for the setting Scaling Behavior.
         public var position: MediaConvertClientTypes.Rectangle?
         /// Use Program to select a specific program from within a multi-program transport stream. Note that Quad 4K is not currently supported. Default is the first program within the transport stream. If the program you specify doesn't exist, the transcoding service will use this default.
@@ -7680,6 +7798,7 @@ extension MediaConvertClientTypes {
             imageInserter: MediaConvertClientTypes.ImageInserter? = nil,
             inputClippings: [MediaConvertClientTypes.InputClipping]? = nil,
             inputScanType: MediaConvertClientTypes.InputScanType? = nil,
+            multiViewSettings: [MediaConvertClientTypes.MultiViewSettings]? = nil,
             position: MediaConvertClientTypes.Rectangle? = nil,
             programNumber: Swift.Int? = nil,
             psiControl: MediaConvertClientTypes.InputPsiControl? = nil,
@@ -7703,6 +7822,7 @@ extension MediaConvertClientTypes {
             self.imageInserter = imageInserter
             self.inputClippings = inputClippings
             self.inputScanType = inputScanType
+            self.multiViewSettings = multiViewSettings
             self.position = position
             self.programNumber = programNumber
             self.psiControl = psiControl
@@ -7864,6 +7984,25 @@ extension MediaConvertClientTypes {
             case .uploading: return "UPLOADING"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// The Elemental Inference configuration used in this job.
+    public struct ElementalInferenceConfiguration: Swift.Sendable {
+        /// A list of Elemental Inference features used in this job.
+        public var features: [MediaConvertClientTypes.ElementalInferenceFeature]?
+        /// A list of Elemental Inference feeds used by this job.
+        public var feeds: [MediaConvertClientTypes.ElementalInferenceFeed]?
+
+        public init(
+            features: [MediaConvertClientTypes.ElementalInferenceFeature]? = nil,
+            feeds: [MediaConvertClientTypes.ElementalInferenceFeed]? = nil
+        ) {
+            self.features = features
+            self.feeds = feeds
         }
     }
 }
@@ -8804,7 +8943,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Enable Clear Lead DRM to reduce video startup latency by leaving the first segment unencrypted while DRM license retrieval occurs in parallel. This optimization allows immediate playback startup while maintaining content protection for the remainder of the stream. When enabled, the first output segment remains fully unencrypted, and encryption begins at the start of the second segment. The HLS manifest will omit #EXT-X-KEY tags during the clear segment and insert the first #EXT-X-KEY immediately before the first encrypted fragment. This feature is supported exclusively for CMAF HLS (fMP4) outputs and is compatible with all existing key provider integrations (SPEKE v1, SPEKE v2, and Static Key encryption). Supported codecs: H.264 and H.265 video codecs, and AAC audio codec. Choose Enabled to activate Clear Lead DRM optimization. Choose Disabled to use standard encryption where all segments are encrypted from the beginning.
+    /// Enable Clear Lead DRM to reduce video startup latency by leaving the first segment unencrypted while DRM license retrieval occurs in parallel. This optimization allows immediate playback startup while maintaining content protection for the remainder of the stream. When enabled, the first output segment remains fully unencrypted, and encryption begins at the start of the second segment. The HLS manifest will omit #EXT-X-KEY tags during the clear segment and insert the first #EXT-X-KEY immediately before the first encrypted fragment. This feature is supported exclusively for CMAF HLS (fMP4) outputs and is compatible with all existing key provider integrations (SPEKE v1, SPEKE v2, and Static Key encryption). Supported codecs: H.264, H.265, and AV1 video codecs, and AAC audio codec. Choose Enabled to activate Clear Lead DRM optimization. Choose Disabled to use standard encryption where all segments are encrypted from the beginning.
     public enum HlsClearLead: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -9100,7 +9239,7 @@ extension MediaConvertClientTypes {
 
     /// Settings for CMAF encryption
     public struct CmafEncryptionSettings: Swift.Sendable {
-        /// Enable Clear Lead DRM to reduce video startup latency by leaving the first segment unencrypted while DRM license retrieval occurs in parallel. This optimization allows immediate playback startup while maintaining content protection for the remainder of the stream. When enabled, the first output segment remains fully unencrypted, and encryption begins at the start of the second segment. The HLS manifest will omit #EXT-X-KEY tags during the clear segment and insert the first #EXT-X-KEY immediately before the first encrypted fragment. This feature is supported exclusively for CMAF HLS (fMP4) outputs and is compatible with all existing key provider integrations (SPEKE v1, SPEKE v2, and Static Key encryption). Supported codecs: H.264 and H.265 video codecs, and AAC audio codec. Choose Enabled to activate Clear Lead DRM optimization. Choose Disabled to use standard encryption where all segments are encrypted from the beginning.
+        /// Enable Clear Lead DRM to reduce video startup latency by leaving the first segment unencrypted while DRM license retrieval occurs in parallel. This optimization allows immediate playback startup while maintaining content protection for the remainder of the stream. When enabled, the first output segment remains fully unencrypted, and encryption begins at the start of the second segment. The HLS manifest will omit #EXT-X-KEY tags during the clear segment and insert the first #EXT-X-KEY immediately before the first encrypted fragment. This feature is supported exclusively for CMAF HLS (fMP4) outputs and is compatible with all existing key provider integrations (SPEKE v1, SPEKE v2, and Static Key encryption). Supported codecs: H.264, H.265, and AV1 video codecs, and AAC audio codec. Choose Enabled to activate Clear Lead DRM optimization. Choose Disabled to use standard encryption where all segments are encrypted from the beginning.
         public var clearLead: MediaConvertClientTypes.HlsClearLead?
         /// This is a 128-bit, 16-byte hex value represented by a 32-character text string. If this parameter is not set then the Initialization Vector will follow the segment number by default.
         public var constantInitializationVector: Swift.String?
@@ -20843,12 +20982,13 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify the video Scaling behavior when your output has a different resolution than your input. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/video-scaling.html
+    /// Specify the video Scaling behavior when your output has a different resolution than your input. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/video-scaling.html Select Smart Cropping using Elemental Inference as your scaling behavior to have Elemental Inference automatically crop your video. Smart Crop requires a vertical output aspect ratio (1:1 is the widest aspect ratio supported).
     public enum ScalingBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `default`
         case fill
         case fit
         case fitNoUpscale
+        case smartCrop
         case stretchToOutput
         case sdkUnknown(Swift.String)
 
@@ -20858,6 +20998,7 @@ extension MediaConvertClientTypes {
                 .fill,
                 .fit,
                 .fitNoUpscale,
+                .smartCrop,
                 .stretchToOutput
             ]
         }
@@ -20873,6 +21014,7 @@ extension MediaConvertClientTypes {
             case .fill: return "FILL"
             case .fit: return "FIT"
             case .fitNoUpscale: return "FIT_NO_UPSCALE"
+            case .smartCrop: return "SMART_CROP"
             case .stretchToOutput: return "STRETCH_TO_OUTPUT"
             case let .sdkUnknown(s): return s
             }
@@ -21916,7 +22058,7 @@ extension MediaConvertClientTypes {
         public var position: MediaConvertClientTypes.Rectangle?
         /// Use Respond to AFD to specify how the service changes the video itself in response to AFD values in the input. * Choose Respond to clip the input video frame according to the AFD value, input display aspect ratio, and output display aspect ratio. * Choose Passthrough to include the input AFD values. Do not choose this when AfdSignaling is set to NONE. A preferred implementation of this workflow is to set RespondToAfd to and set AfdSignaling to AUTO. * Choose None to remove all input AFD values from this output.
         public var respondToAfd: MediaConvertClientTypes.RespondToAfd?
-        /// Specify the video Scaling behavior when your output has a different resolution than your input. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/video-scaling.html
+        /// Specify the video Scaling behavior when your output has a different resolution than your input. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/video-scaling.html Select Smart Cropping using Elemental Inference as your scaling behavior to have Elemental Inference automatically crop your video. Smart Crop requires a vertical output aspect ratio (1:1 is the widest aspect ratio supported).
         public var scalingBehavior: MediaConvertClientTypes.ScalingBehavior?
         /// Use Sharpness setting to specify the strength of anti-aliasing. This setting changes the width of the anti-alias filter kernel used for scaling. Sharpness only applies if your output resolution is different from your input resolution. 0 is the softest setting, 100 the sharpest, and 50 recommended for most content.
         public var sharpness: Swift.Int?
@@ -22417,6 +22559,8 @@ extension MediaConvertClientTypes {
         public var createdAt: Foundation.Date?
         /// A job's phase can be PROBING, TRANSCODING OR UPLOADING
         public var currentPhase: MediaConvertClientTypes.JobPhase?
+        /// The Elemental Inference configuration used in this job.
+        public var elementalInferenceConfiguration: MediaConvertClientTypes.ElementalInferenceConfiguration?
         /// Error code for the job
         public var errorCode: Swift.Int?
         /// Error message of Job
@@ -22476,6 +22620,7 @@ extension MediaConvertClientTypes {
             clientRequestToken: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             currentPhase: MediaConvertClientTypes.JobPhase? = nil,
+            elementalInferenceConfiguration: MediaConvertClientTypes.ElementalInferenceConfiguration? = nil,
             errorCode: Swift.Int? = nil,
             errorMessage: Swift.String? = nil,
             hopDestinations: [MediaConvertClientTypes.HopDestination]? = nil,
@@ -22508,6 +22653,7 @@ extension MediaConvertClientTypes {
             self.clientRequestToken = clientRequestToken
             self.createdAt = createdAt
             self.currentPhase = currentPhase
+            self.elementalInferenceConfiguration = elementalInferenceConfiguration
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.hopDestinations = hopDestinations
@@ -23499,16 +23645,20 @@ extension MediaConvertClientTypes {
         public var duration: Swift.Double?
         /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM, MXF, Wave, AVI, or MPEG-TS. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
         public var format: MediaConvertClientTypes.Format?
+        /// The start timecode of the media file, in HH:MM:SS:FF format (or HH:MM:SS;FF for drop frame timecode). Note that this field is null when the container does not include an embedded start timecode.
+        public var startTimecode: Swift.String?
         /// Details about each track (video, audio, or data) in the media file.
         public var tracks: [MediaConvertClientTypes.Track]?
 
         public init(
             duration: Swift.Double? = nil,
             format: MediaConvertClientTypes.Format? = nil,
+            startTimecode: Swift.String? = nil,
             tracks: [MediaConvertClientTypes.Track]? = nil
         ) {
             self.duration = duration
             self.format = format
+            self.startTimecode = startTimecode
             self.tracks = tracks
         }
     }
@@ -23810,6 +23960,8 @@ extension MediaConvertClientTypes {
         public var description: Swift.String?
         /// The timestamp in epoch seconds for when you most recently updated the queue.
         public var lastUpdated: Foundation.Date?
+        /// Specify the maximum number of Elemental Inference feeds MediaConvert can process concurrently.
+        public var maximumConcurrentFeeds: Swift.Int?
         /// A name that you create for each queue. Each name must be unique within your account.
         /// This member is required.
         public var name: Swift.String?
@@ -23834,6 +23986,7 @@ extension MediaConvertClientTypes {
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             lastUpdated: Foundation.Date? = nil,
+            maximumConcurrentFeeds: Swift.Int? = nil,
             name: Swift.String? = nil,
             pricingPlan: MediaConvertClientTypes.PricingPlan? = nil,
             progressingJobsCount: Swift.Int? = nil,
@@ -23848,6 +24001,7 @@ extension MediaConvertClientTypes {
             self.createdAt = createdAt
             self.description = description
             self.lastUpdated = lastUpdated
+            self.maximumConcurrentFeeds = maximumConcurrentFeeds
             self.name = name
             self.pricingPlan = pricingPlan
             self.progressingJobsCount = progressingJobsCount
@@ -24262,6 +24416,8 @@ public struct CreateQueueInput: Swift.Sendable {
     public var concurrentJobs: Swift.Int?
     /// Optional. A description of the queue that you are creating.
     public var description: Swift.String?
+    /// Specify the maximum number of Elemental Inference feeds MediaConvert can process concurrently.
+    public var maximumConcurrentFeeds: Swift.Int?
     /// The name of the queue that you are creating.
     /// This member is required.
     public var name: Swift.String?
@@ -24277,6 +24433,7 @@ public struct CreateQueueInput: Swift.Sendable {
     public init(
         concurrentJobs: Swift.Int? = nil,
         description: Swift.String? = nil,
+        maximumConcurrentFeeds: Swift.Int? = nil,
         name: Swift.String? = nil,
         pricingPlan: MediaConvertClientTypes.PricingPlan? = nil,
         reservationPlanSettings: MediaConvertClientTypes.ReservationPlanSettings? = nil,
@@ -24285,6 +24442,7 @@ public struct CreateQueueInput: Swift.Sendable {
     ) {
         self.concurrentJobs = concurrentJobs
         self.description = description
+        self.maximumConcurrentFeeds = maximumConcurrentFeeds
         self.name = name
         self.pricingPlan = pricingPlan
         self.reservationPlanSettings = reservationPlanSettings
@@ -25333,6 +25491,8 @@ public struct UpdateQueueInput: Swift.Sendable {
     public var concurrentJobs: Swift.Int?
     /// The new description for the queue, if you are changing it.
     public var description: Swift.String?
+    /// Specify the maximum number of Elemental Inference feeds MediaConvert can process concurrently.
+    public var maximumConcurrentFeeds: Swift.Int?
     /// The name of the queue that you are modifying.
     /// This member is required.
     public var name: Swift.String?
@@ -25344,12 +25504,14 @@ public struct UpdateQueueInput: Swift.Sendable {
     public init(
         concurrentJobs: Swift.Int? = nil,
         description: Swift.String? = nil,
+        maximumConcurrentFeeds: Swift.Int? = nil,
         name: Swift.String? = nil,
         reservationPlanSettings: MediaConvertClientTypes.ReservationPlanSettings? = nil,
         status: MediaConvertClientTypes.QueueStatus? = nil
     ) {
         self.concurrentJobs = concurrentJobs
         self.description = description
+        self.maximumConcurrentFeeds = maximumConcurrentFeeds
         self.name = name
         self.reservationPlanSettings = reservationPlanSettings
         self.status = status
@@ -25870,6 +26032,7 @@ extension CreateQueueInput {
         guard let value else { return }
         try writer["concurrentJobs"].write(value.concurrentJobs)
         try writer["description"].write(value.description)
+        try writer["maximumConcurrentFeeds"].write(value.maximumConcurrentFeeds)
         try writer["name"].write(value.name)
         try writer["pricingPlan"].write(value.pricingPlan)
         try writer["reservationPlanSettings"].write(value.reservationPlanSettings, with: MediaConvertClientTypes.ReservationPlanSettings.write(value:to:))
@@ -25972,6 +26135,7 @@ extension UpdateQueueInput {
         guard let value else { return }
         try writer["concurrentJobs"].write(value.concurrentJobs)
         try writer["description"].write(value.description)
+        try writer["maximumConcurrentFeeds"].write(value.maximumConcurrentFeeds)
         try writer["reservationPlanSettings"].write(value.reservationPlanSettings, with: MediaConvertClientTypes.ReservationPlanSettings.write(value:to:))
         try writer["status"].write(value.status)
     }
@@ -28235,6 +28399,7 @@ extension MediaConvertClientTypes.Container {
         var value = MediaConvertClientTypes.Container()
         value.duration = try reader["duration"].readIfPresent()
         value.format = try reader["format"].readIfPresent()
+        value.startTimecode = try reader["startTimecode"].readIfPresent()
         value.tracks = try reader["tracks"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.Track.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -28737,6 +28902,28 @@ extension MediaConvertClientTypes.Eac3Settings {
         value.stereoDownmix = try reader["stereoDownmix"].readIfPresent()
         value.surroundExMode = try reader["surroundExMode"].readIfPresent()
         value.surroundMode = try reader["surroundMode"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.ElementalInferenceConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.ElementalInferenceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.ElementalInferenceConfiguration()
+        value.features = try reader["features"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.ElementalInferenceFeature>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.feeds = try reader["feeds"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.ElementalInferenceFeed.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.ElementalInferenceFeed {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.ElementalInferenceFeed {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.ElementalInferenceFeed()
+        value.arn = try reader["arn"].readIfPresent()
+        value.feedManagementState = try reader["feedManagementState"].readIfPresent()
         return value
     }
 }
@@ -29638,6 +29825,7 @@ extension MediaConvertClientTypes.Input {
         try writer["imageInserter"].write(value.imageInserter, with: MediaConvertClientTypes.ImageInserter.write(value:to:))
         try writer["inputClippings"].writeList(value.inputClippings, memberWritingClosure: MediaConvertClientTypes.InputClipping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inputScanType"].write(value.inputScanType)
+        try writer["multiViewSettings"].writeList(value.multiViewSettings, memberWritingClosure: MediaConvertClientTypes.MultiViewSettings.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["position"].write(value.position, with: MediaConvertClientTypes.Rectangle.write(value:to:))
         try writer["programNumber"].write(value.programNumber)
         try writer["psiControl"].write(value.psiControl)
@@ -29670,6 +29858,7 @@ extension MediaConvertClientTypes.Input {
         value.imageInserter = try reader["imageInserter"].readIfPresent(with: MediaConvertClientTypes.ImageInserter.read(from:))
         value.inputClippings = try reader["inputClippings"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.InputClipping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputScanType = try reader["inputScanType"].readIfPresent()
+        value.multiViewSettings = try reader["multiViewSettings"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.MultiViewSettings.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.position = try reader["position"].readIfPresent(with: MediaConvertClientTypes.Rectangle.read(from:))
         value.programNumber = try reader["programNumber"].readIfPresent()
         value.psiControl = try reader["psiControl"].readIfPresent()
@@ -29762,6 +29951,7 @@ extension MediaConvertClientTypes.InputTemplate {
         try writer["imageInserter"].write(value.imageInserter, with: MediaConvertClientTypes.ImageInserter.write(value:to:))
         try writer["inputClippings"].writeList(value.inputClippings, memberWritingClosure: MediaConvertClientTypes.InputClipping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inputScanType"].write(value.inputScanType)
+        try writer["multiViewSettings"].writeList(value.multiViewSettings, memberWritingClosure: MediaConvertClientTypes.MultiViewSettings.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["position"].write(value.position, with: MediaConvertClientTypes.Rectangle.write(value:to:))
         try writer["programNumber"].write(value.programNumber)
         try writer["psiControl"].write(value.psiControl)
@@ -29789,6 +29979,7 @@ extension MediaConvertClientTypes.InputTemplate {
         value.imageInserter = try reader["imageInserter"].readIfPresent(with: MediaConvertClientTypes.ImageInserter.read(from:))
         value.inputClippings = try reader["inputClippings"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.InputClipping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputScanType = try reader["inputScanType"].readIfPresent()
+        value.multiViewSettings = try reader["multiViewSettings"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.MultiViewSettings.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.position = try reader["position"].readIfPresent(with: MediaConvertClientTypes.Rectangle.read(from:))
         value.programNumber = try reader["programNumber"].readIfPresent()
         value.psiControl = try reader["psiControl"].readIfPresent()
@@ -29876,6 +30067,7 @@ extension MediaConvertClientTypes.Job {
         value.clientRequestToken = try reader["clientRequestToken"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.currentPhase = try reader["currentPhase"].readIfPresent()
+        value.elementalInferenceConfiguration = try reader["elementalInferenceConfiguration"].readIfPresent(with: MediaConvertClientTypes.ElementalInferenceConfiguration.read(from:))
         value.errorCode = try reader["errorCode"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         value.hopDestinations = try reader["hopDestinations"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.HopDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -30636,6 +30828,36 @@ extension MediaConvertClientTypes.MsSmoothGroupSettings {
     }
 }
 
+extension MediaConvertClientTypes.MultiViewInput {
+
+    static func write(value: MediaConvertClientTypes.MultiViewInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fileInput"].write(value.fileInput)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.MultiViewInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.MultiViewInput()
+        value.fileInput = try reader["fileInput"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.MultiViewSettings {
+
+    static func write(value: MediaConvertClientTypes.MultiViewSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["input"].write(value.input, with: MediaConvertClientTypes.MultiViewInput.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.MultiViewSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.MultiViewSettings()
+        value.input = try reader["input"].readIfPresent(with: MediaConvertClientTypes.MultiViewInput.read(from:))
+        return value
+    }
+}
+
 extension MediaConvertClientTypes.MxfSettings {
 
     static func write(value: MediaConvertClientTypes.MxfSettings?, to writer: SmithyJSON.Writer) throws {
@@ -31136,6 +31358,7 @@ extension MediaConvertClientTypes.Queue {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
         value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.maximumConcurrentFeeds = try reader["maximumConcurrentFeeds"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.pricingPlan = try reader["pricingPlan"].readIfPresent()
         value.progressingJobsCount = try reader["progressingJobsCount"].readIfPresent()

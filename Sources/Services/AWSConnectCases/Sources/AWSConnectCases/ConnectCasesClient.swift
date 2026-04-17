@@ -3692,6 +3692,7 @@ extension ConnectCasesClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func updateRelatedItem(input: UpdateRelatedItemInput) async throws -> UpdateRelatedItemOutput {

@@ -66,17 +66,7 @@ public struct StartTelemetryEnrichmentInput: Swift.Sendable {
     public init() { }
 }
 
-public struct StartTelemetryEvaluationForOrganizationInput: Swift.Sendable {
-
-    public init() { }
-}
-
 public struct StartTelemetryEvaluationForOrganizationOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct StartTelemetryEvaluationInput: Swift.Sendable {
 
     public init() { }
 }
@@ -1200,13 +1190,19 @@ extension ObservabilityAdminClientTypes {
 extension ObservabilityAdminClientTypes {
 
     public enum LogType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case access
         case application
+        case connection
+        case securityFinding
         case usage
         case sdkUnknown(Swift.String)
 
         public static var allCases: [LogType] {
             return [
+                .access,
                 .application,
+                .connection,
+                .securityFinding,
                 .usage
             ]
         }
@@ -1218,7 +1214,10 @@ extension ObservabilityAdminClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .access: return "ACCESS_LOGS"
             case .application: return "APPLICATION_LOGS"
+            case .connection: return "CONNECTION_LOGS"
+            case .securityFinding: return "SECURITY_FINDING_LOGS"
             case .usage: return "USAGE_LOGS"
             case let .sdkUnknown(s): return s
             }
@@ -1506,7 +1505,10 @@ extension ObservabilityAdminClientTypes {
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsBedrockAgentcoreBrowser
         case awsBedrockAgentcoreCodeInterpreter
+        case awsBedrockAgentcoreGateway
+        case awsBedrockAgentcoreMemory
         case awsBedrockAgentcoreRuntime
+        case awsCloudfrontDistribution
         case awsCloudtrail
         case awsEc2Instance
         case awsEc2Vpc
@@ -1514,6 +1516,7 @@ extension ObservabilityAdminClientTypes {
         case awsElbLoadbalancer
         case awsLamdbaFunction
         case awsRoute53ResolverResolverEndpoint
+        case awsSecurityHub
         case awsWafV2WebAcl
         case sdkUnknown(Swift.String)
 
@@ -1521,7 +1524,10 @@ extension ObservabilityAdminClientTypes {
             return [
                 .awsBedrockAgentcoreBrowser,
                 .awsBedrockAgentcoreCodeInterpreter,
+                .awsBedrockAgentcoreGateway,
+                .awsBedrockAgentcoreMemory,
                 .awsBedrockAgentcoreRuntime,
+                .awsCloudfrontDistribution,
                 .awsCloudtrail,
                 .awsEc2Instance,
                 .awsEc2Vpc,
@@ -1529,6 +1535,7 @@ extension ObservabilityAdminClientTypes {
                 .awsElbLoadbalancer,
                 .awsLamdbaFunction,
                 .awsRoute53ResolverResolverEndpoint,
+                .awsSecurityHub,
                 .awsWafV2WebAcl
             ]
         }
@@ -1542,7 +1549,10 @@ extension ObservabilityAdminClientTypes {
             switch self {
             case .awsBedrockAgentcoreBrowser: return "AWS::BedrockAgentCore::Browser"
             case .awsBedrockAgentcoreCodeInterpreter: return "AWS::BedrockAgentCore::CodeInterpreter"
+            case .awsBedrockAgentcoreGateway: return "AWS::BedrockAgentCore::Gateway"
+            case .awsBedrockAgentcoreMemory: return "AWS::BedrockAgentCore::Memory"
             case .awsBedrockAgentcoreRuntime: return "AWS::BedrockAgentCore::Runtime"
+            case .awsCloudfrontDistribution: return "AWS::CloudFront::Distribution"
             case .awsCloudtrail: return "AWS::CloudTrail"
             case .awsEc2Instance: return "AWS::EC2::Instance"
             case .awsEc2Vpc: return "AWS::EC2::VPC"
@@ -1550,6 +1560,7 @@ extension ObservabilityAdminClientTypes {
             case .awsElbLoadbalancer: return "AWS::ElasticLoadBalancingV2::LoadBalancer"
             case .awsLamdbaFunction: return "AWS::Lambda::Function"
             case .awsRoute53ResolverResolverEndpoint: return "AWS::Route53Resolver::ResolverEndpoint"
+            case .awsSecurityHub: return "AWS::SecurityHub::Hub"
             case .awsWafV2WebAcl: return "AWS::WAFv2::WebACL"
             case let .sdkUnknown(s): return s
             }
@@ -1638,8 +1649,12 @@ extension ObservabilityAdminClientTypes {
 
     /// Defines how telemetry should be configured for specific Amazon Web Services resources.
     public struct TelemetryRule: Swift.Sendable {
+        /// If set to true, the telemetry rule is replicated to all Amazon Web Services Regions where Amazon CloudWatch Observability Admin is available in the current partition. When new regions become available, the rule automatically replicates to them. Mutually exclusive with Regions.
+        public var allRegions: Swift.Bool?
         /// Configuration specifying where and how the telemetry data should be delivered.
         public var destinationConfiguration: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration?
+        /// An optional list of Amazon Web Services Regions where this telemetry rule should be replicated. When specified, the rule is created in the home region and automatically replicated to all listed regions. Mutually exclusive with AllRegions.
+        public var regions: [Swift.String]?
         /// The type of Amazon Web Services resource to configure telemetry for (e.g., "AWS::EC2::VPC", "AWS::EKS::Cluster", "AWS::WAFv2::WebACL").
         public var resourceType: ObservabilityAdminClientTypes.ResourceType?
         /// The organizational scope to which the rule applies, specified using accounts or organizational units.
@@ -1653,14 +1668,18 @@ extension ObservabilityAdminClientTypes {
         public var telemetryType: ObservabilityAdminClientTypes.TelemetryType?
 
         public init(
+            allRegions: Swift.Bool? = nil,
             destinationConfiguration: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration? = nil,
+            regions: [Swift.String]? = nil,
             resourceType: ObservabilityAdminClientTypes.ResourceType? = nil,
             scope: Swift.String? = nil,
             selectionCriteria: Swift.String? = nil,
             telemetrySourceTypes: [ObservabilityAdminClientTypes.TelemetrySourceType]? = nil,
             telemetryType: ObservabilityAdminClientTypes.TelemetryType? = nil
         ) {
+            self.allRegions = allRegions
             self.destinationConfiguration = destinationConfiguration
+            self.regions = regions
             self.resourceType = resourceType
             self.scope = scope
             self.selectionCriteria = selectionCriteria
@@ -2029,6 +2048,33 @@ public struct GetTelemetryEnrichmentStatusOutput: Swift.Sendable {
 
 extension ObservabilityAdminClientTypes {
 
+    /// Represents the status of a multi-region operation in a specific Amazon Web Services Region. This structure is used to report per-region progress for both telemetry evaluation and telemetry rule replication.
+    public struct RegionStatus: Swift.Sendable {
+        /// The reason for a failure status in this region. This field is only populated when Status indicates a failure.
+        public var failureReason: Swift.String?
+        /// The Amazon Web Services Region code (for example, eu-west-1 or us-west-2) that this status applies to.
+        public var region: Swift.String?
+        /// The Amazon Resource Name (ARN) of the telemetry rule in this spoke region. This field is only present for telemetry rule region statuses and is populated when the rule has been successfully created in the spoke region (status is ACTIVE).
+        public var ruleArn: Swift.String?
+        /// The status of the operation in this region. For telemetry evaluation, valid values include STARTING, RUNNING, and FAILED_START. For telemetry rules, valid values include PENDING, ACTIVE, and FAILED.
+        public var status: Swift.String?
+
+        public init(
+            failureReason: Swift.String? = nil,
+            region: Swift.String? = nil,
+            ruleArn: Swift.String? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.failureReason = failureReason
+            self.region = region
+            self.ruleArn = ruleArn
+            self.status = status
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
     public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failedStart
         case failedStop
@@ -2074,14 +2120,22 @@ extension ObservabilityAdminClientTypes {
 public struct GetTelemetryEvaluationStatusOutput: Swift.Sendable {
     /// Describes the reason for the failure status. The field will only be populated if Status is FAILED_START or FAILED_STOP.
     public var failureReason: Swift.String?
+    /// The Amazon Web Services Region that is designated as the home region for multi-region telemetry evaluation. The home region is the single management point for all multi-region operations on this account. This field is only present when multi-region telemetry evaluation is active.
+    public var homeRegion: Swift.String?
+    /// A list of per-region telemetry evaluation statuses. Each entry indicates the evaluation status for a specific spoke region included in the multi-region configuration. This field is only present when multi-region telemetry evaluation is active.
+    public var regionStatuses: [ObservabilityAdminClientTypes.RegionStatus]?
     /// The onboarding status of the telemetry config feature.
     public var status: ObservabilityAdminClientTypes.Status?
 
     public init(
         failureReason: Swift.String? = nil,
+        homeRegion: Swift.String? = nil,
+        regionStatuses: [ObservabilityAdminClientTypes.RegionStatus]? = nil,
         status: ObservabilityAdminClientTypes.Status? = nil
     ) {
         self.failureReason = failureReason
+        self.homeRegion = homeRegion
+        self.regionStatuses = regionStatuses
         self.status = status
     }
 }
@@ -2089,14 +2143,22 @@ public struct GetTelemetryEvaluationStatusOutput: Swift.Sendable {
 public struct GetTelemetryEvaluationStatusForOrganizationOutput: Swift.Sendable {
     /// This field describes the reason for the failure status. The field will only be populated if Status is FAILED_START or FAILED_STOP.
     public var failureReason: Swift.String?
+    /// The Amazon Web Services Region that is designated as the home region for multi-region telemetry evaluation for the organization. The home region is the single management point for all multi-region operations on this organization. This field is only present when multi-region telemetry evaluation is active.
+    public var homeRegion: Swift.String?
+    /// A list of per-region telemetry evaluation statuses for the organization. Each entry indicates the evaluation status for a specific spoke region included in the multi-region configuration. This field is only present when multi-region telemetry evaluation is active.
+    public var regionStatuses: [ObservabilityAdminClientTypes.RegionStatus]?
     /// The onboarding status of the telemetry config feature for the organization.
     public var status: ObservabilityAdminClientTypes.Status?
 
     public init(
         failureReason: Swift.String? = nil,
+        homeRegion: Swift.String? = nil,
+        regionStatuses: [ObservabilityAdminClientTypes.RegionStatus]? = nil,
         status: ObservabilityAdminClientTypes.Status? = nil
     ) {
         self.failureReason = failureReason
+        self.homeRegion = homeRegion
+        self.regionStatuses = regionStatuses
         self.status = status
     }
 }
@@ -2238,8 +2300,14 @@ public struct GetTelemetryRuleInput: Swift.Sendable {
 public struct GetTelemetryRuleOutput: Swift.Sendable {
     /// The timestamp when the telemetry rule was created.
     public var createdTimeStamp: Swift.Int?
+    /// The Amazon Web Services Region where the telemetry rule was originally created. For replicated rules in spoke regions, this indicates the region that manages the rule. For rules created without multi-region scope, this field is not present.
+    public var homeRegion: Swift.String?
+    /// Indicates whether this telemetry rule is a replica that was created in this region through multi-region fan-out from the home region. Replicated rules cannot be directly updated or deleted in the spoke region. To modify a replicated rule, make changes in the home region.
+    public var isReplicated: Swift.Bool?
     /// The timestamp when the telemetry rule was last updated.
     public var lastUpdateTimeStamp: Swift.Int?
+    /// A list of per-region replication statuses for the telemetry rule. Each entry indicates the replication status of the rule in a specific spoke region. This field is only present for rules created with multi-region scope.
+    public var regionStatuses: [ObservabilityAdminClientTypes.RegionStatus]?
     /// The Amazon Resource Name (ARN) of the telemetry rule.
     public var ruleArn: Swift.String?
     /// The name of the telemetry rule.
@@ -2249,13 +2317,19 @@ public struct GetTelemetryRuleOutput: Swift.Sendable {
 
     public init(
         createdTimeStamp: Swift.Int? = nil,
+        homeRegion: Swift.String? = nil,
+        isReplicated: Swift.Bool? = nil,
         lastUpdateTimeStamp: Swift.Int? = nil,
+        regionStatuses: [ObservabilityAdminClientTypes.RegionStatus]? = nil,
         ruleArn: Swift.String? = nil,
         ruleName: Swift.String? = nil,
         telemetryRule: ObservabilityAdminClientTypes.TelemetryRule? = nil
     ) {
         self.createdTimeStamp = createdTimeStamp
+        self.homeRegion = homeRegion
+        self.isReplicated = isReplicated
         self.lastUpdateTimeStamp = lastUpdateTimeStamp
+        self.regionStatuses = regionStatuses
         self.ruleArn = ruleArn
         self.ruleName = ruleName
         self.telemetryRule = telemetryRule
@@ -2277,8 +2351,14 @@ public struct GetTelemetryRuleForOrganizationInput: Swift.Sendable {
 public struct GetTelemetryRuleForOrganizationOutput: Swift.Sendable {
     /// The timestamp when the organization telemetry rule was created.
     public var createdTimeStamp: Swift.Int?
+    /// The Amazon Web Services Region where the organization telemetry rule was originally created. For replicated rules in spoke regions, this indicates the region that manages the rule. For rules created without multi-region scope, this field is not present.
+    public var homeRegion: Swift.String?
+    /// Indicates whether this organization telemetry rule is a replica that was created in this region through multi-region fan-out from the home region. Replicated rules cannot be directly updated or deleted in the spoke region. To modify a replicated rule, make changes in the home region.
+    public var isReplicated: Swift.Bool?
     /// The timestamp when the organization telemetry rule was last updated.
     public var lastUpdateTimeStamp: Swift.Int?
+    /// A list of per-region replication statuses for the organization telemetry rule. Each entry indicates the replication status of the rule in a specific spoke region. This field is only present for rules created with multi-region scope.
+    public var regionStatuses: [ObservabilityAdminClientTypes.RegionStatus]?
     /// The Amazon Resource Name (ARN) of the organization telemetry rule.
     public var ruleArn: Swift.String?
     /// The name of the organization telemetry rule.
@@ -2288,13 +2368,19 @@ public struct GetTelemetryRuleForOrganizationOutput: Swift.Sendable {
 
     public init(
         createdTimeStamp: Swift.Int? = nil,
+        homeRegion: Swift.String? = nil,
+        isReplicated: Swift.Bool? = nil,
         lastUpdateTimeStamp: Swift.Int? = nil,
+        regionStatuses: [ObservabilityAdminClientTypes.RegionStatus]? = nil,
         ruleArn: Swift.String? = nil,
         ruleName: Swift.String? = nil,
         telemetryRule: ObservabilityAdminClientTypes.TelemetryRule? = nil
     ) {
         self.createdTimeStamp = createdTimeStamp
+        self.homeRegion = homeRegion
+        self.isReplicated = isReplicated
         self.lastUpdateTimeStamp = lastUpdateTimeStamp
+        self.regionStatuses = regionStatuses
         self.ruleArn = ruleArn
         self.ruleName = ruleName
         self.telemetryRule = telemetryRule
@@ -2775,6 +2861,36 @@ public struct StartTelemetryEnrichmentOutput: Swift.Sendable {
     ) {
         self.awsResourceExplorerManagedViewArn = awsResourceExplorerManagedViewArn
         self.status = status
+    }
+}
+
+public struct StartTelemetryEvaluationInput: Swift.Sendable {
+    /// If set to true, telemetry evaluation starts in all Amazon Web Services Regions where Amazon CloudWatch Observability Admin is available in the current partition. The current region becomes the home region for managing multi-region evaluation. When new regions become available, evaluation automatically expands to include them. Mutually exclusive with Regions.
+    public var allRegions: Swift.Bool?
+    /// An optional list of Amazon Web Services Regions to include in multi-region telemetry evaluation. The current region is always implicitly included and must not be specified in this list. When provided, telemetry evaluation starts in the current region and propagates to all specified regions. Mutually exclusive with AllRegions. If neither Regions nor AllRegions is provided, the operation applies only to the current region.
+    public var regions: [Swift.String]?
+
+    public init(
+        allRegions: Swift.Bool? = nil,
+        regions: [Swift.String]? = nil
+    ) {
+        self.allRegions = allRegions
+        self.regions = regions
+    }
+}
+
+public struct StartTelemetryEvaluationForOrganizationInput: Swift.Sendable {
+    /// If set to true, telemetry evaluation for the organization starts in all Amazon Web Services Regions where Amazon CloudWatch Observability Admin is available in the current partition. The current region becomes the home region for managing multi-region evaluation for the organization. When new regions become available, evaluation automatically expands to include them. Mutually exclusive with Regions.
+    public var allRegions: Swift.Bool?
+    /// An optional list of Amazon Web Services Regions to include in multi-region telemetry evaluation for the organization. The current region is always implicitly included and must not be specified in this list. When provided, telemetry evaluation starts in the current region and propagates to all specified regions for the organization. Mutually exclusive with AllRegions. If neither Regions nor AllRegions is provided, the operation applies only to the current region.
+    public var regions: [Swift.String]?
+
+    public init(
+        allRegions: Swift.Bool? = nil,
+        regions: [Swift.String]? = nil
+    ) {
+        self.allRegions = allRegions
+        self.regions = regions
     }
 }
 
@@ -3558,6 +3674,24 @@ extension ListTelemetryRulesForOrganizationInput {
     }
 }
 
+extension StartTelemetryEvaluationInput {
+
+    static func write(value: StartTelemetryEvaluationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllRegions"].write(value.allRegions)
+        try writer["Regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension StartTelemetryEvaluationForOrganizationInput {
+
+    static func write(value: StartTelemetryEvaluationForOrganizationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllRegions"].write(value.allRegions)
+        try writer["Regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -3782,6 +3916,8 @@ extension GetTelemetryEvaluationStatusOutput {
         let reader = responseReader
         var value = GetTelemetryEvaluationStatusOutput()
         value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.homeRegion = try reader["HomeRegion"].readIfPresent()
+        value.regionStatuses = try reader["RegionStatuses"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.RegionStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["Status"].readIfPresent()
         return value
     }
@@ -3795,6 +3931,8 @@ extension GetTelemetryEvaluationStatusForOrganizationOutput {
         let reader = responseReader
         var value = GetTelemetryEvaluationStatusForOrganizationOutput()
         value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.homeRegion = try reader["HomeRegion"].readIfPresent()
+        value.regionStatuses = try reader["RegionStatuses"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.RegionStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["Status"].readIfPresent()
         return value
     }
@@ -3820,7 +3958,10 @@ extension GetTelemetryRuleOutput {
         let reader = responseReader
         var value = GetTelemetryRuleOutput()
         value.createdTimeStamp = try reader["CreatedTimeStamp"].readIfPresent()
+        value.homeRegion = try reader["HomeRegion"].readIfPresent()
+        value.isReplicated = try reader["IsReplicated"].readIfPresent()
         value.lastUpdateTimeStamp = try reader["LastUpdateTimeStamp"].readIfPresent()
+        value.regionStatuses = try reader["RegionStatuses"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.RegionStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ruleArn = try reader["RuleArn"].readIfPresent()
         value.ruleName = try reader["RuleName"].readIfPresent()
         value.telemetryRule = try reader["TelemetryRule"].readIfPresent(with: ObservabilityAdminClientTypes.TelemetryRule.read(from:))
@@ -3836,7 +3977,10 @@ extension GetTelemetryRuleForOrganizationOutput {
         let reader = responseReader
         var value = GetTelemetryRuleForOrganizationOutput()
         value.createdTimeStamp = try reader["CreatedTimeStamp"].readIfPresent()
+        value.homeRegion = try reader["HomeRegion"].readIfPresent()
+        value.isReplicated = try reader["IsReplicated"].readIfPresent()
         value.lastUpdateTimeStamp = try reader["LastUpdateTimeStamp"].readIfPresent()
+        value.regionStatuses = try reader["RegionStatuses"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.RegionStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ruleArn = try reader["RuleArn"].readIfPresent()
         value.ruleName = try reader["RuleName"].readIfPresent()
         value.telemetryRule = try reader["TelemetryRule"].readIfPresent(with: ObservabilityAdminClientTypes.TelemetryRule.read(from:))
@@ -5352,6 +5496,19 @@ extension ObservabilityAdminClientTypes.Record {
     }
 }
 
+extension ObservabilityAdminClientTypes.RegionStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.RegionStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.RegionStatus()
+        value.region = try reader["Region"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.ruleArn = try reader["RuleArn"].readIfPresent()
+        return value
+    }
+}
+
 extension ObservabilityAdminClientTypes.SingleHeader {
 
     static func write(value: ObservabilityAdminClientTypes.SingleHeader?, to writer: SmithyJSON.Writer) throws {
@@ -5503,7 +5660,9 @@ extension ObservabilityAdminClientTypes.TelemetryRule {
 
     static func write(value: ObservabilityAdminClientTypes.TelemetryRule?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AllRegions"].write(value.allRegions)
         try writer["DestinationConfiguration"].write(value.destinationConfiguration, with: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration.write(value:to:))
+        try writer["Regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceType"].write(value.resourceType)
         try writer["Scope"].write(value.scope)
         try writer["SelectionCriteria"].write(value.selectionCriteria)
@@ -5520,6 +5679,8 @@ extension ObservabilityAdminClientTypes.TelemetryRule {
         value.destinationConfiguration = try reader["DestinationConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration.read(from:))
         value.scope = try reader["Scope"].readIfPresent()
         value.selectionCriteria = try reader["SelectionCriteria"].readIfPresent()
+        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allRegions = try reader["AllRegions"].readIfPresent()
         return value
     }
 }

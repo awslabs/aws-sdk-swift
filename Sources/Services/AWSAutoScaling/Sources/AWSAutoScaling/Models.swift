@@ -2029,6 +2029,8 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     public var autoScalingGroupName: Swift.String?
     /// The instance capacity distribution across Availability Zones.
     public var availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution?
+    /// A list of Availability Zone IDs where the Auto Scaling group can launch instances. You cannot specify both AvailabilityZones and AvailabilityZoneIds in the same request.
+    public var availabilityZoneIds: [Swift.String]?
     /// The policy for Availability Zone impairment.
     public var availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?
     /// A list of Availability Zones where instances in the Auto Scaling group can be created. Used for launching into the default VPC subnet in each Availability Zone when not using the VPCZoneIdentifier property, or for attaching a network interface when an existing network interface ID is specified in a launch template.
@@ -2043,7 +2045,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     public var defaultCooldown: Swift.Int?
     /// The amount of time, in seconds, until a new instance is considered to have finished initializing and resource consumption to become stable after it enters the InService state. During an instance refresh, Amazon EC2 Auto Scaling waits for the warm-up period after it replaces an instance before it moves on to replacing the next instance. Amazon EC2 Auto Scaling also waits for the warm-up period before aggregating the metrics for new instances with existing instances in the Amazon CloudWatch metrics that are used for scaling, resulting in more reliable usage data. For more information, see [Set the default instance warmup for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-default-instance-warmup.html) in the Amazon EC2 Auto Scaling User Guide. To manage various warm-up settings at the group level, we recommend that you set the default instance warmup, even if it is set to 0 seconds. To remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a value of 0 or other nominal value. Default: None
     public var defaultInstanceWarmup: Swift.Int?
-    /// The deletion protection setting for the Auto Scaling group. This setting helps safeguard your Auto Scaling group and its instances by controlling whether the DeleteAutoScalingGroup operation is allowed. When deletion protection is enabled, users cannot delete the Auto Scaling group according to the specified protection level until the setting is changed back to a less restrictive level. The valid values are none, prevent-force-deletion, and prevent-all-deletion. Default: none
+    /// The deletion protection setting for the Auto Scaling group. This setting helps safeguard your Auto Scaling group and its instances by controlling whether the DeleteAutoScalingGroup operation is allowed. When deletion protection is enabled, users cannot delete the Auto Scaling group according to the specified protection level until the setting is changed back to a less restrictive level. The valid values are none, prevent-force-deletion, and prevent-all-deletion. Default: none For more information, see [ Configure deletion protection for your Amazon EC2 Auto Scaling resources](https://docs.aws.amazon.com/autoscaling/ec2/userguide/resource-deletion-protection.html) in the Amazon EC2 Auto Scaling User Guide.
     public var deletionProtection: AutoScalingClientTypes.DeletionProtection?
     /// The desired capacity is the initial capacity of the Auto Scaling group at the time of its creation and the capacity it attempts to maintain. It can scale beyond this capacity if you configure auto scaling. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group. If you do not specify a desired capacity, the default is the minimum size of the group.
     public var desiredCapacity: Swift.Int?
@@ -2099,6 +2101,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution? = nil,
+        availabilityZoneIds: [Swift.String]? = nil,
         availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy? = nil,
         availabilityZones: [Swift.String]? = nil,
         capacityRebalance: Swift.Bool? = nil,
@@ -2134,6 +2137,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.availabilityZoneDistribution = availabilityZoneDistribution
+        self.availabilityZoneIds = availabilityZoneIds
         self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
         self.availabilityZones = availabilityZones
         self.capacityRebalance = capacityRebalance
@@ -2716,6 +2720,13 @@ extension AutoScalingClientTypes {
         /// * StartTimeUpperBound - The latest scaling activities to return based on the activity start time. Scaling activities with a start time later than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.
         ///
         /// * Status - The StatusCode value of the scaling activity. This filter can only be used in combination with the AutoScalingGroupName parameter. For valid StatusCode values, see [Activity](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_Activity.html) in the Amazon EC2 Auto Scaling API Reference.
+        ///
+        ///
+        /// StartTimeLowerBound and StartTimeUpperBound accept ISO 8601 formatted timestamps. Timestamps without a timezone offset are assumed to be UTC.
+        ///
+        /// * 2000-01-18T08:15:00Z
+        ///
+        /// * 2000-01-18T16:15:00+08:00
         public var name: Swift.String?
         /// One or more filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are automatically logically joined with an OR, and the request returns all results that match any of the specified values. DescribeAutoScalingGroups example: Specify "tag:environment" for the filter name and "production,development" for the filter values to find Auto Scaling groups with the tag "environment=production" or "environment=development". DescribeScalingActivities example: Specify "Status" for the filter name and "Successful,Failed" for the filter values to find scaling activities with a status of either "Successful" or "Failed".
         public var values: [Swift.String]?
@@ -2830,20 +2841,27 @@ extension AutoScalingClientTypes {
         case pendingProceed
         case pendingWait
         case quarantined
+        case replacingRootVolume
+        case replacingRootVolumeProceed
+        case replacingRootVolumeWait
+        case rootVolumeReplaced
         case standby
         case terminated
         case terminating
         case terminatingProceed
+        case terminatingRetained
         case terminatingWait
         case warmedHibernated
         case warmedPending
         case warmedPendingProceed
+        case warmedPendingRetained
         case warmedPendingWait
         case warmedRunning
         case warmedStopped
         case warmedTerminated
         case warmedTerminating
         case warmedTerminatingProceed
+        case warmedTerminatingRetained
         case warmedTerminatingWait
         case sdkUnknown(Swift.String)
 
@@ -2857,20 +2875,27 @@ extension AutoScalingClientTypes {
                 .pendingProceed,
                 .pendingWait,
                 .quarantined,
+                .replacingRootVolume,
+                .replacingRootVolumeProceed,
+                .replacingRootVolumeWait,
+                .rootVolumeReplaced,
                 .standby,
                 .terminated,
                 .terminating,
                 .terminatingProceed,
+                .terminatingRetained,
                 .terminatingWait,
                 .warmedHibernated,
                 .warmedPending,
                 .warmedPendingProceed,
+                .warmedPendingRetained,
                 .warmedPendingWait,
                 .warmedRunning,
                 .warmedStopped,
                 .warmedTerminated,
                 .warmedTerminating,
                 .warmedTerminatingProceed,
+                .warmedTerminatingRetained,
                 .warmedTerminatingWait
             ]
         }
@@ -2890,20 +2915,27 @@ extension AutoScalingClientTypes {
             case .pendingProceed: return "Pending:Proceed"
             case .pendingWait: return "Pending:Wait"
             case .quarantined: return "Quarantined"
+            case .replacingRootVolume: return "ReplacingRootVolume"
+            case .replacingRootVolumeProceed: return "ReplacingRootVolume:Proceed"
+            case .replacingRootVolumeWait: return "ReplacingRootVolume:Wait"
+            case .rootVolumeReplaced: return "RootVolumeReplaced"
             case .standby: return "Standby"
             case .terminated: return "Terminated"
             case .terminating: return "Terminating"
             case .terminatingProceed: return "Terminating:Proceed"
+            case .terminatingRetained: return "Terminating:Retained"
             case .terminatingWait: return "Terminating:Wait"
             case .warmedHibernated: return "Warmed:Hibernated"
             case .warmedPending: return "Warmed:Pending"
             case .warmedPendingProceed: return "Warmed:Pending:Proceed"
+            case .warmedPendingRetained: return "Warmed:Pending:Retained"
             case .warmedPendingWait: return "Warmed:Pending:Wait"
             case .warmedRunning: return "Warmed:Running"
             case .warmedStopped: return "Warmed:Stopped"
             case .warmedTerminated: return "Warmed:Terminated"
             case .warmedTerminating: return "Warmed:Terminating"
             case .warmedTerminatingProceed: return "Warmed:Terminating:Proceed"
+            case .warmedTerminatingRetained: return "Warmed:Terminating:Retained"
             case .warmedTerminatingWait: return "Warmed:Terminating:Wait"
             case let .sdkUnknown(s): return s
             }
@@ -2918,6 +2950,8 @@ extension AutoScalingClientTypes {
         /// The Availability Zone in which the instance is running.
         /// This member is required.
         public var availabilityZone: Swift.String?
+        /// The Availability Zone ID where the instance was launched.
+        public var availabilityZoneId: Swift.String?
         /// The last reported health status of the instance. Healthy means that the instance is healthy and should remain in service. Unhealthy means that the instance is unhealthy and that Amazon EC2 Auto Scaling should terminate and replace it.
         /// This member is required.
         public var healthStatus: Swift.String?
@@ -2954,6 +2988,7 @@ extension AutoScalingClientTypes {
 
         public init(
             availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
             healthStatus: Swift.String? = nil,
             imageId: Swift.String? = nil,
             instanceId: Swift.String? = nil,
@@ -2965,6 +3000,7 @@ extension AutoScalingClientTypes {
             weightedCapacity: Swift.String? = nil
         ) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.healthStatus = healthStatus
             self.imageId = imageId
             self.instanceId = instanceId
@@ -3143,6 +3179,8 @@ extension AutoScalingClientTypes {
         public var autoScalingGroupName: Swift.String?
         /// The EC2 instance capacity distribution across Availability Zones for the Auto Scaling group.
         public var availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution?
+        /// The Availability Zone IDs where the Auto Scaling group can launch instances.
+        public var availabilityZoneIds: [Swift.String]?
         /// The Availability Zone impairment policy for the Auto Scaling group.
         public var availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?
         /// One or more Availability Zones for the Auto Scaling group.
@@ -3229,6 +3267,7 @@ extension AutoScalingClientTypes {
             autoScalingGroupARN: Swift.String? = nil,
             autoScalingGroupName: Swift.String? = nil,
             availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution? = nil,
+            availabilityZoneIds: [Swift.String]? = nil,
             availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy? = nil,
             availabilityZones: [Swift.String]? = nil,
             capacityRebalance: Swift.Bool? = nil,
@@ -3270,6 +3309,7 @@ extension AutoScalingClientTypes {
             self.autoScalingGroupARN = autoScalingGroupARN
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZoneDistribution = availabilityZoneDistribution
+            self.availabilityZoneIds = availabilityZoneIds
             self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
             self.availabilityZones = availabilityZones
             self.capacityRebalance = capacityRebalance
@@ -3356,6 +3396,8 @@ extension AutoScalingClientTypes {
         /// The Availability Zone for the instance.
         /// This member is required.
         public var availabilityZone: Swift.String?
+        /// The Availability Zone ID where the instance is located.
+        public var availabilityZoneId: Swift.String?
         /// The last reported health status of this instance. Healthy means that the instance is healthy and should remain in service. Unhealthy means that the instance is unhealthy and Amazon EC2 Auto Scaling should terminate and replace it.
         /// This member is required.
         public var healthStatus: Swift.String?
@@ -3381,7 +3423,7 @@ extension AutoScalingClientTypes {
         public var launchConfigurationName: Swift.String?
         /// The launch template for the instance.
         public var launchTemplate: AutoScalingClientTypes.LaunchTemplateSpecification?
-        /// The lifecycle state for the instance. The Quarantined state is not used. For more information, see [Amazon EC2 Auto Scaling instance lifecycle](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html) in the Amazon EC2 Auto Scaling User Guide. Valid values: Pending | Pending:Wait | Pending:Proceed | Quarantined | InService | Terminating | Terminating:Wait | Terminating:Proceed | Terminating:Retained | Terminated | Detaching | Detached | EnteringStandby | Standby | Warmed:Pending | Warmed:Pending:Wait | Warmed:Pending:Proceed | Warmed:Pending:Retained | Warmed:Terminating | Warmed:Terminating:Wait | Warmed:Terminating:Proceed | Warmed:Terminating:Retained | Warmed:Terminated | Warmed:Stopped | Warmed:Running
+        /// The lifecycle state for the instance. The Quarantined state is not used. For more information, see [Amazon EC2 Auto Scaling instance lifecycle](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html) in the Amazon EC2 Auto Scaling User Guide. Valid values: Pending | Pending:Wait | Pending:Proceed | Quarantined | InService | Terminating | Terminating:Wait | Terminating:Proceed | Terminating:Retained | Terminated | Detaching | Detached | EnteringStandby | Standby | ReplacingRootVolume | ReplacingRootVolume:Wait | ReplacingRootVolume:Proceed | RootVolumeReplaced | Warmed:Pending | Warmed:Pending:Wait | Warmed:Pending:Proceed | Warmed:Pending:Retained | Warmed:Terminating | Warmed:Terminating:Wait | Warmed:Terminating:Proceed | Warmed:Terminating:Retained | Warmed:Terminated | Warmed:Stopped | Warmed:Running | Warmed:Hibernated
         /// This member is required.
         public var lifecycleState: Swift.String?
         /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.
@@ -3393,6 +3435,7 @@ extension AutoScalingClientTypes {
         public init(
             autoScalingGroupName: Swift.String? = nil,
             availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
             healthStatus: Swift.String? = nil,
             imageId: Swift.String? = nil,
             instanceId: Swift.String? = nil,
@@ -3405,6 +3448,7 @@ extension AutoScalingClientTypes {
         ) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.healthStatus = healthStatus
             self.imageId = imageId
             self.instanceId = instanceId
@@ -5300,6 +5344,13 @@ public struct DescribeScalingActivitiesInput: Swift.Sendable {
     /// * StartTimeUpperBound - The latest scaling activities to return based on the activity start time. Scaling activities with a start time later than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.
     ///
     /// * Status - The StatusCode value of the scaling activity. This filter can only be used in combination with the AutoScalingGroupName parameter. For valid StatusCode values, see [Activity](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_Activity.html) in the Amazon EC2 Auto Scaling API Reference.
+    ///
+    ///
+    /// StartTimeLowerBound and StartTimeUpperBound accept ISO 8601 formatted timestamps. Timestamps without a timezone offset are assumed to be UTC.
+    ///
+    /// * 2000-01-18T08:15:00Z
+    ///
+    /// * 2000-01-18T16:15:00+08:00
     public var filters: [AutoScalingClientTypes.Filter]?
     /// Indicates whether to include scaling activity from deleted Auto Scaling groups.
     public var includeDeletedGroups: Swift.Bool?
@@ -6810,6 +6861,8 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public var autoScalingGroupName: Swift.String?
     /// The instance capacity distribution across Availability Zones.
     public var availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution?
+    /// A list of Availability Zone IDs for the Auto Scaling group. You cannot specify both AvailabilityZones and AvailabilityZoneIds in the same request.
+    public var availabilityZoneIds: [Swift.String]?
     /// The policy for Availability Zone impairment.
     public var availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?
     /// One or more Availability Zones for the group.
@@ -6824,7 +6877,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public var defaultCooldown: Swift.Int?
     /// The amount of time, in seconds, until a new instance is considered to have finished initializing and resource consumption to become stable after it enters the InService state. During an instance refresh, Amazon EC2 Auto Scaling waits for the warm-up period after it replaces an instance before it moves on to replacing the next instance. Amazon EC2 Auto Scaling also waits for the warm-up period before aggregating the metrics for new instances with existing instances in the Amazon CloudWatch metrics that are used for scaling, resulting in more reliable usage data. For more information, see [Set the default instance warmup for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-default-instance-warmup.html) in the Amazon EC2 Auto Scaling User Guide. To manage various warm-up settings at the group level, we recommend that you set the default instance warmup, even if it is set to 0 seconds. To remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a value of 0 or other nominal value.
     public var defaultInstanceWarmup: Swift.Int?
-    /// The deletion protection setting for the Auto Scaling group. This setting helps safeguard your Auto Scaling group and its instances by controlling whether the DeleteAutoScalingGroup operation is allowed. When deletion protection is enabled, users cannot delete the Auto Scaling group according to the specified protection level until the setting is changed back to a less restrictive level. The valid values are none, prevent-force-deletion, and prevent-all-deletion. Default: none
+    /// The deletion protection setting for the Auto Scaling group. This setting helps safeguard your Auto Scaling group and its instances by controlling whether the DeleteAutoScalingGroup operation is allowed. When deletion protection is enabled, users cannot delete the Auto Scaling group according to the specified protection level until the setting is changed back to a less restrictive level. The valid values are none, prevent-force-deletion, and prevent-all-deletion. Default: none For more information, see [ Configure deletion protection for your Amazon EC2 Auto Scaling resources](https://docs.aws.amazon.com/autoscaling/ec2/userguide/resource-deletion-protection.html) in the Amazon EC2 Auto Scaling User Guide.
     public var deletionProtection: AutoScalingClientTypes.DeletionProtection?
     /// The desired capacity is the initial capacity of the Auto Scaling group after this operation completes and the capacity it attempts to maintain. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group.
     public var desiredCapacity: Swift.Int?
@@ -6866,6 +6919,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution? = nil,
+        availabilityZoneIds: [Swift.String]? = nil,
         availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy? = nil,
         availabilityZones: [Swift.String]? = nil,
         capacityRebalance: Swift.Bool? = nil,
@@ -6895,6 +6949,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.availabilityZoneDistribution = availabilityZoneDistribution
+        self.availabilityZoneIds = availabilityZoneIds
         self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
         self.availabilityZones = availabilityZones
         self.capacityRebalance = capacityRebalance
@@ -7484,6 +7539,7 @@ extension CreateAutoScalingGroupInput {
         guard let value else { return }
         try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
         try writer["AvailabilityZoneDistribution"].write(value.availabilityZoneDistribution, with: AutoScalingClientTypes.AvailabilityZoneDistribution.write(value:to:))
+        try writer["AvailabilityZoneIds"].writeList(value.availabilityZoneIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AvailabilityZoneImpairmentPolicy"].write(value.availabilityZoneImpairmentPolicy, with: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy.write(value:to:))
         try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CapacityRebalance"].write(value.capacityRebalance)
@@ -8224,6 +8280,7 @@ extension UpdateAutoScalingGroupInput {
         guard let value else { return }
         try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
         try writer["AvailabilityZoneDistribution"].write(value.availabilityZoneDistribution, with: AutoScalingClientTypes.AvailabilityZoneDistribution.write(value:to:))
+        try writer["AvailabilityZoneIds"].writeList(value.availabilityZoneIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AvailabilityZoneImpairmentPolicy"].write(value.availabilityZoneImpairmentPolicy, with: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy.write(value:to:))
         try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CapacityRebalance"].write(value.capacityRebalance)
@@ -10145,6 +10202,7 @@ extension AutoScalingClientTypes.AutoScalingGroup {
         value.predictedCapacity = try reader["PredictedCapacity"].readIfPresent()
         value.defaultCooldown = try reader["DefaultCooldown"].readIfPresent() ?? 0
         value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.availabilityZoneIds = try reader["AvailabilityZoneIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.loadBalancerNames = try reader["LoadBalancerNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.targetGroupARNs = try reader["TargetGroupARNs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.healthCheckType = try reader["HealthCheckType"].readIfPresent() ?? ""
@@ -10187,6 +10245,7 @@ extension AutoScalingClientTypes.AutoScalingInstanceDetails {
         value.instanceType = try reader["InstanceType"].readIfPresent()
         value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent() ?? ""
         value.availabilityZone = try reader["AvailabilityZone"].readIfPresent() ?? ""
+        value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
         value.lifecycleState = try reader["LifecycleState"].readIfPresent() ?? ""
         value.healthStatus = try reader["HealthStatus"].readIfPresent() ?? ""
         value.launchConfigurationName = try reader["LaunchConfigurationName"].readIfPresent()
@@ -10454,6 +10513,7 @@ extension AutoScalingClientTypes.Instance {
         value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
         value.instanceType = try reader["InstanceType"].readIfPresent()
         value.availabilityZone = try reader["AvailabilityZone"].readIfPresent() ?? ""
+        value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
         value.lifecycleState = try reader["LifecycleState"].readIfPresent() ?? .sdkUnknown("")
         value.healthStatus = try reader["HealthStatus"].readIfPresent() ?? ""
         value.launchConfigurationName = try reader["LaunchConfigurationName"].readIfPresent()

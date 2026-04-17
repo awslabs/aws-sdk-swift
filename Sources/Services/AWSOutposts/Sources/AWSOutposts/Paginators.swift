@@ -157,6 +157,7 @@ extension OutpostsClient {
 extension ListAssetsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListAssetsInput {
         return ListAssetsInput(
+            assetTypeFilter: self.assetTypeFilter,
             hostIdFilter: self.hostIdFilter,
             maxResults: self.maxResults,
             nextToken: token,

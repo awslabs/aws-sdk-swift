@@ -4535,6 +4535,8 @@ extension CustomerProfilesClientTypes {
     public struct RecommenderConfig: Swift.Sendable {
         /// Configuration settings for how the recommender processes and uses events.
         public var eventsConfig: CustomerProfilesClientTypes.EventsConfig?
+        /// A map of dataset type to a list of column names to train on. The column names must be a subset of the columns defined in the recommender schema. If not specified, all columns in the schema are used for training. The following columns are always included and do not need to be specified: Item.Id, ItemList[].Id, EventTimestamp, EventType, and EventValue.
+        public var includedColumns: [Swift.String: [Swift.String]]?
         /// Configuration settings for how the recommender handles inference requests.
         public var inferenceConfig: CustomerProfilesClientTypes.InferenceConfig?
         /// How often the recommender should retrain its model with new data.
@@ -4542,10 +4544,12 @@ extension CustomerProfilesClientTypes {
 
         public init(
             eventsConfig: CustomerProfilesClientTypes.EventsConfig? = nil,
+            includedColumns: [Swift.String: [Swift.String]]? = nil,
             inferenceConfig: CustomerProfilesClientTypes.InferenceConfig? = nil,
             trainingFrequency: Swift.Int? = nil
         ) {
             self.eventsConfig = eventsConfig
+            self.includedColumns = includedColumns
             self.inferenceConfig = inferenceConfig
             self.trainingFrequency = trainingFrequency
         }
@@ -4607,6 +4611,8 @@ public struct CreateRecommenderInput: Swift.Sendable {
     /// The name of the recommeder recipe.
     /// This member is required.
     public var recommenderRecipeName: CustomerProfilesClientTypes.RecommenderRecipeName?
+    /// The name of the recommender schema to use for this recommender. If not specified, the default schema is used.
+    public var recommenderSchemaName: Swift.String?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String: Swift.String]?
 
@@ -4616,6 +4622,7 @@ public struct CreateRecommenderInput: Swift.Sendable {
         recommenderConfig: CustomerProfilesClientTypes.RecommenderConfig? = nil,
         recommenderName: Swift.String? = nil,
         recommenderRecipeName: CustomerProfilesClientTypes.RecommenderRecipeName? = nil,
+        recommenderSchemaName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.description = description
@@ -4623,13 +4630,14 @@ public struct CreateRecommenderInput: Swift.Sendable {
         self.recommenderConfig = recommenderConfig
         self.recommenderName = recommenderName
         self.recommenderRecipeName = recommenderRecipeName
+        self.recommenderSchemaName = recommenderSchemaName
         self.tags = tags
     }
 }
 
 extension CreateRecommenderInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateRecommenderInput(domainName: \(Swift.String(describing: domainName)), recommenderConfig: \(Swift.String(describing: recommenderConfig)), recommenderName: \(Swift.String(describing: recommenderName)), recommenderRecipeName: \(Swift.String(describing: recommenderRecipeName)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+        "CreateRecommenderInput(domainName: \(Swift.String(describing: domainName)), recommenderConfig: \(Swift.String(describing: recommenderConfig)), recommenderName: \(Swift.String(describing: recommenderName)), recommenderRecipeName: \(Swift.String(describing: recommenderRecipeName)), recommenderSchemaName: \(Swift.String(describing: recommenderSchemaName)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateRecommenderOutput: Swift.Sendable {
@@ -4660,6 +4668,8 @@ public struct CreateRecommenderFilterInput: Swift.Sendable {
     /// The name of the recommender filter. The name must be unique within the domain.
     /// This member is required.
     public var recommenderFilterName: Swift.String?
+    /// The name of the recommender schema to use for this recommender filter. If not specified, the default schema is used.
+    public var recommenderSchemaName: Swift.String?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String: Swift.String]?
 
@@ -4668,19 +4678,21 @@ public struct CreateRecommenderFilterInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         recommenderFilterExpression: Swift.String? = nil,
         recommenderFilterName: Swift.String? = nil,
+        recommenderSchemaName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.description = description
         self.domainName = domainName
         self.recommenderFilterExpression = recommenderFilterExpression
         self.recommenderFilterName = recommenderFilterName
+        self.recommenderSchemaName = recommenderSchemaName
         self.tags = tags
     }
 }
 
 extension CreateRecommenderFilterInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateRecommenderFilterInput(domainName: \(Swift.String(describing: domainName)), recommenderFilterName: \(Swift.String(describing: recommenderFilterName)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", recommenderFilterExpression: \"CONTENT_REDACTED\")"}
+        "CreateRecommenderFilterInput(domainName: \(Swift.String(describing: domainName)), recommenderFilterName: \(Swift.String(describing: recommenderFilterName)), recommenderSchemaName: \(Swift.String(describing: recommenderSchemaName)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", recommenderFilterExpression: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateRecommenderFilterOutput: Swift.Sendable {
@@ -4695,6 +4707,150 @@ public struct CreateRecommenderFilterOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.recommenderFilterArn = recommenderFilterArn
+        self.tags = tags
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum FeatureType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case categorical
+        case textual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FeatureType] {
+            return [
+                .categorical,
+                .textual
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .categorical: return "CATEGORICAL"
+            case .textual: return "TEXTUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Defines a column in a recommender schema, including the target field name and optional feature and content type settings for training.
+    public struct RecommenderSchemaField: Swift.Sendable {
+        /// The data type of the column value. Valid values are String and Number. The default value is String.
+        public var contentType: CustomerProfilesClientTypes.ContentType?
+        /// How the column is treated for model training. Valid values are CATEGORICAL and TEXTUAL.
+        public var featureType: CustomerProfilesClientTypes.FeatureType?
+        /// The name of the target field in the dataset, such as Location.City or Attributes.MealTime.
+        /// This member is required.
+        public var targetFieldName: Swift.String?
+
+        public init(
+            contentType: CustomerProfilesClientTypes.ContentType? = nil,
+            featureType: CustomerProfilesClientTypes.FeatureType? = nil,
+            targetFieldName: Swift.String? = nil
+        ) {
+            self.contentType = contentType
+            self.featureType = featureType
+            self.targetFieldName = targetFieldName
+        }
+    }
+}
+
+public struct CreateRecommenderSchemaInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// A map of dataset type to column definitions that specifies which data columns to include in the schema. Currently only the _webAnalytics key is supported.
+    /// This member is required.
+    public var fields: [Swift.String: [CustomerProfilesClientTypes.RecommenderSchemaField]]?
+    /// The name of the recommender schema. The name must be unique within the domain.
+    /// This member is required.
+    public var recommenderSchemaName: Swift.String?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        domainName: Swift.String? = nil,
+        fields: [Swift.String: [CustomerProfilesClientTypes.RecommenderSchemaField]]? = nil,
+        recommenderSchemaName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.domainName = domainName
+        self.fields = fields
+        self.recommenderSchemaName = recommenderSchemaName
+        self.tags = tags
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum RecommenderSchemaStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case deleting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommenderSchemaStatus] {
+            return [
+                .active,
+                .deleting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deleting: return "DELETING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateRecommenderSchemaOutput: Swift.Sendable {
+    /// The timestamp of when the recommender schema was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// A map of dataset type to column definitions included in the schema.
+    /// This member is required.
+    public var fields: [Swift.String: [CustomerProfilesClientTypes.RecommenderSchemaField]]?
+    /// The Amazon Resource Name (ARN) of the recommender schema.
+    /// This member is required.
+    public var recommenderSchemaArn: Swift.String?
+    /// The name of the recommender schema.
+    /// This member is required.
+    public var recommenderSchemaName: Swift.String?
+    /// The status of the recommender schema.
+    /// This member is required.
+    public var status: CustomerProfilesClientTypes.RecommenderSchemaStatus?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        fields: [Swift.String: [CustomerProfilesClientTypes.RecommenderSchemaField]]? = nil,
+        recommenderSchemaArn: Swift.String? = nil,
+        recommenderSchemaName: Swift.String? = nil,
+        status: CustomerProfilesClientTypes.RecommenderSchemaStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.createdAt = createdAt
+        self.fields = fields
+        self.recommenderSchemaArn = recommenderSchemaArn
+        self.recommenderSchemaName = recommenderSchemaName
+        self.status = status
         self.tags = tags
     }
 }
@@ -5050,6 +5206,147 @@ extension CustomerProfilesClientTypes.SegmentGroup: Swift.CustomDebugStringConve
     }
 }
 
+extension CustomerProfilesClientTypes {
+
+    public enum SegmentSortDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case date
+        case number
+        case string
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SegmentSortDataType] {
+            return [
+                .date,
+                .number,
+                .string
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .date: return "DATE"
+            case .number: return "NUMBER"
+            case .string: return "STRING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum SegmentSortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case asc
+        case desc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SegmentSortOrder] {
+            return [
+                .asc,
+                .desc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .asc: return "ASC"
+            case .desc: return "DESC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum SortAttributeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case calculated
+        case profile
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortAttributeType] {
+            return [
+                .calculated,
+                .profile
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .calculated: return "CALCULATED"
+            case .profile: return "PROFILE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Defines the characteristics and rules for sorting by a specific attribute.
+    public struct SortAttribute: Swift.Sendable {
+        /// The data type of the sort attribute (e.g., string, number, date).
+        public var dataType: CustomerProfilesClientTypes.SegmentSortDataType?
+        /// The name of the attribute to sort by.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The sort order for the attribute (ascending or descending).
+        /// This member is required.
+        public var order: CustomerProfilesClientTypes.SegmentSortOrder?
+        /// The type of attribute (e.g., profile, calculated).
+        public var type: CustomerProfilesClientTypes.SortAttributeType?
+
+        public init(
+            dataType: CustomerProfilesClientTypes.SegmentSortDataType? = nil,
+            name: Swift.String? = nil,
+            order: CustomerProfilesClientTypes.SegmentSortOrder? = nil,
+            type: CustomerProfilesClientTypes.SortAttributeType? = .profile
+        ) {
+            self.dataType = dataType
+            self.name = name
+            self.order = order
+            self.type = type
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Defines how segments should be sorted and ordered in the results.
+    public struct SegmentSort: Swift.Sendable {
+        /// A list of attributes used to sort the segments and their ordering preferences.
+        /// This member is required.
+        public var attributes: [CustomerProfilesClientTypes.SortAttribute]?
+
+        public init(
+            attributes: [CustomerProfilesClientTypes.SortAttribute]? = nil
+        ) {
+            self.attributes = attributes
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes.SegmentSort: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 public struct CreateSegmentDefinitionInput: Swift.Sendable {
     /// The description of the segment definition.
     public var description: Swift.String?
@@ -5064,6 +5361,8 @@ public struct CreateSegmentDefinitionInput: Swift.Sendable {
     public var segmentDefinitionName: Swift.String?
     /// Specifies the base segments and dimensions for a segment definition along with their respective relationship.
     public var segmentGroups: CustomerProfilesClientTypes.SegmentGroup?
+    /// The segment sort.
+    public var segmentSort: CustomerProfilesClientTypes.SegmentSort?
     /// The segment SQL query.
     public var segmentSqlQuery: Swift.String?
     /// The tags used to organize, track, or control access for this resource.
@@ -5075,6 +5374,7 @@ public struct CreateSegmentDefinitionInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         segmentDefinitionName: Swift.String? = nil,
         segmentGroups: CustomerProfilesClientTypes.SegmentGroup? = nil,
+        segmentSort: CustomerProfilesClientTypes.SegmentSort? = nil,
         segmentSqlQuery: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
@@ -5083,6 +5383,7 @@ public struct CreateSegmentDefinitionInput: Swift.Sendable {
         self.domainName = domainName
         self.segmentDefinitionName = segmentDefinitionName
         self.segmentGroups = segmentGroups
+        self.segmentSort = segmentSort
         self.segmentSqlQuery = segmentSqlQuery
         self.tags = tags
     }
@@ -5090,7 +5391,7 @@ public struct CreateSegmentDefinitionInput: Swift.Sendable {
 
 extension CreateSegmentDefinitionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateSegmentDefinitionInput(displayName: \(Swift.String(describing: displayName)), domainName: \(Swift.String(describing: domainName)), segmentDefinitionName: \(Swift.String(describing: segmentDefinitionName)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", segmentGroups: \"CONTENT_REDACTED\", segmentSqlQuery: \"CONTENT_REDACTED\")"}
+        "CreateSegmentDefinitionInput(displayName: \(Swift.String(describing: displayName)), domainName: \(Swift.String(describing: domainName)), segmentDefinitionName: \(Swift.String(describing: segmentDefinitionName)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", segmentGroups: \"CONTENT_REDACTED\", segmentSort: \"CONTENT_REDACTED\", segmentSqlQuery: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateSegmentDefinitionOutput: Swift.Sendable {
@@ -5317,7 +5618,7 @@ extension CustomerProfilesClientTypes {
         public var contentType: CustomerProfilesClientTypes.FieldContentType?
         /// A field of a ProfileObject. For example: _source.FirstName, where “_source” is a ProfileObjectType of a Zendesk user and “FirstName” is a field in that ObjectType.
         public var source: Swift.String?
-        /// The location of the data in the standard ProfileObject model. For example: _profile.Address.PostalCode.
+        /// The location of the data in the standard ProfileObject model. For example: _profile.Address.PostalCode. Do not include sensitive or personally identifiable information (PII) in the target field name.
         public var target: Swift.String?
 
         public init(
@@ -5739,6 +6040,28 @@ public struct DeleteRecommenderFilterOutput: Swift.Sendable {
     ) {
         self.message = message
     }
+}
+
+public struct DeleteRecommenderSchemaInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The name of the recommender schema to delete.
+    /// This member is required.
+    public var recommenderSchemaName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        recommenderSchemaName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.recommenderSchemaName = recommenderSchemaName
+    }
+}
+
+public struct DeleteRecommenderSchemaOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DeleteSegmentDefinitionInput: Swift.Sendable {
@@ -6318,35 +6641,6 @@ public struct GetDomainObjectTypeInput: Swift.Sendable {
     ) {
         self.domainName = domainName
         self.objectTypeName = objectTypeName
-    }
-}
-
-extension CustomerProfilesClientTypes {
-
-    public enum FeatureType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case categorical
-        case textual
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [FeatureType] {
-            return [
-                .categorical,
-                .textual
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .categorical: return "CATEGORICAL"
-            case .textual: return "TEXTUAL"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -7569,7 +7863,14 @@ extension CustomerProfilesClientTypes {
         case coverage
         case freshness
         case hit
+        case meanReciprocalRankAt25
+        case normalizedDiscountedCumulativeGainAt10
+        case normalizedDiscountedCumulativeGainAt25
+        case normalizedDiscountedCumulativeGainAt5
         case popularity
+        case precisionAt10
+        case precisionAt25
+        case precisionAt5
         case recall
         case similarity
         case sdkUnknown(Swift.String)
@@ -7579,7 +7880,14 @@ extension CustomerProfilesClientTypes {
                 .coverage,
                 .freshness,
                 .hit,
+                .meanReciprocalRankAt25,
+                .normalizedDiscountedCumulativeGainAt10,
+                .normalizedDiscountedCumulativeGainAt25,
+                .normalizedDiscountedCumulativeGainAt5,
                 .popularity,
+                .precisionAt10,
+                .precisionAt25,
+                .precisionAt5,
                 .recall,
                 .similarity
             ]
@@ -7595,7 +7903,14 @@ extension CustomerProfilesClientTypes {
             case .coverage: return "coverage"
             case .freshness: return "freshness"
             case .hit: return "hit"
+            case .meanReciprocalRankAt25: return "mean_reciprocal_rank_at_25"
+            case .normalizedDiscountedCumulativeGainAt10: return "normalized_discounted_cumulative_gain_at_10"
+            case .normalizedDiscountedCumulativeGainAt25: return "normalized_discounted_cumulative_gain_at_25"
+            case .normalizedDiscountedCumulativeGainAt5: return "normalized_discounted_cumulative_gain_at_5"
             case .popularity: return "popularity"
+            case .precisionAt10: return "precision_at_10"
+            case .precisionAt25: return "precision_at_25"
+            case .precisionAt5: return "precision_at_5"
             case .recall: return "recall"
             case .similarity: return "similarity"
             case let .sdkUnknown(s): return s
@@ -7642,6 +7957,8 @@ public struct GetRecommenderOutput: Swift.Sendable {
     /// The name of the recipe used by the recommender to generate recommendations.
     /// This member is required.
     public var recommenderRecipeName: CustomerProfilesClientTypes.RecommenderRecipeName?
+    /// The name of the recommender schema associated with this recommender.
+    public var recommenderSchemaName: Swift.String?
     /// The current status of the recommender, indicating whether it is active, creating, updating, or in another state.
     public var status: CustomerProfilesClientTypes.RecommenderStatus?
     /// The tags used to organize, track, or control access for this resource.
@@ -7658,6 +7975,7 @@ public struct GetRecommenderOutput: Swift.Sendable {
         recommenderConfig: CustomerProfilesClientTypes.RecommenderConfig? = nil,
         recommenderName: Swift.String? = nil,
         recommenderRecipeName: CustomerProfilesClientTypes.RecommenderRecipeName? = nil,
+        recommenderSchemaName: Swift.String? = nil,
         status: CustomerProfilesClientTypes.RecommenderStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         trainingMetrics: [CustomerProfilesClientTypes.TrainingMetrics]? = nil
@@ -7670,6 +7988,7 @@ public struct GetRecommenderOutput: Swift.Sendable {
         self.recommenderConfig = recommenderConfig
         self.recommenderName = recommenderName
         self.recommenderRecipeName = recommenderRecipeName
+        self.recommenderSchemaName = recommenderSchemaName
         self.status = status
         self.tags = tags
         self.trainingMetrics = trainingMetrics
@@ -7678,7 +7997,7 @@ public struct GetRecommenderOutput: Swift.Sendable {
 
 extension GetRecommenderOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetRecommenderOutput(createdAt: \(Swift.String(describing: createdAt)), failureReason: \(Swift.String(describing: failureReason)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), latestRecommenderUpdate: \(Swift.String(describing: latestRecommenderUpdate)), recommenderConfig: \(Swift.String(describing: recommenderConfig)), recommenderName: \(Swift.String(describing: recommenderName)), recommenderRecipeName: \(Swift.String(describing: recommenderRecipeName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), trainingMetrics: \(Swift.String(describing: trainingMetrics)), description: \"CONTENT_REDACTED\")"}
+        "GetRecommenderOutput(createdAt: \(Swift.String(describing: createdAt)), failureReason: \(Swift.String(describing: failureReason)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), latestRecommenderUpdate: \(Swift.String(describing: latestRecommenderUpdate)), recommenderConfig: \(Swift.String(describing: recommenderConfig)), recommenderName: \(Swift.String(describing: recommenderName)), recommenderRecipeName: \(Swift.String(describing: recommenderRecipeName)), recommenderSchemaName: \(Swift.String(describing: recommenderSchemaName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), trainingMetrics: \(Swift.String(describing: trainingMetrics)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetRecommenderFilterInput: Swift.Sendable {
@@ -7750,6 +8069,8 @@ public struct GetRecommenderFilterOutput: Swift.Sendable {
     /// The name of the recommender filter.
     /// This member is required.
     public var recommenderFilterName: Swift.String?
+    /// The name of the recommender schema associated with this recommender filter.
+    public var recommenderSchemaName: Swift.String?
     /// The status of the recommender filter.
     /// This member is required.
     public var status: CustomerProfilesClientTypes.RecommenderFilterStatus?
@@ -7763,6 +8084,7 @@ public struct GetRecommenderFilterOutput: Swift.Sendable {
         failureReason: Swift.String? = nil,
         recommenderFilterExpression: Swift.String? = nil,
         recommenderFilterName: Swift.String? = nil,
+        recommenderSchemaName: Swift.String? = nil,
         status: CustomerProfilesClientTypes.RecommenderFilterStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
@@ -7771,6 +8093,7 @@ public struct GetRecommenderFilterOutput: Swift.Sendable {
         self.failureReason = failureReason
         self.recommenderFilterExpression = recommenderFilterExpression
         self.recommenderFilterName = recommenderFilterName
+        self.recommenderSchemaName = recommenderSchemaName
         self.status = status
         self.tags = tags
     }
@@ -7778,7 +8101,51 @@ public struct GetRecommenderFilterOutput: Swift.Sendable {
 
 extension GetRecommenderFilterOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetRecommenderFilterOutput(createdAt: \(Swift.String(describing: createdAt)), failureReason: \(Swift.String(describing: failureReason)), recommenderFilterName: \(Swift.String(describing: recommenderFilterName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", recommenderFilterExpression: \"CONTENT_REDACTED\")"}
+        "GetRecommenderFilterOutput(createdAt: \(Swift.String(describing: createdAt)), failureReason: \(Swift.String(describing: failureReason)), recommenderFilterName: \(Swift.String(describing: recommenderFilterName)), recommenderSchemaName: \(Swift.String(describing: recommenderSchemaName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", recommenderFilterExpression: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetRecommenderSchemaInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The name of the recommender schema to retrieve.
+    /// This member is required.
+    public var recommenderSchemaName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        recommenderSchemaName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.recommenderSchemaName = recommenderSchemaName
+    }
+}
+
+public struct GetRecommenderSchemaOutput: Swift.Sendable {
+    /// The timestamp of when the recommender schema was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// A map of dataset type to column definitions included in the schema.
+    /// This member is required.
+    public var fields: [Swift.String: [CustomerProfilesClientTypes.RecommenderSchemaField]]?
+    /// The name of the recommender schema.
+    /// This member is required.
+    public var recommenderSchemaName: Swift.String?
+    /// The status of the recommender schema.
+    /// This member is required.
+    public var status: CustomerProfilesClientTypes.RecommenderSchemaStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        fields: [Swift.String: [CustomerProfilesClientTypes.RecommenderSchemaField]]? = nil,
+        recommenderSchemaName: Swift.String? = nil,
+        status: CustomerProfilesClientTypes.RecommenderSchemaStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.fields = fields
+        self.recommenderSchemaName = recommenderSchemaName
+        self.status = status
+    }
 }
 
 public struct GetSegmentDefinitionInput: Swift.Sendable {
@@ -7841,6 +8208,8 @@ public struct GetSegmentDefinitionOutput: Swift.Sendable {
     public var segmentDefinitionName: Swift.String?
     /// The segment criteria associated with this definition.
     public var segmentGroups: CustomerProfilesClientTypes.SegmentGroup?
+    /// The segment sort.
+    public var segmentSort: CustomerProfilesClientTypes.SegmentSort?
     /// The segment SQL query.
     public var segmentSqlQuery: Swift.String?
     /// The segment type. Classic : Segments created using traditional SegmentGroup structure Enhanced : Segments created using SQL queries
@@ -7855,6 +8224,7 @@ public struct GetSegmentDefinitionOutput: Swift.Sendable {
         segmentDefinitionArn: Swift.String? = nil,
         segmentDefinitionName: Swift.String? = nil,
         segmentGroups: CustomerProfilesClientTypes.SegmentGroup? = nil,
+        segmentSort: CustomerProfilesClientTypes.SegmentSort? = nil,
         segmentSqlQuery: Swift.String? = nil,
         segmentType: CustomerProfilesClientTypes.SegmentType? = nil,
         tags: [Swift.String: Swift.String]? = nil
@@ -7865,6 +8235,7 @@ public struct GetSegmentDefinitionOutput: Swift.Sendable {
         self.segmentDefinitionArn = segmentDefinitionArn
         self.segmentDefinitionName = segmentDefinitionName
         self.segmentGroups = segmentGroups
+        self.segmentSort = segmentSort
         self.segmentSqlQuery = segmentSqlQuery
         self.segmentType = segmentType
         self.tags = tags
@@ -7873,7 +8244,7 @@ public struct GetSegmentDefinitionOutput: Swift.Sendable {
 
 extension GetSegmentDefinitionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetSegmentDefinitionOutput(createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), segmentDefinitionArn: \(Swift.String(describing: segmentDefinitionArn)), segmentDefinitionName: \(Swift.String(describing: segmentDefinitionName)), segmentType: \(Swift.String(describing: segmentType)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", segmentGroups: \"CONTENT_REDACTED\", segmentSqlQuery: \"CONTENT_REDACTED\")"}
+        "GetSegmentDefinitionOutput(createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), segmentDefinitionArn: \(Swift.String(describing: segmentDefinitionArn)), segmentDefinitionName: \(Swift.String(describing: segmentDefinitionName)), segmentType: \(Swift.String(describing: segmentType)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", segmentGroups: \"CONTENT_REDACTED\", segmentSort: \"CONTENT_REDACTED\", segmentSqlQuery: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetSegmentEstimateInput: Swift.Sendable {
@@ -9891,6 +10262,8 @@ extension CustomerProfilesClientTypes {
         public var recommenderFilterExpression: Swift.String?
         /// The name of the recommender filter.
         public var recommenderFilterName: Swift.String?
+        /// The name of the recommender schema associated with this recommender filter.
+        public var recommenderSchemaName: Swift.String?
         /// The current operational status of the recommender filter.
         public var status: CustomerProfilesClientTypes.RecommenderFilterStatus?
         /// The tags used to organize, track, or control access for this resource.
@@ -9902,6 +10275,7 @@ extension CustomerProfilesClientTypes {
             failureReason: Swift.String? = nil,
             recommenderFilterExpression: Swift.String? = nil,
             recommenderFilterName: Swift.String? = nil,
+            recommenderSchemaName: Swift.String? = nil,
             status: CustomerProfilesClientTypes.RecommenderFilterStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
         ) {
@@ -9910,6 +10284,7 @@ extension CustomerProfilesClientTypes {
             self.failureReason = failureReason
             self.recommenderFilterExpression = recommenderFilterExpression
             self.recommenderFilterName = recommenderFilterName
+            self.recommenderSchemaName = recommenderSchemaName
             self.status = status
             self.tags = tags
         }
@@ -9918,7 +10293,7 @@ extension CustomerProfilesClientTypes {
 
 extension CustomerProfilesClientTypes.RecommenderFilterSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RecommenderFilterSummary(createdAt: \(Swift.String(describing: createdAt)), failureReason: \(Swift.String(describing: failureReason)), recommenderFilterName: \(Swift.String(describing: recommenderFilterName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", recommenderFilterExpression: \"CONTENT_REDACTED\")"}
+        "RecommenderFilterSummary(createdAt: \(Swift.String(describing: createdAt)), failureReason: \(Swift.String(describing: failureReason)), recommenderFilterName: \(Swift.String(describing: recommenderFilterName)), recommenderSchemaName: \(Swift.String(describing: recommenderSchemaName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", recommenderFilterExpression: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListRecommenderFiltersOutput: Swift.Sendable {
@@ -10025,6 +10400,8 @@ extension CustomerProfilesClientTypes {
         public var recommenderConfig: CustomerProfilesClientTypes.RecommenderConfig?
         /// The name of the recommender.
         public var recommenderName: Swift.String?
+        /// The name of the recommender schema associated with this recommender.
+        public var recommenderSchemaName: Swift.String?
         /// The current operational status of the recommender.
         public var status: CustomerProfilesClientTypes.RecommenderStatus?
         /// The tags used to organize, track, or control access for this resource.
@@ -10039,6 +10416,7 @@ extension CustomerProfilesClientTypes {
             recipeName: CustomerProfilesClientTypes.RecommenderRecipeName? = nil,
             recommenderConfig: CustomerProfilesClientTypes.RecommenderConfig? = nil,
             recommenderName: Swift.String? = nil,
+            recommenderSchemaName: Swift.String? = nil,
             status: CustomerProfilesClientTypes.RecommenderStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
         ) {
@@ -10050,6 +10428,7 @@ extension CustomerProfilesClientTypes {
             self.recipeName = recipeName
             self.recommenderConfig = recommenderConfig
             self.recommenderName = recommenderName
+            self.recommenderSchemaName = recommenderSchemaName
             self.status = status
             self.tags = tags
         }
@@ -10058,7 +10437,7 @@ extension CustomerProfilesClientTypes {
 
 extension CustomerProfilesClientTypes.RecommenderSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RecommenderSummary(createdAt: \(Swift.String(describing: createdAt)), failureReason: \(Swift.String(describing: failureReason)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), latestRecommenderUpdate: \(Swift.String(describing: latestRecommenderUpdate)), recipeName: \(Swift.String(describing: recipeName)), recommenderConfig: \(Swift.String(describing: recommenderConfig)), recommenderName: \(Swift.String(describing: recommenderName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+        "RecommenderSummary(createdAt: \(Swift.String(describing: createdAt)), failureReason: \(Swift.String(describing: failureReason)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), latestRecommenderUpdate: \(Swift.String(describing: latestRecommenderUpdate)), recipeName: \(Swift.String(describing: recipeName)), recommenderConfig: \(Swift.String(describing: recommenderConfig)), recommenderName: \(Swift.String(describing: recommenderName)), recommenderSchemaName: \(Swift.String(describing: recommenderSchemaName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListRecommendersOutput: Swift.Sendable {
@@ -10073,6 +10452,72 @@ public struct ListRecommendersOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.recommenders = recommenders
+    }
+}
+
+public struct ListRecommenderSchemasInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The maximum number of recommender schemas to return in the response. The default value is 100.
+    public var maxResults: Swift.Int?
+    /// A token received from a previous ListRecommenderSchemas call to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Provides a summary of a recommender schema's configuration and current state.
+    public struct RecommenderSchemaSummary: Swift.Sendable {
+        /// The timestamp when the recommender schema was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// A map of dataset type to column definitions included in the schema.
+        /// This member is required.
+        public var fields: [Swift.String: [CustomerProfilesClientTypes.RecommenderSchemaField]]?
+        /// The name of the recommender schema.
+        /// This member is required.
+        public var recommenderSchemaName: Swift.String?
+        /// The current operational status of the recommender schema.
+        /// This member is required.
+        public var status: CustomerProfilesClientTypes.RecommenderSchemaStatus?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            fields: [Swift.String: [CustomerProfilesClientTypes.RecommenderSchemaField]]? = nil,
+            recommenderSchemaName: Swift.String? = nil,
+            status: CustomerProfilesClientTypes.RecommenderSchemaStatus? = nil
+        ) {
+            self.createdAt = createdAt
+            self.fields = fields
+            self.recommenderSchemaName = recommenderSchemaName
+            self.status = status
+        }
+    }
+}
+
+public struct ListRecommenderSchemasOutput: Swift.Sendable {
+    /// A token to retrieve the next page of results. Null if there are no more results to retrieve.
+    public var nextToken: Swift.String?
+    /// A list of recommender schemas and their properties in the specified domain.
+    public var recommenderSchemas: [CustomerProfilesClientTypes.RecommenderSchemaSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        recommenderSchemas: [CustomerProfilesClientTypes.RecommenderSchemaSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.recommenderSchemas = recommenderSchemas
     }
 }
 
@@ -11850,6 +12295,19 @@ extension CreateRecommenderFilterInput {
     }
 }
 
+extension CreateRecommenderSchemaInput {
+
+    static func urlPathProvider(_ value: CreateRecommenderSchemaInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let recommenderSchemaName = value.recommenderSchemaName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/recommender-schemas/\(recommenderSchemaName.urlPercentEncoding())"
+    }
+}
+
 extension CreateSegmentDefinitionInput {
 
     static func urlPathProvider(_ value: CreateSegmentDefinitionInput) -> Swift.String? {
@@ -12047,6 +12505,19 @@ extension DeleteRecommenderFilterInput {
             return nil
         }
         return "/domains/\(domainName.urlPercentEncoding())/recommender-filters/\(recommenderFilterName.urlPercentEncoding())"
+    }
+}
+
+extension DeleteRecommenderSchemaInput {
+
+    static func urlPathProvider(_ value: DeleteRecommenderSchemaInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let recommenderSchemaName = value.recommenderSchemaName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/recommender-schemas/\(recommenderSchemaName.urlPercentEncoding())"
     }
 }
 
@@ -12339,6 +12810,19 @@ extension GetRecommenderFilterInput {
             return nil
         }
         return "/domains/\(domainName.urlPercentEncoding())/recommender-filters/\(recommenderFilterName.urlPercentEncoding())"
+    }
+}
+
+extension GetRecommenderSchemaInput {
+
+    static func urlPathProvider(_ value: GetRecommenderSchemaInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let recommenderSchemaName = value.recommenderSchemaName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/recommender-schemas/\(recommenderSchemaName.urlPercentEncoding())"
     }
 }
 
@@ -13006,6 +13490,32 @@ extension ListRecommendersInput {
     }
 }
 
+extension ListRecommenderSchemasInput {
+
+    static func urlPathProvider(_ value: ListRecommenderSchemasInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/recommender-schemas"
+    }
+}
+
+extension ListRecommenderSchemasInput {
+
+    static func queryItemProvider(_ value: ListRecommenderSchemasInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListRuleBasedMatchesInput {
 
     static func urlPathProvider(_ value: ListRuleBasedMatchesInput) -> Swift.String? {
@@ -13504,6 +14014,7 @@ extension CreateRecommenderInput {
         try writer["Description"].write(value.description)
         try writer["RecommenderConfig"].write(value.recommenderConfig, with: CustomerProfilesClientTypes.RecommenderConfig.write(value:to:))
         try writer["RecommenderRecipeName"].write(value.recommenderRecipeName)
+        try writer["RecommenderSchemaName"].write(value.recommenderSchemaName)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -13514,6 +14025,16 @@ extension CreateRecommenderFilterInput {
         guard let value else { return }
         try writer["Description"].write(value.description)
         try writer["RecommenderFilterExpression"].write(value.recommenderFilterExpression)
+        try writer["RecommenderSchemaName"].write(value.recommenderSchemaName)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateRecommenderSchemaInput {
+
+    static func write(value: CreateRecommenderSchemaInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Fields"].writeMap(value.fields, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: CustomerProfilesClientTypes.RecommenderSchemaField.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -13525,6 +14046,7 @@ extension CreateSegmentDefinitionInput {
         try writer["Description"].write(value.description)
         try writer["DisplayName"].write(value.displayName)
         try writer["SegmentGroups"].write(value.segmentGroups, with: CustomerProfilesClientTypes.SegmentGroup.write(value:to:))
+        try writer["SegmentSort"].write(value.segmentSort, with: CustomerProfilesClientTypes.SegmentSort.write(value:to:))
         try writer["SegmentSqlQuery"].write(value.segmentSqlQuery)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -14057,6 +14579,23 @@ extension CreateRecommenderFilterOutput {
     }
 }
 
+extension CreateRecommenderSchemaOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRecommenderSchemaOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateRecommenderSchemaOutput()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.fields = try reader["Fields"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: CustomerProfilesClientTypes.RecommenderSchemaField.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.recommenderSchemaArn = try reader["RecommenderSchemaArn"].readIfPresent() ?? ""
+        value.recommenderSchemaName = try reader["RecommenderSchemaName"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension CreateSegmentDefinitionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateSegmentDefinitionOutput {
@@ -14245,6 +14784,13 @@ extension DeleteRecommenderFilterOutput {
         var value = DeleteRecommenderFilterOutput()
         value.message = try reader["Message"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension DeleteRecommenderSchemaOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRecommenderSchemaOutput {
+        return DeleteRecommenderSchemaOutput()
     }
 }
 
@@ -14596,6 +15142,7 @@ extension GetRecommenderOutput {
         value.recommenderConfig = try reader["RecommenderConfig"].readIfPresent(with: CustomerProfilesClientTypes.RecommenderConfig.read(from:))
         value.recommenderName = try reader["RecommenderName"].readIfPresent() ?? ""
         value.recommenderRecipeName = try reader["RecommenderRecipeName"].readIfPresent() ?? .sdkUnknown("")
+        value.recommenderSchemaName = try reader["RecommenderSchemaName"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.trainingMetrics = try reader["TrainingMetrics"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.TrainingMetrics.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -14615,8 +15162,24 @@ extension GetRecommenderFilterOutput {
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.recommenderFilterExpression = try reader["RecommenderFilterExpression"].readIfPresent() ?? ""
         value.recommenderFilterName = try reader["RecommenderFilterName"].readIfPresent() ?? ""
+        value.recommenderSchemaName = try reader["RecommenderSchemaName"].readIfPresent()
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension GetRecommenderSchemaOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRecommenderSchemaOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRecommenderSchemaOutput()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.fields = try reader["Fields"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: CustomerProfilesClientTypes.RecommenderSchemaField.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.recommenderSchemaName = try reader["RecommenderSchemaName"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -14634,6 +15197,7 @@ extension GetSegmentDefinitionOutput {
         value.segmentDefinitionArn = try reader["SegmentDefinitionArn"].readIfPresent() ?? ""
         value.segmentDefinitionName = try reader["SegmentDefinitionName"].readIfPresent()
         value.segmentGroups = try reader["SegmentGroups"].readIfPresent(with: CustomerProfilesClientTypes.SegmentGroup.read(from:))
+        value.segmentSort = try reader["SegmentSort"].readIfPresent(with: CustomerProfilesClientTypes.SegmentSort.read(from:))
         value.segmentSqlQuery = try reader["SegmentSqlQuery"].readIfPresent()
         value.segmentType = try reader["SegmentType"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -15035,6 +15599,19 @@ extension ListRecommendersOutput {
         var value = ListRecommendersOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.recommenders = try reader["Recommenders"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.RecommenderSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListRecommenderSchemasOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRecommenderSchemasOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRecommenderSchemasOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.recommenderSchemas = try reader["RecommenderSchemas"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.RecommenderSchemaSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -15574,6 +16151,24 @@ enum CreateRecommenderFilterOutputError {
     }
 }
 
+enum CreateRecommenderSchemaOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateSegmentDefinitionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15863,6 +16458,24 @@ enum DeleteRecommenderOutputError {
 }
 
 enum DeleteRecommenderFilterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteRecommenderSchemaOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -16241,6 +16854,24 @@ enum GetRecommenderOutputError {
 }
 
 enum GetRecommenderFilterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetRecommenderSchemaOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -16762,6 +17393,24 @@ enum ListRecommenderRecipesOutputError {
 }
 
 enum ListRecommendersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRecommenderSchemasOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -18775,6 +19424,7 @@ extension CustomerProfilesClientTypes.RecommenderConfig {
     static func write(value: CustomerProfilesClientTypes.RecommenderConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EventsConfig"].write(value.eventsConfig, with: CustomerProfilesClientTypes.EventsConfig.write(value:to:))
+        try writer["IncludedColumns"].writeMap(value.includedColumns, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["InferenceConfig"].write(value.inferenceConfig, with: CustomerProfilesClientTypes.InferenceConfig.write(value:to:))
         try writer["TrainingFrequency"].write(value.trainingFrequency)
     }
@@ -18785,6 +19435,7 @@ extension CustomerProfilesClientTypes.RecommenderConfig {
         value.eventsConfig = try reader["EventsConfig"].readIfPresent(with: CustomerProfilesClientTypes.EventsConfig.read(from:))
         value.trainingFrequency = try reader["TrainingFrequency"].readIfPresent()
         value.inferenceConfig = try reader["InferenceConfig"].readIfPresent(with: CustomerProfilesClientTypes.InferenceConfig.read(from:))
+        value.includedColumns = try reader["IncludedColumns"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -18804,6 +19455,7 @@ extension CustomerProfilesClientTypes.RecommenderFilterSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.RecommenderFilterSummary()
         value.recommenderFilterName = try reader["RecommenderFilterName"].readIfPresent()
+        value.recommenderSchemaName = try reader["RecommenderSchemaName"].readIfPresent()
         value.recommenderFilterExpression = try reader["RecommenderFilterExpression"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent()
@@ -18836,6 +19488,38 @@ extension CustomerProfilesClientTypes.RecommenderRecipe {
     }
 }
 
+extension CustomerProfilesClientTypes.RecommenderSchemaField {
+
+    static func write(value: CustomerProfilesClientTypes.RecommenderSchemaField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContentType"].write(value.contentType)
+        try writer["FeatureType"].write(value.featureType)
+        try writer["TargetFieldName"].write(value.targetFieldName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.RecommenderSchemaField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.RecommenderSchemaField()
+        value.targetFieldName = try reader["TargetFieldName"].readIfPresent() ?? ""
+        value.contentType = try reader["ContentType"].readIfPresent()
+        value.featureType = try reader["FeatureType"].readIfPresent()
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.RecommenderSchemaSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.RecommenderSchemaSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.RecommenderSchemaSummary()
+        value.recommenderSchemaName = try reader["RecommenderSchemaName"].readIfPresent() ?? ""
+        value.fields = try reader["Fields"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: CustomerProfilesClientTypes.RecommenderSchemaField.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension CustomerProfilesClientTypes.RecommenderSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.RecommenderSummary {
@@ -18843,6 +19527,7 @@ extension CustomerProfilesClientTypes.RecommenderSummary {
         var value = CustomerProfilesClientTypes.RecommenderSummary()
         value.recommenderName = try reader["RecommenderName"].readIfPresent()
         value.recipeName = try reader["RecipeName"].readIfPresent()
+        value.recommenderSchemaName = try reader["RecommenderSchemaName"].readIfPresent()
         value.recommenderConfig = try reader["RecommenderConfig"].readIfPresent(with: CustomerProfilesClientTypes.RecommenderConfig.read(from:))
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent()
@@ -19015,11 +19700,47 @@ extension CustomerProfilesClientTypes.SegmentGroupStructure {
     }
 }
 
+extension CustomerProfilesClientTypes.SegmentSort {
+
+    static func write(value: CustomerProfilesClientTypes.SegmentSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: CustomerProfilesClientTypes.SortAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.SegmentSort {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.SegmentSort()
+        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.SortAttribute.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension CustomerProfilesClientTypes.ServiceNowSourceProperties {
 
     static func write(value: CustomerProfilesClientTypes.ServiceNowSourceProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Object"].write(value.object)
+    }
+}
+
+extension CustomerProfilesClientTypes.SortAttribute {
+
+    static func write(value: CustomerProfilesClientTypes.SortAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataType"].write(value.dataType)
+        try writer["Name"].write(value.name)
+        try writer["Order"].write(value.order)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.SortAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.SortAttribute()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.dataType = try reader["DataType"].readIfPresent()
+        value.order = try reader["Order"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["Type"].readIfPresent() ?? CustomerProfilesClientTypes.SortAttributeType.profile
+        return value
     }
 }
 

@@ -32,6 +32,40 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The agent card definition for an A2A descriptor. Contains the schema version and inline content for the agent card.
+    public struct AgentCardDefinition: Swift.Sendable {
+        /// The JSON content containing the A2A agent card definition, conforming to the A2A protocol specification.
+        public var inlineContent: Swift.String?
+        /// The schema version of the agent card based on the A2A protocol specification.
+        public var schemaVersion: Swift.String?
+
+        public init(
+            inlineContent: Swift.String? = nil,
+            schemaVersion: Swift.String? = nil
+        ) {
+            self.inlineContent = inlineContent
+            self.schemaVersion = schemaVersion
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The Agent-to-Agent (A2A) protocol descriptor for a registry record. Contains the agent card definition as defined by the A2A protocol specification.
+    public struct A2aDescriptor: Swift.Sendable {
+        /// The agent card definition for the A2A agent, as defined by the A2A protocol specification.
+        public var agentCard: BedrockAgentCoreControlClientTypes.AgentCardDefinition?
+
+        public init(
+            agentCard: BedrockAgentCoreControlClientTypes.AgentCardDefinition? = nil
+        ) {
+            self.agentCard = agentCard
+        }
+    }
+}
+
 /// This exception is thrown when a request is denied per access permissions
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1721,6 +1755,59 @@ public struct UpdateAgentRuntimeOutput: Swift.Sendable {
         self.lastUpdatedAt = lastUpdatedAt
         self.status = status
         self.workloadIdentityDetails = workloadIdentityDetails
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The structured skill definition with schema version and content.
+    public struct SkillDefinition: Swift.Sendable {
+        /// The JSON content containing the structured skill definition.
+        public var inlineContent: Swift.String?
+        /// The version of the skill definition schema.
+        public var schemaVersion: Swift.String?
+
+        public init(
+            inlineContent: Swift.String? = nil,
+            schemaVersion: Swift.String? = nil
+        ) {
+            self.inlineContent = inlineContent
+            self.schemaVersion = schemaVersion
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The skill markdown definition for an agent skills descriptor.
+    public struct SkillMdDefinition: Swift.Sendable {
+        /// The markdown content describing the agent's skills in a human-readable format.
+        public var inlineContent: Swift.String?
+
+        public init(
+            inlineContent: Swift.String? = nil
+        ) {
+            self.inlineContent = inlineContent
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The agent skills descriptor for a registry record. Contains an optional skill markdown definition in human-readable format and an optional structured skill definition.
+    public struct AgentSkillsDescriptor: Swift.Sendable {
+        /// The structured skill definition with schema version and content.
+        public var skillDefinition: BedrockAgentCoreControlClientTypes.SkillDefinition?
+        /// The optional skill markdown definition describing the agent's skills in a human-readable format.
+        public var skillMd: BedrockAgentCoreControlClientTypes.SkillMdDefinition?
+
+        public init(
+            skillDefinition: BedrockAgentCoreControlClientTypes.SkillDefinition? = nil,
+            skillMd: BedrockAgentCoreControlClientTypes.SkillMdDefinition? = nil
+        ) {
+            self.skillDefinition = skillDefinition
+            self.skillMd = skillMd
+        }
     }
 }
 
@@ -3478,7 +3565,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.LlmAsAJudgeEvaluatorConfig: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "LlmAsAJudgeEvaluatorConfig(modelConfig: \(Swift.String(describing: modelConfig)), ratingScale: \(Swift.String(describing: ratingScale)), instructions: \"CONTENT_REDACTED\")"}
+        "LlmAsAJudgeEvaluatorConfig(modelConfig: \(Swift.String(describing: modelConfig)), instructions: \"CONTENT_REDACTED\", ratingScale: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -4895,6 +4982,26 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// An IAM credential provider for gateway authentication. This structure contains the configuration for authenticating with the target endpoint using IAM credentials and SigV4 signing.
+    public struct IamCredentialProvider: Swift.Sendable {
+        /// The Amazon Web Services Region used for SigV4 signing. If not specified, defaults to the gateway's Region.
+        public var region: Swift.String?
+        /// The target Amazon Web Services service name used for SigV4 signing. This value identifies the service that the gateway authenticates with when making requests to the target endpoint.
+        /// This member is required.
+        public var service: Swift.String?
+
+        public init(
+            region: Swift.String? = nil,
+            service: Swift.String? = nil
+        ) {
+            self.region = region
+            self.service = service
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     public enum OAuthGrantType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case authorizationCode
         case clientCredentials
@@ -4972,6 +5079,8 @@ extension BedrockAgentCoreControlClientTypes {
         case oauthcredentialprovider(BedrockAgentCoreControlClientTypes.OAuthCredentialProvider)
         /// The API key credential provider. This provider uses an API key to authenticate with the target endpoint.
         case apikeycredentialprovider(BedrockAgentCoreControlClientTypes.GatewayApiKeyCredentialProvider)
+        /// The IAM credential provider. This provider uses IAM authentication with SigV4 signing to access the target endpoint.
+        case iamcredentialprovider(BedrockAgentCoreControlClientTypes.IamCredentialProvider)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5048,6 +5157,95 @@ extension BedrockAgentCoreControlClientTypes {
             self.allowedRequestHeaders = allowedRequestHeaders
             self.allowedResponseHeaders = allowedResponseHeaders
         }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum EndpointIpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndpointIpAddressType] {
+            return [
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for a managed VPC Lattice resource. The gateway creates and manages the VPC Lattice resource gateway and resource configuration on your behalf using a service-linked role.
+    public struct ManagedLatticeResource: Swift.Sendable {
+        /// The IP address type for the resource configuration endpoint.
+        /// This member is required.
+        public var endpointIpAddressType: BedrockAgentCoreControlClientTypes.EndpointIpAddressType?
+        /// An intermediate publicly resolvable domain used as the VPC Lattice resource configuration endpoint. Required when your private endpoint uses a domain that is not publicly resolvable.
+        public var routingDomain: Swift.String?
+        /// The security group IDs to associate with the VPC Lattice resource gateway. If not specified, the default security group for the VPC is used.
+        public var securityGroupIds: [Swift.String]?
+        /// The subnet IDs within the VPC where the VPC Lattice resource gateway is placed.
+        /// This member is required.
+        public var subnetIds: [Swift.String]?
+        /// Tags to apply to the managed VPC Lattice resource gateway.
+        public var tags: [Swift.String: Swift.String]?
+        /// The ID of the VPC that contains your private resource.
+        /// This member is required.
+        public var vpcIdentifier: Swift.String?
+
+        public init(
+            endpointIpAddressType: BedrockAgentCoreControlClientTypes.EndpointIpAddressType? = nil,
+            routingDomain: Swift.String? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            vpcIdentifier: Swift.String? = nil
+        ) {
+            self.endpointIpAddressType = endpointIpAddressType
+            self.routingDomain = routingDomain
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.tags = tags
+            self.vpcIdentifier = vpcIdentifier
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for a self-managed VPC Lattice resource. You create and manage the VPC Lattice resource gateway and resource configuration, then provide the resource configuration identifier.
+    public enum SelfManagedLatticeResource: Swift.Sendable {
+        /// The ARN or ID of the VPC Lattice resource configuration.
+        case resourceconfigurationidentifier(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The private endpoint configuration for a gateway target. Defines how the gateway connects to private resources in your VPC.
+    public enum PrivateEndpoint: Swift.Sendable {
+        /// Configuration for connecting to a private resource using a self-managed VPC Lattice resource configuration.
+        case selfmanagedlatticeresource(BedrockAgentCoreControlClientTypes.SelfManagedLatticeResource)
+        /// Configuration for connecting to a private resource using a managed VPC Lattice resource. The gateway creates and manages the VPC Lattice resources on your behalf.
+        case managedlatticeresource(BedrockAgentCoreControlClientTypes.ManagedLatticeResource)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -5254,16 +5452,32 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// The MCP tool schema configuration for an MCP server target. The tool schema must be aligned with the MCP specification.
+    public enum McpToolSchemaConfiguration: Swift.Sendable {
+        /// The Amazon S3 location of the tool schema. This location contains the schema definition file.
+        case s3(BedrockAgentCoreControlClientTypes.S3Configuration)
+        /// The inline payload containing the MCP tool schema definition.
+        case inlinepayload(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// The target configuration for the MCP server.
     public struct McpServerTargetConfiguration: Swift.Sendable {
         /// The endpoint for the MCP server target configuration.
         /// This member is required.
         public var endpoint: Swift.String?
+        /// The tool schema configuration for the MCP server target. Supported only when the credential provider is configured with an authorization code grant type. Dynamic tool discovery/synchronization will be disabled when target is configured with mcpToolSchema.
+        public var mcpToolSchema: BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration?
 
         public init(
-            endpoint: Swift.String? = nil
+            endpoint: Swift.String? = nil,
+            mcpToolSchema: BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration? = nil
         ) {
             self.endpoint = endpoint
+            self.mcpToolSchema = mcpToolSchema
         }
     }
 }
@@ -5282,25 +5496,84 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// OAuth2-specific authorization data, including the authorization URL and user identifier for the authorization session.
+    public struct OAuth2AuthorizationData: Swift.Sendable {
+        /// The URL to initiate the authorization process. This URL is provided when the OAuth2 access token requires user authorization.
+        /// This member is required.
+        public var authorizationUrl: Swift.String?
+        /// The user identifier associated with the OAuth2 authorization session that is defined by AgentCore Gateway.
+        public var userId: Swift.String?
+
+        public init(
+            authorizationUrl: Swift.String? = nil,
+            userId: Swift.String? = nil
+        ) {
+            self.authorizationUrl = authorizationUrl
+            self.userId = userId
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Contains the authorization data that is returned when a gateway target is configured with a credential provider with authorization code grant type and requires user federation.
+    public enum AuthorizationData: Swift.Sendable {
+        /// OAuth2 authorization data for the gateway target.
+        case oauth2(BedrockAgentCoreControlClientTypes.OAuth2AuthorizationData)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Details of a resource created and managed by the gateway for private endpoint connectivity.
+    public struct ManagedResourceDetails: Swift.Sendable {
+        /// The domain associated with this managed resource.
+        public var domain: Swift.String?
+        /// The ARN of the service network resource association.
+        public var resourceAssociationArn: Swift.String?
+        /// The ARN of the VPC Lattice resource gateway created in your account.
+        public var resourceGatewayArn: Swift.String?
+
+        public init(
+            domain: Swift.String? = nil,
+            resourceAssociationArn: Swift.String? = nil,
+            resourceGatewayArn: Swift.String? = nil
+        ) {
+            self.domain = domain
+            self.resourceAssociationArn = resourceAssociationArn
+            self.resourceGatewayArn = resourceGatewayArn
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     public enum TargetStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createPendingAuth
         case creating
         case deleting
         case failed
         case ready
+        case synchronizePendingAuth
         case synchronizeUnsuccessful
         case synchronizing
+        case updatePendingAuth
         case updateUnsuccessful
         case updating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TargetStatus] {
             return [
+                .createPendingAuth,
                 .creating,
                 .deleting,
                 .failed,
                 .ready,
+                .synchronizePendingAuth,
                 .synchronizeUnsuccessful,
                 .synchronizing,
+                .updatePendingAuth,
                 .updateUnsuccessful,
                 .updating
             ]
@@ -5313,12 +5586,15 @@ extension BedrockAgentCoreControlClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .createPendingAuth: return "CREATE_PENDING_AUTH"
             case .creating: return "CREATING"
             case .deleting: return "DELETING"
             case .failed: return "FAILED"
             case .ready: return "READY"
+            case .synchronizePendingAuth: return "SYNCHRONIZE_PENDING_AUTH"
             case .synchronizeUnsuccessful: return "SYNCHRONIZE_UNSUCCESSFUL"
             case .synchronizing: return "SYNCHRONIZING"
+            case .updatePendingAuth: return "UPDATE_PENDING_AUTH"
             case .updateUnsuccessful: return "UPDATE_UNSUCCESSFUL"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
@@ -10690,6 +10966,1632 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A custom descriptor for a registry record. Use this for resources such as APIs, Lambda functions, or servers that do not conform to a standard protocol like MCP or A2A.
+    public struct CustomDescriptor: Swift.Sendable {
+        /// The custom descriptor content as a valid JSON document. You can define any custom schema that describes your resource.
+        public var inlineContent: Swift.String?
+
+        public init(
+            inlineContent: Swift.String? = nil
+        ) {
+            self.inlineContent = inlineContent
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The server definition for an MCP descriptor. Contains the schema version and inline content for the MCP server configuration.
+    public struct ServerDefinition: Swift.Sendable {
+        /// The JSON content containing the MCP server definition, conforming to the MCP protocol specification.
+        public var inlineContent: Swift.String?
+        /// The schema version of the server definition based on the MCP protocol specification. If not specified, the version is auto-detected from the content.
+        public var schemaVersion: Swift.String?
+
+        public init(
+            inlineContent: Swift.String? = nil,
+            schemaVersion: Swift.String? = nil
+        ) {
+            self.inlineContent = inlineContent
+            self.schemaVersion = schemaVersion
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The tools definition for an MCP descriptor. Contains the protocol version and inline content describing the available tools.
+    public struct ToolsDefinition: Swift.Sendable {
+        /// The JSON content containing the MCP tools definition, conforming to the MCP protocol specification.
+        public var inlineContent: Swift.String?
+        /// The protocol version of the tools definition based on the MCP protocol specification. If not specified, the version is auto-detected from the content.
+        public var protocolVersion: Swift.String?
+
+        public init(
+            inlineContent: Swift.String? = nil,
+            protocolVersion: Swift.String? = nil
+        ) {
+            self.inlineContent = inlineContent
+            self.protocolVersion = protocolVersion
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The Model Context Protocol (MCP) descriptor for a registry record. Contains the server definition and tools definition for an MCP-compatible server. The schema is validated against the MCP protocol specification.
+    public struct McpDescriptor: Swift.Sendable {
+        /// The MCP server definition, containing the server configuration and schema as defined by the MCP protocol specification.
+        public var server: BedrockAgentCoreControlClientTypes.ServerDefinition?
+        /// The MCP tools definition, containing the tools available on the MCP server as defined by the MCP protocol specification.
+        public var tools: BedrockAgentCoreControlClientTypes.ToolsDefinition?
+
+        public init(
+            server: BedrockAgentCoreControlClientTypes.ServerDefinition? = nil,
+            tools: BedrockAgentCoreControlClientTypes.ToolsDefinition? = nil
+        ) {
+            self.server = server
+            self.tools = tools
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Contains descriptor-type-specific configurations for a registry record. Only the descriptor matching the record's descriptorType should be populated.
+    public struct Descriptors: Swift.Sendable {
+        /// The Agent-to-Agent (A2A) protocol descriptor configuration. Use this when the descriptorType is A2A.
+        public var a2a: BedrockAgentCoreControlClientTypes.A2aDescriptor?
+        /// The agent skills descriptor configuration. Use this when the descriptorType is AGENT_SKILLS.
+        public var agentSkills: BedrockAgentCoreControlClientTypes.AgentSkillsDescriptor?
+        /// The custom descriptor configuration. Use this when the descriptorType is CUSTOM.
+        public var custom: BedrockAgentCoreControlClientTypes.CustomDescriptor?
+        /// The Model Context Protocol (MCP) descriptor configuration. Use this when the descriptorType is MCP.
+        public var mcp: BedrockAgentCoreControlClientTypes.McpDescriptor?
+
+        public init(
+            a2a: BedrockAgentCoreControlClientTypes.A2aDescriptor? = nil,
+            agentSkills: BedrockAgentCoreControlClientTypes.AgentSkillsDescriptor? = nil,
+            custom: BedrockAgentCoreControlClientTypes.CustomDescriptor? = nil,
+            mcp: BedrockAgentCoreControlClientTypes.McpDescriptor? = nil
+        ) {
+            self.a2a = a2a
+            self.agentSkills = agentSkills
+            self.custom = custom
+            self.mcp = mcp
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum DescriptorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case a2a
+        case agentSkills
+        case custom
+        case mcp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DescriptorType] {
+            return [
+                .a2a,
+                .agentSkills,
+                .custom,
+                .mcp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .a2a: return "A2A"
+            case .agentSkills: return "AGENT_SKILLS"
+            case .custom: return "CUSTOM"
+            case .mcp: return "MCP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// IAM credential provider configuration for authenticating with an external source using SigV4 signing during synchronization.
+    public struct RegistryRecordIamCredentialProvider: Swift.Sendable {
+        /// The Amazon Web Services region for SigV4 signing (for example, us-west-2). If not specified, the region is extracted from the MCP server URL hostname, with fallback to the service's own region.
+        public var region: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IAM role to assume for SigV4 signing.
+        public var roleArn: Swift.String?
+        /// The SigV4 signing service name (for example, execute-api or bedrock-agentcore).
+        public var service: Swift.String?
+
+        public init(
+            region: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            service: Swift.String? = nil
+        ) {
+            self.region = region
+            self.roleArn = roleArn
+            self.service = service
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum RegistryRecordOAuthGrantType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case clientCredentials
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RegistryRecordOAuthGrantType] {
+            return [
+                .clientCredentials
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .clientCredentials: return "CLIENT_CREDENTIALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// OAuth credential provider configuration for authenticating with an external source during synchronization.
+    public struct RegistryRecordOAuthCredentialProvider: Swift.Sendable {
+        /// Additional custom parameters for the OAuth flow.
+        public var customParameters: [Swift.String: Swift.String]?
+        /// The OAuth grant type. Currently only CLIENT_CREDENTIALS is supported.
+        public var grantType: BedrockAgentCoreControlClientTypes.RegistryRecordOAuthGrantType?
+        /// The Amazon Resource Name (ARN) of the OAuth credential provider resource.
+        /// This member is required.
+        public var providerArn: Swift.String?
+        /// The OAuth scopes to request during authentication.
+        public var scopes: [Swift.String]?
+
+        public init(
+            customParameters: [Swift.String: Swift.String]? = nil,
+            grantType: BedrockAgentCoreControlClientTypes.RegistryRecordOAuthGrantType? = nil,
+            providerArn: Swift.String? = nil,
+            scopes: [Swift.String]? = nil
+        ) {
+            self.customParameters = customParameters
+            self.grantType = grantType
+            self.providerArn = providerArn
+            self.scopes = scopes
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Union of supported credential provider types for registry record synchronization.
+    public enum RegistryRecordCredentialProviderUnion: Swift.Sendable {
+        /// The OAuth credential provider configuration for authenticating with the external source.
+        case oauthcredentialprovider(BedrockAgentCoreControlClientTypes.RegistryRecordOAuthCredentialProvider)
+        /// The IAM credential provider configuration for authenticating with the external source using SigV4 signing.
+        case iamcredentialprovider(BedrockAgentCoreControlClientTypes.RegistryRecordIamCredentialProvider)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum RegistryRecordCredentialProviderType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case iam
+        case oauth
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RegistryRecordCredentialProviderType] {
+            return [
+                .iam,
+                .oauth
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .iam: return "IAM"
+            case .oauth: return "OAUTH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A pairing of a credential provider type with its corresponding provider details for authenticating with external sources.
+    public struct RegistryRecordCredentialProviderConfiguration: Swift.Sendable {
+        /// The credential provider configuration details. The structure depends on the credentialProviderType.
+        /// This member is required.
+        public var credentialProvider: BedrockAgentCoreControlClientTypes.RegistryRecordCredentialProviderUnion?
+        /// The type of credential provider.
+        ///
+        /// * OAUTH - OAuth-based authentication.
+        ///
+        /// * IAM - Amazon Web Services IAM-based authentication using SigV4 signing.
+        /// This member is required.
+        public var credentialProviderType: BedrockAgentCoreControlClientTypes.RegistryRecordCredentialProviderType?
+
+        public init(
+            credentialProvider: BedrockAgentCoreControlClientTypes.RegistryRecordCredentialProviderUnion? = nil,
+            credentialProviderType: BedrockAgentCoreControlClientTypes.RegistryRecordCredentialProviderType? = nil
+        ) {
+            self.credentialProvider = credentialProvider
+            self.credentialProviderType = credentialProviderType
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for synchronizing from a URL-based MCP server.
+    public struct FromUrlSynchronizationConfiguration: Swift.Sendable {
+        /// Optional list of credential provider configurations for authenticating with the MCP server. At most one credential provider configuration can be specified.
+        public var credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.RegistryRecordCredentialProviderConfiguration]?
+        /// The HTTPS URL of the MCP server to synchronize from.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.RegistryRecordCredentialProviderConfiguration]? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.credentialProviderConfigurations = credentialProviderConfigurations
+            self.url = url
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for synchronizing registry record metadata from an external source.
+    public struct SynchronizationConfiguration: Swift.Sendable {
+        /// Configuration for synchronizing from a URL-based source.
+        public var fromUrl: BedrockAgentCoreControlClientTypes.FromUrlSynchronizationConfiguration?
+
+        public init(
+            fromUrl: BedrockAgentCoreControlClientTypes.FromUrlSynchronizationConfiguration? = nil
+        ) {
+            self.fromUrl = fromUrl
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum SynchronizationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case url
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SynchronizationType] {
+            return [
+                .url
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .url: return "URL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateRegistryRecordInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// A description of the registry record.
+    public var description: Swift.String?
+    /// The descriptor type of the registry record.
+    ///
+    /// * MCP - Model Context Protocol descriptor for MCP-compatible servers and tools.
+    ///
+    /// * A2A - Agent-to-Agent protocol descriptor.
+    ///
+    /// * CUSTOM - Custom descriptor type for resources such as APIs, Lambda functions, or servers not conforming to a standard protocol.
+    ///
+    /// * AGENT_SKILLS - Agent skills descriptor for defining agent skill definitions.
+    /// This member is required.
+    public var descriptorType: BedrockAgentCoreControlClientTypes.DescriptorType?
+    /// The descriptor-type-specific configuration containing the resource schema and metadata. The structure of this field depends on the descriptorType you specify.
+    public var descriptors: BedrockAgentCoreControlClientTypes.Descriptors?
+    /// The name of the registry record.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The version of the registry record. Use this to track different versions of the record's content.
+    public var recordVersion: Swift.String?
+    /// The identifier of the registry where the record will be created. You can specify either the Amazon Resource Name (ARN) or the ID of the registry.
+    /// This member is required.
+    public var registryId: Swift.String?
+    /// The configuration for synchronizing registry record metadata from an external source, such as a URL-based MCP server.
+    public var synchronizationConfiguration: BedrockAgentCoreControlClientTypes.SynchronizationConfiguration?
+    /// The type of synchronization to use for keeping the record metadata up to date from an external source. Possible values include FROM_URL and NONE.
+    public var synchronizationType: BedrockAgentCoreControlClientTypes.SynchronizationType?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        descriptorType: BedrockAgentCoreControlClientTypes.DescriptorType? = nil,
+        descriptors: BedrockAgentCoreControlClientTypes.Descriptors? = nil,
+        name: Swift.String? = nil,
+        recordVersion: Swift.String? = nil,
+        registryId: Swift.String? = nil,
+        synchronizationConfiguration: BedrockAgentCoreControlClientTypes.SynchronizationConfiguration? = nil,
+        synchronizationType: BedrockAgentCoreControlClientTypes.SynchronizationType? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.descriptorType = descriptorType
+        self.descriptors = descriptors
+        self.name = name
+        self.recordVersion = recordVersion
+        self.registryId = registryId
+        self.synchronizationConfiguration = synchronizationConfiguration
+        self.synchronizationType = synchronizationType
+    }
+}
+
+extension CreateRegistryRecordInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateRegistryRecordInput(clientToken: \(Swift.String(describing: clientToken)), descriptorType: \(Swift.String(describing: descriptorType)), descriptors: \(Swift.String(describing: descriptors)), name: \(Swift.String(describing: name)), recordVersion: \(Swift.String(describing: recordVersion)), registryId: \(Swift.String(describing: registryId)), synchronizationConfiguration: \(Swift.String(describing: synchronizationConfiguration)), synchronizationType: \(Swift.String(describing: synchronizationType)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum RegistryRecordStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approved
+        case createFailed
+        case creating
+        case deprecated
+        case draft
+        case pendingApproval
+        case rejected
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RegistryRecordStatus] {
+            return [
+                .approved,
+                .createFailed,
+                .creating,
+                .deprecated,
+                .draft,
+                .pendingApproval,
+                .rejected,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approved: return "APPROVED"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deprecated: return "DEPRECATED"
+            case .draft: return "DRAFT"
+            case .pendingApproval: return "PENDING_APPROVAL"
+            case .rejected: return "REJECTED"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateRegistryRecordOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the created registry record.
+    /// This member is required.
+    public var recordArn: Swift.String?
+    /// The status of the registry record. Set to CREATING while the asynchronous workflow is in progress.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.RegistryRecordStatus?
+
+    public init(
+        recordArn: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.RegistryRecordStatus? = nil
+    ) {
+        self.recordArn = recordArn
+        self.status = status
+    }
+}
+
+public struct DeleteRegistryRecordInput: Swift.Sendable {
+    /// The identifier of the registry record to delete. You can specify either the Amazon Resource Name (ARN) or the ID of the record.
+    /// This member is required.
+    public var recordId: Swift.String?
+    /// The identifier of the registry containing the record. You can specify either the Amazon Resource Name (ARN) or the ID of the registry.
+    /// This member is required.
+    public var registryId: Swift.String?
+
+    public init(
+        recordId: Swift.String? = nil,
+        registryId: Swift.String? = nil
+    ) {
+        self.recordId = recordId
+        self.registryId = registryId
+    }
+}
+
+public struct DeleteRegistryRecordOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetRegistryRecordInput: Swift.Sendable {
+    /// The identifier of the registry record to retrieve. You can specify either the Amazon Resource Name (ARN) or the ID of the record.
+    /// This member is required.
+    public var recordId: Swift.String?
+    /// The identifier of the registry containing the record. You can specify either the Amazon Resource Name (ARN) or the ID of the registry.
+    /// This member is required.
+    public var registryId: Swift.String?
+
+    public init(
+        recordId: Swift.String? = nil,
+        registryId: Swift.String? = nil
+    ) {
+        self.recordId = recordId
+        self.registryId = registryId
+    }
+}
+
+public struct GetRegistryRecordOutput: Swift.Sendable {
+    /// The timestamp when the registry record was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The description of the registry record.
+    public var description: Swift.String?
+    /// The descriptor type of the registry record. Possible values are MCP, A2A, CUSTOM, and AGENT_SKILLS.
+    /// This member is required.
+    public var descriptorType: BedrockAgentCoreControlClientTypes.DescriptorType?
+    /// The descriptor-type-specific configuration containing the resource schema and metadata. For details, see the Descriptors data type.
+    /// This member is required.
+    public var descriptors: BedrockAgentCoreControlClientTypes.Descriptors?
+    /// The name of the registry record.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the registry record.
+    /// This member is required.
+    public var recordArn: Swift.String?
+    /// The unique identifier of the registry record.
+    /// This member is required.
+    public var recordId: Swift.String?
+    /// The version of the registry record.
+    public var recordVersion: Swift.String?
+    /// The Amazon Resource Name (ARN) of the registry that contains the record.
+    /// This member is required.
+    public var registryArn: Swift.String?
+    /// The current status of the registry record. Possible values include CREATING, DRAFT, APPROVED, PENDING_APPROVAL, REJECTED, DEPRECATED, UPDATING, CREATE_FAILED, and UPDATE_FAILED. A record transitions from CREATING to DRAFT, then to PENDING_APPROVAL (via SubmitRegistryRecordForApproval), and finally to APPROVED upon approval.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.RegistryRecordStatus?
+    /// The reason for the current status, typically set when the status is a failure state.
+    public var statusReason: Swift.String?
+    /// The configuration for synchronizing registry record metadata from an external source.
+    public var synchronizationConfiguration: BedrockAgentCoreControlClientTypes.SynchronizationConfiguration?
+    /// The type of synchronization used for this record.
+    public var synchronizationType: BedrockAgentCoreControlClientTypes.SynchronizationType?
+    /// The timestamp when the registry record was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        descriptorType: BedrockAgentCoreControlClientTypes.DescriptorType? = nil,
+        descriptors: BedrockAgentCoreControlClientTypes.Descriptors? = nil,
+        name: Swift.String? = nil,
+        recordArn: Swift.String? = nil,
+        recordId: Swift.String? = nil,
+        recordVersion: Swift.String? = nil,
+        registryArn: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.RegistryRecordStatus? = nil,
+        statusReason: Swift.String? = nil,
+        synchronizationConfiguration: BedrockAgentCoreControlClientTypes.SynchronizationConfiguration? = nil,
+        synchronizationType: BedrockAgentCoreControlClientTypes.SynchronizationType? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.createdAt = createdAt
+        self.description = description
+        self.descriptorType = descriptorType
+        self.descriptors = descriptors
+        self.name = name
+        self.recordArn = recordArn
+        self.recordId = recordId
+        self.recordVersion = recordVersion
+        self.registryArn = registryArn
+        self.status = status
+        self.statusReason = statusReason
+        self.synchronizationConfiguration = synchronizationConfiguration
+        self.synchronizationType = synchronizationType
+        self.updatedAt = updatedAt
+    }
+}
+
+extension GetRegistryRecordOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetRegistryRecordOutput(createdAt: \(Swift.String(describing: createdAt)), descriptorType: \(Swift.String(describing: descriptorType)), descriptors: \(Swift.String(describing: descriptors)), name: \(Swift.String(describing: name)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), synchronizationConfiguration: \(Swift.String(describing: synchronizationConfiguration)), synchronizationType: \(Swift.String(describing: synchronizationType)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListRegistryRecordsInput: Swift.Sendable {
+    /// Filter registry records by their descriptor type. Possible values are MCP, A2A, CUSTOM, and AGENT_SKILLS.
+    public var descriptorType: BedrockAgentCoreControlClientTypes.DescriptorType?
+    /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    public var maxResults: Swift.Int?
+    /// Filter registry records by name.
+    public var name: Swift.String?
+    /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    public var nextToken: Swift.String?
+    /// The identifier of the registry to list records from. You can specify either the Amazon Resource Name (ARN) or the ID of the registry.
+    /// This member is required.
+    public var registryId: Swift.String?
+    /// Filter registry records by their current status. Possible values include CREATING, DRAFT, APPROVED, PENDING_APPROVAL, REJECTED, DEPRECATED, UPDATING, CREATE_FAILED, and UPDATE_FAILED.
+    public var status: BedrockAgentCoreControlClientTypes.RegistryRecordStatus?
+
+    public init(
+        descriptorType: BedrockAgentCoreControlClientTypes.DescriptorType? = nil,
+        maxResults: Swift.Int? = nil,
+        name: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        registryId: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.RegistryRecordStatus? = nil
+    ) {
+        self.descriptorType = descriptorType
+        self.maxResults = maxResults
+        self.name = name
+        self.nextToken = nextToken
+        self.registryId = registryId
+        self.status = status
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Contains summary information about a registry record.
+    public struct RegistryRecordSummary: Swift.Sendable {
+        /// The timestamp when the registry record was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The description of the registry record.
+        public var description: Swift.String?
+        /// The descriptor type of the registry record. Possible values are MCP, A2A, CUSTOM, and AGENT_SKILLS.
+        /// This member is required.
+        public var descriptorType: BedrockAgentCoreControlClientTypes.DescriptorType?
+        /// The name of the registry record.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the registry record.
+        /// This member is required.
+        public var recordArn: Swift.String?
+        /// The unique identifier of the registry record.
+        /// This member is required.
+        public var recordId: Swift.String?
+        /// The version of the registry record.
+        /// This member is required.
+        public var recordVersion: Swift.String?
+        /// The Amazon Resource Name (ARN) of the registry that contains the record.
+        /// This member is required.
+        public var registryArn: Swift.String?
+        /// The current status of the registry record. Possible values include CREATING, DRAFT, APPROVED, PENDING_APPROVAL, REJECTED, DEPRECATED, UPDATING, CREATE_FAILED, and UPDATE_FAILED.
+        /// This member is required.
+        public var status: BedrockAgentCoreControlClientTypes.RegistryRecordStatus?
+        /// The timestamp when the registry record was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            descriptorType: BedrockAgentCoreControlClientTypes.DescriptorType? = nil,
+            name: Swift.String? = nil,
+            recordArn: Swift.String? = nil,
+            recordId: Swift.String? = nil,
+            recordVersion: Swift.String? = nil,
+            registryArn: Swift.String? = nil,
+            status: BedrockAgentCoreControlClientTypes.RegistryRecordStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.createdAt = createdAt
+            self.description = description
+            self.descriptorType = descriptorType
+            self.name = name
+            self.recordArn = recordArn
+            self.recordId = recordId
+            self.recordVersion = recordVersion
+            self.registryArn = registryArn
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.RegistryRecordSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RegistryRecordSummary(createdAt: \(Swift.String(describing: createdAt)), descriptorType: \(Swift.String(describing: descriptorType)), name: \(Swift.String(describing: name)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListRegistryRecordsOutput: Swift.Sendable {
+    /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+    public var nextToken: Swift.String?
+    /// The list of registry record summaries. For details about the fields in each summary, see the RegistryRecordSummary data type.
+    /// This member is required.
+    public var registryRecords: [BedrockAgentCoreControlClientTypes.RegistryRecordSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        registryRecords: [BedrockAgentCoreControlClientTypes.RegistryRecordSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.registryRecords = registryRecords
+    }
+}
+
+public struct SubmitRegistryRecordForApprovalInput: Swift.Sendable {
+    /// The identifier of the registry record to submit for approval. You can specify either the Amazon Resource Name (ARN) or the ID of the record.
+    /// This member is required.
+    public var recordId: Swift.String?
+    /// The identifier of the registry containing the record. You can specify either the Amazon Resource Name (ARN) or the ID of the registry.
+    /// This member is required.
+    public var registryId: Swift.String?
+
+    public init(
+        recordId: Swift.String? = nil,
+        registryId: Swift.String? = nil
+    ) {
+        self.recordId = recordId
+        self.registryId = registryId
+    }
+}
+
+public struct SubmitRegistryRecordForApprovalOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the registry record.
+    /// This member is required.
+    public var recordArn: Swift.String?
+    /// The unique identifier of the registry record.
+    /// This member is required.
+    public var recordId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the registry that contains the record.
+    /// This member is required.
+    public var registryArn: Swift.String?
+    /// The resulting status of the registry record after submission.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.RegistryRecordStatus?
+    /// The timestamp when the record was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        recordArn: Swift.String? = nil,
+        recordId: Swift.String? = nil,
+        registryArn: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.RegistryRecordStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.recordArn = recordArn
+        self.recordId = recordId
+        self.registryArn = registryArn
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Wrapper for updating an A2A descriptor with PATCH semantics. When present, the A2A descriptor is replaced with the provided value. When absent, the A2A descriptor is left unchanged. To unset, include the wrapper with the value set to null.
+    public struct UpdatedA2aDescriptor: Swift.Sendable {
+        /// The updated A2A descriptor value.
+        public var optionalValue: BedrockAgentCoreControlClientTypes.A2aDescriptor?
+
+        public init(
+            optionalValue: BedrockAgentCoreControlClientTypes.A2aDescriptor? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Wrapper for updating a skill definition with PATCH semantics.
+    public struct UpdatedSkillDefinition: Swift.Sendable {
+        /// The updated skill definition value.
+        public var optionalValue: BedrockAgentCoreControlClientTypes.SkillDefinition?
+
+        public init(
+            optionalValue: BedrockAgentCoreControlClientTypes.SkillDefinition? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Wrapper for updating a skill markdown definition with PATCH semantics.
+    public struct UpdatedSkillMdDefinition: Swift.Sendable {
+        /// The updated skill markdown definition value.
+        public var optionalValue: BedrockAgentCoreControlClientTypes.SkillMdDefinition?
+
+        public init(
+            optionalValue: BedrockAgentCoreControlClientTypes.SkillMdDefinition? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Individual agent skills descriptor fields that can be updated independently.
+    public struct UpdatedAgentSkillsDescriptorFields: Swift.Sendable {
+        /// The updated skill definition.
+        public var skillDefinition: BedrockAgentCoreControlClientTypes.UpdatedSkillDefinition?
+        /// The updated skill markdown definition.
+        public var skillMd: BedrockAgentCoreControlClientTypes.UpdatedSkillMdDefinition?
+
+        public init(
+            skillDefinition: BedrockAgentCoreControlClientTypes.UpdatedSkillDefinition? = nil,
+            skillMd: BedrockAgentCoreControlClientTypes.UpdatedSkillMdDefinition? = nil
+        ) {
+            self.skillDefinition = skillDefinition
+            self.skillMd = skillMd
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Wrapper for updating an agent skills descriptor with PATCH semantics. When present with a value, individual fields can be updated independently. When present with a null value, the entire agent skills descriptor is unset. When absent, the agent skills descriptor is left unchanged.
+    public struct UpdatedAgentSkillsDescriptor: Swift.Sendable {
+        /// The updated agent skills descriptor fields.
+        public var optionalValue: BedrockAgentCoreControlClientTypes.UpdatedAgentSkillsDescriptorFields?
+
+        public init(
+            optionalValue: BedrockAgentCoreControlClientTypes.UpdatedAgentSkillsDescriptorFields? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Wrapper for updating a custom descriptor with PATCH semantics. When present, the custom descriptor is replaced with the provided value. When absent, the custom descriptor is left unchanged. To unset, include the wrapper with the value set to null.
+    public struct UpdatedCustomDescriptor: Swift.Sendable {
+        /// The updated custom descriptor value.
+        public var optionalValue: BedrockAgentCoreControlClientTypes.CustomDescriptor?
+
+        public init(
+            optionalValue: BedrockAgentCoreControlClientTypes.CustomDescriptor? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Wrapper for updating a server definition with PATCH semantics. When present, the server definition is replaced with the provided value. When absent, the server definition is left unchanged. To unset, include the wrapper with the value set to null.
+    public struct UpdatedServerDefinition: Swift.Sendable {
+        /// The updated server definition value.
+        public var optionalValue: BedrockAgentCoreControlClientTypes.ServerDefinition?
+
+        public init(
+            optionalValue: BedrockAgentCoreControlClientTypes.ServerDefinition? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Wrapper for updating a tools definition with PATCH semantics. When present, the tools definition is replaced with the provided value. When absent, the tools definition is left unchanged. To unset, include the wrapper with the value set to null.
+    public struct UpdatedToolsDefinition: Swift.Sendable {
+        /// The updated tools definition value.
+        public var optionalValue: BedrockAgentCoreControlClientTypes.ToolsDefinition?
+
+        public init(
+            optionalValue: BedrockAgentCoreControlClientTypes.ToolsDefinition? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Individual MCP descriptor fields that can be updated independently.
+    public struct UpdatedMcpDescriptorFields: Swift.Sendable {
+        /// The updated server definition for the MCP descriptor.
+        public var server: BedrockAgentCoreControlClientTypes.UpdatedServerDefinition?
+        /// The updated tools definition for the MCP descriptor.
+        public var tools: BedrockAgentCoreControlClientTypes.UpdatedToolsDefinition?
+
+        public init(
+            server: BedrockAgentCoreControlClientTypes.UpdatedServerDefinition? = nil,
+            tools: BedrockAgentCoreControlClientTypes.UpdatedToolsDefinition? = nil
+        ) {
+            self.server = server
+            self.tools = tools
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Wrapper for updating an MCP descriptor with PATCH semantics. When present with a value, individual MCP fields can be updated independently. When present with a null value, the entire MCP descriptor is unset. When absent, the MCP descriptor is left unchanged.
+    public struct UpdatedMcpDescriptor: Swift.Sendable {
+        /// The updated MCP descriptor fields.
+        public var optionalValue: BedrockAgentCoreControlClientTypes.UpdatedMcpDescriptorFields?
+
+        public init(
+            optionalValue: BedrockAgentCoreControlClientTypes.UpdatedMcpDescriptorFields? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Contains per-descriptor-type wrappers for updating descriptors. Each descriptor type can be updated independently.
+    public struct UpdatedDescriptorsUnion: Swift.Sendable {
+        /// The updated A2A descriptor.
+        public var a2a: BedrockAgentCoreControlClientTypes.UpdatedA2aDescriptor?
+        /// The updated agent skills descriptor.
+        public var agentSkills: BedrockAgentCoreControlClientTypes.UpdatedAgentSkillsDescriptor?
+        /// The updated custom descriptor.
+        public var custom: BedrockAgentCoreControlClientTypes.UpdatedCustomDescriptor?
+        /// The updated MCP descriptor.
+        public var mcp: BedrockAgentCoreControlClientTypes.UpdatedMcpDescriptor?
+
+        public init(
+            a2a: BedrockAgentCoreControlClientTypes.UpdatedA2aDescriptor? = nil,
+            agentSkills: BedrockAgentCoreControlClientTypes.UpdatedAgentSkillsDescriptor? = nil,
+            custom: BedrockAgentCoreControlClientTypes.UpdatedCustomDescriptor? = nil,
+            mcp: BedrockAgentCoreControlClientTypes.UpdatedMcpDescriptor? = nil
+        ) {
+            self.a2a = a2a
+            self.agentSkills = agentSkills
+            self.custom = custom
+            self.mcp = mcp
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Wrapper for updating an optional descriptors field with PATCH semantics. When present with a value, individual descriptors can be updated. When present with a null value, all descriptors are unset. When absent, descriptors are left unchanged.
+    public struct UpdatedDescriptors: Swift.Sendable {
+        /// The updated descriptors value. Contains per-descriptor-type wrappers that are each independently updatable.
+        public var optionalValue: BedrockAgentCoreControlClientTypes.UpdatedDescriptorsUnion?
+
+        public init(
+            optionalValue: BedrockAgentCoreControlClientTypes.UpdatedDescriptorsUnion? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Wrapper for updating the synchronization configuration with PATCH semantics. Must be matched with UpdatedSynchronizationType.
+    public struct UpdatedSynchronizationConfiguration: Swift.Sendable {
+        /// The updated synchronization configuration value.
+        public var optionalValue: BedrockAgentCoreControlClientTypes.SynchronizationConfiguration?
+
+        public init(
+            optionalValue: BedrockAgentCoreControlClientTypes.SynchronizationConfiguration? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Wrapper for updating the synchronization type with PATCH semantics. Must be matched with UpdatedSynchronizationConfiguration.
+    public struct UpdatedSynchronizationType: Swift.Sendable {
+        /// The updated synchronization type value.
+        public var optionalValue: BedrockAgentCoreControlClientTypes.SynchronizationType?
+
+        public init(
+            optionalValue: BedrockAgentCoreControlClientTypes.SynchronizationType? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+public struct UpdateRegistryRecordInput: Swift.Sendable {
+    /// The updated description for the registry record. To clear the description, include the UpdatedDescription wrapper with optionalValue not specified.
+    public var description: BedrockAgentCoreControlClientTypes.UpdatedDescription?
+    /// The updated descriptor type for the registry record. Changing the descriptor type may require updating the descriptors field to match the new type's schema requirements.
+    public var descriptorType: BedrockAgentCoreControlClientTypes.DescriptorType?
+    /// The updated descriptor-type-specific configuration containing the resource schema and metadata. Uses PATCH semantics where individual descriptor fields can be updated independently.
+    public var descriptors: BedrockAgentCoreControlClientTypes.UpdatedDescriptors?
+    /// The updated name for the registry record.
+    public var name: Swift.String?
+    /// The identifier of the registry record to update. You can specify either the Amazon Resource Name (ARN) or the ID of the record.
+    /// This member is required.
+    public var recordId: Swift.String?
+    /// The version of the registry record for optimistic locking. If provided, it must match the current version of the record. The service automatically increments the version after a successful update.
+    public var recordVersion: Swift.String?
+    /// The identifier of the registry containing the record. You can specify either the Amazon Resource Name (ARN) or the ID of the registry.
+    /// This member is required.
+    public var registryId: Swift.String?
+    /// The updated synchronization configuration for the registry record.
+    public var synchronizationConfiguration: BedrockAgentCoreControlClientTypes.UpdatedSynchronizationConfiguration?
+    /// The updated synchronization type for the registry record.
+    public var synchronizationType: BedrockAgentCoreControlClientTypes.UpdatedSynchronizationType?
+    /// Whether to trigger synchronization using the stored or provided configuration. When set to true, the service will synchronize the record metadata from the configured external source.
+    public var triggerSynchronization: Swift.Bool?
+
+    public init(
+        description: BedrockAgentCoreControlClientTypes.UpdatedDescription? = nil,
+        descriptorType: BedrockAgentCoreControlClientTypes.DescriptorType? = nil,
+        descriptors: BedrockAgentCoreControlClientTypes.UpdatedDescriptors? = nil,
+        name: Swift.String? = nil,
+        recordId: Swift.String? = nil,
+        recordVersion: Swift.String? = nil,
+        registryId: Swift.String? = nil,
+        synchronizationConfiguration: BedrockAgentCoreControlClientTypes.UpdatedSynchronizationConfiguration? = nil,
+        synchronizationType: BedrockAgentCoreControlClientTypes.UpdatedSynchronizationType? = nil,
+        triggerSynchronization: Swift.Bool? = nil
+    ) {
+        self.description = description
+        self.descriptorType = descriptorType
+        self.descriptors = descriptors
+        self.name = name
+        self.recordId = recordId
+        self.recordVersion = recordVersion
+        self.registryId = registryId
+        self.synchronizationConfiguration = synchronizationConfiguration
+        self.synchronizationType = synchronizationType
+        self.triggerSynchronization = triggerSynchronization
+    }
+}
+
+public struct UpdateRegistryRecordOutput: Swift.Sendable {
+    /// The timestamp when the registry record was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The description of the updated registry record.
+    public var description: Swift.String?
+    /// The descriptor type of the updated registry record. Possible values are MCP, A2A, CUSTOM, and AGENT_SKILLS.
+    /// This member is required.
+    public var descriptorType: BedrockAgentCoreControlClientTypes.DescriptorType?
+    /// The descriptor-type-specific configuration of the updated registry record. For details, see the Descriptors data type.
+    /// This member is required.
+    public var descriptors: BedrockAgentCoreControlClientTypes.Descriptors?
+    /// The name of the updated registry record.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the updated registry record.
+    /// This member is required.
+    public var recordArn: Swift.String?
+    /// The unique identifier of the updated registry record.
+    /// This member is required.
+    public var recordId: Swift.String?
+    /// The version of the updated registry record.
+    public var recordVersion: Swift.String?
+    /// The Amazon Resource Name (ARN) of the registry that contains the updated record.
+    /// This member is required.
+    public var registryArn: Swift.String?
+    /// The current status of the updated registry record. Possible values include CREATING, DRAFT, APPROVED, PENDING_APPROVAL, REJECTED, DEPRECATED, UPDATING, CREATE_FAILED, and UPDATE_FAILED.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.RegistryRecordStatus?
+    /// The reason for the current status of the updated registry record.
+    public var statusReason: Swift.String?
+    /// The synchronization configuration of the updated registry record.
+    public var synchronizationConfiguration: BedrockAgentCoreControlClientTypes.SynchronizationConfiguration?
+    /// The synchronization type of the updated registry record.
+    public var synchronizationType: BedrockAgentCoreControlClientTypes.SynchronizationType?
+    /// The timestamp when the registry record was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        descriptorType: BedrockAgentCoreControlClientTypes.DescriptorType? = nil,
+        descriptors: BedrockAgentCoreControlClientTypes.Descriptors? = nil,
+        name: Swift.String? = nil,
+        recordArn: Swift.String? = nil,
+        recordId: Swift.String? = nil,
+        recordVersion: Swift.String? = nil,
+        registryArn: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.RegistryRecordStatus? = nil,
+        statusReason: Swift.String? = nil,
+        synchronizationConfiguration: BedrockAgentCoreControlClientTypes.SynchronizationConfiguration? = nil,
+        synchronizationType: BedrockAgentCoreControlClientTypes.SynchronizationType? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.createdAt = createdAt
+        self.description = description
+        self.descriptorType = descriptorType
+        self.descriptors = descriptors
+        self.name = name
+        self.recordArn = recordArn
+        self.recordId = recordId
+        self.recordVersion = recordVersion
+        self.registryArn = registryArn
+        self.status = status
+        self.statusReason = statusReason
+        self.synchronizationConfiguration = synchronizationConfiguration
+        self.synchronizationType = synchronizationType
+        self.updatedAt = updatedAt
+    }
+}
+
+extension UpdateRegistryRecordOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateRegistryRecordOutput(createdAt: \(Swift.String(describing: createdAt)), descriptorType: \(Swift.String(describing: descriptorType)), descriptors: \(Swift.String(describing: descriptors)), name: \(Swift.String(describing: name)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), synchronizationConfiguration: \(Swift.String(describing: synchronizationConfiguration)), synchronizationType: \(Swift.String(describing: synchronizationType)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateRegistryRecordStatusInput: Swift.Sendable {
+    /// The identifier of the registry record to update the status for. You can specify either the Amazon Resource Name (ARN) or the ID of the record.
+    /// This member is required.
+    public var recordId: Swift.String?
+    /// The identifier of the registry containing the record. You can specify either the Amazon Resource Name (ARN) or the ID of the registry.
+    /// This member is required.
+    public var registryId: Swift.String?
+    /// The target status for the registry record.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.RegistryRecordStatus?
+    /// The reason for the status change, such as why the record was approved or rejected.
+    /// This member is required.
+    public var statusReason: Swift.String?
+
+    public init(
+        recordId: Swift.String? = nil,
+        registryId: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.RegistryRecordStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.recordId = recordId
+        self.registryId = registryId
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+public struct UpdateRegistryRecordStatusOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the registry record.
+    /// This member is required.
+    public var recordArn: Swift.String?
+    /// The unique identifier of the registry record.
+    /// This member is required.
+    public var recordId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the registry that contains the record.
+    /// This member is required.
+    public var registryArn: Swift.String?
+    /// The resulting status of the registry record.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.RegistryRecordStatus?
+    /// The reason for the status change.
+    /// This member is required.
+    public var statusReason: Swift.String?
+    /// The timestamp when the record was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        recordArn: Swift.String? = nil,
+        recordId: Swift.String? = nil,
+        registryArn: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.RegistryRecordStatus? = nil,
+        statusReason: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.recordArn = recordArn
+        self.recordId = recordId
+        self.registryArn = registryArn
+        self.status = status
+        self.statusReason = statusReason
+        self.updatedAt = updatedAt
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for the registry record approval workflow. Controls whether records added to the registry require explicit approval before becoming active.
+    public struct ApprovalConfiguration: Swift.Sendable {
+        /// Whether registry records are auto-approved. When set to true, records are automatically approved upon creation. When set to false (the default), records require explicit approval for security purposes.
+        public var autoApproval: Swift.Bool
+
+        public init(
+            autoApproval: Swift.Bool = false
+        ) {
+            self.autoApproval = autoApproval
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum RegistryAuthorizerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsIam
+        case customJwt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RegistryAuthorizerType] {
+            return [
+                .awsIam,
+                .customJwt
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsIam: return "AWS_IAM"
+            case .customJwt: return "CUSTOM_JWT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateRegistryInput: Swift.Sendable {
+    /// The approval configuration for registry records. Controls whether records require explicit approval before becoming active. See the ApprovalConfiguration data type for supported configuration options.
+    public var approvalConfiguration: BedrockAgentCoreControlClientTypes.ApprovalConfiguration?
+    /// The authorizer configuration for the registry. Required if authorizerType is CUSTOM_JWT. For details, see the AuthorizerConfiguration data type.
+    public var authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration?
+    /// The type of authorizer to use for the registry. This controls the authorization method for the Search and Invoke APIs used by consumers, and does not affect the standard CRUDL APIs for registry and registry record management used by administrators.
+    ///
+    /// * CUSTOM_JWT - Authorize with a bearer token.
+    ///
+    /// * AWS_IAM - Authorize with your Amazon Web Services IAM credentials.
+    public var authorizerType: BedrockAgentCoreControlClientTypes.RegistryAuthorizerType?
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// A description of the registry.
+    public var description: Swift.String?
+    /// The name of the registry. The name must be unique within your account and can contain alphanumeric characters and underscores.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        approvalConfiguration: BedrockAgentCoreControlClientTypes.ApprovalConfiguration? = nil,
+        authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration? = nil,
+        authorizerType: BedrockAgentCoreControlClientTypes.RegistryAuthorizerType? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.approvalConfiguration = approvalConfiguration
+        self.authorizerConfiguration = authorizerConfiguration
+        self.authorizerType = authorizerType
+        self.clientToken = clientToken
+        self.description = description
+        self.name = name
+    }
+}
+
+extension CreateRegistryInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateRegistryInput(approvalConfiguration: \(Swift.String(describing: approvalConfiguration)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), clientToken: \(Swift.String(describing: clientToken)), name: \(Swift.String(describing: name)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateRegistryOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the created registry.
+    /// This member is required.
+    public var registryArn: Swift.String?
+
+    public init(
+        registryArn: Swift.String? = nil
+    ) {
+        self.registryArn = registryArn
+    }
+}
+
+public struct DeleteRegistryInput: Swift.Sendable {
+    /// The identifier of the registry to delete. You can specify either the Amazon Resource Name (ARN) or the ID of the registry.
+    /// This member is required.
+    public var registryId: Swift.String?
+
+    public init(
+        registryId: Swift.String? = nil
+    ) {
+        self.registryId = registryId
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum RegistryStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createFailed
+        case creating
+        case deleteFailed
+        case deleting
+        case ready
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RegistryStatus] {
+            return [
+                .createFailed,
+                .creating,
+                .deleteFailed,
+                .deleting,
+                .ready,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case .ready: return "READY"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DeleteRegistryOutput: Swift.Sendable {
+    /// The current status of the registry, set to DELETING when deletion is initiated. For a list of all possible registry statuses, see the RegistryStatus data type.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.RegistryStatus?
+
+    public init(
+        status: BedrockAgentCoreControlClientTypes.RegistryStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
+public struct GetRegistryInput: Swift.Sendable {
+    /// The identifier of the registry to retrieve. You can specify either the Amazon Resource Name (ARN) or the ID of the registry.
+    /// This member is required.
+    public var registryId: Swift.String?
+
+    public init(
+        registryId: Swift.String? = nil
+    ) {
+        self.registryId = registryId
+    }
+}
+
+public struct GetRegistryOutput: Swift.Sendable {
+    /// The approval configuration for registry records. For details, see the ApprovalConfiguration data type.
+    public var approvalConfiguration: BedrockAgentCoreControlClientTypes.ApprovalConfiguration?
+    /// The authorizer configuration for the registry. For details, see the AuthorizerConfiguration data type.
+    public var authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration?
+    /// The type of authorizer used by the registry. This controls the authorization method for the Search and Invoke APIs used by consumers.
+    ///
+    /// * CUSTOM_JWT - Authorize with a bearer token.
+    ///
+    /// * AWS_IAM - Authorize with your Amazon Web Services IAM credentials.
+    public var authorizerType: BedrockAgentCoreControlClientTypes.RegistryAuthorizerType?
+    /// The timestamp when the registry was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The description of the registry.
+    public var description: Swift.String?
+    /// The name of the registry.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the registry.
+    /// This member is required.
+    public var registryArn: Swift.String?
+    /// The unique identifier of the registry.
+    /// This member is required.
+    public var registryId: Swift.String?
+    /// The current status of the registry. Possible values include CREATING, READY, UPDATING, CREATE_FAILED, UPDATE_FAILED, DELETING, and DELETE_FAILED.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.RegistryStatus?
+    /// The reason for the current status, typically set when the status is a failure state.
+    public var statusReason: Swift.String?
+    /// The timestamp when the registry was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        approvalConfiguration: BedrockAgentCoreControlClientTypes.ApprovalConfiguration? = nil,
+        authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration? = nil,
+        authorizerType: BedrockAgentCoreControlClientTypes.RegistryAuthorizerType? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        registryArn: Swift.String? = nil,
+        registryId: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.RegistryStatus? = nil,
+        statusReason: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.approvalConfiguration = approvalConfiguration
+        self.authorizerConfiguration = authorizerConfiguration
+        self.authorizerType = authorizerType
+        self.createdAt = createdAt
+        self.description = description
+        self.name = name
+        self.registryArn = registryArn
+        self.registryId = registryId
+        self.status = status
+        self.statusReason = statusReason
+        self.updatedAt = updatedAt
+    }
+}
+
+extension GetRegistryOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetRegistryOutput(approvalConfiguration: \(Swift.String(describing: approvalConfiguration)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), createdAt: \(Swift.String(describing: createdAt)), name: \(Swift.String(describing: name)), registryArn: \(Swift.String(describing: registryArn)), registryId: \(Swift.String(describing: registryId)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListRegistriesInput: Swift.Sendable {
+    /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    public var maxResults: Swift.Int?
+    /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    public var nextToken: Swift.String?
+    /// Filter registries by their current status. Possible values include CREATING, READY, UPDATING, CREATE_FAILED, UPDATE_FAILED, DELETING, and DELETE_FAILED.
+    public var status: BedrockAgentCoreControlClientTypes.RegistryStatus?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.RegistryStatus? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Contains summary information about a registry.
+    public struct RegistrySummary: Swift.Sendable {
+        /// The type of authorizer used by the registry. This controls the authorization method for the Search and Invoke APIs used by consumers.
+        ///
+        /// * CUSTOM_JWT - Authorize with a bearer token.
+        ///
+        /// * AWS_IAM - Authorize with your Amazon Web Services IAM credentials.
+        public var authorizerType: BedrockAgentCoreControlClientTypes.RegistryAuthorizerType?
+        /// The timestamp when the registry was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The description of the registry.
+        public var description: Swift.String?
+        /// The name of the registry.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the registry.
+        /// This member is required.
+        public var registryArn: Swift.String?
+        /// The unique identifier of the registry.
+        /// This member is required.
+        public var registryId: Swift.String?
+        /// The current status of the registry. Possible values include CREATING, READY, UPDATING, CREATE_FAILED, UPDATE_FAILED, DELETING, and DELETE_FAILED.
+        /// This member is required.
+        public var status: BedrockAgentCoreControlClientTypes.RegistryStatus?
+        /// The reason for the current status, typically set when the status is a failure state.
+        public var statusReason: Swift.String?
+        /// The timestamp when the registry was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            authorizerType: BedrockAgentCoreControlClientTypes.RegistryAuthorizerType? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            registryArn: Swift.String? = nil,
+            registryId: Swift.String? = nil,
+            status: BedrockAgentCoreControlClientTypes.RegistryStatus? = nil,
+            statusReason: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.authorizerType = authorizerType
+            self.createdAt = createdAt
+            self.description = description
+            self.name = name
+            self.registryArn = registryArn
+            self.registryId = registryId
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.RegistrySummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RegistrySummary(authorizerType: \(Swift.String(describing: authorizerType)), createdAt: \(Swift.String(describing: createdAt)), name: \(Swift.String(describing: name)), registryArn: \(Swift.String(describing: registryArn)), registryId: \(Swift.String(describing: registryId)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListRegistriesOutput: Swift.Sendable {
+    /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+    public var nextToken: Swift.String?
+    /// The list of registry summaries. For details about the fields in each summary, see the RegistrySummary data type.
+    /// This member is required.
+    public var registries: [BedrockAgentCoreControlClientTypes.RegistrySummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        registries: [BedrockAgentCoreControlClientTypes.RegistrySummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.registries = registries
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Wrapper for updating an optional approval configuration field with PATCH semantics. When present in an update request, the approval configuration is replaced with the provided value. When absent, the approval configuration is left unchanged.
+    public struct UpdatedApprovalConfiguration: Swift.Sendable {
+        /// The updated approval configuration value. Set to null to unset the approval configuration.
+        public var optionalValue: BedrockAgentCoreControlClientTypes.ApprovalConfiguration?
+
+        public init(
+            optionalValue: BedrockAgentCoreControlClientTypes.ApprovalConfiguration? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Wrapper for updating an optional AuthorizerConfiguration field with PATCH semantics. When present in an update request, the authorizer configuration is replaced with optionalValue. When absent, the authorizer configuration is left unchanged. To unset, include the wrapper with optionalValue not specified.
+    public struct UpdatedAuthorizerConfiguration: Swift.Sendable {
+        /// The updated authorizer configuration value. If not specified, it will clear the current authorizer configuration of the resource.
+        public var optionalValue: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration?
+
+        public init(
+            optionalValue: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+public struct UpdateRegistryInput: Swift.Sendable {
+    /// The updated approval configuration for registry records. The updated configuration only affects new records that move to PENDING_APPROVAL status after the change. Existing records already in PENDING_APPROVAL status are not affected.
+    public var approvalConfiguration: BedrockAgentCoreControlClientTypes.UpdatedApprovalConfiguration?
+    /// The updated authorizer configuration for the registry. Changing the authorizer configuration can break existing consumers of the registry who are using the authorization type prior to the update.
+    public var authorizerConfiguration: BedrockAgentCoreControlClientTypes.UpdatedAuthorizerConfiguration?
+    /// The updated description of the registry. To clear the description, include the UpdatedDescription wrapper with optionalValue not specified.
+    public var description: BedrockAgentCoreControlClientTypes.UpdatedDescription?
+    /// The updated name of the registry.
+    public var name: Swift.String?
+    /// The identifier of the registry to update. You can specify either the Amazon Resource Name (ARN) or the ID of the registry.
+    /// This member is required.
+    public var registryId: Swift.String?
+
+    public init(
+        approvalConfiguration: BedrockAgentCoreControlClientTypes.UpdatedApprovalConfiguration? = nil,
+        authorizerConfiguration: BedrockAgentCoreControlClientTypes.UpdatedAuthorizerConfiguration? = nil,
+        description: BedrockAgentCoreControlClientTypes.UpdatedDescription? = nil,
+        name: Swift.String? = nil,
+        registryId: Swift.String? = nil
+    ) {
+        self.approvalConfiguration = approvalConfiguration
+        self.authorizerConfiguration = authorizerConfiguration
+        self.description = description
+        self.name = name
+        self.registryId = registryId
+    }
+}
+
+public struct UpdateRegistryOutput: Swift.Sendable {
+    /// The approval configuration for the updated registry. For details, see the ApprovalConfiguration data type.
+    public var approvalConfiguration: BedrockAgentCoreControlClientTypes.ApprovalConfiguration?
+    /// The authorizer configuration for the updated registry. For details, see the AuthorizerConfiguration data type.
+    public var authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration?
+    /// The type of authorizer used by the updated registry. This controls the authorization method for the Search and Invoke APIs used by consumers.
+    ///
+    /// * CUSTOM_JWT - Authorize with a bearer token.
+    ///
+    /// * AWS_IAM - Authorize with your Amazon Web Services IAM credentials.
+    public var authorizerType: BedrockAgentCoreControlClientTypes.RegistryAuthorizerType?
+    /// The timestamp when the registry was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The description of the updated registry.
+    public var description: Swift.String?
+    /// The name of the updated registry.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the updated registry.
+    /// This member is required.
+    public var registryArn: Swift.String?
+    /// The unique identifier of the updated registry.
+    /// This member is required.
+    public var registryId: Swift.String?
+    /// The current status of the updated registry. Possible values include CREATING, READY, UPDATING, CREATE_FAILED, UPDATE_FAILED, DELETING, and DELETE_FAILED.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.RegistryStatus?
+    /// The reason for the current status of the updated registry.
+    public var statusReason: Swift.String?
+    /// The timestamp when the registry was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        approvalConfiguration: BedrockAgentCoreControlClientTypes.ApprovalConfiguration? = nil,
+        authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration? = nil,
+        authorizerType: BedrockAgentCoreControlClientTypes.RegistryAuthorizerType? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        registryArn: Swift.String? = nil,
+        registryId: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.RegistryStatus? = nil,
+        statusReason: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.approvalConfiguration = approvalConfiguration
+        self.authorizerConfiguration = authorizerConfiguration
+        self.authorizerType = authorizerType
+        self.createdAt = createdAt
+        self.description = description
+        self.name = name
+        self.registryArn = registryArn
+        self.registryId = registryId
+        self.status = status
+        self.statusReason = statusReason
+        self.updatedAt = updatedAt
+    }
+}
+
+extension UpdateRegistryOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateRegistryOutput(approvalConfiguration: \(Swift.String(describing: approvalConfiguration)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), createdAt: \(Swift.String(describing: createdAt)), name: \(Swift.String(describing: name)), registryArn: \(Swift.String(describing: registryArn)), registryId: \(Swift.String(describing: registryId)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+}
+
 /// Exception thrown when a resource is modified concurrently by multiple requests.
 public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -11123,6 +13025,8 @@ extension BedrockAgentCoreControlClientTypes {
 
     /// The gateway target.
     public struct GatewayTarget: Swift.Sendable {
+        /// OAuth2 authorization data for the gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
+        public var authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData?
         /// The date and time at which the target was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -11141,6 +13045,10 @@ extension BedrockAgentCoreControlClientTypes {
         /// The name of the gateway target.
         /// This member is required.
         public var name: Swift.String?
+        /// The private endpoint configuration for a gateway target. Defines how the gateway connects to private resources in your VPC.
+        public var privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint?
+        /// A list of managed resources created by the gateway for private endpoint connectivity. These resources are created in your account when you use a managed VPC Lattice resource configuration.
+        public var privateEndpointManagedResources: [BedrockAgentCoreControlClientTypes.ManagedResourceDetails]?
         /// The status of the gateway target.
         /// This member is required.
         public var status: BedrockAgentCoreControlClientTypes.TargetStatus?
@@ -11157,6 +13065,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var updatedAt: Foundation.Date?
 
         public init(
+            authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData? = nil,
             createdAt: Foundation.Date? = nil,
             credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]? = nil,
             description: Swift.String? = nil,
@@ -11164,12 +13073,15 @@ extension BedrockAgentCoreControlClientTypes {
             lastSynchronizedAt: Foundation.Date? = nil,
             metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration? = nil,
             name: Swift.String? = nil,
+            privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint? = nil,
+            privateEndpointManagedResources: [BedrockAgentCoreControlClientTypes.ManagedResourceDetails]? = nil,
             status: BedrockAgentCoreControlClientTypes.TargetStatus? = nil,
             statusReasons: [Swift.String]? = nil,
             targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration? = nil,
             targetId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
+            self.authorizationData = authorizationData
             self.createdAt = createdAt
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
@@ -11177,6 +13089,8 @@ extension BedrockAgentCoreControlClientTypes {
             self.lastSynchronizedAt = lastSynchronizedAt
             self.metadataConfiguration = metadataConfiguration
             self.name = name
+            self.privateEndpoint = privateEndpoint
+            self.privateEndpointManagedResources = privateEndpointManagedResources
             self.status = status
             self.statusReasons = statusReasons
             self.targetConfiguration = targetConfiguration
@@ -11188,7 +13102,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.GatewayTarget: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GatewayTarget(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GatewayTarget(authorizationData: \(Swift.String(describing: authorizationData)), createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), privateEndpointManagedResources: \(Swift.String(describing: privateEndpointManagedResources)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateGatewayTargetInput: Swift.Sendable {
@@ -11206,6 +13120,8 @@ public struct CreateGatewayTargetInput: Swift.Sendable {
     /// The name of the gateway target. The name must be unique within the gateway.
     /// This member is required.
     public var name: Swift.String?
+    /// The private endpoint configuration for the gateway target. Use this to connect the gateway to private resources in your VPC.
+    public var privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint?
     /// The configuration settings for the target, including endpoint information and schema definitions.
     /// This member is required.
     public var targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration?
@@ -11217,6 +13133,7 @@ public struct CreateGatewayTargetInput: Swift.Sendable {
         gatewayIdentifier: Swift.String? = nil,
         metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration? = nil,
         name: Swift.String? = nil,
+        privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint? = nil,
         targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration? = nil
     ) {
         self.clientToken = clientToken
@@ -11225,16 +13142,19 @@ public struct CreateGatewayTargetInput: Swift.Sendable {
         self.gatewayIdentifier = gatewayIdentifier
         self.metadataConfiguration = metadataConfiguration
         self.name = name
+        self.privateEndpoint = privateEndpoint
         self.targetConfiguration = targetConfiguration
     }
 }
 
 extension CreateGatewayTargetInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGatewayTargetInput(clientToken: \(Swift.String(describing: clientToken)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayIdentifier: \(Swift.String(describing: gatewayIdentifier)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateGatewayTargetInput(clientToken: \(Swift.String(describing: clientToken)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayIdentifier: \(Swift.String(describing: gatewayIdentifier)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateGatewayTargetOutput: Swift.Sendable {
+    /// OAuth2 authorization data for the created gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
+    public var authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData?
     /// The timestamp when the target was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -11253,6 +13173,10 @@ public struct CreateGatewayTargetOutput: Swift.Sendable {
     /// The name of the target.
     /// This member is required.
     public var name: Swift.String?
+    /// The private endpoint configuration for the gateway target.
+    public var privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint?
+    /// The managed resources created by the gateway for private endpoint connectivity.
+    public var privateEndpointManagedResources: [BedrockAgentCoreControlClientTypes.ManagedResourceDetails]?
     /// The current status of the target.
     /// This member is required.
     public var status: BedrockAgentCoreControlClientTypes.TargetStatus?
@@ -11269,6 +13193,7 @@ public struct CreateGatewayTargetOutput: Swift.Sendable {
     public var updatedAt: Foundation.Date?
 
     public init(
+        authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData? = nil,
         createdAt: Foundation.Date? = nil,
         credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]? = nil,
         description: Swift.String? = nil,
@@ -11276,12 +13201,15 @@ public struct CreateGatewayTargetOutput: Swift.Sendable {
         lastSynchronizedAt: Foundation.Date? = nil,
         metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration? = nil,
         name: Swift.String? = nil,
+        privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint? = nil,
+        privateEndpointManagedResources: [BedrockAgentCoreControlClientTypes.ManagedResourceDetails]? = nil,
         status: BedrockAgentCoreControlClientTypes.TargetStatus? = nil,
         statusReasons: [Swift.String]? = nil,
         targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration? = nil,
         targetId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
+        self.authorizationData = authorizationData
         self.createdAt = createdAt
         self.credentialProviderConfigurations = credentialProviderConfigurations
         self.description = description
@@ -11289,6 +13217,8 @@ public struct CreateGatewayTargetOutput: Swift.Sendable {
         self.lastSynchronizedAt = lastSynchronizedAt
         self.metadataConfiguration = metadataConfiguration
         self.name = name
+        self.privateEndpoint = privateEndpoint
+        self.privateEndpointManagedResources = privateEndpointManagedResources
         self.status = status
         self.statusReasons = statusReasons
         self.targetConfiguration = targetConfiguration
@@ -11299,10 +13229,12 @@ public struct CreateGatewayTargetOutput: Swift.Sendable {
 
 extension CreateGatewayTargetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGatewayTargetOutput(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateGatewayTargetOutput(authorizationData: \(Swift.String(describing: authorizationData)), createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), privateEndpointManagedResources: \(Swift.String(describing: privateEndpointManagedResources)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetGatewayTargetOutput: Swift.Sendable {
+    /// OAuth2 authorization data for the gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
+    public var authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData?
     /// The timestamp when the gateway target was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -11321,6 +13253,10 @@ public struct GetGatewayTargetOutput: Swift.Sendable {
     /// The name of the gateway target.
     /// This member is required.
     public var name: Swift.String?
+    /// The private endpoint configuration for the gateway target.
+    public var privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint?
+    /// The managed resources created by the gateway for private endpoint connectivity.
+    public var privateEndpointManagedResources: [BedrockAgentCoreControlClientTypes.ManagedResourceDetails]?
     /// The current status of the gateway target.
     /// This member is required.
     public var status: BedrockAgentCoreControlClientTypes.TargetStatus?
@@ -11337,6 +13273,7 @@ public struct GetGatewayTargetOutput: Swift.Sendable {
     public var updatedAt: Foundation.Date?
 
     public init(
+        authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData? = nil,
         createdAt: Foundation.Date? = nil,
         credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]? = nil,
         description: Swift.String? = nil,
@@ -11344,12 +13281,15 @@ public struct GetGatewayTargetOutput: Swift.Sendable {
         lastSynchronizedAt: Foundation.Date? = nil,
         metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration? = nil,
         name: Swift.String? = nil,
+        privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint? = nil,
+        privateEndpointManagedResources: [BedrockAgentCoreControlClientTypes.ManagedResourceDetails]? = nil,
         status: BedrockAgentCoreControlClientTypes.TargetStatus? = nil,
         statusReasons: [Swift.String]? = nil,
         targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration? = nil,
         targetId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
+        self.authorizationData = authorizationData
         self.createdAt = createdAt
         self.credentialProviderConfigurations = credentialProviderConfigurations
         self.description = description
@@ -11357,6 +13297,8 @@ public struct GetGatewayTargetOutput: Swift.Sendable {
         self.lastSynchronizedAt = lastSynchronizedAt
         self.metadataConfiguration = metadataConfiguration
         self.name = name
+        self.privateEndpoint = privateEndpoint
+        self.privateEndpointManagedResources = privateEndpointManagedResources
         self.status = status
         self.statusReasons = statusReasons
         self.targetConfiguration = targetConfiguration
@@ -11367,7 +13309,7 @@ public struct GetGatewayTargetOutput: Swift.Sendable {
 
 extension GetGatewayTargetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetGatewayTargetOutput(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetGatewayTargetOutput(authorizationData: \(Swift.String(describing: authorizationData)), createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), privateEndpointManagedResources: \(Swift.String(describing: privateEndpointManagedResources)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateGatewayTargetInput: Swift.Sendable {
@@ -11383,6 +13325,8 @@ public struct UpdateGatewayTargetInput: Swift.Sendable {
     /// The updated name for the gateway target.
     /// This member is required.
     public var name: Swift.String?
+    /// The private endpoint configuration for the gateway target. Use this to connect the gateway to private resources in your VPC.
+    public var privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint?
     /// The configuration for a gateway target. This structure defines how the gateway connects to and interacts with the target endpoint.
     /// This member is required.
     public var targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration?
@@ -11396,6 +13340,7 @@ public struct UpdateGatewayTargetInput: Swift.Sendable {
         gatewayIdentifier: Swift.String? = nil,
         metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration? = nil,
         name: Swift.String? = nil,
+        privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint? = nil,
         targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration? = nil,
         targetId: Swift.String? = nil
     ) {
@@ -11404,6 +13349,7 @@ public struct UpdateGatewayTargetInput: Swift.Sendable {
         self.gatewayIdentifier = gatewayIdentifier
         self.metadataConfiguration = metadataConfiguration
         self.name = name
+        self.privateEndpoint = privateEndpoint
         self.targetConfiguration = targetConfiguration
         self.targetId = targetId
     }
@@ -11411,10 +13357,12 @@ public struct UpdateGatewayTargetInput: Swift.Sendable {
 
 extension UpdateGatewayTargetInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGatewayTargetInput(credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayIdentifier: \(Swift.String(describing: gatewayIdentifier)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateGatewayTargetInput(credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayIdentifier: \(Swift.String(describing: gatewayIdentifier)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateGatewayTargetOutput: Swift.Sendable {
+    /// OAuth2 authorization data for the updated gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
+    public var authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData?
     /// The timestamp when the gateway target was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -11433,6 +13381,10 @@ public struct UpdateGatewayTargetOutput: Swift.Sendable {
     /// The updated name of the gateway target.
     /// This member is required.
     public var name: Swift.String?
+    /// The private endpoint configuration for the gateway target.
+    public var privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint?
+    /// The managed resources created by the gateway for private endpoint connectivity.
+    public var privateEndpointManagedResources: [BedrockAgentCoreControlClientTypes.ManagedResourceDetails]?
     /// The current status of the updated gateway target.
     /// This member is required.
     public var status: BedrockAgentCoreControlClientTypes.TargetStatus?
@@ -11449,6 +13401,7 @@ public struct UpdateGatewayTargetOutput: Swift.Sendable {
     public var updatedAt: Foundation.Date?
 
     public init(
+        authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData? = nil,
         createdAt: Foundation.Date? = nil,
         credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]? = nil,
         description: Swift.String? = nil,
@@ -11456,12 +13409,15 @@ public struct UpdateGatewayTargetOutput: Swift.Sendable {
         lastSynchronizedAt: Foundation.Date? = nil,
         metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration? = nil,
         name: Swift.String? = nil,
+        privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint? = nil,
+        privateEndpointManagedResources: [BedrockAgentCoreControlClientTypes.ManagedResourceDetails]? = nil,
         status: BedrockAgentCoreControlClientTypes.TargetStatus? = nil,
         statusReasons: [Swift.String]? = nil,
         targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration? = nil,
         targetId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
+        self.authorizationData = authorizationData
         self.createdAt = createdAt
         self.credentialProviderConfigurations = credentialProviderConfigurations
         self.description = description
@@ -11469,6 +13425,8 @@ public struct UpdateGatewayTargetOutput: Swift.Sendable {
         self.lastSynchronizedAt = lastSynchronizedAt
         self.metadataConfiguration = metadataConfiguration
         self.name = name
+        self.privateEndpoint = privateEndpoint
+        self.privateEndpointManagedResources = privateEndpointManagedResources
         self.status = status
         self.statusReasons = statusReasons
         self.targetConfiguration = targetConfiguration
@@ -11479,7 +13437,7 @@ public struct UpdateGatewayTargetOutput: Swift.Sendable {
 
 extension UpdateGatewayTargetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGatewayTargetOutput(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateGatewayTargetOutput(authorizationData: \(Swift.String(describing: authorizationData)), createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), privateEndpointManagedResources: \(Swift.String(describing: privateEndpointManagedResources)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct SynchronizeGatewayTargetsOutput: Swift.Sendable {
@@ -11597,6 +13555,23 @@ extension CreatePolicyEngineInput {
 
     static func urlPathProvider(_ value: CreatePolicyEngineInput) -> Swift.String? {
         return "/policy-engines"
+    }
+}
+
+extension CreateRegistryInput {
+
+    static func urlPathProvider(_ value: CreateRegistryInput) -> Swift.String? {
+        return "/registries"
+    }
+}
+
+extension CreateRegistryRecordInput {
+
+    static func urlPathProvider(_ value: CreateRegistryRecordInput) -> Swift.String? {
+        guard let registryId = value.registryId else {
+            return nil
+        }
+        return "/registries/\(registryId.urlPercentEncoding())/records"
     }
 }
 
@@ -11822,6 +13797,29 @@ extension DeletePolicyEngineInput {
     }
 }
 
+extension DeleteRegistryInput {
+
+    static func urlPathProvider(_ value: DeleteRegistryInput) -> Swift.String? {
+        guard let registryId = value.registryId else {
+            return nil
+        }
+        return "/registries/\(registryId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteRegistryRecordInput {
+
+    static func urlPathProvider(_ value: DeleteRegistryRecordInput) -> Swift.String? {
+        guard let registryId = value.registryId else {
+            return nil
+        }
+        guard let recordId = value.recordId else {
+            return nil
+        }
+        return "/registries/\(registryId.urlPercentEncoding())/records/\(recordId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteResourcePolicyInput {
 
     static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
@@ -12016,6 +14014,29 @@ extension GetPolicyGenerationInput {
             return nil
         }
         return "/policy-engines/\(policyEngineId.urlPercentEncoding())/policy-generations/\(policyGenerationId.urlPercentEncoding())"
+    }
+}
+
+extension GetRegistryInput {
+
+    static func urlPathProvider(_ value: GetRegistryInput) -> Swift.String? {
+        guard let registryId = value.registryId else {
+            return nil
+        }
+        return "/registries/\(registryId.urlPercentEncoding())"
+    }
+}
+
+extension GetRegistryRecordInput {
+
+    static func urlPathProvider(_ value: GetRegistryRecordInput) -> Swift.String? {
+        guard let registryId = value.registryId else {
+            return nil
+        }
+        guard let recordId = value.recordId else {
+            return nil
+        }
+        return "/registries/\(registryId.urlPercentEncoding())/records/\(recordId.urlPercentEncoding())"
     }
 }
 
@@ -12419,6 +14440,71 @@ extension ListPolicyGenerationsInput {
     }
 }
 
+extension ListRegistriesInput {
+
+    static func urlPathProvider(_ value: ListRegistriesInput) -> Swift.String? {
+        return "/registries"
+    }
+}
+
+extension ListRegistriesInput {
+
+    static func queryItemProvider(_ value: ListRegistriesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListRegistryRecordsInput {
+
+    static func urlPathProvider(_ value: ListRegistryRecordsInput) -> Swift.String? {
+        guard let registryId = value.registryId else {
+            return nil
+        }
+        return "/registries/\(registryId.urlPercentEncoding())/records"
+    }
+}
+
+extension ListRegistryRecordsInput {
+
+    static func queryItemProvider(_ value: ListRegistryRecordsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let name = value.name {
+            let nameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            items.append(nameQueryItem)
+        }
+        if let descriptorType = value.descriptorType {
+            let descriptorTypeQueryItem = Smithy.URIQueryItem(name: "descriptorType".urlPercentEncoding(), value: Swift.String(descriptorType.rawValue).urlPercentEncoding())
+            items.append(descriptorTypeQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
@@ -12460,6 +14546,19 @@ extension StartPolicyGenerationInput {
             return nil
         }
         return "/policy-engines/\(policyEngineId.urlPercentEncoding())/policy-generations"
+    }
+}
+
+extension SubmitRegistryRecordForApprovalInput {
+
+    static func urlPathProvider(_ value: SubmitRegistryRecordForApprovalInput) -> Swift.String? {
+        guard let registryId = value.registryId else {
+            return nil
+        }
+        guard let recordId = value.recordId else {
+            return nil
+        }
+        return "/registries/\(registryId.urlPercentEncoding())/records/\(recordId.urlPercentEncoding())/submit-for-approval"
     }
 }
 
@@ -12622,6 +14721,42 @@ extension UpdatePolicyEngineInput {
     }
 }
 
+extension UpdateRegistryInput {
+
+    static func urlPathProvider(_ value: UpdateRegistryInput) -> Swift.String? {
+        guard let registryId = value.registryId else {
+            return nil
+        }
+        return "/registries/\(registryId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateRegistryRecordInput {
+
+    static func urlPathProvider(_ value: UpdateRegistryRecordInput) -> Swift.String? {
+        guard let registryId = value.registryId else {
+            return nil
+        }
+        guard let recordId = value.recordId else {
+            return nil
+        }
+        return "/registries/\(registryId.urlPercentEncoding())/records/\(recordId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateRegistryRecordStatusInput {
+
+    static func urlPathProvider(_ value: UpdateRegistryRecordStatusInput) -> Swift.String? {
+        guard let registryId = value.registryId else {
+            return nil
+        }
+        guard let recordId = value.recordId else {
+            return nil
+        }
+        return "/registries/\(registryId.urlPercentEncoding())/records/\(recordId.urlPercentEncoding())/status"
+    }
+}
+
 extension UpdateWorkloadIdentityInput {
 
     static func urlPathProvider(_ value: UpdateWorkloadIdentityInput) -> Swift.String? {
@@ -12755,6 +14890,7 @@ extension CreateGatewayTargetInput {
         try writer["description"].write(value.description)
         try writer["metadataConfiguration"].write(value.metadataConfiguration, with: BedrockAgentCoreControlClientTypes.MetadataConfiguration.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["privateEndpoint"].write(value.privateEndpoint, with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.write(value:to:))
         try writer["targetConfiguration"].write(value.targetConfiguration, with: BedrockAgentCoreControlClientTypes.TargetConfiguration.write(value:to:))
     }
 }
@@ -12823,6 +14959,34 @@ extension CreatePolicyEngineInput {
         try writer["encryptionKeyArn"].write(value.encryptionKeyArn)
         try writer["name"].write(value.name)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateRegistryInput {
+
+    static func write(value: CreateRegistryInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["approvalConfiguration"].write(value.approvalConfiguration, with: BedrockAgentCoreControlClientTypes.ApprovalConfiguration.write(value:to:))
+        try writer["authorizerConfiguration"].write(value.authorizerConfiguration, with: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration.write(value:to:))
+        try writer["authorizerType"].write(value.authorizerType)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+    }
+}
+
+extension CreateRegistryRecordInput {
+
+    static func write(value: CreateRegistryRecordInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["descriptorType"].write(value.descriptorType)
+        try writer["descriptors"].write(value.descriptors, with: BedrockAgentCoreControlClientTypes.Descriptors.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["recordVersion"].write(value.recordVersion)
+        try writer["synchronizationConfiguration"].write(value.synchronizationConfiguration, with: BedrockAgentCoreControlClientTypes.SynchronizationConfiguration.write(value:to:))
+        try writer["synchronizationType"].write(value.synchronizationType)
     }
 }
 
@@ -13055,6 +15219,7 @@ extension UpdateGatewayTargetInput {
         try writer["description"].write(value.description)
         try writer["metadataConfiguration"].write(value.metadataConfiguration, with: BedrockAgentCoreControlClientTypes.MetadataConfiguration.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["privateEndpoint"].write(value.privateEndpoint, with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.write(value:to:))
         try writer["targetConfiguration"].write(value.targetConfiguration, with: BedrockAgentCoreControlClientTypes.TargetConfiguration.write(value:to:))
     }
 }
@@ -13111,6 +15276,41 @@ extension UpdatePolicyEngineInput {
     static func write(value: UpdatePolicyEngineInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["description"].write(value.description, with: BedrockAgentCoreControlClientTypes.UpdatedDescription.write(value:to:))
+    }
+}
+
+extension UpdateRegistryInput {
+
+    static func write(value: UpdateRegistryInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["approvalConfiguration"].write(value.approvalConfiguration, with: BedrockAgentCoreControlClientTypes.UpdatedApprovalConfiguration.write(value:to:))
+        try writer["authorizerConfiguration"].write(value.authorizerConfiguration, with: BedrockAgentCoreControlClientTypes.UpdatedAuthorizerConfiguration.write(value:to:))
+        try writer["description"].write(value.description, with: BedrockAgentCoreControlClientTypes.UpdatedDescription.write(value:to:))
+        try writer["name"].write(value.name)
+    }
+}
+
+extension UpdateRegistryRecordInput {
+
+    static func write(value: UpdateRegistryRecordInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description, with: BedrockAgentCoreControlClientTypes.UpdatedDescription.write(value:to:))
+        try writer["descriptorType"].write(value.descriptorType)
+        try writer["descriptors"].write(value.descriptors, with: BedrockAgentCoreControlClientTypes.UpdatedDescriptors.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["recordVersion"].write(value.recordVersion)
+        try writer["synchronizationConfiguration"].write(value.synchronizationConfiguration, with: BedrockAgentCoreControlClientTypes.UpdatedSynchronizationConfiguration.write(value:to:))
+        try writer["synchronizationType"].write(value.synchronizationType, with: BedrockAgentCoreControlClientTypes.UpdatedSynchronizationType.write(value:to:))
+        try writer["triggerSynchronization"].write(value.triggerSynchronization)
+    }
+}
+
+extension UpdateRegistryRecordStatusInput {
+
+    static func write(value: UpdateRegistryRecordStatusInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["status"].write(value.status)
+        try writer["statusReason"].write(value.statusReason)
     }
 }
 
@@ -13269,6 +15469,7 @@ extension CreateGatewayTargetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateGatewayTargetOutput()
+        value.authorizationData = try reader["authorizationData"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AuthorizationData.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.description = try reader["description"].readIfPresent()
@@ -13276,6 +15477,8 @@ extension CreateGatewayTargetOutput {
         value.lastSynchronizedAt = try reader["lastSynchronizedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.metadataConfiguration = try reader["metadataConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.MetadataConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.privateEndpoint = try reader["privateEndpoint"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.read(from:))
+        value.privateEndpointManagedResources = try reader["privateEndpointManagedResources"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.ManagedResourceDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.targetConfiguration = try reader["targetConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.TargetConfiguration.read(from:))
@@ -13368,6 +15571,31 @@ extension CreatePolicyEngineOutput {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension CreateRegistryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRegistryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateRegistryOutput()
+        value.registryArn = try reader["registryArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateRegistryRecordOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRegistryRecordOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateRegistryRecordOutput()
+        value.recordArn = try reader["recordArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13582,6 +15810,25 @@ extension DeletePolicyEngineOutput {
     }
 }
 
+extension DeleteRegistryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRegistryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteRegistryOutput()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DeleteRegistryRecordOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRegistryRecordOutput {
+        return DeleteRegistryRecordOutput()
+    }
+}
+
 extension DeleteResourcePolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteResourcePolicyOutput {
@@ -13791,6 +16038,7 @@ extension GetGatewayTargetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetGatewayTargetOutput()
+        value.authorizationData = try reader["authorizationData"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AuthorizationData.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.description = try reader["description"].readIfPresent()
@@ -13798,6 +16046,8 @@ extension GetGatewayTargetOutput {
         value.lastSynchronizedAt = try reader["lastSynchronizedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.metadataConfiguration = try reader["metadataConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.MetadataConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.privateEndpoint = try reader["privateEndpoint"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.read(from:))
+        value.privateEndpointManagedResources = try reader["privateEndpointManagedResources"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.ManagedResourceDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.targetConfiguration = try reader["targetConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.TargetConfiguration.read(from:))
@@ -13920,6 +16170,53 @@ extension GetPolicyGenerationOutput {
         value.resource = try reader["resource"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Resource.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension GetRegistryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRegistryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRegistryOutput()
+        value.approvalConfiguration = try reader["approvalConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ApprovalConfiguration.read(from:))
+        value.authorizerConfiguration = try reader["authorizerConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration.read(from:))
+        value.authorizerType = try reader["authorizerType"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.registryArn = try reader["registryArn"].readIfPresent() ?? ""
+        value.registryId = try reader["registryId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension GetRegistryRecordOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRegistryRecordOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRegistryRecordOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.descriptorType = try reader["descriptorType"].readIfPresent() ?? .sdkUnknown("")
+        value.descriptors = try reader["descriptors"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Descriptors.read(from:))
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.recordArn = try reader["recordArn"].readIfPresent() ?? ""
+        value.recordId = try reader["recordId"].readIfPresent() ?? ""
+        value.recordVersion = try reader["recordVersion"].readIfPresent()
+        value.registryArn = try reader["registryArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.synchronizationConfiguration = try reader["synchronizationConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SynchronizationConfiguration.read(from:))
+        value.synchronizationType = try reader["synchronizationType"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
@@ -14188,6 +16485,32 @@ extension ListPolicyGenerationsOutput {
     }
 }
 
+extension ListRegistriesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRegistriesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRegistriesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.registries = try reader["registries"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.RegistrySummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListRegistryRecordsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRegistryRecordsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRegistryRecordsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.registryRecords = try reader["registryRecords"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.RegistryRecordSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListTagsForResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
@@ -14255,6 +16578,22 @@ extension StartPolicyGenerationOutput {
         value.resource = try reader["resource"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Resource.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension SubmitRegistryRecordForApprovalOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SubmitRegistryRecordForApprovalOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SubmitRegistryRecordForApprovalOutput()
+        value.recordArn = try reader["recordArn"].readIfPresent() ?? ""
+        value.recordId = try reader["recordId"].readIfPresent() ?? ""
+        value.registryArn = try reader["registryArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
@@ -14390,6 +16729,7 @@ extension UpdateGatewayTargetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateGatewayTargetOutput()
+        value.authorizationData = try reader["authorizationData"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AuthorizationData.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.description = try reader["description"].readIfPresent()
@@ -14397,6 +16737,8 @@ extension UpdateGatewayTargetOutput {
         value.lastSynchronizedAt = try reader["lastSynchronizedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.metadataConfiguration = try reader["metadataConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.MetadataConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.privateEndpoint = try reader["privateEndpoint"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.read(from:))
+        value.privateEndpointManagedResources = try reader["privateEndpointManagedResources"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.ManagedResourceDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.targetConfiguration = try reader["targetConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.TargetConfiguration.read(from:))
@@ -14490,6 +16832,70 @@ extension UpdatePolicyEngineOutput {
         value.policyEngineId = try reader["policyEngineId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension UpdateRegistryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRegistryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateRegistryOutput()
+        value.approvalConfiguration = try reader["approvalConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ApprovalConfiguration.read(from:))
+        value.authorizerConfiguration = try reader["authorizerConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration.read(from:))
+        value.authorizerType = try reader["authorizerType"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.registryArn = try reader["registryArn"].readIfPresent() ?? ""
+        value.registryId = try reader["registryId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension UpdateRegistryRecordOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRegistryRecordOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateRegistryRecordOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.descriptorType = try reader["descriptorType"].readIfPresent() ?? .sdkUnknown("")
+        value.descriptors = try reader["descriptors"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Descriptors.read(from:))
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.recordArn = try reader["recordArn"].readIfPresent() ?? ""
+        value.recordId = try reader["recordId"].readIfPresent() ?? ""
+        value.recordVersion = try reader["recordVersion"].readIfPresent()
+        value.registryArn = try reader["registryArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.synchronizationConfiguration = try reader["synchronizationConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SynchronizationConfiguration.read(from:))
+        value.synchronizationType = try reader["synchronizationType"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension UpdateRegistryRecordStatusOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRegistryRecordStatusOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateRegistryRecordStatusOutput()
+        value.recordArn = try reader["recordArn"].readIfPresent() ?? ""
+        value.recordId = try reader["recordId"].readIfPresent() ?? ""
+        value.registryArn = try reader["registryArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
@@ -14791,6 +17197,45 @@ enum CreatePolicyEngineOutputError {
     }
 }
 
+enum CreateRegistryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateRegistryRecordOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateWorkloadIdentityOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15058,6 +17503,44 @@ enum DeletePolicyOutputError {
 }
 
 enum DeletePolicyEngineOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteRegistryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteRegistryRecordOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -15378,6 +17861,43 @@ enum GetPolicyGenerationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetRegistryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetRegistryRecordOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -15741,6 +18261,42 @@ enum ListPolicyGenerationsOutputError {
     }
 }
 
+enum ListRegistriesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRegistryRecordsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTagsForResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15829,6 +18385,25 @@ enum StartPolicyGenerationOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SubmitRegistryRecordForApprovalOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16117,6 +18692,64 @@ enum UpdatePolicyEngineOutputError {
     }
 }
 
+enum UpdateRegistryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateRegistryRecordOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateRegistryRecordStatusOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateWorkloadIdentityOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16320,6 +18953,38 @@ extension ConcurrentModificationException {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.A2aDescriptor {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.A2aDescriptor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentCard"].write(value.agentCard, with: BedrockAgentCoreControlClientTypes.AgentCardDefinition.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.A2aDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.A2aDescriptor()
+        value.agentCard = try reader["agentCard"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AgentCardDefinition.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.AgentCardDefinition {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.AgentCardDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inlineContent"].write(value.inlineContent)
+        try writer["schemaVersion"].write(value.schemaVersion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AgentCardDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.AgentCardDefinition()
+        value.schemaVersion = try reader["schemaVersion"].readIfPresent()
+        value.inlineContent = try reader["inlineContent"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.AgentRuntime {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AgentRuntime {
@@ -16379,6 +19044,23 @@ extension BedrockAgentCoreControlClientTypes.AgentRuntimeEndpoint {
         value.description = try reader["description"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.AgentSkillsDescriptor {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.AgentSkillsDescriptor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["skillDefinition"].write(value.skillDefinition, with: BedrockAgentCoreControlClientTypes.SkillDefinition.write(value:to:))
+        try writer["skillMd"].write(value.skillMd, with: BedrockAgentCoreControlClientTypes.SkillMdDefinition.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AgentSkillsDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.AgentSkillsDescriptor()
+        value.skillMd = try reader["skillMd"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SkillMdDefinition.read(from:))
+        value.skillDefinition = try reader["skillDefinition"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SkillDefinition.read(from:))
         return value
     }
 }
@@ -16498,6 +19180,21 @@ extension BedrockAgentCoreControlClientTypes.ApiSchemaConfiguration {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.ApprovalConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ApprovalConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autoApproval"].write(value.autoApproval)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ApprovalConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.ApprovalConfiguration()
+        value.autoApproval = try reader["autoApproval"].readIfPresent() ?? false
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigInput {
 
     static func write(value: BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
@@ -16515,6 +19212,20 @@ extension BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigOutput
         value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
         value.clientId = try reader["clientId"].readIfPresent()
         return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.AuthorizationData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AuthorizationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "oauth2":
+                return .oauth2(try reader["oauth2"].read(with: BedrockAgentCoreControlClientTypes.OAuth2AuthorizationData.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -16957,6 +19668,8 @@ extension BedrockAgentCoreControlClientTypes.CredentialProvider {
         switch value {
             case let .apikeycredentialprovider(apikeycredentialprovider):
                 try writer["apiKeyCredentialProvider"].write(apikeycredentialprovider, with: BedrockAgentCoreControlClientTypes.GatewayApiKeyCredentialProvider.write(value:to:))
+            case let .iamcredentialprovider(iamcredentialprovider):
+                try writer["iamCredentialProvider"].write(iamcredentialprovider, with: BedrockAgentCoreControlClientTypes.IamCredentialProvider.write(value:to:))
             case let .oauthcredentialprovider(oauthcredentialprovider):
                 try writer["oauthCredentialProvider"].write(oauthcredentialprovider, with: BedrockAgentCoreControlClientTypes.OAuthCredentialProvider.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -16972,6 +19685,8 @@ extension BedrockAgentCoreControlClientTypes.CredentialProvider {
                 return .oauthcredentialprovider(try reader["oauthCredentialProvider"].read(with: BedrockAgentCoreControlClientTypes.OAuthCredentialProvider.read(from:)))
             case "apiKeyCredentialProvider":
                 return .apikeycredentialprovider(try reader["apiKeyCredentialProvider"].read(with: BedrockAgentCoreControlClientTypes.GatewayApiKeyCredentialProvider.read(from:)))
+            case "iamCredentialProvider":
+                return .iamcredentialprovider(try reader["iamCredentialProvider"].read(with: BedrockAgentCoreControlClientTypes.IamCredentialProvider.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -17071,6 +19786,21 @@ extension BedrockAgentCoreControlClientTypes.CustomConsolidationConfigurationInp
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.CustomDescriptor {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.CustomDescriptor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inlineContent"].write(value.inlineContent)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CustomDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.CustomDescriptor()
+        value.inlineContent = try reader["inlineContent"].readIfPresent()
+        return value
     }
 }
 
@@ -17221,6 +19951,27 @@ extension BedrockAgentCoreControlClientTypes.DeleteMemoryStrategyInput {
     static func write(value: BedrockAgentCoreControlClientTypes.DeleteMemoryStrategyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["memoryStrategyId"].write(value.memoryStrategyId)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.Descriptors {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.Descriptors?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["a2a"].write(value.a2a, with: BedrockAgentCoreControlClientTypes.A2aDescriptor.write(value:to:))
+        try writer["agentSkills"].write(value.agentSkills, with: BedrockAgentCoreControlClientTypes.AgentSkillsDescriptor.write(value:to:))
+        try writer["custom"].write(value.custom, with: BedrockAgentCoreControlClientTypes.CustomDescriptor.write(value:to:))
+        try writer["mcp"].write(value.mcp, with: BedrockAgentCoreControlClientTypes.McpDescriptor.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Descriptors {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.Descriptors()
+        value.mcp = try reader["mcp"].readIfPresent(with: BedrockAgentCoreControlClientTypes.McpDescriptor.read(from:))
+        value.a2a = try reader["a2a"].readIfPresent(with: BedrockAgentCoreControlClientTypes.A2aDescriptor.read(from:))
+        value.custom = try reader["custom"].readIfPresent(with: BedrockAgentCoreControlClientTypes.CustomDescriptor.read(from:))
+        value.agentSkills = try reader["agentSkills"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AgentSkillsDescriptor.read(from:))
+        return value
     }
 }
 
@@ -17525,6 +20276,23 @@ extension BedrockAgentCoreControlClientTypes.Finding {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.FromUrlSynchronizationConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.FromUrlSynchronizationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["credentialProviderConfigurations"].writeList(value.credentialProviderConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.RegistryRecordCredentialProviderConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.FromUrlSynchronizationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.FromUrlSynchronizationConfiguration()
+        value.url = try reader["url"].readIfPresent() ?? ""
+        value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.RegistryRecordCredentialProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.GatewayApiKeyCredentialProvider {
 
     static func write(value: BedrockAgentCoreControlClientTypes.GatewayApiKeyCredentialProvider?, to writer: SmithyJSON.Writer) throws {
@@ -17640,6 +20408,9 @@ extension BedrockAgentCoreControlClientTypes.GatewayTarget {
         value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.lastSynchronizedAt = try reader["lastSynchronizedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.metadataConfiguration = try reader["metadataConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.MetadataConfiguration.read(from:))
+        value.privateEndpoint = try reader["privateEndpoint"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.read(from:))
+        value.privateEndpointManagedResources = try reader["privateEndpointManagedResources"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.ManagedResourceDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.authorizationData = try reader["authorizationData"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AuthorizationData.read(from:))
         return value
     }
 }
@@ -17680,6 +20451,23 @@ extension BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput {
         var value = BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput()
         value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
         value.clientId = try reader["clientId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.IamCredentialProvider {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.IamCredentialProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["region"].write(value.region)
+        try writer["service"].write(value.service)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.IamCredentialProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.IamCredentialProvider()
+        value.service = try reader["service"].readIfPresent() ?? ""
+        value.region = try reader["region"].readIfPresent()
         return value
     }
 }
@@ -17909,6 +20697,60 @@ extension BedrockAgentCoreControlClientTypes.LlmAsAJudgeEvaluatorConfig {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.ManagedLatticeResource {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ManagedLatticeResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endpointIpAddressType"].write(value.endpointIpAddressType)
+        try writer["routingDomain"].write(value.routingDomain)
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["vpcIdentifier"].write(value.vpcIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ManagedLatticeResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.ManagedLatticeResource()
+        value.vpcIdentifier = try reader["vpcIdentifier"].readIfPresent() ?? ""
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.endpointIpAddressType = try reader["endpointIpAddressType"].readIfPresent() ?? .sdkUnknown("")
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.routingDomain = try reader["routingDomain"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ManagedResourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ManagedResourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.ManagedResourceDetails()
+        value.domain = try reader["domain"].readIfPresent()
+        value.resourceGatewayArn = try reader["resourceGatewayArn"].readIfPresent()
+        value.resourceAssociationArn = try reader["resourceAssociationArn"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.McpDescriptor {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.McpDescriptor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["server"].write(value.server, with: BedrockAgentCoreControlClientTypes.ServerDefinition.write(value:to:))
+        try writer["tools"].write(value.tools, with: BedrockAgentCoreControlClientTypes.ToolsDefinition.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.McpDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.McpDescriptor()
+        value.server = try reader["server"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ServerDefinition.read(from:))
+        value.tools = try reader["tools"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ToolsDefinition.read(from:))
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -17950,12 +20792,14 @@ extension BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration {
     static func write(value: BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["endpoint"].write(value.endpoint)
+        try writer["mcpToolSchema"].write(value.mcpToolSchema, with: BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration()
         value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.mcpToolSchema = try reader["mcpToolSchema"].readIfPresent(with: BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration.read(from:))
         return value
     }
 }
@@ -17994,6 +20838,34 @@ extension BedrockAgentCoreControlClientTypes.McpTargetConfiguration {
                 return .mcpserver(try reader["mcpServer"].read(with: BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration.read(from:)))
             case "apiGateway":
                 return .apigateway(try reader["apiGateway"].read(with: BedrockAgentCoreControlClientTypes.ApiGatewayTargetConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .inlinepayload(inlinepayload):
+                try writer["inlinePayload"].write(inlinepayload)
+            case let .s3(s3):
+                try writer["s3"].write(s3, with: BedrockAgentCoreControlClientTypes.S3Configuration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3":
+                return .s3(try reader["s3"].read(with: BedrockAgentCoreControlClientTypes.S3Configuration.read(from:)))
+            case "inlinePayload":
+                return .inlinepayload(try reader["inlinePayload"].read())
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -18259,6 +21131,17 @@ extension BedrockAgentCoreControlClientTypes.NumericalScaleDefinition {
         value.definition = try reader["definition"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent() ?? 0.0
         value.label = try reader["label"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.OAuth2AuthorizationData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.OAuth2AuthorizationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.OAuth2AuthorizationData()
+        value.authorizationUrl = try reader["authorizationUrl"].readIfPresent() ?? ""
+        value.userId = try reader["userId"].readIfPresent()
         return value
     }
 }
@@ -18552,6 +21435,34 @@ extension BedrockAgentCoreControlClientTypes.PolicyGenerationDetails {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.PrivateEndpoint {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.PrivateEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .managedlatticeresource(managedlatticeresource):
+                try writer["managedLatticeResource"].write(managedlatticeresource, with: BedrockAgentCoreControlClientTypes.ManagedLatticeResource.write(value:to:))
+            case let .selfmanagedlatticeresource(selfmanagedlatticeresource):
+                try writer["selfManagedLatticeResource"].write(selfmanagedlatticeresource, with: BedrockAgentCoreControlClientTypes.SelfManagedLatticeResource.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.PrivateEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "selfManagedLatticeResource":
+                return .selfmanagedlatticeresource(try reader["selfManagedLatticeResource"].read(with: BedrockAgentCoreControlClientTypes.SelfManagedLatticeResource.read(from:)))
+            case "managedLatticeResource":
+                return .managedlatticeresource(try reader["managedLatticeResource"].read(with: BedrockAgentCoreControlClientTypes.ManagedLatticeResource.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.ProtocolConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.ProtocolConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -18625,6 +21536,128 @@ extension BedrockAgentCoreControlClientTypes.ReflectionConfiguration {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.RegistryRecordCredentialProviderConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.RegistryRecordCredentialProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["credentialProvider"].write(value.credentialProvider, with: BedrockAgentCoreControlClientTypes.RegistryRecordCredentialProviderUnion.write(value:to:))
+        try writer["credentialProviderType"].write(value.credentialProviderType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.RegistryRecordCredentialProviderConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.RegistryRecordCredentialProviderConfiguration()
+        value.credentialProviderType = try reader["credentialProviderType"].readIfPresent() ?? .sdkUnknown("")
+        value.credentialProvider = try reader["credentialProvider"].readIfPresent(with: BedrockAgentCoreControlClientTypes.RegistryRecordCredentialProviderUnion.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.RegistryRecordCredentialProviderUnion {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.RegistryRecordCredentialProviderUnion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .iamcredentialprovider(iamcredentialprovider):
+                try writer["iamCredentialProvider"].write(iamcredentialprovider, with: BedrockAgentCoreControlClientTypes.RegistryRecordIamCredentialProvider.write(value:to:))
+            case let .oauthcredentialprovider(oauthcredentialprovider):
+                try writer["oauthCredentialProvider"].write(oauthcredentialprovider, with: BedrockAgentCoreControlClientTypes.RegistryRecordOAuthCredentialProvider.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.RegistryRecordCredentialProviderUnion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "oauthCredentialProvider":
+                return .oauthcredentialprovider(try reader["oauthCredentialProvider"].read(with: BedrockAgentCoreControlClientTypes.RegistryRecordOAuthCredentialProvider.read(from:)))
+            case "iamCredentialProvider":
+                return .iamcredentialprovider(try reader["iamCredentialProvider"].read(with: BedrockAgentCoreControlClientTypes.RegistryRecordIamCredentialProvider.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.RegistryRecordIamCredentialProvider {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.RegistryRecordIamCredentialProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["region"].write(value.region)
+        try writer["roleArn"].write(value.roleArn)
+        try writer["service"].write(value.service)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.RegistryRecordIamCredentialProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.RegistryRecordIamCredentialProvider()
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.service = try reader["service"].readIfPresent()
+        value.region = try reader["region"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.RegistryRecordOAuthCredentialProvider {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.RegistryRecordOAuthCredentialProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customParameters"].writeMap(value.customParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["grantType"].write(value.grantType)
+        try writer["providerArn"].write(value.providerArn)
+        try writer["scopes"].writeList(value.scopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.RegistryRecordOAuthCredentialProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.RegistryRecordOAuthCredentialProvider()
+        value.providerArn = try reader["providerArn"].readIfPresent() ?? ""
+        value.grantType = try reader["grantType"].readIfPresent()
+        value.scopes = try reader["scopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.customParameters = try reader["customParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.RegistryRecordSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.RegistryRecordSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.RegistryRecordSummary()
+        value.registryArn = try reader["registryArn"].readIfPresent() ?? ""
+        value.recordArn = try reader["recordArn"].readIfPresent() ?? ""
+        value.recordId = try reader["recordId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.descriptorType = try reader["descriptorType"].readIfPresent() ?? .sdkUnknown("")
+        value.recordVersion = try reader["recordVersion"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.RegistrySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.RegistrySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.RegistrySummary()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.registryId = try reader["registryId"].readIfPresent() ?? ""
+        value.registryArn = try reader["registryArn"].readIfPresent() ?? ""
+        value.authorizerType = try reader["authorizerType"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
     }
 }
 
@@ -18875,6 +21908,30 @@ extension BedrockAgentCoreControlClientTypes.SelfManagedConfigurationInput {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.SelfManagedLatticeResource {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.SelfManagedLatticeResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .resourceconfigurationidentifier(resourceconfigurationidentifier):
+                try writer["resourceConfigurationIdentifier"].write(resourceconfigurationidentifier)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SelfManagedLatticeResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "resourceConfigurationIdentifier":
+                return .resourceconfigurationidentifier(try reader["resourceConfigurationIdentifier"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.SemanticConsolidationOverride {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SemanticConsolidationOverride {
@@ -18935,6 +21992,23 @@ extension BedrockAgentCoreControlClientTypes.SemanticOverrideExtractionConfigura
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.ServerDefinition {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ServerDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inlineContent"].write(value.inlineContent)
+        try writer["schemaVersion"].write(value.schemaVersion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ServerDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.ServerDefinition()
+        value.schemaVersion = try reader["schemaVersion"].readIfPresent()
+        value.inlineContent = try reader["inlineContent"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.SessionConfig {
 
     static func write(value: BedrockAgentCoreControlClientTypes.SessionConfig?, to writer: SmithyJSON.Writer) throws {
@@ -18961,6 +22035,38 @@ extension BedrockAgentCoreControlClientTypes.SessionStorageConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreControlClientTypes.SessionStorageConfiguration()
         value.mountPath = try reader["mountPath"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SkillDefinition {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.SkillDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inlineContent"].write(value.inlineContent)
+        try writer["schemaVersion"].write(value.schemaVersion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SkillDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.SkillDefinition()
+        value.schemaVersion = try reader["schemaVersion"].readIfPresent()
+        value.inlineContent = try reader["inlineContent"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SkillMdDefinition {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.SkillMdDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inlineContent"].write(value.inlineContent)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SkillMdDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.SkillMdDefinition()
+        value.inlineContent = try reader["inlineContent"].readIfPresent()
         return value
     }
 }
@@ -19074,6 +22180,21 @@ extension BedrockAgentCoreControlClientTypes.SummaryOverrideConsolidationConfigu
         guard let value else { return }
         try writer["appendToPrompt"].write(value.appendToPrompt)
         try writer["modelId"].write(value.modelId)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SynchronizationConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.SynchronizationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fromUrl"].write(value.fromUrl, with: BedrockAgentCoreControlClientTypes.FromUrlSynchronizationConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SynchronizationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.SynchronizationConfiguration()
+        value.fromUrl = try reader["fromUrl"].readIfPresent(with: BedrockAgentCoreControlClientTypes.FromUrlSynchronizationConfiguration.read(from:))
+        return value
     }
 }
 
@@ -19201,6 +22322,23 @@ extension BedrockAgentCoreControlClientTypes.ToolSchema {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.ToolsDefinition {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ToolsDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inlineContent"].write(value.inlineContent)
+        try writer["protocolVersion"].write(value.protocolVersion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ToolsDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.ToolsDefinition()
+        value.protocolVersion = try reader["protocolVersion"].readIfPresent()
+        value.inlineContent = try reader["inlineContent"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.TriggerCondition {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.TriggerCondition {
@@ -19236,11 +22374,144 @@ extension BedrockAgentCoreControlClientTypes.TriggerConditionInput {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.UpdatedA2aDescriptor {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.UpdatedA2aDescriptor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: BedrockAgentCoreControlClientTypes.A2aDescriptor.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.UpdatedAgentSkillsDescriptor {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.UpdatedAgentSkillsDescriptor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: BedrockAgentCoreControlClientTypes.UpdatedAgentSkillsDescriptorFields.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.UpdatedAgentSkillsDescriptorFields {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.UpdatedAgentSkillsDescriptorFields?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["skillDefinition"].write(value.skillDefinition, with: BedrockAgentCoreControlClientTypes.UpdatedSkillDefinition.write(value:to:))
+        try writer["skillMd"].write(value.skillMd, with: BedrockAgentCoreControlClientTypes.UpdatedSkillMdDefinition.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.UpdatedApprovalConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.UpdatedApprovalConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: BedrockAgentCoreControlClientTypes.ApprovalConfiguration.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.UpdatedAuthorizerConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.UpdatedAuthorizerConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.UpdatedCustomDescriptor {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.UpdatedCustomDescriptor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: BedrockAgentCoreControlClientTypes.CustomDescriptor.write(value:to:))
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.UpdatedDescription {
 
     static func write(value: BedrockAgentCoreControlClientTypes.UpdatedDescription?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["optionalValue"].write(value.optionalValue)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.UpdatedDescriptors {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.UpdatedDescriptors?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: BedrockAgentCoreControlClientTypes.UpdatedDescriptorsUnion.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.UpdatedDescriptorsUnion {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.UpdatedDescriptorsUnion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["a2a"].write(value.a2a, with: BedrockAgentCoreControlClientTypes.UpdatedA2aDescriptor.write(value:to:))
+        try writer["agentSkills"].write(value.agentSkills, with: BedrockAgentCoreControlClientTypes.UpdatedAgentSkillsDescriptor.write(value:to:))
+        try writer["custom"].write(value.custom, with: BedrockAgentCoreControlClientTypes.UpdatedCustomDescriptor.write(value:to:))
+        try writer["mcp"].write(value.mcp, with: BedrockAgentCoreControlClientTypes.UpdatedMcpDescriptor.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.UpdatedMcpDescriptor {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.UpdatedMcpDescriptor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: BedrockAgentCoreControlClientTypes.UpdatedMcpDescriptorFields.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.UpdatedMcpDescriptorFields {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.UpdatedMcpDescriptorFields?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["server"].write(value.server, with: BedrockAgentCoreControlClientTypes.UpdatedServerDefinition.write(value:to:))
+        try writer["tools"].write(value.tools, with: BedrockAgentCoreControlClientTypes.UpdatedToolsDefinition.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.UpdatedServerDefinition {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.UpdatedServerDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: BedrockAgentCoreControlClientTypes.ServerDefinition.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.UpdatedSkillDefinition {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.UpdatedSkillDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: BedrockAgentCoreControlClientTypes.SkillDefinition.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.UpdatedSkillMdDefinition {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.UpdatedSkillMdDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: BedrockAgentCoreControlClientTypes.SkillMdDefinition.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.UpdatedSynchronizationConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.UpdatedSynchronizationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: BedrockAgentCoreControlClientTypes.SynchronizationConfiguration.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.UpdatedSynchronizationType {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.UpdatedSynchronizationType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.UpdatedToolsDefinition {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.UpdatedToolsDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: BedrockAgentCoreControlClientTypes.ToolsDefinition.write(value:to:))
     }
 }
 

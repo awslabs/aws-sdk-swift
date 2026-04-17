@@ -182,6 +182,27 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension RedshiftDataClientTypes {
 
+    /// A parameter used in a SQL statement.
+    public struct SqlParameter: Swift.Sendable {
+        /// The name of the parameter.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The value of the parameter. Amazon Redshift implicitly converts to the proper data type. For more information, see [Data types](https://docs.aws.amazon.com/redshift/latest/dg/c_Supported_data_types.html) in the Amazon Redshift Database Developer Guide.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+extension RedshiftDataClientTypes {
+
     public enum ResultFormatString: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case csv
         case json
@@ -218,6 +239,8 @@ public struct BatchExecuteStatementInput: Swift.Sendable {
     public var database: Swift.String?
     /// The database user name. This parameter is required when connecting to a cluster as a database user and authenticating using temporary credentials.
     public var dbUser: Swift.String?
+    /// The parameters for the SQL statements. The parameters are shared across all SQL statements in the batch.
+    public var parameters: [RedshiftDataClientTypes.SqlParameter]?
     /// The data format of the result of the SQL statement. If no format is specified, the default is JSON.
     public var resultFormat: RedshiftDataClientTypes.ResultFormatString?
     /// The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Manager.
@@ -241,6 +264,7 @@ public struct BatchExecuteStatementInput: Swift.Sendable {
         clusterIdentifier: Swift.String? = nil,
         database: Swift.String? = nil,
         dbUser: Swift.String? = nil,
+        parameters: [RedshiftDataClientTypes.SqlParameter]? = nil,
         resultFormat: RedshiftDataClientTypes.ResultFormatString? = nil,
         secretArn: Swift.String? = nil,
         sessionId: Swift.String? = nil,
@@ -254,6 +278,7 @@ public struct BatchExecuteStatementInput: Swift.Sendable {
         self.clusterIdentifier = clusterIdentifier
         self.database = database
         self.dbUser = dbUser
+        self.parameters = parameters
         self.resultFormat = resultFormat
         self.secretArn = secretArn
         self.sessionId = sessionId
@@ -398,7 +423,7 @@ extension RedshiftDataClientTypes {
         public var name: Swift.String?
         /// A value that indicates whether the column is nullable.
         public var nullable: Swift.Int
-        /// The precision value of a decimal number column.
+        /// The precision value of a decimal number column, or the column length for a non-numeric column.
         public var precision: Swift.Int
         /// The scale value of a decimal number column.
         public var scale: Swift.Int
@@ -450,27 +475,6 @@ public struct DescribeStatementInput: Swift.Sendable {
         id: Swift.String? = nil
     ) {
         self.id = id
-    }
-}
-
-extension RedshiftDataClientTypes {
-
-    /// A parameter used in a SQL statement.
-    public struct SqlParameter: Swift.Sendable {
-        /// The name of the parameter.
-        /// This member is required.
-        public var name: Swift.String?
-        /// The value of the parameter. Amazon Redshift implicitly converts to the proper data type. For more information, see [Data types](https://docs.aws.amazon.com/redshift/latest/dg/c_Supported_data_types.html) in the Amazon Redshift Database Developer Guide.
-        /// This member is required.
-        public var value: Swift.String?
-
-        public init(
-            name: Swift.String? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.name = name
-            self.value = value
-        }
     }
 }
 
@@ -1445,6 +1449,7 @@ extension BatchExecuteStatementInput {
         try writer["ClusterIdentifier"].write(value.clusterIdentifier)
         try writer["Database"].write(value.database)
         try writer["DbUser"].write(value.dbUser)
+        try writer["Parameters"].writeList(value.parameters, memberWritingClosure: RedshiftDataClientTypes.SqlParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResultFormat"].write(value.resultFormat)
         try writer["SecretArn"].write(value.secretArn)
         try writer["SessionId"].write(value.sessionId)

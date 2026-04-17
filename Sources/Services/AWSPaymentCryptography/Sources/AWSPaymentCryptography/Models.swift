@@ -1972,15 +1972,19 @@ public struct GetParametersForExportInput: Swift.Sendable {
     /// The key block format type (for example, TR-34 or TR-31) to use during key material export. Export token is only required for a TR-34 key export, TR34_KEY_BLOCK. Export token is not required for TR-31 key export.
     /// This member is required.
     public var keyMaterialType: PaymentCryptographyClientTypes.KeyMaterialType?
+    /// Specifies whether to reuse the existing export token and signing key certificate. If set to true and a valid export token exists for the same key material type and signing key algorithm with at least 7 days of remaining validity, the existing token and signing key certificate are returned. Otherwise, a new export token and signing key certificate are generated. The default value is false, which generates a new export token and signing key certificate on every call.
+    public var reuseLastGeneratedToken: Swift.Bool?
     /// The signing key algorithm to generate a signing key certificate. This certificate signs the wrapped key under export within the TR-34 key block. RSA_2048 is the only signing key algorithm allowed.
     /// This member is required.
     public var signingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
 
     public init(
         keyMaterialType: PaymentCryptographyClientTypes.KeyMaterialType? = nil,
+        reuseLastGeneratedToken: Swift.Bool? = nil,
         signingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm? = nil
     ) {
         self.keyMaterialType = keyMaterialType
+        self.reuseLastGeneratedToken = reuseLastGeneratedToken
         self.signingKeyAlgorithm = signingKeyAlgorithm
     }
 }
@@ -2021,15 +2025,19 @@ public struct GetParametersForImportInput: Swift.Sendable {
     /// The method to use for key material import. Import token is only required for TR-34 WrappedKeyBlock (TR34_KEY_BLOCK) and RSA WrappedKeyCryptogram (KEY_CRYPTOGRAM). Import token is not required for TR-31, root public key cerificate or trusted public key certificate.
     /// This member is required.
     public var keyMaterialType: PaymentCryptographyClientTypes.KeyMaterialType?
+    /// Specifies whether to reuse the existing import token and wrapping key certificate. If set to true and a valid import token exists for the same key material type and wrapping key algorithm with at least 7 days of remaining validity, the existing token and wrapping key certificate are returned. Otherwise, a new import token and wrapping key certificate are generated. The default value is false, which generates a new import token and wrapping key certificate on every call.
+    public var reuseLastGeneratedToken: Swift.Bool?
     /// The wrapping key algorithm to generate a wrapping key certificate. This certificate wraps the key under import. At this time, RSA_2048 is the allowed algorithm for TR-34 WrappedKeyBlock import. Additionally, RSA_2048, RSA_3072, RSA_4096 are the allowed algorithms for RSA WrappedKeyCryptogram import.
     /// This member is required.
     public var wrappingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
 
     public init(
         keyMaterialType: PaymentCryptographyClientTypes.KeyMaterialType? = nil,
+        reuseLastGeneratedToken: Swift.Bool? = nil,
         wrappingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm? = nil
     ) {
         self.keyMaterialType = keyMaterialType
+        self.reuseLastGeneratedToken = reuseLastGeneratedToken
         self.wrappingKeyAlgorithm = wrappingKeyAlgorithm
     }
 }
@@ -2079,7 +2087,7 @@ public struct GetPublicKeyCertificateInput: Swift.Sendable {
 }
 
 public struct GetPublicKeyCertificateOutput: Swift.Sendable {
-    /// The public key component of the asymmetric key pair in a certificate PEM format (base64 encoded). It is signed by the root certificate authority (CA). The certificate expires in 90 days.
+    /// The public key component of the asymmetric key pair in a certificate PEM format (base64 encoded). It is signed by the root certificate authority (CA). The certificate is valid for 90 days from the time it is issued. The service returns a cached certificate if one exists with at least 30 days of remaining validity. Otherwise, a new 90-day certificate is issued.
     /// This member is required.
     public var keyCertificate: Swift.String?
     /// The root certificate authority (CA) that signed the public key certificate in PEM format (base64 encoded) of the asymmetric key pair.
@@ -2987,6 +2995,7 @@ extension GetParametersForExportInput {
     static func write(value: GetParametersForExportInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["KeyMaterialType"].write(value.keyMaterialType)
+        try writer["ReuseLastGeneratedToken"].write(value.reuseLastGeneratedToken)
         try writer["SigningKeyAlgorithm"].write(value.signingKeyAlgorithm)
     }
 }
@@ -2996,6 +3005,7 @@ extension GetParametersForImportInput {
     static func write(value: GetParametersForImportInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["KeyMaterialType"].write(value.keyMaterialType)
+        try writer["ReuseLastGeneratedToken"].write(value.reuseLastGeneratedToken)
         try writer["WrappingKeyAlgorithm"].write(value.wrappingKeyAlgorithm)
     }
 }

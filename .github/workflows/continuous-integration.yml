@@ -6,11 +6,14 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
 
 jobs:
-  apple:
+  apple-ci:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: ${{ matrix.runner }}
     strategy:
@@ -22,35 +25,35 @@ jobs:
           - macos-26
         xcode:
           - Xcode_15.2
-          - Xcode_26.2
+          - Xcode_26.4
         destination:
           - 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
-          - 'platform=iOS Simulator,OS=26.2,name=iPhone 17'
+          - 'platform=iOS Simulator,OS=26.4,name=iPhone 17'
           - 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
-          - 'platform=tvOS Simulator,OS=26.2,name=Apple TV 4K (3rd generation) (at 1080p)'
+          - 'platform=tvOS Simulator,OS=26.4,name=Apple TV 4K (3rd generation) (at 1080p)'
           - 'platform=visionOS Simulator,OS=1.0,name=Apple Vision Pro'
-          - 'platform=visionOS Simulator,OS=26.2,name=Apple Vision Pro'
+          - 'platform=visionOS Simulator,OS=26.4,name=Apple Vision Pro'
           - 'platform=macOS'
         exclude:
           # Don't run old macOS with new Xcode
           - runner: macos-14
-            xcode: Xcode_26.2
+            xcode: Xcode_26.4
           # Don't run new macOS with old Xcode
           - runner: macos-26
             xcode: Xcode_15.2
           # Don't run old simulators with new Xcode
           - destination: 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
-            xcode: Xcode_26.2
+            xcode: Xcode_26.4
           - destination: 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
-            xcode: Xcode_26.2
+            xcode: Xcode_26.4
           - destination: 'platform=visionOS Simulator,OS=1.0,name=Apple Vision Pro'
-            xcode: Xcode_26.2
+            xcode: Xcode_26.4
           # Don't run new simulators with old Xcode
-          - destination: 'platform=tvOS Simulator,OS=26.2,name=Apple TV 4K (3rd generation) (at 1080p)'
+          - destination: 'platform=tvOS Simulator,OS=26.4,name=Apple TV 4K (3rd generation) (at 1080p)'
             xcode: Xcode_15.2
-          - destination: 'platform=iOS Simulator,OS=26.2,name=iPhone 17'
+          - destination: 'platform=iOS Simulator,OS=26.4,name=iPhone 17'
             xcode: Xcode_15.2
-          - destination: 'platform=visionOS Simulator,OS=26.2,name=Apple Vision Pro'
+          - destination: 'platform=visionOS Simulator,OS=26.4,name=Apple Vision Pro'
             xcode: Xcode_15.2
     steps:
       - name: Configure Xcode
@@ -62,7 +65,7 @@ jobs:
       - name: Checkout smithy-swift with composite action
         uses: ./aws-sdk-swift/.github/actions/checkout-smithy-swift-composite-action
         with:
-          AUTOMATION_USER_SSH_PRIVATE_KEY: ${{ secrets.AUTOMATION_USER_SSH_PRIVATE_KEY }}
+          STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY: ${{ secrets.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
           STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
       - name: Cache Gradle
         uses: actions/cache@v4
@@ -122,7 +125,7 @@ jobs:
             | xcbeautify
           cd ..
 
-  linux:
+  linux-ci:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: ${{ matrix.runner }}
     container: swift:${{ matrix.swift }}
@@ -133,8 +136,10 @@ jobs:
           - ubuntu-24.04
           - ubuntu-24.04-arm
         swift:
-          - "5.9-jammy"
-          - "6.2-noble"
+          - 5.9-jammy
+          - 5.9-rhel-ubi9
+          - 6.2-noble
+          - 6.3-rhel-ubi9
     env:
       ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
     steps:
@@ -145,7 +150,7 @@ jobs:
       - name: Checkout smithy-swift with composite action
         uses: ./aws-sdk-swift/.github/actions/checkout-smithy-swift-composite-action
         with:
-          AUTOMATION_USER_SSH_PRIVATE_KEY: ${{ secrets.AUTOMATION_USER_SSH_PRIVATE_KEY }}
+          STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY: ${{ secrets.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
           STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
       - name: Cache Gradle
         uses: actions/cache@v4

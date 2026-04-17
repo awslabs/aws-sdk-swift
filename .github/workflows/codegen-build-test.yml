@@ -8,6 +8,9 @@ on:
   workflow_dispatch:
   pull_request:
 
+permissions:
+  contents: read
+
 env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
   AWS_SWIFT_SDK_ENABLE_SERVICE_TESTS: 1
@@ -17,7 +20,7 @@ jobs:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: macos-26-xlarge
     env:
-      DEVELOPER_DIR: /Applications/Xcode_26.2.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_26.4.app/Contents/Developer
     steps:
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v4
@@ -26,7 +29,7 @@ jobs:
       - name: Checkout smithy-swift with composite action
         uses: ./aws-sdk-swift/.github/actions/checkout-smithy-swift-composite-action
         with:
-          AUTOMATION_USER_SSH_PRIVATE_KEY: ${{ secrets.AUTOMATION_USER_SSH_PRIVATE_KEY }}
+          STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY: ${{ secrets.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
           STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
       - name: Cache Gradle
         uses: actions/cache@v4

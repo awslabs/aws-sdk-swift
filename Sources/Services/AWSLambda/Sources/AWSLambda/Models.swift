@@ -4185,9 +4185,9 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
-    /// Details about the connection between a Lambda function and an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
+    /// Details about the connection between a Lambda function and an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 Files file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public struct FileSystemConfig: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the Amazon EFS access point that provides access to the file system.
+        /// The Amazon Resource Name (ARN) of the Amazon EFS or Amazon S3 Files access point that provides access to the file system.
         /// This member is required.
         public var arn: Swift.String?
         /// The path where the function can access the file system, starting with /mnt/.
@@ -4701,7 +4701,7 @@ public struct CreateFunctionInput: Swift.Sendable {
     public var environment: LambdaClientTypes.Environment?
     /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
-    /// Connection settings for an Amazon EFS file system.
+    /// Connection settings for an Amazon EFS file system or an Amazon S3 Files file system.
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
     /// The name or ARN of the Lambda function. Name formats
     ///
@@ -5390,7 +5390,7 @@ public struct CreateFunctionOutput: Swift.Sendable {
     public var environment: LambdaClientTypes.EnvironmentResponse?
     /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
-    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
+    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 Files file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
     /// The function's Amazon Resource Name (ARN).
     public var functionArn: Swift.String?
@@ -5853,7 +5853,7 @@ extension LambdaClientTypes {
         public var environment: LambdaClientTypes.EnvironmentResponse?
         /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
         public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
-        /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
+        /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 Files file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
         public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
         /// The function's Amazon Resource Name (ARN).
         public var functionArn: Swift.String?
@@ -6185,7 +6185,7 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
     public var environment: LambdaClientTypes.EnvironmentResponse?
     /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
-    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
+    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 Files file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
     /// The function's Amazon Resource Name (ARN).
     public var functionArn: Swift.String?
@@ -7202,6 +7202,90 @@ public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRu
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ResourceNotReadyException" }
     public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+/// The Lambda function couldn't make a network connection to the configured S3 Files access point.
+public struct S3FilesMountConnectivityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The exception message.
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "S3FilesMountConnectivityException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+/// The Lambda function couldn't mount the configured S3 Files access point due to a permission or configuration issue.
+public struct S3FilesMountFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The exception message.
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "S3FilesMountFailureException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+/// The Lambda function made a network connection to the configured S3 Files access point, but the mount operation timed out.
+public struct S3FilesMountTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The exception message.
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "S3FilesMountTimeoutException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
@@ -8316,7 +8400,7 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
     public var environment: LambdaClientTypes.EnvironmentResponse?
     /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
-    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
+    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 Files file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
     /// The function's Amazon Resource Name (ARN).
     public var functionArn: Swift.String?
@@ -8486,7 +8570,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
     public var environment: LambdaClientTypes.Environment?
     /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
-    /// Connection settings for an Amazon EFS file system.
+    /// Connection settings for an Amazon EFS file system or an Amazon S3 Files file system.
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
     /// The name or ARN of the Lambda function. Name formats
     ///
@@ -8607,7 +8691,7 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
     public var environment: LambdaClientTypes.EnvironmentResponse?
     /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
-    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
+    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 Files file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
     /// The function's Amazon Resource Name (ARN).
     public var functionArn: Swift.String?
@@ -9229,7 +9313,7 @@ public struct PublishVersionOutput: Swift.Sendable {
     public var environment: LambdaClientTypes.EnvironmentResponse?
     /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
-    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
+    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 Files file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
     /// The function's Amazon Resource Name (ARN).
     public var functionArn: Swift.String?
@@ -10905,7 +10989,7 @@ public struct RemoveLayerVersionPermissionInput: Swift.Sendable {
 }
 
 public struct ListDurableExecutionsByFunctionInput: Swift.Sendable {
-    /// Filter executions by name. Only executions with names that contain this string are returned.
+    /// Filter executions by name. Only executions with names that matches this string are returned.
     public var durableExecutionName: Swift.String?
     /// The name or ARN of the Lambda function. You can specify a function name, a partial ARN, or a full ARN.
     /// This member is required.
@@ -15811,6 +15895,9 @@ enum InvokeOutputError {
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceNotReadyException": return try ResourceNotReadyException.makeError(baseError: baseError)
+            case "S3FilesMountConnectivityException": return try S3FilesMountConnectivityException.makeError(baseError: baseError)
+            case "S3FilesMountFailureException": return try S3FilesMountFailureException.makeError(baseError: baseError)
+            case "S3FilesMountTimeoutException": return try S3FilesMountTimeoutException.makeError(baseError: baseError)
             case "SerializedRequestEntityTooLargeException": return try SerializedRequestEntityTooLargeException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "SnapStartException": return try SnapStartException.makeError(baseError: baseError)
@@ -15874,6 +15961,9 @@ enum InvokeWithResponseStreamOutputError {
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceNotReadyException": return try ResourceNotReadyException.makeError(baseError: baseError)
+            case "S3FilesMountConnectivityException": return try S3FilesMountConnectivityException.makeError(baseError: baseError)
+            case "S3FilesMountFailureException": return try S3FilesMountFailureException.makeError(baseError: baseError)
+            case "S3FilesMountTimeoutException": return try S3FilesMountTimeoutException.makeError(baseError: baseError)
             case "SerializedRequestEntityTooLargeException": return try SerializedRequestEntityTooLargeException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "SnapStartException": return try SnapStartException.makeError(baseError: baseError)
@@ -17112,6 +17202,48 @@ extension ResourceNotReadyException {
         var value = ResourceNotReadyException()
         value.properties.type = try reader["Type"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension S3FilesMountConnectivityException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> S3FilesMountConnectivityException {
+        let reader = baseError.errorBodyReader
+        var value = S3FilesMountConnectivityException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension S3FilesMountFailureException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> S3FilesMountFailureException {
+        let reader = baseError.errorBodyReader
+        var value = S3FilesMountFailureException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension S3FilesMountTimeoutException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> S3FilesMountTimeoutException {
+        let reader = baseError.errorBodyReader
+        var value = S3FilesMountTimeoutException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.type = try reader["Type"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

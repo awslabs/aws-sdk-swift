@@ -802,6 +802,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared member fields for Associate inputs and {Resource}Member response structures. principalId is excluded because it has @httpLabel on inputs but not on responses.
 public struct AssociateMemberToFarmInput: Swift.Sendable {
     /// The ID of the farm to associate with the member.
     /// This member is required.
@@ -839,6 +840,7 @@ public struct AssociateMemberToFarmOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Shared member fields for Associate inputs and {Resource}Member response structures. principalId is excluded because it has @httpLabel on inputs but not on responses.
 public struct AssociateMemberToFleetInput: Swift.Sendable {
     /// The farm ID of the fleet to associate with the member.
     /// This member is required.
@@ -881,6 +883,7 @@ public struct AssociateMemberToFleetOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Shared member fields for Associate inputs and {Resource}Member response structures. principalId is excluded because it has @httpLabel on inputs but not on responses.
 public struct AssociateMemberToJobInput: Swift.Sendable {
     /// The farm ID of the job to associate with the member.
     /// This member is required.
@@ -928,6 +931,7 @@ public struct AssociateMemberToJobOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Shared member fields for Associate inputs and {Resource}Member response structures. principalId is excluded because it has @httpLabel on inputs but not on responses.
 public struct AssociateMemberToQueueInput: Swift.Sendable {
     /// The farm ID of the queue to associate with the member.
     /// This member is required.
@@ -1024,6 +1028,7 @@ extension DeadlineClientTypes.AwsCredentials: Swift.CustomDebugStringConvertible
     }
 }
 
+/// Shared response body for AssumeRole operations where credentials are required. AssumeQueueRoleForWorkerResponse is excluded because credentials is optional there because Queue.roleArn is optional, so the mixin's @required trait would be incorrect.
 public struct AssumeFleetRoleForReadOutput: Swift.Sendable {
     /// The credentials for the fleet role.
     /// This member is required.
@@ -1145,6 +1150,7 @@ public struct AssumeFleetRoleForWorkerInput: Swift.Sendable {
     }
 }
 
+/// Shared response body for AssumeRole operations where credentials are required. AssumeQueueRoleForWorkerResponse is excluded because credentials is optional there because Queue.roleArn is optional, so the mixin's @required trait would be incorrect.
 public struct AssumeFleetRoleForWorkerOutput: Swift.Sendable {
     /// The credentials for the worker.
     /// This member is required.
@@ -1180,6 +1186,7 @@ public struct AssumeQueueRoleForReadInput: Swift.Sendable {
     }
 }
 
+/// Shared response body for AssumeRole operations where credentials are required. AssumeQueueRoleForWorkerResponse is excluded because credentials is optional there because Queue.roleArn is optional, so the mixin's @required trait would be incorrect.
 public struct AssumeQueueRoleForReadOutput: Swift.Sendable {
     /// The credentials for the queue role.
     /// This member is required.
@@ -1215,6 +1222,7 @@ public struct AssumeQueueRoleForUserInput: Swift.Sendable {
     }
 }
 
+/// Shared response body for AssumeRole operations where credentials are required. AssumeQueueRoleForWorkerResponse is excluded because credentials is optional there because Queue.roleArn is optional, so the mixin's @required trait would be incorrect.
 public struct AssumeQueueRoleForUserOutput: Swift.Sendable {
     /// The credentials for the queue role that a user has access to.
     /// This member is required.
@@ -1461,6 +1469,426 @@ extension DeadlineClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The identifiers for a job.
+    public struct BatchGetJobIdentifier: Swift.Sendable {
+        /// The farm ID of the job.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The queue ID of the job.
+        /// This member is required.
+        public var queueId: Swift.String?
+
+        public init(
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            queueId: Swift.String? = nil
+        ) {
+            self.farmId = farmId
+            self.jobId = jobId
+            self.queueId = queueId
+        }
+    }
+}
+
+public struct BatchGetJobInput: Swift.Sendable {
+    /// The list of job identifiers to retrieve. You can specify up to 100 identifiers per request.
+    /// This member is required.
+    public var identifiers: [DeadlineClientTypes.BatchGetJobIdentifier]?
+
+    public init(
+        identifiers: [DeadlineClientTypes.BatchGetJobIdentifier]? = nil
+    ) {
+        self.identifiers = identifiers
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum BatchGetJobErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessdeniedexception
+        case internalservererrorexception
+        case resourcenotfoundexception
+        case throttlingexception
+        case validationexception
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchGetJobErrorCode] {
+            return [
+                .accessdeniedexception,
+                .internalservererrorexception,
+                .resourcenotfoundexception,
+                .throttlingexception,
+                .validationexception
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessdeniedexception: return "AccessDeniedException"
+            case .internalservererrorexception: return "InternalServerErrorException"
+            case .resourcenotfoundexception: return "ResourceNotFoundException"
+            case .throttlingexception: return "ThrottlingException"
+            case .validationexception: return "ValidationException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The error details for a job that could not be retrieved in a batch get operation.
+    public struct BatchGetJobError: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var code: DeadlineClientTypes.BatchGetJobErrorCode?
+        /// The farm ID of the job that could not be retrieved.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the job that could not be retrieved.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The queue ID of the job that could not be retrieved.
+        /// This member is required.
+        public var queueId: Swift.String?
+
+        public init(
+            code: DeadlineClientTypes.BatchGetJobErrorCode? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            message: Swift.String? = nil,
+            queueId: Swift.String? = nil
+        ) {
+            self.code = code
+            self.farmId = farmId
+            self.jobId = jobId
+            self.message = message
+            self.queueId = queueId
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum JobLifecycleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case archived
+        case createComplete
+        case createFailed
+        case createInProgress
+        case updateFailed
+        case updateInProgress
+        case updateSucceeded
+        case uploadFailed
+        case uploadInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobLifecycleStatus] {
+            return [
+                .archived,
+                .createComplete,
+                .createFailed,
+                .createInProgress,
+                .updateFailed,
+                .updateInProgress,
+                .updateSucceeded,
+                .uploadFailed,
+                .uploadInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .archived: return "ARCHIVED"
+            case .createComplete: return "CREATE_COMPLETE"
+            case .createFailed: return "CREATE_FAILED"
+            case .createInProgress: return "CREATE_IN_PROGRESS"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updateInProgress: return "UPDATE_IN_PROGRESS"
+            case .updateSucceeded: return "UPDATE_SUCCEEDED"
+            case .uploadFailed: return "UPLOAD_FAILED"
+            case .uploadInProgress: return "UPLOAD_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of job parameters.
+    public enum JobParameter: Swift.Sendable {
+        /// A signed integer represented as a string.
+        case int(Swift.String)
+        /// A double precision IEEE-754 floating point number represented as a string.
+        case float(Swift.String)
+        /// A UTF-8 string.
+        case string(Swift.String)
+        /// A file system path represented as a string.
+        case path(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum JobTargetTaskRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case canceled
+        case failed
+        case pending
+        case ready
+        case succeeded
+        case suspended
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobTargetTaskRunStatus] {
+            return [
+                .canceled,
+                .failed,
+                .pending,
+                .ready,
+                .succeeded,
+                .suspended
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .canceled: return "CANCELED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .ready: return "READY"
+            case .succeeded: return "SUCCEEDED"
+            case .suspended: return "SUSPENDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum TaskRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case assigned
+        case canceled
+        case failed
+        case interrupting
+        case notCompatible
+        case pending
+        case ready
+        case running
+        case scheduled
+        case starting
+        case succeeded
+        case suspended
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TaskRunStatus] {
+            return [
+                .assigned,
+                .canceled,
+                .failed,
+                .interrupting,
+                .notCompatible,
+                .pending,
+                .ready,
+                .running,
+                .scheduled,
+                .starting,
+                .succeeded,
+                .suspended
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .assigned: return "ASSIGNED"
+            case .canceled: return "CANCELED"
+            case .failed: return "FAILED"
+            case .interrupting: return "INTERRUPTING"
+            case .notCompatible: return "NOT_COMPATIBLE"
+            case .pending: return "PENDING"
+            case .ready: return "READY"
+            case .running: return "RUNNING"
+            case .scheduled: return "SCHEDULED"
+            case .starting: return "STARTING"
+            case .succeeded: return "SUCCEEDED"
+            case .suspended: return "SUSPENDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of a job returned in a batch get operation.
+    public struct BatchGetJobItem: Swift.Sendable {
+        /// The attachments for the job.
+        public var attachments: DeadlineClientTypes.Attachments?
+        /// The date and time the resource was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The user or system that created this resource.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The description of the job.
+        public var description: Swift.String?
+        /// The date and time the resource ended running.
+        public var endedAt: Foundation.Date?
+        /// The farm ID of the job.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The life cycle status of the job.
+        /// This member is required.
+        public var lifecycleStatus: DeadlineClientTypes.JobLifecycleStatus?
+        /// A message that communicates the status of the life cycle.
+        /// This member is required.
+        public var lifecycleStatusMessage: Swift.String?
+        /// The number of task failures before the job stops running and is marked as FAILED.
+        public var maxFailedTasksCount: Swift.Int?
+        /// The maximum number of retries per failed tasks.
+        public var maxRetriesPerTask: Swift.Int?
+        /// The maximum number of worker hosts that can concurrently process a job.
+        public var maxWorkerCount: Swift.Int?
+        /// The name of the job.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The parameters for the job.
+        public var parameters: [Swift.String: DeadlineClientTypes.JobParameter]?
+        /// The job priority.
+        /// This member is required.
+        public var priority: Swift.Int?
+        /// The queue ID of the job.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The job ID for the source job.
+        public var sourceJobId: Swift.String?
+        /// The date and time the resource started running.
+        public var startedAt: Foundation.Date?
+        /// The storage profile ID associated with the job.
+        public var storageProfileId: Swift.String?
+        /// The task status to start with on the job.
+        public var targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus?
+        /// The number of times that tasks failed and were retried.
+        public var taskFailureRetryCount: Swift.Int?
+        /// The task run status for the job.
+        public var taskRunStatus: DeadlineClientTypes.TaskRunStatus?
+        /// The number of tasks for each run status for the job.
+        public var taskRunStatusCounts: [Swift.String: Swift.Int]?
+        /// The date and time the resource was updated.
+        public var updatedAt: Foundation.Date?
+        /// The user or system that updated this resource.
+        public var updatedBy: Swift.String?
+
+        public init(
+            attachments: DeadlineClientTypes.Attachments? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            description: Swift.String? = nil,
+            endedAt: Foundation.Date? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            lifecycleStatus: DeadlineClientTypes.JobLifecycleStatus? = nil,
+            lifecycleStatusMessage: Swift.String? = nil,
+            maxFailedTasksCount: Swift.Int? = nil,
+            maxRetriesPerTask: Swift.Int? = nil,
+            maxWorkerCount: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            parameters: [Swift.String: DeadlineClientTypes.JobParameter]? = nil,
+            priority: Swift.Int? = nil,
+            queueId: Swift.String? = nil,
+            sourceJobId: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil,
+            storageProfileId: Swift.String? = nil,
+            targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus? = nil,
+            taskFailureRetryCount: Swift.Int? = nil,
+            taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
+            taskRunStatusCounts: [Swift.String: Swift.Int]? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil
+        ) {
+            self.attachments = attachments
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.endedAt = endedAt
+            self.farmId = farmId
+            self.jobId = jobId
+            self.lifecycleStatus = lifecycleStatus
+            self.lifecycleStatusMessage = lifecycleStatusMessage
+            self.maxFailedTasksCount = maxFailedTasksCount
+            self.maxRetriesPerTask = maxRetriesPerTask
+            self.maxWorkerCount = maxWorkerCount
+            self.name = name
+            self.parameters = parameters
+            self.priority = priority
+            self.queueId = queueId
+            self.sourceJobId = sourceJobId
+            self.startedAt = startedAt
+            self.storageProfileId = storageProfileId
+            self.targetTaskRunStatus = targetTaskRunStatus
+            self.taskFailureRetryCount = taskFailureRetryCount
+            self.taskRunStatus = taskRunStatus
+            self.taskRunStatusCounts = taskRunStatusCounts
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+    }
+}
+
+extension DeadlineClientTypes.BatchGetJobItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BatchGetJobItem(attachments: \(Swift.String(describing: attachments)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), farmId: \(Swift.String(describing: farmId)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskFailureRetryCount: \(Swift.String(describing: taskFailureRetryCount)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+}
+
+public struct BatchGetJobOutput: Swift.Sendable {
+    /// A list of errors for jobs that could not be retrieved.
+    /// This member is required.
+    public var errors: [DeadlineClientTypes.BatchGetJobError]?
+    /// A list of jobs that were successfully retrieved.
+    /// This member is required.
+    public var jobs: [DeadlineClientTypes.BatchGetJobItem]?
+
+    public init(
+        errors: [DeadlineClientTypes.BatchGetJobError]? = nil,
+        jobs: [DeadlineClientTypes.BatchGetJobItem]? = nil
+    ) {
+        self.errors = errors
+        self.jobs = jobs
     }
 }
 
@@ -1751,22 +2179,6 @@ extension DeadlineClientTypes {
             self.runAs = runAs
             self.windows = windows
         }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The details of job parameters.
-    public enum JobParameter: Swift.Sendable {
-        /// A signed integer represented as a string.
-        case int(Swift.String)
-        /// A double precision IEEE-754 floating point number represented as a string.
-        case float(Swift.String)
-        /// A UTF-8 string.
-        case string(Swift.String)
-        /// A file system path represented as a string.
-        case path(Swift.String)
-        case sdkUnknown(Swift.String)
     }
 }
 
@@ -2100,15 +2512,60 @@ public struct BatchGetJobEntityOutput: Swift.Sendable {
 
 extension DeadlineClientTypes {
 
-    public enum BudgetActionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case stopSchedulingAndCancelTasks
-        case stopSchedulingAndCompleteTasks
+    /// The identifiers for a session.
+    public struct BatchGetSessionIdentifier: Swift.Sendable {
+        /// The farm ID of the session.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the session.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The queue ID of the session.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The session ID.
+        /// This member is required.
+        public var sessionId: Swift.String?
+
+        public init(
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            sessionId: Swift.String? = nil
+        ) {
+            self.farmId = farmId
+            self.jobId = jobId
+            self.queueId = queueId
+            self.sessionId = sessionId
+        }
+    }
+}
+
+public struct BatchGetSessionInput: Swift.Sendable {
+    /// The list of session identifiers to retrieve. You can specify up to 100 identifiers per request.
+    /// This member is required.
+    public var identifiers: [DeadlineClientTypes.BatchGetSessionIdentifier]?
+
+    public init(
+        identifiers: [DeadlineClientTypes.BatchGetSessionIdentifier]? = nil
+    ) {
+        self.identifiers = identifiers
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum BatchGetSessionErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case internalservererrorexception
+        case resourcenotfoundexception
+        case validationexception
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [BudgetActionType] {
+        public static var allCases: [BatchGetSessionErrorCode] {
             return [
-                .stopSchedulingAndCancelTasks,
-                .stopSchedulingAndCompleteTasks
+                .internalservererrorexception,
+                .resourcenotfoundexception,
+                .validationexception
             ]
         }
 
@@ -2119,8 +2576,9 @@ extension DeadlineClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .stopSchedulingAndCancelTasks: return "STOP_SCHEDULING_AND_CANCEL_TASKS"
-            case .stopSchedulingAndCompleteTasks: return "STOP_SCHEDULING_AND_COMPLETE_TASKS"
+            case .internalservererrorexception: return "InternalServerErrorException"
+            case .resourcenotfoundexception: return "ResourceNotFoundException"
+            case .validationexception: return "ValidationException"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2129,1963 +2587,42 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
-    /// The budget action to add.
-    public struct BudgetActionToAdd: Swift.Sendable {
-        /// A description for the budget action to add. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-        public var description: Swift.String?
-        /// The percentage threshold for the budget action to add.
+    /// The error details for a session that could not be retrieved in a batch get operation.
+    public struct BatchGetSessionError: Swift.Sendable {
+        /// The error code.
         /// This member is required.
-        public var thresholdPercentage: Swift.Float?
-        /// The type of budget action to add.
+        public var code: DeadlineClientTypes.BatchGetSessionErrorCode?
+        /// The farm ID of the session that could not be retrieved.
         /// This member is required.
-        public var type: DeadlineClientTypes.BudgetActionType?
+        public var farmId: Swift.String?
+        /// The job ID of the session that could not be retrieved.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The queue ID of the session that could not be retrieved.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The session ID of the session that could not be retrieved.
+        /// This member is required.
+        public var sessionId: Swift.String?
 
         public init(
-            description: Swift.String? = nil,
-            thresholdPercentage: Swift.Float? = nil,
-            type: DeadlineClientTypes.BudgetActionType? = nil
+            code: DeadlineClientTypes.BatchGetSessionErrorCode? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            message: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            sessionId: Swift.String? = nil
         ) {
-            self.description = description
-            self.thresholdPercentage = thresholdPercentage
-            self.type = type
+            self.code = code
+            self.farmId = farmId
+            self.jobId = jobId
+            self.message = message
+            self.queueId = queueId
+            self.sessionId = sessionId
         }
-    }
-}
-
-extension DeadlineClientTypes.BudgetActionToAdd: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "BudgetActionToAdd(thresholdPercentage: \(Swift.String(describing: thresholdPercentage)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
-}
-
-extension DeadlineClientTypes {
-
-    /// The budget action to remove.
-    public struct BudgetActionToRemove: Swift.Sendable {
-        /// The percentage threshold for the budget action to remove.
-        /// This member is required.
-        public var thresholdPercentage: Swift.Float?
-        /// The type of budget action to remove.
-        /// This member is required.
-        public var type: DeadlineClientTypes.BudgetActionType?
-
-        public init(
-            thresholdPercentage: Swift.Float? = nil,
-            type: DeadlineClientTypes.BudgetActionType? = nil
-        ) {
-            self.thresholdPercentage = thresholdPercentage
-            self.type = type
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The details of a fixed budget schedule.
-    public struct FixedBudgetSchedule: Swift.Sendable {
-        /// When the budget ends.
-        /// This member is required.
-        public var endTime: Foundation.Date?
-        /// When the budget starts.
-        /// This member is required.
-        public var startTime: Foundation.Date?
-
-        public init(
-            endTime: Foundation.Date? = nil,
-            startTime: Foundation.Date? = nil
-        ) {
-            self.endTime = endTime
-            self.startTime = startTime
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The start and end time of the budget.
-    public enum BudgetSchedule: Swift.Sendable {
-        /// The fixed start and end time of the budget's schedule.
-        case fixed(DeadlineClientTypes.FixedBudgetSchedule)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The usage details of the allotted budget.
-    public enum UsageTrackingResource: Swift.Sendable {
-        /// The queue ID.
-        case queueid(Swift.String)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-public struct CreateBudgetInput: Swift.Sendable {
-    /// The budget actions to specify what happens when the budget runs out.
-    /// This member is required.
-    public var actions: [DeadlineClientTypes.BudgetActionToAdd]?
-    /// The dollar limit based on consumed usage.
-    /// This member is required.
-    public var approximateDollarLimit: Swift.Float?
-    /// The unique token which the server uses to recognize retries of the same request.
-    public var clientToken: Swift.String?
-    /// The description of the budget. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    public var description: Swift.String?
-    /// The display name of the budget. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    /// This member is required.
-    public var displayName: Swift.String?
-    /// The farm ID to include in this budget.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The schedule to associate with this budget.
-    /// This member is required.
-    public var schedule: DeadlineClientTypes.BudgetSchedule?
-    /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
-    public var tags: [Swift.String: Swift.String]?
-    /// The queue ID provided to this budget to track usage.
-    /// This member is required.
-    public var usageTrackingResource: DeadlineClientTypes.UsageTrackingResource?
-
-    public init(
-        actions: [DeadlineClientTypes.BudgetActionToAdd]? = nil,
-        approximateDollarLimit: Swift.Float? = nil,
-        clientToken: Swift.String? = nil,
-        description: Swift.String? = nil,
-        displayName: Swift.String? = nil,
-        farmId: Swift.String? = nil,
-        schedule: DeadlineClientTypes.BudgetSchedule? = nil,
-        tags: [Swift.String: Swift.String]? = nil,
-        usageTrackingResource: DeadlineClientTypes.UsageTrackingResource? = nil
-    ) {
-        self.actions = actions
-        self.approximateDollarLimit = approximateDollarLimit
-        self.clientToken = clientToken
-        self.description = description
-        self.displayName = displayName
-        self.farmId = farmId
-        self.schedule = schedule
-        self.tags = tags
-        self.usageTrackingResource = usageTrackingResource
-    }
-}
-
-extension CreateBudgetInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CreateBudgetInput(actions: \(Swift.String(describing: actions)), approximateDollarLimit: \(Swift.String(describing: approximateDollarLimit)), clientToken: \(Swift.String(describing: clientToken)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), schedule: \(Swift.String(describing: schedule)), tags: \(Swift.String(describing: tags)), usageTrackingResource: \(Swift.String(describing: usageTrackingResource)), description: \"CONTENT_REDACTED\")"}
-}
-
-public struct CreateBudgetOutput: Swift.Sendable {
-    /// The budget ID.
-    /// This member is required.
-    public var budgetId: Swift.String?
-
-    public init(
-        budgetId: Swift.String? = nil
-    ) {
-        self.budgetId = budgetId
-    }
-}
-
-public struct DeleteBudgetInput: Swift.Sendable {
-    /// The budget ID of the budget to delete.
-    /// This member is required.
-    public var budgetId: Swift.String?
-    /// The farm ID of the farm to remove from the budget.
-    /// This member is required.
-    public var farmId: Swift.String?
-
-    public init(
-        budgetId: Swift.String? = nil,
-        farmId: Swift.String? = nil
-    ) {
-        self.budgetId = budgetId
-        self.farmId = farmId
-    }
-}
-
-public struct DeleteBudgetOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct GetBudgetInput: Swift.Sendable {
-    /// The budget ID.
-    /// This member is required.
-    public var budgetId: Swift.String?
-    /// The farm ID of the farm connected to the budget.
-    /// This member is required.
-    public var farmId: Swift.String?
-
-    public init(
-        budgetId: Swift.String? = nil,
-        farmId: Swift.String? = nil
-    ) {
-        self.budgetId = budgetId
-        self.farmId = farmId
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The details of a budget action.
-    public struct ResponseBudgetAction: Swift.Sendable {
-        /// The budget action description. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-        public var description: Swift.String?
-        /// The percentage threshold for the budget.
-        /// This member is required.
-        public var thresholdPercentage: Swift.Float?
-        /// The action taken on the budget once scheduling stops.
-        /// This member is required.
-        public var type: DeadlineClientTypes.BudgetActionType?
-
-        public init(
-            description: Swift.String? = nil,
-            thresholdPercentage: Swift.Float? = nil,
-            type: DeadlineClientTypes.BudgetActionType? = nil
-        ) {
-            self.description = description
-            self.thresholdPercentage = thresholdPercentage
-            self.type = type
-        }
-    }
-}
-
-extension DeadlineClientTypes.ResponseBudgetAction: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "ResponseBudgetAction(thresholdPercentage: \(Swift.String(describing: thresholdPercentage)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
-}
-
-extension DeadlineClientTypes {
-
-    public enum BudgetStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case active
-        case inactive
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [BudgetStatus] {
-            return [
-                .active,
-                .inactive
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .active: return "ACTIVE"
-            case .inactive: return "INACTIVE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The consumed usage for the resource.
-    public struct ConsumedUsages: Swift.Sendable {
-        /// The amount of the budget consumed.
-        /// This member is required.
-        public var approximateDollarUsage: Swift.Float?
-
-        public init(
-            approximateDollarUsage: Swift.Float? = nil
-        ) {
-            self.approximateDollarUsage = approximateDollarUsage
-        }
-    }
-}
-
-public struct GetBudgetOutput: Swift.Sendable {
-    /// The budget actions for the budget.
-    /// This member is required.
-    public var actions: [DeadlineClientTypes.ResponseBudgetAction]?
-    /// The consumed usage limit for the budget.
-    /// This member is required.
-    public var approximateDollarLimit: Swift.Float?
-    /// The budget ID.
-    /// This member is required.
-    public var budgetId: Swift.String?
-    /// The date and time the resource was created.
-    /// This member is required.
-    public var createdAt: Foundation.Date?
-    /// The user or system that created this resource.
-    /// This member is required.
-    public var createdBy: Swift.String?
-    /// The description of the budget. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    public var description: Swift.String?
-    /// The display name of the budget. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    /// This member is required.
-    public var displayName: Swift.String?
-    /// The date and time the queue stopped.
-    public var queueStoppedAt: Foundation.Date?
-    /// The budget schedule.
-    /// This member is required.
-    public var schedule: DeadlineClientTypes.BudgetSchedule?
-    /// The status of the budget.
-    ///
-    /// * ACTIVE–Get a budget being evaluated.
-    ///
-    /// * INACTIVE–Get an inactive budget. This can include expired, canceled, or deleted statuses.
-    /// This member is required.
-    public var status: DeadlineClientTypes.BudgetStatus?
-    /// The date and time the resource was updated.
-    public var updatedAt: Foundation.Date?
-    /// The user or system that updated this resource.
-    public var updatedBy: Swift.String?
-    /// The resource that the budget is tracking usage for.
-    /// This member is required.
-    public var usageTrackingResource: DeadlineClientTypes.UsageTrackingResource?
-    /// The usages of the budget.
-    /// This member is required.
-    public var usages: DeadlineClientTypes.ConsumedUsages?
-
-    public init(
-        actions: [DeadlineClientTypes.ResponseBudgetAction]? = nil,
-        approximateDollarLimit: Swift.Float? = nil,
-        budgetId: Swift.String? = nil,
-        createdAt: Foundation.Date? = nil,
-        createdBy: Swift.String? = nil,
-        description: Swift.String? = nil,
-        displayName: Swift.String? = nil,
-        queueStoppedAt: Foundation.Date? = nil,
-        schedule: DeadlineClientTypes.BudgetSchedule? = nil,
-        status: DeadlineClientTypes.BudgetStatus? = nil,
-        updatedAt: Foundation.Date? = nil,
-        updatedBy: Swift.String? = nil,
-        usageTrackingResource: DeadlineClientTypes.UsageTrackingResource? = nil,
-        usages: DeadlineClientTypes.ConsumedUsages? = nil
-    ) {
-        self.actions = actions
-        self.approximateDollarLimit = approximateDollarLimit
-        self.budgetId = budgetId
-        self.createdAt = createdAt
-        self.createdBy = createdBy
-        self.description = description
-        self.displayName = displayName
-        self.queueStoppedAt = queueStoppedAt
-        self.schedule = schedule
-        self.status = status
-        self.updatedAt = updatedAt
-        self.updatedBy = updatedBy
-        self.usageTrackingResource = usageTrackingResource
-        self.usages = usages
-    }
-}
-
-extension GetBudgetOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "GetBudgetOutput(actions: \(Swift.String(describing: actions)), approximateDollarLimit: \(Swift.String(describing: approximateDollarLimit)), budgetId: \(Swift.String(describing: budgetId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), queueStoppedAt: \(Swift.String(describing: queueStoppedAt)), schedule: \(Swift.String(describing: schedule)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), usageTrackingResource: \(Swift.String(describing: usageTrackingResource)), usages: \(Swift.String(describing: usages)), description: \"CONTENT_REDACTED\")"}
-}
-
-public struct ListBudgetsInput: Swift.Sendable {
-    /// The farm ID associated with the budgets.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-    public var maxResults: Swift.Int?
-    /// The token for the next set of results, or null to start from the beginning.
-    public var nextToken: Swift.String?
-    /// The status to list for the budgets.
-    public var status: DeadlineClientTypes.BudgetStatus?
-
-    public init(
-        farmId: Swift.String? = nil,
-        maxResults: Swift.Int? = 100,
-        nextToken: Swift.String? = nil,
-        status: DeadlineClientTypes.BudgetStatus? = nil
-    ) {
-        self.farmId = farmId
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-        self.status = status
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The budget summary.
-    public struct BudgetSummary: Swift.Sendable {
-        /// The approximate dollar limit of the budget.
-        /// This member is required.
-        public var approximateDollarLimit: Swift.Float?
-        /// The budget ID.
-        /// This member is required.
-        public var budgetId: Swift.String?
-        /// The date and time the resource was created.
-        /// This member is required.
-        public var createdAt: Foundation.Date?
-        /// The user or system that created this resource.
-        /// This member is required.
-        public var createdBy: Swift.String?
-        /// The description of the budget summary. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-        @available(*, deprecated, message: "ListBudgets no longer supports description. Use GetBudget if description is needed.")
-        public var description: Swift.String?
-        /// The display name of the budget summary to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-        /// This member is required.
-        public var displayName: Swift.String?
-        /// The status of the budget.
-        ///
-        /// * ACTIVE–The budget is being evaluated.
-        ///
-        /// * INACTIVE–The budget is inactive. This can include Expired, Canceled, or deleted Deleted statuses.
-        /// This member is required.
-        public var status: DeadlineClientTypes.BudgetStatus?
-        /// The date and time the resource was updated.
-        public var updatedAt: Foundation.Date?
-        /// The user or system that updated this resource.
-        public var updatedBy: Swift.String?
-        /// The resource used to track expenditure in the budget.
-        /// This member is required.
-        public var usageTrackingResource: DeadlineClientTypes.UsageTrackingResource?
-        /// The consumed usage for the budget.
-        /// This member is required.
-        public var usages: DeadlineClientTypes.ConsumedUsages?
-
-        public init(
-            approximateDollarLimit: Swift.Float? = nil,
-            budgetId: Swift.String? = nil,
-            createdAt: Foundation.Date? = nil,
-            createdBy: Swift.String? = nil,
-            description: Swift.String? = nil,
-            displayName: Swift.String? = nil,
-            status: DeadlineClientTypes.BudgetStatus? = nil,
-            updatedAt: Foundation.Date? = nil,
-            updatedBy: Swift.String? = nil,
-            usageTrackingResource: DeadlineClientTypes.UsageTrackingResource? = nil,
-            usages: DeadlineClientTypes.ConsumedUsages? = nil
-        ) {
-            self.approximateDollarLimit = approximateDollarLimit
-            self.budgetId = budgetId
-            self.createdAt = createdAt
-            self.createdBy = createdBy
-            self.description = description
-            self.displayName = displayName
-            self.status = status
-            self.updatedAt = updatedAt
-            self.updatedBy = updatedBy
-            self.usageTrackingResource = usageTrackingResource
-            self.usages = usages
-        }
-    }
-}
-
-extension DeadlineClientTypes.BudgetSummary: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "BudgetSummary(approximateDollarLimit: \(Swift.String(describing: approximateDollarLimit)), budgetId: \(Swift.String(describing: budgetId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), usageTrackingResource: \(Swift.String(describing: usageTrackingResource)), usages: \(Swift.String(describing: usages)), description: \"CONTENT_REDACTED\")"}
-}
-
-public struct ListBudgetsOutput: Swift.Sendable {
-    /// The budgets to include on the list.
-    /// This member is required.
-    public var budgets: [DeadlineClientTypes.BudgetSummary]?
-    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
-    public var nextToken: Swift.String?
-
-    public init(
-        budgets: [DeadlineClientTypes.BudgetSummary]? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.budgets = budgets
-        self.nextToken = nextToken
-    }
-}
-
-public struct UpdateBudgetInput: Swift.Sendable {
-    /// The budget actions to add. Budget actions specify what happens when the budget runs out.
-    public var actionsToAdd: [DeadlineClientTypes.BudgetActionToAdd]?
-    /// The budget actions to remove from the budget.
-    public var actionsToRemove: [DeadlineClientTypes.BudgetActionToRemove]?
-    /// The dollar limit to update on the budget. Based on consumed usage.
-    public var approximateDollarLimit: Swift.Float?
-    /// The budget ID to update.
-    /// This member is required.
-    public var budgetId: Swift.String?
-    /// The unique token which the server uses to recognize retries of the same request.
-    public var clientToken: Swift.String?
-    /// The description of the budget to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    public var description: Swift.String?
-    /// The display name of the budget to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    public var displayName: Swift.String?
-    /// The farm ID of the budget to update.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The schedule to update.
-    public var schedule: DeadlineClientTypes.BudgetSchedule?
-    /// Updates the status of the budget.
-    ///
-    /// * ACTIVE–The budget is being evaluated.
-    ///
-    /// * INACTIVE–The budget is inactive. This can include Expired, Canceled, or deleted Deleted statuses.
-    public var status: DeadlineClientTypes.BudgetStatus?
-
-    public init(
-        actionsToAdd: [DeadlineClientTypes.BudgetActionToAdd]? = nil,
-        actionsToRemove: [DeadlineClientTypes.BudgetActionToRemove]? = nil,
-        approximateDollarLimit: Swift.Float? = nil,
-        budgetId: Swift.String? = nil,
-        clientToken: Swift.String? = nil,
-        description: Swift.String? = nil,
-        displayName: Swift.String? = nil,
-        farmId: Swift.String? = nil,
-        schedule: DeadlineClientTypes.BudgetSchedule? = nil,
-        status: DeadlineClientTypes.BudgetStatus? = nil
-    ) {
-        self.actionsToAdd = actionsToAdd
-        self.actionsToRemove = actionsToRemove
-        self.approximateDollarLimit = approximateDollarLimit
-        self.budgetId = budgetId
-        self.clientToken = clientToken
-        self.description = description
-        self.displayName = displayName
-        self.farmId = farmId
-        self.schedule = schedule
-        self.status = status
-    }
-}
-
-extension UpdateBudgetInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "UpdateBudgetInput(actionsToAdd: \(Swift.String(describing: actionsToAdd)), actionsToRemove: \(Swift.String(describing: actionsToRemove)), approximateDollarLimit: \(Swift.String(describing: approximateDollarLimit)), budgetId: \(Swift.String(describing: budgetId)), clientToken: \(Swift.String(describing: clientToken)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), schedule: \(Swift.String(describing: schedule)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\")"}
-}
-
-public struct UpdateBudgetOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-extension DeadlineClientTypes {
-
-    public enum ComparisonOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case allNotEquals
-        case anyEquals
-        case equal
-        case greaterThan
-        case greaterThanEqualTo
-        case lessThan
-        case lessThanEqualTo
-        case notEqual
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ComparisonOperator] {
-            return [
-                .allNotEquals,
-                .anyEquals,
-                .equal,
-                .greaterThan,
-                .greaterThanEqualTo,
-                .lessThan,
-                .lessThanEqualTo,
-                .notEqual
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .allNotEquals: return "ALL_NOT_EQUALS"
-            case .anyEquals: return "ANY_EQUALS"
-            case .equal: return "EQUAL"
-            case .greaterThan: return "GREATER_THAN"
-            case .greaterThanEqualTo: return "GREATER_THAN_EQUAL_TO"
-            case .lessThan: return "LESS_THAN"
-            case .lessThanEqualTo: return "LESS_THAN_EQUAL_TO"
-            case .notEqual: return "NOT_EQUAL"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum CompletedStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case canceled
-        case failed
-        case interrupted
-        case neverAttempted
-        case succeeded
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [CompletedStatus] {
-            return [
-                .canceled,
-                .failed,
-                .interrupted,
-                .neverAttempted,
-                .succeeded
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .canceled: return "CANCELED"
-            case .failed: return "FAILED"
-            case .interrupted: return "INTERRUPTED"
-            case .neverAttempted: return "NEVER_ATTEMPTED"
-            case .succeeded: return "SUCCEEDED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The Amazon S3 location information.
-    public struct S3Location: Swift.Sendable {
-        /// The name of the Amazon S3 bucket.
-        /// This member is required.
-        public var bucketName: Swift.String?
-        /// The Amazon S3 object key that uniquely identifies the Amazon S3 bucket.
-        /// This member is required.
-        public var key: Swift.String?
-
-        public init(
-            bucketName: Swift.String? = nil,
-            key: Swift.String? = nil
-        ) {
-            self.bucketName = bucketName
-            self.key = key
-        }
-    }
-}
-
-public struct CopyJobTemplateInput: Swift.Sendable {
-    /// The farm ID to copy.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The job ID to copy.
-    /// This member is required.
-    public var jobId: Swift.String?
-    /// The queue ID to copy.
-    /// This member is required.
-    public var queueId: Swift.String?
-    /// The Amazon S3 bucket name and key where you would like to add a copy of the job template.
-    /// This member is required.
-    public var targetS3Location: DeadlineClientTypes.S3Location?
-
-    public init(
-        farmId: Swift.String? = nil,
-        jobId: Swift.String? = nil,
-        queueId: Swift.String? = nil,
-        targetS3Location: DeadlineClientTypes.S3Location? = nil
-    ) {
-        self.farmId = farmId
-        self.jobId = jobId
-        self.queueId = queueId
-        self.targetS3Location = targetS3Location
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum JobTemplateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case json
-        case yaml
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [JobTemplateType] {
-            return [
-                .json,
-                .yaml
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .json: return "JSON"
-            case .yaml: return "YAML"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct CopyJobTemplateOutput: Swift.Sendable {
-    /// The format of the job template, either JSON or YAML.
-    /// This member is required.
-    public var templateType: DeadlineClientTypes.JobTemplateType?
-
-    public init(
-        templateType: DeadlineClientTypes.JobTemplateType? = nil
-    ) {
-        self.templateType = templateType
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum CpuArchitectureType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case arm64
-        case x8664
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [CpuArchitectureType] {
-            return [
-                .arm64,
-                .x8664
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .arm64: return "arm64"
-            case .x8664: return "x86_64"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct CreateFarmInput: Swift.Sendable {
-    /// The unique token which the server uses to recognize retries of the same request.
-    public var clientToken: Swift.String?
-    /// The cost scale factor to apply on the farm.
-    public var costScaleFactor: Swift.Float?
-    /// The description of the farm. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    public var description: Swift.String?
-    /// The display name of the farm. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    /// This member is required.
-    public var displayName: Swift.String?
-    /// The ARN of the KMS key to use on the farm.
-    public var kmsKeyArn: Swift.String?
-    /// The tags to add to your farm. Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
-    public var tags: [Swift.String: Swift.String]?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        costScaleFactor: Swift.Float? = nil,
-        description: Swift.String? = nil,
-        displayName: Swift.String? = nil,
-        kmsKeyArn: Swift.String? = nil,
-        tags: [Swift.String: Swift.String]? = nil
-    ) {
-        self.clientToken = clientToken
-        self.costScaleFactor = costScaleFactor
-        self.description = description
-        self.displayName = displayName
-        self.kmsKeyArn = kmsKeyArn
-        self.tags = tags
-    }
-}
-
-extension CreateFarmInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CreateFarmInput(clientToken: \(Swift.String(describing: clientToken)), costScaleFactor: \(Swift.String(describing: costScaleFactor)), displayName: \(Swift.String(describing: displayName)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
-}
-
-public struct CreateFarmOutput: Swift.Sendable {
-    /// The farm ID.
-    /// This member is required.
-    public var farmId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum TagPropagationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case noPropagation
-        case propagateTagsToWorkersAtLaunch
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TagPropagationMode] {
-            return [
-                .noPropagation,
-                .propagateTagsToWorkersAtLaunch
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .noPropagation: return "NO_PROPAGATION"
-            case .propagateTagsToWorkersAtLaunch: return "PROPAGATE_TAGS_TO_WORKERS_AT_LAUNCH"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The fleet amount and attribute capabilities.
-    public struct FleetAmountCapability: Swift.Sendable {
-        /// The maximum amount of the fleet worker capability.
-        public var max: Swift.Float?
-        /// The minimum amount of fleet worker capability.
-        /// This member is required.
-        public var min: Swift.Float?
-        /// The name of the fleet capability.
-        /// This member is required.
-        public var name: Swift.String?
-
-        public init(
-            max: Swift.Float? = nil,
-            min: Swift.Float? = nil,
-            name: Swift.String? = nil
-        ) {
-            self.max = max
-            self.min = min
-            self.name = name
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// Defines the fleet's capability name, minimum, and maximum.
-    public struct FleetAttributeCapability: Swift.Sendable {
-        /// The name of the fleet attribute capability for the worker.
-        /// This member is required.
-        public var name: Swift.String?
-        /// The number of fleet attribute capabilities.
-        /// This member is required.
-        public var values: [Swift.String]?
-
-        public init(
-            name: Swift.String? = nil,
-            values: [Swift.String]? = nil
-        ) {
-            self.name = name
-            self.values = values
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The range of memory in MiB.
-    public struct MemoryMiBRange: Swift.Sendable {
-        /// The maximum amount of memory (in MiB).
-        public var max: Swift.Int?
-        /// The minimum amount of memory (in MiB).
-        /// This member is required.
-        public var min: Swift.Int?
-
-        public init(
-            max: Swift.Int? = nil,
-            min: Swift.Int? = nil
-        ) {
-            self.max = max
-            self.min = min
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum CustomerManagedFleetOperatingSystemFamily: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case linux
-        case macos
-        case windows
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [CustomerManagedFleetOperatingSystemFamily] {
-            return [
-                .linux,
-                .macos,
-                .windows
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .linux: return "LINUX"
-            case .macos: return "MACOS"
-            case .windows: return "WINDOWS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The allowable range of vCPU processing power for the fleet.
-    public struct VCpuCountRange: Swift.Sendable {
-        /// The maximum amount of vCPU.
-        public var max: Swift.Int?
-        /// The minimum amount of vCPU.
-        /// This member is required.
-        public var min: Swift.Int?
-
-        public init(
-            max: Swift.Int? = nil,
-            min: Swift.Int? = nil
-        ) {
-            self.max = max
-            self.min = min
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The worker capabilities for a customer managed workflow.
-    public struct CustomerManagedWorkerCapabilities: Swift.Sendable {
-        /// The range of the accelerator.
-        public var acceleratorCount: DeadlineClientTypes.AcceleratorCountRange?
-        /// The total memory (MiB) for the customer managed worker capabilities.
-        public var acceleratorTotalMemoryMiB: DeadlineClientTypes.AcceleratorTotalMemoryMiBRange?
-        /// The accelerator types for the customer managed worker capabilities.
-        public var acceleratorTypes: [DeadlineClientTypes.AcceleratorType]?
-        /// The CPU architecture type for the customer managed worker capabilities.
-        /// This member is required.
-        public var cpuArchitectureType: DeadlineClientTypes.CpuArchitectureType?
-        /// Custom requirement ranges for customer managed worker capabilities.
-        public var customAmounts: [DeadlineClientTypes.FleetAmountCapability]?
-        /// Custom attributes for the customer manged worker capabilities.
-        public var customAttributes: [DeadlineClientTypes.FleetAttributeCapability]?
-        /// The memory (MiB).
-        /// This member is required.
-        public var memoryMiB: DeadlineClientTypes.MemoryMiBRange?
-        /// The operating system (OS) family.
-        /// This member is required.
-        public var osFamily: DeadlineClientTypes.CustomerManagedFleetOperatingSystemFamily?
-        /// The vCPU count for the customer manged worker capabilities.
-        /// This member is required.
-        public var vCpuCount: DeadlineClientTypes.VCpuCountRange?
-
-        public init(
-            acceleratorCount: DeadlineClientTypes.AcceleratorCountRange? = nil,
-            acceleratorTotalMemoryMiB: DeadlineClientTypes.AcceleratorTotalMemoryMiBRange? = nil,
-            acceleratorTypes: [DeadlineClientTypes.AcceleratorType]? = nil,
-            cpuArchitectureType: DeadlineClientTypes.CpuArchitectureType? = nil,
-            customAmounts: [DeadlineClientTypes.FleetAmountCapability]? = nil,
-            customAttributes: [DeadlineClientTypes.FleetAttributeCapability]? = nil,
-            memoryMiB: DeadlineClientTypes.MemoryMiBRange? = nil,
-            osFamily: DeadlineClientTypes.CustomerManagedFleetOperatingSystemFamily? = nil,
-            vCpuCount: DeadlineClientTypes.VCpuCountRange? = nil
-        ) {
-            self.acceleratorCount = acceleratorCount
-            self.acceleratorTotalMemoryMiB = acceleratorTotalMemoryMiB
-            self.acceleratorTypes = acceleratorTypes
-            self.cpuArchitectureType = cpuArchitectureType
-            self.customAmounts = customAmounts
-            self.customAttributes = customAttributes
-            self.memoryMiB = memoryMiB
-            self.osFamily = osFamily
-            self.vCpuCount = vCpuCount
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The configuration details for a customer managed fleet.
-    public struct CustomerManagedFleetConfiguration: Swift.Sendable {
-        /// The Auto Scaling mode for the customer managed fleet.
-        /// This member is required.
-        public var mode: DeadlineClientTypes.AutoScalingMode?
-        /// The storage profile ID for the customer managed fleet.
-        public var storageProfileId: Swift.String?
-        /// The tag propagation mode for the customer managed fleet.
-        public var tagPropagationMode: DeadlineClientTypes.TagPropagationMode?
-        /// The worker capabilities for the customer managed fleet.
-        /// This member is required.
-        public var workerCapabilities: DeadlineClientTypes.CustomerManagedWorkerCapabilities?
-
-        public init(
-            mode: DeadlineClientTypes.AutoScalingMode? = nil,
-            storageProfileId: Swift.String? = nil,
-            tagPropagationMode: DeadlineClientTypes.TagPropagationMode? = nil,
-            workerCapabilities: DeadlineClientTypes.CustomerManagedWorkerCapabilities? = nil
-        ) {
-            self.mode = mode
-            self.storageProfileId = storageProfileId
-            self.tagPropagationMode = tagPropagationMode
-            self.workerCapabilities = workerCapabilities
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum ServiceManagedFleetOperatingSystemFamily: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case linux
-        case windows
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ServiceManagedFleetOperatingSystemFamily] {
-            return [
-                .linux,
-                .windows
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .linux: return "LINUX"
-            case .windows: return "WINDOWS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// Specifies the EBS volume.
-    public struct Ec2EbsVolume: Swift.Sendable {
-        /// The IOPS per volume.
-        public var iops: Swift.Int?
-        /// The EBS volume size in GiB.
-        public var sizeGiB: Swift.Int?
-        /// The throughput per volume in MiB.
-        public var throughputMiB: Swift.Int?
-
-        public init(
-            iops: Swift.Int? = 3000,
-            sizeGiB: Swift.Int? = 250,
-            throughputMiB: Swift.Int? = 125
-        ) {
-            self.iops = iops
-            self.sizeGiB = sizeGiB
-            self.throughputMiB = throughputMiB
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The Amazon EC2 instance capabilities.
-    public struct ServiceManagedEc2InstanceCapabilities: Swift.Sendable {
-        /// Describes the GPU accelerator capabilities required for worker host instances in this fleet.
-        public var acceleratorCapabilities: DeadlineClientTypes.AcceleratorCapabilities?
-        /// The allowable Amazon EC2 instance types.
-        public var allowedInstanceTypes: [Swift.String]?
-        /// The CPU architecture type.
-        /// This member is required.
-        public var cpuArchitectureType: DeadlineClientTypes.CpuArchitectureType?
-        /// The custom capability amounts to require for instances in this fleet.
-        public var customAmounts: [DeadlineClientTypes.FleetAmountCapability]?
-        /// The custom capability attributes to require for instances in this fleet.
-        public var customAttributes: [DeadlineClientTypes.FleetAttributeCapability]?
-        /// The instance types to exclude from the fleet.
-        public var excludedInstanceTypes: [Swift.String]?
-        /// The memory, as MiB, for the Amazon EC2 instance type.
-        /// This member is required.
-        public var memoryMiB: DeadlineClientTypes.MemoryMiBRange?
-        /// The operating system (OS) family.
-        /// This member is required.
-        public var osFamily: DeadlineClientTypes.ServiceManagedFleetOperatingSystemFamily?
-        /// The root EBS volume.
-        public var rootEbsVolume: DeadlineClientTypes.Ec2EbsVolume?
-        /// The amount of vCPU to require for instances in this fleet.
-        /// This member is required.
-        public var vCpuCount: DeadlineClientTypes.VCpuCountRange?
-
-        public init(
-            acceleratorCapabilities: DeadlineClientTypes.AcceleratorCapabilities? = nil,
-            allowedInstanceTypes: [Swift.String]? = nil,
-            cpuArchitectureType: DeadlineClientTypes.CpuArchitectureType? = nil,
-            customAmounts: [DeadlineClientTypes.FleetAmountCapability]? = nil,
-            customAttributes: [DeadlineClientTypes.FleetAttributeCapability]? = nil,
-            excludedInstanceTypes: [Swift.String]? = nil,
-            memoryMiB: DeadlineClientTypes.MemoryMiBRange? = nil,
-            osFamily: DeadlineClientTypes.ServiceManagedFleetOperatingSystemFamily? = nil,
-            rootEbsVolume: DeadlineClientTypes.Ec2EbsVolume? = nil,
-            vCpuCount: DeadlineClientTypes.VCpuCountRange? = nil
-        ) {
-            self.acceleratorCapabilities = acceleratorCapabilities
-            self.allowedInstanceTypes = allowedInstanceTypes
-            self.cpuArchitectureType = cpuArchitectureType
-            self.customAmounts = customAmounts
-            self.customAttributes = customAttributes
-            self.excludedInstanceTypes = excludedInstanceTypes
-            self.memoryMiB = memoryMiB
-            self.osFamily = osFamily
-            self.rootEbsVolume = rootEbsVolume
-            self.vCpuCount = vCpuCount
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum Ec2MarketType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case onDemand
-        case spot
-        case waitAndSave
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [Ec2MarketType] {
-            return [
-                .onDemand,
-                .spot,
-                .waitAndSave
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .onDemand: return "on-demand"
-            case .spot: return "spot"
-            case .waitAndSave: return "wait-and-save"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The details of the Amazon EC2 instance market options for a service managed fleet.
-    public struct ServiceManagedEc2InstanceMarketOptions: Swift.Sendable {
-        /// The Amazon EC2 instance type.
-        /// This member is required.
-        public var type: DeadlineClientTypes.Ec2MarketType?
-
-        public init(
-            type: DeadlineClientTypes.Ec2MarketType? = nil
-        ) {
-            self.type = type
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The configuration options for a service managed fleet's VPC.
-    public struct VpcConfiguration: Swift.Sendable {
-        /// The ARNs of the VPC Lattice resource configurations attached to the fleet.
-        public var resourceConfigurationArns: [Swift.String]?
-
-        public init(
-            resourceConfigurationArns: [Swift.String]? = nil
-        ) {
-            self.resourceConfigurationArns = resourceConfigurationArns
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The configuration details for a service managed EC2 fleet.
-    public struct ServiceManagedEc2FleetConfiguration: Swift.Sendable {
-        /// The instance capabilities for the service managed EC2 fleet.
-        /// This member is required.
-        public var instanceCapabilities: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities?
-        /// The instance market options for the service managed EC2 fleet.
-        /// This member is required.
-        public var instanceMarketOptions: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions?
-        /// The storage profile ID for the service managed EC2 fleet.
-        public var storageProfileId: Swift.String?
-        /// The VPC configuration for the service managed EC2 fleet.
-        public var vpcConfiguration: DeadlineClientTypes.VpcConfiguration?
-
-        public init(
-            instanceCapabilities: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities? = nil,
-            instanceMarketOptions: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions? = nil,
-            storageProfileId: Swift.String? = nil,
-            vpcConfiguration: DeadlineClientTypes.VpcConfiguration? = nil
-        ) {
-            self.instanceCapabilities = instanceCapabilities
-            self.instanceMarketOptions = instanceMarketOptions
-            self.storageProfileId = storageProfileId
-            self.vpcConfiguration = vpcConfiguration
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// Fleet configuration details.
-    public enum FleetConfiguration: Swift.Sendable {
-        /// The customer managed fleets within a fleet configuration.
-        case customermanaged(DeadlineClientTypes.CustomerManagedFleetConfiguration)
-        /// The service managed Amazon EC2 instances for a fleet configuration.
-        case servicemanagedec2(DeadlineClientTypes.ServiceManagedEc2FleetConfiguration)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// Provides a script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet. To remove a script from a fleet, use the [UpdateFleet](https://docs.aws.amazon.com/deadline-cloud/latest/APIReference/API_UpdateFleet.html) operation with the hostConfigurationscriptBody parameter set to an empty string ("").
-    public struct HostConfiguration: Swift.Sendable {
-        /// The text of the script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet. The script runs after a worker enters the STARTING state and before the worker processes tasks. For more information about using the script, see [Run scripts as an administrator to configure workers](https://docs.aws.amazon.com/deadline-cloud/latest/developerguide/smf-admin.html) in the Deadline Cloud Developer Guide. The script runs as an administrative user (sudo root on Linux, as an Administrator on Windows).
-        /// This member is required.
-        public var scriptBody: Swift.String?
-        /// The maximum time that the host configuration can run. If the timeout expires, the worker enters the NOT RESPONDING state and shuts down. You are charged for the time that the worker is running the host configuration script. You should configure your fleet for a maximum of one worker while testing your host configuration script to avoid starting additional workers. The default is 300 seconds (5 minutes).
-        public var scriptTimeoutSeconds: Swift.Int?
-
-        public init(
-            scriptBody: Swift.String? = nil,
-            scriptTimeoutSeconds: Swift.Int? = 300
-        ) {
-            self.scriptBody = scriptBody
-            self.scriptTimeoutSeconds = scriptTimeoutSeconds
-        }
-    }
-}
-
-extension DeadlineClientTypes.HostConfiguration: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "HostConfiguration(scriptTimeoutSeconds: \(Swift.String(describing: scriptTimeoutSeconds)), scriptBody: \"CONTENT_REDACTED\")"}
-}
-
-public struct CreateFleetInput: Swift.Sendable {
-    /// The unique token which the server uses to recognize retries of the same request.
-    public var clientToken: Swift.String?
-    /// The configuration settings for the fleet. Customer managed fleets are self-managed. Service managed Amazon EC2 fleets are managed by Deadline Cloud.
-    /// This member is required.
-    public var configuration: DeadlineClientTypes.FleetConfiguration?
-    /// The description of the fleet. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    public var description: Swift.String?
-    /// The display name of the fleet. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    /// This member is required.
-    public var displayName: Swift.String?
-    /// The farm ID of the farm to connect to the fleet.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// Provides a script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
-    public var hostConfiguration: DeadlineClientTypes.HostConfiguration?
-    /// The maximum number of workers for the fleet. Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to CreateWorker before the field updates, you might exceed your fleet's maximum worker count. For example, if your maxWorkerCount is 10 and you currently have 9 workers, making two quick CreateWorker calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
-    /// This member is required.
-    public var maxWorkerCount: Swift.Int?
-    /// The minimum number of workers for the fleet.
-    public var minWorkerCount: Swift.Int?
-    /// The IAM role ARN for the role that the fleet's workers will use.
-    /// This member is required.
-    public var roleArn: Swift.String?
-    /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
-    public var tags: [Swift.String: Swift.String]?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        configuration: DeadlineClientTypes.FleetConfiguration? = nil,
-        description: Swift.String? = nil,
-        displayName: Swift.String? = nil,
-        farmId: Swift.String? = nil,
-        hostConfiguration: DeadlineClientTypes.HostConfiguration? = nil,
-        maxWorkerCount: Swift.Int? = nil,
-        minWorkerCount: Swift.Int? = nil,
-        roleArn: Swift.String? = nil,
-        tags: [Swift.String: Swift.String]? = nil
-    ) {
-        self.clientToken = clientToken
-        self.configuration = configuration
-        self.description = description
-        self.displayName = displayName
-        self.farmId = farmId
-        self.hostConfiguration = hostConfiguration
-        self.maxWorkerCount = maxWorkerCount
-        self.minWorkerCount = minWorkerCount
-        self.roleArn = roleArn
-        self.tags = tags
-    }
-}
-
-extension CreateFleetInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CreateFleetInput(clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), hostConfiguration: \(Swift.String(describing: hostConfiguration)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
-}
-
-public struct CreateFleetOutput: Swift.Sendable {
-    /// The fleet ID.
-    /// This member is required.
-    public var fleetId: Swift.String?
-
-    public init(
-        fleetId: Swift.String? = nil
-    ) {
-        self.fleetId = fleetId
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum CreateJobTargetTaskRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case ready
-        case suspended
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [CreateJobTargetTaskRunStatus] {
-            return [
-                .ready,
-                .suspended
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .ready: return "READY"
-            case .suspended: return "SUSPENDED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct CreateJobInput: Swift.Sendable {
-    /// The attachments for the job. Attach files required for the job to run to a render job.
-    public var attachments: DeadlineClientTypes.Attachments?
-    /// The unique token which the server uses to recognize retries of the same request.
-    public var clientToken: Swift.String?
-    /// A custom description to override the job description derived from the job template.
-    public var descriptionOverride: Swift.String?
-    /// The farm ID of the farm to connect to the job.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The number of task failures before the job stops running and is marked as FAILED.
-    public var maxFailedTasksCount: Swift.Int?
-    /// The maximum number of retries for each task.
-    public var maxRetriesPerTask: Swift.Int?
-    /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, Deadline Cloud won't throttle the number of workers used to process the job.
-    public var maxWorkerCount: Swift.Int?
-    /// A custom name to override the job name derived from the job template.
-    public var nameOverride: Swift.String?
-    /// The parameters for the job.
-    public var parameters: [Swift.String: DeadlineClientTypes.JobParameter]?
-    /// The priority of the job. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
-    /// This member is required.
-    public var priority: Swift.Int?
-    /// The ID of the queue that the job is submitted to.
-    /// This member is required.
-    public var queueId: Swift.String?
-    /// The job ID for the source job.
-    public var sourceJobId: Swift.String?
-    /// The storage profile ID for the storage profile to connect to the job.
-    public var storageProfileId: Swift.String?
-    /// The tags to add to your job. Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
-    public var tags: [Swift.String: Swift.String]?
-    /// The initial job status when it is created. Jobs that are created with a SUSPENDED status will not run until manually requeued.
-    public var targetTaskRunStatus: DeadlineClientTypes.CreateJobTargetTaskRunStatus?
-    /// The job template to use for this job.
-    public var template: Swift.String?
-    /// The file type for the job template.
-    public var templateType: DeadlineClientTypes.JobTemplateType?
-
-    public init(
-        attachments: DeadlineClientTypes.Attachments? = nil,
-        clientToken: Swift.String? = nil,
-        descriptionOverride: Swift.String? = nil,
-        farmId: Swift.String? = nil,
-        maxFailedTasksCount: Swift.Int? = nil,
-        maxRetriesPerTask: Swift.Int? = nil,
-        maxWorkerCount: Swift.Int? = nil,
-        nameOverride: Swift.String? = nil,
-        parameters: [Swift.String: DeadlineClientTypes.JobParameter]? = nil,
-        priority: Swift.Int? = nil,
-        queueId: Swift.String? = nil,
-        sourceJobId: Swift.String? = nil,
-        storageProfileId: Swift.String? = nil,
-        tags: [Swift.String: Swift.String]? = nil,
-        targetTaskRunStatus: DeadlineClientTypes.CreateJobTargetTaskRunStatus? = nil,
-        template: Swift.String? = nil,
-        templateType: DeadlineClientTypes.JobTemplateType? = nil
-    ) {
-        self.attachments = attachments
-        self.clientToken = clientToken
-        self.descriptionOverride = descriptionOverride
-        self.farmId = farmId
-        self.maxFailedTasksCount = maxFailedTasksCount
-        self.maxRetriesPerTask = maxRetriesPerTask
-        self.maxWorkerCount = maxWorkerCount
-        self.nameOverride = nameOverride
-        self.parameters = parameters
-        self.priority = priority
-        self.queueId = queueId
-        self.sourceJobId = sourceJobId
-        self.storageProfileId = storageProfileId
-        self.tags = tags
-        self.targetTaskRunStatus = targetTaskRunStatus
-        self.template = template
-        self.templateType = templateType
-    }
-}
-
-extension CreateJobInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CreateJobInput(attachments: \(Swift.String(describing: attachments)), clientToken: \(Swift.String(describing: clientToken)), farmId: \(Swift.String(describing: farmId)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), nameOverride: \(Swift.String(describing: nameOverride)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), storageProfileId: \(Swift.String(describing: storageProfileId)), tags: \(Swift.String(describing: tags)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), templateType: \(Swift.String(describing: templateType)), descriptionOverride: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\", template: \"CONTENT_REDACTED\")"}
-}
-
-public struct CreateJobOutput: Swift.Sendable {
-    /// The job ID.
-    /// This member is required.
-    public var jobId: Swift.String?
-
-    public init(
-        jobId: Swift.String? = nil
-    ) {
-        self.jobId = jobId
-    }
-}
-
-public struct CreateLicenseEndpointInput: Swift.Sendable {
-    /// The unique token which the server uses to recognize retries of the same request.
-    public var clientToken: Swift.String?
-    /// The security group IDs.
-    /// This member is required.
-    public var securityGroupIds: [Swift.String]?
-    /// The subnet IDs.
-    /// This member is required.
-    public var subnetIds: [Swift.String]?
-    /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
-    public var tags: [Swift.String: Swift.String]?
-    /// The VPC (virtual private cloud) ID to use with the license endpoint.
-    /// This member is required.
-    public var vpcId: Swift.String?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        securityGroupIds: [Swift.String]? = nil,
-        subnetIds: [Swift.String]? = nil,
-        tags: [Swift.String: Swift.String]? = nil,
-        vpcId: Swift.String? = nil
-    ) {
-        self.clientToken = clientToken
-        self.securityGroupIds = securityGroupIds
-        self.subnetIds = subnetIds
-        self.tags = tags
-        self.vpcId = vpcId
-    }
-}
-
-public struct CreateLicenseEndpointOutput: Swift.Sendable {
-    /// The license endpoint ID.
-    /// This member is required.
-    public var licenseEndpointId: Swift.String?
-
-    public init(
-        licenseEndpointId: Swift.String? = nil
-    ) {
-        self.licenseEndpointId = licenseEndpointId
-    }
-}
-
-public struct CreateLimitInput: Swift.Sendable {
-    /// The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement.
-    /// This member is required.
-    public var amountRequirementName: Swift.String?
-    /// The unique token which the server uses to recognize retries of the same request.
-    public var clientToken: Swift.String?
-    /// A description of the limit. A description helps you identify the purpose of the limit. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    public var description: Swift.String?
-    /// The display name of the limit. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    /// This member is required.
-    public var displayName: Swift.String?
-    /// The farm ID of the farm that contains the limit.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. The maxCount must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit.
-    /// This member is required.
-    public var maxCount: Swift.Int?
-
-    public init(
-        amountRequirementName: Swift.String? = nil,
-        clientToken: Swift.String? = nil,
-        description: Swift.String? = nil,
-        displayName: Swift.String? = nil,
-        farmId: Swift.String? = nil,
-        maxCount: Swift.Int? = nil
-    ) {
-        self.amountRequirementName = amountRequirementName
-        self.clientToken = clientToken
-        self.description = description
-        self.displayName = displayName
-        self.farmId = farmId
-        self.maxCount = maxCount
-    }
-}
-
-extension CreateLimitInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CreateLimitInput(amountRequirementName: \(Swift.String(describing: amountRequirementName)), clientToken: \(Swift.String(describing: clientToken)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), maxCount: \(Swift.String(describing: maxCount)), description: \"CONTENT_REDACTED\")"}
-}
-
-public struct CreateLimitOutput: Swift.Sendable {
-    /// A unique identifier for the limit. Use this identifier in other operations, such as CreateQueueLimitAssociation and DeleteLimit.
-    /// This member is required.
-    public var limitId: Swift.String?
-
-    public init(
-        limitId: Swift.String? = nil
-    ) {
-        self.limitId = limitId
-    }
-}
-
-public struct CreateMonitorInput: Swift.Sendable {
-    /// The unique token which the server uses to recognize retries of the same request.
-    public var clientToken: Swift.String?
-    /// The name that you give the monitor that is displayed in the Deadline Cloud console. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    /// This member is required.
-    public var displayName: Swift.String?
-    /// The Amazon Resource Name of the IAM Identity Center instance that authenticates monitor users.
-    /// This member is required.
-    public var identityCenterInstanceArn: Swift.String?
-    /// The Amazon Resource Name of the IAM role that the monitor uses to connect to Deadline Cloud. Every user that signs in to the monitor using IAM Identity Center uses this role to access Deadline Cloud resources.
-    /// This member is required.
-    public var roleArn: Swift.String?
-    /// The subdomain to use when creating the monitor URL. The full URL of the monitor is subdomain.Region.deadlinecloud.amazonaws.com.
-    /// This member is required.
-    public var subdomain: Swift.String?
-    /// The tags to add to your monitor. Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
-    public var tags: [Swift.String: Swift.String]?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        displayName: Swift.String? = nil,
-        identityCenterInstanceArn: Swift.String? = nil,
-        roleArn: Swift.String? = nil,
-        subdomain: Swift.String? = nil,
-        tags: [Swift.String: Swift.String]? = nil
-    ) {
-        self.clientToken = clientToken
-        self.displayName = displayName
-        self.identityCenterInstanceArn = identityCenterInstanceArn
-        self.roleArn = roleArn
-        self.subdomain = subdomain
-        self.tags = tags
-    }
-}
-
-public struct CreateMonitorOutput: Swift.Sendable {
-    /// The Amazon Resource Name that IAM Identity Center assigns to the monitor.
-    /// This member is required.
-    public var identityCenterApplicationArn: Swift.String?
-    /// The unique identifier of the monitor.
-    /// This member is required.
-    public var monitorId: Swift.String?
-
-    public init(
-        identityCenterApplicationArn: Swift.String? = nil,
-        monitorId: Swift.String? = nil
-    ) {
-        self.identityCenterApplicationArn = identityCenterApplicationArn
-        self.monitorId = monitorId
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum DefaultQueueBudgetAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case `none`
-        case stopSchedulingAndCancelTasks
-        case stopSchedulingAndCompleteTasks
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DefaultQueueBudgetAction] {
-            return [
-                .none,
-                .stopSchedulingAndCancelTasks,
-                .stopSchedulingAndCompleteTasks
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .none: return "NONE"
-            case .stopSchedulingAndCancelTasks: return "STOP_SCHEDULING_AND_CANCEL_TASKS"
-            case .stopSchedulingAndCompleteTasks: return "STOP_SCHEDULING_AND_COMPLETE_TASKS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct CreateQueueInput: Swift.Sendable {
-    /// The storage profile IDs to include in the queue.
-    public var allowedStorageProfileIds: [Swift.String]?
-    /// The unique token which the server uses to recognize retries of the same request.
-    public var clientToken: Swift.String?
-    /// The default action to take on a queue if a budget isn't configured.
-    public var defaultBudgetAction: DeadlineClientTypes.DefaultQueueBudgetAction?
-    /// The description of the queue. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    public var description: Swift.String?
-    /// The display name of the queue. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    /// This member is required.
-    public var displayName: Swift.String?
-    /// The farm ID of the farm to connect to the queue.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The job attachment settings for the queue. These are the Amazon S3 bucket name and the Amazon S3 prefix.
-    public var jobAttachmentSettings: DeadlineClientTypes.JobAttachmentSettings?
-    /// The jobs in the queue run as the specified POSIX user.
-    public var jobRunAsUser: DeadlineClientTypes.JobRunAsUser?
-    /// The file system location name to include in the queue.
-    public var requiredFileSystemLocationNames: [Swift.String]?
-    /// The IAM role ARN that workers will use while running jobs for this queue.
-    public var roleArn: Swift.String?
-    /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
-    public var tags: [Swift.String: Swift.String]?
-
-    public init(
-        allowedStorageProfileIds: [Swift.String]? = nil,
-        clientToken: Swift.String? = nil,
-        defaultBudgetAction: DeadlineClientTypes.DefaultQueueBudgetAction? = nil,
-        description: Swift.String? = nil,
-        displayName: Swift.String? = nil,
-        farmId: Swift.String? = nil,
-        jobAttachmentSettings: DeadlineClientTypes.JobAttachmentSettings? = nil,
-        jobRunAsUser: DeadlineClientTypes.JobRunAsUser? = nil,
-        requiredFileSystemLocationNames: [Swift.String]? = nil,
-        roleArn: Swift.String? = nil,
-        tags: [Swift.String: Swift.String]? = nil
-    ) {
-        self.allowedStorageProfileIds = allowedStorageProfileIds
-        self.clientToken = clientToken
-        self.defaultBudgetAction = defaultBudgetAction
-        self.description = description
-        self.displayName = displayName
-        self.farmId = farmId
-        self.jobAttachmentSettings = jobAttachmentSettings
-        self.jobRunAsUser = jobRunAsUser
-        self.requiredFileSystemLocationNames = requiredFileSystemLocationNames
-        self.roleArn = roleArn
-        self.tags = tags
-    }
-}
-
-extension CreateQueueInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CreateQueueInput(allowedStorageProfileIds: \(Swift.String(describing: allowedStorageProfileIds)), clientToken: \(Swift.String(describing: clientToken)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), requiredFileSystemLocationNames: \(Swift.String(describing: requiredFileSystemLocationNames)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
-}
-
-public struct CreateQueueOutput: Swift.Sendable {
-    /// The queue ID.
-    /// This member is required.
-    public var queueId: Swift.String?
-
-    public init(
-        queueId: Swift.String? = nil
-    ) {
-        self.queueId = queueId
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum EnvironmentTemplateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case json
-        case yaml
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [EnvironmentTemplateType] {
-            return [
-                .json,
-                .yaml
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .json: return "JSON"
-            case .yaml: return "YAML"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct CreateQueueEnvironmentInput: Swift.Sendable {
-    /// The unique token which the server uses to recognize retries of the same request.
-    public var clientToken: Swift.String?
-    /// The farm ID of the farm to connect to the environment.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// Sets the priority of the environments in the queue from 0 to 10,000, where 0 is the highest priority (activated first and deactivated last). If two environments share the same priority value, the environment created first takes higher priority.
-    /// This member is required.
-    public var priority: Swift.Int?
-    /// The queue ID to connect the queue and environment.
-    /// This member is required.
-    public var queueId: Swift.String?
-    /// The environment template to use in the queue.
-    /// This member is required.
-    public var template: Swift.String?
-    /// The template's file type, JSON or YAML.
-    /// This member is required.
-    public var templateType: DeadlineClientTypes.EnvironmentTemplateType?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        farmId: Swift.String? = nil,
-        priority: Swift.Int? = nil,
-        queueId: Swift.String? = nil,
-        template: Swift.String? = nil,
-        templateType: DeadlineClientTypes.EnvironmentTemplateType? = nil
-    ) {
-        self.clientToken = clientToken
-        self.farmId = farmId
-        self.priority = priority
-        self.queueId = queueId
-        self.template = template
-        self.templateType = templateType
-    }
-}
-
-extension CreateQueueEnvironmentInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CreateQueueEnvironmentInput(clientToken: \(Swift.String(describing: clientToken)), farmId: \(Swift.String(describing: farmId)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), templateType: \(Swift.String(describing: templateType)), template: \"CONTENT_REDACTED\")"}
-}
-
-public struct CreateQueueEnvironmentOutput: Swift.Sendable {
-    /// The queue environment ID.
-    /// This member is required.
-    public var queueEnvironmentId: Swift.String?
-
-    public init(
-        queueEnvironmentId: Swift.String? = nil
-    ) {
-        self.queueEnvironmentId = queueEnvironmentId
-    }
-}
-
-public struct CreateQueueFleetAssociationInput: Swift.Sendable {
-    /// The ID of the farm that the queue and fleet belong to.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The fleet ID.
-    /// This member is required.
-    public var fleetId: Swift.String?
-    /// The queue ID.
-    /// This member is required.
-    public var queueId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        fleetId: Swift.String? = nil,
-        queueId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.fleetId = fleetId
-        self.queueId = queueId
-    }
-}
-
-public struct CreateQueueFleetAssociationOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct CreateQueueLimitAssociationInput: Swift.Sendable {
-    /// The unique identifier of the farm that contains the queue and limit to associate.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The unique identifier of the limit to associate with the queue.
-    /// This member is required.
-    public var limitId: Swift.String?
-    /// The unique identifier of the queue to associate with the limit.
-    /// This member is required.
-    public var queueId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        limitId: Swift.String? = nil,
-        queueId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.limitId = limitId
-        self.queueId = queueId
-    }
-}
-
-public struct CreateQueueLimitAssociationOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-extension DeadlineClientTypes {
-
-    public enum FileSystemLocationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case local
-        case shared
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [FileSystemLocationType] {
-            return [
-                .local,
-                .shared
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .local: return "LOCAL"
-            case .shared: return "SHARED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The details of the file system location for the resource.
-    public struct FileSystemLocation: Swift.Sendable {
-        /// The location name.
-        /// This member is required.
-        public var name: Swift.String?
-        /// The file path.
-        /// This member is required.
-        public var path: Swift.String?
-        /// The type of file.
-        /// This member is required.
-        public var type: DeadlineClientTypes.FileSystemLocationType?
-
-        public init(
-            name: Swift.String? = nil,
-            path: Swift.String? = nil,
-            type: DeadlineClientTypes.FileSystemLocationType? = nil
-        ) {
-            self.name = name
-            self.path = path
-            self.type = type
-        }
-    }
-}
-
-extension DeadlineClientTypes.FileSystemLocation: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CONTENT_REDACTED"
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum StorageProfileOperatingSystemFamily: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case linux
-        case macos
-        case windows
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [StorageProfileOperatingSystemFamily] {
-            return [
-                .linux,
-                .macos,
-                .windows
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .linux: return "LINUX"
-            case .macos: return "MACOS"
-            case .windows: return "WINDOWS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct CreateStorageProfileInput: Swift.Sendable {
-    /// The unique token which the server uses to recognize retries of the same request.
-    public var clientToken: Swift.String?
-    /// The display name of the storage profile. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    /// This member is required.
-    public var displayName: Swift.String?
-    /// The farm ID of the farm to connect to the storage profile.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// File system paths to include in the storage profile.
-    public var fileSystemLocations: [DeadlineClientTypes.FileSystemLocation]?
-    /// The type of operating system (OS) for the storage profile.
-    /// This member is required.
-    public var osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        displayName: Swift.String? = nil,
-        farmId: Swift.String? = nil,
-        fileSystemLocations: [DeadlineClientTypes.FileSystemLocation]? = nil,
-        osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily? = nil
-    ) {
-        self.clientToken = clientToken
-        self.displayName = displayName
-        self.farmId = farmId
-        self.fileSystemLocations = fileSystemLocations
-        self.osFamily = osFamily
-    }
-}
-
-extension CreateStorageProfileInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CreateStorageProfileInput(clientToken: \(Swift.String(describing: clientToken)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), osFamily: \(Swift.String(describing: osFamily)), fileSystemLocations: \"CONTENT_REDACTED\")"}
-}
-
-public struct CreateStorageProfileOutput: Swift.Sendable {
-    /// The storage profile ID.
-    /// This member is required.
-    public var storageProfileId: Swift.String?
-
-    public init(
-        storageProfileId: Swift.String? = nil
-    ) {
-        self.storageProfileId = storageProfileId
     }
 }
 
@@ -4105,777 +2642,6 @@ extension DeadlineClientTypes {
             self.ipV4Addresses = ipV4Addresses
             self.ipV6Addresses = ipV6Addresses
         }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The host property details.
-    public struct HostPropertiesRequest: Swift.Sendable {
-        /// The host name.
-        public var hostName: Swift.String?
-        /// The IP address of the host.
-        public var ipAddresses: DeadlineClientTypes.IpAddresses?
-
-        public init(
-            hostName: Swift.String? = nil,
-            ipAddresses: DeadlineClientTypes.IpAddresses? = nil
-        ) {
-            self.hostName = hostName
-            self.ipAddresses = ipAddresses
-        }
-    }
-}
-
-public struct CreateWorkerInput: Swift.Sendable {
-    /// The unique token which the server uses to recognize retries of the same request.
-    public var clientToken: Swift.String?
-    /// The farm ID of the farm to connect to the worker.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The fleet ID to connect to the worker.
-    /// This member is required.
-    public var fleetId: Swift.String?
-    /// The IP address and host name of the worker.
-    public var hostProperties: DeadlineClientTypes.HostPropertiesRequest?
-    /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
-    public var tags: [Swift.String: Swift.String]?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        farmId: Swift.String? = nil,
-        fleetId: Swift.String? = nil,
-        hostProperties: DeadlineClientTypes.HostPropertiesRequest? = nil,
-        tags: [Swift.String: Swift.String]? = nil
-    ) {
-        self.clientToken = clientToken
-        self.farmId = farmId
-        self.fleetId = fleetId
-        self.hostProperties = hostProperties
-        self.tags = tags
-    }
-}
-
-public struct CreateWorkerOutput: Swift.Sendable {
-    /// The worker ID.
-    /// This member is required.
-    public var workerId: Swift.String?
-
-    public init(
-        workerId: Swift.String? = nil
-    ) {
-        self.workerId = workerId
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The time stamp in date-time format.
-    public struct DateTimeFilterExpression: Swift.Sendable {
-        /// The date and time.
-        /// This member is required.
-        public var dateTime: Foundation.Date?
-        /// The name of the date-time field to filter on.
-        /// This member is required.
-        public var name: Swift.String?
-        /// The type of comparison to use to filter the results.
-        /// This member is required.
-        public var `operator`: DeadlineClientTypes.ComparisonOperator?
-
-        public init(
-            dateTime: Foundation.Date? = nil,
-            name: Swift.String? = nil,
-            `operator`: DeadlineClientTypes.ComparisonOperator? = nil
-        ) {
-            self.dateTime = dateTime
-            self.name = name
-            self.`operator` = `operator`
-        }
-    }
-}
-
-public struct DeleteQueueFleetAssociationInput: Swift.Sendable {
-    /// The farm ID of the farm that holds the queue-fleet association.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The fleet ID of the queue-fleet association.
-    /// This member is required.
-    public var fleetId: Swift.String?
-    /// The queue ID of the queue-fleet association.
-    /// This member is required.
-    public var queueId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        fleetId: Swift.String? = nil,
-        queueId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.fleetId = fleetId
-        self.queueId = queueId
-    }
-}
-
-public struct DeleteQueueFleetAssociationOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct DeleteQueueLimitAssociationInput: Swift.Sendable {
-    /// The unique identifier of the farm that contains the queue and limit to disassociate.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The unique identifier of the limit to disassociate.
-    /// This member is required.
-    public var limitId: Swift.String?
-    /// The unique identifier of the queue to disassociate.
-    /// This member is required.
-    public var queueId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        limitId: Swift.String? = nil,
-        queueId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.limitId = limitId
-        self.queueId = queueId
-    }
-}
-
-public struct DeleteQueueLimitAssociationOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct DeleteFarmInput: Swift.Sendable {
-    /// The farm ID of the farm to delete.
-    /// This member is required.
-    public var farmId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-    }
-}
-
-public struct DeleteFarmOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct DeleteLimitInput: Swift.Sendable {
-    /// The unique identifier of the farm that contains the limit to delete.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The unique identifier of the limit to delete.
-    /// This member is required.
-    public var limitId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        limitId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.limitId = limitId
-    }
-}
-
-public struct DeleteLimitOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct DeleteStorageProfileInput: Swift.Sendable {
-    /// The farm ID of the farm from which to remove the storage profile.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The storage profile ID of the storage profile to delete.
-    /// This member is required.
-    public var storageProfileId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        storageProfileId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.storageProfileId = storageProfileId
-    }
-}
-
-public struct DeleteStorageProfileOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct DisassociateMemberFromFarmInput: Swift.Sendable {
-    /// The farm ID of the farm to disassociate from the member.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// A member's principal ID to disassociate from a farm.
-    /// This member is required.
-    public var principalId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        principalId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.principalId = principalId
-    }
-}
-
-public struct DisassociateMemberFromFarmOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct DeleteFleetInput: Swift.Sendable {
-    /// The unique token which the server uses to recognize retries of the same request.
-    public var clientToken: Swift.String?
-    /// The farm ID of the farm to remove from the fleet.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The fleet ID of the fleet to delete.
-    /// This member is required.
-    public var fleetId: Swift.String?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        farmId: Swift.String? = nil,
-        fleetId: Swift.String? = nil
-    ) {
-        self.clientToken = clientToken
-        self.farmId = farmId
-        self.fleetId = fleetId
-    }
-}
-
-public struct DeleteFleetOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct DisassociateMemberFromFleetInput: Swift.Sendable {
-    /// The farm ID of the fleet to disassociate a member from.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The fleet ID of the fleet to from which to disassociate a member.
-    /// This member is required.
-    public var fleetId: Swift.String?
-    /// A member's principal ID to disassociate from a fleet.
-    /// This member is required.
-    public var principalId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        fleetId: Swift.String? = nil,
-        principalId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.fleetId = fleetId
-        self.principalId = principalId
-    }
-}
-
-public struct DisassociateMemberFromFleetOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct GetFleetInput: Swift.Sendable {
-    /// The farm ID of the farm in the fleet.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The fleet ID of the fleet to get.
-    /// This member is required.
-    public var fleetId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        fleetId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.fleetId = fleetId
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The amounts and attributes of fleets.
-    public struct FleetCapabilities: Swift.Sendable {
-        /// Amount capabilities of the fleet.
-        public var amounts: [DeadlineClientTypes.FleetAmountCapability]?
-        /// Attribute capabilities of the fleet.
-        public var attributes: [DeadlineClientTypes.FleetAttributeCapability]?
-
-        public init(
-            amounts: [DeadlineClientTypes.FleetAmountCapability]? = nil,
-            attributes: [DeadlineClientTypes.FleetAttributeCapability]? = nil
-        ) {
-            self.amounts = amounts
-            self.attributes = attributes
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum FleetStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case active
-        case createFailed
-        case createInProgress
-        case suspended
-        case updateFailed
-        case updateInProgress
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [FleetStatus] {
-            return [
-                .active,
-                .createFailed,
-                .createInProgress,
-                .suspended,
-                .updateFailed,
-                .updateInProgress
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .active: return "ACTIVE"
-            case .createFailed: return "CREATE_FAILED"
-            case .createInProgress: return "CREATE_IN_PROGRESS"
-            case .suspended: return "SUSPENDED"
-            case .updateFailed: return "UPDATE_FAILED"
-            case .updateInProgress: return "UPDATE_IN_PROGRESS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct GetFleetOutput: Swift.Sendable {
-    /// The Auto Scaling status of the fleet. Either GROWING, STEADY, or SHRINKING.
-    public var autoScalingStatus: DeadlineClientTypes.AutoScalingStatus?
-    /// Outlines what the fleet is capable of for minimums, maximums, and naming, in addition to attribute names and values.
-    public var capabilities: DeadlineClientTypes.FleetCapabilities?
-    /// The configuration setting for the fleet.
-    /// This member is required.
-    public var configuration: DeadlineClientTypes.FleetConfiguration?
-    /// The date and time the resource was created.
-    /// This member is required.
-    public var createdAt: Foundation.Date?
-    /// The user or system that created this resource.
-    /// This member is required.
-    public var createdBy: Swift.String?
-    /// The description of the fleet. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    public var description: Swift.String?
-    /// The display name of the fleet. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    /// This member is required.
-    public var displayName: Swift.String?
-    /// The farm ID of the farm in the fleet.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The fleet ID.
-    /// This member is required.
-    public var fleetId: Swift.String?
-    /// The script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
-    public var hostConfiguration: DeadlineClientTypes.HostConfiguration?
-    /// The maximum number of workers specified in the fleet.
-    /// This member is required.
-    public var maxWorkerCount: Swift.Int?
-    /// The minimum number of workers specified in the fleet.
-    /// This member is required.
-    public var minWorkerCount: Swift.Int?
-    /// The IAM role ARN.
-    /// This member is required.
-    public var roleArn: Swift.String?
-    /// The status of the fleet.
-    /// This member is required.
-    public var status: DeadlineClientTypes.FleetStatus?
-    /// A message that communicates a suspended status of the fleet.
-    public var statusMessage: Swift.String?
-    /// The number of target workers in the fleet.
-    public var targetWorkerCount: Swift.Int?
-    /// The date and time the resource was updated.
-    public var updatedAt: Foundation.Date?
-    /// The user or system that updated this resource.
-    public var updatedBy: Swift.String?
-    /// The number of workers in the fleet.
-    /// This member is required.
-    public var workerCount: Swift.Int?
-
-    public init(
-        autoScalingStatus: DeadlineClientTypes.AutoScalingStatus? = nil,
-        capabilities: DeadlineClientTypes.FleetCapabilities? = nil,
-        configuration: DeadlineClientTypes.FleetConfiguration? = nil,
-        createdAt: Foundation.Date? = nil,
-        createdBy: Swift.String? = nil,
-        description: Swift.String? = nil,
-        displayName: Swift.String? = nil,
-        farmId: Swift.String? = nil,
-        fleetId: Swift.String? = nil,
-        hostConfiguration: DeadlineClientTypes.HostConfiguration? = nil,
-        maxWorkerCount: Swift.Int? = nil,
-        minWorkerCount: Swift.Int? = nil,
-        roleArn: Swift.String? = nil,
-        status: DeadlineClientTypes.FleetStatus? = nil,
-        statusMessage: Swift.String? = nil,
-        targetWorkerCount: Swift.Int? = nil,
-        updatedAt: Foundation.Date? = nil,
-        updatedBy: Swift.String? = nil,
-        workerCount: Swift.Int? = nil
-    ) {
-        self.autoScalingStatus = autoScalingStatus
-        self.capabilities = capabilities
-        self.configuration = configuration
-        self.createdAt = createdAt
-        self.createdBy = createdBy
-        self.description = description
-        self.displayName = displayName
-        self.farmId = farmId
-        self.fleetId = fleetId
-        self.hostConfiguration = hostConfiguration
-        self.maxWorkerCount = maxWorkerCount
-        self.minWorkerCount = minWorkerCount
-        self.roleArn = roleArn
-        self.status = status
-        self.statusMessage = statusMessage
-        self.targetWorkerCount = targetWorkerCount
-        self.updatedAt = updatedAt
-        self.updatedBy = updatedBy
-        self.workerCount = workerCount
-    }
-}
-
-extension GetFleetOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "GetFleetOutput(autoScalingStatus: \(Swift.String(describing: autoScalingStatus)), capabilities: \(Swift.String(describing: capabilities)), configuration: \(Swift.String(describing: configuration)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), fleetId: \(Swift.String(describing: fleetId)), hostConfiguration: \(Swift.String(describing: hostConfiguration)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), statusMessage: \(Swift.String(describing: statusMessage)), targetWorkerCount: \(Swift.String(describing: targetWorkerCount)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), workerCount: \(Swift.String(describing: workerCount)), description: \"CONTENT_REDACTED\")"}
-}
-
-public struct ListFleetMembersInput: Swift.Sendable {
-    /// The farm ID of the fleet.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The fleet ID to include on the list.
-    /// This member is required.
-    public var fleetId: Swift.String?
-    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-    public var maxResults: Swift.Int?
-    /// The token for the next set of results, or null to start from the beginning.
-    public var nextToken: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        fleetId: Swift.String? = nil,
-        maxResults: Swift.Int? = 100,
-        nextToken: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.fleetId = fleetId
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The fleet member.
-    public struct FleetMember: Swift.Sendable {
-        /// The farm ID.
-        /// This member is required.
-        public var farmId: Swift.String?
-        /// The fleet ID.
-        /// This member is required.
-        public var fleetId: Swift.String?
-        /// The identity store ID.
-        /// This member is required.
-        public var identityStoreId: Swift.String?
-        /// The fleet member's membership level.
-        /// This member is required.
-        public var membershipLevel: DeadlineClientTypes.MembershipLevel?
-        /// The principal ID of the fleet member.
-        /// This member is required.
-        public var principalId: Swift.String?
-        /// The principal type of the fleet member.
-        /// This member is required.
-        public var principalType: DeadlineClientTypes.DeadlinePrincipalType?
-
-        public init(
-            farmId: Swift.String? = nil,
-            fleetId: Swift.String? = nil,
-            identityStoreId: Swift.String? = nil,
-            membershipLevel: DeadlineClientTypes.MembershipLevel? = nil,
-            principalId: Swift.String? = nil,
-            principalType: DeadlineClientTypes.DeadlinePrincipalType? = nil
-        ) {
-            self.farmId = farmId
-            self.fleetId = fleetId
-            self.identityStoreId = identityStoreId
-            self.membershipLevel = membershipLevel
-            self.principalId = principalId
-            self.principalType = principalType
-        }
-    }
-}
-
-public struct ListFleetMembersOutput: Swift.Sendable {
-    /// The members on the list.
-    /// This member is required.
-    public var members: [DeadlineClientTypes.FleetMember]?
-    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
-    public var nextToken: Swift.String?
-
-    public init(
-        members: [DeadlineClientTypes.FleetMember]? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.members = members
-        self.nextToken = nextToken
-    }
-}
-
-public struct ListFleetsInput: Swift.Sendable {
-    /// The display names of a list of fleets. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    public var displayName: Swift.String?
-    /// The farm ID of the fleets.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-    public var maxResults: Swift.Int?
-    /// The token for the next set of results, or null to start from the beginning.
-    public var nextToken: Swift.String?
-    /// The principal ID of the members to include in the fleet.
-    public var principalId: Swift.String?
-    /// The status of the fleet.
-    public var status: DeadlineClientTypes.FleetStatus?
-
-    public init(
-        displayName: Swift.String? = nil,
-        farmId: Swift.String? = nil,
-        maxResults: Swift.Int? = 100,
-        nextToken: Swift.String? = nil,
-        principalId: Swift.String? = nil,
-        status: DeadlineClientTypes.FleetStatus? = nil
-    ) {
-        self.displayName = displayName
-        self.farmId = farmId
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-        self.principalId = principalId
-        self.status = status
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The details of a fleet.
-    public struct FleetSummary: Swift.Sendable {
-        /// The Auto Scaling status of a fleet.
-        public var autoScalingStatus: DeadlineClientTypes.AutoScalingStatus?
-        /// The configuration details for the fleet.
-        /// This member is required.
-        public var configuration: DeadlineClientTypes.FleetConfiguration?
-        /// The date and time the resource was created.
-        /// This member is required.
-        public var createdAt: Foundation.Date?
-        /// The user or system that created this resource.
-        /// This member is required.
-        public var createdBy: Swift.String?
-        /// The display name of the fleet summary to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-        /// This member is required.
-        public var displayName: Swift.String?
-        /// The farm ID.
-        /// This member is required.
-        public var farmId: Swift.String?
-        /// The fleet ID.
-        /// This member is required.
-        public var fleetId: Swift.String?
-        /// The maximum number of workers specified in the fleet.
-        /// This member is required.
-        public var maxWorkerCount: Swift.Int?
-        /// The minimum number of workers in the fleet.
-        /// This member is required.
-        public var minWorkerCount: Swift.Int?
-        /// The status of the fleet.
-        /// This member is required.
-        public var status: DeadlineClientTypes.FleetStatus?
-        /// A message that communicates a suspended status of the fleet.
-        public var statusMessage: Swift.String?
-        /// The target number of workers in a fleet.
-        public var targetWorkerCount: Swift.Int?
-        /// The date and time the resource was updated.
-        public var updatedAt: Foundation.Date?
-        /// The user or system that updated this resource.
-        public var updatedBy: Swift.String?
-        /// The number of workers in the fleet summary.
-        /// This member is required.
-        public var workerCount: Swift.Int?
-
-        public init(
-            autoScalingStatus: DeadlineClientTypes.AutoScalingStatus? = nil,
-            configuration: DeadlineClientTypes.FleetConfiguration? = nil,
-            createdAt: Foundation.Date? = nil,
-            createdBy: Swift.String? = nil,
-            displayName: Swift.String? = nil,
-            farmId: Swift.String? = nil,
-            fleetId: Swift.String? = nil,
-            maxWorkerCount: Swift.Int? = nil,
-            minWorkerCount: Swift.Int? = nil,
-            status: DeadlineClientTypes.FleetStatus? = nil,
-            statusMessage: Swift.String? = nil,
-            targetWorkerCount: Swift.Int? = nil,
-            updatedAt: Foundation.Date? = nil,
-            updatedBy: Swift.String? = nil,
-            workerCount: Swift.Int? = nil
-        ) {
-            self.autoScalingStatus = autoScalingStatus
-            self.configuration = configuration
-            self.createdAt = createdAt
-            self.createdBy = createdBy
-            self.displayName = displayName
-            self.farmId = farmId
-            self.fleetId = fleetId
-            self.maxWorkerCount = maxWorkerCount
-            self.minWorkerCount = minWorkerCount
-            self.status = status
-            self.statusMessage = statusMessage
-            self.targetWorkerCount = targetWorkerCount
-            self.updatedAt = updatedAt
-            self.updatedBy = updatedBy
-            self.workerCount = workerCount
-        }
-    }
-}
-
-public struct ListFleetsOutput: Swift.Sendable {
-    /// The fleets on the list.
-    /// This member is required.
-    public var fleets: [DeadlineClientTypes.FleetSummary]?
-    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
-    public var nextToken: Swift.String?
-
-    public init(
-        fleets: [DeadlineClientTypes.FleetSummary]? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.fleets = fleets
-        self.nextToken = nextToken
-    }
-}
-
-public struct UpdateFleetInput: Swift.Sendable {
-    /// The unique token which the server uses to recognize retries of the same request.
-    public var clientToken: Swift.String?
-    /// The fleet configuration to update.
-    public var configuration: DeadlineClientTypes.FleetConfiguration?
-    /// The description of the fleet to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    public var description: Swift.String?
-    /// The display name of the fleet to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    public var displayName: Swift.String?
-    /// The farm ID to update.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The fleet ID to update.
-    /// This member is required.
-    public var fleetId: Swift.String?
-    /// Provides a script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
-    public var hostConfiguration: DeadlineClientTypes.HostConfiguration?
-    /// The maximum number of workers in the fleet. Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to CreateWorker before the field updates, you might exceed your fleet's maximum worker count. For example, if your maxWorkerCount is 10 and you currently have 9 workers, making two quick CreateWorker calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
-    public var maxWorkerCount: Swift.Int?
-    /// The minimum number of workers in the fleet.
-    public var minWorkerCount: Swift.Int?
-    /// The IAM role ARN that the fleet's workers assume while running jobs.
-    public var roleArn: Swift.String?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        configuration: DeadlineClientTypes.FleetConfiguration? = nil,
-        description: Swift.String? = nil,
-        displayName: Swift.String? = nil,
-        farmId: Swift.String? = nil,
-        fleetId: Swift.String? = nil,
-        hostConfiguration: DeadlineClientTypes.HostConfiguration? = nil,
-        maxWorkerCount: Swift.Int? = nil,
-        minWorkerCount: Swift.Int? = nil,
-        roleArn: Swift.String? = nil
-    ) {
-        self.clientToken = clientToken
-        self.configuration = configuration
-        self.description = description
-        self.displayName = displayName
-        self.farmId = farmId
-        self.fleetId = fleetId
-        self.hostConfiguration = hostConfiguration
-        self.maxWorkerCount = maxWorkerCount
-        self.minWorkerCount = minWorkerCount
-        self.roleArn = roleArn
-    }
-}
-
-extension UpdateFleetInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "UpdateFleetInput(clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), fleetId: \(Swift.String(describing: fleetId)), hostConfiguration: \(Swift.String(describing: hostConfiguration)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\")"}
-}
-
-public struct UpdateFleetOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct DeleteWorkerInput: Swift.Sendable {
-    /// The farm ID of the worker to delete.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The fleet ID of the worker to delete.
-    /// This member is required.
-    public var fleetId: Swift.String?
-    /// The worker ID of the worker to delete.
-    /// This member is required.
-    public var workerId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        fleetId: Swift.String? = nil,
-        workerId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.fleetId = fleetId
-        self.workerId = workerId
-    }
-}
-
-public struct DeleteWorkerOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct GetWorkerInput: Swift.Sendable {
-    /// The farm ID for the worker.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The fleet ID of the worker.
-    /// This member is required.
-    public var fleetId: Swift.String?
-    /// The worker ID.
-    /// This member is required.
-    public var workerId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        fleetId: Swift.String? = nil,
-        workerId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.fleetId = fleetId
-        self.workerId = workerId
     }
 }
 
@@ -4903,136 +2669,6 @@ extension DeadlineClientTypes {
             self.hostName = hostName
             self.ipAddresses = ipAddresses
         }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum WorkerStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case created
-        case idle
-        case notCompatible
-        case notResponding
-        case running
-        case started
-        case stopped
-        case stopping
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [WorkerStatus] {
-            return [
-                .created,
-                .idle,
-                .notCompatible,
-                .notResponding,
-                .running,
-                .started,
-                .stopped,
-                .stopping
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .created: return "CREATED"
-            case .idle: return "IDLE"
-            case .notCompatible: return "NOT_COMPATIBLE"
-            case .notResponding: return "NOT_RESPONDING"
-            case .running: return "RUNNING"
-            case .started: return "STARTED"
-            case .stopped: return "STOPPED"
-            case .stopping: return "STOPPING"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct GetWorkerOutput: Swift.Sendable {
-    /// The date and time the resource was created.
-    /// This member is required.
-    public var createdAt: Foundation.Date?
-    /// The user or system that created this resource.
-    /// This member is required.
-    public var createdBy: Swift.String?
-    /// The farm ID.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The fleet ID.
-    /// This member is required.
-    public var fleetId: Swift.String?
-    /// The host properties for the worker.
-    public var hostProperties: DeadlineClientTypes.HostPropertiesResponse?
-    /// The logs for the associated worker.
-    public var log: DeadlineClientTypes.LogConfiguration?
-    /// The status of the worker.
-    /// This member is required.
-    public var status: DeadlineClientTypes.WorkerStatus?
-    /// The date and time the resource was updated.
-    public var updatedAt: Foundation.Date?
-    /// The user or system that updated this resource.
-    public var updatedBy: Swift.String?
-    /// The worker ID.
-    /// This member is required.
-    public var workerId: Swift.String?
-
-    public init(
-        createdAt: Foundation.Date? = nil,
-        createdBy: Swift.String? = nil,
-        farmId: Swift.String? = nil,
-        fleetId: Swift.String? = nil,
-        hostProperties: DeadlineClientTypes.HostPropertiesResponse? = nil,
-        log: DeadlineClientTypes.LogConfiguration? = nil,
-        status: DeadlineClientTypes.WorkerStatus? = nil,
-        updatedAt: Foundation.Date? = nil,
-        updatedBy: Swift.String? = nil,
-        workerId: Swift.String? = nil
-    ) {
-        self.createdAt = createdAt
-        self.createdBy = createdBy
-        self.farmId = farmId
-        self.fleetId = fleetId
-        self.hostProperties = hostProperties
-        self.log = log
-        self.status = status
-        self.updatedAt = updatedAt
-        self.updatedBy = updatedBy
-        self.workerId = workerId
-    }
-}
-
-public struct ListSessionsForWorkerInput: Swift.Sendable {
-    /// The farm ID for the session.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The fleet ID for the session.
-    /// This member is required.
-    public var fleetId: Swift.String?
-    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-    public var maxResults: Swift.Int?
-    /// The token for the next set of results, or null to start from the beginning.
-    public var nextToken: Swift.String?
-    /// The worker ID for the session.
-    /// This member is required.
-    public var workerId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        fleetId: Swift.String? = nil,
-        maxResults: Swift.Int? = 100,
-        nextToken: Swift.String? = nil,
-        workerId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.fleetId = fleetId
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-        self.workerId = workerId
     }
 }
 
@@ -5102,1770 +2738,214 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
-    /// Summarizes the session for a particular worker.
-    public struct WorkerSessionSummary: Swift.Sendable {
+    /// The details of a session returned in a batch get operation.
+    public struct BatchGetSessionItem: Swift.Sendable {
         /// The date and time the resource ended running.
         public var endedAt: Foundation.Date?
-        /// The job ID for the job associated with the worker's session.
+        /// The farm ID of the session.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The fleet ID of the session.
+        /// This member is required.
+        public var fleetId: Swift.String?
+        /// The host properties for the session.
+        public var hostProperties: DeadlineClientTypes.HostPropertiesResponse?
+        /// The job ID of the session.
         /// This member is required.
         public var jobId: Swift.String?
-        /// The life cycle status for the worker's session.
+        /// The life cycle status of the session.
         /// This member is required.
         public var lifecycleStatus: DeadlineClientTypes.SessionLifecycleStatus?
-        /// The queue ID for the queue associated to the worker.
+        /// The session log.
+        /// This member is required.
+        public var log: DeadlineClientTypes.LogConfiguration?
+        /// The queue ID of the session.
         /// This member is required.
         public var queueId: Swift.String?
-        /// The session ID for the session action.
+        /// The session ID.
         /// This member is required.
         public var sessionId: Swift.String?
         /// The date and time the resource started running.
         /// This member is required.
         public var startedAt: Foundation.Date?
-        /// The life cycle status
+        /// The target life cycle status for the session.
         public var targetLifecycleStatus: DeadlineClientTypes.SessionLifecycleTargetStatus?
+        /// The date and time the resource was updated.
+        public var updatedAt: Foundation.Date?
+        /// The user or system that updated this resource.
+        public var updatedBy: Swift.String?
+        /// The worker ID of the session.
+        /// This member is required.
+        public var workerId: Swift.String?
+        /// The worker log for the session.
+        public var workerLog: DeadlineClientTypes.LogConfiguration?
 
         public init(
             endedAt: Foundation.Date? = nil,
+            farmId: Swift.String? = nil,
+            fleetId: Swift.String? = nil,
+            hostProperties: DeadlineClientTypes.HostPropertiesResponse? = nil,
             jobId: Swift.String? = nil,
             lifecycleStatus: DeadlineClientTypes.SessionLifecycleStatus? = nil,
+            log: DeadlineClientTypes.LogConfiguration? = nil,
             queueId: Swift.String? = nil,
             sessionId: Swift.String? = nil,
             startedAt: Foundation.Date? = nil,
-            targetLifecycleStatus: DeadlineClientTypes.SessionLifecycleTargetStatus? = nil
+            targetLifecycleStatus: DeadlineClientTypes.SessionLifecycleTargetStatus? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil,
+            workerId: Swift.String? = nil,
+            workerLog: DeadlineClientTypes.LogConfiguration? = nil
         ) {
             self.endedAt = endedAt
+            self.farmId = farmId
+            self.fleetId = fleetId
+            self.hostProperties = hostProperties
             self.jobId = jobId
             self.lifecycleStatus = lifecycleStatus
+            self.log = log
             self.queueId = queueId
             self.sessionId = sessionId
             self.startedAt = startedAt
             self.targetLifecycleStatus = targetLifecycleStatus
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+            self.workerId = workerId
+            self.workerLog = workerLog
         }
     }
 }
 
-public struct ListSessionsForWorkerOutput: Swift.Sendable {
-    /// The token for the next set of results, or null to start from the beginning.
-    public var nextToken: Swift.String?
-    /// The sessions in the response.
+public struct BatchGetSessionOutput: Swift.Sendable {
+    /// A list of errors for sessions that could not be retrieved.
     /// This member is required.
-    public var sessions: [DeadlineClientTypes.WorkerSessionSummary]?
+    public var errors: [DeadlineClientTypes.BatchGetSessionError]?
+    /// A list of sessions that were successfully retrieved.
+    /// This member is required.
+    public var sessions: [DeadlineClientTypes.BatchGetSessionItem]?
 
     public init(
-        nextToken: Swift.String? = nil,
-        sessions: [DeadlineClientTypes.WorkerSessionSummary]? = nil
+        errors: [DeadlineClientTypes.BatchGetSessionError]? = nil,
+        sessions: [DeadlineClientTypes.BatchGetSessionItem]? = nil
     ) {
-        self.nextToken = nextToken
+        self.errors = errors
         self.sessions = sessions
     }
 }
 
-public struct ListWorkersInput: Swift.Sendable {
-    /// The farm ID connected to the workers.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The fleet ID of the workers.
-    /// This member is required.
-    public var fleetId: Swift.String?
-    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-    public var maxResults: Swift.Int?
-    /// The token for the next set of results, or null to start from the beginning.
-    public var nextToken: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        fleetId: Swift.String? = nil,
-        maxResults: Swift.Int? = 100,
-        nextToken: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.fleetId = fleetId
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-    }
-}
-
 extension DeadlineClientTypes {
 
-    /// The summary of details for a worker.
-    public struct WorkerSummary: Swift.Sendable {
-        /// The date and time the resource was created.
-        /// This member is required.
-        public var createdAt: Foundation.Date?
-        /// The user or system that created this resource.
-        /// This member is required.
-        public var createdBy: Swift.String?
-        /// The farm ID.
+    /// The identifiers for a session action.
+    public struct BatchGetSessionActionIdentifier: Swift.Sendable {
+        /// The farm ID of the session action.
         /// This member is required.
         public var farmId: Swift.String?
-        /// The fleet ID.
+        /// The job ID of the session action.
         /// This member is required.
-        public var fleetId: Swift.String?
-        /// The host properties of the worker.
-        public var hostProperties: DeadlineClientTypes.HostPropertiesResponse?
-        /// The log configuration for the worker.
-        public var log: DeadlineClientTypes.LogConfiguration?
-        /// The status of the worker.
+        public var jobId: Swift.String?
+        /// The queue ID of the session action.
         /// This member is required.
-        public var status: DeadlineClientTypes.WorkerStatus?
-        /// The date and time the resource was updated.
-        public var updatedAt: Foundation.Date?
-        /// The user or system that updated this resource.
-        public var updatedBy: Swift.String?
-        /// The worker ID.
+        public var queueId: Swift.String?
+        /// The session action ID.
         /// This member is required.
-        public var workerId: Swift.String?
-
-        public init(
-            createdAt: Foundation.Date? = nil,
-            createdBy: Swift.String? = nil,
-            farmId: Swift.String? = nil,
-            fleetId: Swift.String? = nil,
-            hostProperties: DeadlineClientTypes.HostPropertiesResponse? = nil,
-            log: DeadlineClientTypes.LogConfiguration? = nil,
-            status: DeadlineClientTypes.WorkerStatus? = nil,
-            updatedAt: Foundation.Date? = nil,
-            updatedBy: Swift.String? = nil,
-            workerId: Swift.String? = nil
-        ) {
-            self.createdAt = createdAt
-            self.createdBy = createdBy
-            self.farmId = farmId
-            self.fleetId = fleetId
-            self.hostProperties = hostProperties
-            self.log = log
-            self.status = status
-            self.updatedAt = updatedAt
-            self.updatedBy = updatedBy
-            self.workerId = workerId
-        }
-    }
-}
-
-public struct ListWorkersOutput: Swift.Sendable {
-    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
-    public var nextToken: Swift.String?
-    /// The workers on the list.
-    /// This member is required.
-    public var workers: [DeadlineClientTypes.WorkerSummary]?
-
-    public init(
-        nextToken: Swift.String? = nil,
-        workers: [DeadlineClientTypes.WorkerSummary]? = nil
-    ) {
-        self.nextToken = nextToken
-        self.workers = workers
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The details of the worker amount capability.
-    public struct WorkerAmountCapability: Swift.Sendable {
-        /// The name of the worker amount capability.
-        /// This member is required.
-        public var name: Swift.String?
-        /// The value of the worker amount capability.
-        /// This member is required.
-        public var value: Swift.Float?
-
-        public init(
-            name: Swift.String? = nil,
-            value: Swift.Float? = nil
-        ) {
-            self.name = name
-            self.value = value
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The details of the worker attribute capability.
-    public struct WorkerAttributeCapability: Swift.Sendable {
-        /// The name of the worker attribute capability.
-        /// This member is required.
-        public var name: Swift.String?
-        /// The values of the worker amount capability.
-        /// This member is required.
-        public var values: [Swift.String]?
-
-        public init(
-            name: Swift.String? = nil,
-            values: [Swift.String]? = nil
-        ) {
-            self.name = name
-            self.values = values
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The details for worker capabilities.
-    public struct WorkerCapabilities: Swift.Sendable {
-        /// The worker capabilities amounts on a list of worker capabilities.
-        /// This member is required.
-        public var amounts: [DeadlineClientTypes.WorkerAmountCapability]?
-        /// The worker attribute capabilities in the list of attribute capabilities.
-        /// This member is required.
-        public var attributes: [DeadlineClientTypes.WorkerAttributeCapability]?
-
-        public init(
-            amounts: [DeadlineClientTypes.WorkerAmountCapability]? = nil,
-            attributes: [DeadlineClientTypes.WorkerAttributeCapability]? = nil
-        ) {
-            self.amounts = amounts
-            self.attributes = attributes
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum UpdatedWorkerStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case started
-        case stopped
-        case stopping
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [UpdatedWorkerStatus] {
-            return [
-                .started,
-                .stopped,
-                .stopping
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .started: return "STARTED"
-            case .stopped: return "STOPPED"
-            case .stopping: return "STOPPING"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct UpdateWorkerInput: Swift.Sendable {
-    /// The worker capabilities to update.
-    public var capabilities: DeadlineClientTypes.WorkerCapabilities?
-    /// The farm ID to update.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The fleet ID to update.
-    /// This member is required.
-    public var fleetId: Swift.String?
-    /// The host properties to update.
-    public var hostProperties: DeadlineClientTypes.HostPropertiesRequest?
-    /// The worker status to update.
-    public var status: DeadlineClientTypes.UpdatedWorkerStatus?
-    /// The worker ID to update.
-    /// This member is required.
-    public var workerId: Swift.String?
-
-    public init(
-        capabilities: DeadlineClientTypes.WorkerCapabilities? = nil,
-        farmId: Swift.String? = nil,
-        fleetId: Swift.String? = nil,
-        hostProperties: DeadlineClientTypes.HostPropertiesRequest? = nil,
-        status: DeadlineClientTypes.UpdatedWorkerStatus? = nil,
-        workerId: Swift.String? = nil
-    ) {
-        self.capabilities = capabilities
-        self.farmId = farmId
-        self.fleetId = fleetId
-        self.hostProperties = hostProperties
-        self.status = status
-        self.workerId = workerId
-    }
-}
-
-public struct UpdateWorkerOutput: Swift.Sendable {
-    /// The script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
-    public var hostConfiguration: DeadlineClientTypes.HostConfiguration?
-    /// The worker log to update.
-    public var log: DeadlineClientTypes.LogConfiguration?
-
-    public init(
-        hostConfiguration: DeadlineClientTypes.HostConfiguration? = nil,
-        log: DeadlineClientTypes.LogConfiguration? = nil
-    ) {
-        self.hostConfiguration = hostConfiguration
-        self.log = log
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The output manifest properties reported by the worker agent for a completed task run.
-    public struct TaskRunManifestPropertiesRequest: Swift.Sendable {
-        /// The hash value of the file.
-        public var outputManifestHash: Swift.String?
-        /// The manifest file path.
-        public var outputManifestPath: Swift.String?
-
-        public init(
-            outputManifestHash: Swift.String? = nil,
-            outputManifestPath: Swift.String? = nil
-        ) {
-            self.outputManifestHash = outputManifestHash
-            self.outputManifestPath = outputManifestPath
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The updated session action information as it relates to completion and progress of the session.
-    public struct UpdatedSessionActionInfo: Swift.Sendable {
-        /// The status of the session upon completion.
-        public var completedStatus: DeadlineClientTypes.CompletedStatus?
-        /// The date and time the resource ended running.
-        public var endedAt: Foundation.Date?
-        /// A list of output manifest properties reported by the worker agent, with each entry corresponding to a manifest property in the job.
-        public var manifests: [DeadlineClientTypes.TaskRunManifestPropertiesRequest]?
-        /// The process exit code. The default Deadline Cloud worker agent converts unsigned 32-bit exit codes to signed 32-bit exit codes.
-        public var processExitCode: Swift.Int?
-        /// A message to indicate the progress of the updated session action.
-        public var progressMessage: Swift.String?
-        /// The percentage completed.
-        public var progressPercent: Swift.Float?
-        /// The date and time the resource started running.
-        public var startedAt: Foundation.Date?
-        /// The updated time.
-        public var updatedAt: Foundation.Date?
-
-        public init(
-            completedStatus: DeadlineClientTypes.CompletedStatus? = nil,
-            endedAt: Foundation.Date? = nil,
-            manifests: [DeadlineClientTypes.TaskRunManifestPropertiesRequest]? = nil,
-            processExitCode: Swift.Int? = nil,
-            progressMessage: Swift.String? = nil,
-            progressPercent: Swift.Float? = nil,
-            startedAt: Foundation.Date? = nil,
-            updatedAt: Foundation.Date? = nil
-        ) {
-            self.completedStatus = completedStatus
-            self.endedAt = endedAt
-            self.manifests = manifests
-            self.processExitCode = processExitCode
-            self.progressMessage = progressMessage
-            self.progressPercent = progressPercent
-            self.startedAt = startedAt
-            self.updatedAt = updatedAt
-        }
-    }
-}
-
-extension DeadlineClientTypes.UpdatedSessionActionInfo: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "UpdatedSessionActionInfo(completedStatus: \(Swift.String(describing: completedStatus)), endedAt: \(Swift.String(describing: endedAt)), manifests: \(Swift.String(describing: manifests)), processExitCode: \(Swift.String(describing: processExitCode)), progressPercent: \(Swift.String(describing: progressPercent)), startedAt: \(Swift.String(describing: startedAt)), updatedAt: \(Swift.String(describing: updatedAt)), progressMessage: \"CONTENT_REDACTED\")"}
-}
-
-public struct UpdateWorkerScheduleInput: Swift.Sendable {
-    /// The farm ID to update.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The fleet ID to update.
-    /// This member is required.
-    public var fleetId: Swift.String?
-    /// The session actions associated with the worker schedule to update.
-    public var updatedSessionActions: [Swift.String: DeadlineClientTypes.UpdatedSessionActionInfo]?
-    /// The worker ID to update.
-    /// This member is required.
-    public var workerId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        fleetId: Swift.String? = nil,
-        updatedSessionActions: [Swift.String: DeadlineClientTypes.UpdatedSessionActionInfo]? = nil,
-        workerId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.fleetId = fleetId
-        self.updatedSessionActions = updatedSessionActions
-        self.workerId = workerId
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum DesiredWorkerStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case stopped
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DesiredWorkerStatus] {
-            return [
-                .stopped
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .stopped: return "STOPPED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct UpdateWorkerScheduleOutput: Swift.Sendable {
-    /// The assigned sessions to update.
-    /// This member is required.
-    public var assignedSessions: [Swift.String: DeadlineClientTypes.AssignedSession]?
-    /// The session actions associated with the worker schedule to cancel.
-    /// This member is required.
-    public var cancelSessionActions: [Swift.String: [Swift.String]]?
-    /// The status to update the worker to.
-    public var desiredWorkerStatus: DeadlineClientTypes.DesiredWorkerStatus?
-    /// Updates the time interval (in seconds) for the schedule.
-    /// This member is required.
-    public var updateIntervalSeconds: Swift.Int?
-
-    public init(
-        assignedSessions: [Swift.String: DeadlineClientTypes.AssignedSession]? = nil,
-        cancelSessionActions: [Swift.String: [Swift.String]]? = nil,
-        desiredWorkerStatus: DeadlineClientTypes.DesiredWorkerStatus? = nil,
-        updateIntervalSeconds: Swift.Int? = nil
-    ) {
-        self.assignedSessions = assignedSessions
-        self.cancelSessionActions = cancelSessionActions
-        self.desiredWorkerStatus = desiredWorkerStatus
-        self.updateIntervalSeconds = updateIntervalSeconds
-    }
-}
-
-public struct GetFarmInput: Swift.Sendable {
-    /// The farm ID of the farm.
-    /// This member is required.
-    public var farmId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-    }
-}
-
-public struct GetFarmOutput: Swift.Sendable {
-    /// The cost scale factor applied on the farm.
-    /// This member is required.
-    public var costScaleFactor: Swift.Float?
-    /// The date and time the resource was created.
-    /// This member is required.
-    public var createdAt: Foundation.Date?
-    /// The user or system that created this resource.
-    /// This member is required.
-    public var createdBy: Swift.String?
-    /// The description of the farm. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    public var description: Swift.String?
-    /// The display name of the farm. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    /// This member is required.
-    public var displayName: Swift.String?
-    /// The farm ID of the farm to get.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The ARN of the KMS key used on the farm.
-    public var kmsKeyArn: Swift.String?
-    /// The date and time the resource was updated.
-    public var updatedAt: Foundation.Date?
-    /// The user or system that updated this resource.
-    public var updatedBy: Swift.String?
-
-    public init(
-        costScaleFactor: Swift.Float? = 1.0,
-        createdAt: Foundation.Date? = nil,
-        createdBy: Swift.String? = nil,
-        description: Swift.String? = nil,
-        displayName: Swift.String? = nil,
-        farmId: Swift.String? = nil,
-        kmsKeyArn: Swift.String? = nil,
-        updatedAt: Foundation.Date? = nil,
-        updatedBy: Swift.String? = nil
-    ) {
-        self.costScaleFactor = costScaleFactor
-        self.createdAt = createdAt
-        self.createdBy = createdBy
-        self.description = description
-        self.displayName = displayName
-        self.farmId = farmId
-        self.kmsKeyArn = kmsKeyArn
-        self.updatedAt = updatedAt
-        self.updatedBy = updatedBy
-    }
-}
-
-extension GetFarmOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "GetFarmOutput(costScaleFactor: \(Swift.String(describing: costScaleFactor)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
-}
-
-public struct GetLimitInput: Swift.Sendable {
-    /// The unique identifier of the farm that contains the limit.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The unique identifier of the limit to return.
-    /// This member is required.
-    public var limitId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        limitId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.limitId = limitId
-    }
-}
-
-public struct GetLimitOutput: Swift.Sendable {
-    /// The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement.
-    /// This member is required.
-    public var amountRequirementName: Swift.String?
-    /// The Unix timestamp of the date and time that the limit was created.
-    /// This member is required.
-    public var createdAt: Foundation.Date?
-    /// The user identifier of the person that created the limit.
-    /// This member is required.
-    public var createdBy: Swift.String?
-    /// The number of resources from the limit that are being used by jobs. The result is delayed and may not be the count at the time that you called the operation.
-    /// This member is required.
-    public var currentCount: Swift.Int?
-    /// The description of the limit that helps identify what the limit is used for. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    public var description: Swift.String?
-    /// The display name of the limit. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    /// This member is required.
-    public var displayName: Swift.String?
-    /// The unique identifier of the farm that contains the limit.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The unique identifier of the limit.
-    /// This member is required.
-    public var limitId: Swift.String?
-    /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. The maxValue must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit.
-    /// This member is required.
-    public var maxCount: Swift.Int?
-    /// The Unix timestamp of the date and time that the limit was last updated.
-    public var updatedAt: Foundation.Date?
-    /// The user identifier of the person that last updated the limit.
-    public var updatedBy: Swift.String?
-
-    public init(
-        amountRequirementName: Swift.String? = nil,
-        createdAt: Foundation.Date? = nil,
-        createdBy: Swift.String? = nil,
-        currentCount: Swift.Int? = nil,
-        description: Swift.String? = nil,
-        displayName: Swift.String? = nil,
-        farmId: Swift.String? = nil,
-        limitId: Swift.String? = nil,
-        maxCount: Swift.Int? = nil,
-        updatedAt: Foundation.Date? = nil,
-        updatedBy: Swift.String? = nil
-    ) {
-        self.amountRequirementName = amountRequirementName
-        self.createdAt = createdAt
-        self.createdBy = createdBy
-        self.currentCount = currentCount
-        self.description = description
-        self.displayName = displayName
-        self.farmId = farmId
-        self.limitId = limitId
-        self.maxCount = maxCount
-        self.updatedAt = updatedAt
-        self.updatedBy = updatedBy
-    }
-}
-
-extension GetLimitOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "GetLimitOutput(amountRequirementName: \(Swift.String(describing: amountRequirementName)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), currentCount: \(Swift.String(describing: currentCount)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), limitId: \(Swift.String(describing: limitId)), maxCount: \(Swift.String(describing: maxCount)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
-}
-
-public struct GetStorageProfileInput: Swift.Sendable {
-    /// The farm ID for the storage profile.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The storage profile ID.
-    /// This member is required.
-    public var storageProfileId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        storageProfileId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.storageProfileId = storageProfileId
-    }
-}
-
-public struct GetStorageProfileOutput: Swift.Sendable {
-    /// The date and time the resource was created.
-    /// This member is required.
-    public var createdAt: Foundation.Date?
-    /// The user or system that created this resource.
-    /// This member is required.
-    public var createdBy: Swift.String?
-    /// The display name of the storage profile. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    /// This member is required.
-    public var displayName: Swift.String?
-    /// The location of the files for the storage profile.
-    public var fileSystemLocations: [DeadlineClientTypes.FileSystemLocation]?
-    /// The operating system (OS) for the storage profile.
-    /// This member is required.
-    public var osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily?
-    /// The storage profile ID.
-    /// This member is required.
-    public var storageProfileId: Swift.String?
-    /// The date and time the resource was updated.
-    public var updatedAt: Foundation.Date?
-    /// The user or system that updated this resource.
-    public var updatedBy: Swift.String?
-
-    public init(
-        createdAt: Foundation.Date? = nil,
-        createdBy: Swift.String? = nil,
-        displayName: Swift.String? = nil,
-        fileSystemLocations: [DeadlineClientTypes.FileSystemLocation]? = nil,
-        osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily? = nil,
-        storageProfileId: Swift.String? = nil,
-        updatedAt: Foundation.Date? = nil,
-        updatedBy: Swift.String? = nil
-    ) {
-        self.createdAt = createdAt
-        self.createdBy = createdBy
-        self.displayName = displayName
-        self.fileSystemLocations = fileSystemLocations
-        self.osFamily = osFamily
-        self.storageProfileId = storageProfileId
-        self.updatedAt = updatedAt
-        self.updatedBy = updatedBy
-    }
-}
-
-extension GetStorageProfileOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "GetStorageProfileOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), osFamily: \(Swift.String(describing: osFamily)), storageProfileId: \(Swift.String(describing: storageProfileId)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), fileSystemLocations: \"CONTENT_REDACTED\")"}
-}
-
-public struct ListFarmMembersInput: Swift.Sendable {
-    /// The farm ID.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-    public var maxResults: Swift.Int?
-    /// The token for the next set of results, or null to start from the beginning.
-    public var nextToken: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        maxResults: Swift.Int? = 100,
-        nextToken: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The member of a farm.
-    public struct FarmMember: Swift.Sendable {
-        /// The farm ID of the farm member.
-        /// This member is required.
-        public var farmId: Swift.String?
-        /// The identity store ID of the farm member.
-        /// This member is required.
-        public var identityStoreId: Swift.String?
-        /// The farm member's membership level.
-        /// This member is required.
-        public var membershipLevel: DeadlineClientTypes.MembershipLevel?
-        /// The principal ID of the farm member.
-        /// This member is required.
-        public var principalId: Swift.String?
-        /// The principal type of the farm member.
-        /// This member is required.
-        public var principalType: DeadlineClientTypes.DeadlinePrincipalType?
+        public var sessionActionId: Swift.String?
 
         public init(
             farmId: Swift.String? = nil,
-            identityStoreId: Swift.String? = nil,
-            membershipLevel: DeadlineClientTypes.MembershipLevel? = nil,
-            principalId: Swift.String? = nil,
-            principalType: DeadlineClientTypes.DeadlinePrincipalType? = nil
+            jobId: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            sessionActionId: Swift.String? = nil
         ) {
             self.farmId = farmId
-            self.identityStoreId = identityStoreId
-            self.membershipLevel = membershipLevel
-            self.principalId = principalId
-            self.principalType = principalType
+            self.jobId = jobId
+            self.queueId = queueId
+            self.sessionActionId = sessionActionId
         }
     }
 }
 
-public struct ListFarmMembersOutput: Swift.Sendable {
-    /// The members on the list.
+public struct BatchGetSessionActionInput: Swift.Sendable {
+    /// The list of session action identifiers to retrieve. You can specify up to 100 identifiers per request.
     /// This member is required.
-    public var members: [DeadlineClientTypes.FarmMember]?
-    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
-    public var nextToken: Swift.String?
+    public var identifiers: [DeadlineClientTypes.BatchGetSessionActionIdentifier]?
 
     public init(
-        members: [DeadlineClientTypes.FarmMember]? = nil,
-        nextToken: Swift.String? = nil
+        identifiers: [DeadlineClientTypes.BatchGetSessionActionIdentifier]? = nil
     ) {
-        self.members = members
-        self.nextToken = nextToken
-    }
-}
-
-public struct ListFarmsInput: Swift.Sendable {
-    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-    public var maxResults: Swift.Int?
-    /// The token for the next set of results, or null to start from the beginning.
-    public var nextToken: Swift.String?
-    /// The principal ID of the member to list on the farm.
-    public var principalId: Swift.String?
-
-    public init(
-        maxResults: Swift.Int? = 100,
-        nextToken: Swift.String? = nil,
-        principalId: Swift.String? = nil
-    ) {
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-        self.principalId = principalId
+        self.identifiers = identifiers
     }
 }
 
 extension DeadlineClientTypes {
 
-    /// The summary of details for a farm.
-    public struct FarmSummary: Swift.Sendable {
-        /// The date and time the resource was created.
+    public enum BatchGetSessionActionErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case internalservererrorexception
+        case resourcenotfoundexception
+        case validationexception
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchGetSessionActionErrorCode] {
+            return [
+                .internalservererrorexception,
+                .resourcenotfoundexception,
+                .validationexception
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .internalservererrorexception: return "InternalServerErrorException"
+            case .resourcenotfoundexception: return "ResourceNotFoundException"
+            case .validationexception: return "ValidationException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The error details for a session action that could not be retrieved in a batch get operation.
+    public struct BatchGetSessionActionError: Swift.Sendable {
+        /// The error code.
         /// This member is required.
-        public var createdAt: Foundation.Date?
-        /// The user or system that created this resource.
-        /// This member is required.
-        public var createdBy: Swift.String?
-        /// The display name of the farm. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-        /// This member is required.
-        public var displayName: Swift.String?
-        /// The farm ID.
+        public var code: DeadlineClientTypes.BatchGetSessionActionErrorCode?
+        /// The farm ID of the session action that could not be retrieved.
         /// This member is required.
         public var farmId: Swift.String?
-        /// The ARN for the KMS key.
-        public var kmsKeyArn: Swift.String?
-        /// The date and time the resource was updated.
-        public var updatedAt: Foundation.Date?
-        /// The user or system that updated this resource.
-        public var updatedBy: Swift.String?
+        /// The job ID of the session action that could not be retrieved.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The queue ID of the session action that could not be retrieved.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The session action ID of the session action that could not be retrieved.
+        /// This member is required.
+        public var sessionActionId: Swift.String?
 
         public init(
-            createdAt: Foundation.Date? = nil,
-            createdBy: Swift.String? = nil,
-            displayName: Swift.String? = nil,
+            code: DeadlineClientTypes.BatchGetSessionActionErrorCode? = nil,
             farmId: Swift.String? = nil,
-            kmsKeyArn: Swift.String? = nil,
-            updatedAt: Foundation.Date? = nil,
-            updatedBy: Swift.String? = nil
+            jobId: Swift.String? = nil,
+            message: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            sessionActionId: Swift.String? = nil
         ) {
-            self.createdAt = createdAt
-            self.createdBy = createdBy
-            self.displayName = displayName
+            self.code = code
             self.farmId = farmId
-            self.kmsKeyArn = kmsKeyArn
-            self.updatedAt = updatedAt
-            self.updatedBy = updatedBy
+            self.jobId = jobId
+            self.message = message
+            self.queueId = queueId
+            self.sessionActionId = sessionActionId
         }
-    }
-}
-
-public struct ListFarmsOutput: Swift.Sendable {
-    /// Farms on the list.
-    /// This member is required.
-    public var farms: [DeadlineClientTypes.FarmSummary]?
-    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
-    public var nextToken: Swift.String?
-
-    public init(
-        farms: [DeadlineClientTypes.FarmSummary]? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.farms = farms
-        self.nextToken = nextToken
-    }
-}
-
-public struct ListLimitsInput: Swift.Sendable {
-    /// The unique identifier of the farm that contains the limits.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The maximum number of limits to return in each page of results.
-    public var maxResults: Swift.Int?
-    /// The token for the next set of results, or null to start from the beginning.
-    public var nextToken: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        maxResults: Swift.Int? = 100,
-        nextToken: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// Provides information about a specific limit.
-    public struct LimitSummary: Swift.Sendable {
-        /// The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement.
-        /// This member is required.
-        public var amountRequirementName: Swift.String?
-        /// The Unix timestamp of the date and time that the limit was created.
-        /// This member is required.
-        public var createdAt: Foundation.Date?
-        /// The user identifier of the person that created the limit.
-        /// This member is required.
-        public var createdBy: Swift.String?
-        /// The number of resources from the limit that are being used by jobs. The result is delayed and may not be the count at the time that you called the operation.
-        /// This member is required.
-        public var currentCount: Swift.Int?
-        /// The name of the limit used in lists to identify the limit. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-        /// This member is required.
-        public var displayName: Swift.String?
-        /// The unique identifier of the farm that contains the limit.
-        /// This member is required.
-        public var farmId: Swift.String?
-        /// The unique identifier of the limit.
-        /// This member is required.
-        public var limitId: Swift.String?
-        /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. The maxValue must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit.
-        /// This member is required.
-        public var maxCount: Swift.Int?
-        /// The Unix timestamp of the date and time that the limit was last updated.
-        public var updatedAt: Foundation.Date?
-        /// The user identifier of the person that last updated the limit.
-        public var updatedBy: Swift.String?
-
-        public init(
-            amountRequirementName: Swift.String? = nil,
-            createdAt: Foundation.Date? = nil,
-            createdBy: Swift.String? = nil,
-            currentCount: Swift.Int? = nil,
-            displayName: Swift.String? = nil,
-            farmId: Swift.String? = nil,
-            limitId: Swift.String? = nil,
-            maxCount: Swift.Int? = nil,
-            updatedAt: Foundation.Date? = nil,
-            updatedBy: Swift.String? = nil
-        ) {
-            self.amountRequirementName = amountRequirementName
-            self.createdAt = createdAt
-            self.createdBy = createdBy
-            self.currentCount = currentCount
-            self.displayName = displayName
-            self.farmId = farmId
-            self.limitId = limitId
-            self.maxCount = maxCount
-            self.updatedAt = updatedAt
-            self.updatedBy = updatedBy
-        }
-    }
-}
-
-public struct ListLimitsOutput: Swift.Sendable {
-    /// A list of limits that the farm contains.
-    /// This member is required.
-    public var limits: [DeadlineClientTypes.LimitSummary]?
-    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
-    public var nextToken: Swift.String?
-
-    public init(
-        limits: [DeadlineClientTypes.LimitSummary]? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.limits = limits
-        self.nextToken = nextToken
-    }
-}
-
-public struct ListStorageProfilesInput: Swift.Sendable {
-    /// The farm ID of the storage profile.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-    public var maxResults: Swift.Int?
-    /// The token for the next set of results, or null to start from the beginning.
-    public var nextToken: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        maxResults: Swift.Int? = 100,
-        nextToken: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-    }
-}
-
-extension DeadlineClientTypes {
-
-    /// The details of a storage profile.
-    public struct StorageProfileSummary: Swift.Sendable {
-        /// The display name of the storage profile summary to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-        /// This member is required.
-        public var displayName: Swift.String?
-        /// The operating system (OS) family.
-        /// This member is required.
-        public var osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily?
-        /// The storage profile ID.
-        /// This member is required.
-        public var storageProfileId: Swift.String?
-
-        public init(
-            displayName: Swift.String? = nil,
-            osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily? = nil,
-            storageProfileId: Swift.String? = nil
-        ) {
-            self.displayName = displayName
-            self.osFamily = osFamily
-            self.storageProfileId = storageProfileId
-        }
-    }
-}
-
-public struct ListStorageProfilesOutput: Swift.Sendable {
-    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
-    public var nextToken: Swift.String?
-    /// The storage profiles.
-    /// This member is required.
-    public var storageProfiles: [DeadlineClientTypes.StorageProfileSummary]?
-
-    public init(
-        nextToken: Swift.String? = nil,
-        storageProfiles: [DeadlineClientTypes.StorageProfileSummary]? = nil
-    ) {
-        self.nextToken = nextToken
-        self.storageProfiles = storageProfiles
-    }
-}
-
-public struct DeleteQueueInput: Swift.Sendable {
-    /// The ID of the farm from which to remove the queue.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The queue ID of the queue to delete.
-    /// This member is required.
-    public var queueId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        queueId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.queueId = queueId
-    }
-}
-
-public struct DeleteQueueOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct DeleteQueueEnvironmentInput: Swift.Sendable {
-    /// The farm ID of the farm from which to remove the queue environment.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The queue environment ID of the queue environment to delete.
-    /// This member is required.
-    public var queueEnvironmentId: Swift.String?
-    /// The queue ID of the queue environment to delete.
-    /// This member is required.
-    public var queueId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        queueEnvironmentId: Swift.String? = nil,
-        queueId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.queueEnvironmentId = queueEnvironmentId
-        self.queueId = queueId
-    }
-}
-
-public struct DeleteQueueEnvironmentOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct DisassociateMemberFromQueueInput: Swift.Sendable {
-    /// The farm ID for the queue to disassociate from a member.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// A member's principal ID to disassociate from a queue.
-    /// This member is required.
-    public var principalId: Swift.String?
-    /// The queue ID of the queue in which you're disassociating from a member.
-    /// This member is required.
-    public var queueId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        principalId: Swift.String? = nil,
-        queueId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.principalId = principalId
-        self.queueId = queueId
-    }
-}
-
-public struct DisassociateMemberFromQueueOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct GetQueueInput: Swift.Sendable {
-    /// The farm ID of the farm in the queue.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The queue ID for the queue to retrieve.
-    /// This member is required.
-    public var queueId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        queueId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.queueId = queueId
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum QueueBlockedReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case budgetThresholdReached
-        case noBudgetConfigured
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [QueueBlockedReason] {
-            return [
-                .budgetThresholdReached,
-                .noBudgetConfigured
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .budgetThresholdReached: return "BUDGET_THRESHOLD_REACHED"
-            case .noBudgetConfigured: return "NO_BUDGET_CONFIGURED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum QueueStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case idle
-        case scheduling
-        case schedulingBlocked
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [QueueStatus] {
-            return [
-                .idle,
-                .scheduling,
-                .schedulingBlocked
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .idle: return "IDLE"
-            case .scheduling: return "SCHEDULING"
-            case .schedulingBlocked: return "SCHEDULING_BLOCKED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct GetQueueOutput: Swift.Sendable {
-    /// The storage profile IDs for the queue.
-    public var allowedStorageProfileIds: [Swift.String]?
-    /// The reason the queue was blocked.
-    public var blockedReason: DeadlineClientTypes.QueueBlockedReason?
-    /// The date and time the resource was created.
-    /// This member is required.
-    public var createdAt: Foundation.Date?
-    /// The user or system that created this resource.
-    /// This member is required.
-    public var createdBy: Swift.String?
-    /// The default action taken on a queue if a budget wasn't configured.
-    /// This member is required.
-    public var defaultBudgetAction: DeadlineClientTypes.DefaultQueueBudgetAction?
-    /// The description of the queue. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    public var description: Swift.String?
-    /// The display name of the queue. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    /// This member is required.
-    public var displayName: Swift.String?
-    /// The farm ID for the queue.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The job attachment settings for the queue.
-    public var jobAttachmentSettings: DeadlineClientTypes.JobAttachmentSettings?
-    /// The jobs in the queue ran as this specified POSIX user.
-    public var jobRunAsUser: DeadlineClientTypes.JobRunAsUser?
-    /// The queue ID.
-    /// This member is required.
-    public var queueId: Swift.String?
-    /// A list of the required file system location names in the queue.
-    public var requiredFileSystemLocationNames: [Swift.String]?
-    /// The IAM role ARN.
-    public var roleArn: Swift.String?
-    /// The status of the queue.
-    ///
-    /// * ACTIVE–The queue is active.
-    ///
-    /// * SCHEDULING–The queue is scheduling.
-    ///
-    /// * SCHEDULING_BLOCKED–The queue scheduling is blocked. See the provided reason.
-    /// This member is required.
-    public var status: DeadlineClientTypes.QueueStatus?
-    /// The date and time the resource was updated.
-    public var updatedAt: Foundation.Date?
-    /// The user or system that updated this resource.
-    public var updatedBy: Swift.String?
-
-    public init(
-        allowedStorageProfileIds: [Swift.String]? = nil,
-        blockedReason: DeadlineClientTypes.QueueBlockedReason? = nil,
-        createdAt: Foundation.Date? = nil,
-        createdBy: Swift.String? = nil,
-        defaultBudgetAction: DeadlineClientTypes.DefaultQueueBudgetAction? = nil,
-        description: Swift.String? = nil,
-        displayName: Swift.String? = nil,
-        farmId: Swift.String? = nil,
-        jobAttachmentSettings: DeadlineClientTypes.JobAttachmentSettings? = nil,
-        jobRunAsUser: DeadlineClientTypes.JobRunAsUser? = nil,
-        queueId: Swift.String? = nil,
-        requiredFileSystemLocationNames: [Swift.String]? = nil,
-        roleArn: Swift.String? = nil,
-        status: DeadlineClientTypes.QueueStatus? = nil,
-        updatedAt: Foundation.Date? = nil,
-        updatedBy: Swift.String? = nil
-    ) {
-        self.allowedStorageProfileIds = allowedStorageProfileIds
-        self.blockedReason = blockedReason
-        self.createdAt = createdAt
-        self.createdBy = createdBy
-        self.defaultBudgetAction = defaultBudgetAction
-        self.description = description
-        self.displayName = displayName
-        self.farmId = farmId
-        self.jobAttachmentSettings = jobAttachmentSettings
-        self.jobRunAsUser = jobRunAsUser
-        self.queueId = queueId
-        self.requiredFileSystemLocationNames = requiredFileSystemLocationNames
-        self.roleArn = roleArn
-        self.status = status
-        self.updatedAt = updatedAt
-        self.updatedBy = updatedBy
-    }
-}
-
-extension GetQueueOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "GetQueueOutput(allowedStorageProfileIds: \(Swift.String(describing: allowedStorageProfileIds)), blockedReason: \(Swift.String(describing: blockedReason)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), queueId: \(Swift.String(describing: queueId)), requiredFileSystemLocationNames: \(Swift.String(describing: requiredFileSystemLocationNames)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
-}
-
-public struct GetQueueEnvironmentInput: Swift.Sendable {
-    /// The farm ID for the queue environment.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The queue environment ID.
-    /// This member is required.
-    public var queueEnvironmentId: Swift.String?
-    /// The queue ID for the queue environment.
-    /// This member is required.
-    public var queueId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        queueEnvironmentId: Swift.String? = nil,
-        queueId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.queueEnvironmentId = queueEnvironmentId
-        self.queueId = queueId
-    }
-}
-
-public struct GetQueueEnvironmentOutput: Swift.Sendable {
-    /// The date and time the resource was created.
-    /// This member is required.
-    public var createdAt: Foundation.Date?
-    /// The user or system that created this resource.>
-    /// This member is required.
-    public var createdBy: Swift.String?
-    /// The name of the queue environment.
-    /// This member is required.
-    public var name: Swift.String?
-    /// The priority of the queue environment.
-    /// This member is required.
-    public var priority: Swift.Int?
-    /// The queue environment ID.
-    /// This member is required.
-    public var queueEnvironmentId: Swift.String?
-    /// The template for the queue environment.
-    /// This member is required.
-    public var template: Swift.String?
-    /// The type of template for the queue environment.
-    /// This member is required.
-    public var templateType: DeadlineClientTypes.EnvironmentTemplateType?
-    /// The date and time the resource was updated.
-    public var updatedAt: Foundation.Date?
-    /// The user or system that updated this resource.
-    public var updatedBy: Swift.String?
-
-    public init(
-        createdAt: Foundation.Date? = nil,
-        createdBy: Swift.String? = nil,
-        name: Swift.String? = nil,
-        priority: Swift.Int? = nil,
-        queueEnvironmentId: Swift.String? = nil,
-        template: Swift.String? = nil,
-        templateType: DeadlineClientTypes.EnvironmentTemplateType? = nil,
-        updatedAt: Foundation.Date? = nil,
-        updatedBy: Swift.String? = nil
-    ) {
-        self.createdAt = createdAt
-        self.createdBy = createdBy
-        self.name = name
-        self.priority = priority
-        self.queueEnvironmentId = queueEnvironmentId
-        self.template = template
-        self.templateType = templateType
-        self.updatedAt = updatedAt
-        self.updatedBy = updatedBy
-    }
-}
-
-extension GetQueueEnvironmentOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "GetQueueEnvironmentOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueEnvironmentId: \(Swift.String(describing: queueEnvironmentId)), templateType: \(Swift.String(describing: templateType)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), template: \"CONTENT_REDACTED\")"}
-}
-
-public struct GetStorageProfileForQueueInput: Swift.Sendable {
-    /// The farm ID for the queue in storage profile.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The queue ID the queue in the storage profile.
-    /// This member is required.
-    public var queueId: Swift.String?
-    /// The storage profile ID for the storage profile in the queue.
-    /// This member is required.
-    public var storageProfileId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        queueId: Swift.String? = nil,
-        storageProfileId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.queueId = queueId
-        self.storageProfileId = storageProfileId
-    }
-}
-
-public struct GetStorageProfileForQueueOutput: Swift.Sendable {
-    /// The display name of the storage profile connected to a queue. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    /// This member is required.
-    public var displayName: Swift.String?
-    /// The location of the files for the storage profile within the queue.
-    public var fileSystemLocations: [DeadlineClientTypes.FileSystemLocation]?
-    /// The operating system of the storage profile in the queue.
-    /// This member is required.
-    public var osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily?
-    /// The storage profile ID.
-    /// This member is required.
-    public var storageProfileId: Swift.String?
-
-    public init(
-        displayName: Swift.String? = nil,
-        fileSystemLocations: [DeadlineClientTypes.FileSystemLocation]? = nil,
-        osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily? = nil,
-        storageProfileId: Swift.String? = nil
-    ) {
-        self.displayName = displayName
-        self.fileSystemLocations = fileSystemLocations
-        self.osFamily = osFamily
-        self.storageProfileId = storageProfileId
-    }
-}
-
-extension GetStorageProfileForQueueOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "GetStorageProfileForQueueOutput(displayName: \(Swift.String(describing: displayName)), osFamily: \(Swift.String(describing: osFamily)), storageProfileId: \(Swift.String(describing: storageProfileId)), fileSystemLocations: \"CONTENT_REDACTED\")"}
-}
-
-public struct DisassociateMemberFromJobInput: Swift.Sendable {
-    /// The farm ID for the job to disassociate from the member.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The job ID to disassociate from a member in a job.
-    /// This member is required.
-    public var jobId: Swift.String?
-    /// A member's principal ID to disassociate from a job.
-    /// This member is required.
-    public var principalId: Swift.String?
-    /// The queue ID connected to a job for which you're disassociating a member.
-    /// This member is required.
-    public var queueId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        jobId: Swift.String? = nil,
-        principalId: Swift.String? = nil,
-        queueId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.jobId = jobId
-        self.principalId = principalId
-        self.queueId = queueId
-    }
-}
-
-public struct DisassociateMemberFromJobOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct GetJobInput: Swift.Sendable {
-    /// The farm ID of the farm in the job.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The job ID.
-    /// This member is required.
-    public var jobId: Swift.String?
-    /// The queue ID associated with the job.
-    /// This member is required.
-    public var queueId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        jobId: Swift.String? = nil,
-        queueId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.jobId = jobId
-        self.queueId = queueId
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum JobLifecycleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case archived
-        case createComplete
-        case createFailed
-        case createInProgress
-        case updateFailed
-        case updateInProgress
-        case updateSucceeded
-        case uploadFailed
-        case uploadInProgress
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [JobLifecycleStatus] {
-            return [
-                .archived,
-                .createComplete,
-                .createFailed,
-                .createInProgress,
-                .updateFailed,
-                .updateInProgress,
-                .updateSucceeded,
-                .uploadFailed,
-                .uploadInProgress
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .archived: return "ARCHIVED"
-            case .createComplete: return "CREATE_COMPLETE"
-            case .createFailed: return "CREATE_FAILED"
-            case .createInProgress: return "CREATE_IN_PROGRESS"
-            case .updateFailed: return "UPDATE_FAILED"
-            case .updateInProgress: return "UPDATE_IN_PROGRESS"
-            case .updateSucceeded: return "UPDATE_SUCCEEDED"
-            case .uploadFailed: return "UPLOAD_FAILED"
-            case .uploadInProgress: return "UPLOAD_IN_PROGRESS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum JobTargetTaskRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case canceled
-        case failed
-        case pending
-        case ready
-        case succeeded
-        case suspended
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [JobTargetTaskRunStatus] {
-            return [
-                .canceled,
-                .failed,
-                .pending,
-                .ready,
-                .succeeded,
-                .suspended
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .canceled: return "CANCELED"
-            case .failed: return "FAILED"
-            case .pending: return "PENDING"
-            case .ready: return "READY"
-            case .succeeded: return "SUCCEEDED"
-            case .suspended: return "SUSPENDED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum TaskRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case assigned
-        case canceled
-        case failed
-        case interrupting
-        case notCompatible
-        case pending
-        case ready
-        case running
-        case scheduled
-        case starting
-        case succeeded
-        case suspended
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TaskRunStatus] {
-            return [
-                .assigned,
-                .canceled,
-                .failed,
-                .interrupting,
-                .notCompatible,
-                .pending,
-                .ready,
-                .running,
-                .scheduled,
-                .starting,
-                .succeeded,
-                .suspended
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .assigned: return "ASSIGNED"
-            case .canceled: return "CANCELED"
-            case .failed: return "FAILED"
-            case .interrupting: return "INTERRUPTING"
-            case .notCompatible: return "NOT_COMPATIBLE"
-            case .pending: return "PENDING"
-            case .ready: return "READY"
-            case .running: return "RUNNING"
-            case .scheduled: return "SCHEDULED"
-            case .starting: return "STARTING"
-            case .succeeded: return "SUCCEEDED"
-            case .suspended: return "SUSPENDED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct GetJobOutput: Swift.Sendable {
-    /// The attachments for the job.
-    public var attachments: DeadlineClientTypes.Attachments?
-    /// The date and time the resource was created.
-    /// This member is required.
-    public var createdAt: Foundation.Date?
-    /// The user or system that created this resource.
-    /// This member is required.
-    public var createdBy: Swift.String?
-    /// The description of the job. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    public var description: Swift.String?
-    /// The date and time the resource ended running.
-    public var endedAt: Foundation.Date?
-    /// The job ID.
-    /// This member is required.
-    public var jobId: Swift.String?
-    /// The life cycle status for the job.
-    /// This member is required.
-    public var lifecycleStatus: DeadlineClientTypes.JobLifecycleStatus?
-    /// A message that communicates the status of the life cycle for the job.
-    /// This member is required.
-    public var lifecycleStatusMessage: Swift.String?
-    /// The number of task failures before the job stops running and is marked as FAILED.
-    public var maxFailedTasksCount: Swift.Int?
-    /// The maximum number of retries per failed tasks.
-    public var maxRetriesPerTask: Swift.Int?
-    /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. If you don't set the maxWorkerCount when you create a job, this value is not returned in the response.
-    public var maxWorkerCount: Swift.Int?
-    /// The name of the job.
-    /// This member is required.
-    public var name: Swift.String?
-    /// The parameters for the job.
-    public var parameters: [Swift.String: DeadlineClientTypes.JobParameter]?
-    /// The job priority.
-    /// This member is required.
-    public var priority: Swift.Int?
-    /// The job ID for the source job.
-    public var sourceJobId: Swift.String?
-    /// The date and time the resource started running.
-    public var startedAt: Foundation.Date?
-    /// The storage profile ID associated with the job.
-    public var storageProfileId: Swift.String?
-    /// The task status with which the job started.
-    public var targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus?
-    /// The total number of times tasks from the job failed and were retried.
-    public var taskFailureRetryCount: Swift.Int?
-    /// The task run status for the job.
-    public var taskRunStatus: DeadlineClientTypes.TaskRunStatus?
-    /// The number of tasks running on the job.
-    public var taskRunStatusCounts: [Swift.String: Swift.Int]?
-    /// The date and time the resource was updated.
-    public var updatedAt: Foundation.Date?
-    /// The user or system that updated this resource.
-    public var updatedBy: Swift.String?
-
-    public init(
-        attachments: DeadlineClientTypes.Attachments? = nil,
-        createdAt: Foundation.Date? = nil,
-        createdBy: Swift.String? = nil,
-        description: Swift.String? = nil,
-        endedAt: Foundation.Date? = nil,
-        jobId: Swift.String? = nil,
-        lifecycleStatus: DeadlineClientTypes.JobLifecycleStatus? = nil,
-        lifecycleStatusMessage: Swift.String? = nil,
-        maxFailedTasksCount: Swift.Int? = nil,
-        maxRetriesPerTask: Swift.Int? = nil,
-        maxWorkerCount: Swift.Int? = nil,
-        name: Swift.String? = nil,
-        parameters: [Swift.String: DeadlineClientTypes.JobParameter]? = nil,
-        priority: Swift.Int? = nil,
-        sourceJobId: Swift.String? = nil,
-        startedAt: Foundation.Date? = nil,
-        storageProfileId: Swift.String? = nil,
-        targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus? = nil,
-        taskFailureRetryCount: Swift.Int? = nil,
-        taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
-        taskRunStatusCounts: [Swift.String: Swift.Int]? = nil,
-        updatedAt: Foundation.Date? = nil,
-        updatedBy: Swift.String? = nil
-    ) {
-        self.attachments = attachments
-        self.createdAt = createdAt
-        self.createdBy = createdBy
-        self.description = description
-        self.endedAt = endedAt
-        self.jobId = jobId
-        self.lifecycleStatus = lifecycleStatus
-        self.lifecycleStatusMessage = lifecycleStatusMessage
-        self.maxFailedTasksCount = maxFailedTasksCount
-        self.maxRetriesPerTask = maxRetriesPerTask
-        self.maxWorkerCount = maxWorkerCount
-        self.name = name
-        self.parameters = parameters
-        self.priority = priority
-        self.sourceJobId = sourceJobId
-        self.startedAt = startedAt
-        self.storageProfileId = storageProfileId
-        self.targetTaskRunStatus = targetTaskRunStatus
-        self.taskFailureRetryCount = taskFailureRetryCount
-        self.taskRunStatus = taskRunStatus
-        self.taskRunStatusCounts = taskRunStatusCounts
-        self.updatedAt = updatedAt
-        self.updatedBy = updatedBy
-    }
-}
-
-extension GetJobOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "GetJobOutput(attachments: \(Swift.String(describing: attachments)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskFailureRetryCount: \(Swift.String(describing: taskFailureRetryCount)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
-}
-
-public struct GetSessionInput: Swift.Sendable {
-    /// The farm ID for the session.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The job ID for the session.
-    /// This member is required.
-    public var jobId: Swift.String?
-    /// The queue ID for the session.
-    /// This member is required.
-    public var queueId: Swift.String?
-    /// The session ID.
-    /// This member is required.
-    public var sessionId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        jobId: Swift.String? = nil,
-        queueId: Swift.String? = nil,
-        sessionId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.jobId = jobId
-        self.queueId = queueId
-        self.sessionId = sessionId
-    }
-}
-
-public struct GetSessionOutput: Swift.Sendable {
-    /// The date and time the resource ended running.
-    public var endedAt: Foundation.Date?
-    /// The fleet ID for the session.
-    /// This member is required.
-    public var fleetId: Swift.String?
-    /// Provides the Amazon EC2 properties of the host.
-    public var hostProperties: DeadlineClientTypes.HostPropertiesResponse?
-    /// The life cycle status of the session.
-    /// This member is required.
-    public var lifecycleStatus: DeadlineClientTypes.SessionLifecycleStatus?
-    /// The session log.
-    /// This member is required.
-    public var log: DeadlineClientTypes.LogConfiguration?
-    /// The session ID.
-    /// This member is required.
-    public var sessionId: Swift.String?
-    /// The date and time the resource started running.
-    /// This member is required.
-    public var startedAt: Foundation.Date?
-    /// The life cycle status with which the session started.
-    public var targetLifecycleStatus: DeadlineClientTypes.SessionLifecycleTargetStatus?
-    /// The date and time the resource was updated.
-    public var updatedAt: Foundation.Date?
-    /// The user or system that updated this resource.
-    public var updatedBy: Swift.String?
-    /// The worker ID for the session.
-    /// This member is required.
-    public var workerId: Swift.String?
-    /// The worker log for the session.
-    public var workerLog: DeadlineClientTypes.LogConfiguration?
-
-    public init(
-        endedAt: Foundation.Date? = nil,
-        fleetId: Swift.String? = nil,
-        hostProperties: DeadlineClientTypes.HostPropertiesResponse? = nil,
-        lifecycleStatus: DeadlineClientTypes.SessionLifecycleStatus? = nil,
-        log: DeadlineClientTypes.LogConfiguration? = nil,
-        sessionId: Swift.String? = nil,
-        startedAt: Foundation.Date? = nil,
-        targetLifecycleStatus: DeadlineClientTypes.SessionLifecycleTargetStatus? = nil,
-        updatedAt: Foundation.Date? = nil,
-        updatedBy: Swift.String? = nil,
-        workerId: Swift.String? = nil,
-        workerLog: DeadlineClientTypes.LogConfiguration? = nil
-    ) {
-        self.endedAt = endedAt
-        self.fleetId = fleetId
-        self.hostProperties = hostProperties
-        self.lifecycleStatus = lifecycleStatus
-        self.log = log
-        self.sessionId = sessionId
-        self.startedAt = startedAt
-        self.targetLifecycleStatus = targetLifecycleStatus
-        self.updatedAt = updatedAt
-        self.updatedBy = updatedBy
-        self.workerId = workerId
-        self.workerLog = workerLog
-    }
-}
-
-public struct GetSessionActionInput: Swift.Sendable {
-    /// The farm ID for the session action.
-    /// This member is required.
-    public var farmId: Swift.String?
-    /// The job ID for the session.
-    /// This member is required.
-    public var jobId: Swift.String?
-    /// The queue ID for the session action.
-    /// This member is required.
-    public var queueId: Swift.String?
-    /// The session action ID for the session.
-    /// This member is required.
-    public var sessionActionId: Swift.String?
-
-    public init(
-        farmId: Swift.String? = nil,
-        jobId: Swift.String? = nil,
-        queueId: Swift.String? = nil,
-        sessionActionId: Swift.String? = nil
-    ) {
-        self.farmId = farmId
-        self.jobId = jobId
-        self.queueId = queueId
-        self.sessionActionId = sessionActionId
     }
 }
 
@@ -7037,94 +3117,225 @@ extension DeadlineClientTypes {
     }
 }
 
-public struct GetSessionActionOutput: Swift.Sendable {
-    /// The limits and their amounts acquired during a session action. If no limits were acquired during the session, this field isn't returned.
-    public var acquiredLimits: [DeadlineClientTypes.AcquiredLimit]?
-    /// The session action definition.
-    /// This member is required.
-    public var definition: DeadlineClientTypes.SessionActionDefinition?
-    /// The date and time the resource ended running.
-    public var endedAt: Foundation.Date?
-    /// The list of manifest properties that describe file attachments for the task run.
-    public var manifests: [DeadlineClientTypes.TaskRunManifestPropertiesResponse]?
-    /// The process exit code. The default Deadline Cloud worker agent converts unsigned 32-bit exit codes to signed 32-bit exit codes.
-    public var processExitCode: Swift.Int?
-    /// The message that communicates the progress of the session action.
-    public var progressMessage: Swift.String?
-    /// The percentage completed for a session action.
-    public var progressPercent: Swift.Float?
-    /// The session action ID.
-    /// This member is required.
-    public var sessionActionId: Swift.String?
-    /// The session ID for the session action.
-    /// This member is required.
-    public var sessionId: Swift.String?
-    /// The date and time the resource started running.
-    public var startedAt: Foundation.Date?
-    /// The status of the session action.
-    /// This member is required.
-    public var status: DeadlineClientTypes.SessionActionStatus?
-    /// The Linux timestamp of the date and time the session action was last updated.
-    public var workerUpdatedAt: Foundation.Date?
+extension DeadlineClientTypes {
 
-    public init(
-        acquiredLimits: [DeadlineClientTypes.AcquiredLimit]? = nil,
-        definition: DeadlineClientTypes.SessionActionDefinition? = nil,
-        endedAt: Foundation.Date? = nil,
-        manifests: [DeadlineClientTypes.TaskRunManifestPropertiesResponse]? = nil,
-        processExitCode: Swift.Int? = nil,
-        progressMessage: Swift.String? = nil,
-        progressPercent: Swift.Float? = nil,
-        sessionActionId: Swift.String? = nil,
-        sessionId: Swift.String? = nil,
-        startedAt: Foundation.Date? = nil,
-        status: DeadlineClientTypes.SessionActionStatus? = nil,
-        workerUpdatedAt: Foundation.Date? = nil
-    ) {
-        self.acquiredLimits = acquiredLimits
-        self.definition = definition
-        self.endedAt = endedAt
-        self.manifests = manifests
-        self.processExitCode = processExitCode
-        self.progressMessage = progressMessage
-        self.progressPercent = progressPercent
-        self.sessionActionId = sessionActionId
-        self.sessionId = sessionId
-        self.startedAt = startedAt
-        self.status = status
-        self.workerUpdatedAt = workerUpdatedAt
+    /// The details of a session action returned in a batch get operation.
+    public struct BatchGetSessionActionItem: Swift.Sendable {
+        /// The limits that were acquired for the session action.
+        public var acquiredLimits: [DeadlineClientTypes.AcquiredLimit]?
+        /// The session action definition.
+        /// This member is required.
+        public var definition: DeadlineClientTypes.SessionActionDefinition?
+        /// The date and time the resource ended running.
+        public var endedAt: Foundation.Date?
+        /// The farm ID of the session action.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the session action.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The manifests for the session action.
+        public var manifests: [DeadlineClientTypes.TaskRunManifestPropertiesResponse]?
+        /// The exit code to apply to the session action.
+        public var processExitCode: Swift.Int?
+        /// The message that communicates the progress of the session action.
+        public var progressMessage: Swift.String?
+        /// The completion percentage for the session action.
+        public var progressPercent: Swift.Float?
+        /// The queue ID of the session action.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The session action ID.
+        /// This member is required.
+        public var sessionActionId: Swift.String?
+        /// The session ID for the session action.
+        /// This member is required.
+        public var sessionId: Swift.String?
+        /// The date and time the resource started running.
+        public var startedAt: Foundation.Date?
+        /// The status of the session action.
+        /// This member is required.
+        public var status: DeadlineClientTypes.SessionActionStatus?
+        /// The date and time the resource was updated by a worker.
+        public var workerUpdatedAt: Foundation.Date?
+
+        public init(
+            acquiredLimits: [DeadlineClientTypes.AcquiredLimit]? = nil,
+            definition: DeadlineClientTypes.SessionActionDefinition? = nil,
+            endedAt: Foundation.Date? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            manifests: [DeadlineClientTypes.TaskRunManifestPropertiesResponse]? = nil,
+            processExitCode: Swift.Int? = nil,
+            progressMessage: Swift.String? = nil,
+            progressPercent: Swift.Float? = nil,
+            queueId: Swift.String? = nil,
+            sessionActionId: Swift.String? = nil,
+            sessionId: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: DeadlineClientTypes.SessionActionStatus? = nil,
+            workerUpdatedAt: Foundation.Date? = nil
+        ) {
+            self.acquiredLimits = acquiredLimits
+            self.definition = definition
+            self.endedAt = endedAt
+            self.farmId = farmId
+            self.jobId = jobId
+            self.manifests = manifests
+            self.processExitCode = processExitCode
+            self.progressMessage = progressMessage
+            self.progressPercent = progressPercent
+            self.queueId = queueId
+            self.sessionActionId = sessionActionId
+            self.sessionId = sessionId
+            self.startedAt = startedAt
+            self.status = status
+            self.workerUpdatedAt = workerUpdatedAt
+        }
     }
 }
 
-extension GetSessionActionOutput: Swift.CustomDebugStringConvertible {
+extension DeadlineClientTypes.BatchGetSessionActionItem: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetSessionActionOutput(acquiredLimits: \(Swift.String(describing: acquiredLimits)), definition: \(Swift.String(describing: definition)), endedAt: \(Swift.String(describing: endedAt)), manifests: \(Swift.String(describing: manifests)), processExitCode: \(Swift.String(describing: processExitCode)), progressPercent: \(Swift.String(describing: progressPercent)), sessionActionId: \(Swift.String(describing: sessionActionId)), sessionId: \(Swift.String(describing: sessionId)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), workerUpdatedAt: \(Swift.String(describing: workerUpdatedAt)), progressMessage: \"CONTENT_REDACTED\")"}
+        "BatchGetSessionActionItem(acquiredLimits: \(Swift.String(describing: acquiredLimits)), definition: \(Swift.String(describing: definition)), endedAt: \(Swift.String(describing: endedAt)), farmId: \(Swift.String(describing: farmId)), jobId: \(Swift.String(describing: jobId)), manifests: \(Swift.String(describing: manifests)), processExitCode: \(Swift.String(describing: processExitCode)), progressPercent: \(Swift.String(describing: progressPercent)), queueId: \(Swift.String(describing: queueId)), sessionActionId: \(Swift.String(describing: sessionActionId)), sessionId: \(Swift.String(describing: sessionId)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), workerUpdatedAt: \(Swift.String(describing: workerUpdatedAt)), progressMessage: \"CONTENT_REDACTED\")"}
 }
 
-public struct GetStepInput: Swift.Sendable {
-    /// The farm ID for the step.
+public struct BatchGetSessionActionOutput: Swift.Sendable {
+    /// A list of errors for session actions that could not be retrieved.
     /// This member is required.
-    public var farmId: Swift.String?
-    /// The job ID for the step.
+    public var errors: [DeadlineClientTypes.BatchGetSessionActionError]?
+    /// A list of session actions that were successfully retrieved.
     /// This member is required.
-    public var jobId: Swift.String?
-    /// The queue ID for the step.
-    /// This member is required.
-    public var queueId: Swift.String?
-    /// The step ID.
-    /// This member is required.
-    public var stepId: Swift.String?
+    public var sessionActions: [DeadlineClientTypes.BatchGetSessionActionItem]?
 
     public init(
-        farmId: Swift.String? = nil,
-        jobId: Swift.String? = nil,
-        queueId: Swift.String? = nil,
-        stepId: Swift.String? = nil
+        errors: [DeadlineClientTypes.BatchGetSessionActionError]? = nil,
+        sessionActions: [DeadlineClientTypes.BatchGetSessionActionItem]? = nil
     ) {
-        self.farmId = farmId
-        self.jobId = jobId
-        self.queueId = queueId
-        self.stepId = stepId
+        self.errors = errors
+        self.sessionActions = sessionActions
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The identifiers for a step.
+    public struct BatchGetStepIdentifier: Swift.Sendable {
+        /// The farm ID of the step.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the step.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The queue ID of the step.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The step ID.
+        /// This member is required.
+        public var stepId: Swift.String?
+
+        public init(
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            stepId: Swift.String? = nil
+        ) {
+            self.farmId = farmId
+            self.jobId = jobId
+            self.queueId = queueId
+            self.stepId = stepId
+        }
+    }
+}
+
+public struct BatchGetStepInput: Swift.Sendable {
+    /// The list of step identifiers to retrieve. You can specify up to 100 identifiers per request.
+    /// This member is required.
+    public var identifiers: [DeadlineClientTypes.BatchGetStepIdentifier]?
+
+    public init(
+        identifiers: [DeadlineClientTypes.BatchGetStepIdentifier]? = nil
+    ) {
+        self.identifiers = identifiers
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum BatchGetStepErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessdeniedexception
+        case internalservererrorexception
+        case resourcenotfoundexception
+        case throttlingexception
+        case validationexception
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchGetStepErrorCode] {
+            return [
+                .accessdeniedexception,
+                .internalservererrorexception,
+                .resourcenotfoundexception,
+                .throttlingexception,
+                .validationexception
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessdeniedexception: return "AccessDeniedException"
+            case .internalservererrorexception: return "InternalServerErrorException"
+            case .resourcenotfoundexception: return "ResourceNotFoundException"
+            case .throttlingexception: return "ThrottlingException"
+            case .validationexception: return "ValidationException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The error details for a step that could not be retrieved in a batch get operation.
+    public struct BatchGetStepError: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var code: DeadlineClientTypes.BatchGetStepErrorCode?
+        /// The farm ID of the step that could not be retrieved.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the step that could not be retrieved.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The queue ID of the step that could not be retrieved.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The step ID of the step that could not be retrieved.
+        /// This member is required.
+        public var stepId: Swift.String?
+
+        public init(
+            code: DeadlineClientTypes.BatchGetStepErrorCode? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            message: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            stepId: Swift.String? = nil
+        ) {
+            self.code = code
+            self.farmId = farmId
+            self.jobId = jobId
+            self.message = message
+            self.queueId = queueId
+            self.stepId = stepId
+        }
     }
 }
 
@@ -7445,6 +3656,5763 @@ extension DeadlineClientTypes {
     }
 }
 
+extension DeadlineClientTypes {
+
+    /// The details of a step returned in a batch get operation.
+    public struct BatchGetStepItem: Swift.Sendable {
+        /// The date and time the resource was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The user or system that created this resource.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The number of dependencies for the step.
+        public var dependencyCounts: DeadlineClientTypes.DependencyCounts?
+        /// The description of the step.
+        public var description: Swift.String?
+        /// The date and time the resource ended running.
+        public var endedAt: Foundation.Date?
+        /// The farm ID of the step.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the step.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The life cycle status of the step.
+        /// This member is required.
+        public var lifecycleStatus: DeadlineClientTypes.StepLifecycleStatus?
+        /// A message that communicates the status of the life cycle.
+        public var lifecycleStatusMessage: Swift.String?
+        /// The name of the step.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The parameter space for the step.
+        public var parameterSpace: DeadlineClientTypes.ParameterSpace?
+        /// The queue ID of the step.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The required capabilities for the step.
+        public var requiredCapabilities: DeadlineClientTypes.StepRequiredCapabilities?
+        /// The date and time the resource started running.
+        public var startedAt: Foundation.Date?
+        /// The step ID.
+        /// This member is required.
+        public var stepId: Swift.String?
+        /// The task status to start with on the step.
+        public var targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus?
+        /// The number of times that tasks failed and were retried.
+        public var taskFailureRetryCount: Swift.Int?
+        /// The task run status for the step.
+        /// This member is required.
+        public var taskRunStatus: DeadlineClientTypes.TaskRunStatus?
+        /// The number of tasks for each run status for the step.
+        /// This member is required.
+        public var taskRunStatusCounts: [Swift.String: Swift.Int]?
+        /// The date and time the resource was updated.
+        public var updatedAt: Foundation.Date?
+        /// The user or system that updated this resource.
+        public var updatedBy: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            dependencyCounts: DeadlineClientTypes.DependencyCounts? = nil,
+            description: Swift.String? = nil,
+            endedAt: Foundation.Date? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            lifecycleStatus: DeadlineClientTypes.StepLifecycleStatus? = nil,
+            lifecycleStatusMessage: Swift.String? = nil,
+            name: Swift.String? = nil,
+            parameterSpace: DeadlineClientTypes.ParameterSpace? = nil,
+            queueId: Swift.String? = nil,
+            requiredCapabilities: DeadlineClientTypes.StepRequiredCapabilities? = nil,
+            startedAt: Foundation.Date? = nil,
+            stepId: Swift.String? = nil,
+            targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus? = nil,
+            taskFailureRetryCount: Swift.Int? = nil,
+            taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
+            taskRunStatusCounts: [Swift.String: Swift.Int]? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.dependencyCounts = dependencyCounts
+            self.description = description
+            self.endedAt = endedAt
+            self.farmId = farmId
+            self.jobId = jobId
+            self.lifecycleStatus = lifecycleStatus
+            self.lifecycleStatusMessage = lifecycleStatusMessage
+            self.name = name
+            self.parameterSpace = parameterSpace
+            self.queueId = queueId
+            self.requiredCapabilities = requiredCapabilities
+            self.startedAt = startedAt
+            self.stepId = stepId
+            self.targetTaskRunStatus = targetTaskRunStatus
+            self.taskFailureRetryCount = taskFailureRetryCount
+            self.taskRunStatus = taskRunStatus
+            self.taskRunStatusCounts = taskRunStatusCounts
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+    }
+}
+
+extension DeadlineClientTypes.BatchGetStepItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BatchGetStepItem(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), dependencyCounts: \(Swift.String(describing: dependencyCounts)), endedAt: \(Swift.String(describing: endedAt)), farmId: \(Swift.String(describing: farmId)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), name: \(Swift.String(describing: name)), parameterSpace: \(Swift.String(describing: parameterSpace)), queueId: \(Swift.String(describing: queueId)), requiredCapabilities: \(Swift.String(describing: requiredCapabilities)), startedAt: \(Swift.String(describing: startedAt)), stepId: \(Swift.String(describing: stepId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskFailureRetryCount: \(Swift.String(describing: taskFailureRetryCount)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct BatchGetStepOutput: Swift.Sendable {
+    /// A list of errors for steps that could not be retrieved.
+    /// This member is required.
+    public var errors: [DeadlineClientTypes.BatchGetStepError]?
+    /// A list of steps that were successfully retrieved.
+    /// This member is required.
+    public var steps: [DeadlineClientTypes.BatchGetStepItem]?
+
+    public init(
+        errors: [DeadlineClientTypes.BatchGetStepError]? = nil,
+        steps: [DeadlineClientTypes.BatchGetStepItem]? = nil
+    ) {
+        self.errors = errors
+        self.steps = steps
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The identifiers for a task.
+    public struct BatchGetTaskIdentifier: Swift.Sendable {
+        /// The farm ID of the task.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the task.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The queue ID of the task.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The step ID of the task.
+        /// This member is required.
+        public var stepId: Swift.String?
+        /// The task ID.
+        /// This member is required.
+        public var taskId: Swift.String?
+
+        public init(
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            stepId: Swift.String? = nil,
+            taskId: Swift.String? = nil
+        ) {
+            self.farmId = farmId
+            self.jobId = jobId
+            self.queueId = queueId
+            self.stepId = stepId
+            self.taskId = taskId
+        }
+    }
+}
+
+public struct BatchGetTaskInput: Swift.Sendable {
+    /// The list of task identifiers to retrieve. You can specify up to 100 identifiers per request.
+    /// This member is required.
+    public var identifiers: [DeadlineClientTypes.BatchGetTaskIdentifier]?
+
+    public init(
+        identifiers: [DeadlineClientTypes.BatchGetTaskIdentifier]? = nil
+    ) {
+        self.identifiers = identifiers
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum BatchGetTaskErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessdeniedexception
+        case internalservererrorexception
+        case resourcenotfoundexception
+        case throttlingexception
+        case validationexception
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchGetTaskErrorCode] {
+            return [
+                .accessdeniedexception,
+                .internalservererrorexception,
+                .resourcenotfoundexception,
+                .throttlingexception,
+                .validationexception
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessdeniedexception: return "AccessDeniedException"
+            case .internalservererrorexception: return "InternalServerErrorException"
+            case .resourcenotfoundexception: return "ResourceNotFoundException"
+            case .throttlingexception: return "ThrottlingException"
+            case .validationexception: return "ValidationException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The error details for a task that could not be retrieved in a batch get operation.
+    public struct BatchGetTaskError: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var code: DeadlineClientTypes.BatchGetTaskErrorCode?
+        /// The farm ID of the task that could not be retrieved.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the task that could not be retrieved.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The queue ID of the task that could not be retrieved.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The step ID of the task that could not be retrieved.
+        /// This member is required.
+        public var stepId: Swift.String?
+        /// The task ID of the task that could not be retrieved.
+        /// This member is required.
+        public var taskId: Swift.String?
+
+        public init(
+            code: DeadlineClientTypes.BatchGetTaskErrorCode? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            message: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            stepId: Swift.String? = nil,
+            taskId: Swift.String? = nil
+        ) {
+            self.code = code
+            self.farmId = farmId
+            self.jobId = jobId
+            self.message = message
+            self.queueId = queueId
+            self.stepId = stepId
+            self.taskId = taskId
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum TaskTargetRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case canceled
+        case failed
+        case pending
+        case ready
+        case succeeded
+        case suspended
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TaskTargetRunStatus] {
+            return [
+                .canceled,
+                .failed,
+                .pending,
+                .ready,
+                .succeeded,
+                .suspended
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .canceled: return "CANCELED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .ready: return "READY"
+            case .succeeded: return "SUCCEEDED"
+            case .suspended: return "SUSPENDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of a task returned in a batch get operation.
+    public struct BatchGetTaskItem: Swift.Sendable {
+        /// The date and time the resource was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The user or system that created this resource.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The date and time the resource ended running.
+        public var endedAt: Foundation.Date?
+        /// The number of times the task failed and was retried.
+        public var failureRetryCount: Swift.Int?
+        /// The farm ID of the task.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the task.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The latest session action for the task.
+        public var latestSessionActionId: Swift.String?
+        /// The parameters for the task.
+        public var parameters: [Swift.String: DeadlineClientTypes.TaskParameterValue]?
+        /// The queue ID of the task.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The run status of the task.
+        /// This member is required.
+        public var runStatus: DeadlineClientTypes.TaskRunStatus?
+        /// The date and time the resource started running.
+        public var startedAt: Foundation.Date?
+        /// The step ID of the task.
+        /// This member is required.
+        public var stepId: Swift.String?
+        /// The run status with which to start the task.
+        public var targetRunStatus: DeadlineClientTypes.TaskTargetRunStatus?
+        /// The task ID.
+        /// This member is required.
+        public var taskId: Swift.String?
+        /// The date and time the resource was updated.
+        public var updatedAt: Foundation.Date?
+        /// The user or system that updated this resource.
+        public var updatedBy: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            endedAt: Foundation.Date? = nil,
+            failureRetryCount: Swift.Int? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            latestSessionActionId: Swift.String? = nil,
+            parameters: [Swift.String: DeadlineClientTypes.TaskParameterValue]? = nil,
+            queueId: Swift.String? = nil,
+            runStatus: DeadlineClientTypes.TaskRunStatus? = nil,
+            startedAt: Foundation.Date? = nil,
+            stepId: Swift.String? = nil,
+            targetRunStatus: DeadlineClientTypes.TaskTargetRunStatus? = nil,
+            taskId: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.endedAt = endedAt
+            self.failureRetryCount = failureRetryCount
+            self.farmId = farmId
+            self.jobId = jobId
+            self.latestSessionActionId = latestSessionActionId
+            self.parameters = parameters
+            self.queueId = queueId
+            self.runStatus = runStatus
+            self.startedAt = startedAt
+            self.stepId = stepId
+            self.targetRunStatus = targetRunStatus
+            self.taskId = taskId
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+    }
+}
+
+extension DeadlineClientTypes.BatchGetTaskItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BatchGetTaskItem(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), failureRetryCount: \(Swift.String(describing: failureRetryCount)), farmId: \(Swift.String(describing: farmId)), jobId: \(Swift.String(describing: jobId)), latestSessionActionId: \(Swift.String(describing: latestSessionActionId)), queueId: \(Swift.String(describing: queueId)), runStatus: \(Swift.String(describing: runStatus)), startedAt: \(Swift.String(describing: startedAt)), stepId: \(Swift.String(describing: stepId)), targetRunStatus: \(Swift.String(describing: targetRunStatus)), taskId: \(Swift.String(describing: taskId)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), parameters: \"CONTENT_REDACTED\")"}
+}
+
+public struct BatchGetTaskOutput: Swift.Sendable {
+    /// A list of errors for tasks that could not be retrieved.
+    /// This member is required.
+    public var errors: [DeadlineClientTypes.BatchGetTaskError]?
+    /// A list of tasks that were successfully retrieved.
+    /// This member is required.
+    public var tasks: [DeadlineClientTypes.BatchGetTaskItem]?
+
+    public init(
+        errors: [DeadlineClientTypes.BatchGetTaskError]? = nil,
+        tasks: [DeadlineClientTypes.BatchGetTaskItem]? = nil
+    ) {
+        self.errors = errors
+        self.tasks = tasks
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The identifiers for a worker.
+    public struct BatchGetWorkerIdentifier: Swift.Sendable {
+        /// The farm ID of the worker.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The fleet ID of the worker.
+        /// This member is required.
+        public var fleetId: Swift.String?
+        /// The worker ID.
+        /// This member is required.
+        public var workerId: Swift.String?
+
+        public init(
+            farmId: Swift.String? = nil,
+            fleetId: Swift.String? = nil,
+            workerId: Swift.String? = nil
+        ) {
+            self.farmId = farmId
+            self.fleetId = fleetId
+            self.workerId = workerId
+        }
+    }
+}
+
+public struct BatchGetWorkerInput: Swift.Sendable {
+    /// The list of worker identifiers to retrieve. You can specify up to 100 identifiers per request.
+    /// This member is required.
+    public var identifiers: [DeadlineClientTypes.BatchGetWorkerIdentifier]?
+
+    public init(
+        identifiers: [DeadlineClientTypes.BatchGetWorkerIdentifier]? = nil
+    ) {
+        self.identifiers = identifiers
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum BatchGetWorkerErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case internalservererrorexception
+        case resourcenotfoundexception
+        case validationexception
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchGetWorkerErrorCode] {
+            return [
+                .internalservererrorexception,
+                .resourcenotfoundexception,
+                .validationexception
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .internalservererrorexception: return "InternalServerErrorException"
+            case .resourcenotfoundexception: return "ResourceNotFoundException"
+            case .validationexception: return "ValidationException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The error details for a worker that could not be retrieved in a batch get operation.
+    public struct BatchGetWorkerError: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var code: DeadlineClientTypes.BatchGetWorkerErrorCode?
+        /// The farm ID of the worker that could not be retrieved.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The fleet ID of the worker that could not be retrieved.
+        /// This member is required.
+        public var fleetId: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The worker ID of the worker that could not be retrieved.
+        /// This member is required.
+        public var workerId: Swift.String?
+
+        public init(
+            code: DeadlineClientTypes.BatchGetWorkerErrorCode? = nil,
+            farmId: Swift.String? = nil,
+            fleetId: Swift.String? = nil,
+            message: Swift.String? = nil,
+            workerId: Swift.String? = nil
+        ) {
+            self.code = code
+            self.farmId = farmId
+            self.fleetId = fleetId
+            self.message = message
+            self.workerId = workerId
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum WorkerStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case idle
+        case notCompatible
+        case notResponding
+        case running
+        case started
+        case stopped
+        case stopping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkerStatus] {
+            return [
+                .created,
+                .idle,
+                .notCompatible,
+                .notResponding,
+                .running,
+                .started,
+                .stopped,
+                .stopping
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .idle: return "IDLE"
+            case .notCompatible: return "NOT_COMPATIBLE"
+            case .notResponding: return "NOT_RESPONDING"
+            case .running: return "RUNNING"
+            case .started: return "STARTED"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of a worker returned in a batch get operation.
+    public struct BatchGetWorkerItem: Swift.Sendable {
+        /// The date and time the resource was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The user or system that created this resource.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The farm ID of the worker.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The fleet ID of the worker.
+        /// This member is required.
+        public var fleetId: Swift.String?
+        /// The host properties for the worker.
+        public var hostProperties: DeadlineClientTypes.HostPropertiesResponse?
+        /// The log configuration for the worker.
+        public var log: DeadlineClientTypes.LogConfiguration?
+        /// The status of the worker.
+        /// This member is required.
+        public var status: DeadlineClientTypes.WorkerStatus?
+        /// The date and time the resource was updated.
+        public var updatedAt: Foundation.Date?
+        /// The user or system that updated this resource.
+        public var updatedBy: Swift.String?
+        /// The worker ID.
+        /// This member is required.
+        public var workerId: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            farmId: Swift.String? = nil,
+            fleetId: Swift.String? = nil,
+            hostProperties: DeadlineClientTypes.HostPropertiesResponse? = nil,
+            log: DeadlineClientTypes.LogConfiguration? = nil,
+            status: DeadlineClientTypes.WorkerStatus? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil,
+            workerId: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.farmId = farmId
+            self.fleetId = fleetId
+            self.hostProperties = hostProperties
+            self.log = log
+            self.status = status
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+            self.workerId = workerId
+        }
+    }
+}
+
+public struct BatchGetWorkerOutput: Swift.Sendable {
+    /// A list of errors for workers that could not be retrieved.
+    /// This member is required.
+    public var errors: [DeadlineClientTypes.BatchGetWorkerError]?
+    /// A list of workers that were successfully retrieved.
+    /// This member is required.
+    public var workers: [DeadlineClientTypes.BatchGetWorkerItem]?
+
+    public init(
+        errors: [DeadlineClientTypes.BatchGetWorkerError]? = nil,
+        workers: [DeadlineClientTypes.BatchGetWorkerItem]? = nil
+    ) {
+        self.errors = errors
+        self.workers = workers
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum UpdateJobLifecycleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case archived
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateJobLifecycleStatus] {
+            return [
+                .archived
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .archived: return "ARCHIVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of a job to update in a batch update operation.
+    public struct BatchUpdateJobItem: Swift.Sendable {
+        /// The description of the job to update.
+        public var description: Swift.String?
+        /// The farm ID of the job to update.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the job to update.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The status of a job in its lifecycle. When you change the status of the job to ARCHIVED, the job can't be scheduled or archived. An archived job and its steps and tasks are deleted after 120 days. The job can't be recovered.
+        public var lifecycleStatus: DeadlineClientTypes.UpdateJobLifecycleStatus?
+        /// The number of task failures before the job stops running and is marked as FAILED.
+        public var maxFailedTasksCount: Swift.Int?
+        /// The maximum number of retries per failed tasks.
+        public var maxRetriesPerTask: Swift.Int?
+        /// The maximum number of worker hosts that can concurrently process a job.
+        public var maxWorkerCount: Swift.Int?
+        /// The name of the job to update.
+        public var name: Swift.String?
+        /// The job priority to update.
+        public var priority: Swift.Int?
+        /// The queue ID of the job to update.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The task status to update the job's tasks to.
+        public var targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus?
+
+        public init(
+            description: Swift.String? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            lifecycleStatus: DeadlineClientTypes.UpdateJobLifecycleStatus? = nil,
+            maxFailedTasksCount: Swift.Int? = nil,
+            maxRetriesPerTask: Swift.Int? = nil,
+            maxWorkerCount: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            priority: Swift.Int? = nil,
+            queueId: Swift.String? = nil,
+            targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus? = nil
+        ) {
+            self.description = description
+            self.farmId = farmId
+            self.jobId = jobId
+            self.lifecycleStatus = lifecycleStatus
+            self.maxFailedTasksCount = maxFailedTasksCount
+            self.maxRetriesPerTask = maxRetriesPerTask
+            self.maxWorkerCount = maxWorkerCount
+            self.name = name
+            self.priority = priority
+            self.queueId = queueId
+            self.targetTaskRunStatus = targetTaskRunStatus
+        }
+    }
+}
+
+extension DeadlineClientTypes.BatchUpdateJobItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BatchUpdateJobItem(farmId: \(Swift.String(describing: farmId)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct BatchUpdateJobInput: Swift.Sendable {
+    /// The unique token which the server uses to recognize retries of the same request.
+    public var clientToken: Swift.String?
+    /// The list of jobs to update. You can specify up to 100 jobs per request.
+    /// This member is required.
+    public var jobs: [DeadlineClientTypes.BatchUpdateJobItem]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        jobs: [DeadlineClientTypes.BatchUpdateJobItem]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.jobs = jobs
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum BatchUpdateJobErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessdeniedexception
+        case conflictexception
+        case internalservererrorexception
+        case resourcenotfoundexception
+        case throttlingexception
+        case validationexception
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchUpdateJobErrorCode] {
+            return [
+                .accessdeniedexception,
+                .conflictexception,
+                .internalservererrorexception,
+                .resourcenotfoundexception,
+                .throttlingexception,
+                .validationexception
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessdeniedexception: return "AccessDeniedException"
+            case .conflictexception: return "ConflictException"
+            case .internalservererrorexception: return "InternalServerErrorException"
+            case .resourcenotfoundexception: return "ResourceNotFoundException"
+            case .throttlingexception: return "ThrottlingException"
+            case .validationexception: return "ValidationException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The error details for a job that could not be updated in a batch update operation.
+    public struct BatchUpdateJobError: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var code: DeadlineClientTypes.BatchUpdateJobErrorCode?
+        /// The farm ID of the job that could not be updated.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the job that could not be updated.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The queue ID of the job that could not be updated.
+        /// This member is required.
+        public var queueId: Swift.String?
+
+        public init(
+            code: DeadlineClientTypes.BatchUpdateJobErrorCode? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            message: Swift.String? = nil,
+            queueId: Swift.String? = nil
+        ) {
+            self.code = code
+            self.farmId = farmId
+            self.jobId = jobId
+            self.message = message
+            self.queueId = queueId
+        }
+    }
+}
+
+public struct BatchUpdateJobOutput: Swift.Sendable {
+    /// A list of errors for jobs that could not be updated.
+    /// This member is required.
+    public var errors: [DeadlineClientTypes.BatchUpdateJobError]?
+
+    public init(
+        errors: [DeadlineClientTypes.BatchUpdateJobError]? = nil
+    ) {
+        self.errors = errors
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of a task to update in a batch update operation.
+    public struct BatchUpdateTaskItem: Swift.Sendable {
+        /// The farm ID of the task to update.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the task to update.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The queue ID of the task to update.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The step ID of the task to update.
+        /// This member is required.
+        public var stepId: Swift.String?
+        /// The run status with which to start the task.
+        /// This member is required.
+        public var targetRunStatus: DeadlineClientTypes.TaskTargetRunStatus?
+        /// The task ID of the task to update.
+        /// This member is required.
+        public var taskId: Swift.String?
+
+        public init(
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            stepId: Swift.String? = nil,
+            targetRunStatus: DeadlineClientTypes.TaskTargetRunStatus? = nil,
+            taskId: Swift.String? = nil
+        ) {
+            self.farmId = farmId
+            self.jobId = jobId
+            self.queueId = queueId
+            self.stepId = stepId
+            self.targetRunStatus = targetRunStatus
+            self.taskId = taskId
+        }
+    }
+}
+
+public struct BatchUpdateTaskInput: Swift.Sendable {
+    /// The unique token which the server uses to recognize retries of the same request.
+    public var clientToken: Swift.String?
+    /// The list of tasks to update. You can specify up to 100 tasks per request.
+    /// This member is required.
+    public var tasks: [DeadlineClientTypes.BatchUpdateTaskItem]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        tasks: [DeadlineClientTypes.BatchUpdateTaskItem]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.tasks = tasks
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum BatchUpdateTaskErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessdeniedexception
+        case conflictexception
+        case internalservererrorexception
+        case resourcenotfoundexception
+        case throttlingexception
+        case validationexception
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchUpdateTaskErrorCode] {
+            return [
+                .accessdeniedexception,
+                .conflictexception,
+                .internalservererrorexception,
+                .resourcenotfoundexception,
+                .throttlingexception,
+                .validationexception
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessdeniedexception: return "AccessDeniedException"
+            case .conflictexception: return "ConflictException"
+            case .internalservererrorexception: return "InternalServerErrorException"
+            case .resourcenotfoundexception: return "ResourceNotFoundException"
+            case .throttlingexception: return "ThrottlingException"
+            case .validationexception: return "ValidationException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The error details for a task that could not be updated in a batch update operation.
+    public struct BatchUpdateTaskError: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var code: DeadlineClientTypes.BatchUpdateTaskErrorCode?
+        /// The farm ID of the task that could not be updated.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The job ID of the task that could not be updated.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The queue ID of the task that could not be updated.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The step ID of the task that could not be updated.
+        /// This member is required.
+        public var stepId: Swift.String?
+        /// The task ID of the task that could not be updated.
+        /// This member is required.
+        public var taskId: Swift.String?
+
+        public init(
+            code: DeadlineClientTypes.BatchUpdateTaskErrorCode? = nil,
+            farmId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            message: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            stepId: Swift.String? = nil,
+            taskId: Swift.String? = nil
+        ) {
+            self.code = code
+            self.farmId = farmId
+            self.jobId = jobId
+            self.message = message
+            self.queueId = queueId
+            self.stepId = stepId
+            self.taskId = taskId
+        }
+    }
+}
+
+public struct BatchUpdateTaskOutput: Swift.Sendable {
+    /// A list of errors for tasks that could not be updated.
+    /// This member is required.
+    public var errors: [DeadlineClientTypes.BatchUpdateTaskError]?
+
+    public init(
+        errors: [DeadlineClientTypes.BatchUpdateTaskError]? = nil
+    ) {
+        self.errors = errors
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum BudgetActionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case stopSchedulingAndCancelTasks
+        case stopSchedulingAndCompleteTasks
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BudgetActionType] {
+            return [
+                .stopSchedulingAndCancelTasks,
+                .stopSchedulingAndCompleteTasks
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .stopSchedulingAndCancelTasks: return "STOP_SCHEDULING_AND_CANCEL_TASKS"
+            case .stopSchedulingAndCompleteTasks: return "STOP_SCHEDULING_AND_COMPLETE_TASKS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The budget action to add.
+    public struct BudgetActionToAdd: Swift.Sendable {
+        /// A description for the budget action to add. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+        public var description: Swift.String?
+        /// The percentage threshold for the budget action to add.
+        /// This member is required.
+        public var thresholdPercentage: Swift.Float?
+        /// The type of budget action to add.
+        /// This member is required.
+        public var type: DeadlineClientTypes.BudgetActionType?
+
+        public init(
+            description: Swift.String? = nil,
+            thresholdPercentage: Swift.Float? = nil,
+            type: DeadlineClientTypes.BudgetActionType? = nil
+        ) {
+            self.description = description
+            self.thresholdPercentage = thresholdPercentage
+            self.type = type
+        }
+    }
+}
+
+extension DeadlineClientTypes.BudgetActionToAdd: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BudgetActionToAdd(thresholdPercentage: \(Swift.String(describing: thresholdPercentage)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension DeadlineClientTypes {
+
+    /// The budget action to remove.
+    public struct BudgetActionToRemove: Swift.Sendable {
+        /// The percentage threshold for the budget action to remove.
+        /// This member is required.
+        public var thresholdPercentage: Swift.Float?
+        /// The type of budget action to remove.
+        /// This member is required.
+        public var type: DeadlineClientTypes.BudgetActionType?
+
+        public init(
+            thresholdPercentage: Swift.Float? = nil,
+            type: DeadlineClientTypes.BudgetActionType? = nil
+        ) {
+            self.thresholdPercentage = thresholdPercentage
+            self.type = type
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of a fixed budget schedule.
+    public struct FixedBudgetSchedule: Swift.Sendable {
+        /// When the budget ends.
+        /// This member is required.
+        public var endTime: Foundation.Date?
+        /// When the budget starts.
+        /// This member is required.
+        public var startTime: Foundation.Date?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The start and end time of the budget.
+    public enum BudgetSchedule: Swift.Sendable {
+        /// The fixed start and end time of the budget's schedule.
+        case fixed(DeadlineClientTypes.FixedBudgetSchedule)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The usage details of the allotted budget.
+    public enum UsageTrackingResource: Swift.Sendable {
+        /// The queue ID.
+        case queueid(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+/// Shared displayName + description for Create operations where both are present. displayName is @required here - this mixin is Create-only by design (Update has optional displayName).
+public struct CreateBudgetInput: Swift.Sendable {
+    /// The budget actions to specify what happens when the budget runs out.
+    /// This member is required.
+    public var actions: [DeadlineClientTypes.BudgetActionToAdd]?
+    /// The dollar limit based on consumed usage.
+    /// This member is required.
+    public var approximateDollarLimit: Swift.Float?
+    /// The unique token which the server uses to recognize retries of the same request.
+    public var clientToken: Swift.String?
+    /// The description of the budget. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var description: Swift.String?
+    /// The display name of the budget. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The farm ID to include in this budget.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The schedule to associate with this budget.
+    /// This member is required.
+    public var schedule: DeadlineClientTypes.BudgetSchedule?
+    /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
+    public var tags: [Swift.String: Swift.String]?
+    /// The queue ID provided to this budget to track usage.
+    /// This member is required.
+    public var usageTrackingResource: DeadlineClientTypes.UsageTrackingResource?
+
+    public init(
+        actions: [DeadlineClientTypes.BudgetActionToAdd]? = nil,
+        approximateDollarLimit: Swift.Float? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        schedule: DeadlineClientTypes.BudgetSchedule? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        usageTrackingResource: DeadlineClientTypes.UsageTrackingResource? = nil
+    ) {
+        self.actions = actions
+        self.approximateDollarLimit = approximateDollarLimit
+        self.clientToken = clientToken
+        self.description = description
+        self.displayName = displayName
+        self.farmId = farmId
+        self.schedule = schedule
+        self.tags = tags
+        self.usageTrackingResource = usageTrackingResource
+    }
+}
+
+extension CreateBudgetInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateBudgetInput(actions: \(Swift.String(describing: actions)), approximateDollarLimit: \(Swift.String(describing: approximateDollarLimit)), clientToken: \(Swift.String(describing: clientToken)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), schedule: \(Swift.String(describing: schedule)), tags: \(Swift.String(describing: tags)), usageTrackingResource: \(Swift.String(describing: usageTrackingResource)), description: \"CONTENT_REDACTED\")"}
+}
+
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+public struct CreateBudgetOutput: Swift.Sendable {
+    /// The budget ID.
+    /// This member is required.
+    public var budgetId: Swift.String?
+
+    public init(
+        budgetId: Swift.String? = nil
+    ) {
+        self.budgetId = budgetId
+    }
+}
+
+public struct DeleteBudgetInput: Swift.Sendable {
+    /// The budget ID of the budget to delete.
+    /// This member is required.
+    public var budgetId: Swift.String?
+    /// The farm ID of the farm to remove from the budget.
+    /// This member is required.
+    public var farmId: Swift.String?
+
+    public init(
+        budgetId: Swift.String? = nil,
+        farmId: Swift.String? = nil
+    ) {
+        self.budgetId = budgetId
+        self.farmId = farmId
+    }
+}
+
+public struct DeleteBudgetOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetBudgetInput: Swift.Sendable {
+    /// The budget ID.
+    /// This member is required.
+    public var budgetId: Swift.String?
+    /// The farm ID of the farm connected to the budget.
+    /// This member is required.
+    public var farmId: Swift.String?
+
+    public init(
+        budgetId: Swift.String? = nil,
+        farmId: Swift.String? = nil
+    ) {
+        self.budgetId = budgetId
+        self.farmId = farmId
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of a budget action.
+    public struct ResponseBudgetAction: Swift.Sendable {
+        /// The budget action description. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+        public var description: Swift.String?
+        /// The percentage threshold for the budget.
+        /// This member is required.
+        public var thresholdPercentage: Swift.Float?
+        /// The action taken on the budget once scheduling stops.
+        /// This member is required.
+        public var type: DeadlineClientTypes.BudgetActionType?
+
+        public init(
+            description: Swift.String? = nil,
+            thresholdPercentage: Swift.Float? = nil,
+            type: DeadlineClientTypes.BudgetActionType? = nil
+        ) {
+            self.description = description
+            self.thresholdPercentage = thresholdPercentage
+            self.type = type
+        }
+    }
+}
+
+extension DeadlineClientTypes.ResponseBudgetAction: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ResponseBudgetAction(thresholdPercentage: \(Swift.String(describing: thresholdPercentage)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension DeadlineClientTypes {
+
+    public enum BudgetStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BudgetStatus] {
+            return [
+                .active,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The consumed usage for the resource.
+    public struct ConsumedUsages: Swift.Sendable {
+        /// The amount of the budget consumed.
+        /// This member is required.
+        public var approximateDollarUsage: Swift.Float?
+
+        public init(
+            approximateDollarUsage: Swift.Float? = nil
+        ) {
+            self.approximateDollarUsage = approximateDollarUsage
+        }
+    }
+}
+
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+public struct GetBudgetOutput: Swift.Sendable {
+    /// The budget actions for the budget.
+    /// This member is required.
+    public var actions: [DeadlineClientTypes.ResponseBudgetAction]?
+    /// The consumed usage limit for the budget.
+    /// This member is required.
+    public var approximateDollarLimit: Swift.Float?
+    /// The budget ID.
+    /// This member is required.
+    public var budgetId: Swift.String?
+    /// The date and time the resource was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The user or system that created this resource.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The description of the budget. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var description: Swift.String?
+    /// The display name of the budget. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The date and time the queue stopped.
+    public var queueStoppedAt: Foundation.Date?
+    /// The budget schedule.
+    /// This member is required.
+    public var schedule: DeadlineClientTypes.BudgetSchedule?
+    /// The status of the budget.
+    ///
+    /// * ACTIVE–Get a budget being evaluated.
+    ///
+    /// * INACTIVE–Get an inactive budget. This can include expired, canceled, or deleted statuses.
+    /// This member is required.
+    public var status: DeadlineClientTypes.BudgetStatus?
+    /// The date and time the resource was updated.
+    public var updatedAt: Foundation.Date?
+    /// The user or system that updated this resource.
+    public var updatedBy: Swift.String?
+    /// The resource that the budget is tracking usage for.
+    /// This member is required.
+    public var usageTrackingResource: DeadlineClientTypes.UsageTrackingResource?
+    /// The usages of the budget.
+    /// This member is required.
+    public var usages: DeadlineClientTypes.ConsumedUsages?
+
+    public init(
+        actions: [DeadlineClientTypes.ResponseBudgetAction]? = nil,
+        approximateDollarLimit: Swift.Float? = nil,
+        budgetId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        queueStoppedAt: Foundation.Date? = nil,
+        schedule: DeadlineClientTypes.BudgetSchedule? = nil,
+        status: DeadlineClientTypes.BudgetStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil,
+        usageTrackingResource: DeadlineClientTypes.UsageTrackingResource? = nil,
+        usages: DeadlineClientTypes.ConsumedUsages? = nil
+    ) {
+        self.actions = actions
+        self.approximateDollarLimit = approximateDollarLimit
+        self.budgetId = budgetId
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.displayName = displayName
+        self.queueStoppedAt = queueStoppedAt
+        self.schedule = schedule
+        self.status = status
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+        self.usageTrackingResource = usageTrackingResource
+        self.usages = usages
+    }
+}
+
+extension GetBudgetOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetBudgetOutput(actions: \(Swift.String(describing: actions)), approximateDollarLimit: \(Swift.String(describing: approximateDollarLimit)), budgetId: \(Swift.String(describing: budgetId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), queueStoppedAt: \(Swift.String(describing: queueStoppedAt)), schedule: \(Swift.String(describing: schedule)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), usageTrackingResource: \(Swift.String(describing: usageTrackingResource)), usages: \(Swift.String(describing: usages)), description: \"CONTENT_REDACTED\")"}
+}
+
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
+public struct ListBudgetsInput: Swift.Sendable {
+    /// The farm ID associated with the budgets.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null to start from the beginning.
+    public var nextToken: Swift.String?
+    /// The status to list for the budgets.
+    public var status: DeadlineClientTypes.BudgetStatus?
+
+    public init(
+        farmId: Swift.String? = nil,
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil,
+        status: DeadlineClientTypes.BudgetStatus? = nil
+    ) {
+        self.farmId = farmId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The budget summary.
+    public struct BudgetSummary: Swift.Sendable {
+        /// The approximate dollar limit of the budget.
+        /// This member is required.
+        public var approximateDollarLimit: Swift.Float?
+        /// The budget ID.
+        /// This member is required.
+        public var budgetId: Swift.String?
+        /// The date and time the resource was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The user or system that created this resource.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The description of the budget summary. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+        @available(*, deprecated, message: "ListBudgets no longer supports description. Use GetBudget if description is needed.")
+        public var description: Swift.String?
+        /// The display name of the budget summary to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+        /// This member is required.
+        public var displayName: Swift.String?
+        /// The status of the budget.
+        ///
+        /// * ACTIVE–The budget is being evaluated.
+        ///
+        /// * INACTIVE–The budget is inactive. This can include Expired, Canceled, or deleted Deleted statuses.
+        /// This member is required.
+        public var status: DeadlineClientTypes.BudgetStatus?
+        /// The date and time the resource was updated.
+        public var updatedAt: Foundation.Date?
+        /// The user or system that updated this resource.
+        public var updatedBy: Swift.String?
+        /// The resource used to track expenditure in the budget.
+        /// This member is required.
+        public var usageTrackingResource: DeadlineClientTypes.UsageTrackingResource?
+        /// The consumed usage for the budget.
+        /// This member is required.
+        public var usages: DeadlineClientTypes.ConsumedUsages?
+
+        public init(
+            approximateDollarLimit: Swift.Float? = nil,
+            budgetId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            status: DeadlineClientTypes.BudgetStatus? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil,
+            usageTrackingResource: DeadlineClientTypes.UsageTrackingResource? = nil,
+            usages: DeadlineClientTypes.ConsumedUsages? = nil
+        ) {
+            self.approximateDollarLimit = approximateDollarLimit
+            self.budgetId = budgetId
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.displayName = displayName
+            self.status = status
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+            self.usageTrackingResource = usageTrackingResource
+            self.usages = usages
+        }
+    }
+}
+
+extension DeadlineClientTypes.BudgetSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BudgetSummary(approximateDollarLimit: \(Swift.String(describing: approximateDollarLimit)), budgetId: \(Swift.String(describing: budgetId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), usageTrackingResource: \(Swift.String(describing: usageTrackingResource)), usages: \(Swift.String(describing: usages)), description: \"CONTENT_REDACTED\")"}
+}
+
+/// Shared pagination field for List operation outputs (nextToken).
+public struct ListBudgetsOutput: Swift.Sendable {
+    /// The budgets to include on the list.
+    /// This member is required.
+    public var budgets: [DeadlineClientTypes.BudgetSummary]?
+    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
+    public var nextToken: Swift.String?
+
+    public init(
+        budgets: [DeadlineClientTypes.BudgetSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.budgets = budgets
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateBudgetInput: Swift.Sendable {
+    /// The budget actions to add. Budget actions specify what happens when the budget runs out.
+    public var actionsToAdd: [DeadlineClientTypes.BudgetActionToAdd]?
+    /// The budget actions to remove from the budget.
+    public var actionsToRemove: [DeadlineClientTypes.BudgetActionToRemove]?
+    /// The dollar limit to update on the budget. Based on consumed usage.
+    public var approximateDollarLimit: Swift.Float?
+    /// The budget ID to update.
+    /// This member is required.
+    public var budgetId: Swift.String?
+    /// The unique token which the server uses to recognize retries of the same request.
+    public var clientToken: Swift.String?
+    /// The description of the budget to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var description: Swift.String?
+    /// The display name of the budget to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var displayName: Swift.String?
+    /// The farm ID of the budget to update.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The schedule to update.
+    public var schedule: DeadlineClientTypes.BudgetSchedule?
+    /// Updates the status of the budget.
+    ///
+    /// * ACTIVE–The budget is being evaluated.
+    ///
+    /// * INACTIVE–The budget is inactive. This can include Expired, Canceled, or deleted Deleted statuses.
+    public var status: DeadlineClientTypes.BudgetStatus?
+
+    public init(
+        actionsToAdd: [DeadlineClientTypes.BudgetActionToAdd]? = nil,
+        actionsToRemove: [DeadlineClientTypes.BudgetActionToRemove]? = nil,
+        approximateDollarLimit: Swift.Float? = nil,
+        budgetId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        schedule: DeadlineClientTypes.BudgetSchedule? = nil,
+        status: DeadlineClientTypes.BudgetStatus? = nil
+    ) {
+        self.actionsToAdd = actionsToAdd
+        self.actionsToRemove = actionsToRemove
+        self.approximateDollarLimit = approximateDollarLimit
+        self.budgetId = budgetId
+        self.clientToken = clientToken
+        self.description = description
+        self.displayName = displayName
+        self.farmId = farmId
+        self.schedule = schedule
+        self.status = status
+    }
+}
+
+extension UpdateBudgetInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateBudgetInput(actionsToAdd: \(Swift.String(describing: actionsToAdd)), actionsToRemove: \(Swift.String(describing: actionsToRemove)), approximateDollarLimit: \(Swift.String(describing: approximateDollarLimit)), budgetId: \(Swift.String(describing: budgetId)), clientToken: \(Swift.String(describing: clientToken)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), schedule: \(Swift.String(describing: schedule)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateBudgetOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension DeadlineClientTypes {
+
+    public enum ComparisonOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allNotEquals
+        case anyEquals
+        case equal
+        case greaterThan
+        case greaterThanEqualTo
+        case lessThan
+        case lessThanEqualTo
+        case notEqual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComparisonOperator] {
+            return [
+                .allNotEquals,
+                .anyEquals,
+                .equal,
+                .greaterThan,
+                .greaterThanEqualTo,
+                .lessThan,
+                .lessThanEqualTo,
+                .notEqual
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allNotEquals: return "ALL_NOT_EQUALS"
+            case .anyEquals: return "ANY_EQUALS"
+            case .equal: return "EQUAL"
+            case .greaterThan: return "GREATER_THAN"
+            case .greaterThanEqualTo: return "GREATER_THAN_EQUAL_TO"
+            case .lessThan: return "LESS_THAN"
+            case .lessThanEqualTo: return "LESS_THAN_EQUAL_TO"
+            case .notEqual: return "NOT_EQUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum CompletedStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case canceled
+        case failed
+        case interrupted
+        case neverAttempted
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CompletedStatus] {
+            return [
+                .canceled,
+                .failed,
+                .interrupted,
+                .neverAttempted,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .canceled: return "CANCELED"
+            case .failed: return "FAILED"
+            case .interrupted: return "INTERRUPTED"
+            case .neverAttempted: return "NEVER_ATTEMPTED"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The Amazon S3 location information.
+    public struct S3Location: Swift.Sendable {
+        /// The name of the Amazon S3 bucket.
+        /// This member is required.
+        public var bucketName: Swift.String?
+        /// The Amazon S3 object key that uniquely identifies the Amazon S3 bucket.
+        /// This member is required.
+        public var key: Swift.String?
+
+        public init(
+            bucketName: Swift.String? = nil,
+            key: Swift.String? = nil
+        ) {
+            self.bucketName = bucketName
+            self.key = key
+        }
+    }
+}
+
+public struct CopyJobTemplateInput: Swift.Sendable {
+    /// The farm ID to copy.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The job ID to copy.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The queue ID to copy.
+    /// This member is required.
+    public var queueId: Swift.String?
+    /// The Amazon S3 bucket name and key where you would like to add a copy of the job template.
+    /// This member is required.
+    public var targetS3Location: DeadlineClientTypes.S3Location?
+
+    public init(
+        farmId: Swift.String? = nil,
+        jobId: Swift.String? = nil,
+        queueId: Swift.String? = nil,
+        targetS3Location: DeadlineClientTypes.S3Location? = nil
+    ) {
+        self.farmId = farmId
+        self.jobId = jobId
+        self.queueId = queueId
+        self.targetS3Location = targetS3Location
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum JobTemplateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case json
+        case yaml
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobTemplateType] {
+            return [
+                .json,
+                .yaml
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .json: return "JSON"
+            case .yaml: return "YAML"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CopyJobTemplateOutput: Swift.Sendable {
+    /// The format of the job template, either JSON or YAML.
+    /// This member is required.
+    public var templateType: DeadlineClientTypes.JobTemplateType?
+
+    public init(
+        templateType: DeadlineClientTypes.JobTemplateType? = nil
+    ) {
+        self.templateType = templateType
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum CpuArchitectureType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case arm64
+        case x8664
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CpuArchitectureType] {
+            return [
+                .arm64,
+                .x8664
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .arm64: return "arm64"
+            case .x8664: return "x86_64"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Shared displayName + description for Create operations where both are present. displayName is @required here - this mixin is Create-only by design (Update has optional displayName).
+public struct CreateFarmInput: Swift.Sendable {
+    /// The unique token which the server uses to recognize retries of the same request.
+    public var clientToken: Swift.String?
+    /// A multiplier applied to the farm's calculated costs for usage data and budget tracking. A value less than 1 represents a discount, a value greater than 1 represents a premium, and a value of 1 represents no adjustment. The default value is 1.
+    public var costScaleFactor: Swift.Float?
+    /// The description of the farm. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var description: Swift.String?
+    /// The display name of the farm. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The ARN of the KMS key to use on the farm.
+    public var kmsKeyArn: Swift.String?
+    /// The tags to add to your farm. Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        costScaleFactor: Swift.Float? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.costScaleFactor = costScaleFactor
+        self.description = description
+        self.displayName = displayName
+        self.kmsKeyArn = kmsKeyArn
+        self.tags = tags
+    }
+}
+
+extension CreateFarmInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateFarmInput(clientToken: \(Swift.String(describing: clientToken)), costScaleFactor: \(Swift.String(describing: costScaleFactor)), displayName: \(Swift.String(describing: displayName)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+}
+
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+public struct CreateFarmOutput: Swift.Sendable {
+    /// The farm ID.
+    /// This member is required.
+    public var farmId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The auto scaling configuration settings for a customer managed fleet.
+    public struct CustomerManagedAutoScalingConfiguration: Swift.Sendable {
+        /// The number of workers that can be added per minute to the fleet. The default is a service-defined value that balances efficiency with cost.
+        public var scaleOutWorkersPerMinute: Swift.Int?
+        /// The number of idle workers maintained and ready to process incoming tasks. The default is 0.
+        public var standbyWorkerCount: Swift.Int?
+        /// The number of seconds that a worker can remain idle before it is shut down. The default is 300 seconds (5 minutes).
+        public var workerIdleDurationSeconds: Swift.Int?
+
+        public init(
+            scaleOutWorkersPerMinute: Swift.Int? = nil,
+            standbyWorkerCount: Swift.Int? = nil,
+            workerIdleDurationSeconds: Swift.Int? = 300
+        ) {
+            self.scaleOutWorkersPerMinute = scaleOutWorkersPerMinute
+            self.standbyWorkerCount = standbyWorkerCount
+            self.workerIdleDurationSeconds = workerIdleDurationSeconds
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum TagPropagationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case noPropagation
+        case propagateTagsToWorkersAtLaunch
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TagPropagationMode] {
+            return [
+                .noPropagation,
+                .propagateTagsToWorkersAtLaunch
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .noPropagation: return "NO_PROPAGATION"
+            case .propagateTagsToWorkersAtLaunch: return "PROPAGATE_TAGS_TO_WORKERS_AT_LAUNCH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The fleet amount and attribute capabilities.
+    public struct FleetAmountCapability: Swift.Sendable {
+        /// The maximum amount of the fleet worker capability.
+        public var max: Swift.Float?
+        /// The minimum amount of fleet worker capability.
+        /// This member is required.
+        public var min: Swift.Float?
+        /// The name of the fleet capability.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            max: Swift.Float? = nil,
+            min: Swift.Float? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.max = max
+            self.min = min
+            self.name = name
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Defines the fleet's capability name, minimum, and maximum.
+    public struct FleetAttributeCapability: Swift.Sendable {
+        /// The name of the fleet attribute capability for the worker.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The number of fleet attribute capabilities.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The range of memory in MiB.
+    public struct MemoryMiBRange: Swift.Sendable {
+        /// The maximum amount of memory (in MiB).
+        public var max: Swift.Int?
+        /// The minimum amount of memory (in MiB).
+        /// This member is required.
+        public var min: Swift.Int?
+
+        public init(
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum CustomerManagedFleetOperatingSystemFamily: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case linux
+        case macos
+        case windows
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomerManagedFleetOperatingSystemFamily] {
+            return [
+                .linux,
+                .macos,
+                .windows
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .linux: return "LINUX"
+            case .macos: return "MACOS"
+            case .windows: return "WINDOWS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The allowable range of vCPU processing power for the fleet.
+    public struct VCpuCountRange: Swift.Sendable {
+        /// The maximum amount of vCPU.
+        public var max: Swift.Int?
+        /// The minimum amount of vCPU.
+        /// This member is required.
+        public var min: Swift.Int?
+
+        public init(
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The worker capabilities for a customer managed workflow.
+    public struct CustomerManagedWorkerCapabilities: Swift.Sendable {
+        /// The range of the accelerator.
+        public var acceleratorCount: DeadlineClientTypes.AcceleratorCountRange?
+        /// The total memory (MiB) for the customer managed worker capabilities.
+        public var acceleratorTotalMemoryMiB: DeadlineClientTypes.AcceleratorTotalMemoryMiBRange?
+        /// The accelerator types for the customer managed worker capabilities.
+        public var acceleratorTypes: [DeadlineClientTypes.AcceleratorType]?
+        /// The CPU architecture type for the customer managed worker capabilities.
+        /// This member is required.
+        public var cpuArchitectureType: DeadlineClientTypes.CpuArchitectureType?
+        /// Custom requirement ranges for customer managed worker capabilities.
+        public var customAmounts: [DeadlineClientTypes.FleetAmountCapability]?
+        /// Custom attributes for the customer manged worker capabilities.
+        public var customAttributes: [DeadlineClientTypes.FleetAttributeCapability]?
+        /// The memory (MiB).
+        /// This member is required.
+        public var memoryMiB: DeadlineClientTypes.MemoryMiBRange?
+        /// The operating system (OS) family.
+        /// This member is required.
+        public var osFamily: DeadlineClientTypes.CustomerManagedFleetOperatingSystemFamily?
+        /// The vCPU count for the customer manged worker capabilities.
+        /// This member is required.
+        public var vCpuCount: DeadlineClientTypes.VCpuCountRange?
+
+        public init(
+            acceleratorCount: DeadlineClientTypes.AcceleratorCountRange? = nil,
+            acceleratorTotalMemoryMiB: DeadlineClientTypes.AcceleratorTotalMemoryMiBRange? = nil,
+            acceleratorTypes: [DeadlineClientTypes.AcceleratorType]? = nil,
+            cpuArchitectureType: DeadlineClientTypes.CpuArchitectureType? = nil,
+            customAmounts: [DeadlineClientTypes.FleetAmountCapability]? = nil,
+            customAttributes: [DeadlineClientTypes.FleetAttributeCapability]? = nil,
+            memoryMiB: DeadlineClientTypes.MemoryMiBRange? = nil,
+            osFamily: DeadlineClientTypes.CustomerManagedFleetOperatingSystemFamily? = nil,
+            vCpuCount: DeadlineClientTypes.VCpuCountRange? = nil
+        ) {
+            self.acceleratorCount = acceleratorCount
+            self.acceleratorTotalMemoryMiB = acceleratorTotalMemoryMiB
+            self.acceleratorTypes = acceleratorTypes
+            self.cpuArchitectureType = cpuArchitectureType
+            self.customAmounts = customAmounts
+            self.customAttributes = customAttributes
+            self.memoryMiB = memoryMiB
+            self.osFamily = osFamily
+            self.vCpuCount = vCpuCount
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The configuration details for a customer managed fleet.
+    public struct CustomerManagedFleetConfiguration: Swift.Sendable {
+        /// The auto scaling configuration settings for the customer managed fleet.
+        public var autoScalingConfiguration: DeadlineClientTypes.CustomerManagedAutoScalingConfiguration?
+        /// The Auto Scaling mode for the customer managed fleet.
+        /// This member is required.
+        public var mode: DeadlineClientTypes.AutoScalingMode?
+        /// The storage profile ID for the customer managed fleet.
+        public var storageProfileId: Swift.String?
+        /// The tag propagation mode for the customer managed fleet.
+        public var tagPropagationMode: DeadlineClientTypes.TagPropagationMode?
+        /// The worker capabilities for the customer managed fleet.
+        /// This member is required.
+        public var workerCapabilities: DeadlineClientTypes.CustomerManagedWorkerCapabilities?
+
+        public init(
+            autoScalingConfiguration: DeadlineClientTypes.CustomerManagedAutoScalingConfiguration? = nil,
+            mode: DeadlineClientTypes.AutoScalingMode? = nil,
+            storageProfileId: Swift.String? = nil,
+            tagPropagationMode: DeadlineClientTypes.TagPropagationMode? = nil,
+            workerCapabilities: DeadlineClientTypes.CustomerManagedWorkerCapabilities? = nil
+        ) {
+            self.autoScalingConfiguration = autoScalingConfiguration
+            self.mode = mode
+            self.storageProfileId = storageProfileId
+            self.tagPropagationMode = tagPropagationMode
+            self.workerCapabilities = workerCapabilities
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The auto scaling configuration settings for a service managed EC2 fleet.
+    public struct ServiceManagedEc2AutoScalingConfiguration: Swift.Sendable {
+        /// The number of workers that can be added per minute to the fleet. The default is a service-defined value that balances efficiency with cost.
+        public var scaleOutWorkersPerMinute: Swift.Int?
+        /// The number of idle workers maintained and ready to process incoming tasks. The default is 0.
+        public var standbyWorkerCount: Swift.Int?
+        /// The number of seconds that a worker can remain idle before it is shut down. The default is 300 seconds (5 minutes).
+        public var workerIdleDurationSeconds: Swift.Int?
+
+        public init(
+            scaleOutWorkersPerMinute: Swift.Int? = nil,
+            standbyWorkerCount: Swift.Int? = nil,
+            workerIdleDurationSeconds: Swift.Int? = 300
+        ) {
+            self.scaleOutWorkersPerMinute = scaleOutWorkersPerMinute
+            self.standbyWorkerCount = standbyWorkerCount
+            self.workerIdleDurationSeconds = workerIdleDurationSeconds
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum ServiceManagedFleetOperatingSystemFamily: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case linux
+        case windows
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceManagedFleetOperatingSystemFamily] {
+            return [
+                .linux,
+                .windows
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .linux: return "LINUX"
+            case .windows: return "WINDOWS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Specifies the EBS volume.
+    public struct Ec2EbsVolume: Swift.Sendable {
+        /// The IOPS per volume.
+        public var iops: Swift.Int?
+        /// The EBS volume size in GiB.
+        public var sizeGiB: Swift.Int?
+        /// The throughput per volume in MiB.
+        public var throughputMiB: Swift.Int?
+
+        public init(
+            iops: Swift.Int? = 3000,
+            sizeGiB: Swift.Int? = 250,
+            throughputMiB: Swift.Int? = 125
+        ) {
+            self.iops = iops
+            self.sizeGiB = sizeGiB
+            self.throughputMiB = throughputMiB
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The Amazon EC2 instance capabilities.
+    public struct ServiceManagedEc2InstanceCapabilities: Swift.Sendable {
+        /// Describes the GPU accelerator capabilities required for worker host instances in this fleet.
+        public var acceleratorCapabilities: DeadlineClientTypes.AcceleratorCapabilities?
+        /// The allowable Amazon EC2 instance types.
+        public var allowedInstanceTypes: [Swift.String]?
+        /// The CPU architecture type.
+        /// This member is required.
+        public var cpuArchitectureType: DeadlineClientTypes.CpuArchitectureType?
+        /// The custom capability amounts to require for instances in this fleet.
+        public var customAmounts: [DeadlineClientTypes.FleetAmountCapability]?
+        /// The custom capability attributes to require for instances in this fleet.
+        public var customAttributes: [DeadlineClientTypes.FleetAttributeCapability]?
+        /// The instance types to exclude from the fleet.
+        public var excludedInstanceTypes: [Swift.String]?
+        /// The memory, as MiB, for the Amazon EC2 instance type.
+        /// This member is required.
+        public var memoryMiB: DeadlineClientTypes.MemoryMiBRange?
+        /// The operating system (OS) family.
+        /// This member is required.
+        public var osFamily: DeadlineClientTypes.ServiceManagedFleetOperatingSystemFamily?
+        /// The root EBS volume.
+        public var rootEbsVolume: DeadlineClientTypes.Ec2EbsVolume?
+        /// The amount of vCPU to require for instances in this fleet.
+        /// This member is required.
+        public var vCpuCount: DeadlineClientTypes.VCpuCountRange?
+
+        public init(
+            acceleratorCapabilities: DeadlineClientTypes.AcceleratorCapabilities? = nil,
+            allowedInstanceTypes: [Swift.String]? = nil,
+            cpuArchitectureType: DeadlineClientTypes.CpuArchitectureType? = nil,
+            customAmounts: [DeadlineClientTypes.FleetAmountCapability]? = nil,
+            customAttributes: [DeadlineClientTypes.FleetAttributeCapability]? = nil,
+            excludedInstanceTypes: [Swift.String]? = nil,
+            memoryMiB: DeadlineClientTypes.MemoryMiBRange? = nil,
+            osFamily: DeadlineClientTypes.ServiceManagedFleetOperatingSystemFamily? = nil,
+            rootEbsVolume: DeadlineClientTypes.Ec2EbsVolume? = nil,
+            vCpuCount: DeadlineClientTypes.VCpuCountRange? = nil
+        ) {
+            self.acceleratorCapabilities = acceleratorCapabilities
+            self.allowedInstanceTypes = allowedInstanceTypes
+            self.cpuArchitectureType = cpuArchitectureType
+            self.customAmounts = customAmounts
+            self.customAttributes = customAttributes
+            self.excludedInstanceTypes = excludedInstanceTypes
+            self.memoryMiB = memoryMiB
+            self.osFamily = osFamily
+            self.rootEbsVolume = rootEbsVolume
+            self.vCpuCount = vCpuCount
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum Ec2MarketType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case onDemand
+        case spot
+        case waitAndSave
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Ec2MarketType] {
+            return [
+                .onDemand,
+                .spot,
+                .waitAndSave
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .onDemand: return "on-demand"
+            case .spot: return "spot"
+            case .waitAndSave: return "wait-and-save"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of the Amazon EC2 instance market options for a service managed fleet.
+    public struct ServiceManagedEc2InstanceMarketOptions: Swift.Sendable {
+        /// The Amazon EC2 instance type.
+        /// This member is required.
+        public var type: DeadlineClientTypes.Ec2MarketType?
+
+        public init(
+            type: DeadlineClientTypes.Ec2MarketType? = nil
+        ) {
+            self.type = type
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The configuration options for a service managed fleet's VPC.
+    public struct VpcConfiguration: Swift.Sendable {
+        /// The ARNs of the VPC Lattice resource configurations attached to the fleet.
+        public var resourceConfigurationArns: [Swift.String]?
+
+        public init(
+            resourceConfigurationArns: [Swift.String]? = nil
+        ) {
+            self.resourceConfigurationArns = resourceConfigurationArns
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The configuration details for a service managed EC2 fleet.
+    public struct ServiceManagedEc2FleetConfiguration: Swift.Sendable {
+        /// The auto scaling configuration settings for the service managed EC2 fleet.
+        public var autoScalingConfiguration: DeadlineClientTypes.ServiceManagedEc2AutoScalingConfiguration?
+        /// The instance capabilities for the service managed EC2 fleet.
+        /// This member is required.
+        public var instanceCapabilities: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities?
+        /// The instance market options for the service managed EC2 fleet.
+        /// This member is required.
+        public var instanceMarketOptions: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions?
+        /// The storage profile ID for the service managed EC2 fleet.
+        public var storageProfileId: Swift.String?
+        /// The VPC configuration for the service managed EC2 fleet.
+        public var vpcConfiguration: DeadlineClientTypes.VpcConfiguration?
+
+        public init(
+            autoScalingConfiguration: DeadlineClientTypes.ServiceManagedEc2AutoScalingConfiguration? = nil,
+            instanceCapabilities: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities? = nil,
+            instanceMarketOptions: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions? = nil,
+            storageProfileId: Swift.String? = nil,
+            vpcConfiguration: DeadlineClientTypes.VpcConfiguration? = nil
+        ) {
+            self.autoScalingConfiguration = autoScalingConfiguration
+            self.instanceCapabilities = instanceCapabilities
+            self.instanceMarketOptions = instanceMarketOptions
+            self.storageProfileId = storageProfileId
+            self.vpcConfiguration = vpcConfiguration
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Fleet configuration details.
+    public enum FleetConfiguration: Swift.Sendable {
+        /// The customer managed fleets within a fleet configuration.
+        case customermanaged(DeadlineClientTypes.CustomerManagedFleetConfiguration)
+        /// The service managed Amazon EC2 instances for a fleet configuration.
+        case servicemanagedec2(DeadlineClientTypes.ServiceManagedEc2FleetConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Provides a script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet. To remove a script from a fleet, use the [UpdateFleet](https://docs.aws.amazon.com/deadline-cloud/latest/APIReference/API_UpdateFleet.html) operation with the hostConfigurationscriptBody parameter set to an empty string ("").
+    public struct HostConfiguration: Swift.Sendable {
+        /// The text of the script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet. The script runs after a worker enters the STARTING state and before the worker processes tasks. For more information about using the script, see [Run scripts as an administrator to configure workers](https://docs.aws.amazon.com/deadline-cloud/latest/developerguide/smf-admin.html) in the Deadline Cloud Developer Guide. The script runs as an administrative user (sudo root on Linux, as an Administrator on Windows).
+        /// This member is required.
+        public var scriptBody: Swift.String?
+        /// The maximum time that the host configuration can run. If the timeout expires, the worker enters the NOT RESPONDING state and shuts down. You are charged for the time that the worker is running the host configuration script. You should configure your fleet for a maximum of one worker while testing your host configuration script to avoid starting additional workers. The default is 300 seconds (5 minutes).
+        public var scriptTimeoutSeconds: Swift.Int?
+
+        public init(
+            scriptBody: Swift.String? = nil,
+            scriptTimeoutSeconds: Swift.Int? = 300
+        ) {
+            self.scriptBody = scriptBody
+            self.scriptTimeoutSeconds = scriptTimeoutSeconds
+        }
+    }
+}
+
+extension DeadlineClientTypes.HostConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "HostConfiguration(scriptTimeoutSeconds: \(Swift.String(describing: scriptTimeoutSeconds)), scriptBody: \"CONTENT_REDACTED\")"}
+}
+
+/// Shared displayName + description for Create operations where both are present. displayName is @required here - this mixin is Create-only by design (Update has optional displayName).
+public struct CreateFleetInput: Swift.Sendable {
+    /// The unique token which the server uses to recognize retries of the same request.
+    public var clientToken: Swift.String?
+    /// The configuration settings for the fleet. Customer managed fleets are self-managed. Service managed Amazon EC2 fleets are managed by Deadline Cloud.
+    /// This member is required.
+    public var configuration: DeadlineClientTypes.FleetConfiguration?
+    /// The description of the fleet. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var description: Swift.String?
+    /// The display name of the fleet. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The farm ID of the farm to connect to the fleet.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// Provides a script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
+    public var hostConfiguration: DeadlineClientTypes.HostConfiguration?
+    /// The maximum number of workers for the fleet. Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to CreateWorker before the field updates, you might exceed your fleet's maximum worker count. For example, if your maxWorkerCount is 10 and you currently have 9 workers, making two quick CreateWorker calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
+    /// This member is required.
+    public var maxWorkerCount: Swift.Int?
+    /// The minimum number of workers for the fleet.
+    public var minWorkerCount: Swift.Int?
+    /// The IAM role ARN for the role that the fleet's workers will use.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        configuration: DeadlineClientTypes.FleetConfiguration? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        hostConfiguration: DeadlineClientTypes.HostConfiguration? = nil,
+        maxWorkerCount: Swift.Int? = nil,
+        minWorkerCount: Swift.Int? = nil,
+        roleArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.configuration = configuration
+        self.description = description
+        self.displayName = displayName
+        self.farmId = farmId
+        self.hostConfiguration = hostConfiguration
+        self.maxWorkerCount = maxWorkerCount
+        self.minWorkerCount = minWorkerCount
+        self.roleArn = roleArn
+        self.tags = tags
+    }
+}
+
+extension CreateFleetInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateFleetInput(clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), hostConfiguration: \(Swift.String(describing: hostConfiguration)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+}
+
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+public struct CreateFleetOutput: Swift.Sendable {
+    /// The fleet ID.
+    /// This member is required.
+    public var fleetId: Swift.String?
+
+    public init(
+        fleetId: Swift.String? = nil
+    ) {
+        self.fleetId = fleetId
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum CreateJobTargetTaskRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ready
+        case suspended
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CreateJobTargetTaskRunStatus] {
+            return [
+                .ready,
+                .suspended
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ready: return "READY"
+            case .suspended: return "SUSPENDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateJobInput: Swift.Sendable {
+    /// The attachments for the job. Attach files required for the job to run to a render job.
+    public var attachments: DeadlineClientTypes.Attachments?
+    /// The unique token which the server uses to recognize retries of the same request.
+    public var clientToken: Swift.String?
+    /// A custom description to override the job description derived from the job template.
+    public var descriptionOverride: Swift.String?
+    /// The farm ID of the farm to connect to the job.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The number of task failures before the job stops running and is marked as FAILED.
+    public var maxFailedTasksCount: Swift.Int?
+    /// The maximum number of retries for each task.
+    public var maxRetriesPerTask: Swift.Int?
+    /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, Deadline Cloud won't throttle the number of workers used to process the job.
+    public var maxWorkerCount: Swift.Int?
+    /// A custom name to override the job name derived from the job template.
+    public var nameOverride: Swift.String?
+    /// The parameters for the job.
+    public var parameters: [Swift.String: DeadlineClientTypes.JobParameter]?
+    /// The priority of the job. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
+    /// This member is required.
+    public var priority: Swift.Int?
+    /// The ID of the queue that the job is submitted to.
+    /// This member is required.
+    public var queueId: Swift.String?
+    /// The job ID for the source job.
+    public var sourceJobId: Swift.String?
+    /// The storage profile ID for the storage profile to connect to the job.
+    public var storageProfileId: Swift.String?
+    /// The tags to add to your job. Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
+    public var tags: [Swift.String: Swift.String]?
+    /// The initial job status when it is created. Jobs that are created with a SUSPENDED status will not run until manually requeued.
+    public var targetTaskRunStatus: DeadlineClientTypes.CreateJobTargetTaskRunStatus?
+    /// The job template to use for this job.
+    public var template: Swift.String?
+    /// The file type for the job template.
+    public var templateType: DeadlineClientTypes.JobTemplateType?
+
+    public init(
+        attachments: DeadlineClientTypes.Attachments? = nil,
+        clientToken: Swift.String? = nil,
+        descriptionOverride: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        maxFailedTasksCount: Swift.Int? = nil,
+        maxRetriesPerTask: Swift.Int? = nil,
+        maxWorkerCount: Swift.Int? = nil,
+        nameOverride: Swift.String? = nil,
+        parameters: [Swift.String: DeadlineClientTypes.JobParameter]? = nil,
+        priority: Swift.Int? = nil,
+        queueId: Swift.String? = nil,
+        sourceJobId: Swift.String? = nil,
+        storageProfileId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        targetTaskRunStatus: DeadlineClientTypes.CreateJobTargetTaskRunStatus? = nil,
+        template: Swift.String? = nil,
+        templateType: DeadlineClientTypes.JobTemplateType? = nil
+    ) {
+        self.attachments = attachments
+        self.clientToken = clientToken
+        self.descriptionOverride = descriptionOverride
+        self.farmId = farmId
+        self.maxFailedTasksCount = maxFailedTasksCount
+        self.maxRetriesPerTask = maxRetriesPerTask
+        self.maxWorkerCount = maxWorkerCount
+        self.nameOverride = nameOverride
+        self.parameters = parameters
+        self.priority = priority
+        self.queueId = queueId
+        self.sourceJobId = sourceJobId
+        self.storageProfileId = storageProfileId
+        self.tags = tags
+        self.targetTaskRunStatus = targetTaskRunStatus
+        self.template = template
+        self.templateType = templateType
+    }
+}
+
+extension CreateJobInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateJobInput(attachments: \(Swift.String(describing: attachments)), clientToken: \(Swift.String(describing: clientToken)), farmId: \(Swift.String(describing: farmId)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), nameOverride: \(Swift.String(describing: nameOverride)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), storageProfileId: \(Swift.String(describing: storageProfileId)), tags: \(Swift.String(describing: tags)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), templateType: \(Swift.String(describing: templateType)), descriptionOverride: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\", template: \"CONTENT_REDACTED\")"}
+}
+
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+public struct CreateJobOutput: Swift.Sendable {
+    /// The job ID.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil
+    ) {
+        self.jobId = jobId
+    }
+}
+
+public struct CreateLicenseEndpointInput: Swift.Sendable {
+    /// The unique token which the server uses to recognize retries of the same request.
+    public var clientToken: Swift.String?
+    /// The security group IDs.
+    /// This member is required.
+    public var securityGroupIds: [Swift.String]?
+    /// The subnet IDs.
+    /// This member is required.
+    public var subnetIds: [Swift.String]?
+    /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
+    public var tags: [Swift.String: Swift.String]?
+    /// The VPC (virtual private cloud) ID to use with the license endpoint.
+    /// This member is required.
+    public var vpcId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        securityGroupIds: [Swift.String]? = nil,
+        subnetIds: [Swift.String]? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        vpcId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.securityGroupIds = securityGroupIds
+        self.subnetIds = subnetIds
+        self.tags = tags
+        self.vpcId = vpcId
+    }
+}
+
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+public struct CreateLicenseEndpointOutput: Swift.Sendable {
+    /// The license endpoint ID.
+    /// This member is required.
+    public var licenseEndpointId: Swift.String?
+
+    public init(
+        licenseEndpointId: Swift.String? = nil
+    ) {
+        self.licenseEndpointId = licenseEndpointId
+    }
+}
+
+public struct CreateLimitInput: Swift.Sendable {
+    /// The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement.
+    /// This member is required.
+    public var amountRequirementName: Swift.String?
+    /// The unique token which the server uses to recognize retries of the same request.
+    public var clientToken: Swift.String?
+    /// A description of the limit. A description helps you identify the purpose of the limit. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var description: Swift.String?
+    /// The display name of the limit. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The farm ID of the farm that contains the limit.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. The maxCount must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit.
+    /// This member is required.
+    public var maxCount: Swift.Int?
+
+    public init(
+        amountRequirementName: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        maxCount: Swift.Int? = nil
+    ) {
+        self.amountRequirementName = amountRequirementName
+        self.clientToken = clientToken
+        self.description = description
+        self.displayName = displayName
+        self.farmId = farmId
+        self.maxCount = maxCount
+    }
+}
+
+extension CreateLimitInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateLimitInput(amountRequirementName: \(Swift.String(describing: amountRequirementName)), clientToken: \(Swift.String(describing: clientToken)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), maxCount: \(Swift.String(describing: maxCount)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateLimitOutput: Swift.Sendable {
+    /// A unique identifier for the limit. Use this identifier in other operations, such as CreateQueueLimitAssociation and DeleteLimit.
+    /// This member is required.
+    public var limitId: Swift.String?
+
+    public init(
+        limitId: Swift.String? = nil
+    ) {
+        self.limitId = limitId
+    }
+}
+
+public struct CreateMonitorInput: Swift.Sendable {
+    /// The unique token which the server uses to recognize retries of the same request.
+    public var clientToken: Swift.String?
+    /// The name that you give the monitor that is displayed in the Deadline Cloud console. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The Amazon Resource Name of the IAM Identity Center instance that authenticates monitor users.
+    /// This member is required.
+    public var identityCenterInstanceArn: Swift.String?
+    /// The AWS region where IAM Identity Center is enabled. Required when Identity Center is in a different region than the monitor.
+    public var identityCenterRegion: Swift.String?
+    /// The Amazon Resource Name of the IAM role that the monitor uses to connect to Deadline Cloud. Every user that signs in to the monitor using IAM Identity Center uses this role to access Deadline Cloud resources.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// The subdomain to use when creating the monitor URL. The full URL of the monitor is subdomain.Region.deadlinecloud.amazonaws.com.
+    /// This member is required.
+    public var subdomain: Swift.String?
+    /// The tags to add to your monitor. Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        identityCenterInstanceArn: Swift.String? = nil,
+        identityCenterRegion: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        subdomain: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.displayName = displayName
+        self.identityCenterInstanceArn = identityCenterInstanceArn
+        self.identityCenterRegion = identityCenterRegion
+        self.roleArn = roleArn
+        self.subdomain = subdomain
+        self.tags = tags
+    }
+}
+
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+public struct CreateMonitorOutput: Swift.Sendable {
+    /// The Amazon Resource Name that IAM Identity Center assigns to the monitor.
+    /// This member is required.
+    public var identityCenterApplicationArn: Swift.String?
+    /// The unique identifier of the monitor.
+    /// This member is required.
+    public var monitorId: Swift.String?
+
+    public init(
+        identityCenterApplicationArn: Swift.String? = nil,
+        monitorId: Swift.String? = nil
+    ) {
+        self.identityCenterApplicationArn = identityCenterApplicationArn
+        self.monitorId = monitorId
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum DefaultQueueBudgetAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case stopSchedulingAndCancelTasks
+        case stopSchedulingAndCompleteTasks
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DefaultQueueBudgetAction] {
+            return [
+                .none,
+                .stopSchedulingAndCancelTasks,
+                .stopSchedulingAndCompleteTasks
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .stopSchedulingAndCancelTasks: return "STOP_SCHEDULING_AND_CANCEL_TASKS"
+            case .stopSchedulingAndCompleteTasks: return "STOP_SCHEDULING_AND_COMPLETE_TASKS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Configuration for priority balanced scheduling. Workers are distributed evenly across all jobs at the highest priority level.
+    public struct PriorityBalancedSchedulingConfiguration: Swift.Sendable {
+        /// The rendering task buffer controls worker stickiness. A worker only switches from its current job to another job at the same priority if the other job has fewer rendering tasks by more than this buffer value. Higher values make workers stickier to their current jobs. The default value is 1.
+        public var renderingTaskBuffer: Swift.Int?
+
+        public init(
+            renderingTaskBuffer: Swift.Int? = 1
+        ) {
+            self.renderingTaskBuffer = renderingTaskBuffer
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Configuration for priority first-in, first-out (FIFO) scheduling. Workers are assigned to the highest-priority job first. When multiple jobs share the same priority, the job submitted earliest receives workers first.
+    public struct PriorityFifoSchedulingConfiguration: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Specifies that jobs at the maximum priority (100) are always scheduled first.
+    public struct SchedulingMaxPriorityOverrideAlwaysScheduleFirst: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Defines the override behavior for jobs at the maximum priority (100) in weighted balanced scheduling.
+    public enum SchedulingMaxPriorityOverride: Swift.Sendable {
+        /// Jobs at the maximum priority (100) are always scheduled before other jobs, regardless of the weighted scheduling formula. If multiple jobs have priority 100, ties are broken using the standard weighted formula.
+        case alwaysschedulefirst(DeadlineClientTypes.SchedulingMaxPriorityOverrideAlwaysScheduleFirst)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Specifies that jobs at the minimum priority (0) are always scheduled last.
+    public struct SchedulingMinPriorityOverrideAlwaysScheduleLast: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Defines the override behavior for jobs at the minimum priority (0) in weighted balanced scheduling.
+    public enum SchedulingMinPriorityOverride: Swift.Sendable {
+        /// Jobs at the minimum priority (0) are always scheduled after all other jobs, regardless of the weighted scheduling formula. If multiple jobs have priority 0, ties are broken using the standard weighted formula.
+        case alwaysschedulelast(DeadlineClientTypes.SchedulingMinPriorityOverrideAlwaysScheduleLast)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Configuration for weighted balanced scheduling. Workers are assigned to jobs based on a weighted formula: weight = (priority * priorityWeight) + (errors * errorWeight) + ((currentTime - submissionTime) * submissionTimeWeight) + ((renderingTasks - renderingTaskBuffer) * renderingTaskWeight) The job with the highest calculated weight is scheduled first. Workers are distributed evenly amongst jobs with the same weight.
+    public struct WeightedBalancedSchedulingConfiguration: Swift.Sendable {
+        /// The weight applied to the number of errors on a job. A negative value means jobs without errors are scheduled first. A value of 0 means errors are ignored. The default value is -10.0.
+        public var errorWeight: Swift.Double?
+        /// Overrides the weighted scheduling formula for jobs at the maximum priority (100). When set, jobs with priority 100 are always scheduled first regardless of their calculated weight. When absent, maximum priority jobs use the standard weighted formula.
+        public var maxPriorityOverride: DeadlineClientTypes.SchedulingMaxPriorityOverride?
+        /// Overrides the weighted scheduling formula for jobs at the minimum priority (0). When set, jobs with priority 0 are always scheduled last regardless of their calculated weight. When absent, minimum priority jobs use the standard weighted formula.
+        public var minPriorityOverride: DeadlineClientTypes.SchedulingMinPriorityOverride?
+        /// The weight applied to job priority in the scheduling formula. Higher values give more influence to job priority. A value of 0 means priority is ignored. The default value is 100.0.
+        public var priorityWeight: Swift.Double?
+        /// The rendering task buffer is subtracted from the number of rendering tasks before applying the rendering task weight. This creates a stickiness effect where workers prefer to stay with their current job. Higher values make workers stickier. The default value is 1. The buffer is only applied in the weight calculation for a job if the worker is currently assigned to that job.
+        public var renderingTaskBuffer: Swift.Int?
+        /// The weight applied to the number of tasks currently rendering on a job. A negative value means jobs that are not already rendering are scheduled next. A value of 0 means the rendering state is ignored. The default value is -100.0.
+        public var renderingTaskWeight: Swift.Double?
+        /// The weight applied to job submission time. A positive value means earlier jobs are scheduled first. A value of 0 means submission time is ignored. The default value is 3.0.
+        public var submissionTimeWeight: Swift.Double?
+
+        public init(
+            errorWeight: Swift.Double? = -10.0,
+            maxPriorityOverride: DeadlineClientTypes.SchedulingMaxPriorityOverride? = nil,
+            minPriorityOverride: DeadlineClientTypes.SchedulingMinPriorityOverride? = nil,
+            priorityWeight: Swift.Double? = 100.0,
+            renderingTaskBuffer: Swift.Int? = 1,
+            renderingTaskWeight: Swift.Double? = -100.0,
+            submissionTimeWeight: Swift.Double? = 3.0
+        ) {
+            self.errorWeight = errorWeight
+            self.maxPriorityOverride = maxPriorityOverride
+            self.minPriorityOverride = minPriorityOverride
+            self.priorityWeight = priorityWeight
+            self.renderingTaskBuffer = renderingTaskBuffer
+            self.renderingTaskWeight = renderingTaskWeight
+            self.submissionTimeWeight = submissionTimeWeight
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The scheduling configuration for a queue. Defines the strategy used to assign workers to jobs.
+    public enum SchedulingConfiguration: Swift.Sendable {
+        /// Workers are assigned to the highest-priority job first. When multiple jobs share the same priority, the job submitted earliest receives workers first. This is the default scheduling configuration for new queues.
+        case priorityfifo(DeadlineClientTypes.PriorityFifoSchedulingConfiguration)
+        /// Workers are distributed evenly across all jobs at the highest priority level. When workers cannot be evenly divided, the extra workers are assigned to the jobs submitted earliest. If a job has fewer remaining tasks than its share of workers, the surplus workers are redistributed to other jobs at the same priority level.
+        case prioritybalanced(DeadlineClientTypes.PriorityBalancedSchedulingConfiguration)
+        /// Workers are assigned to jobs based on a weighted formula that considers job priority, error count, submission time, and the number of tasks currently rendering. Each factor has a configurable weight that determines its influence on scheduling decisions.
+        case weightedbalanced(DeadlineClientTypes.WeightedBalancedSchedulingConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+/// Shared displayName + description for Create operations where both are present. displayName is @required here - this mixin is Create-only by design (Update has optional displayName).
+public struct CreateQueueInput: Swift.Sendable {
+    /// The storage profile IDs to include in the queue.
+    public var allowedStorageProfileIds: [Swift.String]?
+    /// The unique token which the server uses to recognize retries of the same request.
+    public var clientToken: Swift.String?
+    /// The default action to take on a queue if a budget isn't configured.
+    public var defaultBudgetAction: DeadlineClientTypes.DefaultQueueBudgetAction?
+    /// The description of the queue. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var description: Swift.String?
+    /// The display name of the queue. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The farm ID of the farm to connect to the queue.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The job attachment settings for the queue. These are the Amazon S3 bucket name and the Amazon S3 prefix.
+    public var jobAttachmentSettings: DeadlineClientTypes.JobAttachmentSettings?
+    /// The jobs in the queue run as the specified POSIX user.
+    public var jobRunAsUser: DeadlineClientTypes.JobRunAsUser?
+    /// The file system location name to include in the queue.
+    public var requiredFileSystemLocationNames: [Swift.String]?
+    /// The IAM role ARN that workers will use while running jobs for this queue.
+    public var roleArn: Swift.String?
+    /// The scheduling configuration for the queue. This configuration determines how workers are assigned to jobs in the queue. If not specified, the queue defaults to the priorityFifo scheduling configuration.
+    public var schedulingConfiguration: DeadlineClientTypes.SchedulingConfiguration?
+    /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        allowedStorageProfileIds: [Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        defaultBudgetAction: DeadlineClientTypes.DefaultQueueBudgetAction? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        jobAttachmentSettings: DeadlineClientTypes.JobAttachmentSettings? = nil,
+        jobRunAsUser: DeadlineClientTypes.JobRunAsUser? = nil,
+        requiredFileSystemLocationNames: [Swift.String]? = nil,
+        roleArn: Swift.String? = nil,
+        schedulingConfiguration: DeadlineClientTypes.SchedulingConfiguration? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.allowedStorageProfileIds = allowedStorageProfileIds
+        self.clientToken = clientToken
+        self.defaultBudgetAction = defaultBudgetAction
+        self.description = description
+        self.displayName = displayName
+        self.farmId = farmId
+        self.jobAttachmentSettings = jobAttachmentSettings
+        self.jobRunAsUser = jobRunAsUser
+        self.requiredFileSystemLocationNames = requiredFileSystemLocationNames
+        self.roleArn = roleArn
+        self.schedulingConfiguration = schedulingConfiguration
+        self.tags = tags
+    }
+}
+
+extension CreateQueueInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateQueueInput(allowedStorageProfileIds: \(Swift.String(describing: allowedStorageProfileIds)), clientToken: \(Swift.String(describing: clientToken)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), requiredFileSystemLocationNames: \(Swift.String(describing: requiredFileSystemLocationNames)), roleArn: \(Swift.String(describing: roleArn)), schedulingConfiguration: \(Swift.String(describing: schedulingConfiguration)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+}
+
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+public struct CreateQueueOutput: Swift.Sendable {
+    /// The queue ID.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        queueId: Swift.String? = nil
+    ) {
+        self.queueId = queueId
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum EnvironmentTemplateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case json
+        case yaml
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnvironmentTemplateType] {
+            return [
+                .json,
+                .yaml
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .json: return "JSON"
+            case .yaml: return "YAML"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateQueueEnvironmentInput: Swift.Sendable {
+    /// The unique token which the server uses to recognize retries of the same request.
+    public var clientToken: Swift.String?
+    /// The farm ID of the farm to connect to the environment.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// Sets the priority of the environments in the queue from 0 to 10,000, where 0 is the highest priority (activated first and deactivated last). If two environments share the same priority value, the environment created first takes higher priority.
+    /// This member is required.
+    public var priority: Swift.Int?
+    /// The queue ID to connect the queue and environment.
+    /// This member is required.
+    public var queueId: Swift.String?
+    /// The environment template to use in the queue.
+    /// This member is required.
+    public var template: Swift.String?
+    /// The template's file type, JSON or YAML.
+    /// This member is required.
+    public var templateType: DeadlineClientTypes.EnvironmentTemplateType?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        priority: Swift.Int? = nil,
+        queueId: Swift.String? = nil,
+        template: Swift.String? = nil,
+        templateType: DeadlineClientTypes.EnvironmentTemplateType? = nil
+    ) {
+        self.clientToken = clientToken
+        self.farmId = farmId
+        self.priority = priority
+        self.queueId = queueId
+        self.template = template
+        self.templateType = templateType
+    }
+}
+
+extension CreateQueueEnvironmentInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateQueueEnvironmentInput(clientToken: \(Swift.String(describing: clientToken)), farmId: \(Swift.String(describing: farmId)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), templateType: \(Swift.String(describing: templateType)), template: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateQueueEnvironmentOutput: Swift.Sendable {
+    /// The queue environment ID.
+    /// This member is required.
+    public var queueEnvironmentId: Swift.String?
+
+    public init(
+        queueEnvironmentId: Swift.String? = nil
+    ) {
+        self.queueEnvironmentId = queueEnvironmentId
+    }
+}
+
+public struct CreateQueueFleetAssociationInput: Swift.Sendable {
+    /// The ID of the farm that the queue and fleet belong to.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The fleet ID.
+    /// This member is required.
+    public var fleetId: Swift.String?
+    /// The queue ID.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        fleetId: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.fleetId = fleetId
+        self.queueId = queueId
+    }
+}
+
+public struct CreateQueueFleetAssociationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct CreateQueueLimitAssociationInput: Swift.Sendable {
+    /// The unique identifier of the farm that contains the queue and limit to associate.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The unique identifier of the limit to associate with the queue.
+    /// This member is required.
+    public var limitId: Swift.String?
+    /// The unique identifier of the queue to associate with the limit.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.limitId = limitId
+        self.queueId = queueId
+    }
+}
+
+public struct CreateQueueLimitAssociationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension DeadlineClientTypes {
+
+    public enum FileSystemLocationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case local
+        case shared
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FileSystemLocationType] {
+            return [
+                .local,
+                .shared
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .local: return "LOCAL"
+            case .shared: return "SHARED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of the file system location for the resource.
+    public struct FileSystemLocation: Swift.Sendable {
+        /// The location name.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The file path.
+        /// This member is required.
+        public var path: Swift.String?
+        /// The type of file.
+        /// This member is required.
+        public var type: DeadlineClientTypes.FileSystemLocationType?
+
+        public init(
+            name: Swift.String? = nil,
+            path: Swift.String? = nil,
+            type: DeadlineClientTypes.FileSystemLocationType? = nil
+        ) {
+            self.name = name
+            self.path = path
+            self.type = type
+        }
+    }
+}
+
+extension DeadlineClientTypes.FileSystemLocation: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum StorageProfileOperatingSystemFamily: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case linux
+        case macos
+        case windows
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageProfileOperatingSystemFamily] {
+            return [
+                .linux,
+                .macos,
+                .windows
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .linux: return "LINUX"
+            case .macos: return "MACOS"
+            case .windows: return "WINDOWS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateStorageProfileInput: Swift.Sendable {
+    /// The unique token which the server uses to recognize retries of the same request.
+    public var clientToken: Swift.String?
+    /// The display name of the storage profile. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The farm ID of the farm to connect to the storage profile.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// File system paths to include in the storage profile.
+    public var fileSystemLocations: [DeadlineClientTypes.FileSystemLocation]?
+    /// The type of operating system (OS) for the storage profile.
+    /// This member is required.
+    public var osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        fileSystemLocations: [DeadlineClientTypes.FileSystemLocation]? = nil,
+        osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily? = nil
+    ) {
+        self.clientToken = clientToken
+        self.displayName = displayName
+        self.farmId = farmId
+        self.fileSystemLocations = fileSystemLocations
+        self.osFamily = osFamily
+    }
+}
+
+extension CreateStorageProfileInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateStorageProfileInput(clientToken: \(Swift.String(describing: clientToken)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), osFamily: \(Swift.String(describing: osFamily)), fileSystemLocations: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateStorageProfileOutput: Swift.Sendable {
+    /// The storage profile ID.
+    /// This member is required.
+    public var storageProfileId: Swift.String?
+
+    public init(
+        storageProfileId: Swift.String? = nil
+    ) {
+        self.storageProfileId = storageProfileId
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The host property details.
+    public struct HostPropertiesRequest: Swift.Sendable {
+        /// The host name.
+        public var hostName: Swift.String?
+        /// The IP address of the host.
+        public var ipAddresses: DeadlineClientTypes.IpAddresses?
+
+        public init(
+            hostName: Swift.String? = nil,
+            ipAddresses: DeadlineClientTypes.IpAddresses? = nil
+        ) {
+            self.hostName = hostName
+            self.ipAddresses = ipAddresses
+        }
+    }
+}
+
+public struct CreateWorkerInput: Swift.Sendable {
+    /// The unique token which the server uses to recognize retries of the same request.
+    public var clientToken: Swift.String?
+    /// The farm ID of the farm to connect to the worker.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The fleet ID to connect to the worker.
+    /// This member is required.
+    public var fleetId: Swift.String?
+    /// The IP address and host name of the worker.
+    public var hostProperties: DeadlineClientTypes.HostPropertiesRequest?
+    /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        fleetId: Swift.String? = nil,
+        hostProperties: DeadlineClientTypes.HostPropertiesRequest? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.farmId = farmId
+        self.fleetId = fleetId
+        self.hostProperties = hostProperties
+        self.tags = tags
+    }
+}
+
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+public struct CreateWorkerOutput: Swift.Sendable {
+    /// The worker ID.
+    /// This member is required.
+    public var workerId: Swift.String?
+
+    public init(
+        workerId: Swift.String? = nil
+    ) {
+        self.workerId = workerId
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The time stamp in date-time format.
+    public struct DateTimeFilterExpression: Swift.Sendable {
+        /// The date and time.
+        /// This member is required.
+        public var dateTime: Foundation.Date?
+        /// The name of the date-time field to filter on.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The type of comparison to use to filter the results.
+        /// This member is required.
+        public var `operator`: DeadlineClientTypes.ComparisonOperator?
+
+        public init(
+            dateTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            `operator`: DeadlineClientTypes.ComparisonOperator? = nil
+        ) {
+            self.dateTime = dateTime
+            self.name = name
+            self.`operator` = `operator`
+        }
+    }
+}
+
+/// Identifier mixin for queue-fleet association operations. Composes QueueIdentifierMixin (farmId + queueId) and adds fleetId.
+public struct DeleteQueueFleetAssociationInput: Swift.Sendable {
+    /// The farm ID of the farm that holds the queue-fleet association.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The fleet ID of the queue-fleet association.
+    /// This member is required.
+    public var fleetId: Swift.String?
+    /// The queue ID of the queue-fleet association.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        fleetId: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.fleetId = fleetId
+        self.queueId = queueId
+    }
+}
+
+public struct DeleteQueueFleetAssociationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteQueueLimitAssociationInput: Swift.Sendable {
+    /// The unique identifier of the farm that contains the queue and limit to disassociate.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The unique identifier of the limit to disassociate.
+    /// This member is required.
+    public var limitId: Swift.String?
+    /// The unique identifier of the queue to disassociate.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.limitId = limitId
+        self.queueId = queueId
+    }
+}
+
+public struct DeleteQueueLimitAssociationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteFarmInput: Swift.Sendable {
+    /// The farm ID of the farm to delete.
+    /// This member is required.
+    public var farmId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+    }
+}
+
+public struct DeleteFarmOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteLimitInput: Swift.Sendable {
+    /// The unique identifier of the farm that contains the limit to delete.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The unique identifier of the limit to delete.
+    /// This member is required.
+    public var limitId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.limitId = limitId
+    }
+}
+
+public struct DeleteLimitOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteStorageProfileInput: Swift.Sendable {
+    /// The farm ID of the farm from which to remove the storage profile.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The storage profile ID of the storage profile to delete.
+    /// This member is required.
+    public var storageProfileId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        storageProfileId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.storageProfileId = storageProfileId
+    }
+}
+
+public struct DeleteStorageProfileOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DisassociateMemberFromFarmInput: Swift.Sendable {
+    /// The farm ID of the farm to disassociate from the member.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// A member's principal ID to disassociate from a farm.
+    /// This member is required.
+    public var principalId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        principalId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.principalId = principalId
+    }
+}
+
+public struct DisassociateMemberFromFarmOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteFleetInput: Swift.Sendable {
+    /// The unique token which the server uses to recognize retries of the same request.
+    public var clientToken: Swift.String?
+    /// The farm ID of the farm to remove from the fleet.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The fleet ID of the fleet to delete.
+    /// This member is required.
+    public var fleetId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        fleetId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.farmId = farmId
+        self.fleetId = fleetId
+    }
+}
+
+public struct DeleteFleetOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DisassociateMemberFromFleetInput: Swift.Sendable {
+    /// The farm ID of the fleet to disassociate a member from.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The fleet ID of the fleet to from which to disassociate a member.
+    /// This member is required.
+    public var fleetId: Swift.String?
+    /// A member's principal ID to disassociate from a fleet.
+    /// This member is required.
+    public var principalId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        fleetId: Swift.String? = nil,
+        principalId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.fleetId = fleetId
+        self.principalId = principalId
+    }
+}
+
+public struct DisassociateMemberFromFleetOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetFleetInput: Swift.Sendable {
+    /// The farm ID of the farm in the fleet.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The fleet ID of the fleet to get.
+    /// This member is required.
+    public var fleetId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        fleetId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.fleetId = fleetId
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The amounts and attributes of fleets.
+    public struct FleetCapabilities: Swift.Sendable {
+        /// Amount capabilities of the fleet.
+        public var amounts: [DeadlineClientTypes.FleetAmountCapability]?
+        /// Attribute capabilities of the fleet.
+        public var attributes: [DeadlineClientTypes.FleetAttributeCapability]?
+
+        public init(
+            amounts: [DeadlineClientTypes.FleetAmountCapability]? = nil,
+            attributes: [DeadlineClientTypes.FleetAttributeCapability]? = nil
+        ) {
+            self.amounts = amounts
+            self.attributes = attributes
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum FleetStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case createFailed
+        case createInProgress
+        case suspended
+        case updateFailed
+        case updateInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FleetStatus] {
+            return [
+                .active,
+                .createFailed,
+                .createInProgress,
+                .suspended,
+                .updateFailed,
+                .updateInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .createInProgress: return "CREATE_IN_PROGRESS"
+            case .suspended: return "SUSPENDED"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updateInProgress: return "UPDATE_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+public struct GetFleetOutput: Swift.Sendable {
+    /// The Auto Scaling status of the fleet. Either GROWING, STEADY, or SHRINKING.
+    public var autoScalingStatus: DeadlineClientTypes.AutoScalingStatus?
+    /// Outlines what the fleet is capable of for minimums, maximums, and naming, in addition to attribute names and values.
+    public var capabilities: DeadlineClientTypes.FleetCapabilities?
+    /// The configuration setting for the fleet.
+    /// This member is required.
+    public var configuration: DeadlineClientTypes.FleetConfiguration?
+    /// The date and time the resource was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The user or system that created this resource.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The description of the fleet. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var description: Swift.String?
+    /// The display name of the fleet. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The farm ID of the farm in the fleet.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The fleet ID.
+    /// This member is required.
+    public var fleetId: Swift.String?
+    /// The script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
+    public var hostConfiguration: DeadlineClientTypes.HostConfiguration?
+    /// The maximum number of workers specified in the fleet.
+    /// This member is required.
+    public var maxWorkerCount: Swift.Int?
+    /// The minimum number of workers specified in the fleet.
+    /// This member is required.
+    public var minWorkerCount: Swift.Int?
+    /// The IAM role ARN.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// The status of the fleet.
+    /// This member is required.
+    public var status: DeadlineClientTypes.FleetStatus?
+    /// A message that communicates a suspended status of the fleet.
+    public var statusMessage: Swift.String?
+    /// The number of target workers in the fleet.
+    public var targetWorkerCount: Swift.Int?
+    /// The date and time the resource was updated.
+    public var updatedAt: Foundation.Date?
+    /// The user or system that updated this resource.
+    public var updatedBy: Swift.String?
+    /// The number of workers in the fleet.
+    /// This member is required.
+    public var workerCount: Swift.Int?
+
+    public init(
+        autoScalingStatus: DeadlineClientTypes.AutoScalingStatus? = nil,
+        capabilities: DeadlineClientTypes.FleetCapabilities? = nil,
+        configuration: DeadlineClientTypes.FleetConfiguration? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        fleetId: Swift.String? = nil,
+        hostConfiguration: DeadlineClientTypes.HostConfiguration? = nil,
+        maxWorkerCount: Swift.Int? = nil,
+        minWorkerCount: Swift.Int? = nil,
+        roleArn: Swift.String? = nil,
+        status: DeadlineClientTypes.FleetStatus? = nil,
+        statusMessage: Swift.String? = nil,
+        targetWorkerCount: Swift.Int? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil,
+        workerCount: Swift.Int? = nil
+    ) {
+        self.autoScalingStatus = autoScalingStatus
+        self.capabilities = capabilities
+        self.configuration = configuration
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.displayName = displayName
+        self.farmId = farmId
+        self.fleetId = fleetId
+        self.hostConfiguration = hostConfiguration
+        self.maxWorkerCount = maxWorkerCount
+        self.minWorkerCount = minWorkerCount
+        self.roleArn = roleArn
+        self.status = status
+        self.statusMessage = statusMessage
+        self.targetWorkerCount = targetWorkerCount
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+        self.workerCount = workerCount
+    }
+}
+
+extension GetFleetOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetFleetOutput(autoScalingStatus: \(Swift.String(describing: autoScalingStatus)), capabilities: \(Swift.String(describing: capabilities)), configuration: \(Swift.String(describing: configuration)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), fleetId: \(Swift.String(describing: fleetId)), hostConfiguration: \(Swift.String(describing: hostConfiguration)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), statusMessage: \(Swift.String(describing: statusMessage)), targetWorkerCount: \(Swift.String(describing: targetWorkerCount)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), workerCount: \(Swift.String(describing: workerCount)), description: \"CONTENT_REDACTED\")"}
+}
+
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
+public struct ListFleetMembersInput: Swift.Sendable {
+    /// The farm ID of the fleet.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The fleet ID to include on the list.
+    /// This member is required.
+    public var fleetId: Swift.String?
+    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null to start from the beginning.
+    public var nextToken: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        fleetId: Swift.String? = nil,
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.fleetId = fleetId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The fleet member.
+    public struct FleetMember: Swift.Sendable {
+        /// The farm ID.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The fleet ID.
+        /// This member is required.
+        public var fleetId: Swift.String?
+        /// The identity store ID.
+        /// This member is required.
+        public var identityStoreId: Swift.String?
+        /// The fleet member's membership level.
+        /// This member is required.
+        public var membershipLevel: DeadlineClientTypes.MembershipLevel?
+        /// The principal ID of the fleet member.
+        /// This member is required.
+        public var principalId: Swift.String?
+        /// The principal type of the fleet member.
+        /// This member is required.
+        public var principalType: DeadlineClientTypes.DeadlinePrincipalType?
+
+        public init(
+            farmId: Swift.String? = nil,
+            fleetId: Swift.String? = nil,
+            identityStoreId: Swift.String? = nil,
+            membershipLevel: DeadlineClientTypes.MembershipLevel? = nil,
+            principalId: Swift.String? = nil,
+            principalType: DeadlineClientTypes.DeadlinePrincipalType? = nil
+        ) {
+            self.farmId = farmId
+            self.fleetId = fleetId
+            self.identityStoreId = identityStoreId
+            self.membershipLevel = membershipLevel
+            self.principalId = principalId
+            self.principalType = principalType
+        }
+    }
+}
+
+/// Shared pagination field for List operation outputs (nextToken).
+public struct ListFleetMembersOutput: Swift.Sendable {
+    /// The members on the list.
+    /// This member is required.
+    public var members: [DeadlineClientTypes.FleetMember]?
+    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
+    public var nextToken: Swift.String?
+
+    public init(
+        members: [DeadlineClientTypes.FleetMember]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.members = members
+        self.nextToken = nextToken
+    }
+}
+
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
+public struct ListFleetsInput: Swift.Sendable {
+    /// The display names of a list of fleets. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var displayName: Swift.String?
+    /// The farm ID of the fleets.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null to start from the beginning.
+    public var nextToken: Swift.String?
+    /// The principal ID of the members to include in the fleet.
+    public var principalId: Swift.String?
+    /// The status of the fleet.
+    public var status: DeadlineClientTypes.FleetStatus?
+
+    public init(
+        displayName: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil,
+        principalId: Swift.String? = nil,
+        status: DeadlineClientTypes.FleetStatus? = nil
+    ) {
+        self.displayName = displayName
+        self.farmId = farmId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.principalId = principalId
+        self.status = status
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of a fleet.
+    public struct FleetSummary: Swift.Sendable {
+        /// The Auto Scaling status of a fleet.
+        public var autoScalingStatus: DeadlineClientTypes.AutoScalingStatus?
+        /// The configuration details for the fleet.
+        /// This member is required.
+        public var configuration: DeadlineClientTypes.FleetConfiguration?
+        /// The date and time the resource was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The user or system that created this resource.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The display name of the fleet summary to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+        /// This member is required.
+        public var displayName: Swift.String?
+        /// The farm ID.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The fleet ID.
+        /// This member is required.
+        public var fleetId: Swift.String?
+        /// The maximum number of workers specified in the fleet.
+        /// This member is required.
+        public var maxWorkerCount: Swift.Int?
+        /// The minimum number of workers in the fleet.
+        /// This member is required.
+        public var minWorkerCount: Swift.Int?
+        /// The status of the fleet.
+        /// This member is required.
+        public var status: DeadlineClientTypes.FleetStatus?
+        /// A message that communicates a suspended status of the fleet.
+        public var statusMessage: Swift.String?
+        /// The target number of workers in a fleet.
+        public var targetWorkerCount: Swift.Int?
+        /// The date and time the resource was updated.
+        public var updatedAt: Foundation.Date?
+        /// The user or system that updated this resource.
+        public var updatedBy: Swift.String?
+        /// The number of workers in the fleet summary.
+        /// This member is required.
+        public var workerCount: Swift.Int?
+
+        public init(
+            autoScalingStatus: DeadlineClientTypes.AutoScalingStatus? = nil,
+            configuration: DeadlineClientTypes.FleetConfiguration? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            farmId: Swift.String? = nil,
+            fleetId: Swift.String? = nil,
+            maxWorkerCount: Swift.Int? = nil,
+            minWorkerCount: Swift.Int? = nil,
+            status: DeadlineClientTypes.FleetStatus? = nil,
+            statusMessage: Swift.String? = nil,
+            targetWorkerCount: Swift.Int? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil,
+            workerCount: Swift.Int? = nil
+        ) {
+            self.autoScalingStatus = autoScalingStatus
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.displayName = displayName
+            self.farmId = farmId
+            self.fleetId = fleetId
+            self.maxWorkerCount = maxWorkerCount
+            self.minWorkerCount = minWorkerCount
+            self.status = status
+            self.statusMessage = statusMessage
+            self.targetWorkerCount = targetWorkerCount
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+            self.workerCount = workerCount
+        }
+    }
+}
+
+/// Shared pagination field for List operation outputs (nextToken).
+public struct ListFleetsOutput: Swift.Sendable {
+    /// The fleets on the list.
+    /// This member is required.
+    public var fleets: [DeadlineClientTypes.FleetSummary]?
+    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
+    public var nextToken: Swift.String?
+
+    public init(
+        fleets: [DeadlineClientTypes.FleetSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.fleets = fleets
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateFleetInput: Swift.Sendable {
+    /// The unique token which the server uses to recognize retries of the same request.
+    public var clientToken: Swift.String?
+    /// The fleet configuration to update.
+    public var configuration: DeadlineClientTypes.FleetConfiguration?
+    /// The description of the fleet to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var description: Swift.String?
+    /// The display name of the fleet to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var displayName: Swift.String?
+    /// The farm ID to update.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The fleet ID to update.
+    /// This member is required.
+    public var fleetId: Swift.String?
+    /// Provides a script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
+    public var hostConfiguration: DeadlineClientTypes.HostConfiguration?
+    /// The maximum number of workers in the fleet. Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to CreateWorker before the field updates, you might exceed your fleet's maximum worker count. For example, if your maxWorkerCount is 10 and you currently have 9 workers, making two quick CreateWorker calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
+    public var maxWorkerCount: Swift.Int?
+    /// The minimum number of workers in the fleet.
+    public var minWorkerCount: Swift.Int?
+    /// The IAM role ARN that the fleet's workers assume while running jobs.
+    public var roleArn: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        configuration: DeadlineClientTypes.FleetConfiguration? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        fleetId: Swift.String? = nil,
+        hostConfiguration: DeadlineClientTypes.HostConfiguration? = nil,
+        maxWorkerCount: Swift.Int? = nil,
+        minWorkerCount: Swift.Int? = nil,
+        roleArn: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.configuration = configuration
+        self.description = description
+        self.displayName = displayName
+        self.farmId = farmId
+        self.fleetId = fleetId
+        self.hostConfiguration = hostConfiguration
+        self.maxWorkerCount = maxWorkerCount
+        self.minWorkerCount = minWorkerCount
+        self.roleArn = roleArn
+    }
+}
+
+extension UpdateFleetInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateFleetInput(clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), fleetId: \(Swift.String(describing: fleetId)), hostConfiguration: \(Swift.String(describing: hostConfiguration)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateFleetOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteWorkerInput: Swift.Sendable {
+    /// The farm ID of the worker to delete.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The fleet ID of the worker to delete.
+    /// This member is required.
+    public var fleetId: Swift.String?
+    /// The worker ID of the worker to delete.
+    /// This member is required.
+    public var workerId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        fleetId: Swift.String? = nil,
+        workerId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.fleetId = fleetId
+        self.workerId = workerId
+    }
+}
+
+public struct DeleteWorkerOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetWorkerInput: Swift.Sendable {
+    /// The farm ID for the worker.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The fleet ID of the worker.
+    /// This member is required.
+    public var fleetId: Swift.String?
+    /// The worker ID.
+    /// This member is required.
+    public var workerId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        fleetId: Swift.String? = nil,
+        workerId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.fleetId = fleetId
+        self.workerId = workerId
+    }
+}
+
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+public struct GetWorkerOutput: Swift.Sendable {
+    /// The date and time the resource was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The user or system that created this resource.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The farm ID.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The fleet ID.
+    /// This member is required.
+    public var fleetId: Swift.String?
+    /// The host properties for the worker.
+    public var hostProperties: DeadlineClientTypes.HostPropertiesResponse?
+    /// The logs for the associated worker.
+    public var log: DeadlineClientTypes.LogConfiguration?
+    /// The status of the worker.
+    /// This member is required.
+    public var status: DeadlineClientTypes.WorkerStatus?
+    /// The date and time the resource was updated.
+    public var updatedAt: Foundation.Date?
+    /// The user or system that updated this resource.
+    public var updatedBy: Swift.String?
+    /// The worker ID.
+    /// This member is required.
+    public var workerId: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        fleetId: Swift.String? = nil,
+        hostProperties: DeadlineClientTypes.HostPropertiesResponse? = nil,
+        log: DeadlineClientTypes.LogConfiguration? = nil,
+        status: DeadlineClientTypes.WorkerStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil,
+        workerId: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.farmId = farmId
+        self.fleetId = fleetId
+        self.hostProperties = hostProperties
+        self.log = log
+        self.status = status
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+        self.workerId = workerId
+    }
+}
+
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
+public struct ListSessionsForWorkerInput: Swift.Sendable {
+    /// The farm ID for the session.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The fleet ID for the session.
+    /// This member is required.
+    public var fleetId: Swift.String?
+    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null to start from the beginning.
+    public var nextToken: Swift.String?
+    /// The worker ID for the session.
+    /// This member is required.
+    public var workerId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        fleetId: Swift.String? = nil,
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil,
+        workerId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.fleetId = fleetId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.workerId = workerId
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Summarizes the session for a particular worker.
+    public struct WorkerSessionSummary: Swift.Sendable {
+        /// The date and time the resource ended running.
+        public var endedAt: Foundation.Date?
+        /// The job ID for the job associated with the worker's session.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The life cycle status for the worker's session.
+        /// This member is required.
+        public var lifecycleStatus: DeadlineClientTypes.SessionLifecycleStatus?
+        /// The queue ID for the queue associated to the worker.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The session ID for the session action.
+        /// This member is required.
+        public var sessionId: Swift.String?
+        /// The date and time the resource started running.
+        /// This member is required.
+        public var startedAt: Foundation.Date?
+        /// The life cycle status
+        public var targetLifecycleStatus: DeadlineClientTypes.SessionLifecycleTargetStatus?
+
+        public init(
+            endedAt: Foundation.Date? = nil,
+            jobId: Swift.String? = nil,
+            lifecycleStatus: DeadlineClientTypes.SessionLifecycleStatus? = nil,
+            queueId: Swift.String? = nil,
+            sessionId: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil,
+            targetLifecycleStatus: DeadlineClientTypes.SessionLifecycleTargetStatus? = nil
+        ) {
+            self.endedAt = endedAt
+            self.jobId = jobId
+            self.lifecycleStatus = lifecycleStatus
+            self.queueId = queueId
+            self.sessionId = sessionId
+            self.startedAt = startedAt
+            self.targetLifecycleStatus = targetLifecycleStatus
+        }
+    }
+}
+
+/// Shared pagination field for List operation outputs (nextToken).
+public struct ListSessionsForWorkerOutput: Swift.Sendable {
+    /// The token for the next set of results, or null to start from the beginning.
+    public var nextToken: Swift.String?
+    /// The sessions in the response.
+    /// This member is required.
+    public var sessions: [DeadlineClientTypes.WorkerSessionSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        sessions: [DeadlineClientTypes.WorkerSessionSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.sessions = sessions
+    }
+}
+
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
+public struct ListWorkersInput: Swift.Sendable {
+    /// The farm ID connected to the workers.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The fleet ID of the workers.
+    /// This member is required.
+    public var fleetId: Swift.String?
+    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null to start from the beginning.
+    public var nextToken: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        fleetId: Swift.String? = nil,
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.fleetId = fleetId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The summary of details for a worker.
+    public struct WorkerSummary: Swift.Sendable {
+        /// The date and time the resource was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The user or system that created this resource.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The farm ID.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The fleet ID.
+        /// This member is required.
+        public var fleetId: Swift.String?
+        /// The host properties of the worker.
+        public var hostProperties: DeadlineClientTypes.HostPropertiesResponse?
+        /// The log configuration for the worker.
+        public var log: DeadlineClientTypes.LogConfiguration?
+        /// The status of the worker.
+        /// This member is required.
+        public var status: DeadlineClientTypes.WorkerStatus?
+        /// The date and time the resource was updated.
+        public var updatedAt: Foundation.Date?
+        /// The user or system that updated this resource.
+        public var updatedBy: Swift.String?
+        /// The worker ID.
+        /// This member is required.
+        public var workerId: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            farmId: Swift.String? = nil,
+            fleetId: Swift.String? = nil,
+            hostProperties: DeadlineClientTypes.HostPropertiesResponse? = nil,
+            log: DeadlineClientTypes.LogConfiguration? = nil,
+            status: DeadlineClientTypes.WorkerStatus? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil,
+            workerId: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.farmId = farmId
+            self.fleetId = fleetId
+            self.hostProperties = hostProperties
+            self.log = log
+            self.status = status
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+            self.workerId = workerId
+        }
+    }
+}
+
+/// Shared pagination field for List operation outputs (nextToken).
+public struct ListWorkersOutput: Swift.Sendable {
+    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
+    public var nextToken: Swift.String?
+    /// The workers on the list.
+    /// This member is required.
+    public var workers: [DeadlineClientTypes.WorkerSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        workers: [DeadlineClientTypes.WorkerSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.workers = workers
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of the worker amount capability.
+    public struct WorkerAmountCapability: Swift.Sendable {
+        /// The name of the worker amount capability.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The value of the worker amount capability.
+        /// This member is required.
+        public var value: Swift.Float?
+
+        public init(
+            name: Swift.String? = nil,
+            value: Swift.Float? = nil
+        ) {
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of the worker attribute capability.
+    public struct WorkerAttributeCapability: Swift.Sendable {
+        /// The name of the worker attribute capability.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The values of the worker amount capability.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details for worker capabilities.
+    public struct WorkerCapabilities: Swift.Sendable {
+        /// The worker capabilities amounts on a list of worker capabilities.
+        /// This member is required.
+        public var amounts: [DeadlineClientTypes.WorkerAmountCapability]?
+        /// The worker attribute capabilities in the list of attribute capabilities.
+        /// This member is required.
+        public var attributes: [DeadlineClientTypes.WorkerAttributeCapability]?
+
+        public init(
+            amounts: [DeadlineClientTypes.WorkerAmountCapability]? = nil,
+            attributes: [DeadlineClientTypes.WorkerAttributeCapability]? = nil
+        ) {
+            self.amounts = amounts
+            self.attributes = attributes
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum UpdatedWorkerStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case started
+        case stopped
+        case stopping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdatedWorkerStatus] {
+            return [
+                .started,
+                .stopped,
+                .stopping
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .started: return "STARTED"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdateWorkerInput: Swift.Sendable {
+    /// The worker capabilities to update.
+    public var capabilities: DeadlineClientTypes.WorkerCapabilities?
+    /// The farm ID to update.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The fleet ID to update.
+    /// This member is required.
+    public var fleetId: Swift.String?
+    /// The host properties to update.
+    public var hostProperties: DeadlineClientTypes.HostPropertiesRequest?
+    /// The worker status to update.
+    public var status: DeadlineClientTypes.UpdatedWorkerStatus?
+    /// The worker ID to update.
+    /// This member is required.
+    public var workerId: Swift.String?
+
+    public init(
+        capabilities: DeadlineClientTypes.WorkerCapabilities? = nil,
+        farmId: Swift.String? = nil,
+        fleetId: Swift.String? = nil,
+        hostProperties: DeadlineClientTypes.HostPropertiesRequest? = nil,
+        status: DeadlineClientTypes.UpdatedWorkerStatus? = nil,
+        workerId: Swift.String? = nil
+    ) {
+        self.capabilities = capabilities
+        self.farmId = farmId
+        self.fleetId = fleetId
+        self.hostProperties = hostProperties
+        self.status = status
+        self.workerId = workerId
+    }
+}
+
+public struct UpdateWorkerOutput: Swift.Sendable {
+    /// The script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
+    public var hostConfiguration: DeadlineClientTypes.HostConfiguration?
+    /// The worker log to update.
+    public var log: DeadlineClientTypes.LogConfiguration?
+
+    public init(
+        hostConfiguration: DeadlineClientTypes.HostConfiguration? = nil,
+        log: DeadlineClientTypes.LogConfiguration? = nil
+    ) {
+        self.hostConfiguration = hostConfiguration
+        self.log = log
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The output manifest properties reported by the worker agent for a completed task run.
+    public struct TaskRunManifestPropertiesRequest: Swift.Sendable {
+        /// The hash value of the file.
+        public var outputManifestHash: Swift.String?
+        /// The manifest file path.
+        public var outputManifestPath: Swift.String?
+
+        public init(
+            outputManifestHash: Swift.String? = nil,
+            outputManifestPath: Swift.String? = nil
+        ) {
+            self.outputManifestHash = outputManifestHash
+            self.outputManifestPath = outputManifestPath
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The updated session action information as it relates to completion and progress of the session.
+    public struct UpdatedSessionActionInfo: Swift.Sendable {
+        /// The status of the session upon completion.
+        public var completedStatus: DeadlineClientTypes.CompletedStatus?
+        /// The date and time the resource ended running.
+        public var endedAt: Foundation.Date?
+        /// A list of output manifest properties reported by the worker agent, with each entry corresponding to a manifest property in the job.
+        public var manifests: [DeadlineClientTypes.TaskRunManifestPropertiesRequest]?
+        /// The process exit code. The default Deadline Cloud worker agent converts unsigned 32-bit exit codes to signed 32-bit exit codes.
+        public var processExitCode: Swift.Int?
+        /// A message to indicate the progress of the updated session action.
+        public var progressMessage: Swift.String?
+        /// The percentage completed.
+        public var progressPercent: Swift.Float?
+        /// The date and time the resource started running.
+        public var startedAt: Foundation.Date?
+        /// The updated time.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            completedStatus: DeadlineClientTypes.CompletedStatus? = nil,
+            endedAt: Foundation.Date? = nil,
+            manifests: [DeadlineClientTypes.TaskRunManifestPropertiesRequest]? = nil,
+            processExitCode: Swift.Int? = nil,
+            progressMessage: Swift.String? = nil,
+            progressPercent: Swift.Float? = nil,
+            startedAt: Foundation.Date? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.completedStatus = completedStatus
+            self.endedAt = endedAt
+            self.manifests = manifests
+            self.processExitCode = processExitCode
+            self.progressMessage = progressMessage
+            self.progressPercent = progressPercent
+            self.startedAt = startedAt
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension DeadlineClientTypes.UpdatedSessionActionInfo: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdatedSessionActionInfo(completedStatus: \(Swift.String(describing: completedStatus)), endedAt: \(Swift.String(describing: endedAt)), manifests: \(Swift.String(describing: manifests)), processExitCode: \(Swift.String(describing: processExitCode)), progressPercent: \(Swift.String(describing: progressPercent)), startedAt: \(Swift.String(describing: startedAt)), updatedAt: \(Swift.String(describing: updatedAt)), progressMessage: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateWorkerScheduleInput: Swift.Sendable {
+    /// The farm ID to update.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The fleet ID to update.
+    /// This member is required.
+    public var fleetId: Swift.String?
+    /// The session actions associated with the worker schedule to update.
+    public var updatedSessionActions: [Swift.String: DeadlineClientTypes.UpdatedSessionActionInfo]?
+    /// The worker ID to update.
+    /// This member is required.
+    public var workerId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        fleetId: Swift.String? = nil,
+        updatedSessionActions: [Swift.String: DeadlineClientTypes.UpdatedSessionActionInfo]? = nil,
+        workerId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.fleetId = fleetId
+        self.updatedSessionActions = updatedSessionActions
+        self.workerId = workerId
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum DesiredWorkerStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case stopped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DesiredWorkerStatus] {
+            return [
+                .stopped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .stopped: return "STOPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdateWorkerScheduleOutput: Swift.Sendable {
+    /// The assigned sessions to update.
+    /// This member is required.
+    public var assignedSessions: [Swift.String: DeadlineClientTypes.AssignedSession]?
+    /// The session actions associated with the worker schedule to cancel.
+    /// This member is required.
+    public var cancelSessionActions: [Swift.String: [Swift.String]]?
+    /// The status to update the worker to.
+    public var desiredWorkerStatus: DeadlineClientTypes.DesiredWorkerStatus?
+    /// Updates the time interval (in seconds) for the schedule.
+    /// This member is required.
+    public var updateIntervalSeconds: Swift.Int?
+
+    public init(
+        assignedSessions: [Swift.String: DeadlineClientTypes.AssignedSession]? = nil,
+        cancelSessionActions: [Swift.String: [Swift.String]]? = nil,
+        desiredWorkerStatus: DeadlineClientTypes.DesiredWorkerStatus? = nil,
+        updateIntervalSeconds: Swift.Int? = nil
+    ) {
+        self.assignedSessions = assignedSessions
+        self.cancelSessionActions = cancelSessionActions
+        self.desiredWorkerStatus = desiredWorkerStatus
+        self.updateIntervalSeconds = updateIntervalSeconds
+    }
+}
+
+public struct GetFarmInput: Swift.Sendable {
+    /// The farm ID of the farm.
+    /// This member is required.
+    public var farmId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+    }
+}
+
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+public struct GetFarmOutput: Swift.Sendable {
+    /// A multiplier applied to the farm's calculated costs for usage data and budget tracking. A value less than 1 represents a discount, a value greater than 1 represents a premium, and a value of 1 represents no adjustment.
+    /// This member is required.
+    public var costScaleFactor: Swift.Float?
+    /// The date and time the resource was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The user or system that created this resource.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The description of the farm. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var description: Swift.String?
+    /// The display name of the farm. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The farm ID of the farm to get.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The ARN of the KMS key used on the farm.
+    public var kmsKeyArn: Swift.String?
+    /// The date and time the resource was updated.
+    public var updatedAt: Foundation.Date?
+    /// The user or system that updated this resource.
+    public var updatedBy: Swift.String?
+
+    public init(
+        costScaleFactor: Swift.Float? = 1.0,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.costScaleFactor = costScaleFactor
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.displayName = displayName
+        self.farmId = farmId
+        self.kmsKeyArn = kmsKeyArn
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+extension GetFarmOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetFarmOutput(costScaleFactor: \(Swift.String(describing: costScaleFactor)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetLimitInput: Swift.Sendable {
+    /// The unique identifier of the farm that contains the limit.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The unique identifier of the limit to return.
+    /// This member is required.
+    public var limitId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.limitId = limitId
+    }
+}
+
+/// Domain fields for Limit summary/response shapes, ordered before timestamps.
+public struct GetLimitOutput: Swift.Sendable {
+    /// The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement.
+    /// This member is required.
+    public var amountRequirementName: Swift.String?
+    /// The Unix timestamp of the date and time that the limit was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The user identifier of the person that created the limit.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The number of resources from the limit that are being used by jobs. The result is delayed and may not be the count at the time that you called the operation.
+    /// This member is required.
+    public var currentCount: Swift.Int?
+    /// The description of the limit that helps identify what the limit is used for. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var description: Swift.String?
+    /// The display name of the limit. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The unique identifier of the farm that contains the limit.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The unique identifier of the limit.
+    /// This member is required.
+    public var limitId: Swift.String?
+    /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. The maxValue must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit.
+    /// This member is required.
+    public var maxCount: Swift.Int?
+    /// The Unix timestamp of the date and time that the limit was last updated.
+    public var updatedAt: Foundation.Date?
+    /// The user identifier of the person that last updated the limit.
+    public var updatedBy: Swift.String?
+
+    public init(
+        amountRequirementName: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        currentCount: Swift.Int? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil,
+        maxCount: Swift.Int? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.amountRequirementName = amountRequirementName
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.currentCount = currentCount
+        self.description = description
+        self.displayName = displayName
+        self.farmId = farmId
+        self.limitId = limitId
+        self.maxCount = maxCount
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+extension GetLimitOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetLimitOutput(amountRequirementName: \(Swift.String(describing: amountRequirementName)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), currentCount: \(Swift.String(describing: currentCount)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), limitId: \(Swift.String(describing: limitId)), maxCount: \(Swift.String(describing: maxCount)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetStorageProfileInput: Swift.Sendable {
+    /// The farm ID for the storage profile.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The storage profile ID.
+    /// This member is required.
+    public var storageProfileId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        storageProfileId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.storageProfileId = storageProfileId
+    }
+}
+
+public struct GetStorageProfileOutput: Swift.Sendable {
+    /// The date and time the resource was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The user or system that created this resource.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The display name of the storage profile. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The location of the files for the storage profile.
+    public var fileSystemLocations: [DeadlineClientTypes.FileSystemLocation]?
+    /// The operating system (OS) for the storage profile.
+    /// This member is required.
+    public var osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily?
+    /// The storage profile ID.
+    /// This member is required.
+    public var storageProfileId: Swift.String?
+    /// The date and time the resource was updated.
+    public var updatedAt: Foundation.Date?
+    /// The user or system that updated this resource.
+    public var updatedBy: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        fileSystemLocations: [DeadlineClientTypes.FileSystemLocation]? = nil,
+        osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily? = nil,
+        storageProfileId: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.displayName = displayName
+        self.fileSystemLocations = fileSystemLocations
+        self.osFamily = osFamily
+        self.storageProfileId = storageProfileId
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+extension GetStorageProfileOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetStorageProfileOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), osFamily: \(Swift.String(describing: osFamily)), storageProfileId: \(Swift.String(describing: storageProfileId)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), fileSystemLocations: \"CONTENT_REDACTED\")"}
+}
+
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
+public struct ListFarmMembersInput: Swift.Sendable {
+    /// The farm ID.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null to start from the beginning.
+    public var nextToken: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The member of a farm.
+    public struct FarmMember: Swift.Sendable {
+        /// The farm ID of the farm member.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The identity store ID of the farm member.
+        /// This member is required.
+        public var identityStoreId: Swift.String?
+        /// The farm member's membership level.
+        /// This member is required.
+        public var membershipLevel: DeadlineClientTypes.MembershipLevel?
+        /// The principal ID of the farm member.
+        /// This member is required.
+        public var principalId: Swift.String?
+        /// The principal type of the farm member.
+        /// This member is required.
+        public var principalType: DeadlineClientTypes.DeadlinePrincipalType?
+
+        public init(
+            farmId: Swift.String? = nil,
+            identityStoreId: Swift.String? = nil,
+            membershipLevel: DeadlineClientTypes.MembershipLevel? = nil,
+            principalId: Swift.String? = nil,
+            principalType: DeadlineClientTypes.DeadlinePrincipalType? = nil
+        ) {
+            self.farmId = farmId
+            self.identityStoreId = identityStoreId
+            self.membershipLevel = membershipLevel
+            self.principalId = principalId
+            self.principalType = principalType
+        }
+    }
+}
+
+/// Shared pagination field for List operation outputs (nextToken).
+public struct ListFarmMembersOutput: Swift.Sendable {
+    /// The members on the list.
+    /// This member is required.
+    public var members: [DeadlineClientTypes.FarmMember]?
+    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
+    public var nextToken: Swift.String?
+
+    public init(
+        members: [DeadlineClientTypes.FarmMember]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.members = members
+        self.nextToken = nextToken
+    }
+}
+
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
+public struct ListFarmsInput: Swift.Sendable {
+    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null to start from the beginning.
+    public var nextToken: Swift.String?
+    /// The principal ID of the member to list on the farm.
+    public var principalId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil,
+        principalId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.principalId = principalId
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The summary of details for a farm.
+    public struct FarmSummary: Swift.Sendable {
+        /// The date and time the resource was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The user or system that created this resource.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The display name of the farm. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+        /// This member is required.
+        public var displayName: Swift.String?
+        /// The farm ID.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The ARN for the KMS key.
+        public var kmsKeyArn: Swift.String?
+        /// The date and time the resource was updated.
+        public var updatedAt: Foundation.Date?
+        /// The user or system that updated this resource.
+        public var updatedBy: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            farmId: Swift.String? = nil,
+            kmsKeyArn: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.displayName = displayName
+            self.farmId = farmId
+            self.kmsKeyArn = kmsKeyArn
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+    }
+}
+
+/// Shared pagination field for List operation outputs (nextToken).
+public struct ListFarmsOutput: Swift.Sendable {
+    /// Farms on the list.
+    /// This member is required.
+    public var farms: [DeadlineClientTypes.FarmSummary]?
+    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
+    public var nextToken: Swift.String?
+
+    public init(
+        farms: [DeadlineClientTypes.FarmSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.farms = farms
+        self.nextToken = nextToken
+    }
+}
+
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
+public struct ListLimitsInput: Swift.Sendable {
+    /// The unique identifier of the farm that contains the limits.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The maximum number of limits to return in each page of results.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null to start from the beginning.
+    public var nextToken: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Provides information about a specific limit.
+    public struct LimitSummary: Swift.Sendable {
+        /// The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement.
+        /// This member is required.
+        public var amountRequirementName: Swift.String?
+        /// The Unix timestamp of the date and time that the limit was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The user identifier of the person that created the limit.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The number of resources from the limit that are being used by jobs. The result is delayed and may not be the count at the time that you called the operation.
+        /// This member is required.
+        public var currentCount: Swift.Int?
+        /// The name of the limit used in lists to identify the limit. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+        /// This member is required.
+        public var displayName: Swift.String?
+        /// The unique identifier of the farm that contains the limit.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The unique identifier of the limit.
+        /// This member is required.
+        public var limitId: Swift.String?
+        /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. The maxValue must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit.
+        /// This member is required.
+        public var maxCount: Swift.Int?
+        /// The Unix timestamp of the date and time that the limit was last updated.
+        public var updatedAt: Foundation.Date?
+        /// The user identifier of the person that last updated the limit.
+        public var updatedBy: Swift.String?
+
+        public init(
+            amountRequirementName: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            currentCount: Swift.Int? = nil,
+            displayName: Swift.String? = nil,
+            farmId: Swift.String? = nil,
+            limitId: Swift.String? = nil,
+            maxCount: Swift.Int? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil
+        ) {
+            self.amountRequirementName = amountRequirementName
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.currentCount = currentCount
+            self.displayName = displayName
+            self.farmId = farmId
+            self.limitId = limitId
+            self.maxCount = maxCount
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+    }
+}
+
+/// Shared pagination field for List operation outputs (nextToken).
+public struct ListLimitsOutput: Swift.Sendable {
+    /// A list of limits that the farm contains.
+    /// This member is required.
+    public var limits: [DeadlineClientTypes.LimitSummary]?
+    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
+    public var nextToken: Swift.String?
+
+    public init(
+        limits: [DeadlineClientTypes.LimitSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.limits = limits
+        self.nextToken = nextToken
+    }
+}
+
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
+public struct ListStorageProfilesInput: Swift.Sendable {
+    /// The farm ID of the storage profile.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null to start from the beginning.
+    public var nextToken: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The details of a storage profile.
+    public struct StorageProfileSummary: Swift.Sendable {
+        /// The display name of the storage profile summary to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+        /// This member is required.
+        public var displayName: Swift.String?
+        /// The operating system (OS) family.
+        /// This member is required.
+        public var osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily?
+        /// The storage profile ID.
+        /// This member is required.
+        public var storageProfileId: Swift.String?
+
+        public init(
+            displayName: Swift.String? = nil,
+            osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily? = nil,
+            storageProfileId: Swift.String? = nil
+        ) {
+            self.displayName = displayName
+            self.osFamily = osFamily
+            self.storageProfileId = storageProfileId
+        }
+    }
+}
+
+/// Shared pagination field for List operation outputs (nextToken).
+public struct ListStorageProfilesOutput: Swift.Sendable {
+    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
+    public var nextToken: Swift.String?
+    /// The storage profiles.
+    /// This member is required.
+    public var storageProfiles: [DeadlineClientTypes.StorageProfileSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        storageProfiles: [DeadlineClientTypes.StorageProfileSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.storageProfiles = storageProfiles
+    }
+}
+
+public struct DeleteQueueInput: Swift.Sendable {
+    /// The ID of the farm from which to remove the queue.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The queue ID of the queue to delete.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.queueId = queueId
+    }
+}
+
+public struct DeleteQueueOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteQueueEnvironmentInput: Swift.Sendable {
+    /// The farm ID of the farm from which to remove the queue environment.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The queue environment ID of the queue environment to delete.
+    /// This member is required.
+    public var queueEnvironmentId: Swift.String?
+    /// The queue ID of the queue environment to delete.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        queueEnvironmentId: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.queueEnvironmentId = queueEnvironmentId
+        self.queueId = queueId
+    }
+}
+
+public struct DeleteQueueEnvironmentOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DisassociateMemberFromQueueInput: Swift.Sendable {
+    /// The farm ID for the queue to disassociate from a member.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// A member's principal ID to disassociate from a queue.
+    /// This member is required.
+    public var principalId: Swift.String?
+    /// The queue ID of the queue in which you're disassociating from a member.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        principalId: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.principalId = principalId
+        self.queueId = queueId
+    }
+}
+
+public struct DisassociateMemberFromQueueOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetQueueInput: Swift.Sendable {
+    /// The farm ID of the farm in the queue.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The queue ID for the queue to retrieve.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.queueId = queueId
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum QueueBlockedReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case budgetThresholdReached
+        case noBudgetConfigured
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueueBlockedReason] {
+            return [
+                .budgetThresholdReached,
+                .noBudgetConfigured
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .budgetThresholdReached: return "BUDGET_THRESHOLD_REACHED"
+            case .noBudgetConfigured: return "NO_BUDGET_CONFIGURED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum QueueStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case idle
+        case scheduling
+        case schedulingBlocked
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueueStatus] {
+            return [
+                .idle,
+                .scheduling,
+                .schedulingBlocked
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .idle: return "IDLE"
+            case .scheduling: return "SCHEDULING"
+            case .schedulingBlocked: return "SCHEDULING_BLOCKED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+public struct GetQueueOutput: Swift.Sendable {
+    /// The storage profile IDs for the queue.
+    public var allowedStorageProfileIds: [Swift.String]?
+    /// The reason the queue was blocked.
+    public var blockedReason: DeadlineClientTypes.QueueBlockedReason?
+    /// The date and time the resource was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The user or system that created this resource.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The default action taken on a queue if a budget wasn't configured.
+    /// This member is required.
+    public var defaultBudgetAction: DeadlineClientTypes.DefaultQueueBudgetAction?
+    /// The description of the queue. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var description: Swift.String?
+    /// The display name of the queue. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The farm ID for the queue.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The job attachment settings for the queue.
+    public var jobAttachmentSettings: DeadlineClientTypes.JobAttachmentSettings?
+    /// The jobs in the queue ran as this specified POSIX user.
+    public var jobRunAsUser: DeadlineClientTypes.JobRunAsUser?
+    /// The queue ID.
+    /// This member is required.
+    public var queueId: Swift.String?
+    /// A list of the required file system location names in the queue.
+    public var requiredFileSystemLocationNames: [Swift.String]?
+    /// The IAM role ARN.
+    public var roleArn: Swift.String?
+    /// The scheduling configuration for the queue. This configuration determines how workers are assigned to jobs in the queue.
+    public var schedulingConfiguration: DeadlineClientTypes.SchedulingConfiguration?
+    /// The status of the queue.
+    ///
+    /// * ACTIVE–The queue is active.
+    ///
+    /// * SCHEDULING–The queue is scheduling.
+    ///
+    /// * SCHEDULING_BLOCKED–The queue scheduling is blocked. See the provided reason.
+    /// This member is required.
+    public var status: DeadlineClientTypes.QueueStatus?
+    /// The date and time the resource was updated.
+    public var updatedAt: Foundation.Date?
+    /// The user or system that updated this resource.
+    public var updatedBy: Swift.String?
+
+    public init(
+        allowedStorageProfileIds: [Swift.String]? = nil,
+        blockedReason: DeadlineClientTypes.QueueBlockedReason? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        defaultBudgetAction: DeadlineClientTypes.DefaultQueueBudgetAction? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        jobAttachmentSettings: DeadlineClientTypes.JobAttachmentSettings? = nil,
+        jobRunAsUser: DeadlineClientTypes.JobRunAsUser? = nil,
+        queueId: Swift.String? = nil,
+        requiredFileSystemLocationNames: [Swift.String]? = nil,
+        roleArn: Swift.String? = nil,
+        schedulingConfiguration: DeadlineClientTypes.SchedulingConfiguration? = nil,
+        status: DeadlineClientTypes.QueueStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.allowedStorageProfileIds = allowedStorageProfileIds
+        self.blockedReason = blockedReason
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.defaultBudgetAction = defaultBudgetAction
+        self.description = description
+        self.displayName = displayName
+        self.farmId = farmId
+        self.jobAttachmentSettings = jobAttachmentSettings
+        self.jobRunAsUser = jobRunAsUser
+        self.queueId = queueId
+        self.requiredFileSystemLocationNames = requiredFileSystemLocationNames
+        self.roleArn = roleArn
+        self.schedulingConfiguration = schedulingConfiguration
+        self.status = status
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+extension GetQueueOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetQueueOutput(allowedStorageProfileIds: \(Swift.String(describing: allowedStorageProfileIds)), blockedReason: \(Swift.String(describing: blockedReason)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), queueId: \(Swift.String(describing: queueId)), requiredFileSystemLocationNames: \(Swift.String(describing: requiredFileSystemLocationNames)), roleArn: \(Swift.String(describing: roleArn)), schedulingConfiguration: \(Swift.String(describing: schedulingConfiguration)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetQueueEnvironmentInput: Swift.Sendable {
+    /// The farm ID for the queue environment.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The queue environment ID.
+    /// This member is required.
+    public var queueEnvironmentId: Swift.String?
+    /// The queue ID for the queue environment.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        queueEnvironmentId: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.queueEnvironmentId = queueEnvironmentId
+        self.queueId = queueId
+    }
+}
+
+public struct GetQueueEnvironmentOutput: Swift.Sendable {
+    /// The date and time the resource was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The user or system that created this resource.>
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The name of the queue environment.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The priority of the queue environment.
+    /// This member is required.
+    public var priority: Swift.Int?
+    /// The queue environment ID.
+    /// This member is required.
+    public var queueEnvironmentId: Swift.String?
+    /// The template for the queue environment.
+    /// This member is required.
+    public var template: Swift.String?
+    /// The type of template for the queue environment.
+    /// This member is required.
+    public var templateType: DeadlineClientTypes.EnvironmentTemplateType?
+    /// The date and time the resource was updated.
+    public var updatedAt: Foundation.Date?
+    /// The user or system that updated this resource.
+    public var updatedBy: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        name: Swift.String? = nil,
+        priority: Swift.Int? = nil,
+        queueEnvironmentId: Swift.String? = nil,
+        template: Swift.String? = nil,
+        templateType: DeadlineClientTypes.EnvironmentTemplateType? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.name = name
+        self.priority = priority
+        self.queueEnvironmentId = queueEnvironmentId
+        self.template = template
+        self.templateType = templateType
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+extension GetQueueEnvironmentOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetQueueEnvironmentOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueEnvironmentId: \(Swift.String(describing: queueEnvironmentId)), templateType: \(Swift.String(describing: templateType)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), template: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetStorageProfileForQueueInput: Swift.Sendable {
+    /// The farm ID for the queue in storage profile.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The queue ID the queue in the storage profile.
+    /// This member is required.
+    public var queueId: Swift.String?
+    /// The storage profile ID for the storage profile in the queue.
+    /// This member is required.
+    public var storageProfileId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        queueId: Swift.String? = nil,
+        storageProfileId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.queueId = queueId
+        self.storageProfileId = storageProfileId
+    }
+}
+
+public struct GetStorageProfileForQueueOutput: Swift.Sendable {
+    /// The display name of the storage profile connected to a queue. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The location of the files for the storage profile within the queue.
+    public var fileSystemLocations: [DeadlineClientTypes.FileSystemLocation]?
+    /// The operating system of the storage profile in the queue.
+    /// This member is required.
+    public var osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily?
+    /// The storage profile ID.
+    /// This member is required.
+    public var storageProfileId: Swift.String?
+
+    public init(
+        displayName: Swift.String? = nil,
+        fileSystemLocations: [DeadlineClientTypes.FileSystemLocation]? = nil,
+        osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily? = nil,
+        storageProfileId: Swift.String? = nil
+    ) {
+        self.displayName = displayName
+        self.fileSystemLocations = fileSystemLocations
+        self.osFamily = osFamily
+        self.storageProfileId = storageProfileId
+    }
+}
+
+extension GetStorageProfileForQueueOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetStorageProfileForQueueOutput(displayName: \(Swift.String(describing: displayName)), osFamily: \(Swift.String(describing: osFamily)), storageProfileId: \(Swift.String(describing: storageProfileId)), fileSystemLocations: \"CONTENT_REDACTED\")"}
+}
+
+public struct DisassociateMemberFromJobInput: Swift.Sendable {
+    /// The farm ID for the job to disassociate from the member.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The job ID to disassociate from a member in a job.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// A member's principal ID to disassociate from a job.
+    /// This member is required.
+    public var principalId: Swift.String?
+    /// The queue ID connected to a job for which you're disassociating a member.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        jobId: Swift.String? = nil,
+        principalId: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.jobId = jobId
+        self.principalId = principalId
+        self.queueId = queueId
+    }
+}
+
+public struct DisassociateMemberFromJobOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetJobInput: Swift.Sendable {
+    /// The farm ID of the farm in the job.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The job ID.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The queue ID associated with the job.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        jobId: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.jobId = jobId
+        self.queueId = queueId
+    }
+}
+
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+public struct GetJobOutput: Swift.Sendable {
+    /// The attachments for the job.
+    public var attachments: DeadlineClientTypes.Attachments?
+    /// The date and time the resource was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The user or system that created this resource.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The description of the job. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var description: Swift.String?
+    /// The date and time the resource ended running.
+    public var endedAt: Foundation.Date?
+    /// The job ID.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The life cycle status for the job.
+    /// This member is required.
+    public var lifecycleStatus: DeadlineClientTypes.JobLifecycleStatus?
+    /// A message that communicates the status of the life cycle for the job.
+    /// This member is required.
+    public var lifecycleStatusMessage: Swift.String?
+    /// The number of task failures before the job stops running and is marked as FAILED.
+    public var maxFailedTasksCount: Swift.Int?
+    /// The maximum number of retries per failed tasks.
+    public var maxRetriesPerTask: Swift.Int?
+    /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. If you don't set the maxWorkerCount when you create a job, this value is not returned in the response.
+    public var maxWorkerCount: Swift.Int?
+    /// The name of the job.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The parameters for the job.
+    public var parameters: [Swift.String: DeadlineClientTypes.JobParameter]?
+    /// The job priority.
+    /// This member is required.
+    public var priority: Swift.Int?
+    /// The job ID for the source job.
+    public var sourceJobId: Swift.String?
+    /// The date and time the resource started running.
+    public var startedAt: Foundation.Date?
+    /// The storage profile ID associated with the job.
+    public var storageProfileId: Swift.String?
+    /// The task status with which the job started.
+    public var targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus?
+    /// The total number of times tasks from the job failed and were retried.
+    public var taskFailureRetryCount: Swift.Int?
+    /// The task run status for the job.
+    public var taskRunStatus: DeadlineClientTypes.TaskRunStatus?
+    /// The number of tasks running on the job.
+    public var taskRunStatusCounts: [Swift.String: Swift.Int]?
+    /// The date and time the resource was updated.
+    public var updatedAt: Foundation.Date?
+    /// The user or system that updated this resource.
+    public var updatedBy: Swift.String?
+
+    public init(
+        attachments: DeadlineClientTypes.Attachments? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        endedAt: Foundation.Date? = nil,
+        jobId: Swift.String? = nil,
+        lifecycleStatus: DeadlineClientTypes.JobLifecycleStatus? = nil,
+        lifecycleStatusMessage: Swift.String? = nil,
+        maxFailedTasksCount: Swift.Int? = nil,
+        maxRetriesPerTask: Swift.Int? = nil,
+        maxWorkerCount: Swift.Int? = nil,
+        name: Swift.String? = nil,
+        parameters: [Swift.String: DeadlineClientTypes.JobParameter]? = nil,
+        priority: Swift.Int? = nil,
+        sourceJobId: Swift.String? = nil,
+        startedAt: Foundation.Date? = nil,
+        storageProfileId: Swift.String? = nil,
+        targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus? = nil,
+        taskFailureRetryCount: Swift.Int? = nil,
+        taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
+        taskRunStatusCounts: [Swift.String: Swift.Int]? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.attachments = attachments
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.endedAt = endedAt
+        self.jobId = jobId
+        self.lifecycleStatus = lifecycleStatus
+        self.lifecycleStatusMessage = lifecycleStatusMessage
+        self.maxFailedTasksCount = maxFailedTasksCount
+        self.maxRetriesPerTask = maxRetriesPerTask
+        self.maxWorkerCount = maxWorkerCount
+        self.name = name
+        self.parameters = parameters
+        self.priority = priority
+        self.sourceJobId = sourceJobId
+        self.startedAt = startedAt
+        self.storageProfileId = storageProfileId
+        self.targetTaskRunStatus = targetTaskRunStatus
+        self.taskFailureRetryCount = taskFailureRetryCount
+        self.taskRunStatus = taskRunStatus
+        self.taskRunStatusCounts = taskRunStatusCounts
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+extension GetJobOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetJobOutput(attachments: \(Swift.String(describing: attachments)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskFailureRetryCount: \(Swift.String(describing: taskFailureRetryCount)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetSessionInput: Swift.Sendable {
+    /// The farm ID for the session.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The job ID for the session.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The queue ID for the session.
+    /// This member is required.
+    public var queueId: Swift.String?
+    /// The session ID.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        jobId: Swift.String? = nil,
+        queueId: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.jobId = jobId
+        self.queueId = queueId
+        self.sessionId = sessionId
+    }
+}
+
+/// Session lifecycle/status fields, ordered after IDs in session shapes.
+public struct GetSessionOutput: Swift.Sendable {
+    /// The date and time the resource ended running.
+    public var endedAt: Foundation.Date?
+    /// The fleet ID for the session.
+    /// This member is required.
+    public var fleetId: Swift.String?
+    /// Provides the Amazon EC2 properties of the host.
+    public var hostProperties: DeadlineClientTypes.HostPropertiesResponse?
+    /// The life cycle status of the session.
+    /// This member is required.
+    public var lifecycleStatus: DeadlineClientTypes.SessionLifecycleStatus?
+    /// The session log.
+    /// This member is required.
+    public var log: DeadlineClientTypes.LogConfiguration?
+    /// The session ID.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// The date and time the resource started running.
+    /// This member is required.
+    public var startedAt: Foundation.Date?
+    /// The life cycle status with which the session started.
+    public var targetLifecycleStatus: DeadlineClientTypes.SessionLifecycleTargetStatus?
+    /// The date and time the resource was updated.
+    public var updatedAt: Foundation.Date?
+    /// The user or system that updated this resource.
+    public var updatedBy: Swift.String?
+    /// The worker ID for the session.
+    /// This member is required.
+    public var workerId: Swift.String?
+    /// The worker log for the session.
+    public var workerLog: DeadlineClientTypes.LogConfiguration?
+
+    public init(
+        endedAt: Foundation.Date? = nil,
+        fleetId: Swift.String? = nil,
+        hostProperties: DeadlineClientTypes.HostPropertiesResponse? = nil,
+        lifecycleStatus: DeadlineClientTypes.SessionLifecycleStatus? = nil,
+        log: DeadlineClientTypes.LogConfiguration? = nil,
+        sessionId: Swift.String? = nil,
+        startedAt: Foundation.Date? = nil,
+        targetLifecycleStatus: DeadlineClientTypes.SessionLifecycleTargetStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil,
+        workerId: Swift.String? = nil,
+        workerLog: DeadlineClientTypes.LogConfiguration? = nil
+    ) {
+        self.endedAt = endedAt
+        self.fleetId = fleetId
+        self.hostProperties = hostProperties
+        self.lifecycleStatus = lifecycleStatus
+        self.log = log
+        self.sessionId = sessionId
+        self.startedAt = startedAt
+        self.targetLifecycleStatus = targetLifecycleStatus
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+        self.workerId = workerId
+        self.workerLog = workerLog
+    }
+}
+
+public struct GetSessionActionInput: Swift.Sendable {
+    /// The farm ID for the session action.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The job ID for the session.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The queue ID for the session action.
+    /// This member is required.
+    public var queueId: Swift.String?
+    /// The session action ID for the session.
+    /// This member is required.
+    public var sessionActionId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        jobId: Swift.String? = nil,
+        queueId: Swift.String? = nil,
+        sessionActionId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.jobId = jobId
+        self.queueId = queueId
+        self.sessionActionId = sessionActionId
+    }
+}
+
+public struct GetSessionActionOutput: Swift.Sendable {
+    /// The limits and their amounts acquired during a session action. If no limits were acquired during the session, this field isn't returned.
+    public var acquiredLimits: [DeadlineClientTypes.AcquiredLimit]?
+    /// The session action definition.
+    /// This member is required.
+    public var definition: DeadlineClientTypes.SessionActionDefinition?
+    /// The date and time the resource ended running.
+    public var endedAt: Foundation.Date?
+    /// The list of manifest properties that describe file attachments for the task run.
+    public var manifests: [DeadlineClientTypes.TaskRunManifestPropertiesResponse]?
+    /// The process exit code. The default Deadline Cloud worker agent converts unsigned 32-bit exit codes to signed 32-bit exit codes.
+    public var processExitCode: Swift.Int?
+    /// The message that communicates the progress of the session action.
+    public var progressMessage: Swift.String?
+    /// The percentage completed for a session action.
+    public var progressPercent: Swift.Float?
+    /// The session action ID.
+    /// This member is required.
+    public var sessionActionId: Swift.String?
+    /// The session ID for the session action.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// The date and time the resource started running.
+    public var startedAt: Foundation.Date?
+    /// The status of the session action.
+    /// This member is required.
+    public var status: DeadlineClientTypes.SessionActionStatus?
+    /// The Linux timestamp of the date and time the session action was last updated.
+    public var workerUpdatedAt: Foundation.Date?
+
+    public init(
+        acquiredLimits: [DeadlineClientTypes.AcquiredLimit]? = nil,
+        definition: DeadlineClientTypes.SessionActionDefinition? = nil,
+        endedAt: Foundation.Date? = nil,
+        manifests: [DeadlineClientTypes.TaskRunManifestPropertiesResponse]? = nil,
+        processExitCode: Swift.Int? = nil,
+        progressMessage: Swift.String? = nil,
+        progressPercent: Swift.Float? = nil,
+        sessionActionId: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: DeadlineClientTypes.SessionActionStatus? = nil,
+        workerUpdatedAt: Foundation.Date? = nil
+    ) {
+        self.acquiredLimits = acquiredLimits
+        self.definition = definition
+        self.endedAt = endedAt
+        self.manifests = manifests
+        self.processExitCode = processExitCode
+        self.progressMessage = progressMessage
+        self.progressPercent = progressPercent
+        self.sessionActionId = sessionActionId
+        self.sessionId = sessionId
+        self.startedAt = startedAt
+        self.status = status
+        self.workerUpdatedAt = workerUpdatedAt
+    }
+}
+
+extension GetSessionActionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetSessionActionOutput(acquiredLimits: \(Swift.String(describing: acquiredLimits)), definition: \(Swift.String(describing: definition)), endedAt: \(Swift.String(describing: endedAt)), manifests: \(Swift.String(describing: manifests)), processExitCode: \(Swift.String(describing: processExitCode)), progressPercent: \(Swift.String(describing: progressPercent)), sessionActionId: \(Swift.String(describing: sessionActionId)), sessionId: \(Swift.String(describing: sessionId)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), workerUpdatedAt: \(Swift.String(describing: workerUpdatedAt)), progressMessage: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetStepInput: Swift.Sendable {
+    /// The farm ID for the step.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The job ID for the step.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The queue ID for the step.
+    /// This member is required.
+    public var queueId: Swift.String?
+    /// The step ID.
+    /// This member is required.
+    public var stepId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        jobId: Swift.String? = nil,
+        queueId: Swift.String? = nil,
+        stepId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.jobId = jobId
+        self.queueId = queueId
+        self.stepId = stepId
+    }
+}
+
 public struct GetStepOutput: Swift.Sendable {
     /// The date and time the resource was created.
     /// This member is required.
@@ -7568,47 +9536,6 @@ public struct GetTaskInput: Swift.Sendable {
     }
 }
 
-extension DeadlineClientTypes {
-
-    public enum TaskTargetRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case canceled
-        case failed
-        case pending
-        case ready
-        case succeeded
-        case suspended
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TaskTargetRunStatus] {
-            return [
-                .canceled,
-                .failed,
-                .pending,
-                .ready,
-                .succeeded,
-                .suspended
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .canceled: return "CANCELED"
-            case .failed: return "FAILED"
-            case .pending: return "PENDING"
-            case .ready: return "READY"
-            case .succeeded: return "SUCCEEDED"
-            case .suspended: return "SUSPENDED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
 public struct GetTaskOutput: Swift.Sendable {
     /// The date and time the resource was created.
     /// This member is required.
@@ -7673,6 +9600,7 @@ extension GetTaskOutput: Swift.CustomDebugStringConvertible {
         "GetTaskOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), failureRetryCount: \(Swift.String(describing: failureRetryCount)), latestSessionActionId: \(Swift.String(describing: latestSessionActionId)), runStatus: \(Swift.String(describing: runStatus)), startedAt: \(Swift.String(describing: startedAt)), targetRunStatus: \(Swift.String(describing: targetRunStatus)), taskId: \(Swift.String(describing: taskId)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), parameters: \"CONTENT_REDACTED\")"}
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListJobMembersInput: Swift.Sendable {
     /// The farm ID of the job to list.
     /// This member is required.
@@ -7749,6 +9677,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListJobMembersOutput: Swift.Sendable {
     /// The members on the list.
     /// This member is required.
@@ -7765,6 +9694,7 @@ public struct ListJobMembersOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListJobParameterDefinitionsInput: Swift.Sendable {
     /// The farm ID of the job to list.
     /// This member is required.
@@ -7795,6 +9725,7 @@ public struct ListJobParameterDefinitionsInput: Swift.Sendable {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListJobParameterDefinitionsOutput: Swift.Sendable {
     /// Lists parameter definitions of a job.
     /// This member is required.
@@ -7811,6 +9742,7 @@ public struct ListJobParameterDefinitionsOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListJobsInput: Swift.Sendable {
     /// The farm ID for the jobs.
     /// This member is required.
@@ -7954,6 +9886,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListJobsOutput: Swift.Sendable {
     /// The jobs on the list.
     /// This member is required.
@@ -7970,6 +9903,7 @@ public struct ListJobsOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListSessionActionsInput: Swift.Sendable {
     /// The farm ID for the session actions list.
     /// This member is required.
@@ -8146,6 +10080,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListSessionActionsOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -8162,6 +10097,7 @@ public struct ListSessionActionsOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListSessionsInput: Swift.Sendable {
     /// The farm ID for the list of sessions.
     /// This member is required.
@@ -8244,6 +10180,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListSessionsOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -8345,6 +10282,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListStepConsumersOutput: Swift.Sendable {
     /// The consumers on the list.
     /// This member is required.
@@ -8417,6 +10355,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListStepDependenciesOutput: Swift.Sendable {
     /// The dependencies on the list.
     /// This member is required.
@@ -8433,6 +10372,7 @@ public struct ListStepDependenciesOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListStepsInput: Swift.Sendable {
     /// The farm ID to include on the list of steps.
     /// This member is required.
@@ -8561,6 +10501,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListStepsOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -8577,6 +10518,7 @@ public struct ListStepsOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListTasksInput: Swift.Sendable {
     /// The farm ID connected to the tasks.
     /// This member is required.
@@ -8680,6 +10622,7 @@ extension DeadlineClientTypes.TaskSummary: Swift.CustomDebugStringConvertible {
         "TaskSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), failureRetryCount: \(Swift.String(describing: failureRetryCount)), latestSessionActionId: \(Swift.String(describing: latestSessionActionId)), runStatus: \(Swift.String(describing: runStatus)), startedAt: \(Swift.String(describing: startedAt)), targetRunStatus: \(Swift.String(describing: targetRunStatus)), taskId: \(Swift.String(describing: taskId)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), parameters: \"CONTENT_REDACTED\")"}
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListTasksOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -8693,32 +10636,6 @@ public struct ListTasksOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.tasks = tasks
-    }
-}
-
-extension DeadlineClientTypes {
-
-    public enum UpdateJobLifecycleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case archived
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [UpdateJobLifecycleStatus] {
-            return [
-                .archived
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .archived: return "ARCHIVED"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -8918,6 +10835,7 @@ public struct UpdateTaskOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListQueueEnvironmentsInput: Swift.Sendable {
     /// The farm ID for the queue environment list.
     /// This member is required.
@@ -8969,6 +10887,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListQueueEnvironmentsOutput: Swift.Sendable {
     /// The environments to include in the queue environments list.
     /// This member is required.
@@ -8985,6 +10904,7 @@ public struct ListQueueEnvironmentsOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListQueueMembersInput: Swift.Sendable {
     /// The farm ID for the queue.
     /// This member is required.
@@ -9051,6 +10971,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListQueueMembersOutput: Swift.Sendable {
     /// The members on the list.
     /// This member is required.
@@ -9067,6 +10988,7 @@ public struct ListQueueMembersOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListQueuesInput: Swift.Sendable {
     /// The farm ID of the queue.
     /// This member is required.
@@ -9159,6 +11081,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListQueuesOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -9175,6 +11098,7 @@ public struct ListQueuesOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListStorageProfilesForQueueInput: Swift.Sendable {
     /// The farm ID of the queue's storage profile.
     /// This member is required.
@@ -9200,6 +11124,7 @@ public struct ListStorageProfilesForQueueInput: Swift.Sendable {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListStorageProfilesForQueueOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -9245,6 +11170,8 @@ public struct UpdateQueueInput: Swift.Sendable {
     public var requiredFileSystemLocationNamesToRemove: [Swift.String]?
     /// The IAM role ARN that's used to run jobs from this queue.
     public var roleArn: Swift.String?
+    /// The scheduling configuration for the queue. This configuration determines how workers are assigned to jobs in the queue. When updating the scheduling configuration, the entire configuration is replaced. In-progress tasks run to completion before the new scheduling configuration takes effect.
+    public var schedulingConfiguration: DeadlineClientTypes.SchedulingConfiguration?
 
     public init(
         allowedStorageProfileIdsToAdd: [Swift.String]? = nil,
@@ -9259,7 +11186,8 @@ public struct UpdateQueueInput: Swift.Sendable {
         queueId: Swift.String? = nil,
         requiredFileSystemLocationNamesToAdd: [Swift.String]? = nil,
         requiredFileSystemLocationNamesToRemove: [Swift.String]? = nil,
-        roleArn: Swift.String? = nil
+        roleArn: Swift.String? = nil,
+        schedulingConfiguration: DeadlineClientTypes.SchedulingConfiguration? = nil
     ) {
         self.allowedStorageProfileIdsToAdd = allowedStorageProfileIdsToAdd
         self.allowedStorageProfileIdsToRemove = allowedStorageProfileIdsToRemove
@@ -9274,12 +11202,13 @@ public struct UpdateQueueInput: Swift.Sendable {
         self.requiredFileSystemLocationNamesToAdd = requiredFileSystemLocationNamesToAdd
         self.requiredFileSystemLocationNamesToRemove = requiredFileSystemLocationNamesToRemove
         self.roleArn = roleArn
+        self.schedulingConfiguration = schedulingConfiguration
     }
 }
 
 extension UpdateQueueInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateQueueInput(allowedStorageProfileIdsToAdd: \(Swift.String(describing: allowedStorageProfileIdsToAdd)), allowedStorageProfileIdsToRemove: \(Swift.String(describing: allowedStorageProfileIdsToRemove)), clientToken: \(Swift.String(describing: clientToken)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), queueId: \(Swift.String(describing: queueId)), requiredFileSystemLocationNamesToAdd: \(Swift.String(describing: requiredFileSystemLocationNamesToAdd)), requiredFileSystemLocationNamesToRemove: \(Swift.String(describing: requiredFileSystemLocationNamesToRemove)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\")"}
+        "UpdateQueueInput(allowedStorageProfileIdsToAdd: \(Swift.String(describing: allowedStorageProfileIdsToAdd)), allowedStorageProfileIdsToRemove: \(Swift.String(describing: allowedStorageProfileIdsToRemove)), clientToken: \(Swift.String(describing: clientToken)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), queueId: \(Swift.String(describing: queueId)), requiredFileSystemLocationNamesToAdd: \(Swift.String(describing: requiredFileSystemLocationNamesToAdd)), requiredFileSystemLocationNamesToRemove: \(Swift.String(describing: requiredFileSystemLocationNamesToRemove)), roleArn: \(Swift.String(describing: roleArn)), schedulingConfiguration: \(Swift.String(describing: schedulingConfiguration)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateQueueOutput: Swift.Sendable {
@@ -9336,7 +11265,7 @@ public struct UpdateQueueEnvironmentOutput: Swift.Sendable {
 }
 
 public struct UpdateFarmInput: Swift.Sendable {
-    /// The cost scale factor of the farm to update.
+    /// A multiplier applied to the farm's calculated costs for usage data and budget tracking. A value less than 1 represents a discount, a value greater than 1 represents a premium, and a value of 1 represents no adjustment.
     public var costScaleFactor: Swift.Float?
     /// The description of the farm to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var description: Swift.String?
@@ -9455,6 +11384,7 @@ public struct UpdateStorageProfileOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Identifier mixin for queue-fleet association operations. Composes QueueIdentifierMixin (farmId + queueId) and adds fleetId.
 public struct GetQueueFleetAssociationInput: Swift.Sendable {
     /// The farm ID of the farm that contains the queue-fleet association.
     /// This member is required.
@@ -9512,6 +11442,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Domain fields for QueueFleetAssociation summary/response shapes, ordered before timestamps.
 public struct GetQueueFleetAssociationOutput: Swift.Sendable {
     /// The date and time the resource was created.
     /// This member is required.
@@ -9609,6 +11540,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Domain fields for QueueLimitAssociation summary/response shapes, ordered before timestamps.
 public struct GetQueueLimitAssociationOutput: Swift.Sendable {
     /// The Unix timestamp of the date and time that the association was created.
     /// This member is required.
@@ -9649,6 +11581,7 @@ public struct GetQueueLimitAssociationOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct GetSessionsStatisticsAggregationInput: Swift.Sendable {
     /// The identifier returned by the StartSessionsStatisticsAggregation operation that identifies the aggregated statistics.
     /// This member is required.
@@ -9831,6 +11764,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct GetSessionsStatisticsAggregationOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -9941,6 +11875,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct GetLicenseEndpointOutput: Swift.Sendable {
     /// The DNS name.
     public var dnsName: Swift.String?
@@ -9979,6 +11914,7 @@ public struct GetLicenseEndpointOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListLicenseEndpointsInput: Swift.Sendable {
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var maxResults: Swift.Int?
@@ -10021,6 +11957,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListLicenseEndpointsOutput: Swift.Sendable {
     /// The license endpoints.
     /// This member is required.
@@ -10037,6 +11974,7 @@ public struct ListLicenseEndpointsOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListMeteredProductsInput: Swift.Sendable {
     /// The license endpoint ID to include on the list of metered products.
     /// This member is required.
@@ -10088,6 +12026,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListMeteredProductsOutput: Swift.Sendable {
     /// The metered products to list.
     /// This member is required.
@@ -10126,6 +12065,7 @@ public struct PutMeteredProductOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListAvailableMeteredProductsInput: Swift.Sendable {
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var maxResults: Swift.Int?
@@ -10141,6 +12081,7 @@ public struct ListAvailableMeteredProductsInput: Swift.Sendable {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListAvailableMeteredProductsOutput: Swift.Sendable {
     /// The metered products.
     /// This member is required.
@@ -10157,6 +12098,7 @@ public struct ListAvailableMeteredProductsOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListQueueFleetAssociationsInput: Swift.Sendable {
     /// The farm ID for the queue-fleet association list.
     /// This member is required.
@@ -10237,6 +12179,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListQueueFleetAssociationsOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -10253,6 +12196,7 @@ public struct ListQueueFleetAssociationsOutput: Swift.Sendable {
     }
 }
 
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListQueueLimitAssociationsInput: Swift.Sendable {
     /// The unique identifier of the farm that contains the limits and associations.
     /// This member is required.
@@ -10333,6 +12277,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListQueueLimitAssociationsOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -10401,6 +12346,7 @@ public struct GetMonitorInput: Swift.Sendable {
     }
 }
 
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct GetMonitorOutput: Swift.Sendable {
     /// The UNIX timestamp of the date and time that the monitor was created.
     /// This member is required.
@@ -10417,6 +12363,8 @@ public struct GetMonitorOutput: Swift.Sendable {
     /// The Amazon Resource Name of the IAM Identity Center instance responsible for authenticating monitor users.
     /// This member is required.
     public var identityCenterInstanceArn: Swift.String?
+    /// The AWS region where IAM Identity Center is enabled.
+    public var identityCenterRegion: Swift.String?
     /// The unique identifier for the monitor.
     /// This member is required.
     public var monitorId: Swift.String?
@@ -10440,6 +12388,7 @@ public struct GetMonitorOutput: Swift.Sendable {
         displayName: Swift.String? = nil,
         identityCenterApplicationArn: Swift.String? = nil,
         identityCenterInstanceArn: Swift.String? = nil,
+        identityCenterRegion: Swift.String? = nil,
         monitorId: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         subdomain: Swift.String? = nil,
@@ -10452,6 +12401,7 @@ public struct GetMonitorOutput: Swift.Sendable {
         self.displayName = displayName
         self.identityCenterApplicationArn = identityCenterApplicationArn
         self.identityCenterInstanceArn = identityCenterInstanceArn
+        self.identityCenterRegion = identityCenterRegion
         self.monitorId = monitorId
         self.roleArn = roleArn
         self.subdomain = subdomain
@@ -10461,6 +12411,31 @@ public struct GetMonitorOutput: Swift.Sendable {
     }
 }
 
+public struct GetMonitorSettingsInput: Swift.Sendable {
+    /// The unique identifier of the monitor. This ID is returned by the CreateMonitor operation, and is included in the response to the GetMonitor operation.
+    /// This member is required.
+    public var monitorId: Swift.String?
+
+    public init(
+        monitorId: Swift.String? = nil
+    ) {
+        self.monitorId = monitorId
+    }
+}
+
+public struct GetMonitorSettingsOutput: Swift.Sendable {
+    /// Monitor settings as key-value pairs.
+    /// This member is required.
+    public var settings: [Swift.String: Swift.String]?
+
+    public init(
+        settings: [Swift.String: Swift.String]? = nil
+    ) {
+        self.settings = settings
+    }
+}
+
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListMonitorsInput: Swift.Sendable {
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var maxResults: Swift.Int?
@@ -10495,6 +12470,8 @@ extension DeadlineClientTypes {
         /// The Amazon Resource Name of the IAM Identity Center instance responsible for authenticating monitor users.
         /// This member is required.
         public var identityCenterInstanceArn: Swift.String?
+        /// The AWS region where IAM Identity Center is enabled.
+        public var identityCenterRegion: Swift.String?
         /// The unique identifier for the monitor.
         /// This member is required.
         public var monitorId: Swift.String?
@@ -10518,6 +12495,7 @@ extension DeadlineClientTypes {
             displayName: Swift.String? = nil,
             identityCenterApplicationArn: Swift.String? = nil,
             identityCenterInstanceArn: Swift.String? = nil,
+            identityCenterRegion: Swift.String? = nil,
             monitorId: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             subdomain: Swift.String? = nil,
@@ -10530,6 +12508,7 @@ extension DeadlineClientTypes {
             self.displayName = displayName
             self.identityCenterApplicationArn = identityCenterApplicationArn
             self.identityCenterInstanceArn = identityCenterInstanceArn
+            self.identityCenterRegion = identityCenterRegion
             self.monitorId = monitorId
             self.roleArn = roleArn
             self.subdomain = subdomain
@@ -10540,6 +12519,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared pagination field for List operation outputs (nextToken).
 public struct ListMonitorsOutput: Swift.Sendable {
     /// A list of MonitorSummary objects that describe your monitors in the Deadline Cloud.
     /// This member is required.
@@ -10581,6 +12561,28 @@ public struct UpdateMonitorInput: Swift.Sendable {
 }
 
 public struct UpdateMonitorOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateMonitorSettingsInput: Swift.Sendable {
+    /// The unique identifier of the monitor to update settings for.
+    /// This member is required.
+    public var monitorId: Swift.String?
+    /// Monitor settings as key-value pairs. Keys present in the request are upserted; keys absent are left unchanged. Send an empty string value to delete a key.
+    /// This member is required.
+    public var settings: [Swift.String: Swift.String]?
+
+    public init(
+        monitorId: Swift.String? = nil,
+        settings: [Swift.String: Swift.String]? = nil
+    ) {
+        self.monitorId = monitorId
+        self.settings = settings
+    }
+}
+
+public struct UpdateMonitorSettingsOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -10966,6 +12968,7 @@ extension DeadlineClientTypes.JobSearchSummary: Swift.CustomDebugStringConvertib
         "JobSearchSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskFailureRetryCount: \(Swift.String(describing: taskFailureRetryCount)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), jobParameters: \"CONTENT_REDACTED\")"}
 }
 
+/// Shared output fields for all Search operations (nextItemOffset, totalResults).
 public struct SearchJobsOutput: Swift.Sendable {
     /// The jobs in the search.
     /// This member is required.
@@ -11086,6 +13089,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared output fields for all Search operations (nextItemOffset, totalResults).
 public struct SearchStepsOutput: Swift.Sendable {
     /// The next item offset for the search results.
     public var nextItemOffset: Swift.Int?
@@ -11175,6 +13179,7 @@ extension DeadlineClientTypes.TaskSearchSummary: Swift.CustomDebugStringConverti
         "TaskSearchSummary(endedAt: \(Swift.String(describing: endedAt)), failureRetryCount: \(Swift.String(describing: failureRetryCount)), jobId: \(Swift.String(describing: jobId)), latestSessionActionId: \(Swift.String(describing: latestSessionActionId)), queueId: \(Swift.String(describing: queueId)), runStatus: \(Swift.String(describing: runStatus)), startedAt: \(Swift.String(describing: startedAt)), stepId: \(Swift.String(describing: stepId)), targetRunStatus: \(Swift.String(describing: targetRunStatus)), taskId: \(Swift.String(describing: taskId)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), parameters: \"CONTENT_REDACTED\")"}
 }
 
+/// Shared output fields for all Search operations (nextItemOffset, totalResults).
 public struct SearchTasksOutput: Swift.Sendable {
     /// The next item offset for the search results.
     public var nextItemOffset: Swift.Int?
@@ -11239,6 +13244,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared output fields for all Search operations (nextItemOffset, totalResults).
 public struct SearchWorkersOutput: Swift.Sendable {
     /// The next item offset for the search results.
     public var nextItemOffset: Swift.Int?
@@ -11518,6 +13524,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Identifier mixin for queue-fleet association operations. Composes QueueIdentifierMixin (farmId + queueId) and adds fleetId.
 public struct UpdateQueueFleetAssociationInput: Swift.Sendable {
     /// The farm ID to update.
     /// This member is required.
@@ -11655,6 +13662,7 @@ extension DeadlineClientTypes {
     }
 }
 
+/// Shared input fields for all Search operations (filterExpressions, sortExpressions, itemOffset, pageSize).
 public struct SearchJobsInput: Swift.Sendable {
     /// The farm ID of the job.
     /// This member is required.
@@ -11689,6 +13697,7 @@ public struct SearchJobsInput: Swift.Sendable {
     }
 }
 
+/// Shared input fields for all Search operations (filterExpressions, sortExpressions, itemOffset, pageSize).
 public struct SearchStepsInput: Swift.Sendable {
     /// The farm ID to use for the step search.
     /// This member is required.
@@ -11727,6 +13736,7 @@ public struct SearchStepsInput: Swift.Sendable {
     }
 }
 
+/// Shared input fields for all Search operations (filterExpressions, sortExpressions, itemOffset, pageSize).
 public struct SearchTasksInput: Swift.Sendable {
     /// The farm ID of the task.
     /// This member is required.
@@ -11765,6 +13775,7 @@ public struct SearchTasksInput: Swift.Sendable {
     }
 }
 
+/// Shared input fields for all Search operations (filterExpressions, sortExpressions, itemOffset, pageSize).
 public struct SearchWorkersInput: Swift.Sendable {
     /// The farm ID in the workers search.
     /// This member is required.
@@ -11948,6 +13959,13 @@ extension AssumeQueueRoleForWorkerInput {
     }
 }
 
+extension BatchGetJobInput {
+
+    static func urlPathProvider(_ value: BatchGetJobInput) -> Swift.String? {
+        return "/2023-10-12/batch-get-job"
+    }
+}
+
 extension BatchGetJobEntityInput {
 
     static func urlPathProvider(_ value: BatchGetJobEntityInput) -> Swift.String? {
@@ -11961,6 +13979,77 @@ extension BatchGetJobEntityInput {
             return nil
         }
         return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/fleets/\(fleetId.urlPercentEncoding())/workers/\(workerId.urlPercentEncoding())/batchGetJobEntity"
+    }
+}
+
+extension BatchGetSessionInput {
+
+    static func urlPathProvider(_ value: BatchGetSessionInput) -> Swift.String? {
+        return "/2023-10-12/batch-get-session"
+    }
+}
+
+extension BatchGetSessionActionInput {
+
+    static func urlPathProvider(_ value: BatchGetSessionActionInput) -> Swift.String? {
+        return "/2023-10-12/batch-get-session-action"
+    }
+}
+
+extension BatchGetStepInput {
+
+    static func urlPathProvider(_ value: BatchGetStepInput) -> Swift.String? {
+        return "/2023-10-12/batch-get-step"
+    }
+}
+
+extension BatchGetTaskInput {
+
+    static func urlPathProvider(_ value: BatchGetTaskInput) -> Swift.String? {
+        return "/2023-10-12/batch-get-task"
+    }
+}
+
+extension BatchGetWorkerInput {
+
+    static func urlPathProvider(_ value: BatchGetWorkerInput) -> Swift.String? {
+        return "/2023-10-12/batch-get-worker"
+    }
+}
+
+extension BatchUpdateJobInput {
+
+    static func urlPathProvider(_ value: BatchUpdateJobInput) -> Swift.String? {
+        return "/2023-10-12/batch-update-job"
+    }
+}
+
+extension BatchUpdateJobInput {
+
+    static func headerProvider(_ value: BatchUpdateJobInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let clientToken = value.clientToken {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
+        }
+        return items
+    }
+}
+
+extension BatchUpdateTaskInput {
+
+    static func urlPathProvider(_ value: BatchUpdateTaskInput) -> Swift.String? {
+        return "/2023-10-12/batch-update-task"
+    }
+}
+
+extension BatchUpdateTaskInput {
+
+    static func headerProvider(_ value: BatchUpdateTaskInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let clientToken = value.clientToken {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
+        }
+        return items
     }
 }
 
@@ -12563,6 +14652,16 @@ extension GetMonitorInput {
     }
 }
 
+extension GetMonitorSettingsInput {
+
+    static func urlPathProvider(_ value: GetMonitorSettingsInput) -> Swift.String? {
+        guard let monitorId = value.monitorId else {
+            return nil
+        }
+        return "/2023-10-12/monitors/\(monitorId.urlPercentEncoding())/settings"
+    }
+}
+
 extension GetQueueInput {
 
     static func urlPathProvider(_ value: GetQueueInput) -> Swift.String? {
@@ -12676,13 +14775,13 @@ extension GetSessionsStatisticsAggregationInput {
 
     static func queryItemProvider(_ value: GetSessionsStatisticsAggregationInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        if let maxResults = value.maxResults {
-            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
         guard let aggregationId = value.aggregationId else {
             let message = "Creating a URL Query Item failed. aggregationId is required and must not be nil."
@@ -12929,10 +15028,6 @@ extension ListFleetsInput {
 
     static func queryItemProvider(_ value: ListFleetsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        if let displayName = value.displayName {
-            let displayNameQueryItem = Smithy.URIQueryItem(name: "displayName".urlPercentEncoding(), value: Swift.String(displayName).urlPercentEncoding())
-            items.append(displayNameQueryItem)
-        }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
@@ -12940,6 +15035,10 @@ extension ListFleetsInput {
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
+        }
+        if let displayName = value.displayName {
+            let displayNameQueryItem = Smithy.URIQueryItem(name: "displayName".urlPercentEncoding(), value: Swift.String(displayName).urlPercentEncoding())
+            items.append(displayNameQueryItem)
         }
         if let principalId = value.principalId {
             let principalIdQueryItem = Smithy.URIQueryItem(name: "principalId".urlPercentEncoding(), value: Swift.String(principalId).urlPercentEncoding())
@@ -13850,6 +15949,16 @@ extension UpdateMonitorInput {
     }
 }
 
+extension UpdateMonitorSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateMonitorSettingsInput) -> Swift.String? {
+        guard let monitorId = value.monitorId else {
+            return nil
+        }
+        return "/2023-10-12/monitors/\(monitorId.urlPercentEncoding())/settings"
+    }
+}
+
 extension UpdateQueueInput {
 
     static func urlPathProvider(_ value: UpdateQueueInput) -> Swift.String? {
@@ -14122,11 +16231,75 @@ extension AssociateMemberToQueueInput {
     }
 }
 
+extension BatchGetJobInput {
+
+    static func write(value: BatchGetJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifiers"].writeList(value.identifiers, memberWritingClosure: DeadlineClientTypes.BatchGetJobIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension BatchGetJobEntityInput {
 
     static func write(value: BatchGetJobEntityInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["identifiers"].writeList(value.identifiers, memberWritingClosure: DeadlineClientTypes.JobEntityIdentifiersUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchGetSessionInput {
+
+    static func write(value: BatchGetSessionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifiers"].writeList(value.identifiers, memberWritingClosure: DeadlineClientTypes.BatchGetSessionIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchGetSessionActionInput {
+
+    static func write(value: BatchGetSessionActionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifiers"].writeList(value.identifiers, memberWritingClosure: DeadlineClientTypes.BatchGetSessionActionIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchGetStepInput {
+
+    static func write(value: BatchGetStepInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifiers"].writeList(value.identifiers, memberWritingClosure: DeadlineClientTypes.BatchGetStepIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchGetTaskInput {
+
+    static func write(value: BatchGetTaskInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifiers"].writeList(value.identifiers, memberWritingClosure: DeadlineClientTypes.BatchGetTaskIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchGetWorkerInput {
+
+    static func write(value: BatchGetWorkerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifiers"].writeList(value.identifiers, memberWritingClosure: DeadlineClientTypes.BatchGetWorkerIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchUpdateJobInput {
+
+    static func write(value: BatchUpdateJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jobs"].writeList(value.jobs, memberWritingClosure: DeadlineClientTypes.BatchUpdateJobItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchUpdateTaskInput {
+
+    static func write(value: BatchUpdateTaskInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tasks"].writeList(value.tasks, memberWritingClosure: DeadlineClientTypes.BatchUpdateTaskItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -14228,6 +16401,7 @@ extension CreateMonitorInput {
         guard let value else { return }
         try writer["displayName"].write(value.displayName)
         try writer["identityCenterInstanceArn"].write(value.identityCenterInstanceArn)
+        try writer["identityCenterRegion"].write(value.identityCenterRegion)
         try writer["roleArn"].write(value.roleArn)
         try writer["subdomain"].write(value.subdomain)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -14246,6 +16420,7 @@ extension CreateQueueInput {
         try writer["jobRunAsUser"].write(value.jobRunAsUser, with: DeadlineClientTypes.JobRunAsUser.write(value:to:))
         try writer["requiredFileSystemLocationNames"].writeList(value.requiredFileSystemLocationNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["roleArn"].write(value.roleArn)
+        try writer["schedulingConfiguration"].write(value.schedulingConfiguration, with: DeadlineClientTypes.SchedulingConfiguration.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -14442,6 +16617,14 @@ extension UpdateMonitorInput {
     }
 }
 
+extension UpdateMonitorSettingsInput {
+
+    static func write(value: UpdateMonitorSettingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["settings"].writeMap(value.settings, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension UpdateQueueInput {
 
     static func write(value: UpdateQueueInput?, to writer: SmithyJSON.Writer) throws {
@@ -14456,6 +16639,7 @@ extension UpdateQueueInput {
         try writer["requiredFileSystemLocationNamesToAdd"].writeList(value.requiredFileSystemLocationNamesToAdd, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["requiredFileSystemLocationNamesToRemove"].writeList(value.requiredFileSystemLocationNamesToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["roleArn"].write(value.roleArn)
+        try writer["schedulingConfiguration"].write(value.schedulingConfiguration, with: DeadlineClientTypes.SchedulingConfiguration.write(value:to:))
     }
 }
 
@@ -14626,6 +16810,19 @@ extension AssumeQueueRoleForWorkerOutput {
     }
 }
 
+extension BatchGetJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetJobOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetJobError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.jobs = try reader["jobs"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetJobItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension BatchGetJobEntityOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetJobEntityOutput {
@@ -14635,6 +16832,95 @@ extension BatchGetJobEntityOutput {
         var value = BatchGetJobEntityOutput()
         value.entities = try reader["entities"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.JobEntity.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.GetJobEntityError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchGetSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetSessionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetSessionOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetSessionError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sessions = try reader["sessions"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetSessionItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchGetSessionActionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetSessionActionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetSessionActionOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetSessionActionError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sessionActions = try reader["sessionActions"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetSessionActionItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchGetStepOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetStepOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetStepOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetStepError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.steps = try reader["steps"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetStepItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchGetTaskOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetTaskOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetTaskOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetTaskError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tasks = try reader["tasks"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetTaskItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchGetWorkerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetWorkerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetWorkerOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetWorkerError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.workers = try reader["workers"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchGetWorkerItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchUpdateJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchUpdateJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchUpdateJobOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchUpdateJobError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchUpdateTaskOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchUpdateTaskOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchUpdateTaskOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.BatchUpdateTaskError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -15078,12 +17364,25 @@ extension GetMonitorOutput {
         value.displayName = try reader["displayName"].readIfPresent() ?? ""
         value.identityCenterApplicationArn = try reader["identityCenterApplicationArn"].readIfPresent() ?? ""
         value.identityCenterInstanceArn = try reader["identityCenterInstanceArn"].readIfPresent() ?? ""
+        value.identityCenterRegion = try reader["identityCenterRegion"].readIfPresent()
         value.monitorId = try reader["monitorId"].readIfPresent() ?? ""
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.subdomain = try reader["subdomain"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         value.url = try reader["url"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GetMonitorSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetMonitorSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetMonitorSettingsOutput()
+        value.settings = try reader["settings"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -15108,6 +17407,7 @@ extension GetQueueOutput {
         value.queueId = try reader["queueId"].readIfPresent() ?? ""
         value.requiredFileSystemLocationNames = try reader["requiredFileSystemLocationNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["roleArn"].readIfPresent()
+        value.schedulingConfiguration = try reader["schedulingConfiguration"].readIfPresent(with: DeadlineClientTypes.SchedulingConfiguration.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
@@ -15846,6 +18146,13 @@ extension UpdateMonitorOutput {
     }
 }
 
+extension UpdateMonitorSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateMonitorSettingsOutput {
+        return UpdateMonitorSettingsOutput()
+    }
+}
+
 extension UpdateQueueOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateQueueOutput {
@@ -16098,6 +18405,23 @@ enum AssumeQueueRoleForWorkerOutputError {
     }
 }
 
+enum BatchGetJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum BatchGetJobEntityOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16109,6 +18433,125 @@ enum BatchGetJobEntityOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetSessionActionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetStepOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetTaskOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetWorkerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchUpdateJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchUpdateTaskOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16798,6 +19241,24 @@ enum GetLimitOutputError {
 }
 
 enum GetMonitorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetMonitorSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -17802,6 +20263,24 @@ enum UpdateMonitorOutputError {
     }
 }
 
+enum UpdateMonitorSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateQueueOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -18301,6 +20780,377 @@ extension DeadlineClientTypes.AwsCredentials {
     }
 }
 
+extension DeadlineClientTypes.BatchGetJobError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetJobError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetJobError()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetJobIdentifier {
+
+    static func write(value: DeadlineClientTypes.BatchGetJobIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["farmId"].write(value.farmId)
+        try writer["jobId"].write(value.jobId)
+        try writer["queueId"].write(value.queueId)
+    }
+}
+
+extension DeadlineClientTypes.BatchGetJobItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetJobItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetJobItem()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.lifecycleStatus = try reader["lifecycleStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.lifecycleStatusMessage = try reader["lifecycleStatusMessage"].readIfPresent() ?? ""
+        value.priority = try reader["priority"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.taskRunStatus = try reader["taskRunStatus"].readIfPresent()
+        value.targetTaskRunStatus = try reader["targetTaskRunStatus"].readIfPresent()
+        value.taskRunStatusCounts = try reader["taskRunStatusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.taskFailureRetryCount = try reader["taskFailureRetryCount"].readIfPresent()
+        value.storageProfileId = try reader["storageProfileId"].readIfPresent()
+        value.maxFailedTasksCount = try reader["maxFailedTasksCount"].readIfPresent()
+        value.maxRetriesPerTask = try reader["maxRetriesPerTask"].readIfPresent()
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.JobParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.attachments = try reader["attachments"].readIfPresent(with: DeadlineClientTypes.Attachments.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.maxWorkerCount = try reader["maxWorkerCount"].readIfPresent()
+        value.sourceJobId = try reader["sourceJobId"].readIfPresent()
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetSessionActionError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetSessionActionError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetSessionActionError()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.sessionActionId = try reader["sessionActionId"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetSessionActionIdentifier {
+
+    static func write(value: DeadlineClientTypes.BatchGetSessionActionIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["farmId"].write(value.farmId)
+        try writer["jobId"].write(value.jobId)
+        try writer["queueId"].write(value.queueId)
+        try writer["sessionActionId"].write(value.sessionActionId)
+    }
+}
+
+extension DeadlineClientTypes.BatchGetSessionActionItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetSessionActionItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetSessionActionItem()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.sessionActionId = try reader["sessionActionId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.workerUpdatedAt = try reader["workerUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.progressPercent = try reader["progressPercent"].readIfPresent()
+        value.manifests = try reader["manifests"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.TaskRunManifestPropertiesResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.processExitCode = try reader["processExitCode"].readIfPresent()
+        value.progressMessage = try reader["progressMessage"].readIfPresent()
+        value.acquiredLimits = try reader["acquiredLimits"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.AcquiredLimit.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.definition = try reader["definition"].readIfPresent(with: DeadlineClientTypes.SessionActionDefinition.read(from:))
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetSessionError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetSessionError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetSessionError()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetSessionIdentifier {
+
+    static func write(value: DeadlineClientTypes.BatchGetSessionIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["farmId"].write(value.farmId)
+        try writer["jobId"].write(value.jobId)
+        try writer["queueId"].write(value.queueId)
+        try writer["sessionId"].write(value.sessionId)
+    }
+}
+
+extension DeadlineClientTypes.BatchGetSessionItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetSessionItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetSessionItem()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.fleetId = try reader["fleetId"].readIfPresent() ?? ""
+        value.workerId = try reader["workerId"].readIfPresent() ?? ""
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lifecycleStatus = try reader["lifecycleStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.targetLifecycleStatus = try reader["targetLifecycleStatus"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.log = try reader["log"].readIfPresent(with: DeadlineClientTypes.LogConfiguration.read(from:))
+        value.hostProperties = try reader["hostProperties"].readIfPresent(with: DeadlineClientTypes.HostPropertiesResponse.read(from:))
+        value.workerLog = try reader["workerLog"].readIfPresent(with: DeadlineClientTypes.LogConfiguration.read(from:))
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetStepError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetStepError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetStepError()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.stepId = try reader["stepId"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetStepIdentifier {
+
+    static func write(value: DeadlineClientTypes.BatchGetStepIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["farmId"].write(value.farmId)
+        try writer["jobId"].write(value.jobId)
+        try writer["queueId"].write(value.queueId)
+        try writer["stepId"].write(value.stepId)
+    }
+}
+
+extension DeadlineClientTypes.BatchGetStepItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetStepItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetStepItem()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.stepId = try reader["stepId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.lifecycleStatus = try reader["lifecycleStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.lifecycleStatusMessage = try reader["lifecycleStatusMessage"].readIfPresent()
+        value.taskRunStatus = try reader["taskRunStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.taskRunStatusCounts = try reader["taskRunStatusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.taskFailureRetryCount = try reader["taskFailureRetryCount"].readIfPresent()
+        value.targetTaskRunStatus = try reader["targetTaskRunStatus"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dependencyCounts = try reader["dependencyCounts"].readIfPresent(with: DeadlineClientTypes.DependencyCounts.read(from:))
+        value.requiredCapabilities = try reader["requiredCapabilities"].readIfPresent(with: DeadlineClientTypes.StepRequiredCapabilities.read(from:))
+        value.parameterSpace = try reader["parameterSpace"].readIfPresent(with: DeadlineClientTypes.ParameterSpace.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetTaskError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetTaskError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetTaskError()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.stepId = try reader["stepId"].readIfPresent() ?? ""
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetTaskIdentifier {
+
+    static func write(value: DeadlineClientTypes.BatchGetTaskIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["farmId"].write(value.farmId)
+        try writer["jobId"].write(value.jobId)
+        try writer["queueId"].write(value.queueId)
+        try writer["stepId"].write(value.stepId)
+        try writer["taskId"].write(value.taskId)
+    }
+}
+
+extension DeadlineClientTypes.BatchGetTaskItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetTaskItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetTaskItem()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.stepId = try reader["stepId"].readIfPresent() ?? ""
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.runStatus = try reader["runStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.targetRunStatus = try reader["targetRunStatus"].readIfPresent()
+        value.failureRetryCount = try reader["failureRetryCount"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.latestSessionActionId = try reader["latestSessionActionId"].readIfPresent()
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.TaskParameterValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetWorkerError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetWorkerError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetWorkerError()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.fleetId = try reader["fleetId"].readIfPresent() ?? ""
+        value.workerId = try reader["workerId"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchGetWorkerIdentifier {
+
+    static func write(value: DeadlineClientTypes.BatchGetWorkerIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["farmId"].write(value.farmId)
+        try writer["fleetId"].write(value.fleetId)
+        try writer["workerId"].write(value.workerId)
+    }
+}
+
+extension DeadlineClientTypes.BatchGetWorkerItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchGetWorkerItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchGetWorkerItem()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.fleetId = try reader["fleetId"].readIfPresent() ?? ""
+        value.workerId = try reader["workerId"].readIfPresent() ?? ""
+        value.hostProperties = try reader["hostProperties"].readIfPresent(with: DeadlineClientTypes.HostPropertiesResponse.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.log = try reader["log"].readIfPresent(with: DeadlineClientTypes.LogConfiguration.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchUpdateJobError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchUpdateJobError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchUpdateJobError()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchUpdateJobItem {
+
+    static func write(value: DeadlineClientTypes.BatchUpdateJobItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["farmId"].write(value.farmId)
+        try writer["jobId"].write(value.jobId)
+        try writer["lifecycleStatus"].write(value.lifecycleStatus)
+        try writer["maxFailedTasksCount"].write(value.maxFailedTasksCount)
+        try writer["maxRetriesPerTask"].write(value.maxRetriesPerTask)
+        try writer["maxWorkerCount"].write(value.maxWorkerCount)
+        try writer["name"].write(value.name)
+        try writer["priority"].write(value.priority)
+        try writer["queueId"].write(value.queueId)
+        try writer["targetTaskRunStatus"].write(value.targetTaskRunStatus)
+    }
+}
+
+extension DeadlineClientTypes.BatchUpdateTaskError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.BatchUpdateTaskError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.BatchUpdateTaskError()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.stepId = try reader["stepId"].readIfPresent() ?? ""
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeadlineClientTypes.BatchUpdateTaskItem {
+
+    static func write(value: DeadlineClientTypes.BatchUpdateTaskItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["farmId"].write(value.farmId)
+        try writer["jobId"].write(value.jobId)
+        try writer["queueId"].write(value.queueId)
+        try writer["stepId"].write(value.stepId)
+        try writer["targetRunStatus"].write(value.targetRunStatus)
+        try writer["taskId"].write(value.taskId)
+    }
+}
+
 extension DeadlineClientTypes.BudgetActionToAdd {
 
     static func write(value: DeadlineClientTypes.BudgetActionToAdd?, to writer: SmithyJSON.Writer) throws {
@@ -18353,13 +21203,13 @@ extension DeadlineClientTypes.BudgetSummary {
         value.usageTrackingResource = try reader["usageTrackingResource"].readIfPresent(with: DeadlineClientTypes.UsageTrackingResource.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.displayName = try reader["displayName"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
         value.approximateDollarLimit = try reader["approximateDollarLimit"].readIfPresent() ?? 0.0
         value.usages = try reader["usages"].readIfPresent(with: DeadlineClientTypes.ConsumedUsages.read(from:))
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.description = try reader["description"].readIfPresent()
         return value
     }
 }
@@ -18374,10 +21224,30 @@ extension DeadlineClientTypes.ConsumedUsages {
     }
 }
 
+extension DeadlineClientTypes.CustomerManagedAutoScalingConfiguration {
+
+    static func write(value: DeadlineClientTypes.CustomerManagedAutoScalingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scaleOutWorkersPerMinute"].write(value.scaleOutWorkersPerMinute)
+        try writer["standbyWorkerCount"].write(value.standbyWorkerCount)
+        try writer["workerIdleDurationSeconds"].write(value.workerIdleDurationSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.CustomerManagedAutoScalingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.CustomerManagedAutoScalingConfiguration()
+        value.standbyWorkerCount = try reader["standbyWorkerCount"].readIfPresent()
+        value.workerIdleDurationSeconds = try reader["workerIdleDurationSeconds"].readIfPresent() ?? 300
+        value.scaleOutWorkersPerMinute = try reader["scaleOutWorkersPerMinute"].readIfPresent()
+        return value
+    }
+}
+
 extension DeadlineClientTypes.CustomerManagedFleetConfiguration {
 
     static func write(value: DeadlineClientTypes.CustomerManagedFleetConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["autoScalingConfiguration"].write(value.autoScalingConfiguration, with: DeadlineClientTypes.CustomerManagedAutoScalingConfiguration.write(value:to:))
         try writer["mode"].write(value.mode)
         try writer["storageProfileId"].write(value.storageProfileId)
         try writer["tagPropagationMode"].write(value.tagPropagationMode)
@@ -18388,6 +21258,7 @@ extension DeadlineClientTypes.CustomerManagedFleetConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeadlineClientTypes.CustomerManagedFleetConfiguration()
         value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        value.autoScalingConfiguration = try reader["autoScalingConfiguration"].readIfPresent(with: DeadlineClientTypes.CustomerManagedAutoScalingConfiguration.read(from:))
         value.workerCapabilities = try reader["workerCapabilities"].readIfPresent(with: DeadlineClientTypes.CustomerManagedWorkerCapabilities.read(from:))
         value.storageProfileId = try reader["storageProfileId"].readIfPresent()
         value.tagPropagationMode = try reader["tagPropagationMode"].readIfPresent()
@@ -19079,16 +21950,16 @@ extension DeadlineClientTypes.LimitSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.LimitSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeadlineClientTypes.LimitSummary()
-        value.displayName = try reader["displayName"].readIfPresent() ?? ""
-        value.amountRequirementName = try reader["amountRequirementName"].readIfPresent() ?? ""
-        value.maxCount = try reader["maxCount"].readIfPresent() ?? 0
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.limitId = try reader["limitId"].readIfPresent() ?? ""
+        value.currentCount = try reader["currentCount"].readIfPresent() ?? 0
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
-        value.farmId = try reader["farmId"].readIfPresent() ?? ""
-        value.limitId = try reader["limitId"].readIfPresent() ?? ""
-        value.currentCount = try reader["currentCount"].readIfPresent() ?? 0
+        value.displayName = try reader["displayName"].readIfPresent() ?? ""
+        value.amountRequirementName = try reader["amountRequirementName"].readIfPresent() ?? ""
+        value.maxCount = try reader["maxCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -19172,6 +22043,7 @@ extension DeadlineClientTypes.MonitorSummary {
         value.url = try reader["url"].readIfPresent() ?? ""
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.identityCenterInstanceArn = try reader["identityCenterInstanceArn"].readIfPresent() ?? ""
+        value.identityCenterRegion = try reader["identityCenterRegion"].readIfPresent()
         value.identityCenterApplicationArn = try reader["identityCenterApplicationArn"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
@@ -19240,6 +22112,34 @@ extension DeadlineClientTypes.PosixUser {
     }
 }
 
+extension DeadlineClientTypes.PriorityBalancedSchedulingConfiguration {
+
+    static func write(value: DeadlineClientTypes.PriorityBalancedSchedulingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["renderingTaskBuffer"].write(value.renderingTaskBuffer)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.PriorityBalancedSchedulingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.PriorityBalancedSchedulingConfiguration()
+        value.renderingTaskBuffer = try reader["renderingTaskBuffer"].readIfPresent() ?? 1
+        return value
+    }
+}
+
+extension DeadlineClientTypes.PriorityFifoSchedulingConfiguration {
+
+    static func write(value: DeadlineClientTypes.PriorityFifoSchedulingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.PriorityFifoSchedulingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DeadlineClientTypes.PriorityFifoSchedulingConfiguration()
+    }
+}
+
 extension DeadlineClientTypes.QueueEnvironmentSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.QueueEnvironmentSummary {
@@ -19273,13 +22173,13 @@ extension DeadlineClientTypes.QueueLimitAssociationSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.QueueLimitAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeadlineClientTypes.QueueLimitAssociationSummary()
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.limitId = try reader["limitId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
-        value.queueId = try reader["queueId"].readIfPresent() ?? ""
-        value.limitId = try reader["limitId"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -19336,6 +22236,112 @@ extension DeadlineClientTypes.S3Location {
         guard let value else { return }
         try writer["bucketName"].write(value.bucketName)
         try writer["key"].write(value.key)
+    }
+}
+
+extension DeadlineClientTypes.SchedulingConfiguration {
+
+    static func write(value: DeadlineClientTypes.SchedulingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .prioritybalanced(prioritybalanced):
+                try writer["priorityBalanced"].write(prioritybalanced, with: DeadlineClientTypes.PriorityBalancedSchedulingConfiguration.write(value:to:))
+            case let .priorityfifo(priorityfifo):
+                try writer["priorityFifo"].write(priorityfifo, with: DeadlineClientTypes.PriorityFifoSchedulingConfiguration.write(value:to:))
+            case let .weightedbalanced(weightedbalanced):
+                try writer["weightedBalanced"].write(weightedbalanced, with: DeadlineClientTypes.WeightedBalancedSchedulingConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.SchedulingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "priorityFifo":
+                return .priorityfifo(try reader["priorityFifo"].read(with: DeadlineClientTypes.PriorityFifoSchedulingConfiguration.read(from:)))
+            case "priorityBalanced":
+                return .prioritybalanced(try reader["priorityBalanced"].read(with: DeadlineClientTypes.PriorityBalancedSchedulingConfiguration.read(from:)))
+            case "weightedBalanced":
+                return .weightedbalanced(try reader["weightedBalanced"].read(with: DeadlineClientTypes.WeightedBalancedSchedulingConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DeadlineClientTypes.SchedulingMaxPriorityOverride {
+
+    static func write(value: DeadlineClientTypes.SchedulingMaxPriorityOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .alwaysschedulefirst(alwaysschedulefirst):
+                try writer["alwaysScheduleFirst"].write(alwaysschedulefirst, with: DeadlineClientTypes.SchedulingMaxPriorityOverrideAlwaysScheduleFirst.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.SchedulingMaxPriorityOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "alwaysScheduleFirst":
+                return .alwaysschedulefirst(try reader["alwaysScheduleFirst"].read(with: DeadlineClientTypes.SchedulingMaxPriorityOverrideAlwaysScheduleFirst.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DeadlineClientTypes.SchedulingMaxPriorityOverrideAlwaysScheduleFirst {
+
+    static func write(value: DeadlineClientTypes.SchedulingMaxPriorityOverrideAlwaysScheduleFirst?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.SchedulingMaxPriorityOverrideAlwaysScheduleFirst {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DeadlineClientTypes.SchedulingMaxPriorityOverrideAlwaysScheduleFirst()
+    }
+}
+
+extension DeadlineClientTypes.SchedulingMinPriorityOverride {
+
+    static func write(value: DeadlineClientTypes.SchedulingMinPriorityOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .alwaysschedulelast(alwaysschedulelast):
+                try writer["alwaysScheduleLast"].write(alwaysschedulelast, with: DeadlineClientTypes.SchedulingMinPriorityOverrideAlwaysScheduleLast.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.SchedulingMinPriorityOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "alwaysScheduleLast":
+                return .alwaysschedulelast(try reader["alwaysScheduleLast"].read(with: DeadlineClientTypes.SchedulingMinPriorityOverrideAlwaysScheduleLast.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DeadlineClientTypes.SchedulingMinPriorityOverrideAlwaysScheduleLast {
+
+    static func write(value: DeadlineClientTypes.SchedulingMinPriorityOverrideAlwaysScheduleLast?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.SchedulingMinPriorityOverrideAlwaysScheduleLast {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DeadlineClientTypes.SchedulingMinPriorityOverrideAlwaysScheduleLast()
     }
 }
 
@@ -19397,10 +22403,30 @@ extension DeadlineClientTypes.SearchTermFilterExpression {
     }
 }
 
+extension DeadlineClientTypes.ServiceManagedEc2AutoScalingConfiguration {
+
+    static func write(value: DeadlineClientTypes.ServiceManagedEc2AutoScalingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scaleOutWorkersPerMinute"].write(value.scaleOutWorkersPerMinute)
+        try writer["standbyWorkerCount"].write(value.standbyWorkerCount)
+        try writer["workerIdleDurationSeconds"].write(value.workerIdleDurationSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.ServiceManagedEc2AutoScalingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.ServiceManagedEc2AutoScalingConfiguration()
+        value.standbyWorkerCount = try reader["standbyWorkerCount"].readIfPresent()
+        value.workerIdleDurationSeconds = try reader["workerIdleDurationSeconds"].readIfPresent() ?? 300
+        value.scaleOutWorkersPerMinute = try reader["scaleOutWorkersPerMinute"].readIfPresent()
+        return value
+    }
+}
+
 extension DeadlineClientTypes.ServiceManagedEc2FleetConfiguration {
 
     static func write(value: DeadlineClientTypes.ServiceManagedEc2FleetConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["autoScalingConfiguration"].write(value.autoScalingConfiguration, with: DeadlineClientTypes.ServiceManagedEc2AutoScalingConfiguration.write(value:to:))
         try writer["instanceCapabilities"].write(value.instanceCapabilities, with: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities.write(value:to:))
         try writer["instanceMarketOptions"].write(value.instanceMarketOptions, with: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions.write(value:to:))
         try writer["storageProfileId"].write(value.storageProfileId)
@@ -19414,6 +22440,7 @@ extension DeadlineClientTypes.ServiceManagedEc2FleetConfiguration {
         value.instanceMarketOptions = try reader["instanceMarketOptions"].readIfPresent(with: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions.read(from:))
         value.vpcConfiguration = try reader["vpcConfiguration"].readIfPresent(with: DeadlineClientTypes.VpcConfiguration.read(from:))
         value.storageProfileId = try reader["storageProfileId"].readIfPresent()
+        value.autoScalingConfiguration = try reader["autoScalingConfiguration"].readIfPresent(with: DeadlineClientTypes.ServiceManagedEc2AutoScalingConfiguration.read(from:))
         return value
     }
 }
@@ -19517,8 +22544,8 @@ extension DeadlineClientTypes.SessionActionSummary {
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.workerUpdatedAt = try reader["workerUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.progressPercent = try reader["progressPercent"].readIfPresent()
-        value.definition = try reader["definition"].readIfPresent(with: DeadlineClientTypes.SessionActionDefinitionSummary.read(from:))
         value.manifests = try reader["manifests"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.TaskRunManifestPropertiesResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.definition = try reader["definition"].readIfPresent(with: DeadlineClientTypes.SessionActionDefinitionSummary.read(from:))
         return value
     }
 }
@@ -19549,9 +22576,9 @@ extension DeadlineClientTypes.SessionSummary {
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lifecycleStatus = try reader["lifecycleStatus"].readIfPresent() ?? .sdkUnknown("")
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.targetLifecycleStatus = try reader["targetLifecycleStatus"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
-        value.targetLifecycleStatus = try reader["targetLifecycleStatus"].readIfPresent()
         return value
     }
 }
@@ -19910,12 +22937,12 @@ extension DeadlineClientTypes.TaskSummary {
         value.runStatus = try reader["runStatus"].readIfPresent() ?? .sdkUnknown("")
         value.targetRunStatus = try reader["targetRunStatus"].readIfPresent()
         value.failureRetryCount = try reader["failureRetryCount"].readIfPresent()
-        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.TaskParameterValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         value.latestSessionActionId = try reader["latestSessionActionId"].readIfPresent()
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.TaskParameterValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -20010,6 +23037,33 @@ extension DeadlineClientTypes.VpcConfiguration {
     }
 }
 
+extension DeadlineClientTypes.WeightedBalancedSchedulingConfiguration {
+
+    static func write(value: DeadlineClientTypes.WeightedBalancedSchedulingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["errorWeight"].write(value.errorWeight)
+        try writer["maxPriorityOverride"].write(value.maxPriorityOverride, with: DeadlineClientTypes.SchedulingMaxPriorityOverride.write(value:to:))
+        try writer["minPriorityOverride"].write(value.minPriorityOverride, with: DeadlineClientTypes.SchedulingMinPriorityOverride.write(value:to:))
+        try writer["priorityWeight"].write(value.priorityWeight)
+        try writer["renderingTaskBuffer"].write(value.renderingTaskBuffer)
+        try writer["renderingTaskWeight"].write(value.renderingTaskWeight)
+        try writer["submissionTimeWeight"].write(value.submissionTimeWeight)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.WeightedBalancedSchedulingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.WeightedBalancedSchedulingConfiguration()
+        value.priorityWeight = try reader["priorityWeight"].readIfPresent() ?? 100.0
+        value.errorWeight = try reader["errorWeight"].readIfPresent() ?? -10.0
+        value.submissionTimeWeight = try reader["submissionTimeWeight"].readIfPresent() ?? 3.0
+        value.renderingTaskWeight = try reader["renderingTaskWeight"].readIfPresent() ?? -100.0
+        value.renderingTaskBuffer = try reader["renderingTaskBuffer"].readIfPresent() ?? 1
+        value.maxPriorityOverride = try reader["maxPriorityOverride"].readIfPresent(with: DeadlineClientTypes.SchedulingMaxPriorityOverride.read(from:))
+        value.minPriorityOverride = try reader["minPriorityOverride"].readIfPresent(with: DeadlineClientTypes.SchedulingMinPriorityOverride.read(from:))
+        return value
+    }
+}
+
 extension DeadlineClientTypes.WindowsUser {
 
     static func write(value: DeadlineClientTypes.WindowsUser?, to writer: SmithyJSON.Writer) throws {
@@ -20092,11 +23146,11 @@ extension DeadlineClientTypes.WorkerSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.WorkerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeadlineClientTypes.WorkerSummary()
-        value.workerId = try reader["workerId"].readIfPresent() ?? ""
         value.farmId = try reader["farmId"].readIfPresent() ?? ""
         value.fleetId = try reader["fleetId"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.workerId = try reader["workerId"].readIfPresent() ?? ""
         value.hostProperties = try reader["hostProperties"].readIfPresent(with: DeadlineClientTypes.HostPropertiesResponse.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.log = try reader["log"].readIfPresent(with: DeadlineClientTypes.LogConfiguration.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""

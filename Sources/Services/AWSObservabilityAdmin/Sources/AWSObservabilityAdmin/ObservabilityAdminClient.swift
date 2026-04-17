@@ -2575,6 +2575,9 @@ extension ObservabilityAdminClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartTelemetryEvaluationInput, StartTelemetryEvaluationOutput>(StartTelemetryEvaluationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartTelemetryEvaluationInput, StartTelemetryEvaluationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartTelemetryEvaluationInput, StartTelemetryEvaluationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartTelemetryEvaluationInput, StartTelemetryEvaluationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartTelemetryEvaluationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTelemetryEvaluationInput, StartTelemetryEvaluationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTelemetryEvaluationOutput>(StartTelemetryEvaluationOutput.httpOutput(from:), StartTelemetryEvaluationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTelemetryEvaluationInput, StartTelemetryEvaluationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
@@ -2643,6 +2646,9 @@ extension ObservabilityAdminClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartTelemetryEvaluationForOrganizationInput, StartTelemetryEvaluationForOrganizationOutput>(StartTelemetryEvaluationForOrganizationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartTelemetryEvaluationForOrganizationInput, StartTelemetryEvaluationForOrganizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartTelemetryEvaluationForOrganizationInput, StartTelemetryEvaluationForOrganizationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartTelemetryEvaluationForOrganizationInput, StartTelemetryEvaluationForOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartTelemetryEvaluationForOrganizationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTelemetryEvaluationForOrganizationInput, StartTelemetryEvaluationForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTelemetryEvaluationForOrganizationOutput>(StartTelemetryEvaluationForOrganizationOutput.httpOutput(from:), StartTelemetryEvaluationForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTelemetryEvaluationForOrganizationInput, StartTelemetryEvaluationForOrganizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())

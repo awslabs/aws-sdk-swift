@@ -1,7 +1,7 @@
 package software.amazon.smithy.aws.swift.codegen
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
-import software.amazon.smithy.aws.swift.codegen.protocols.restjson.AWSRestJson1ProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.protocols.awsjson.AWSJSON1_0ProtocolGenerator
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
 import software.amazon.smithy.swift.codegen.core.GenerationContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -9,7 +9,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 class PresignerGeneratorTests {
     @Test
     fun `001 presignable on getFooInput`() {
-        val context = setupTests("awsrestjson1/presignable.smithy", "smithy.swift.traits#Example")
+        val context = setupTests("awsjson/presignable.smithy", "smithy.swift.traits#Example")
         val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/GetFooInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
@@ -20,8 +20,14 @@ extension GetFooInput {
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ExampleClient.getFooOperation
         let context = Smithy.ContextBuilder()
-                      .withMethod(value: .get)
+                      .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getFoo")
                       .withUnsignedPayloadTrait(value: false)
@@ -34,17 +40,18 @@ extension GetFooInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "example-signing-name")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetFooInput, GetFooOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFooInput, GetFooOutput>(GetFooInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFooInput, GetFooOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFooOutput>(GetFooOutput.httpOutput(from:), GetFooOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFooInput, GetFooOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFooInput, GetFooOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -53,7 +60,9 @@ extension GetFooInput {
         let endpointParamsBlock = { (context: Smithy.Context) in
             EndpointParams()
         }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFooOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFooOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetFooInput, GetFooOutput>(overrides: ["X-Amz-Target": "Example.GetFoo"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetFooInput, GetFooOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFooOutput>())
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFooInput, GetFooOutput>(serviceID: serviceName, version: ExampleClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
@@ -82,7 +91,7 @@ extension GetFooInput {
 
     @Test
     fun `002 presignable on postFooInput`() {
-        val context = setupTests("awsrestjson1/presignable.smithy", "smithy.swift.traits#Example")
+        val context = setupTests("awsjson/presignable.smithy", "smithy.swift.traits#Example")
         val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/PostFooInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
@@ -93,6 +102,12 @@ extension PostFooInput {
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ExampleClient.postFooOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -107,20 +122,18 @@ extension PostFooInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "example-signing-name")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PostFooInput, PostFooOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PostFooInput, PostFooOutput>(PostFooInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PostFooInput, PostFooOutput>())
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PostFooInput, PostFooOutput>(contentType: "application/json"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PostFooInput, PostFooOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PostFooInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PostFooInput, PostFooOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PostFooOutput>(PostFooOutput.httpOutput(from:), PostFooOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PostFooInput, PostFooOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -129,7 +142,9 @@ extension PostFooInput {
         let endpointParamsBlock = { (context: Smithy.Context) in
             EndpointParams()
         }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PostFooOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PostFooOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PostFooInput, PostFooOutput>(overrides: ["X-Amz-Target": "Example.PostFoo"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PostFooInput, PostFooOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PostFooOutput>())
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PostFooInput, PostFooOutput>(serviceID: serviceName, version: ExampleClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
@@ -158,7 +173,7 @@ extension PostFooInput {
 
     @Test
     fun `003 presignable on putFooInput`() {
-        val context = setupTests("awsrestjson1/presignable.smithy", "smithy.swift.traits#Example")
+        val context = setupTests("awsjson/presignable.smithy", "smithy.swift.traits#Example")
         val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/PutFooInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
@@ -169,8 +184,14 @@ extension PutFooInput {
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ExampleClient.putFooOperation
         let context = Smithy.ContextBuilder()
-                      .withMethod(value: .put)
+                      .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putFoo")
                       .withUnsignedPayloadTrait(value: false)
@@ -183,20 +204,18 @@ extension PutFooInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "example-signing-name")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutFooInput, PutFooOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutFooInput, PutFooOutput>(PutFooInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutFooInput, PutFooOutput>())
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutFooInput, PutFooOutput>(contentType: "application/json"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutFooInput, PutFooOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutFooInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutFooInput, PutFooOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutFooOutput>(PutFooOutput.httpOutput(from:), PutFooOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutFooInput, PutFooOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -205,7 +224,9 @@ extension PutFooInput {
         let endpointParamsBlock = { (context: Smithy.Context) in
             EndpointParams()
         }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutFooOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutFooOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutFooInput, PutFooOutput>(overrides: ["X-Amz-Target": "Example.PutFoo"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutFooInput, PutFooOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutFooOutput>())
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutFooInput, PutFooOutput>(serviceID: serviceName, version: ExampleClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
@@ -235,10 +256,10 @@ extension PutFooInput {
     private fun setupTests(
         smithyFile: String,
         serviceShapeId: String,
+        generator: ProtocolGenerator = AWSJSON1_0ProtocolGenerator(),
     ): TestContext {
         val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, RestJson1Trait.ID)
         val presigner = PresignerGenerator()
-        val generator = AWSRestJson1ProtocolGenerator()
         val codegenContext =
             GenerationContext(context.ctx.model, context.ctx.symbolProvider, context.ctx.settings, context.manifest, generator)
         val protocolGenerationContext =
@@ -248,7 +269,7 @@ extension PutFooInput {
                 context.ctx.service,
                 context.ctx.symbolProvider,
                 listOf(),
-                RestJson1Trait.ID,
+                generator.protocol,
                 context.ctx.delegator,
             )
         codegenContext.protocolGenerator?.initializeMiddleware(context.ctx)

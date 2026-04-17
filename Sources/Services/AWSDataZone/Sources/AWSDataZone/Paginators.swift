@@ -683,6 +683,7 @@ extension ListProjectsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             name: self.name,
             nextToken: token,
+            projectCategory: self.projectCategory,
             userIdentifier: self.userIdentifier
         )}
 }
