@@ -47,6 +47,8 @@ public struct DefaultSTSAuthSchemeResolver: STSAuthSchemeResolver {
                 }
                 sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
                 validAuthOptions.append(sigv4Option)
+                let sigv4aOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4a")
+                validAuthOptions.append(sigv4aOption)
         }
         return self.reprioritizeAuthOptions(authSchemePreference: serviceParams.authSchemePreference, authOptions: validAuthOptions)
     }

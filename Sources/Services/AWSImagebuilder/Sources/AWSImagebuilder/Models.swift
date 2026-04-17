@@ -5593,6 +5593,41 @@ public struct ImportComponentOutput: Swift.Sendable {
     }
 }
 
+extension ImagebuilderClientTypes {
+
+    /// Controls Secure Boot and UEFI data settings for the resulting image during ISO imports. For more information, see [UEFI Secure Boot for Amazon EC2 instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/uefi-secure-boot.html) in the Amazon EC2 User Guide .
+    public struct RegisterImageOptions: Swift.Sendable {
+        /// Specifies whether Secure Boot is enabled for the output AMI. The default value is true. To disable Secure Boot for custom unsigned drivers, set this value to false.
+        public var secureBootEnabled: Swift.Bool?
+        /// A Base64-encoded representation of the non-volatile UEFI variable store. You can specify this parameter only when secureBootEnabled is true or unspecified. You can inspect and modify the UEFI data by using the [python-uefivars tool on GitHub](https://github.com/awslabs/python-uefivars). For more information, see [UEFI variables for Amazon EC2 instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/uefi-variables.html).
+        public var uefiData: Swift.String?
+
+        public init(
+            secureBootEnabled: Swift.Bool? = nil,
+            uefiData: Swift.String? = nil
+        ) {
+            self.secureBootEnabled = secureBootEnabled
+            self.uefiData = uefiData
+        }
+    }
+}
+
+extension ImagebuilderClientTypes {
+
+    /// Windows-specific configuration settings for an ISO import, including the edition to install from a multi-edition Windows ISO file.
+    public struct WindowsConfiguration: Swift.Sendable {
+        /// The 1-based index that specifies which Windows edition to install from a multi-edition Windows ISO file. A Windows ISO can contain a .wim file with multiple image indexes, each representing a different edition.
+        /// This member is required.
+        public var imageIndex: Swift.Int?
+
+        public init(
+            imageIndex: Swift.Int? = nil
+        ) {
+            self.imageIndex = imageIndex
+        }
+    }
+}
+
 public struct ImportDiskImageInput: Swift.Sendable {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
@@ -5615,6 +5650,8 @@ public struct ImportDiskImageInput: Swift.Sendable {
     /// The operating system platform for the imported image. Allowed values include the following: Windows.
     /// This member is required.
     public var platform: Swift.String?
+    /// Configures Secure Boot and UEFI settings for the imported image.
+    public var registerImageOptions: ImagebuilderClientTypes.RegisterImageOptions?
     /// The semantic version to attach to the image that's created during the import process. This version follows the semantic version syntax.
     /// This member is required.
     public var semanticVersion: Swift.String?
@@ -5623,6 +5660,8 @@ public struct ImportDiskImageInput: Swift.Sendable {
     /// The uri of the ISO disk file that's stored in Amazon S3.
     /// This member is required.
     public var uri: Swift.String?
+    /// Specifies Windows settings for ISO imports.
+    public var windowsConfiguration: ImagebuilderClientTypes.WindowsConfiguration?
 
     public init(
         clientToken: Swift.String? = nil,
@@ -5633,9 +5672,11 @@ public struct ImportDiskImageInput: Swift.Sendable {
         name: Swift.String? = nil,
         osVersion: Swift.String? = nil,
         platform: Swift.String? = nil,
+        registerImageOptions: ImagebuilderClientTypes.RegisterImageOptions? = nil,
         semanticVersion: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
-        uri: Swift.String? = nil
+        uri: Swift.String? = nil,
+        windowsConfiguration: ImagebuilderClientTypes.WindowsConfiguration? = nil
     ) {
         self.clientToken = clientToken
         self.description = description
@@ -5645,9 +5686,11 @@ public struct ImportDiskImageInput: Swift.Sendable {
         self.name = name
         self.osVersion = osVersion
         self.platform = platform
+        self.registerImageOptions = registerImageOptions
         self.semanticVersion = semanticVersion
         self.tags = tags
         self.uri = uri
+        self.windowsConfiguration = windowsConfiguration
     }
 }
 
@@ -9745,9 +9788,11 @@ extension ImportDiskImageInput {
         try writer["name"].write(value.name)
         try writer["osVersion"].write(value.osVersion)
         try writer["platform"].write(value.platform)
+        try writer["registerImageOptions"].write(value.registerImageOptions, with: ImagebuilderClientTypes.RegisterImageOptions.write(value:to:))
         try writer["semanticVersion"].write(value.semanticVersion)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["uri"].write(value.uri)
+        try writer["windowsConfiguration"].write(value.windowsConfiguration, with: ImagebuilderClientTypes.WindowsConfiguration.write(value:to:))
     }
 }
 
@@ -14382,6 +14427,15 @@ extension ImagebuilderClientTypes.ProductCodeListItem {
     }
 }
 
+extension ImagebuilderClientTypes.RegisterImageOptions {
+
+    static func write(value: ImagebuilderClientTypes.RegisterImageOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["secureBootEnabled"].write(value.secureBootEnabled)
+        try writer["uefiData"].write(value.uefiData)
+    }
+}
+
 extension ImagebuilderClientTypes.Remediation {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.Remediation {
@@ -14579,6 +14633,14 @@ extension ImagebuilderClientTypes.VulnerablePackage {
         value.fixedInVersion = try reader["fixedInVersion"].readIfPresent()
         value.remediation = try reader["remediation"].readIfPresent()
         return value
+    }
+}
+
+extension ImagebuilderClientTypes.WindowsConfiguration {
+
+    static func write(value: ImagebuilderClientTypes.WindowsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["imageIndex"].write(value.imageIndex)
     }
 }
 

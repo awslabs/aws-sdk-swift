@@ -16870,7 +16870,7 @@ extension ConnectClientTypes {
         public var entryPoint: ConnectClientTypes.TestCaseEntryPoint?
         /// The identifier of the test case.
         public var id: Swift.String?
-        /// Defines the test attributes for precise data representation.
+        /// Defines the test attributes for precise data representation. The value must be a valid JSON string.
         public var initializationData: Swift.String?
         /// The region in which the test case was last modified.
         public var lastModifiedRegion: Swift.String?
@@ -24920,7 +24920,7 @@ public struct ListTestCaseExecutionRecordsOutput: Swift.Sendable {
 
 public struct ListTestCaseExecutionsInput: Swift.Sendable {
     /// Filter executions that started before this time.
-    public var endTime: Foundation.Date?
+    public var endTime: Swift.Int?
     /// The identifier of the Amazon Connect instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -24929,7 +24929,7 @@ public struct ListTestCaseExecutionsInput: Swift.Sendable {
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// Filter executions that started after this time.
-    public var startTime: Foundation.Date?
+    public var startTime: Swift.Int?
     /// Filter executions by status.
     public var status: ConnectClientTypes.TestCaseExecutionStatus?
     /// Filter executions by test case identifier.
@@ -24938,11 +24938,11 @@ public struct ListTestCaseExecutionsInput: Swift.Sendable {
     public var testCaseName: Swift.String?
 
     public init(
-        endTime: Foundation.Date? = nil,
+        endTime: Swift.Int? = nil,
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        startTime: Foundation.Date? = nil,
+        startTime: Swift.Int? = nil,
         status: ConnectClientTypes.TestCaseExecutionStatus? = nil,
         testCaseId: Swift.String? = nil,
         testCaseName: Swift.String? = nil
@@ -39887,7 +39887,7 @@ extension ListTestCaseExecutionsInput {
             items.append(statusQueryItem)
         }
         if let endTime = value.endTime {
-            let endTimeQueryItem = Smithy.URIQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+            let endTimeQueryItem = Smithy.URIQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(endTime).urlPercentEncoding())
             items.append(endTimeQueryItem)
         }
         if let nextToken = value.nextToken {
@@ -39899,7 +39899,7 @@ extension ListTestCaseExecutionsInput {
             items.append(maxResultsQueryItem)
         }
         if let startTime = value.startTime {
-            let startTimeQueryItem = Smithy.URIQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+            let startTimeQueryItem = Smithy.URIQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(startTime).urlPercentEncoding())
             items.append(startTimeQueryItem)
         }
         if let testCaseId = value.testCaseId {
