@@ -4774,7 +4774,7 @@ extension NeptuneClient {
 
     /// Performs the `RemoveFromGlobalCluster` operation on the `Neptune` service.
     ///
-    /// Detaches a Neptune DB cluster from a Neptune global database. A secondary cluster becomes a normal standalone cluster with read-write capability instead of being read-only, and no longer receives data from a the primary cluster.
+    /// Detaches a Neptune DB cluster from a Neptune global database. A secondary cluster becomes a normal standalone cluster with read-write capability instead of being read-only, and no longer receives data from the primary cluster.
     ///
     /// - Parameter input: [no documentation found] (Type: `RemoveFromGlobalClusterInput`)
     ///
