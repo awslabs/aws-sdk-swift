@@ -34,6 +34,7 @@ extension Target.Dependency {
     static var SmithyIdentityAPI: Self { .product(name: "SmithyIdentityAPI", package: "smithy-swift") }
     static var SmithyJSON: Self { .product(name: "SmithyJSON", package: "smithy-swift") }
     static var SmithyReadWrite: Self { .product(name: "SmithyReadWrite", package: "smithy-swift") }
+    static var SmithyRestXML: Self { .product(name: "SmithyRestXML", package: "smithy-swift") }
     static var SmithyRetries: Self { .product(name: "SmithyRetries", package: "smithy-swift") }
     static var SmithyRetriesAPI: Self { .product(name: "SmithyRetriesAPI", package: "smithy-swift") }
     static var SmithyStreams: Self { .product(name: "SmithyStreams", package: "smithy-swift") }
