@@ -1881,6 +1881,141 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// Details of an Apache Kafka Cluster.
+    public struct ApacheKafkaCluster: Swift.Sendable {
+        /// The ID of the Apache Kafka cluster.
+        /// This member is required.
+        public var apacheKafkaClusterId: Swift.String?
+        /// The bootstrap broker string of the Apache Kafka cluster.
+        /// This member is required.
+        public var bootstrapBrokerString: Swift.String?
+
+        public init(
+            apacheKafkaClusterId: Swift.String? = nil,
+            bootstrapBrokerString: Swift.String? = nil
+        ) {
+            self.apacheKafkaClusterId = apacheKafkaClusterId
+            self.bootstrapBrokerString = bootstrapBrokerString
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// The SASL/SCRAM authentication mechanism.
+    public enum KafkaClusterSaslScramMechanism: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case sha256
+        case sha512
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KafkaClusterSaslScramMechanism] {
+            return [
+                .sha256,
+                .sha512
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .sha256: return "SHA256"
+            case .sha512: return "SHA512"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Details for SASL/SCRAM client authentication.
+    public struct KafkaClusterSaslScramAuthentication: Swift.Sendable {
+        /// The SASL/SCRAM authentication mechanism.
+        /// This member is required.
+        public var mechanism: KafkaClientTypes.KafkaClusterSaslScramMechanism?
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret.
+        /// This member is required.
+        public var secretArn: Swift.String?
+
+        public init(
+            mechanism: KafkaClientTypes.KafkaClusterSaslScramMechanism? = nil,
+            secretArn: Swift.String? = nil
+        ) {
+            self.mechanism = mechanism
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Details of the client authentication used by the Apache Kafka cluster.
+    public struct KafkaClusterClientAuthentication: Swift.Sendable {
+        /// Details for SASL/SCRAM client authentication.
+        /// This member is required.
+        public var saslScram: KafkaClientTypes.KafkaClusterSaslScramAuthentication?
+
+        public init(
+            saslScram: KafkaClientTypes.KafkaClusterSaslScramAuthentication? = nil
+        ) {
+            self.saslScram = saslScram
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// The type of encryption in transit to the Apache Kafka cluster.
+    public enum KafkaClusterEncryptionInTransitType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case tls
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KafkaClusterEncryptionInTransitType] {
+            return [
+                .tls
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .tls: return "TLS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Details of encryption in transit to the Apache Kafka cluster.
+    public struct KafkaClusterEncryptionInTransit: Swift.Sendable {
+        /// The type of encryption in transit to the Apache Kafka cluster.
+        /// This member is required.
+        public var encryptionType: KafkaClientTypes.KafkaClusterEncryptionInTransitType?
+        /// The root CA certificate.
+        public var rootCaCertificate: Swift.String?
+
+        public init(
+            encryptionType: KafkaClientTypes.KafkaClusterEncryptionInTransitType? = nil,
+            rootCaCertificate: Swift.String? = nil
+        ) {
+            self.encryptionType = encryptionType
+            self.rootCaCertificate = rootCaCertificate
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// Details of an Amazon VPC which has network connectivity to the Apache Kafka cluster.
     public struct KafkaClusterClientVpcConfig: Swift.Sendable {
         /// The security groups to attach to the ENIs for the broker nodes.
@@ -1904,17 +2039,27 @@ extension KafkaClientTypes {
     /// Information about Kafka Cluster to be used as source / target for replication.
     public struct KafkaCluster: Swift.Sendable {
         /// Details of an Amazon MSK Cluster.
-        /// This member is required.
         public var amazonMskCluster: KafkaClientTypes.AmazonMskCluster?
+        /// Details of an Apache Kafka Cluster.
+        public var apacheKafkaCluster: KafkaClientTypes.ApacheKafkaCluster?
+        /// Details of the client authentication used by the Apache Kafka cluster.
+        public var clientAuthentication: KafkaClientTypes.KafkaClusterClientAuthentication?
+        /// Details of encryption in transit to the Apache Kafka cluster.
+        public var encryptionInTransit: KafkaClientTypes.KafkaClusterEncryptionInTransit?
         /// Details of an Amazon VPC which has network connectivity to the Apache Kafka cluster.
-        /// This member is required.
         public var vpcConfig: KafkaClientTypes.KafkaClusterClientVpcConfig?
 
         public init(
             amazonMskCluster: KafkaClientTypes.AmazonMskCluster? = nil,
+            apacheKafkaCluster: KafkaClientTypes.ApacheKafkaCluster? = nil,
+            clientAuthentication: KafkaClientTypes.KafkaClusterClientAuthentication? = nil,
+            encryptionInTransit: KafkaClientTypes.KafkaClusterEncryptionInTransit? = nil,
             vpcConfig: KafkaClientTypes.KafkaClusterClientVpcConfig? = nil
         ) {
             self.amazonMskCluster = amazonMskCluster
+            self.apacheKafkaCluster = apacheKafkaCluster
+            self.clientAuthentication = clientAuthentication
+            self.encryptionInTransit = encryptionInTransit
             self.vpcConfig = vpcConfig
         }
     }
@@ -1926,6 +2071,12 @@ extension KafkaClientTypes {
     public struct KafkaClusterDescription: Swift.Sendable {
         /// Details of an Amazon MSK Cluster.
         public var amazonMskCluster: KafkaClientTypes.AmazonMskCluster?
+        /// Details of an Apache Kafka Cluster.
+        public var apacheKafkaCluster: KafkaClientTypes.ApacheKafkaCluster?
+        /// Details of the client authentication used by the Apache Kafka cluster.
+        public var clientAuthentication: KafkaClientTypes.KafkaClusterClientAuthentication?
+        /// Details of encryption in transit to the Apache Kafka cluster.
+        public var encryptionInTransit: KafkaClientTypes.KafkaClusterEncryptionInTransit?
         /// The alias of the Kafka cluster. Used to prefix names of replicated topics.
         public var kafkaClusterAlias: Swift.String?
         /// Details of an Amazon VPC which has network connectivity to the Apache Kafka cluster.
@@ -1933,10 +2084,16 @@ extension KafkaClientTypes {
 
         public init(
             amazonMskCluster: KafkaClientTypes.AmazonMskCluster? = nil,
+            apacheKafkaCluster: KafkaClientTypes.ApacheKafkaCluster? = nil,
+            clientAuthentication: KafkaClientTypes.KafkaClusterClientAuthentication? = nil,
+            encryptionInTransit: KafkaClientTypes.KafkaClusterEncryptionInTransit? = nil,
             kafkaClusterAlias: Swift.String? = nil,
             vpcConfig: KafkaClientTypes.KafkaClusterClientVpcConfig? = nil
         ) {
             self.amazonMskCluster = amazonMskCluster
+            self.apacheKafkaCluster = apacheKafkaCluster
+            self.clientAuthentication = clientAuthentication
+            self.encryptionInTransit = encryptionInTransit
             self.kafkaClusterAlias = kafkaClusterAlias
             self.vpcConfig = vpcConfig
         }
@@ -1949,14 +2106,18 @@ extension KafkaClientTypes {
     public struct KafkaClusterSummary: Swift.Sendable {
         /// Details of an Amazon MSK Cluster.
         public var amazonMskCluster: KafkaClientTypes.AmazonMskCluster?
+        /// Details of an Apache Kafka Cluster.
+        public var apacheKafkaCluster: KafkaClientTypes.ApacheKafkaCluster?
         /// The alias of the Kafka cluster. Used to prefix names of replicated topics.
         public var kafkaClusterAlias: Swift.String?
 
         public init(
             amazonMskCluster: KafkaClientTypes.AmazonMskCluster? = nil,
+            apacheKafkaCluster: KafkaClientTypes.ApacheKafkaCluster? = nil,
             kafkaClusterAlias: Swift.String? = nil
         ) {
             self.amazonMskCluster = amazonMskCluster
+            self.apacheKafkaCluster = apacheKafkaCluster
             self.kafkaClusterAlias = kafkaClusterAlias
         }
     }
@@ -2156,8 +2317,40 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// The consumer group offset synchronization mode. With LEGACY, offsets are synchronized when producers write to the source cluster. With ENHANCED, consumer offsets are synchronized regardless of producer location. ENHANCED requires a corresponding replicator that replicates data from the target cluster to the source cluster.
+    public enum ConsumerGroupOffsetSyncMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case enhanced
+        case legacy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConsumerGroupOffsetSyncMode] {
+            return [
+                .enhanced,
+                .legacy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .enhanced: return "ENHANCED"
+            case .legacy: return "LEGACY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// Details about consumer group replication.
     public struct ConsumerGroupReplication: Swift.Sendable {
+        /// The consumer group offset synchronization mode. With LEGACY, offsets are synchronized when producers write to the source cluster. With ENHANCED, consumer offsets are synchronized regardless of producer location. ENHANCED requires a corresponding replicator that replicates data from the target cluster to the source cluster.
+        public var consumerGroupOffsetSyncMode: KafkaClientTypes.ConsumerGroupOffsetSyncMode?
         /// List of regular expression patterns indicating the consumer groups that should not be replicated.
         public var consumerGroupsToExclude: [Swift.String]?
         /// List of regular expression patterns indicating the consumer groups to copy.
@@ -2169,11 +2362,13 @@ extension KafkaClientTypes {
         public var synchroniseConsumerGroupOffsets: Swift.Bool?
 
         public init(
+            consumerGroupOffsetSyncMode: KafkaClientTypes.ConsumerGroupOffsetSyncMode? = nil,
             consumerGroupsToExclude: [Swift.String]? = nil,
             consumerGroupsToReplicate: [Swift.String]? = nil,
             detectAndCopyNewConsumerGroups: Swift.Bool? = nil,
             synchroniseConsumerGroupOffsets: Swift.Bool? = nil
         ) {
+            self.consumerGroupOffsetSyncMode = consumerGroupOffsetSyncMode
             self.consumerGroupsToExclude = consumerGroupsToExclude
             self.consumerGroupsToReplicate = consumerGroupsToReplicate
             self.detectAndCopyNewConsumerGroups = detectAndCopyNewConsumerGroups
@@ -2359,14 +2554,16 @@ extension KafkaClientTypes {
         /// This member is required.
         public var consumerGroupReplication: KafkaClientTypes.ConsumerGroupReplication?
         /// The ARN of the source Kafka cluster.
-        /// This member is required.
         public var sourceKafkaClusterArn: Swift.String?
+        /// The ID of the source Kafka cluster.
+        public var sourceKafkaClusterId: Swift.String?
         /// The compression type to use when producing records to target cluster.
         /// This member is required.
         public var targetCompressionType: KafkaClientTypes.TargetCompressionType?
         /// The ARN of the target Kafka cluster.
-        /// This member is required.
         public var targetKafkaClusterArn: Swift.String?
+        /// The ID of the target Kafka cluster.
+        public var targetKafkaClusterId: Swift.String?
         /// Configuration relating to topic replication.
         /// This member is required.
         public var topicReplication: KafkaClientTypes.TopicReplication?
@@ -2374,14 +2571,18 @@ extension KafkaClientTypes {
         public init(
             consumerGroupReplication: KafkaClientTypes.ConsumerGroupReplication? = nil,
             sourceKafkaClusterArn: Swift.String? = nil,
+            sourceKafkaClusterId: Swift.String? = nil,
             targetCompressionType: KafkaClientTypes.TargetCompressionType? = nil,
             targetKafkaClusterArn: Swift.String? = nil,
+            targetKafkaClusterId: Swift.String? = nil,
             topicReplication: KafkaClientTypes.TopicReplication? = nil
         ) {
             self.consumerGroupReplication = consumerGroupReplication
             self.sourceKafkaClusterArn = sourceKafkaClusterArn
+            self.sourceKafkaClusterId = sourceKafkaClusterId
             self.targetCompressionType = targetCompressionType
             self.targetKafkaClusterArn = targetKafkaClusterArn
+            self.targetKafkaClusterId = targetKafkaClusterId
             self.topicReplication = topicReplication
         }
     }
@@ -3404,6 +3605,108 @@ public struct CreateConfigurationOutput: Swift.Sendable {
     }
 }
 
+extension KafkaClientTypes {
+
+    /// Details about delivering logs to CloudWatch Logs.
+    public struct ReplicatorCloudWatchLogs: Swift.Sendable {
+        /// Whether log delivery to CloudWatch Logs is enabled.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The CloudWatch log group that is the destination for log delivery.
+        public var logGroup: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            logGroup: Swift.String? = nil
+        ) {
+            self.enabled = enabled
+            self.logGroup = logGroup
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Details about delivering logs to Firehose.
+    public struct ReplicatorFirehose: Swift.Sendable {
+        /// The Firehose delivery stream that is the destination for log delivery.
+        public var deliveryStream: Swift.String?
+        /// Whether log delivery to Firehose is enabled.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+
+        public init(
+            deliveryStream: Swift.String? = nil,
+            enabled: Swift.Bool? = nil
+        ) {
+            self.deliveryStream = deliveryStream
+            self.enabled = enabled
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Details about delivering logs to S3.
+    public struct ReplicatorS3: Swift.Sendable {
+        /// The S3 bucket that is the destination for log delivery.
+        public var bucket: Swift.String?
+        /// Whether log delivery to S3 is enabled.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The S3 prefix that is the destination for log delivery.
+        public var `prefix`: Swift.String?
+
+        public init(
+            bucket: Swift.String? = nil,
+            enabled: Swift.Bool? = nil,
+            `prefix`: Swift.String? = nil
+        ) {
+            self.bucket = bucket
+            self.enabled = enabled
+            self.`prefix` = `prefix`
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Configuration for replicator log delivery.
+    public struct ReplicatorLogDelivery: Swift.Sendable {
+        /// Configuration for CloudWatch Logs delivery.
+        public var cloudWatchLogs: KafkaClientTypes.ReplicatorCloudWatchLogs?
+        /// Configuration for Firehose delivery.
+        public var firehose: KafkaClientTypes.ReplicatorFirehose?
+        /// Configuration for S3 delivery.
+        public var s3: KafkaClientTypes.ReplicatorS3?
+
+        public init(
+            cloudWatchLogs: KafkaClientTypes.ReplicatorCloudWatchLogs? = nil,
+            firehose: KafkaClientTypes.ReplicatorFirehose? = nil,
+            s3: KafkaClientTypes.ReplicatorS3? = nil
+        ) {
+            self.cloudWatchLogs = cloudWatchLogs
+            self.firehose = firehose
+            self.s3 = s3
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Configuration for log delivery to customer destinations.
+    public struct LogDelivery: Swift.Sendable {
+        /// Configuration for replicator log delivery.
+        public var replicatorLogDelivery: KafkaClientTypes.ReplicatorLogDelivery?
+
+        public init(
+            replicatorLogDelivery: KafkaClientTypes.ReplicatorLogDelivery? = nil
+        ) {
+            self.replicatorLogDelivery = replicatorLogDelivery
+        }
+    }
+}
+
 /// Creates a replicator using the specified configuration.
 public struct CreateReplicatorInput: Swift.Sendable {
     /// A summary description of the replicator.
@@ -3411,6 +3714,8 @@ public struct CreateReplicatorInput: Swift.Sendable {
     /// Kafka Clusters to use in setting up sources / targets for replication.
     /// This member is required.
     public var kafkaClusters: [KafkaClientTypes.KafkaCluster]?
+    /// Configuration for delivering replicator logs to customer destinations.
+    public var logDelivery: KafkaClientTypes.LogDelivery?
     /// A list of replication configurations, where each configuration targets a given source cluster to target cluster replication flow.
     /// This member is required.
     public var replicationInfoList: [KafkaClientTypes.ReplicationInfo]?
@@ -3426,6 +3731,7 @@ public struct CreateReplicatorInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         kafkaClusters: [KafkaClientTypes.KafkaCluster]? = nil,
+        logDelivery: KafkaClientTypes.LogDelivery? = nil,
         replicationInfoList: [KafkaClientTypes.ReplicationInfo]? = nil,
         replicatorName: Swift.String? = nil,
         serviceExecutionRoleArn: Swift.String? = nil,
@@ -3433,6 +3739,7 @@ public struct CreateReplicatorInput: Swift.Sendable {
     ) {
         self.description = description
         self.kafkaClusters = kafkaClusters
+        self.logDelivery = logDelivery
         self.replicationInfoList = replicationInfoList
         self.replicatorName = replicatorName
         self.serviceExecutionRoleArn = serviceExecutionRoleArn
@@ -4208,6 +4515,8 @@ public struct DescribeReplicatorOutput: Swift.Sendable {
     public var isReplicatorReference: Swift.Bool?
     /// Kafka Clusters used in setting up sources / targets for replication.
     public var kafkaClusters: [KafkaClientTypes.KafkaClusterDescription]?
+    /// Configuration for log delivery.
+    public var logDelivery: KafkaClientTypes.LogDelivery?
     /// A list of replication configurations, where each configuration targets a given source cluster to target cluster replication flow.
     public var replicationInfoList: [KafkaClientTypes.ReplicationInfoDescription]?
     /// The Amazon Resource Name (ARN) of the replicator.
@@ -4232,6 +4541,7 @@ public struct DescribeReplicatorOutput: Swift.Sendable {
         currentVersion: Swift.String? = nil,
         isReplicatorReference: Swift.Bool? = nil,
         kafkaClusters: [KafkaClientTypes.KafkaClusterDescription]? = nil,
+        logDelivery: KafkaClientTypes.LogDelivery? = nil,
         replicationInfoList: [KafkaClientTypes.ReplicationInfoDescription]? = nil,
         replicatorArn: Swift.String? = nil,
         replicatorDescription: Swift.String? = nil,
@@ -4246,6 +4556,7 @@ public struct DescribeReplicatorOutput: Swift.Sendable {
         self.currentVersion = currentVersion
         self.isReplicatorReference = isReplicatorReference
         self.kafkaClusters = kafkaClusters
+        self.logDelivery = logDelivery
         self.replicationInfoList = replicationInfoList
         self.replicatorArn = replicatorArn
         self.replicatorDescription = replicatorDescription
@@ -5507,31 +5818,41 @@ public struct UpdateReplicationInfoInput: Swift.Sendable {
     /// Current replicator version.
     /// This member is required.
     public var currentVersion: Swift.String?
+    /// Configuration for delivering replicator logs to customer destinations.
+    public var logDelivery: KafkaClientTypes.LogDelivery?
     /// The Amazon Resource Name (ARN) of the replicator to be updated.
     /// This member is required.
     public var replicatorArn: Swift.String?
     /// The ARN of the source Kafka cluster.
-    /// This member is required.
     public var sourceKafkaClusterArn: Swift.String?
+    /// The ID of the source Kafka cluster.
+    public var sourceKafkaClusterId: Swift.String?
     /// The ARN of the target Kafka cluster.
-    /// This member is required.
     public var targetKafkaClusterArn: Swift.String?
+    /// The ID of the target Kafka cluster.
+    public var targetKafkaClusterId: Swift.String?
     /// Updated topic replication information.
     public var topicReplication: KafkaClientTypes.TopicReplicationUpdate?
 
     public init(
         consumerGroupReplication: KafkaClientTypes.ConsumerGroupReplicationUpdate? = nil,
         currentVersion: Swift.String? = nil,
+        logDelivery: KafkaClientTypes.LogDelivery? = nil,
         replicatorArn: Swift.String? = nil,
         sourceKafkaClusterArn: Swift.String? = nil,
+        sourceKafkaClusterId: Swift.String? = nil,
         targetKafkaClusterArn: Swift.String? = nil,
+        targetKafkaClusterId: Swift.String? = nil,
         topicReplication: KafkaClientTypes.TopicReplicationUpdate? = nil
     ) {
         self.consumerGroupReplication = consumerGroupReplication
         self.currentVersion = currentVersion
+        self.logDelivery = logDelivery
         self.replicatorArn = replicatorArn
         self.sourceKafkaClusterArn = sourceKafkaClusterArn
+        self.sourceKafkaClusterId = sourceKafkaClusterId
         self.targetKafkaClusterArn = targetKafkaClusterArn
+        self.targetKafkaClusterId = targetKafkaClusterId
         self.topicReplication = topicReplication
     }
 }
@@ -6609,6 +6930,7 @@ extension CreateReplicatorInput {
         guard let value else { return }
         try writer["description"].write(value.description)
         try writer["kafkaClusters"].writeList(value.kafkaClusters, memberWritingClosure: KafkaClientTypes.KafkaCluster.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["logDelivery"].write(value.logDelivery, with: KafkaClientTypes.LogDelivery.write(value:to:))
         try writer["replicationInfoList"].writeList(value.replicationInfoList, memberWritingClosure: KafkaClientTypes.ReplicationInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["replicatorName"].write(value.replicatorName)
         try writer["serviceExecutionRoleArn"].write(value.serviceExecutionRoleArn)
@@ -6763,8 +7085,11 @@ extension UpdateReplicationInfoInput {
         guard let value else { return }
         try writer["consumerGroupReplication"].write(value.consumerGroupReplication, with: KafkaClientTypes.ConsumerGroupReplicationUpdate.write(value:to:))
         try writer["currentVersion"].write(value.currentVersion)
+        try writer["logDelivery"].write(value.logDelivery, with: KafkaClientTypes.LogDelivery.write(value:to:))
         try writer["sourceKafkaClusterArn"].write(value.sourceKafkaClusterArn)
+        try writer["sourceKafkaClusterId"].write(value.sourceKafkaClusterId)
         try writer["targetKafkaClusterArn"].write(value.targetKafkaClusterArn)
+        try writer["targetKafkaClusterId"].write(value.targetKafkaClusterId)
         try writer["topicReplication"].write(value.topicReplication, with: KafkaClientTypes.TopicReplicationUpdate.write(value:to:))
     }
 }
@@ -7083,6 +7408,7 @@ extension DescribeReplicatorOutput {
         value.currentVersion = try reader["currentVersion"].readIfPresent()
         value.isReplicatorReference = try reader["isReplicatorReference"].readIfPresent()
         value.kafkaClusters = try reader["kafkaClusters"].readListIfPresent(memberReadingClosure: KafkaClientTypes.KafkaClusterDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.logDelivery = try reader["logDelivery"].readIfPresent(with: KafkaClientTypes.LogDelivery.read(from:))
         value.replicationInfoList = try reader["replicationInfoList"].readListIfPresent(memberReadingClosure: KafkaClientTypes.ReplicationInfoDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.replicatorArn = try reader["replicatorArn"].readIfPresent()
         value.replicatorDescription = try reader["replicatorDescription"].readIfPresent()
@@ -8966,6 +9292,23 @@ extension KafkaClientTypes.AmazonMskCluster {
     }
 }
 
+extension KafkaClientTypes.ApacheKafkaCluster {
+
+    static func write(value: KafkaClientTypes.ApacheKafkaCluster?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["apacheKafkaClusterId"].write(value.apacheKafkaClusterId)
+        try writer["bootstrapBrokerString"].write(value.bootstrapBrokerString)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ApacheKafkaCluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ApacheKafkaCluster()
+        value.apacheKafkaClusterId = try reader["apacheKafkaClusterId"].readIfPresent() ?? ""
+        value.bootstrapBrokerString = try reader["bootstrapBrokerString"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension KafkaClientTypes.BrokerCountUpdateInfo {
 
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerCountUpdateInfo {
@@ -9350,6 +9693,7 @@ extension KafkaClientTypes.ConsumerGroupReplication {
 
     static func write(value: KafkaClientTypes.ConsumerGroupReplication?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["consumerGroupOffsetSyncMode"].write(value.consumerGroupOffsetSyncMode)
         try writer["consumerGroupsToExclude"].writeList(value.consumerGroupsToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["consumerGroupsToReplicate"].writeList(value.consumerGroupsToReplicate, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["detectAndCopyNewConsumerGroups"].write(value.detectAndCopyNewConsumerGroups)
@@ -9363,6 +9707,7 @@ extension KafkaClientTypes.ConsumerGroupReplication {
         value.consumerGroupsToReplicate = try reader["consumerGroupsToReplicate"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.detectAndCopyNewConsumerGroups = try reader["detectAndCopyNewConsumerGroups"].readIfPresent()
         value.synchroniseConsumerGroupOffsets = try reader["synchroniseConsumerGroupOffsets"].readIfPresent()
+        value.consumerGroupOffsetSyncMode = try reader["consumerGroupOffsetSyncMode"].readIfPresent()
         return value
     }
 }
@@ -9527,7 +9872,25 @@ extension KafkaClientTypes.KafkaCluster {
     static func write(value: KafkaClientTypes.KafkaCluster?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["amazonMskCluster"].write(value.amazonMskCluster, with: KafkaClientTypes.AmazonMskCluster.write(value:to:))
+        try writer["apacheKafkaCluster"].write(value.apacheKafkaCluster, with: KafkaClientTypes.ApacheKafkaCluster.write(value:to:))
+        try writer["clientAuthentication"].write(value.clientAuthentication, with: KafkaClientTypes.KafkaClusterClientAuthentication.write(value:to:))
+        try writer["encryptionInTransit"].write(value.encryptionInTransit, with: KafkaClientTypes.KafkaClusterEncryptionInTransit.write(value:to:))
         try writer["vpcConfig"].write(value.vpcConfig, with: KafkaClientTypes.KafkaClusterClientVpcConfig.write(value:to:))
+    }
+}
+
+extension KafkaClientTypes.KafkaClusterClientAuthentication {
+
+    static func write(value: KafkaClientTypes.KafkaClusterClientAuthentication?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["saslScram"].write(value.saslScram, with: KafkaClientTypes.KafkaClusterSaslScramAuthentication.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterClientAuthentication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.KafkaClusterClientAuthentication()
+        value.saslScram = try reader["saslScram"].readIfPresent(with: KafkaClientTypes.KafkaClusterSaslScramAuthentication.read(from:))
+        return value
     }
 }
 
@@ -9554,8 +9917,45 @@ extension KafkaClientTypes.KafkaClusterDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.KafkaClusterDescription()
         value.amazonMskCluster = try reader["amazonMskCluster"].readIfPresent(with: KafkaClientTypes.AmazonMskCluster.read(from:))
+        value.apacheKafkaCluster = try reader["apacheKafkaCluster"].readIfPresent(with: KafkaClientTypes.ApacheKafkaCluster.read(from:))
         value.kafkaClusterAlias = try reader["kafkaClusterAlias"].readIfPresent()
         value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: KafkaClientTypes.KafkaClusterClientVpcConfig.read(from:))
+        value.clientAuthentication = try reader["clientAuthentication"].readIfPresent(with: KafkaClientTypes.KafkaClusterClientAuthentication.read(from:))
+        value.encryptionInTransit = try reader["encryptionInTransit"].readIfPresent(with: KafkaClientTypes.KafkaClusterEncryptionInTransit.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.KafkaClusterEncryptionInTransit {
+
+    static func write(value: KafkaClientTypes.KafkaClusterEncryptionInTransit?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionType"].write(value.encryptionType)
+        try writer["rootCaCertificate"].write(value.rootCaCertificate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterEncryptionInTransit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.KafkaClusterEncryptionInTransit()
+        value.encryptionType = try reader["encryptionType"].readIfPresent() ?? .sdkUnknown("")
+        value.rootCaCertificate = try reader["rootCaCertificate"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.KafkaClusterSaslScramAuthentication {
+
+    static func write(value: KafkaClientTypes.KafkaClusterSaslScramAuthentication?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mechanism"].write(value.mechanism)
+        try writer["secretArn"].write(value.secretArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterSaslScramAuthentication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.KafkaClusterSaslScramAuthentication()
+        value.mechanism = try reader["mechanism"].readIfPresent() ?? .sdkUnknown("")
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9566,6 +9966,7 @@ extension KafkaClientTypes.KafkaClusterSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.KafkaClusterSummary()
         value.amazonMskCluster = try reader["amazonMskCluster"].readIfPresent(with: KafkaClientTypes.AmazonMskCluster.read(from:))
+        value.apacheKafkaCluster = try reader["apacheKafkaCluster"].readIfPresent(with: KafkaClientTypes.ApacheKafkaCluster.read(from:))
         value.kafkaClusterAlias = try reader["kafkaClusterAlias"].readIfPresent()
         return value
     }
@@ -9578,6 +9979,21 @@ extension KafkaClientTypes.KafkaVersion {
         var value = KafkaClientTypes.KafkaVersion()
         value.version = try reader["version"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.LogDelivery {
+
+    static func write(value: KafkaClientTypes.LogDelivery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["replicatorLogDelivery"].write(value.replicatorLogDelivery, with: KafkaClientTypes.ReplicatorLogDelivery.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.LogDelivery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.LogDelivery()
+        value.replicatorLogDelivery = try reader["replicatorLogDelivery"].readIfPresent(with: KafkaClientTypes.ReplicatorLogDelivery.read(from:))
         return value
     }
 }
@@ -9807,8 +10223,10 @@ extension KafkaClientTypes.ReplicationInfo {
         guard let value else { return }
         try writer["consumerGroupReplication"].write(value.consumerGroupReplication, with: KafkaClientTypes.ConsumerGroupReplication.write(value:to:))
         try writer["sourceKafkaClusterArn"].write(value.sourceKafkaClusterArn)
+        try writer["sourceKafkaClusterId"].write(value.sourceKafkaClusterId)
         try writer["targetCompressionType"].write(value.targetCompressionType)
         try writer["targetKafkaClusterArn"].write(value.targetKafkaClusterArn)
+        try writer["targetKafkaClusterId"].write(value.targetKafkaClusterId)
         try writer["topicReplication"].write(value.topicReplication, with: KafkaClientTypes.TopicReplication.write(value:to:))
     }
 }
@@ -9875,6 +10293,78 @@ extension KafkaClientTypes.ReplicationTopicNameConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.ReplicationTopicNameConfiguration()
         value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ReplicatorCloudWatchLogs {
+
+    static func write(value: KafkaClientTypes.ReplicatorCloudWatchLogs?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["logGroup"].write(value.logGroup)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicatorCloudWatchLogs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ReplicatorCloudWatchLogs()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.logGroup = try reader["logGroup"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ReplicatorFirehose {
+
+    static func write(value: KafkaClientTypes.ReplicatorFirehose?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deliveryStream"].write(value.deliveryStream)
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicatorFirehose {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ReplicatorFirehose()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.deliveryStream = try reader["deliveryStream"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ReplicatorLogDelivery {
+
+    static func write(value: KafkaClientTypes.ReplicatorLogDelivery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cloudWatchLogs"].write(value.cloudWatchLogs, with: KafkaClientTypes.ReplicatorCloudWatchLogs.write(value:to:))
+        try writer["firehose"].write(value.firehose, with: KafkaClientTypes.ReplicatorFirehose.write(value:to:))
+        try writer["s3"].write(value.s3, with: KafkaClientTypes.ReplicatorS3.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicatorLogDelivery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ReplicatorLogDelivery()
+        value.cloudWatchLogs = try reader["cloudWatchLogs"].readIfPresent(with: KafkaClientTypes.ReplicatorCloudWatchLogs.read(from:))
+        value.firehose = try reader["firehose"].readIfPresent(with: KafkaClientTypes.ReplicatorFirehose.read(from:))
+        value.s3 = try reader["s3"].readIfPresent(with: KafkaClientTypes.ReplicatorS3.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.ReplicatorS3 {
+
+    static func write(value: KafkaClientTypes.ReplicatorS3?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["enabled"].write(value.enabled)
+        try writer["prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicatorS3 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ReplicatorS3()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.bucket = try reader["bucket"].readIfPresent()
+        value.`prefix` = try reader["prefix"].readIfPresent()
         return value
     }
 }

@@ -340,6 +340,187 @@ public struct AssociateEipToVlanOutput: Swift.Sendable {
 
 extension EvsClientTypes {
 
+    public enum EntitlementType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case windowsServer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EntitlementType] {
+            return [
+                .windowsServer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .windowsServer: return "WINDOWS_SERVER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateEntitlementInput: Swift.Sendable {
+    /// This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the entitlement creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// A unique ID for the connector associated with the entitlement.
+    /// This member is required.
+    public var connectorId: Swift.String?
+    /// The type of entitlement to create.
+    /// This member is required.
+    public var entitlementType: EvsClientTypes.EntitlementType?
+    /// A unique ID for the environment to create the entitlement in.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The list of VMware vSphere virtual machine managed object IDs to create entitlements for.
+    /// This member is required.
+    public var vmIds: [Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        connectorId: Swift.String? = nil,
+        entitlementType: EvsClientTypes.EntitlementType? = nil,
+        environmentId: Swift.String? = nil,
+        vmIds: [Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.connectorId = connectorId
+        self.entitlementType = entitlementType
+        self.environmentId = environmentId
+        self.vmIds = vmIds
+    }
+}
+
+extension EvsClientTypes {
+
+    /// An object that contains error details for an entitlement.
+    public struct ErrorDetail: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var errorCode: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+    }
+}
+
+extension EvsClientTypes {
+
+    public enum EntitlementStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case atRisk
+        case created
+        case createFailed
+        case creating
+        case deleted
+        case entitlementRemoved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EntitlementStatus] {
+            return [
+                .atRisk,
+                .created,
+                .createFailed,
+                .creating,
+                .deleted,
+                .entitlementRemoved
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .atRisk: return "AT_RISK"
+            case .created: return "CREATED"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleted: return "DELETED"
+            case .entitlementRemoved: return "ENTITLEMENT_REMOVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EvsClientTypes {
+
+    /// An object that represents a Windows Server License entitlement for a virtual machine in an Amazon EVS environment.
+    public struct VmEntitlement: Swift.Sendable {
+        /// The unique ID of the connector associated with the entitlement.
+        public var connectorId: Swift.String?
+        /// The unique ID of the environment.
+        public var environmentId: Swift.String?
+        /// The error details associated with the entitlement, if applicable.
+        public var errorDetail: EvsClientTypes.ErrorDetail?
+        /// The date and time that the entitlement was last synced.
+        public var lastSyncedAt: Foundation.Date?
+        /// The date and time that the entitlement started.
+        public var startedAt: Foundation.Date?
+        /// The status of the entitlement.
+        public var status: EvsClientTypes.EntitlementStatus?
+        /// The date and time that the entitlement stopped.
+        public var stoppedAt: Foundation.Date?
+        /// The type of entitlement.
+        public var type: EvsClientTypes.EntitlementType?
+        /// The unique ID of the virtual machine.
+        public var vmId: Swift.String?
+        /// The name of the virtual machine.
+        public var vmName: Swift.String?
+
+        public init(
+            connectorId: Swift.String? = nil,
+            environmentId: Swift.String? = nil,
+            errorDetail: EvsClientTypes.ErrorDetail? = nil,
+            lastSyncedAt: Foundation.Date? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: EvsClientTypes.EntitlementStatus? = nil,
+            stoppedAt: Foundation.Date? = nil,
+            type: EvsClientTypes.EntitlementType? = nil,
+            vmId: Swift.String? = nil,
+            vmName: Swift.String? = nil
+        ) {
+            self.connectorId = connectorId
+            self.environmentId = environmentId
+            self.errorDetail = errorDetail
+            self.lastSyncedAt = lastSyncedAt
+            self.startedAt = startedAt
+            self.status = status
+            self.stoppedAt = stoppedAt
+            self.type = type
+            self.vmId = vmId
+            self.vmName = vmName
+        }
+    }
+}
+
+public struct CreateEntitlementOutput: Swift.Sendable {
+    /// A list of the created entitlements.
+    public var entitlements: [EvsClientTypes.VmEntitlement]?
+
+    public init(
+        entitlements: [EvsClientTypes.VmEntitlement]? = nil
+    ) {
+        self.entitlements = entitlements
+    }
+}
+
+extension EvsClientTypes {
+
     /// The connectivity configuration for the environment. Amazon EVS requires that you specify two route server peer IDs. During environment creation, the route server endpoints peer with the NSX uplink VLAN for connectivity to the NSX overlay network.
     public struct ConnectivityInfo: Swift.Sendable {
         /// The unique IDs for private route server peers.
@@ -751,6 +932,9 @@ extension EvsClientTypes {
         case keyCoverage
         case keyReuse
         case reachability
+        case vcenterReachability
+        case vcenterVmEvent
+        case vcenterVmSync
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CheckType] {
@@ -758,7 +942,10 @@ extension EvsClientTypes {
                 .hostCount,
                 .keyCoverage,
                 .keyReuse,
-                .reachability
+                .reachability,
+                .vcenterReachability,
+                .vcenterVmEvent,
+                .vcenterVmSync
             ]
         }
 
@@ -773,6 +960,9 @@ extension EvsClientTypes {
             case .keyCoverage: return "KEY_COVERAGE"
             case .keyReuse: return "KEY_REUSE"
             case .reachability: return "REACHABILITY"
+            case .vcenterReachability: return "VCENTER_REACHABILITY"
+            case .vcenterVmEvent: return "VCENTER_VM_EVENT"
+            case .vcenterVmSync: return "VCENTER_VM_SYNC"
             case let .sdkUnknown(s): return s
             }
         }
@@ -962,6 +1152,200 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
         environment: EvsClientTypes.Environment? = nil
     ) {
         self.environment = environment
+    }
+}
+
+extension EvsClientTypes {
+
+    public enum ConnectorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case vcenter
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorType] {
+            return [
+                .vcenter
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .vcenter: return "VCENTER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateEnvironmentConnectorInput: Swift.Sendable {
+    /// The fully qualified domain name (FQDN) of the VCF appliance that the connector targets.
+    /// This member is required.
+    public var applianceFqdn: Swift.String?
+    /// This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the connector creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// A unique ID for the environment to create the connector in.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The ARN or name of the Amazon Web Services Secrets Manager secret that stores the credentials for the VCF appliance. Do not use credentials with Administrator privileges. We recommend using a service account with the minimum required permissions.
+    /// This member is required.
+    public var secretIdentifier: Swift.String?
+    /// The type of connector to create.
+    /// This member is required.
+    public var type: EvsClientTypes.ConnectorType?
+
+    public init(
+        applianceFqdn: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        secretIdentifier: Swift.String? = nil,
+        type: EvsClientTypes.ConnectorType? = nil
+    ) {
+        self.applianceFqdn = applianceFqdn
+        self.clientToken = clientToken
+        self.environmentId = environmentId
+        self.secretIdentifier = secretIdentifier
+        self.type = type
+    }
+}
+
+extension EvsClientTypes {
+
+    /// A check on a connector to identify connectivity health.
+    public struct ConnectorCheck: Swift.Sendable {
+        /// The time when connector health began to be impaired.
+        public var impairedSince: Foundation.Date?
+        /// The date and time of the last check attempt.
+        public var lastCheckAttempt: Foundation.Date?
+        /// The check result.
+        public var result: EvsClientTypes.CheckResult?
+        /// The check type.
+        public var type: EvsClientTypes.CheckType?
+
+        public init(
+            impairedSince: Foundation.Date? = nil,
+            lastCheckAttempt: Foundation.Date? = nil,
+            result: EvsClientTypes.CheckResult? = nil,
+            type: EvsClientTypes.CheckType? = nil
+        ) {
+            self.impairedSince = impairedSince
+            self.lastCheckAttempt = lastCheckAttempt
+            self.result = result
+            self.type = type
+        }
+    }
+}
+
+extension EvsClientTypes {
+
+    public enum ConnectorState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case createFailed
+        case creating
+        case deleted
+        case deleting
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorState] {
+            return [
+                .active,
+                .createFailed,
+                .creating,
+                .deleted,
+                .deleting,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleted: return "DELETED"
+            case .deleting: return "DELETING"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EvsClientTypes {
+
+    /// An object that represents a connector for an Amazon EVS environment. A connector establishes a vCenter connection using the credentials stored in Amazon Web Services Secrets Manager.
+    public struct Connector: Swift.Sendable {
+        /// The fully qualified domain name (FQDN) of the VCF appliance that the connector connects to.
+        public var applianceFqdn: Swift.String?
+        /// A list of checks that are run on the connector.
+        public var checks: [EvsClientTypes.ConnectorCheck]?
+        /// The unique ID of the connector.
+        public var connectorId: Swift.String?
+        /// The date and time that the connector was created.
+        public var createdAt: Foundation.Date?
+        /// The unique ID of the environment that the connector belongs to.
+        public var environmentId: Swift.String?
+        /// The date and time that the connector was modified.
+        public var modifiedAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that stores the credentials for the VCF appliance.
+        public var secretArn: Swift.String?
+        /// The state of the connector.
+        public var state: EvsClientTypes.ConnectorState?
+        /// A detailed description of the connector state.
+        public var stateDetails: Swift.String?
+        /// The status of the connector.
+        public var status: EvsClientTypes.CheckResult?
+        /// The type of the connector.
+        public var type: EvsClientTypes.ConnectorType?
+
+        public init(
+            applianceFqdn: Swift.String? = nil,
+            checks: [EvsClientTypes.ConnectorCheck]? = nil,
+            connectorId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            environmentId: Swift.String? = nil,
+            modifiedAt: Foundation.Date? = nil,
+            secretArn: Swift.String? = nil,
+            state: EvsClientTypes.ConnectorState? = nil,
+            stateDetails: Swift.String? = nil,
+            status: EvsClientTypes.CheckResult? = nil,
+            type: EvsClientTypes.ConnectorType? = nil
+        ) {
+            self.applianceFqdn = applianceFqdn
+            self.checks = checks
+            self.connectorId = connectorId
+            self.createdAt = createdAt
+            self.environmentId = environmentId
+            self.modifiedAt = modifiedAt
+            self.secretArn = secretArn
+            self.state = state
+            self.stateDetails = stateDetails
+            self.status = status
+            self.type = type
+        }
+    }
+}
+
+public struct CreateEnvironmentConnectorOutput: Swift.Sendable {
+    /// A description of the created connector.
+    public var connector: EvsClientTypes.Connector?
+
+    public init(
+        connector: EvsClientTypes.Connector? = nil
+    ) {
+        self.connector = connector
     }
 }
 
@@ -1166,6 +1550,48 @@ public struct CreateEnvironmentHostOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteEntitlementInput: Swift.Sendable {
+    /// This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the entitlement deletion request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// A unique ID for the connector associated with the entitlement.
+    /// This member is required.
+    public var connectorId: Swift.String?
+    /// The type of entitlement to delete.
+    /// This member is required.
+    public var entitlementType: EvsClientTypes.EntitlementType?
+    /// A unique ID for the environment that the entitlement belongs to.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The list of VMware vSphere virtual machine managed object IDs to delete entitlements for.
+    /// This member is required.
+    public var vmIds: [Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        connectorId: Swift.String? = nil,
+        entitlementType: EvsClientTypes.EntitlementType? = nil,
+        environmentId: Swift.String? = nil,
+        vmIds: [Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.connectorId = connectorId
+        self.entitlementType = entitlementType
+        self.environmentId = environmentId
+        self.vmIds = vmIds
+    }
+}
+
+public struct DeleteEntitlementOutput: Swift.Sendable {
+    /// A list of the deleted entitlements.
+    public var entitlements: [EvsClientTypes.VmEntitlement]?
+
+    public init(
+        entitlements: [EvsClientTypes.VmEntitlement]? = nil
+    ) {
+        self.entitlements = entitlements
+    }
+}
+
 public struct DeleteEnvironmentInput: Swift.Sendable {
     /// This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the environment deletion request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
@@ -1190,6 +1616,42 @@ public struct DeleteEnvironmentOutput: Swift.Sendable {
         environment: EvsClientTypes.Environment? = nil
     ) {
         self.environment = environment
+    }
+}
+
+public struct DeleteEnvironmentConnectorInput: Swift.Sendable {
+    /// This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the connector deletion request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// A unique ID for the connector to be deleted.
+    /// This member is required.
+    public var connectorId: Swift.String?
+    /// A unique ID for the environment that the connector belongs to.
+    /// This member is required.
+    public var environmentId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        connectorId: Swift.String? = nil,
+        environmentId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.connectorId = connectorId
+        self.environmentId = environmentId
+    }
+}
+
+public struct DeleteEnvironmentConnectorOutput: Swift.Sendable {
+    /// A description of the deleted connector.
+    public var connector: EvsClientTypes.Connector?
+    /// A summary of the environment that the connector was deleted from.
+    public var environmentSummary: EvsClientTypes.EnvironmentSummary?
+
+    public init(
+        connector: EvsClientTypes.Connector? = nil,
+        environmentSummary: EvsClientTypes.EnvironmentSummary? = nil
+    ) {
+        self.connector = connector
+        self.environmentSummary = environmentSummary
     }
 }
 
@@ -1286,6 +1748,41 @@ public struct GetEnvironmentOutput: Swift.Sendable {
         environment: EvsClientTypes.Environment? = nil
     ) {
         self.environment = environment
+    }
+}
+
+public struct ListEnvironmentConnectorsInput: Swift.Sendable {
+    /// A unique ID for the environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The maximum number of results to return. If you specify MaxResults in the request, the response includes information up to the limit specified.
+    public var maxResults: Swift.Int?
+    /// A unique pagination token for each page. If nextToken is returned, there are more results available. Make the call again using the returned token with all other arguments unchanged to retrieve the next page. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    public var nextToken: Swift.String?
+
+    public init(
+        environmentId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.environmentId = environmentId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListEnvironmentConnectorsOutput: Swift.Sendable {
+    /// A list of connectors in the environment.
+    public var connectors: [EvsClientTypes.Connector]?
+    /// A unique pagination token for next page results. Make the call again using this token to retrieve the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        connectors: [EvsClientTypes.Connector]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.connectors = connectors
+        self.nextToken = nextToken
     }
 }
 
@@ -1390,6 +1887,91 @@ public struct ListEnvironmentVlansOutput: Swift.Sendable {
     ) {
         self.environmentVlans = environmentVlans
         self.nextToken = nextToken
+    }
+}
+
+public struct ListVmEntitlementsInput: Swift.Sendable {
+    /// A unique ID for the connector.
+    /// This member is required.
+    public var connectorId: Swift.String?
+    /// The type of entitlement to list.
+    /// This member is required.
+    public var entitlementType: EvsClientTypes.EntitlementType?
+    /// A unique ID for the environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The maximum number of results to return. If you specify MaxResults in the request, the response includes information up to the limit specified.
+    public var maxResults: Swift.Int?
+    /// A unique pagination token for each page. If nextToken is returned, there are more results available. Make the call again using the returned token with all other arguments unchanged to retrieve the next page. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    public var nextToken: Swift.String?
+
+    public init(
+        connectorId: Swift.String? = nil,
+        entitlementType: EvsClientTypes.EntitlementType? = nil,
+        environmentId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.connectorId = connectorId
+        self.entitlementType = entitlementType
+        self.environmentId = environmentId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListVmEntitlementsOutput: Swift.Sendable {
+    /// A list of entitlements for virtual machines in the environment.
+    public var entitlements: [EvsClientTypes.VmEntitlement]?
+    /// A unique pagination token for next page results. Make the call again using this token to retrieve the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        entitlements: [EvsClientTypes.VmEntitlement]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.entitlements = entitlements
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateEnvironmentConnectorInput: Swift.Sendable {
+    /// The new fully qualified domain name (FQDN) of the VCF appliance that the connector connects to.
+    public var applianceFqdn: Swift.String?
+    /// This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the connector update request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// A unique ID for the connector to update.
+    /// This member is required.
+    public var connectorId: Swift.String?
+    /// A unique ID for the environment that the connector belongs to.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The new ARN or name of the Amazon Web Services Secrets Manager secret that stores the credentials for the VCF appliance.
+    public var secretIdentifier: Swift.String?
+
+    public init(
+        applianceFqdn: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        connectorId: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        secretIdentifier: Swift.String? = nil
+    ) {
+        self.applianceFqdn = applianceFqdn
+        self.clientToken = clientToken
+        self.connectorId = connectorId
+        self.environmentId = environmentId
+        self.secretIdentifier = secretIdentifier
+    }
+}
+
+public struct UpdateEnvironmentConnectorOutput: Swift.Sendable {
+    /// A description of the updated connector.
+    public var connector: EvsClientTypes.Connector?
+
+    public init(
+        connector: EvsClientTypes.Connector? = nil
+    ) {
+        self.connector = connector
     }
 }
 
@@ -1648,9 +2230,23 @@ extension AssociateEipToVlanInput {
     }
 }
 
+extension CreateEntitlementInput {
+
+    static func urlPathProvider(_ value: CreateEntitlementInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateEnvironmentInput {
 
     static func urlPathProvider(_ value: CreateEnvironmentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateEnvironmentConnectorInput {
+
+    static func urlPathProvider(_ value: CreateEnvironmentConnectorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1662,9 +2258,23 @@ extension CreateEnvironmentHostInput {
     }
 }
 
+extension DeleteEntitlementInput {
+
+    static func urlPathProvider(_ value: DeleteEntitlementInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteEnvironmentInput {
 
     static func urlPathProvider(_ value: DeleteEnvironmentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteEnvironmentConnectorInput {
+
+    static func urlPathProvider(_ value: DeleteEnvironmentConnectorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1697,6 +2307,13 @@ extension GetVersionsInput {
     }
 }
 
+extension ListEnvironmentConnectorsInput {
+
+    static func urlPathProvider(_ value: ListEnvironmentConnectorsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListEnvironmentHostsInput {
 
     static func urlPathProvider(_ value: ListEnvironmentHostsInput) -> Swift.String? {
@@ -1725,6 +2342,13 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension ListVmEntitlementsInput {
+
+    static func urlPathProvider(_ value: ListVmEntitlementsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -1739,6 +2363,13 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateEnvironmentConnectorInput {
+
+    static func urlPathProvider(_ value: UpdateEnvironmentConnectorInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension AssociateEipToVlanInput {
 
     static func write(value: AssociateEipToVlanInput?, to writer: SmithyJSON.Writer) throws {
@@ -1747,6 +2378,18 @@ extension AssociateEipToVlanInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["environmentId"].write(value.environmentId)
         try writer["vlanName"].write(value.vlanName)
+    }
+}
+
+extension CreateEntitlementInput {
+
+    static func write(value: CreateEntitlementInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["connectorId"].write(value.connectorId)
+        try writer["entitlementType"].write(value.entitlementType)
+        try writer["environmentId"].write(value.environmentId)
+        try writer["vmIds"].writeList(value.vmIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -1772,6 +2415,18 @@ extension CreateEnvironmentInput {
     }
 }
 
+extension CreateEnvironmentConnectorInput {
+
+    static func write(value: CreateEnvironmentConnectorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["applianceFqdn"].write(value.applianceFqdn)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["environmentId"].write(value.environmentId)
+        try writer["secretIdentifier"].write(value.secretIdentifier)
+        try writer["type"].write(value.type)
+    }
+}
+
 extension CreateEnvironmentHostInput {
 
     static func write(value: CreateEnvironmentHostInput?, to writer: SmithyJSON.Writer) throws {
@@ -1783,11 +2438,33 @@ extension CreateEnvironmentHostInput {
     }
 }
 
+extension DeleteEntitlementInput {
+
+    static func write(value: DeleteEntitlementInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["connectorId"].write(value.connectorId)
+        try writer["entitlementType"].write(value.entitlementType)
+        try writer["environmentId"].write(value.environmentId)
+        try writer["vmIds"].writeList(value.vmIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension DeleteEnvironmentInput {
 
     static func write(value: DeleteEnvironmentInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["environmentId"].write(value.environmentId)
+    }
+}
+
+extension DeleteEnvironmentConnectorInput {
+
+    static func write(value: DeleteEnvironmentConnectorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["connectorId"].write(value.connectorId)
         try writer["environmentId"].write(value.environmentId)
     }
 }
@@ -1829,6 +2506,16 @@ extension GetVersionsInput {
     }
 }
 
+extension ListEnvironmentConnectorsInput {
+
+    static func write(value: ListEnvironmentConnectorsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["environmentId"].write(value.environmentId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
 extension ListEnvironmentHostsInput {
 
     static func write(value: ListEnvironmentHostsInput?, to writer: SmithyJSON.Writer) throws {
@@ -1867,6 +2554,18 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension ListVmEntitlementsInput {
+
+    static func write(value: ListVmEntitlementsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectorId"].write(value.connectorId)
+        try writer["entitlementType"].write(value.entitlementType)
+        try writer["environmentId"].write(value.environmentId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -1885,6 +2584,18 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateEnvironmentConnectorInput {
+
+    static func write(value: UpdateEnvironmentConnectorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["applianceFqdn"].write(value.applianceFqdn)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["connectorId"].write(value.connectorId)
+        try writer["environmentId"].write(value.environmentId)
+        try writer["secretIdentifier"].write(value.secretIdentifier)
+    }
+}
+
 extension AssociateEipToVlanOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateEipToVlanOutput {
@@ -1897,6 +2608,18 @@ extension AssociateEipToVlanOutput {
     }
 }
 
+extension CreateEntitlementOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateEntitlementOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateEntitlementOutput()
+        value.entitlements = try reader["entitlements"].readListIfPresent(memberReadingClosure: EvsClientTypes.VmEntitlement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension CreateEnvironmentOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateEnvironmentOutput {
@@ -1905,6 +2628,18 @@ extension CreateEnvironmentOutput {
         let reader = responseReader
         var value = CreateEnvironmentOutput()
         value.environment = try reader["environment"].readIfPresent(with: EvsClientTypes.Environment.read(from:))
+        return value
+    }
+}
+
+extension CreateEnvironmentConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateEnvironmentConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateEnvironmentConnectorOutput()
+        value.connector = try reader["connector"].readIfPresent(with: EvsClientTypes.Connector.read(from:))
         return value
     }
 }
@@ -1922,6 +2657,18 @@ extension CreateEnvironmentHostOutput {
     }
 }
 
+extension DeleteEntitlementOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteEntitlementOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteEntitlementOutput()
+        value.entitlements = try reader["entitlements"].readListIfPresent(memberReadingClosure: EvsClientTypes.VmEntitlement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension DeleteEnvironmentOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteEnvironmentOutput {
@@ -1930,6 +2677,19 @@ extension DeleteEnvironmentOutput {
         let reader = responseReader
         var value = DeleteEnvironmentOutput()
         value.environment = try reader["environment"].readIfPresent(with: EvsClientTypes.Environment.read(from:))
+        return value
+    }
+}
+
+extension DeleteEnvironmentConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteEnvironmentConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteEnvironmentConnectorOutput()
+        value.connector = try reader["connector"].readIfPresent(with: EvsClientTypes.Connector.read(from:))
+        value.environmentSummary = try reader["environmentSummary"].readIfPresent(with: EvsClientTypes.EnvironmentSummary.read(from:))
         return value
     }
 }
@@ -1980,6 +2740,19 @@ extension GetVersionsOutput {
         var value = GetVersionsOutput()
         value.instanceTypeEsxVersions = try reader["instanceTypeEsxVersions"].readListIfPresent(memberReadingClosure: EvsClientTypes.InstanceTypeEsxVersionsInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.vcfVersions = try reader["vcfVersions"].readListIfPresent(memberReadingClosure: EvsClientTypes.VcfVersionInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListEnvironmentConnectorsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEnvironmentConnectorsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListEnvironmentConnectorsOutput()
+        value.connectors = try reader["connectors"].readListIfPresent(memberReadingClosure: EvsClientTypes.Connector.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -2035,6 +2808,19 @@ extension ListTagsForResourceOutput {
     }
 }
 
+extension ListVmEntitlementsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListVmEntitlementsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListVmEntitlementsOutput()
+        value.entitlements = try reader["entitlements"].readListIfPresent(memberReadingClosure: EvsClientTypes.VmEntitlement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -2049,7 +2835,35 @@ extension UntagResourceOutput {
     }
 }
 
+extension UpdateEnvironmentConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateEnvironmentConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateEnvironmentConnectorOutput()
+        value.connector = try reader["connector"].readIfPresent(with: EvsClientTypes.Connector.read(from:))
+        return value
+    }
+}
+
 enum AssociateEipToVlanOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateEntitlementOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -2079,6 +2893,22 @@ enum CreateEnvironmentOutputError {
     }
 }
 
+enum CreateEnvironmentConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateEnvironmentHostOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2087,6 +2917,22 @@ enum CreateEnvironmentHostOutputError {
         let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteEntitlementOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -2103,6 +2949,22 @@ enum DeleteEnvironmentOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteEnvironmentConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2170,6 +3032,21 @@ enum GetVersionsOutputError {
     }
 }
 
+enum ListEnvironmentConnectorsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListEnvironmentHostsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2228,6 +3105,21 @@ enum ListTagsForResourceOutputError {
     }
 }
 
+enum ListVmEntitlementsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum TagResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2255,6 +3147,22 @@ enum UntagResourceOutputError {
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "TagPolicyException": return try TagPolicyException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateEnvironmentConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2386,6 +3294,39 @@ extension EvsClientTypes.ConnectivityInfo {
     }
 }
 
+extension EvsClientTypes.Connector {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.Connector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EvsClientTypes.Connector()
+        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.connectorId = try reader["connectorId"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.applianceFqdn = try reader["applianceFqdn"].readIfPresent()
+        value.secretArn = try reader["secretArn"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        value.stateDetails = try reader["stateDetails"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.checks = try reader["checks"].readListIfPresent(memberReadingClosure: EvsClientTypes.ConnectorCheck.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension EvsClientTypes.ConnectorCheck {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.ConnectorCheck {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EvsClientTypes.ConnectorCheck()
+        value.type = try reader["type"].readIfPresent()
+        value.result = try reader["result"].readIfPresent()
+        value.lastCheckAttempt = try reader["lastCheckAttempt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.impairedSince = try reader["impairedSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension EvsClientTypes.EipAssociation {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.EipAssociation {
@@ -2440,6 +3381,17 @@ extension EvsClientTypes.EnvironmentSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.environmentArn = try reader["environmentArn"].readIfPresent()
+        return value
+    }
+}
+
+extension EvsClientTypes.ErrorDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.ErrorDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EvsClientTypes.ErrorDetail()
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2639,6 +3591,25 @@ extension EvsClientTypes.Vlan {
         value.eipAssociations = try reader["eipAssociations"].readListIfPresent(memberReadingClosure: EvsClientTypes.EipAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.isPublic = try reader["isPublic"].readIfPresent()
         value.networkAclId = try reader["networkAclId"].readIfPresent()
+        return value
+    }
+}
+
+extension EvsClientTypes.VmEntitlement {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.VmEntitlement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EvsClientTypes.VmEntitlement()
+        value.vmId = try reader["vmId"].readIfPresent()
+        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.connectorId = try reader["connectorId"].readIfPresent()
+        value.vmName = try reader["vmName"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.lastSyncedAt = try reader["lastSyncedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.stoppedAt = try reader["stoppedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.errorDetail = try reader["errorDetail"].readIfPresent(with: EvsClientTypes.ErrorDetail.read(from:))
         return value
     }
 }

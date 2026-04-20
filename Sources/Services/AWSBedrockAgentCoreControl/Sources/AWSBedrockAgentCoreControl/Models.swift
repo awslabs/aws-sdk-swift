@@ -5452,6 +5452,35 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    public enum ListingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `default`
+        case `dynamic`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListingMode] {
+            return [
+                .default,
+                .dynamic
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .default: return "DEFAULT"
+            case .dynamic: return "DYNAMIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// The MCP tool schema configuration for an MCP server target. The tool schema must be aligned with the MCP specification.
     public enum McpToolSchemaConfiguration: Swift.Sendable {
         /// The Amazon S3 location of the tool schema. This location contains the schema definition file.
@@ -5469,14 +5498,18 @@ extension BedrockAgentCoreControlClientTypes {
         /// The endpoint for the MCP server target configuration.
         /// This member is required.
         public var endpoint: Swift.String?
+        /// The listing mode for the MCP server target configuration. MCP resources for default targets are cached at the control plane for faster access. MCP resources for dynamic targets will be dynamically retrieved when listing tools.
+        public var listingMode: BedrockAgentCoreControlClientTypes.ListingMode?
         /// The tool schema configuration for the MCP server target. Supported only when the credential provider is configured with an authorization code grant type. Dynamic tool discovery/synchronization will be disabled when target is configured with mcpToolSchema.
         public var mcpToolSchema: BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration?
 
         public init(
             endpoint: Swift.String? = nil,
+            listingMode: BedrockAgentCoreControlClientTypes.ListingMode? = nil,
             mcpToolSchema: BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration? = nil
         ) {
             self.endpoint = endpoint
+            self.listingMode = listingMode
             self.mcpToolSchema = mcpToolSchema
         }
     }
@@ -20792,6 +20825,7 @@ extension BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration {
     static func write(value: BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["endpoint"].write(value.endpoint)
+        try writer["listingMode"].write(value.listingMode)
         try writer["mcpToolSchema"].write(value.mcpToolSchema, with: BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration.write(value:to:))
     }
 
@@ -20800,6 +20834,7 @@ extension BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration {
         var value = BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration()
         value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
         value.mcpToolSchema = try reader["mcpToolSchema"].readIfPresent(with: BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration.read(from:))
+        value.listingMode = try reader["listingMode"].readIfPresent()
         return value
     }
 }
