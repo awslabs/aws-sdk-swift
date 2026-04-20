@@ -6,6 +6,7 @@
 package software.amazon.smithy.aws.swift.codegen.protocols.awsjson
 
 import software.amazon.smithy.aws.swift.codegen.AWSHTTPProtocolCustomizations
+import software.amazon.smithy.aws.swift.codegen.plugins.UnknownAWSHTTPServiceErrorPlugin
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -20,7 +21,7 @@ class AWSJSONCustomizations(
 
     override val defaultTimestampFormat = TimestampFormatTrait.Format.EPOCH_SECONDS
 
-    override val plugins: List<Plugin> = listOf(AWSJSONPlugin())
+    override val plugins: List<Plugin> = listOf(AWSJSONPlugin(), UnknownAWSHTTPServiceErrorPlugin())
 
     override fun renderClientProtocol(writer: SwiftWriter): String =
         writer.format("\$N(version: .v\$L)", SmithyAWSJSONTypes.HTTPClientProtocol, version)

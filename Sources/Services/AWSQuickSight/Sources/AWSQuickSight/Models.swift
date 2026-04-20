@@ -4561,6 +4561,79 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    public enum ControlSortDirection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case asc
+        case desc
+        case userDefinedOrder
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ControlSortDirection] {
+            return [
+                .asc,
+                .desc,
+                .userDefinedOrder
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .asc: return "ASC"
+            case .desc: return "DESC"
+            case .userDefinedOrder: return "USER_DEFINED_ORDER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The sort configuration for selectable values in a control.
+    public struct SelectableValuesSort: Swift.Sendable {
+        /// The sort direction for the selectable values. Choose one of the following options:
+        ///
+        /// * ASC: Sort in ascending order.
+        ///
+        /// * DESC: Sort in descending order.
+        ///
+        /// * USER_DEFINED_ORDER: Preserve the order in which the values were entered.
+        /// This member is required.
+        public var direction: QuickSightClientTypes.ControlSortDirection?
+
+        public init(
+            direction: QuickSightClientTypes.ControlSortDirection? = nil
+        ) {
+            self.direction = direction
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The sort configuration for control values. This is a tagged union type. Specify either SelectableValuesSort or ControlColumnSort, but not both.
+    public struct ControlSortConfiguration: Swift.Sendable {
+        /// The sort configuration for controls that are tied to a dataset column. Use this option to sort control values by an aggregate of a column.
+        public var controlColumnSort: QuickSightClientTypes.AggregationSortConfiguration?
+        /// The sort configuration for user-specified values in the control. Use this option to sort values that are manually entered by users in a dropdown or list control.
+        public var selectableValuesSort: QuickSightClientTypes.SelectableValuesSort?
+
+        public init(
+            controlColumnSort: QuickSightClientTypes.AggregationSortConfiguration? = nil,
+            selectableValuesSort: QuickSightClientTypes.SelectableValuesSort? = nil
+        ) {
+            self.controlColumnSort = controlColumnSort
+            self.selectableValuesSort = selectableValuesSort
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The configuration of the Select all options in a list control.
     public struct ListControlSelectAllOptions: Swift.Sendable {
         /// The visibility configuration of the Select all options in a list control.
@@ -4647,6 +4720,8 @@ extension QuickSightClientTypes {
     public struct DefaultFilterDropDownControlOptions: Swift.Sendable {
         /// The visibility configuration of the Apply button on a FilterDropDownControl.
         public var commitMode: QuickSightClientTypes.CommitMode?
+        /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
+        public var controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions?
         /// A list of selectable values that are used in a control.
@@ -4660,11 +4735,13 @@ extension QuickSightClientTypes {
 
         public init(
             commitMode: QuickSightClientTypes.CommitMode? = nil,
+            controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]? = nil,
             displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions? = nil,
             selectableValues: QuickSightClientTypes.FilterSelectableValues? = nil,
             type: QuickSightClientTypes.SheetControlListType? = nil
         ) {
             self.commitMode = commitMode
+            self.controlSortConfigurations = controlSortConfigurations
             self.displayOptions = displayOptions
             self.selectableValues = selectableValues
             self.type = type
@@ -4718,6 +4795,8 @@ extension QuickSightClientTypes {
 
     /// The default options that correspond to the List filter control type.
     public struct DefaultFilterListControlOptions: Swift.Sendable {
+        /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
+        public var controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.ListControlDisplayOptions?
         /// A list of selectable values that are used in a control.
@@ -4730,10 +4809,12 @@ extension QuickSightClientTypes {
         public var type: QuickSightClientTypes.SheetControlListType?
 
         public init(
+            controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]? = nil,
             displayOptions: QuickSightClientTypes.ListControlDisplayOptions? = nil,
             selectableValues: QuickSightClientTypes.FilterSelectableValues? = nil,
             type: QuickSightClientTypes.SheetControlListType? = nil
         ) {
+            self.controlSortConfigurations = controlSortConfigurations
             self.displayOptions = displayOptions
             self.selectableValues = selectableValues
             self.type = type
@@ -6669,6 +6750,8 @@ extension QuickSightClientTypes {
         public var cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration?
         /// The visibility configuration of the Apply button on a FilterDropDownControl.
         public var commitMode: QuickSightClientTypes.CommitMode?
+        /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
+        public var controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]?
         /// The display options of the FilterDropDownControl.
         public var displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions?
         /// The ID of the FilterDropDownControl.
@@ -6692,6 +6775,7 @@ extension QuickSightClientTypes {
         public init(
             cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration? = nil,
             commitMode: QuickSightClientTypes.CommitMode? = nil,
+            controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]? = nil,
             displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions? = nil,
             filterControlId: Swift.String? = nil,
             selectableValues: QuickSightClientTypes.FilterSelectableValues? = nil,
@@ -6701,6 +6785,7 @@ extension QuickSightClientTypes {
         ) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.commitMode = commitMode
+            self.controlSortConfigurations = controlSortConfigurations
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.selectableValues = selectableValues
@@ -6717,6 +6802,8 @@ extension QuickSightClientTypes {
     public struct FilterListControl: Swift.Sendable {
         /// The values that are displayed in a control can be configured to only show values that are valid based on what's selected in other controls.
         public var cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration?
+        /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
+        public var controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.ListControlDisplayOptions?
         /// The ID of the FilterListControl.
@@ -6739,6 +6826,7 @@ extension QuickSightClientTypes {
 
         public init(
             cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration? = nil,
+            controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]? = nil,
             displayOptions: QuickSightClientTypes.ListControlDisplayOptions? = nil,
             filterControlId: Swift.String? = nil,
             selectableValues: QuickSightClientTypes.FilterSelectableValues? = nil,
@@ -6747,6 +6835,7 @@ extension QuickSightClientTypes {
             type: QuickSightClientTypes.SheetControlListType? = nil
         ) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
+            self.controlSortConfigurations = controlSortConfigurations
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.selectableValues = selectableValues
@@ -7824,6 +7913,8 @@ extension QuickSightClientTypes {
         public var cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration?
         /// The visibility configuration of the Apply button on a ParameterDropDownControl.
         public var commitMode: QuickSightClientTypes.CommitMode?
+        /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
+        public var controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions?
         /// The ID of the ParameterDropDownControl.
@@ -7843,6 +7934,7 @@ extension QuickSightClientTypes {
         public init(
             cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration? = nil,
             commitMode: QuickSightClientTypes.CommitMode? = nil,
+            controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]? = nil,
             displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions? = nil,
             parameterControlId: Swift.String? = nil,
             selectableValues: QuickSightClientTypes.ParameterSelectableValues? = nil,
@@ -7852,6 +7944,7 @@ extension QuickSightClientTypes {
         ) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.commitMode = commitMode
+            self.controlSortConfigurations = controlSortConfigurations
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
             self.selectableValues = selectableValues
@@ -7868,6 +7961,8 @@ extension QuickSightClientTypes {
     public struct ParameterListControl: Swift.Sendable {
         /// The values that are displayed in a control can be configured to only show values that are valid based on what's selected in other controls.
         public var cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration?
+        /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
+        public var controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.ListControlDisplayOptions?
         /// The ID of the ParameterListControl.
@@ -7886,6 +7981,7 @@ extension QuickSightClientTypes {
 
         public init(
             cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration? = nil,
+            controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]? = nil,
             displayOptions: QuickSightClientTypes.ListControlDisplayOptions? = nil,
             parameterControlId: Swift.String? = nil,
             selectableValues: QuickSightClientTypes.ParameterSelectableValues? = nil,
@@ -7894,6 +7990,7 @@ extension QuickSightClientTypes {
             type: QuickSightClientTypes.SheetControlListType? = nil
         ) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
+            self.controlSortConfigurations = controlSortConfigurations
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
             self.selectableValues = selectableValues
@@ -23028,6 +23125,8 @@ extension QuickSightClientTypes {
 
     /// Parameters for Amazon Athena.
     public struct AthenaParameters: Swift.Sendable {
+        /// Use ConsumerAccountRoleArn to perform cross-account Athena access. This is an IAM role ARN in the same AWS account as the Athena resources you want to access. Provide this along with RoleArn to enable role-chaining, where Amazon Quick Sight first assumes the RoleArn and then assumes the ConsumerAccountRoleArn to access Athena resources.
+        public var consumerAccountRoleArn: Swift.String?
         /// An optional parameter that configures IAM Identity Center authentication to grant Quick Sight access to your workgroup. This parameter can only be specified if your Quick Sight account is configured with IAM Identity Center.
         public var identityCenterConfiguration: QuickSightClientTypes.IdentityCenterConfiguration?
         /// Use the RoleArn structure to override an account-wide role for a specific Athena data source. For example, say an account administrator has turned off all Athena access with an account-wide role. The administrator can then use RoleArn to bypass the account-wide role and allow Athena access for the single Athena data source that is specified in the structure, even if the account-wide role forbidding Athena access is still active.
@@ -23036,10 +23135,12 @@ extension QuickSightClientTypes {
         public var workGroup: Swift.String?
 
         public init(
+            consumerAccountRoleArn: Swift.String? = nil,
             identityCenterConfiguration: QuickSightClientTypes.IdentityCenterConfiguration? = nil,
             roleArn: Swift.String? = nil,
             workGroup: Swift.String? = nil
         ) {
+            self.consumerAccountRoleArn = consumerAccountRoleArn
             self.identityCenterConfiguration = identityCenterConfiguration
             self.roleArn = roleArn
             self.workGroup = workGroup
@@ -23561,6 +23662,21 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The parameters for S3 Tables.
+    public struct S3TablesParameters: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the S3 Tables bucket.
+        public var tableBucketArn: Swift.String?
+
+        public init(
+            tableBucketArn: Swift.String? = nil
+        ) {
+            self.tableBucketArn = tableBucketArn
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The parameters for ServiceNow.
     public struct ServiceNowParameters: Swift.Sendable {
         /// URL of the base site.
@@ -24002,6 +24118,8 @@ extension QuickSightClientTypes {
         case redshiftparameters(QuickSightClientTypes.RedshiftParameters)
         /// The parameters for S3.
         case s3parameters(QuickSightClientTypes.S3Parameters)
+        /// The parameters for S3 Tables.
+        case s3tablesparameters(QuickSightClientTypes.S3TablesParameters)
         /// The parameters for S3 Knowledge Base.
         case s3knowledgebaseparameters(QuickSightClientTypes.S3KnowledgeBaseParameters)
         /// The parameters for ServiceNow.
@@ -27161,6 +27279,8 @@ extension QuickSightClientTypes {
         public var factSetAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform flow-related actions.
         public var flow: QuickSightClientTypes.CapabilityState?
+        /// The ability to generate analysis using AI
+        public var generateAnalyses: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using REST API connection connectors.
         public var genericHTTPAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using GitHub connectors.
@@ -27521,6 +27641,7 @@ extension QuickSightClientTypes {
             `extension`: QuickSightClientTypes.CapabilityState? = nil,
             factSetAction: QuickSightClientTypes.CapabilityState? = nil,
             flow: QuickSightClientTypes.CapabilityState? = nil,
+            generateAnalyses: QuickSightClientTypes.CapabilityState? = nil,
             genericHTTPAction: QuickSightClientTypes.CapabilityState? = nil,
             githubAction: QuickSightClientTypes.CapabilityState? = nil,
             googleCalendarAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -27742,6 +27863,7 @@ extension QuickSightClientTypes {
             self.`extension` = `extension`
             self.factSetAction = factSetAction
             self.flow = flow
+            self.generateAnalyses = generateAnalyses
             self.genericHTTPAction = genericHTTPAction
             self.githubAction = githubAction
             self.googleCalendarAction = googleCalendarAction
@@ -32441,6 +32563,7 @@ extension QuickSightClientTypes {
         case redshift
         case s3
         case s3KnowledgeBase
+        case s3Tables
         case salesforce
         case servicenow
         case sharepoint
@@ -32482,6 +32605,7 @@ extension QuickSightClientTypes {
                 .redshift,
                 .s3,
                 .s3KnowledgeBase,
+                .s3Tables,
                 .salesforce,
                 .servicenow,
                 .sharepoint,
@@ -32529,6 +32653,7 @@ extension QuickSightClientTypes {
             case .redshift: return "REDSHIFT"
             case .s3: return "S3"
             case .s3KnowledgeBase: return "S3_KNOWLEDGE_BASE"
+            case .s3Tables: return "S3_TABLES"
             case .salesforce: return "SALESFORCE"
             case .servicenow: return "SERVICENOW"
             case .sharepoint: return "SHAREPOINT"
@@ -36157,6 +36282,22 @@ extension QuickSightClientTypes {
             self.linkEntities = linkEntities
             self.name = name
             self.version = version
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The dashboard customization summary configuration for an embedded Quick Sight dashboard.
+    public struct DashboardCustomizationSummaryConfigurations: Swift.Sendable {
+        /// The enabled status of the dashboard customization summary configuration for an embedded Quick Sight dashboard.
+        /// This member is required.
+        public var enabled: Swift.Bool
+
+        public init(
+            enabled: Swift.Bool = false
+        ) {
+            self.enabled = enabled
         }
     }
 }
@@ -43115,6 +43256,8 @@ extension QuickSightClientTypes {
         public var amazonQInQuickSight: QuickSightClientTypes.AmazonQInQuickSightDashboardConfigurations?
         /// The bookmarks configuration for an embedded dashboard in Amazon Quick Sight.
         public var bookmarks: QuickSightClientTypes.BookmarksConfigurations?
+        /// The dashboard customization summary configuration for an embedded Quick Sight dashboard.
+        public var dashboardCustomizationSummary: QuickSightClientTypes.DashboardCustomizationSummaryConfigurations?
         /// The recent snapshots configuration for an Quick Sight embedded dashboard
         public var recentSnapshots: QuickSightClientTypes.RecentSnapshotsConfigurations?
         /// The schedules configuration for an embedded Quick Sight dashboard.
@@ -43129,6 +43272,7 @@ extension QuickSightClientTypes {
         public init(
             amazonQInQuickSight: QuickSightClientTypes.AmazonQInQuickSightDashboardConfigurations? = nil,
             bookmarks: QuickSightClientTypes.BookmarksConfigurations? = nil,
+            dashboardCustomizationSummary: QuickSightClientTypes.DashboardCustomizationSummaryConfigurations? = nil,
             recentSnapshots: QuickSightClientTypes.RecentSnapshotsConfigurations? = nil,
             schedules: QuickSightClientTypes.SchedulesConfigurations? = nil,
             sharedView: QuickSightClientTypes.SharedViewConfigurations? = nil,
@@ -43137,6 +43281,7 @@ extension QuickSightClientTypes {
         ) {
             self.amazonQInQuickSight = amazonQInQuickSight
             self.bookmarks = bookmarks
+            self.dashboardCustomizationSummary = dashboardCustomizationSummary
             self.recentSnapshots = recentSnapshots
             self.schedules = schedules
             self.sharedView = sharedView
@@ -43227,6 +43372,8 @@ extension QuickSightClientTypes {
     public struct RegisteredUserConsoleFeatureConfigurations: Swift.Sendable {
         /// The Amazon Q configurations of an embedded Amazon Quick Sight console.
         public var amazonQInQuickSight: QuickSightClientTypes.AmazonQInQuickSightConsoleConfigurations?
+        /// The dashboard customization summary configuration for an embedded Quick Sight console.
+        public var dashboardCustomizationSummary: QuickSightClientTypes.DashboardCustomizationSummaryConfigurations?
         /// The recent snapshots configuration for an embedded Quick Sight dashboard.
         public var recentSnapshots: QuickSightClientTypes.RecentSnapshotsConfigurations?
         /// The schedules configuration for an embedded Quick Sight dashboard.
@@ -43240,6 +43387,7 @@ extension QuickSightClientTypes {
 
         public init(
             amazonQInQuickSight: QuickSightClientTypes.AmazonQInQuickSightConsoleConfigurations? = nil,
+            dashboardCustomizationSummary: QuickSightClientTypes.DashboardCustomizationSummaryConfigurations? = nil,
             recentSnapshots: QuickSightClientTypes.RecentSnapshotsConfigurations? = nil,
             schedules: QuickSightClientTypes.SchedulesConfigurations? = nil,
             sharedView: QuickSightClientTypes.SharedViewConfigurations? = nil,
@@ -43247,6 +43395,7 @@ extension QuickSightClientTypes {
             thresholdAlerts: QuickSightClientTypes.ThresholdAlertsConfigurations? = nil
         ) {
             self.amazonQInQuickSight = amazonQInQuickSight
+            self.dashboardCustomizationSummary = dashboardCustomizationSummary
             self.recentSnapshots = recentSnapshots
             self.schedules = schedules
             self.sharedView = sharedView
@@ -64941,6 +65090,7 @@ extension QuickSightClientTypes.AthenaParameters {
 
     static func write(value: QuickSightClientTypes.AthenaParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ConsumerAccountRoleArn"].write(value.consumerAccountRoleArn)
         try writer["IdentityCenterConfiguration"].write(value.identityCenterConfiguration, with: QuickSightClientTypes.IdentityCenterConfiguration.write(value:to:))
         try writer["RoleArn"].write(value.roleArn)
         try writer["WorkGroup"].write(value.workGroup)
@@ -64951,6 +65101,7 @@ extension QuickSightClientTypes.AthenaParameters {
         var value = QuickSightClientTypes.AthenaParameters()
         value.workGroup = try reader["WorkGroup"].readIfPresent()
         value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.consumerAccountRoleArn = try reader["ConsumerAccountRoleArn"].readIfPresent()
         value.identityCenterConfiguration = try reader["IdentityCenterConfiguration"].readIfPresent(with: QuickSightClientTypes.IdentityCenterConfiguration.read(from:))
         return value
     }
@@ -66106,6 +66257,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["Extension"].write(value.`extension`)
         try writer["FactSetAction"].write(value.factSetAction)
         try writer["Flow"].write(value.flow)
+        try writer["GenerateAnalyses"].write(value.generateAnalyses)
         try writer["GenericHTTPAction"].write(value.genericHTTPAction)
         try writer["GithubAction"].write(value.githubAction)
         try writer["GoogleCalendarAction"].write(value.googleCalendarAction)
@@ -66469,6 +66621,7 @@ extension QuickSightClientTypes.Capabilities {
         value.selfUpgradeUserRole = try reader["SelfUpgradeUserRole"].readIfPresent()
         value.`extension` = try reader["Extension"].readIfPresent()
         value.manageSharedFolders = try reader["ManageSharedFolders"].readIfPresent()
+        value.generateAnalyses = try reader["GenerateAnalyses"].readIfPresent()
         return value
     }
 }
@@ -67581,6 +67734,23 @@ extension QuickSightClientTypes.ContributionAnalysisTimeRanges {
     }
 }
 
+extension QuickSightClientTypes.ControlSortConfiguration {
+
+    static func write(value: QuickSightClientTypes.ControlSortConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ControlColumnSort"].write(value.controlColumnSort, with: QuickSightClientTypes.AggregationSortConfiguration.write(value:to:))
+        try writer["SelectableValuesSort"].write(value.selectableValuesSort, with: QuickSightClientTypes.SelectableValuesSort.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ControlSortConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ControlSortConfiguration()
+        value.selectableValuesSort = try reader["SelectableValuesSort"].readIfPresent(with: QuickSightClientTypes.SelectableValuesSort.read(from:))
+        value.controlColumnSort = try reader["ControlColumnSort"].readIfPresent(with: QuickSightClientTypes.AggregationSortConfiguration.read(from:))
+        return value
+    }
+}
+
 extension QuickSightClientTypes.Coordinate {
 
     static func write(value: QuickSightClientTypes.Coordinate?, to writer: SmithyJSON.Writer) throws {
@@ -67974,6 +68144,14 @@ extension QuickSightClientTypes.Dashboard {
         value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.linkEntities = try reader["LinkEntities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension QuickSightClientTypes.DashboardCustomizationSummaryConfigurations {
+
+    static func write(value: QuickSightClientTypes.DashboardCustomizationSummaryConfigurations?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
     }
 }
 
@@ -69179,6 +69357,8 @@ extension QuickSightClientTypes.DataSourceParameters {
                 try writer["S3KnowledgeBaseParameters"].write(s3knowledgebaseparameters, with: QuickSightClientTypes.S3KnowledgeBaseParameters.write(value:to:))
             case let .s3parameters(s3parameters):
                 try writer["S3Parameters"].write(s3parameters, with: QuickSightClientTypes.S3Parameters.write(value:to:))
+            case let .s3tablesparameters(s3tablesparameters):
+                try writer["S3TablesParameters"].write(s3tablesparameters, with: QuickSightClientTypes.S3TablesParameters.write(value:to:))
             case let .servicenowparameters(servicenowparameters):
                 try writer["ServiceNowParameters"].write(servicenowparameters, with: QuickSightClientTypes.ServiceNowParameters.write(value:to:))
             case let .snowflakeparameters(snowflakeparameters):
@@ -69234,6 +69414,8 @@ extension QuickSightClientTypes.DataSourceParameters {
                 return .redshiftparameters(try reader["RedshiftParameters"].read(with: QuickSightClientTypes.RedshiftParameters.read(from:)))
             case "S3Parameters":
                 return .s3parameters(try reader["S3Parameters"].read(with: QuickSightClientTypes.S3Parameters.read(from:)))
+            case "S3TablesParameters":
+                return .s3tablesparameters(try reader["S3TablesParameters"].read(with: QuickSightClientTypes.S3TablesParameters.read(from:)))
             case "S3KnowledgeBaseParameters":
                 return .s3knowledgebaseparameters(try reader["S3KnowledgeBaseParameters"].read(with: QuickSightClientTypes.S3KnowledgeBaseParameters.read(from:)))
             case "ServiceNowParameters":
@@ -69787,6 +69969,7 @@ extension QuickSightClientTypes.DefaultFilterDropDownControlOptions {
     static func write(value: QuickSightClientTypes.DefaultFilterDropDownControlOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CommitMode"].write(value.commitMode)
+        try writer["ControlSortConfigurations"].writeList(value.controlSortConfigurations, memberWritingClosure: QuickSightClientTypes.ControlSortConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.DropDownControlDisplayOptions.write(value:to:))
         try writer["SelectableValues"].write(value.selectableValues, with: QuickSightClientTypes.FilterSelectableValues.write(value:to:))
         try writer["Type"].write(value.type)
@@ -69799,6 +69982,7 @@ extension QuickSightClientTypes.DefaultFilterDropDownControlOptions {
         value.type = try reader["Type"].readIfPresent()
         value.selectableValues = try reader["SelectableValues"].readIfPresent(with: QuickSightClientTypes.FilterSelectableValues.read(from:))
         value.commitMode = try reader["CommitMode"].readIfPresent()
+        value.controlSortConfigurations = try reader["ControlSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ControlSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -69807,6 +69991,7 @@ extension QuickSightClientTypes.DefaultFilterListControlOptions {
 
     static func write(value: QuickSightClientTypes.DefaultFilterListControlOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ControlSortConfigurations"].writeList(value.controlSortConfigurations, memberWritingClosure: QuickSightClientTypes.ControlSortConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.ListControlDisplayOptions.write(value:to:))
         try writer["SelectableValues"].write(value.selectableValues, with: QuickSightClientTypes.FilterSelectableValues.write(value:to:))
         try writer["Type"].write(value.type)
@@ -69818,6 +70003,7 @@ extension QuickSightClientTypes.DefaultFilterListControlOptions {
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.ListControlDisplayOptions.read(from:))
         value.type = try reader["Type"].readIfPresent()
         value.selectableValues = try reader["SelectableValues"].readIfPresent(with: QuickSightClientTypes.FilterSelectableValues.read(from:))
+        value.controlSortConfigurations = try reader["ControlSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ControlSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -70823,6 +71009,7 @@ extension QuickSightClientTypes.FilterDropDownControl {
         guard let value else { return }
         try writer["CascadingControlConfiguration"].write(value.cascadingControlConfiguration, with: QuickSightClientTypes.CascadingControlConfiguration.write(value:to:))
         try writer["CommitMode"].write(value.commitMode)
+        try writer["ControlSortConfigurations"].writeList(value.controlSortConfigurations, memberWritingClosure: QuickSightClientTypes.ControlSortConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.DropDownControlDisplayOptions.write(value:to:))
         try writer["FilterControlId"].write(value.filterControlId)
         try writer["SelectableValues"].write(value.selectableValues, with: QuickSightClientTypes.FilterSelectableValues.write(value:to:))
@@ -70842,6 +71029,7 @@ extension QuickSightClientTypes.FilterDropDownControl {
         value.selectableValues = try reader["SelectableValues"].readIfPresent(with: QuickSightClientTypes.FilterSelectableValues.read(from:))
         value.cascadingControlConfiguration = try reader["CascadingControlConfiguration"].readIfPresent(with: QuickSightClientTypes.CascadingControlConfiguration.read(from:))
         value.commitMode = try reader["CommitMode"].readIfPresent()
+        value.controlSortConfigurations = try reader["ControlSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ControlSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -70895,6 +71083,7 @@ extension QuickSightClientTypes.FilterListControl {
     static func write(value: QuickSightClientTypes.FilterListControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CascadingControlConfiguration"].write(value.cascadingControlConfiguration, with: QuickSightClientTypes.CascadingControlConfiguration.write(value:to:))
+        try writer["ControlSortConfigurations"].writeList(value.controlSortConfigurations, memberWritingClosure: QuickSightClientTypes.ControlSortConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.ListControlDisplayOptions.write(value:to:))
         try writer["FilterControlId"].write(value.filterControlId)
         try writer["SelectableValues"].write(value.selectableValues, with: QuickSightClientTypes.FilterSelectableValues.write(value:to:))
@@ -70913,6 +71102,7 @@ extension QuickSightClientTypes.FilterListControl {
         value.type = try reader["Type"].readIfPresent()
         value.selectableValues = try reader["SelectableValues"].readIfPresent(with: QuickSightClientTypes.FilterSelectableValues.read(from:))
         value.cascadingControlConfiguration = try reader["CascadingControlConfiguration"].readIfPresent(with: QuickSightClientTypes.CascadingControlConfiguration.read(from:))
+        value.controlSortConfigurations = try reader["ControlSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ControlSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -75574,6 +75764,7 @@ extension QuickSightClientTypes.ParameterDropDownControl {
         guard let value else { return }
         try writer["CascadingControlConfiguration"].write(value.cascadingControlConfiguration, with: QuickSightClientTypes.CascadingControlConfiguration.write(value:to:))
         try writer["CommitMode"].write(value.commitMode)
+        try writer["ControlSortConfigurations"].writeList(value.controlSortConfigurations, memberWritingClosure: QuickSightClientTypes.ControlSortConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.DropDownControlDisplayOptions.write(value:to:))
         try writer["ParameterControlId"].write(value.parameterControlId)
         try writer["SelectableValues"].write(value.selectableValues, with: QuickSightClientTypes.ParameterSelectableValues.write(value:to:))
@@ -75593,6 +75784,7 @@ extension QuickSightClientTypes.ParameterDropDownControl {
         value.selectableValues = try reader["SelectableValues"].readIfPresent(with: QuickSightClientTypes.ParameterSelectableValues.read(from:))
         value.cascadingControlConfiguration = try reader["CascadingControlConfiguration"].readIfPresent(with: QuickSightClientTypes.CascadingControlConfiguration.read(from:))
         value.commitMode = try reader["CommitMode"].readIfPresent()
+        value.controlSortConfigurations = try reader["ControlSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ControlSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -75602,6 +75794,7 @@ extension QuickSightClientTypes.ParameterListControl {
     static func write(value: QuickSightClientTypes.ParameterListControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CascadingControlConfiguration"].write(value.cascadingControlConfiguration, with: QuickSightClientTypes.CascadingControlConfiguration.write(value:to:))
+        try writer["ControlSortConfigurations"].writeList(value.controlSortConfigurations, memberWritingClosure: QuickSightClientTypes.ControlSortConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.ListControlDisplayOptions.write(value:to:))
         try writer["ParameterControlId"].write(value.parameterControlId)
         try writer["SelectableValues"].write(value.selectableValues, with: QuickSightClientTypes.ParameterSelectableValues.write(value:to:))
@@ -75620,6 +75813,7 @@ extension QuickSightClientTypes.ParameterListControl {
         value.type = try reader["Type"].readIfPresent()
         value.selectableValues = try reader["SelectableValues"].readIfPresent(with: QuickSightClientTypes.ParameterSelectableValues.read(from:))
         value.cascadingControlConfiguration = try reader["CascadingControlConfiguration"].readIfPresent(with: QuickSightClientTypes.CascadingControlConfiguration.read(from:))
+        value.controlSortConfigurations = try reader["ControlSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ControlSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -77524,6 +77718,7 @@ extension QuickSightClientTypes.RegisteredUserConsoleFeatureConfigurations {
     static func write(value: QuickSightClientTypes.RegisteredUserConsoleFeatureConfigurations?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AmazonQInQuickSight"].write(value.amazonQInQuickSight, with: QuickSightClientTypes.AmazonQInQuickSightConsoleConfigurations.write(value:to:))
+        try writer["DashboardCustomizationSummary"].write(value.dashboardCustomizationSummary, with: QuickSightClientTypes.DashboardCustomizationSummaryConfigurations.write(value:to:))
         try writer["RecentSnapshots"].write(value.recentSnapshots, with: QuickSightClientTypes.RecentSnapshotsConfigurations.write(value:to:))
         try writer["Schedules"].write(value.schedules, with: QuickSightClientTypes.SchedulesConfigurations.write(value:to:))
         try writer["SharedView"].write(value.sharedView, with: QuickSightClientTypes.SharedViewConfigurations.write(value:to:))
@@ -77547,6 +77742,7 @@ extension QuickSightClientTypes.RegisteredUserDashboardFeatureConfigurations {
         guard let value else { return }
         try writer["AmazonQInQuickSight"].write(value.amazonQInQuickSight, with: QuickSightClientTypes.AmazonQInQuickSightDashboardConfigurations.write(value:to:))
         try writer["Bookmarks"].write(value.bookmarks, with: QuickSightClientTypes.BookmarksConfigurations.write(value:to:))
+        try writer["DashboardCustomizationSummary"].write(value.dashboardCustomizationSummary, with: QuickSightClientTypes.DashboardCustomizationSummaryConfigurations.write(value:to:))
         try writer["RecentSnapshots"].write(value.recentSnapshots, with: QuickSightClientTypes.RecentSnapshotsConfigurations.write(value:to:))
         try writer["Schedules"].write(value.schedules, with: QuickSightClientTypes.SchedulesConfigurations.write(value:to:))
         try writer["SharedView"].write(value.sharedView, with: QuickSightClientTypes.SharedViewConfigurations.write(value:to:))
@@ -77947,6 +78143,21 @@ extension QuickSightClientTypes.S3Source {
         value.dataSourceArn = try reader["DataSourceArn"].readIfPresent() ?? ""
         value.uploadSettings = try reader["UploadSettings"].readIfPresent(with: QuickSightClientTypes.UploadSettings.read(from:))
         value.inputColumns = try reader["InputColumns"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.InputColumn.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.S3TablesParameters {
+
+    static func write(value: QuickSightClientTypes.S3TablesParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TableBucketArn"].write(value.tableBucketArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.S3TablesParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.S3TablesParameters()
+        value.tableBucketArn = try reader["TableBucketArn"].readIfPresent()
         return value
     }
 }
@@ -78406,6 +78617,21 @@ extension QuickSightClientTypes.SectionStyle {
         var value = QuickSightClientTypes.SectionStyle()
         value.height = try reader["Height"].readIfPresent()
         value.padding = try reader["Padding"].readIfPresent(with: QuickSightClientTypes.Spacing.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SelectableValuesSort {
+
+    static func write(value: QuickSightClientTypes.SelectableValuesSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Direction"].write(value.direction)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SelectableValuesSort {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SelectableValuesSort()
+        value.direction = try reader["Direction"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
