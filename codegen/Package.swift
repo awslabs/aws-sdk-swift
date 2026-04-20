@@ -39,6 +39,7 @@ extension Target.Dependency {
     static var smithyTestUtils: Self { .product(name: "SmithyTestUtil", package: "smithy-swift") }
     static var smithyStreams: Self { .product(name: "SmithyStreams", package: "smithy-swift") }
     static var smithyRPCv2CBOR: Self { .product(name: "SmithyRPCv2CBOR", package: "smithy-swift") }
+    static var smithyRestXML: Self { .product(name: "SmithyRestXML", package: "smithy-swift") }
 }
 
 // MARK: - Base Package
@@ -112,6 +113,7 @@ private var protocolTestTargets: [Target] {
                 .clientRuntime,
                 .awsClientRuntime,
                 .smithyRPCv2CBOR,
+                .smithyRestXML,
                 .smithyRetriesAPI,
                 .smithyRetries,
                 .smithy,
