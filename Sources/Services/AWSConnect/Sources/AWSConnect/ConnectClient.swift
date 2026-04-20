@@ -21796,6 +21796,7 @@ extension ConnectClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartTestCaseExecutionInput, StartTestCaseExecutionOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartTestCaseExecutionInput, StartTestCaseExecutionOutput>(StartTestCaseExecutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartTestCaseExecutionInput, StartTestCaseExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartTestCaseExecutionInput, StartTestCaseExecutionOutput>(contentType: "application/json"))
@@ -22243,6 +22244,7 @@ extension ConnectClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StopTestCaseExecutionInput, StopTestCaseExecutionOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopTestCaseExecutionInput, StopTestCaseExecutionOutput>(StopTestCaseExecutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopTestCaseExecutionInput, StopTestCaseExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopTestCaseExecutionInput, StopTestCaseExecutionOutput>(contentType: "application/json"))

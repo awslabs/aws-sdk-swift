@@ -48,6 +48,11 @@ public struct DeleteCampaignCommunicationTimeOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteCampaignEntryLimitsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteCampaignOutput: Swift.Sendable {
 
     public init() { }
@@ -119,6 +124,11 @@ public struct UpdateCampaignCommunicationLimitsOutput: Swift.Sendable {
 }
 
 public struct UpdateCampaignCommunicationTimeOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateCampaignEntryLimitsOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -1071,6 +1081,27 @@ extension ConnectCampaignsV2ClientTypes {
 
 extension ConnectCampaignsV2ClientTypes {
 
+    /// Campaign entry limits config
+    public struct EntryLimitsConfig: Swift.Sendable {
+        /// Maximum number of times a participant can enter the campaign. A value of 0 indicates unlimited entries. Values of 1 or greater specify the exact number of entries allowed.
+        /// This member is required.
+        public var maxEntryCount: Swift.Int?
+        /// Minimum time interval that must pass before a participant can enter the campaign again.
+        /// This member is required.
+        public var minEntryInterval: Swift.String?
+
+        public init(
+            maxEntryCount: Swift.Int? = nil,
+            minEntryInterval: Swift.String? = nil
+        ) {
+            self.maxEntryCount = maxEntryCount
+            self.minEntryInterval = minEntryInterval
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
     /// Campaign schedule
     public struct Schedule: Swift.Sendable {
         /// Timestamp with no UTC offset or timezone
@@ -1164,6 +1195,8 @@ public struct CreateCampaignInput: Swift.Sendable {
     /// Amazon Connect Instance Id
     /// This member is required.
     public var connectInstanceId: Swift.String?
+    /// Campaign entry limits config
+    public var entryLimitsConfig: ConnectCampaignsV2ClientTypes.EntryLimitsConfig?
     /// The name of an Amazon Connect Campaign name.
     /// This member is required.
     public var name: Swift.String?
@@ -1182,6 +1215,7 @@ public struct CreateCampaignInput: Swift.Sendable {
         communicationTimeConfig: ConnectCampaignsV2ClientTypes.CommunicationTimeConfig? = nil,
         connectCampaignFlowArn: Swift.String? = nil,
         connectInstanceId: Swift.String? = nil,
+        entryLimitsConfig: ConnectCampaignsV2ClientTypes.EntryLimitsConfig? = nil,
         name: Swift.String? = nil,
         schedule: ConnectCampaignsV2ClientTypes.Schedule? = nil,
         source: ConnectCampaignsV2ClientTypes.Source? = nil,
@@ -1193,6 +1227,7 @@ public struct CreateCampaignInput: Swift.Sendable {
         self.communicationTimeConfig = communicationTimeConfig
         self.connectCampaignFlowArn = connectCampaignFlowArn
         self.connectInstanceId = connectInstanceId
+        self.entryLimitsConfig = entryLimitsConfig
         self.name = name
         self.schedule = schedule
         self.source = source
@@ -1468,6 +1503,19 @@ public struct DeleteCampaignCommunicationTimeInput: Swift.Sendable {
     }
 }
 
+/// The request for DeleteCampaignEntryLimits API.
+public struct DeleteCampaignEntryLimitsInput: Swift.Sendable {
+    /// Identifier representing a Campaign
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
 /// The request could not be processed because of conflict in the current state.
 public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1667,6 +1715,8 @@ extension ConnectCampaignsV2ClientTypes {
         /// Amazon Connect Instance Id
         /// This member is required.
         public var connectInstanceId: Swift.String?
+        /// Campaign entry limits config
+        public var entryLimitsConfig: ConnectCampaignsV2ClientTypes.EntryLimitsConfig?
         /// Identifier representing a Campaign
         /// This member is required.
         public var id: Swift.String?
@@ -1689,6 +1739,7 @@ extension ConnectCampaignsV2ClientTypes {
             communicationTimeConfig: ConnectCampaignsV2ClientTypes.CommunicationTimeConfig? = nil,
             connectCampaignFlowArn: Swift.String? = nil,
             connectInstanceId: Swift.String? = nil,
+            entryLimitsConfig: ConnectCampaignsV2ClientTypes.EntryLimitsConfig? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             schedule: ConnectCampaignsV2ClientTypes.Schedule? = nil,
@@ -1702,6 +1753,7 @@ extension ConnectCampaignsV2ClientTypes {
             self.communicationTimeConfig = communicationTimeConfig
             self.connectCampaignFlowArn = connectCampaignFlowArn
             self.connectInstanceId = connectInstanceId
+            self.entryLimitsConfig = entryLimitsConfig
             self.id = id
             self.name = name
             self.schedule = schedule
@@ -2214,6 +2266,8 @@ extension ConnectCampaignsV2ClientTypes {
         /// Amazon Connect Instance Id
         /// This member is required.
         public var connectInstanceId: Swift.String?
+        /// Campaign entry limits config
+        public var entryLimitsConfig: ConnectCampaignsV2ClientTypes.EntryLimitsConfig?
         /// Identifier representing a Campaign
         /// This member is required.
         public var id: Swift.String?
@@ -2230,6 +2284,7 @@ extension ConnectCampaignsV2ClientTypes {
             channelSubtypes: [ConnectCampaignsV2ClientTypes.ChannelSubtype]? = nil,
             connectCampaignFlowArn: Swift.String? = nil,
             connectInstanceId: Swift.String? = nil,
+            entryLimitsConfig: ConnectCampaignsV2ClientTypes.EntryLimitsConfig? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             schedule: ConnectCampaignsV2ClientTypes.Schedule? = nil,
@@ -2239,6 +2294,7 @@ extension ConnectCampaignsV2ClientTypes {
             self.channelSubtypes = channelSubtypes
             self.connectCampaignFlowArn = connectCampaignFlowArn
             self.connectInstanceId = connectInstanceId
+            self.entryLimitsConfig = entryLimitsConfig
             self.id = id
             self.name = name
             self.schedule = schedule
@@ -3149,6 +3205,24 @@ public struct UpdateCampaignCommunicationTimeInput: Swift.Sendable {
     }
 }
 
+/// The request for UpdateCampaignEntryLimits API.
+public struct UpdateCampaignEntryLimitsInput: Swift.Sendable {
+    /// Campaign entry limits config
+    /// This member is required.
+    public var entryLimitsConfig: ConnectCampaignsV2ClientTypes.EntryLimitsConfig?
+    /// Identifier representing a Campaign
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        entryLimitsConfig: ConnectCampaignsV2ClientTypes.EntryLimitsConfig? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.entryLimitsConfig = entryLimitsConfig
+        self.id = id
+    }
+}
+
 /// The request for UpdateCampaignFlowAssociation API.
 public struct UpdateCampaignFlowAssociationInput: Swift.Sendable {
     /// Amazon Resource Names(ARN)
@@ -3307,6 +3381,16 @@ extension DeleteCampaignCommunicationTimeInput {
         let configQueryItem = Smithy.URIQueryItem(name: "config".urlPercentEncoding(), value: Swift.String(config.rawValue).urlPercentEncoding())
         items.append(configQueryItem)
         return items
+    }
+}
+
+extension DeleteCampaignEntryLimitsInput {
+
+    static func urlPathProvider(_ value: DeleteCampaignEntryLimitsInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v2/campaigns/\(id.urlPercentEncoding())/entry-limits"
     }
 }
 
@@ -3608,6 +3692,16 @@ extension UpdateCampaignCommunicationTimeInput {
     }
 }
 
+extension UpdateCampaignEntryLimitsInput {
+
+    static func urlPathProvider(_ value: UpdateCampaignEntryLimitsInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v2/campaigns/\(id.urlPercentEncoding())/entry-limits"
+    }
+}
+
 extension UpdateCampaignFlowAssociationInput {
 
     static func urlPathProvider(_ value: UpdateCampaignFlowAssociationInput) -> Swift.String? {
@@ -3657,6 +3751,7 @@ extension CreateCampaignInput {
         try writer["communicationTimeConfig"].write(value.communicationTimeConfig, with: ConnectCampaignsV2ClientTypes.CommunicationTimeConfig.write(value:to:))
         try writer["connectCampaignFlowArn"].write(value.connectCampaignFlowArn)
         try writer["connectInstanceId"].write(value.connectInstanceId)
+        try writer["entryLimitsConfig"].write(value.entryLimitsConfig, with: ConnectCampaignsV2ClientTypes.EntryLimitsConfig.write(value:to:))
         try writer["name"].write(value.name)
         try writer["schedule"].write(value.schedule, with: ConnectCampaignsV2ClientTypes.Schedule.write(value:to:))
         try writer["source"].write(value.source, with: ConnectCampaignsV2ClientTypes.Source.write(value:to:))
@@ -3763,6 +3858,14 @@ extension UpdateCampaignCommunicationTimeInput {
     }
 }
 
+extension UpdateCampaignEntryLimitsInput {
+
+    static func write(value: UpdateCampaignEntryLimitsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["entryLimitsConfig"].write(value.entryLimitsConfig, with: ConnectCampaignsV2ClientTypes.EntryLimitsConfig.write(value:to:))
+    }
+}
+
 extension UpdateCampaignFlowAssociationInput {
 
     static func write(value: UpdateCampaignFlowAssociationInput?, to writer: SmithyJSON.Writer) throws {
@@ -3834,6 +3937,13 @@ extension DeleteCampaignCommunicationTimeOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCampaignCommunicationTimeOutput {
         return DeleteCampaignCommunicationTimeOutput()
+    }
+}
+
+extension DeleteCampaignEntryLimitsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCampaignEntryLimitsOutput {
+        return DeleteCampaignEntryLimitsOutput()
     }
 }
 
@@ -4084,6 +4194,13 @@ extension UpdateCampaignCommunicationTimeOutput {
     }
 }
 
+extension UpdateCampaignEntryLimitsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCampaignEntryLimitsOutput {
+        return UpdateCampaignEntryLimitsOutput()
+    }
+}
+
 extension UpdateCampaignFlowAssociationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCampaignFlowAssociationOutput {
@@ -4187,6 +4304,25 @@ enum DeleteCampaignCommunicationLimitsOutputError {
 }
 
 enum DeleteCampaignCommunicationTimeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidCampaignStateException": return try InvalidCampaignStateException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCampaignEntryLimitsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -4683,6 +4819,25 @@ enum UpdateCampaignCommunicationTimeOutputError {
     }
 }
 
+enum UpdateCampaignEntryLimitsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidCampaignStateException": return try InvalidCampaignStateException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateCampaignFlowAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4956,6 +5111,7 @@ extension ConnectCampaignsV2ClientTypes.Campaign {
         value.source = try reader["source"].readIfPresent(with: ConnectCampaignsV2ClientTypes.Source.read(from:))
         value.connectCampaignFlowArn = try reader["connectCampaignFlowArn"].readIfPresent()
         value.schedule = try reader["schedule"].readIfPresent(with: ConnectCampaignsV2ClientTypes.Schedule.read(from:))
+        value.entryLimitsConfig = try reader["entryLimitsConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.EntryLimitsConfig.read(from:))
         value.communicationTimeConfig = try reader["communicationTimeConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.CommunicationTimeConfig.read(from:))
         value.communicationLimitsOverride = try reader["communicationLimitsOverride"].readIfPresent(with: ConnectCampaignsV2ClientTypes.CommunicationLimitsConfig.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -4983,6 +5139,7 @@ extension ConnectCampaignsV2ClientTypes.CampaignSummary {
         value.channelSubtypes = try reader["channelSubtypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConnectCampaignsV2ClientTypes.ChannelSubtype>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.type = try reader["type"].readIfPresent()
         value.schedule = try reader["schedule"].readIfPresent(with: ConnectCampaignsV2ClientTypes.Schedule.read(from:))
+        value.entryLimitsConfig = try reader["entryLimitsConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.EntryLimitsConfig.read(from:))
         value.connectCampaignFlowArn = try reader["connectCampaignFlowArn"].readIfPresent()
         return value
     }
@@ -5227,6 +5384,23 @@ extension ConnectCampaignsV2ClientTypes.EncryptionConfig {
         value.enabled = try reader["enabled"].readIfPresent() ?? false
         value.encryptionType = try reader["encryptionType"].readIfPresent()
         value.keyArn = try reader["keyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.EntryLimitsConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.EntryLimitsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxEntryCount"].write(value.maxEntryCount)
+        try writer["minEntryInterval"].write(value.minEntryInterval)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.EntryLimitsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.EntryLimitsConfig()
+        value.maxEntryCount = try reader["maxEntryCount"].readIfPresent() ?? 0
+        value.minEntryInterval = try reader["minEntryInterval"].readIfPresent() ?? ""
         return value
     }
 }
