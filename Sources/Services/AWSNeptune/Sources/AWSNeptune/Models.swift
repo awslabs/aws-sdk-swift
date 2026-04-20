@@ -790,7 +790,7 @@ public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientR
 public struct CopyDBClusterSnapshotInput: Swift.Sendable {
     /// True to copy all tags from the source DB cluster snapshot to the target DB cluster snapshot, and otherwise false. The default is false.
     public var copyTags: Swift.Bool?
-    /// The Amazon Amazon KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you copy an encrypted DB cluster snapshot from your Amazon account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot. If you copy an encrypted DB cluster snapshot that is shared from another Amazon account, then you must specify a value for KmsKeyId. KMS encryption keys are specific to the Amazon Region that they are created in, and you can't use encryption keys from one Amazon Region in another Amazon Region. You cannot encrypt an unencrypted DB cluster snapshot when you copy it. If you try to copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
+    /// The Amazon KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you copy an encrypted DB cluster snapshot from your Amazon account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot. If you copy an encrypted DB cluster snapshot that is shared from another Amazon account, then you must specify a value for KmsKeyId. KMS encryption keys are specific to the Amazon Region that they are created in, and you can't use encryption keys from one Amazon Region in another Amazon Region. You cannot encrypt an unencrypted DB cluster snapshot when you copy it. If you try to copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
     public var kmsKeyId: Swift.String?
     /// Not currently supported.
     public var preSignedUrl: Swift.String?
@@ -2403,7 +2403,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     public var engineVersion: Swift.String?
     /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance.
     public var iops: Swift.Int?
-    /// The Amazon KMS key identifier for an encrypted DB instance. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same Amazon account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KM encryption key. Not applicable. The KMS key identifier is managed by the DB cluster. For more information, see [CreateDBCluster]. If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon Neptune will use your default encryption key. Amazon KMS creates the default encryption key for your Amazon account. Your Amazon account has a different default encryption key for each Amazon Region.
+    /// The Amazon KMS key identifier for an encrypted DB instance. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same Amazon account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KMS encryption key. Not applicable. The KMS key identifier is managed by the DB cluster. For more information, see [CreateDBCluster]. If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon Neptune will use your default encryption key. Amazon KMS creates the default encryption key for your Amazon account. Your Amazon account has a different default encryption key for each Amazon Region.
     public var kmsKeyId: Swift.String?
     /// License model information for this DB instance. Valid values: license-included | bring-your-own-license | general-public-license
     public var licenseModel: Swift.String?
@@ -2554,7 +2554,7 @@ extension NeptuneClientTypes {
     ///
     /// * [RebootDBInstance]
     public struct DBParameterGroupStatus: Swift.Sendable {
-        /// The name of the DP parameter group.
+        /// The name of the DB parameter group.
         public var dbParameterGroupName: Swift.String?
         /// The status of parameter updates.
         public var parameterApplyStatus: Swift.String?
@@ -3358,7 +3358,7 @@ public struct SubscriptionCategoryNotFoundFault: ClientRuntime.ModeledError, AWS
 }
 
 public struct CreateEventSubscriptionInput: Swift.Sendable {
-    /// A Boolean value; set to true to activate the subscription, set to false to create the subscription but not active it.
+    /// A Boolean value; set to true to activate the subscription, set to false to create the subscription but not activate it.
     public var enabled: Swift.Bool?
     /// A list of event categories for a SourceType that you want to subscribe to. You can see a list of the categories for a given SourceType by using the DescribeEventCategories action.
     public var eventCategories: [Swift.String]?
@@ -3464,7 +3464,7 @@ public struct GlobalClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSCl
 }
 
 public struct CreateGlobalClusterInput: Swift.Sendable {
-    /// The name for the new global database (up to 64 alpha-numeric characters.
+    /// The name for the new global database (up to 64 alpha-numeric characters).
     public var databaseName: Swift.String?
     /// The deletion protection setting for the new global database. The global database can't be deleted when deletion protection is enabled.
     public var deletionProtection: Swift.Bool?
@@ -3613,7 +3613,7 @@ extension NeptuneClientTypes {
         public var globalClusterIdentifier: Swift.String?
         /// A list of cluster ARNs and instance ARNs for all the DB clusters that are part of the global database.
         public var globalClusterMembers: [NeptuneClientTypes.GlobalClusterMember]?
-        /// An immutable identifier for the global database that is unique within in all regions. This identifier is found in CloudTrail log entries whenever the KMS key for the DB cluster is accessed.
+        /// An immutable identifier for the global database that is unique within all regions. This identifier is found in CloudTrail log entries whenever the KMS key for the DB cluster is accessed.
         public var globalClusterResourceId: Swift.String?
         /// Specifies the current state of this global database.
         public var status: Swift.String?
@@ -3669,7 +3669,7 @@ public struct DeleteDBClusterInput: Swift.Sendable {
     /// * Must match an existing DBClusterIdentifier.
     /// This member is required.
     public var dbClusterIdentifier: Swift.String?
-    /// The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is set to false. Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error. Constraints:
+    /// The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is set to false. Specifying this parameter and also setting the SkipFinalSnapshot parameter to true results in an error. Constraints:
     ///
     /// * Must be 1 to 255 letters, numbers, or hyphens.
     ///
@@ -3916,7 +3916,7 @@ public struct DeleteDBInstanceInput: Swift.Sendable {
     /// * Must match the name of an existing DB instance.
     /// This member is required.
     public var dbInstanceIdentifier: Swift.String?
-    /// The DBSnapshotIdentifier of the new DBSnapshot created when SkipFinalSnapshot is set to false. Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error. Constraints:
+    /// The DBSnapshotIdentifier of the new DBSnapshot created when SkipFinalSnapshot is set to false. Specifying this parameter and also setting the SkipFinalSnapshot parameter to true results in an error. Constraints:
     ///
     /// * Must be 1 to 255 letters or numbers.
     ///
@@ -4188,7 +4188,7 @@ extension NeptuneClientTypes {
 public struct DescribeDBClusterEndpointsOutput: Swift.Sendable {
     /// Contains the details of the endpoints associated with the cluster and matching any filter conditions.
     public var dbClusterEndpoints: [NeptuneClientTypes.DBClusterEndpoint]?
-    /// n optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    /// An optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
 
     public init(
@@ -5590,12 +5590,12 @@ public struct FailoverDBClusterOutput: Swift.Sendable {
 }
 
 public struct FailoverGlobalClusterInput: Swift.Sendable {
-    /// Specifies whether to allow data loss for this global database cluster operation. Allowing data loss triggers a global failover operation. If you don't specify AllowDataLoss, the global database cluster operation defaults to a switchover. Constraints:Can't be specified together with the Switchover parameter.
+    /// Specifies whether to allow data loss for this global database cluster operation. Allowing data loss triggers a global failover operation. If you don't specify AllowDataLoss, the global database cluster operation defaults to a switchover. Constraints: Can't be specified together with the Switchover parameter.
     public var allowDataLoss: Swift.Bool?
     /// Identifier of the Neptune global database that should be failed over. The identifier is the unique key assigned by the user when the Neptune global database was created. In other words, it's the name of the global database that you want to fail over. Constraints: Must match the identifier of an existing Neptune global database.
     /// This member is required.
     public var globalClusterIdentifier: Swift.String?
-    /// Specifies whether to switch over this global database cluster. Constraints:Can't be specified together with the AllowDataLoss parameter.
+    /// Specifies whether to switch over this global database cluster. Constraints: Can't be specified together with the AllowDataLoss parameter.
     public var switchover: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the secondary Neptune DB cluster that you want to promote to primary for the global database.
     /// This member is required.

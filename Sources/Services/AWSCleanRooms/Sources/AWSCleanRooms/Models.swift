@@ -4054,7 +4054,7 @@ extension CleanRoomsClientTypes {
         public var accountId: Swift.String?
         /// Specifies the display name that will be shown for this member in the collaboration. While this field is required when inviting new members, it becomes optional when modifying abilities of existing collaboration members.
         public var displayName: Swift.String?
-        /// The abilities granted to the collaboration member. These determine what actions the member can perform within the collaboration. The following values are currently not supported: CAN_QUERY, CAN_RECEIVE_RESULTS, and CAN_RUN_JOB. Set the value of memberAbilities to [] to allow a member to contribute data.
+        /// The abilities granted to the collaboration member. These determine what actions the member can perform within the collaboration. The following values are currently not supported: CAN_QUERY and CAN_RUN_JOB. Set the value of memberAbilities to [] to allow a member to contribute data. Set the value of memberAbilities to [CAN_RECEIVE_RESULTS] to allow a member to contribute data and receive results.
         /// This member is required.
         public var memberAbilities: [CleanRoomsClientTypes.MemberAbility]?
 
@@ -8799,6 +8799,16 @@ public struct GetProtectedJobInput: Swift.Sendable {
 
 extension CleanRoomsClientTypes {
 
+    /// The configuration properties that define the compute environment settings for workers in Clean Rooms. These properties enable customization of the underlying compute environment to optimize performance for your specific workloads.
+    public enum WorkerComputeConfigurationProperties: Swift.Sendable {
+        /// The Spark configuration properties for SQL and PySpark workloads. This map contains key-value pairs that configure Apache Spark settings to optimize performance for your data processing jobs. You can specify up to 50 Spark properties, with each key being 1-200 characters and each value being 0-500 characters. These properties allow you to adjust compute capacity for large datasets and complex workloads.
+        case spark([Swift.String: Swift.String])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     public enum ProtectedJobWorkerComputeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cr1x
         case cr4x
@@ -8833,15 +8843,19 @@ extension CleanRoomsClientTypes {
         /// The number of workers for a PySpark job.
         /// This member is required.
         public var number: Swift.Int?
+        /// The configuration properties for the worker compute environment. These properties allow you to customize the compute settings for your Clean Rooms workloads.
+        public var properties: CleanRoomsClientTypes.WorkerComputeConfigurationProperties?
         /// The worker compute configuration type.
         /// This member is required.
         public var type: CleanRoomsClientTypes.ProtectedJobWorkerComputeType?
 
         public init(
             number: Swift.Int? = nil,
+            properties: CleanRoomsClientTypes.WorkerComputeConfigurationProperties? = nil,
             type: CleanRoomsClientTypes.ProtectedJobWorkerComputeType? = nil
         ) {
             self.number = number
+            self.properties = properties
             self.type = type
         }
     }
@@ -9189,16 +9203,6 @@ public struct GetProtectedQueryInput: Swift.Sendable {
     ) {
         self.membershipIdentifier = membershipIdentifier
         self.protectedQueryIdentifier = protectedQueryIdentifier
-    }
-}
-
-extension CleanRoomsClientTypes {
-
-    /// The configuration properties that define the compute environment settings for workers in Clean Rooms. These properties enable customization of the underlying compute environment to optimize performance for your specific workloads.
-    public enum WorkerComputeConfigurationProperties: Swift.Sendable {
-        /// The Spark configuration properties for SQL workloads. This map contains key-value pairs that configure Apache Spark settings to optimize performance for your data processing jobs. You can specify up to 50 Spark properties, with each key being 1-200 characters and each value being 0-500 characters. These properties allow you to adjust compute capacity for large datasets and complex workloads.
-        case spark([Swift.String: Swift.String])
-        case sdkUnknown(Swift.String)
     }
 }
 
@@ -18006,6 +18010,7 @@ extension CleanRoomsClientTypes.ProtectedJobWorkerComputeConfiguration {
     static func write(value: CleanRoomsClientTypes.ProtectedJobWorkerComputeConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["number"].write(value.number)
+        try writer["properties"].write(value.properties, with: CleanRoomsClientTypes.WorkerComputeConfigurationProperties.write(value:to:))
         try writer["type"].write(value.type)
     }
 
@@ -18014,6 +18019,7 @@ extension CleanRoomsClientTypes.ProtectedJobWorkerComputeConfiguration {
         var value = CleanRoomsClientTypes.ProtectedJobWorkerComputeConfiguration()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.number = try reader["number"].readIfPresent() ?? 0
+        value.properties = try reader["properties"].readIfPresent(with: CleanRoomsClientTypes.WorkerComputeConfigurationProperties.read(from:))
         return value
     }
 }

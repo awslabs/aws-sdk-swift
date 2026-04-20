@@ -7,4 +7,4 @@
 
 // Code is auto-generated. DO NOT EDIT!
 
-public let packageVersion = "1.6.96"
+public let packageVersion = "1.6.97"
