@@ -1517,6 +1517,7 @@ extension ObservabilityAdminClientTypes {
         case awsLamdbaFunction
         case awsRoute53ResolverResolverEndpoint
         case awsSecurityHub
+        case awsSecurityHubHubv2
         case awsWafV2WebAcl
         case sdkUnknown(Swift.String)
 
@@ -1536,6 +1537,7 @@ extension ObservabilityAdminClientTypes {
                 .awsLamdbaFunction,
                 .awsRoute53ResolverResolverEndpoint,
                 .awsSecurityHub,
+                .awsSecurityHubHubv2,
                 .awsWafV2WebAcl
             ]
         }
@@ -1561,6 +1563,7 @@ extension ObservabilityAdminClientTypes {
             case .awsLamdbaFunction: return "AWS::Lambda::Function"
             case .awsRoute53ResolverResolverEndpoint: return "AWS::Route53Resolver::ResolverEndpoint"
             case .awsSecurityHub: return "AWS::SecurityHub::Hub"
+            case .awsSecurityHubHubv2: return "AWS::SecurityHub::HubV2"
             case .awsWafV2WebAcl: return "AWS::WAFv2::WebACL"
             case let .sdkUnknown(s): return s
             }
@@ -1651,6 +1654,8 @@ extension ObservabilityAdminClientTypes {
     public struct TelemetryRule: Swift.Sendable {
         /// If set to true, the telemetry rule is replicated to all Amazon Web Services Regions where Amazon CloudWatch Observability Admin is available in the current partition. When new regions become available, the rule automatically replicates to them. Mutually exclusive with Regions.
         public var allRegions: Swift.Bool?
+        /// If set to true, Amazon CloudWatch Observability Admin detects and remediates configuration drift in telemetry resources that it manages. For example, if a VPC flow log's format, traffic type, or aggregation interval no longer matches the rule's destination configuration, the flow log is replaced with one that matches. Only Observability Admin-managed resources are updated; customer-created resources are never modified. Currently supported for AWS::EC2::VPC resources (VPC flow logs).
+        public var allowFieldUpdates: Swift.Bool?
         /// Configuration specifying where and how the telemetry data should be delivered.
         public var destinationConfiguration: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration?
         /// An optional list of Amazon Web Services Regions where this telemetry rule should be replicated. When specified, the rule is created in the home region and automatically replicated to all listed regions. Mutually exclusive with AllRegions.
@@ -1669,6 +1674,7 @@ extension ObservabilityAdminClientTypes {
 
         public init(
             allRegions: Swift.Bool? = nil,
+            allowFieldUpdates: Swift.Bool? = nil,
             destinationConfiguration: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration? = nil,
             regions: [Swift.String]? = nil,
             resourceType: ObservabilityAdminClientTypes.ResourceType? = nil,
@@ -1678,6 +1684,7 @@ extension ObservabilityAdminClientTypes {
             telemetryType: ObservabilityAdminClientTypes.TelemetryType? = nil
         ) {
             self.allRegions = allRegions
+            self.allowFieldUpdates = allowFieldUpdates
             self.destinationConfiguration = destinationConfiguration
             self.regions = regions
             self.resourceType = resourceType
@@ -5661,6 +5668,7 @@ extension ObservabilityAdminClientTypes.TelemetryRule {
     static func write(value: ObservabilityAdminClientTypes.TelemetryRule?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AllRegions"].write(value.allRegions)
+        try writer["AllowFieldUpdates"].write(value.allowFieldUpdates)
         try writer["DestinationConfiguration"].write(value.destinationConfiguration, with: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration.write(value:to:))
         try writer["Regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceType"].write(value.resourceType)
@@ -5679,6 +5687,7 @@ extension ObservabilityAdminClientTypes.TelemetryRule {
         value.destinationConfiguration = try reader["DestinationConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration.read(from:))
         value.scope = try reader["Scope"].readIfPresent()
         value.selectionCriteria = try reader["SelectionCriteria"].readIfPresent()
+        value.allowFieldUpdates = try reader["AllowFieldUpdates"].readIfPresent()
         value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.allRegions = try reader["AllRegions"].readIfPresent()
         return value

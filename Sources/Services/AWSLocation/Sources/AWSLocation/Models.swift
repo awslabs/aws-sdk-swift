@@ -28,6 +28,8 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
@@ -58,10 +60,10 @@ extension LocationClientTypes {
 
     /// Unique identifying information for an Android app. Consists of a package name and a 20 byte SHA-1 certificate fingerprint.
     public struct AndroidApp: Swift.Sendable {
-        /// 20 byte SHA-1 certificate fingerprint associated with the Android app signing certificate.
+        /// 20 byte SHA-1 certificate fingerprint associated with the Android app signing certificate. Example: BB:0D:AC:74:D3:21:E1:43:67:71:9B:62:91:AF:A1:66:6E:44:5D:75
         /// This member is required.
         public var certificateFingerprint: Swift.String?
-        /// Unique package name for an Android app.
+        /// Unique package name identifier for an Android app. Example: com.mydomain.appname
         /// This member is required.
         public var `package`: Swift.String?
 
@@ -324,7 +326,7 @@ extension LocationClientTypes {
 
     /// Unique identifying information for an Apple app (iOS, macOS, tvOS and watchOS). Consists of an Apple Bundle ID.
     public struct AppleApp: Swift.Sendable {
-        /// The unique identifier of the app across all Apple platforms (iOS, macOS, tvOS, watchOS, etc.)
+        /// The unique identifier of the app across all Apple platforms (iOS, macOS, tvOS and watchOS). Example: com.mydomain.appname
         /// This member is required.
         public var bundleId: Swift.String?
 
@@ -2315,6 +2317,87 @@ extension CalculateRouteMatrixOutput: Swift.CustomDebugStringConvertible {
         "CalculateRouteMatrixOutput(routeMatrix: \(Swift.String(describing: routeMatrix)), summary: \(Swift.String(describing: summary)), snappedDeparturePositions: \"CONTENT_REDACTED\", snappedDestinationPositions: \"CONTENT_REDACTED\")"}
 }
 
+public struct CancelJobInput: Swift.Sendable {
+    /// The unique identifier of the job to cancel.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil
+    ) {
+        self.jobId = jobId
+    }
+}
+
+extension LocationClientTypes {
+
+    public enum JobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The job has been cancelled and cannot be resumed.
+        case cancelled
+        /// The job is being cancelled.
+        case cancelling
+        /// The job has processed all records and is complete.
+        case completed
+        /// The job has failed to process all records.
+        case failed
+        /// The job has not yet started.
+        case pending
+        /// The job is currently running.
+        case running
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobStatus] {
+            return [
+                .cancelled,
+                .cancelling,
+                .completed,
+                .failed,
+                .pending,
+                .running
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "Cancelled"
+            case .cancelling: return "Cancelling"
+            case .completed: return "Completed"
+            case .failed: return "Failed"
+            case .pending: return "Pending"
+            case .running: return "Running"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CancelJobOutput: Swift.Sendable {
+    /// Amazon Resource Name (ARN) of the cancelled job.
+    /// This member is required.
+    public var jobArn: Swift.String?
+    /// Unique job identifier.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// Job status after cancellation request.
+    /// This member is required.
+    public var status: LocationClientTypes.JobStatus?
+
+    public init(
+        jobArn: Swift.String? = nil,
+        jobId: Swift.String? = nil,
+        status: LocationClientTypes.JobStatus? = nil
+    ) {
+        self.jobArn = jobArn
+        self.jobId = jobId
+        self.status = status
+    }
+}
+
 extension LocationClientTypes {
 
     /// LTE local identification information (local ID).
@@ -4271,6 +4354,328 @@ public struct GetDevicePositionHistoryOutput: Swift.Sendable {
     }
 }
 
+public struct GetJobInput: Swift.Sendable {
+    /// The unique identifier of the job to retrieve.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil
+    ) {
+        self.jobId = jobId
+    }
+}
+
+extension LocationClientTypes {
+
+    public enum JobAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The job will perform address validation over the job's input.
+        case validateAddress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobAction] {
+            return [
+                .validateAddress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .validateAddress: return "ValidateAddress"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LocationClientTypes {
+
+    public enum ValidateAddressAdditionalFeature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case countrySpecificAttributes
+        case position
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidateAddressAdditionalFeature] {
+            return [
+                .countrySpecificAttributes,
+                .position
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .countrySpecificAttributes: return "CountrySpecificAttributes"
+            case .position: return "Position"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LocationClientTypes {
+
+    /// Options specific to address validation jobs.
+    public struct ValidateAddressActionOptions: Swift.Sendable {
+        /// A list of optional additional parameters that can be requested for each result. Values:
+        ///
+        /// * Position - Return the position coordinates of the address if available.
+        ///
+        /// * CountrySpecificAttributes - Return additional information about the address specific to the country of origin.
+        public var additionalFeatures: [LocationClientTypes.ValidateAddressAdditionalFeature]?
+
+        public init(
+            additionalFeatures: [LocationClientTypes.ValidateAddressAdditionalFeature]? = nil
+        ) {
+            self.additionalFeatures = additionalFeatures
+        }
+    }
+}
+
+extension LocationClientTypes {
+
+    /// Additional options for configuring job action parameters.
+    public struct JobActionOptions: Swift.Sendable {
+        /// Options specific to address validation jobs.
+        public var validateAddress: LocationClientTypes.ValidateAddressActionOptions?
+
+        public init(
+            validateAddress: LocationClientTypes.ValidateAddressActionOptions? = nil
+        ) {
+            self.validateAddress = validateAddress
+        }
+    }
+}
+
+extension LocationClientTypes {
+
+    public enum JobErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case internalServerError
+        case validationError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobErrorCode] {
+            return [
+                .internalServerError,
+                .validationError
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .internalServerError: return "InternalServerError"
+            case .validationError: return "ValidationError"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LocationClientTypes {
+
+    /// Error information for failed jobs.
+    public struct JobError: Swift.Sendable {
+        /// Error code indicating the type of error that occurred.
+        /// This member is required.
+        public var code: LocationClientTypes.JobErrorCode?
+        /// Error messages providing details about the failure.
+        public var messages: [Swift.String]?
+
+        public init(
+            code: LocationClientTypes.JobErrorCode? = nil,
+            messages: [Swift.String]? = nil
+        ) {
+            self.code = code
+            self.messages = messages
+        }
+    }
+}
+
+extension LocationClientTypes {
+
+    public enum JobInputFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case parquet
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobInputFormat] {
+            return [
+                .parquet
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .parquet: return "Parquet"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LocationClientTypes {
+
+    /// Configuration for input data location and format. Input files have a limitation of 10gb per file, and 1gb per Parquet row-group within the file.
+    public struct JobInputOptions: Swift.Sendable {
+        /// Input data format. Currently only Parquet is supported. Input files have a limitation of 10gb per file, and 1gb per Parquet row-group within the file.
+        /// This member is required.
+        public var format: LocationClientTypes.JobInputFormat?
+        /// S3 ARN or URI where input files are stored. The Amazon S3 bucket must be created in the same Amazon Web Services region where you plan to run your job.
+        /// This member is required.
+        public var location: Swift.String?
+
+        public init(
+            format: LocationClientTypes.JobInputFormat? = nil,
+            location: Swift.String? = nil
+        ) {
+            self.format = format
+            self.location = location
+        }
+    }
+}
+
+extension LocationClientTypes {
+
+    public enum JobOutputFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case parquet
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobOutputFormat] {
+            return [
+                .parquet
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .parquet: return "Parquet"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LocationClientTypes {
+
+    /// Configuration for output data location and format.
+    public struct JobOutputOptions: Swift.Sendable {
+        /// Output data format. Currently only "Parquet" is supported.
+        /// This member is required.
+        public var format: LocationClientTypes.JobOutputFormat?
+        /// S3 ARN or URI where output files will be written. The Amazon S3 bucket must exist in the same Amazon Web Services region where you plan to run your job.
+        /// This member is required.
+        public var location: Swift.String?
+
+        public init(
+            format: LocationClientTypes.JobOutputFormat? = nil,
+            location: Swift.String? = nil
+        ) {
+            self.format = format
+            self.location = location
+        }
+    }
+}
+
+public struct GetJobOutput: Swift.Sendable {
+    /// Action performed by the job.
+    /// This member is required.
+    public var action: LocationClientTypes.JobAction?
+    /// Additional options for configuring job action parameters.
+    public var actionOptions: LocationClientTypes.JobActionOptions?
+    /// Job creation time in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sss.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// Job completion time in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sss. Only returned for jobs in a terminal status: Completed | Failed | Cancelled.
+    public var endedAt: Foundation.Date?
+    /// Error information if the job failed.
+    public var error: LocationClientTypes.JobError?
+    /// IAM role used for permissions when running the job.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// Input configuration.
+    /// This member is required.
+    public var inputOptions: LocationClientTypes.JobInputOptions?
+    /// Amazon Resource Name (ARN) of the specified job.
+    /// This member is required.
+    public var jobArn: Swift.String?
+    /// Unique job identifier.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// Job name (if provided during creation).
+    public var name: Swift.String?
+    /// Output configuration.
+    /// This member is required.
+    public var outputOptions: LocationClientTypes.JobOutputOptions?
+    /// Current job status.
+    /// This member is required.
+    public var status: LocationClientTypes.JobStatus?
+    /// Tags and corresponding values associated with the specified job.
+    public var tags: [Swift.String: Swift.String]?
+    /// Last update time in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sss.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        action: LocationClientTypes.JobAction? = nil,
+        actionOptions: LocationClientTypes.JobActionOptions? = nil,
+        createdAt: Foundation.Date? = nil,
+        endedAt: Foundation.Date? = nil,
+        error: LocationClientTypes.JobError? = nil,
+        executionRoleArn: Swift.String? = nil,
+        inputOptions: LocationClientTypes.JobInputOptions? = nil,
+        jobArn: Swift.String? = nil,
+        jobId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        outputOptions: LocationClientTypes.JobOutputOptions? = nil,
+        status: LocationClientTypes.JobStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.action = action
+        self.actionOptions = actionOptions
+        self.createdAt = createdAt
+        self.endedAt = endedAt
+        self.error = error
+        self.executionRoleArn = executionRoleArn
+        self.inputOptions = inputOptions
+        self.jobArn = jobArn
+        self.jobId = jobId
+        self.name = name
+        self.outputOptions = outputOptions
+        self.status = status
+        self.tags = tags
+        self.updatedAt = updatedAt
+    }
+}
+
+extension GetJobOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetJobOutput(action: \(Swift.String(describing: action)), actionOptions: \(Swift.String(describing: actionOptions)), error: \(Swift.String(describing: error)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), inputOptions: \(Swift.String(describing: inputOptions)), jobArn: \(Swift.String(describing: jobArn)), jobId: \(Swift.String(describing: jobId)), name: \(Swift.String(describing: name)), outputOptions: \(Swift.String(describing: outputOptions)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), createdAt: \"CONTENT_REDACTED\", endedAt: \"CONTENT_REDACTED\", updatedAt: \"CONTENT_REDACTED\")"}
+}
+
 public struct GetMapGlyphsInput: Swift.Sendable {
     /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid font stacks for [Esri](https://docs.aws.amazon.com/location/previous/developerguide/esri.html) styles:
     ///
@@ -4709,6 +5114,208 @@ extension LocationClientTypes {
 extension LocationClientTypes.InferredState: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "InferredState(accuracy: \(Swift.String(describing: accuracy)), deviationDistance: \(Swift.String(describing: deviationDistance)), proxyDetected: \(Swift.String(describing: proxyDetected)), position: \"CONTENT_REDACTED\")"}
+}
+
+extension LocationClientTypes {
+
+    /// Criteria for filtering jobs.
+    public struct JobsFilter: Swift.Sendable {
+        /// Filter by job status.
+        public var jobStatus: LocationClientTypes.JobStatus?
+
+        public init(
+            jobStatus: LocationClientTypes.JobStatus? = nil
+        ) {
+            self.jobStatus = jobStatus
+        }
+    }
+}
+
+public struct ListJobsInput: Swift.Sendable {
+    /// An optional structure containing criteria by which to filter job results.
+    public var filter: LocationClientTypes.JobsFilter?
+    /// Maximum number of jobs to return.
+    public var maxResults: Swift.Int?
+    /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page.
+    public var nextToken: Swift.String?
+
+    public init(
+        filter: LocationClientTypes.JobsFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension LocationClientTypes {
+
+    /// Job summary information returned in list operations.
+    public struct ListJobsResponseEntry: Swift.Sendable {
+        /// Action performed by the job.
+        /// This member is required.
+        public var action: LocationClientTypes.JobAction?
+        /// Additional options for configuring job action parameters.
+        public var actionOptions: LocationClientTypes.JobActionOptions?
+        /// Job creation time in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sss.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// Job completion time in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sss. Only returned for jobs in a terminal status: Completed | Failed | Cancelled.
+        public var endedAt: Foundation.Date?
+        /// Error information if the job failed.
+        public var error: LocationClientTypes.JobError?
+        /// IAM role used for job execution.
+        /// This member is required.
+        public var executionRoleArn: Swift.String?
+        /// Input configuration.
+        /// This member is required.
+        public var inputOptions: LocationClientTypes.JobInputOptions?
+        /// Amazon Resource Name (ARN) of the job.
+        /// This member is required.
+        public var jobArn: Swift.String?
+        /// Unique job identifier.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// Job name (if provided during creation).
+        public var name: Swift.String?
+        /// Output configuration.
+        /// This member is required.
+        public var outputOptions: LocationClientTypes.JobOutputOptions?
+        /// Current job status.
+        /// This member is required.
+        public var status: LocationClientTypes.JobStatus?
+        /// Last update time in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sss.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            action: LocationClientTypes.JobAction? = nil,
+            actionOptions: LocationClientTypes.JobActionOptions? = nil,
+            createdAt: Foundation.Date? = nil,
+            endedAt: Foundation.Date? = nil,
+            error: LocationClientTypes.JobError? = nil,
+            executionRoleArn: Swift.String? = nil,
+            inputOptions: LocationClientTypes.JobInputOptions? = nil,
+            jobArn: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            outputOptions: LocationClientTypes.JobOutputOptions? = nil,
+            status: LocationClientTypes.JobStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.action = action
+            self.actionOptions = actionOptions
+            self.createdAt = createdAt
+            self.endedAt = endedAt
+            self.error = error
+            self.executionRoleArn = executionRoleArn
+            self.inputOptions = inputOptions
+            self.jobArn = jobArn
+            self.jobId = jobId
+            self.name = name
+            self.outputOptions = outputOptions
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension LocationClientTypes.ListJobsResponseEntry: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListJobsResponseEntry(action: \(Swift.String(describing: action)), actionOptions: \(Swift.String(describing: actionOptions)), error: \(Swift.String(describing: error)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), inputOptions: \(Swift.String(describing: inputOptions)), jobArn: \(Swift.String(describing: jobArn)), jobId: \(Swift.String(describing: jobId)), name: \(Swift.String(describing: name)), outputOptions: \(Swift.String(describing: outputOptions)), status: \(Swift.String(describing: status)), createdAt: \"CONTENT_REDACTED\", endedAt: \"CONTENT_REDACTED\", updatedAt: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListJobsOutput: Swift.Sendable {
+    /// List of jobs in your Amazon Web Services account.
+    /// This member is required.
+    public var entries: [LocationClientTypes.ListJobsResponseEntry]?
+    /// Token for retrieving the next page (present if more results available).
+    public var nextToken: Swift.String?
+
+    public init(
+        entries: [LocationClientTypes.ListJobsResponseEntry]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.entries = entries
+        self.nextToken = nextToken
+    }
+}
+
+public struct StartJobInput: Swift.Sendable {
+    /// The action to perform on the input data.
+    /// This member is required.
+    public var action: LocationClientTypes.JobAction?
+    /// Additional parameters that can be requested for each result.
+    public var actionOptions: LocationClientTypes.JobActionOptions?
+    /// A unique identifier for this request to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that Amazon Location Service assumes during job processing. Amazon Location Service uses this role to access the input and output locations specified for the job. The IAM role must be created in the same Amazon Web Services account where you plan to run your job. For more information about configuring IAM roles for Amazon Location jobs, see [Configure IAM permissions](https://docs.aws.amazon.com/location/latest/developerguide/configure-iam-role-policy-credentials.html) in the Amazon Location Service Developer Guide.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// Configuration for input data location and format. Input files have a limitation of 10gb per file, and 1gb per Parquet row-group within the file.
+    /// This member is required.
+    public var inputOptions: LocationClientTypes.JobInputOptions?
+    /// An optional name for the job resource.
+    public var name: Swift.String?
+    /// Configuration for output data location and format.
+    /// This member is required.
+    public var outputOptions: LocationClientTypes.JobOutputOptions?
+    /// Tags and corresponding values to be associated with the job.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        action: LocationClientTypes.JobAction? = nil,
+        actionOptions: LocationClientTypes.JobActionOptions? = nil,
+        clientToken: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        inputOptions: LocationClientTypes.JobInputOptions? = nil,
+        name: Swift.String? = nil,
+        outputOptions: LocationClientTypes.JobOutputOptions? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.action = action
+        self.actionOptions = actionOptions
+        self.clientToken = clientToken
+        self.executionRoleArn = executionRoleArn
+        self.inputOptions = inputOptions
+        self.name = name
+        self.outputOptions = outputOptions
+        self.tags = tags
+    }
+}
+
+public struct StartJobOutput: Swift.Sendable {
+    /// Job creation time in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sss.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) for the job resource. Used when you need to specify a resource across all Amazon Web Services. Format example: arn:aws:geo:region:account-id:job/ExampleJob
+    /// This member is required.
+    public var jobArn: Swift.String?
+    /// Unique job identifier.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// Initial job status (always "Pending" for new jobs).
+    /// This member is required.
+    public var status: LocationClientTypes.JobStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        jobArn: Swift.String? = nil,
+        jobId: Swift.String? = nil,
+        status: LocationClientTypes.JobStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.jobArn = jobArn
+        self.jobId = jobId
+        self.status = status
+    }
+}
+
+extension StartJobOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartJobOutput(jobArn: \(Swift.String(describing: jobArn)), jobId: \(Swift.String(describing: jobId)), status: \(Swift.String(describing: status)), createdAt: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -6003,6 +6610,13 @@ extension CalculateRouteMatrixInput {
     }
 }
 
+extension CancelJobInput {
+
+    static func urlPathProvider(_ value: CancelJobInput) -> Swift.String? {
+        return "/metadata/v0/jobs/cancel-job"
+    }
+}
+
 extension CreateGeofenceCollectionInput {
 
     static func urlPathProvider(_ value: CreateGeofenceCollectionInput) -> Swift.String? {
@@ -6239,6 +6853,16 @@ extension GetGeofenceInput {
     }
 }
 
+extension GetJobInput {
+
+    static func urlPathProvider(_ value: GetJobInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
+            return nil
+        }
+        return "/metadata/v0/jobs/\(jobId.urlPercentEncoding())"
+    }
+}
+
 extension GetMapGlyphsInput {
 
     static func urlPathProvider(_ value: GetMapGlyphsInput) -> Swift.String? {
@@ -6401,6 +7025,13 @@ extension ListGeofencesInput {
     }
 }
 
+extension ListJobsInput {
+
+    static func urlPathProvider(_ value: ListJobsInput) -> Swift.String? {
+        return "/metadata/v0/jobs/list-jobs"
+    }
+}
+
 extension ListKeysInput {
 
     static func urlPathProvider(_ value: ListKeysInput) -> Swift.String? {
@@ -6532,6 +7163,13 @@ extension SearchPlaceIndexForTextInput {
             items.append(keyQueryItem)
         }
         return items
+    }
+}
+
+extension StartJobInput {
+
+    static func urlPathProvider(_ value: StartJobInput) -> Swift.String? {
+        return "/metadata/v0/jobs"
     }
 }
 
@@ -6731,6 +7369,14 @@ extension CalculateRouteMatrixInput {
     }
 }
 
+extension CancelJobInput {
+
+    static func write(value: CancelJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["JobId"].write(value.jobId)
+    }
+}
+
 extension CreateGeofenceCollectionInput {
 
     static func write(value: CreateGeofenceCollectionInput?, to writer: SmithyJSON.Writer) throws {
@@ -6855,6 +7501,16 @@ extension ListGeofencesInput {
     }
 }
 
+extension ListJobsInput {
+
+    static func write(value: ListJobsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filter"].write(value.filter, with: LocationClientTypes.JobsFilter.write(value:to:))
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension ListKeysInput {
 
     static func write(value: ListKeysInput?, to writer: SmithyJSON.Writer) throws {
@@ -6954,6 +7610,21 @@ extension SearchPlaceIndexForTextInput {
         try writer["Language"].write(value.language)
         try writer["MaxResults"].write(value.maxResults)
         try writer["Text"].write(value.text)
+    }
+}
+
+extension StartJobInput {
+
+    static func write(value: StartJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["ActionOptions"].write(value.actionOptions, with: LocationClientTypes.JobActionOptions.write(value:to:))
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["ExecutionRoleArn"].write(value.executionRoleArn)
+        try writer["InputOptions"].write(value.inputOptions, with: LocationClientTypes.JobInputOptions.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["OutputOptions"].write(value.outputOptions, with: LocationClientTypes.JobOutputOptions.write(value:to:))
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -7136,6 +7807,20 @@ extension CalculateRouteMatrixOutput {
         value.snappedDeparturePositions = try reader["SnappedDeparturePositions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         value.snappedDestinationPositions = try reader["SnappedDestinationPositions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         value.summary = try reader["Summary"].readIfPresent(with: LocationClientTypes.CalculateRouteMatrixSummary.read(from:))
+        return value
+    }
+}
+
+extension CancelJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CancelJobOutput()
+        value.jobArn = try reader["JobArn"].readIfPresent() ?? ""
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7452,6 +8137,31 @@ extension GetGeofenceOutput {
     }
 }
 
+extension GetJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetJobOutput()
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        value.actionOptions = try reader["ActionOptions"].readIfPresent(with: LocationClientTypes.JobActionOptions.read(from:))
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.JobError.read(from:))
+        value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent() ?? ""
+        value.inputOptions = try reader["InputOptions"].readIfPresent(with: LocationClientTypes.JobInputOptions.read(from:))
+        value.jobArn = try reader["JobArn"].readIfPresent() ?? ""
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent()
+        value.outputOptions = try reader["OutputOptions"].readIfPresent(with: LocationClientTypes.JobOutputOptions.read(from:))
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension GetMapGlyphsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetMapGlyphsOutput {
@@ -7586,6 +8296,19 @@ extension ListGeofencesOutput {
         let reader = responseReader
         var value = ListGeofencesOutput()
         value.entries = try reader["Entries"].readListIfPresent(memberReadingClosure: LocationClientTypes.ListGeofenceResponseEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListJobsOutput()
+        value.entries = try reader["Entries"].readListIfPresent(memberReadingClosure: LocationClientTypes.ListJobsResponseEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -7730,6 +8453,21 @@ extension SearchPlaceIndexForTextOutput {
         var value = SearchPlaceIndexForTextOutput()
         value.results = try reader["Results"].readListIfPresent(memberReadingClosure: LocationClientTypes.SearchForTextResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.summary = try reader["Summary"].readIfPresent(with: LocationClientTypes.SearchPlaceIndexForTextSummary.read(from:))
+        return value
+    }
+}
+
+extension StartJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartJobOutput()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.jobArn = try reader["JobArn"].readIfPresent() ?? ""
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8005,6 +8743,23 @@ enum CalculateRouteMatrixOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CancelJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -8432,6 +9187,24 @@ enum GetGeofenceOutputError {
     }
 }
 
+enum GetJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetMapGlyphsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8567,6 +9340,23 @@ enum ListGeofencesOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -8761,6 +9551,23 @@ enum SearchPlaceIndexForTextOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -9374,6 +10181,74 @@ extension LocationClientTypes.InferredState {
     }
 }
 
+extension LocationClientTypes.JobActionOptions {
+
+    static func write(value: LocationClientTypes.JobActionOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValidateAddress"].write(value.validateAddress, with: LocationClientTypes.ValidateAddressActionOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.JobActionOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.JobActionOptions()
+        value.validateAddress = try reader["ValidateAddress"].readIfPresent(with: LocationClientTypes.ValidateAddressActionOptions.read(from:))
+        return value
+    }
+}
+
+extension LocationClientTypes.JobError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.JobError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.JobError()
+        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
+        value.messages = try reader["Messages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LocationClientTypes.JobInputOptions {
+
+    static func write(value: LocationClientTypes.JobInputOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Format"].write(value.format)
+        try writer["Location"].write(value.location)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.JobInputOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.JobInputOptions()
+        value.location = try reader["Location"].readIfPresent() ?? ""
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension LocationClientTypes.JobOutputOptions {
+
+    static func write(value: LocationClientTypes.JobOutputOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Format"].write(value.format)
+        try writer["Location"].write(value.location)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.JobOutputOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.JobOutputOptions()
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        value.location = try reader["Location"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LocationClientTypes.JobsFilter {
+
+    static func write(value: LocationClientTypes.JobsFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["JobStatus"].write(value.jobStatus)
+    }
+}
+
 extension LocationClientTypes.Leg {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.Leg {
@@ -9437,6 +10312,28 @@ extension LocationClientTypes.ListGeofenceResponseEntry {
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.geofenceProperties = try reader["GeofenceProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension LocationClientTypes.ListJobsResponseEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ListJobsResponseEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.ListJobsResponseEntry()
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        value.actionOptions = try reader["ActionOptions"].readIfPresent(with: LocationClientTypes.JobActionOptions.read(from:))
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent() ?? ""
+        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.JobError.read(from:))
+        value.inputOptions = try reader["InputOptions"].readIfPresent(with: LocationClientTypes.JobInputOptions.read(from:))
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
+        value.jobArn = try reader["JobArn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent()
+        value.outputOptions = try reader["OutputOptions"].readIfPresent(with: LocationClientTypes.JobOutputOptions.read(from:))
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -9787,6 +10684,21 @@ extension LocationClientTypes.TruckWeight {
         guard let value else { return }
         try writer["Total"].write(value.total)
         try writer["Unit"].write(value.unit)
+    }
+}
+
+extension LocationClientTypes.ValidateAddressActionOptions {
+
+    static func write(value: LocationClientTypes.ValidateAddressActionOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalFeatures"].writeList(value.additionalFeatures, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LocationClientTypes.ValidateAddressAdditionalFeature>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ValidateAddressActionOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.ValidateAddressActionOptions()
+        value.additionalFeatures = try reader["AdditionalFeatures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LocationClientTypes.ValidateAddressAdditionalFeature>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
