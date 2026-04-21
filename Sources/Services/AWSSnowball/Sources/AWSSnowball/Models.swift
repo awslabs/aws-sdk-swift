@@ -9,21 +9,21 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+@_spi(SmithyReadWrite) import class SmithyCBOR.Reader
+@_spi(SmithyReadWrite) import class SmithyCBOR.Writer
 import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Reader
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
-import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
+import protocol ClientRuntime.ServiceError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
-@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RpcV2CborError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -128,7 +128,7 @@ extension SnowballClientTypes {
 }
 
 /// The action can't be performed because the job's current state doesn't allow that action to be performed.
-public struct InvalidJobStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidJobStateException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -151,7 +151,7 @@ public struct InvalidJobStateException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The specified resource can't be found. Check the information you provided in your last request, and try again.
-public struct InvalidResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidResourceException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -178,7 +178,7 @@ public struct InvalidResourceException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The provided Key Management Service key lacks the permissions to perform the specified [CreateJob] or [UpdateJob] action.
-public struct KMSRequestFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct KMSRequestFailedException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -235,7 +235,7 @@ public struct CancelJobOutput: Swift.Sendable {
 }
 
 /// The address provided was invalid. Check the address with your region's carrier, and try again.
-public struct InvalidAddressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidAddressException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -258,7 +258,7 @@ public struct InvalidAddressException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The address is either outside the serviceable area for your region, or an error occurred. Check the address with your region's carrier and try again. If the issue persists, contact Amazon Web Services Support.
-public struct UnsupportedAddressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct UnsupportedAddressException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -304,7 +304,7 @@ public struct CreateAddressOutput: Swift.Sendable {
 }
 
 /// Your user lacks the necessary Amazon EC2 permissions to perform the attempted action.
-public struct Ec2RequestFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct Ec2RequestFailedException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -327,7 +327,7 @@ public struct Ec2RequestFailedException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Job or cluster creation failed. One or more inputs were invalid. Confirm that the [CreateClusterRequest$SnowballType] value supports your [CreateJobRequest$JobType], and try again.
-public struct InvalidInputCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidInputCombinationException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -1165,7 +1165,7 @@ public struct CreateClusterOutput: Swift.Sendable {
 }
 
 /// Job creation failed. Currently, clusters support five nodes. If you have fewer than five nodes for your cluster and you have more nodes to create for this cluster, try again and create jobs until your cluster has exactly five nodes.
-public struct ClusterLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ClusterLimitExceededException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -1481,7 +1481,7 @@ public struct CreateLongTermPricingOutput: Swift.Sendable {
 }
 
 /// You get this exception when you call CreateReturnShippingLabel more than once when other requests are not completed.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ConflictException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// You get this resource when you call CreateReturnShippingLabel more than once when other requests are not completed. .
@@ -1508,7 +1508,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// You get this exception if you call CreateReturnShippingLabel and a valid return shipping label already exists. In this case, use DescribeReturnShippingLabel to get the URL.
-public struct ReturnShippingLabelAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ReturnShippingLabelAlreadyExistsException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -1616,7 +1616,7 @@ public struct DescribeAddressOutput: Swift.Sendable {
 }
 
 /// The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -2745,195 +2745,195 @@ public struct UpdateLongTermPricingOutput: Swift.Sendable {
 extension CancelClusterInput {
 
     static func urlPathProvider(_ value: CancelClusterInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/CancelCluster"
     }
 }
 
 extension CancelJobInput {
 
     static func urlPathProvider(_ value: CancelJobInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/CancelJob"
     }
 }
 
 extension CreateAddressInput {
 
     static func urlPathProvider(_ value: CreateAddressInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/CreateAddress"
     }
 }
 
 extension CreateClusterInput {
 
     static func urlPathProvider(_ value: CreateClusterInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/CreateCluster"
     }
 }
 
 extension CreateJobInput {
 
     static func urlPathProvider(_ value: CreateJobInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/CreateJob"
     }
 }
 
 extension CreateLongTermPricingInput {
 
     static func urlPathProvider(_ value: CreateLongTermPricingInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/CreateLongTermPricing"
     }
 }
 
 extension CreateReturnShippingLabelInput {
 
     static func urlPathProvider(_ value: CreateReturnShippingLabelInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/CreateReturnShippingLabel"
     }
 }
 
 extension DescribeAddressInput {
 
     static func urlPathProvider(_ value: DescribeAddressInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/DescribeAddress"
     }
 }
 
 extension DescribeAddressesInput {
 
     static func urlPathProvider(_ value: DescribeAddressesInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/DescribeAddresses"
     }
 }
 
 extension DescribeClusterInput {
 
     static func urlPathProvider(_ value: DescribeClusterInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/DescribeCluster"
     }
 }
 
 extension DescribeJobInput {
 
     static func urlPathProvider(_ value: DescribeJobInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/DescribeJob"
     }
 }
 
 extension DescribeReturnShippingLabelInput {
 
     static func urlPathProvider(_ value: DescribeReturnShippingLabelInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/DescribeReturnShippingLabel"
     }
 }
 
 extension GetJobManifestInput {
 
     static func urlPathProvider(_ value: GetJobManifestInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/GetJobManifest"
     }
 }
 
 extension GetJobUnlockCodeInput {
 
     static func urlPathProvider(_ value: GetJobUnlockCodeInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/GetJobUnlockCode"
     }
 }
 
 extension GetSnowballUsageInput {
 
     static func urlPathProvider(_ value: GetSnowballUsageInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/GetSnowballUsage"
     }
 }
 
 extension GetSoftwareUpdatesInput {
 
     static func urlPathProvider(_ value: GetSoftwareUpdatesInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/GetSoftwareUpdates"
     }
 }
 
 extension ListClusterJobsInput {
 
     static func urlPathProvider(_ value: ListClusterJobsInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/ListClusterJobs"
     }
 }
 
 extension ListClustersInput {
 
     static func urlPathProvider(_ value: ListClustersInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/ListClusters"
     }
 }
 
 extension ListCompatibleImagesInput {
 
     static func urlPathProvider(_ value: ListCompatibleImagesInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/ListCompatibleImages"
     }
 }
 
 extension ListJobsInput {
 
     static func urlPathProvider(_ value: ListJobsInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/ListJobs"
     }
 }
 
 extension ListLongTermPricingInput {
 
     static func urlPathProvider(_ value: ListLongTermPricingInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/ListLongTermPricing"
     }
 }
 
 extension ListPickupLocationsInput {
 
     static func urlPathProvider(_ value: ListPickupLocationsInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/ListPickupLocations"
     }
 }
 
 extension ListServiceVersionsInput {
 
     static func urlPathProvider(_ value: ListServiceVersionsInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/ListServiceVersions"
     }
 }
 
 extension UpdateClusterInput {
 
     static func urlPathProvider(_ value: UpdateClusterInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/UpdateCluster"
     }
 }
 
 extension UpdateJobInput {
 
     static func urlPathProvider(_ value: UpdateJobInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/UpdateJob"
     }
 }
 
 extension UpdateJobShipmentStateInput {
 
     static func urlPathProvider(_ value: UpdateJobShipmentStateInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/UpdateJobShipmentState"
     }
 }
 
 extension UpdateLongTermPricingInput {
 
     static func urlPathProvider(_ value: UpdateLongTermPricingInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSIESnowballJobManagementService/operation/UpdateLongTermPricing"
     }
 }
 
 extension CancelClusterInput {
 
-    static func write(value: CancelClusterInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CancelClusterInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["ClusterId"].write(value.clusterId)
     }
@@ -2941,7 +2941,7 @@ extension CancelClusterInput {
 
 extension CancelJobInput {
 
-    static func write(value: CancelJobInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CancelJobInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["JobId"].write(value.jobId)
     }
@@ -2949,7 +2949,7 @@ extension CancelJobInput {
 
 extension CreateAddressInput {
 
-    static func write(value: CreateAddressInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CreateAddressInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["Address"].write(value.address, with: SnowballClientTypes.Address.write(value:to:))
     }
@@ -2957,7 +2957,7 @@ extension CreateAddressInput {
 
 extension CreateClusterInput {
 
-    static func write(value: CreateClusterInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CreateClusterInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["AddressId"].write(value.addressId)
         try writer["Description"].write(value.description)
@@ -2981,7 +2981,7 @@ extension CreateClusterInput {
 
 extension CreateJobInput {
 
-    static func write(value: CreateJobInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CreateJobInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["AddressId"].write(value.addressId)
         try writer["ClusterId"].write(value.clusterId)
@@ -3007,7 +3007,7 @@ extension CreateJobInput {
 
 extension CreateLongTermPricingInput {
 
-    static func write(value: CreateLongTermPricingInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CreateLongTermPricingInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["IsLongTermPricingAutoRenew"].write(value.isLongTermPricingAutoRenew)
         try writer["LongTermPricingType"].write(value.longTermPricingType)
@@ -3017,7 +3017,7 @@ extension CreateLongTermPricingInput {
 
 extension CreateReturnShippingLabelInput {
 
-    static func write(value: CreateReturnShippingLabelInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CreateReturnShippingLabelInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["JobId"].write(value.jobId)
         try writer["ShippingOption"].write(value.shippingOption)
@@ -3026,7 +3026,7 @@ extension CreateReturnShippingLabelInput {
 
 extension DescribeAddressInput {
 
-    static func write(value: DescribeAddressInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DescribeAddressInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["AddressId"].write(value.addressId)
     }
@@ -3034,7 +3034,7 @@ extension DescribeAddressInput {
 
 extension DescribeAddressesInput {
 
-    static func write(value: DescribeAddressesInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DescribeAddressesInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
@@ -3043,7 +3043,7 @@ extension DescribeAddressesInput {
 
 extension DescribeClusterInput {
 
-    static func write(value: DescribeClusterInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DescribeClusterInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["ClusterId"].write(value.clusterId)
     }
@@ -3051,7 +3051,7 @@ extension DescribeClusterInput {
 
 extension DescribeJobInput {
 
-    static func write(value: DescribeJobInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DescribeJobInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["JobId"].write(value.jobId)
     }
@@ -3059,7 +3059,7 @@ extension DescribeJobInput {
 
 extension DescribeReturnShippingLabelInput {
 
-    static func write(value: DescribeReturnShippingLabelInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DescribeReturnShippingLabelInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["JobId"].write(value.jobId)
     }
@@ -3067,7 +3067,7 @@ extension DescribeReturnShippingLabelInput {
 
 extension GetJobManifestInput {
 
-    static func write(value: GetJobManifestInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetJobManifestInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["JobId"].write(value.jobId)
     }
@@ -3075,7 +3075,7 @@ extension GetJobManifestInput {
 
 extension GetJobUnlockCodeInput {
 
-    static func write(value: GetJobUnlockCodeInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetJobUnlockCodeInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["JobId"].write(value.jobId)
     }
@@ -3083,7 +3083,7 @@ extension GetJobUnlockCodeInput {
 
 extension GetSnowballUsageInput {
 
-    static func write(value: GetSnowballUsageInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetSnowballUsageInput?, to writer: SmithyCBOR.Writer) throws {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
     }
@@ -3091,7 +3091,7 @@ extension GetSnowballUsageInput {
 
 extension GetSoftwareUpdatesInput {
 
-    static func write(value: GetSoftwareUpdatesInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetSoftwareUpdatesInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["JobId"].write(value.jobId)
     }
@@ -3099,7 +3099,7 @@ extension GetSoftwareUpdatesInput {
 
 extension ListClusterJobsInput {
 
-    static func write(value: ListClusterJobsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListClusterJobsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["ClusterId"].write(value.clusterId)
         try writer["MaxResults"].write(value.maxResults)
@@ -3109,7 +3109,7 @@ extension ListClusterJobsInput {
 
 extension ListClustersInput {
 
-    static func write(value: ListClustersInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListClustersInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
@@ -3118,7 +3118,7 @@ extension ListClustersInput {
 
 extension ListCompatibleImagesInput {
 
-    static func write(value: ListCompatibleImagesInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListCompatibleImagesInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
@@ -3127,7 +3127,7 @@ extension ListCompatibleImagesInput {
 
 extension ListJobsInput {
 
-    static func write(value: ListJobsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListJobsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
@@ -3136,7 +3136,7 @@ extension ListJobsInput {
 
 extension ListLongTermPricingInput {
 
-    static func write(value: ListLongTermPricingInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListLongTermPricingInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
@@ -3145,7 +3145,7 @@ extension ListLongTermPricingInput {
 
 extension ListPickupLocationsInput {
 
-    static func write(value: ListPickupLocationsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListPickupLocationsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
@@ -3154,7 +3154,7 @@ extension ListPickupLocationsInput {
 
 extension ListServiceVersionsInput {
 
-    static func write(value: ListServiceVersionsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListServiceVersionsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["DependentServices"].writeList(value.dependentServices, memberWritingClosure: SnowballClientTypes.DependentService.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MaxResults"].write(value.maxResults)
@@ -3165,7 +3165,7 @@ extension ListServiceVersionsInput {
 
 extension UpdateClusterInput {
 
-    static func write(value: UpdateClusterInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: UpdateClusterInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["AddressId"].write(value.addressId)
         try writer["ClusterId"].write(value.clusterId)
@@ -3181,7 +3181,7 @@ extension UpdateClusterInput {
 
 extension UpdateJobInput {
 
-    static func write(value: UpdateJobInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: UpdateJobInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["AddressId"].write(value.addressId)
         try writer["Description"].write(value.description)
@@ -3199,7 +3199,7 @@ extension UpdateJobInput {
 
 extension UpdateJobShipmentStateInput {
 
-    static func write(value: UpdateJobShipmentStateInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: UpdateJobShipmentStateInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["JobId"].write(value.jobId)
         try writer["ShipmentState"].write(value.shipmentState)
@@ -3208,7 +3208,7 @@ extension UpdateJobShipmentStateInput {
 
 extension UpdateLongTermPricingInput {
 
-    static func write(value: UpdateLongTermPricingInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: UpdateLongTermPricingInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["IsLongTermPricingAutoRenew"].write(value.isLongTermPricingAutoRenew)
         try writer["LongTermPricingId"].write(value.longTermPricingId)
@@ -3234,7 +3234,7 @@ extension CreateAddressOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAddressOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = CreateAddressOutput()
         value.addressId = try reader["AddressId"].readIfPresent()
@@ -3246,7 +3246,7 @@ extension CreateClusterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateClusterOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = CreateClusterOutput()
         value.clusterId = try reader["ClusterId"].readIfPresent()
@@ -3259,7 +3259,7 @@ extension CreateJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateJobOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = CreateJobOutput()
         value.jobId = try reader["JobId"].readIfPresent()
@@ -3271,7 +3271,7 @@ extension CreateLongTermPricingOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateLongTermPricingOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = CreateLongTermPricingOutput()
         value.longTermPricingId = try reader["LongTermPricingId"].readIfPresent()
@@ -3283,7 +3283,7 @@ extension CreateReturnShippingLabelOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateReturnShippingLabelOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = CreateReturnShippingLabelOutput()
         value.status = try reader["Status"].readIfPresent()
@@ -3295,7 +3295,7 @@ extension DescribeAddressOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAddressOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeAddressOutput()
         value.address = try reader["Address"].readIfPresent(with: SnowballClientTypes.Address.read(from:))
@@ -3307,7 +3307,7 @@ extension DescribeAddressesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAddressesOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeAddressesOutput()
         value.addresses = try reader["Addresses"].readListIfPresent(memberReadingClosure: SnowballClientTypes.Address.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3320,7 +3320,7 @@ extension DescribeClusterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeClusterOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeClusterOutput()
         value.clusterMetadata = try reader["ClusterMetadata"].readIfPresent(with: SnowballClientTypes.ClusterMetadata.read(from:))
@@ -3332,7 +3332,7 @@ extension DescribeJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeJobOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeJobOutput()
         value.jobMetadata = try reader["JobMetadata"].readIfPresent(with: SnowballClientTypes.JobMetadata.read(from:))
@@ -3345,7 +3345,7 @@ extension DescribeReturnShippingLabelOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeReturnShippingLabelOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeReturnShippingLabelOutput()
         value.expirationDate = try reader["ExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -3359,7 +3359,7 @@ extension GetJobManifestOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetJobManifestOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetJobManifestOutput()
         value.manifestURI = try reader["ManifestURI"].readIfPresent()
@@ -3371,7 +3371,7 @@ extension GetJobUnlockCodeOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetJobUnlockCodeOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetJobUnlockCodeOutput()
         value.unlockCode = try reader["UnlockCode"].readIfPresent()
@@ -3383,7 +3383,7 @@ extension GetSnowballUsageOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSnowballUsageOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetSnowballUsageOutput()
         value.snowballLimit = try reader["SnowballLimit"].readIfPresent()
@@ -3396,7 +3396,7 @@ extension GetSoftwareUpdatesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSoftwareUpdatesOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetSoftwareUpdatesOutput()
         value.updatesURI = try reader["UpdatesURI"].readIfPresent()
@@ -3408,7 +3408,7 @@ extension ListClusterJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListClusterJobsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListClusterJobsOutput()
         value.jobListEntries = try reader["JobListEntries"].readListIfPresent(memberReadingClosure: SnowballClientTypes.JobListEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3421,7 +3421,7 @@ extension ListClustersOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListClustersOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListClustersOutput()
         value.clusterListEntries = try reader["ClusterListEntries"].readListIfPresent(memberReadingClosure: SnowballClientTypes.ClusterListEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3434,7 +3434,7 @@ extension ListCompatibleImagesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCompatibleImagesOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListCompatibleImagesOutput()
         value.compatibleImages = try reader["CompatibleImages"].readListIfPresent(memberReadingClosure: SnowballClientTypes.CompatibleImage.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3447,7 +3447,7 @@ extension ListJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListJobsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListJobsOutput()
         value.jobListEntries = try reader["JobListEntries"].readListIfPresent(memberReadingClosure: SnowballClientTypes.JobListEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3460,7 +3460,7 @@ extension ListLongTermPricingOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListLongTermPricingOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListLongTermPricingOutput()
         value.longTermPricingEntries = try reader["LongTermPricingEntries"].readListIfPresent(memberReadingClosure: SnowballClientTypes.LongTermPricingListEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3473,7 +3473,7 @@ extension ListPickupLocationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPickupLocationsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListPickupLocationsOutput()
         value.addresses = try reader["Addresses"].readListIfPresent(memberReadingClosure: SnowballClientTypes.Address.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3486,7 +3486,7 @@ extension ListServiceVersionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListServiceVersionsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListServiceVersionsOutput()
         value.dependentServices = try reader["DependentServices"].readListIfPresent(memberReadingClosure: SnowballClientTypes.DependentService.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3529,8 +3529,8 @@ enum CancelClusterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidJobStateException": return try InvalidJobStateException.makeError(baseError: baseError)
@@ -3545,8 +3545,8 @@ enum CancelJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidJobStateException": return try InvalidJobStateException.makeError(baseError: baseError)
@@ -3561,8 +3561,8 @@ enum CreateAddressOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddressException": return try InvalidAddressException.makeError(baseError: baseError)
@@ -3576,8 +3576,8 @@ enum CreateClusterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "Ec2RequestFailedException": return try Ec2RequestFailedException.makeError(baseError: baseError)
@@ -3593,8 +3593,8 @@ enum CreateJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClusterLimitExceededException": return try ClusterLimitExceededException.makeError(baseError: baseError)
@@ -3611,8 +3611,8 @@ enum CreateLongTermPricingOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceException": return try InvalidResourceException.makeError(baseError: baseError)
@@ -3625,8 +3625,8 @@ enum CreateReturnShippingLabelOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3643,8 +3643,8 @@ enum DescribeAddressOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceException": return try InvalidResourceException.makeError(baseError: baseError)
@@ -3657,8 +3657,8 @@ enum DescribeAddressesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -3672,8 +3672,8 @@ enum DescribeClusterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceException": return try InvalidResourceException.makeError(baseError: baseError)
@@ -3686,8 +3686,8 @@ enum DescribeJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceException": return try InvalidResourceException.makeError(baseError: baseError)
@@ -3700,8 +3700,8 @@ enum DescribeReturnShippingLabelOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3716,8 +3716,8 @@ enum GetJobManifestOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidJobStateException": return try InvalidJobStateException.makeError(baseError: baseError)
@@ -3731,8 +3731,8 @@ enum GetJobUnlockCodeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidJobStateException": return try InvalidJobStateException.makeError(baseError: baseError)
@@ -3746,8 +3746,8 @@ enum GetSnowballUsageOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3759,8 +3759,8 @@ enum GetSoftwareUpdatesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidJobStateException": return try InvalidJobStateException.makeError(baseError: baseError)
@@ -3774,8 +3774,8 @@ enum ListClusterJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -3789,8 +3789,8 @@ enum ListClustersOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -3803,8 +3803,8 @@ enum ListCompatibleImagesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "Ec2RequestFailedException": return try Ec2RequestFailedException.makeError(baseError: baseError)
@@ -3818,8 +3818,8 @@ enum ListJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -3832,8 +3832,8 @@ enum ListLongTermPricingOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -3847,8 +3847,8 @@ enum ListPickupLocationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceException": return try InvalidResourceException.makeError(baseError: baseError)
@@ -3861,8 +3861,8 @@ enum ListServiceVersionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -3876,8 +3876,8 @@ enum UpdateClusterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "Ec2RequestFailedException": return try Ec2RequestFailedException.makeError(baseError: baseError)
@@ -3894,8 +3894,8 @@ enum UpdateJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClusterLimitExceededException": return try ClusterLimitExceededException.makeError(baseError: baseError)
@@ -3913,8 +3913,8 @@ enum UpdateJobShipmentStateOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidJobStateException": return try InvalidJobStateException.makeError(baseError: baseError)
@@ -3928,8 +3928,8 @@ enum UpdateLongTermPricingOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceException": return try InvalidResourceException.makeError(baseError: baseError)
@@ -3940,7 +3940,7 @@ enum UpdateLongTermPricingOutputError {
 
 extension InvalidJobStateException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidJobStateException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InvalidJobStateException {
         let reader = baseError.errorBodyReader
         var value = InvalidJobStateException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3953,7 +3953,7 @@ extension InvalidJobStateException {
 
 extension InvalidResourceException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidResourceException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InvalidResourceException {
         let reader = baseError.errorBodyReader
         var value = InvalidResourceException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3967,7 +3967,7 @@ extension InvalidResourceException {
 
 extension KMSRequestFailedException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> KMSRequestFailedException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> KMSRequestFailedException {
         let reader = baseError.errorBodyReader
         var value = KMSRequestFailedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3980,7 +3980,7 @@ extension KMSRequestFailedException {
 
 extension InvalidAddressException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidAddressException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InvalidAddressException {
         let reader = baseError.errorBodyReader
         var value = InvalidAddressException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3993,7 +3993,7 @@ extension InvalidAddressException {
 
 extension UnsupportedAddressException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UnsupportedAddressException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> UnsupportedAddressException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedAddressException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4006,7 +4006,7 @@ extension UnsupportedAddressException {
 
 extension Ec2RequestFailedException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> Ec2RequestFailedException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> Ec2RequestFailedException {
         let reader = baseError.errorBodyReader
         var value = Ec2RequestFailedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4019,7 +4019,7 @@ extension Ec2RequestFailedException {
 
 extension InvalidInputCombinationException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidInputCombinationException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InvalidInputCombinationException {
         let reader = baseError.errorBodyReader
         var value = InvalidInputCombinationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4032,7 +4032,7 @@ extension InvalidInputCombinationException {
 
 extension ClusterLimitExceededException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ClusterLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> ClusterLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ClusterLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4045,7 +4045,7 @@ extension ClusterLimitExceededException {
 
 extension ConflictException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.conflictResource = try reader["ConflictResource"].readIfPresent()
@@ -4059,7 +4059,7 @@ extension ConflictException {
 
 extension ReturnShippingLabelAlreadyExistsException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ReturnShippingLabelAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> ReturnShippingLabelAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = ReturnShippingLabelAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4072,7 +4072,7 @@ extension ReturnShippingLabelAlreadyExistsException {
 
 extension InvalidNextTokenException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InvalidNextTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidNextTokenException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4085,7 +4085,7 @@ extension InvalidNextTokenException {
 
 extension SnowballClientTypes.Address {
 
-    static func write(value: SnowballClientTypes.Address?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.Address?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["AddressId"].write(value.addressId)
         try writer["City"].write(value.city)
@@ -4104,7 +4104,7 @@ extension SnowballClientTypes.Address {
         try writer["Type"].write(value.type)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.Address {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.Address {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.Address()
         value.addressId = try reader["AddressId"].readIfPresent()
@@ -4128,7 +4128,7 @@ extension SnowballClientTypes.Address {
 
 extension SnowballClientTypes.ClusterListEntry {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.ClusterListEntry {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.ClusterListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.ClusterListEntry()
         value.clusterId = try reader["ClusterId"].readIfPresent()
@@ -4141,7 +4141,7 @@ extension SnowballClientTypes.ClusterListEntry {
 
 extension SnowballClientTypes.ClusterMetadata {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.ClusterMetadata {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.ClusterMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.ClusterMetadata()
         value.clusterId = try reader["ClusterId"].readIfPresent()
@@ -4165,7 +4165,7 @@ extension SnowballClientTypes.ClusterMetadata {
 
 extension SnowballClientTypes.CompatibleImage {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.CompatibleImage {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.CompatibleImage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.CompatibleImage()
         value.amiId = try reader["AmiId"].readIfPresent()
@@ -4176,7 +4176,7 @@ extension SnowballClientTypes.CompatibleImage {
 
 extension SnowballClientTypes.DataTransfer {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.DataTransfer {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.DataTransfer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.DataTransfer()
         value.bytesTransferred = try reader["BytesTransferred"].readIfPresent() ?? 0
@@ -4189,13 +4189,13 @@ extension SnowballClientTypes.DataTransfer {
 
 extension SnowballClientTypes.DependentService {
 
-    static func write(value: SnowballClientTypes.DependentService?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.DependentService?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["ServiceName"].write(value.serviceName)
         try writer["ServiceVersion"].write(value.serviceVersion, with: SnowballClientTypes.ServiceVersion.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.DependentService {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.DependentService {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.DependentService()
         value.serviceName = try reader["ServiceName"].readIfPresent()
@@ -4206,12 +4206,12 @@ extension SnowballClientTypes.DependentService {
 
 extension SnowballClientTypes.DeviceConfiguration {
 
-    static func write(value: SnowballClientTypes.DeviceConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.DeviceConfiguration?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["SnowconeDeviceConfiguration"].write(value.snowconeDeviceConfiguration, with: SnowballClientTypes.SnowconeDeviceConfiguration.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.DeviceConfiguration {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.DeviceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.DeviceConfiguration()
         value.snowconeDeviceConfiguration = try reader["SnowconeDeviceConfiguration"].readIfPresent(with: SnowballClientTypes.SnowconeDeviceConfiguration.read(from:))
@@ -4221,13 +4221,13 @@ extension SnowballClientTypes.DeviceConfiguration {
 
 extension SnowballClientTypes.Ec2AmiResource {
 
-    static func write(value: SnowballClientTypes.Ec2AmiResource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.Ec2AmiResource?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["AmiId"].write(value.amiId)
         try writer["SnowballAmiId"].write(value.snowballAmiId)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.Ec2AmiResource {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.Ec2AmiResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.Ec2AmiResource()
         value.amiId = try reader["AmiId"].readIfPresent() ?? ""
@@ -4238,13 +4238,13 @@ extension SnowballClientTypes.Ec2AmiResource {
 
 extension SnowballClientTypes.EKSOnDeviceServiceConfiguration {
 
-    static func write(value: SnowballClientTypes.EKSOnDeviceServiceConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.EKSOnDeviceServiceConfiguration?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["EKSAnywhereVersion"].write(value.eksAnywhereVersion)
         try writer["KubernetesVersion"].write(value.kubernetesVersion)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.EKSOnDeviceServiceConfiguration {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.EKSOnDeviceServiceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.EKSOnDeviceServiceConfiguration()
         value.kubernetesVersion = try reader["KubernetesVersion"].readIfPresent()
@@ -4255,12 +4255,12 @@ extension SnowballClientTypes.EKSOnDeviceServiceConfiguration {
 
 extension SnowballClientTypes.EventTriggerDefinition {
 
-    static func write(value: SnowballClientTypes.EventTriggerDefinition?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.EventTriggerDefinition?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["EventResourceARN"].write(value.eventResourceARN)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.EventTriggerDefinition {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.EventTriggerDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.EventTriggerDefinition()
         value.eventResourceARN = try reader["EventResourceARN"].readIfPresent()
@@ -4270,12 +4270,12 @@ extension SnowballClientTypes.EventTriggerDefinition {
 
 extension SnowballClientTypes.INDTaxDocuments {
 
-    static func write(value: SnowballClientTypes.INDTaxDocuments?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.INDTaxDocuments?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["GSTIN"].write(value.gstin)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.INDTaxDocuments {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.INDTaxDocuments {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.INDTaxDocuments()
         value.gstin = try reader["GSTIN"].readIfPresent()
@@ -4285,7 +4285,7 @@ extension SnowballClientTypes.INDTaxDocuments {
 
 extension SnowballClientTypes.JobListEntry {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.JobListEntry {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.JobListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.JobListEntry()
         value.jobId = try reader["JobId"].readIfPresent()
@@ -4301,7 +4301,7 @@ extension SnowballClientTypes.JobListEntry {
 
 extension SnowballClientTypes.JobLogs {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.JobLogs {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.JobLogs {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.JobLogs()
         value.jobCompletionReportURI = try reader["JobCompletionReportURI"].readIfPresent()
@@ -4313,7 +4313,7 @@ extension SnowballClientTypes.JobLogs {
 
 extension SnowballClientTypes.JobMetadata {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.JobMetadata {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.JobMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.JobMetadata()
         value.jobId = try reader["JobId"].readIfPresent()
@@ -4347,14 +4347,14 @@ extension SnowballClientTypes.JobMetadata {
 
 extension SnowballClientTypes.JobResource {
 
-    static func write(value: SnowballClientTypes.JobResource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.JobResource?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["Ec2AmiResources"].writeList(value.ec2AmiResources, memberWritingClosure: SnowballClientTypes.Ec2AmiResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LambdaResources"].writeList(value.lambdaResources, memberWritingClosure: SnowballClientTypes.LambdaResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["S3Resources"].writeList(value.s3Resources, memberWritingClosure: SnowballClientTypes.S3Resource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.JobResource {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.JobResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.JobResource()
         value.s3Resources = try reader["S3Resources"].readListIfPresent(memberReadingClosure: SnowballClientTypes.S3Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -4366,13 +4366,13 @@ extension SnowballClientTypes.JobResource {
 
 extension SnowballClientTypes.KeyRange {
 
-    static func write(value: SnowballClientTypes.KeyRange?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.KeyRange?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["BeginMarker"].write(value.beginMarker)
         try writer["EndMarker"].write(value.endMarker)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.KeyRange {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.KeyRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.KeyRange()
         value.beginMarker = try reader["BeginMarker"].readIfPresent()
@@ -4383,13 +4383,13 @@ extension SnowballClientTypes.KeyRange {
 
 extension SnowballClientTypes.LambdaResource {
 
-    static func write(value: SnowballClientTypes.LambdaResource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.LambdaResource?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["EventTriggers"].writeList(value.eventTriggers, memberWritingClosure: SnowballClientTypes.EventTriggerDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LambdaArn"].write(value.lambdaArn)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.LambdaResource {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.LambdaResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.LambdaResource()
         value.lambdaArn = try reader["LambdaArn"].readIfPresent()
@@ -4400,7 +4400,7 @@ extension SnowballClientTypes.LambdaResource {
 
 extension SnowballClientTypes.LongTermPricingListEntry {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.LongTermPricingListEntry {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.LongTermPricingListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.LongTermPricingListEntry()
         value.longTermPricingId = try reader["LongTermPricingId"].readIfPresent()
@@ -4419,13 +4419,13 @@ extension SnowballClientTypes.LongTermPricingListEntry {
 
 extension SnowballClientTypes.NFSOnDeviceServiceConfiguration {
 
-    static func write(value: SnowballClientTypes.NFSOnDeviceServiceConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.NFSOnDeviceServiceConfiguration?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["StorageLimit"].write(value.storageLimit)
         try writer["StorageUnit"].write(value.storageUnit)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.NFSOnDeviceServiceConfiguration {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.NFSOnDeviceServiceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.NFSOnDeviceServiceConfiguration()
         value.storageLimit = try reader["StorageLimit"].readIfPresent() ?? 0
@@ -4436,7 +4436,7 @@ extension SnowballClientTypes.NFSOnDeviceServiceConfiguration {
 
 extension SnowballClientTypes.Notification {
 
-    static func write(value: SnowballClientTypes.Notification?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.Notification?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["DevicePickupSnsTopicARN"].write(value.devicePickupSnsTopicARN)
         try writer["JobStatesToNotify"].writeList(value.jobStatesToNotify, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SnowballClientTypes.JobState>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -4444,7 +4444,7 @@ extension SnowballClientTypes.Notification {
         try writer["SnsTopicARN"].write(value.snsTopicARN)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.Notification {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.Notification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.Notification()
         value.snsTopicARN = try reader["SnsTopicARN"].readIfPresent()
@@ -4457,7 +4457,7 @@ extension SnowballClientTypes.Notification {
 
 extension SnowballClientTypes.OnDeviceServiceConfiguration {
 
-    static func write(value: SnowballClientTypes.OnDeviceServiceConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.OnDeviceServiceConfiguration?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["EKSOnDeviceService"].write(value.eksOnDeviceService, with: SnowballClientTypes.EKSOnDeviceServiceConfiguration.write(value:to:))
         try writer["NFSOnDeviceService"].write(value.nfsOnDeviceService, with: SnowballClientTypes.NFSOnDeviceServiceConfiguration.write(value:to:))
@@ -4465,7 +4465,7 @@ extension SnowballClientTypes.OnDeviceServiceConfiguration {
         try writer["TGWOnDeviceService"].write(value.tgwOnDeviceService, with: SnowballClientTypes.TGWOnDeviceServiceConfiguration.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.OnDeviceServiceConfiguration {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.OnDeviceServiceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.OnDeviceServiceConfiguration()
         value.nfsOnDeviceService = try reader["NFSOnDeviceService"].readIfPresent(with: SnowballClientTypes.NFSOnDeviceServiceConfiguration.read(from:))
@@ -4478,7 +4478,7 @@ extension SnowballClientTypes.OnDeviceServiceConfiguration {
 
 extension SnowballClientTypes.PickupDetails {
 
-    static func write(value: SnowballClientTypes.PickupDetails?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.PickupDetails?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["DevicePickupId"].write(value.devicePickupId)
         try writer["Email"].write(value.email)
@@ -4489,7 +4489,7 @@ extension SnowballClientTypes.PickupDetails {
         try writer["PhoneNumber"].write(value.phoneNumber)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.PickupDetails {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.PickupDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.PickupDetails()
         value.name = try reader["Name"].readIfPresent()
@@ -4505,7 +4505,7 @@ extension SnowballClientTypes.PickupDetails {
 
 extension SnowballClientTypes.S3OnDeviceServiceConfiguration {
 
-    static func write(value: SnowballClientTypes.S3OnDeviceServiceConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.S3OnDeviceServiceConfiguration?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["FaultTolerance"].write(value.faultTolerance)
         try writer["ServiceSize"].write(value.serviceSize)
@@ -4513,7 +4513,7 @@ extension SnowballClientTypes.S3OnDeviceServiceConfiguration {
         try writer["StorageUnit"].write(value.storageUnit)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.S3OnDeviceServiceConfiguration {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.S3OnDeviceServiceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.S3OnDeviceServiceConfiguration()
         value.storageLimit = try reader["StorageLimit"].readIfPresent()
@@ -4526,14 +4526,14 @@ extension SnowballClientTypes.S3OnDeviceServiceConfiguration {
 
 extension SnowballClientTypes.S3Resource {
 
-    static func write(value: SnowballClientTypes.S3Resource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.S3Resource?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["BucketArn"].write(value.bucketArn)
         try writer["KeyRange"].write(value.keyRange, with: SnowballClientTypes.KeyRange.write(value:to:))
         try writer["TargetOnDeviceServices"].writeList(value.targetOnDeviceServices, memberWritingClosure: SnowballClientTypes.TargetOnDeviceService.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.S3Resource {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.S3Resource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.S3Resource()
         value.bucketArn = try reader["BucketArn"].readIfPresent()
@@ -4545,12 +4545,12 @@ extension SnowballClientTypes.S3Resource {
 
 extension SnowballClientTypes.ServiceVersion {
 
-    static func write(value: SnowballClientTypes.ServiceVersion?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.ServiceVersion?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["Version"].write(value.version)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.ServiceVersion {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.ServiceVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.ServiceVersion()
         value.version = try reader["Version"].readIfPresent()
@@ -4560,7 +4560,7 @@ extension SnowballClientTypes.ServiceVersion {
 
 extension SnowballClientTypes.Shipment {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.Shipment {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.Shipment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.Shipment()
         value.status = try reader["Status"].readIfPresent()
@@ -4571,7 +4571,7 @@ extension SnowballClientTypes.Shipment {
 
 extension SnowballClientTypes.ShippingDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.ShippingDetails {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.ShippingDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.ShippingDetails()
         value.shippingOption = try reader["ShippingOption"].readIfPresent()
@@ -4583,12 +4583,12 @@ extension SnowballClientTypes.ShippingDetails {
 
 extension SnowballClientTypes.SnowconeDeviceConfiguration {
 
-    static func write(value: SnowballClientTypes.SnowconeDeviceConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.SnowconeDeviceConfiguration?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["WirelessConnection"].write(value.wirelessConnection, with: SnowballClientTypes.WirelessConnection.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.SnowconeDeviceConfiguration {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.SnowconeDeviceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.SnowconeDeviceConfiguration()
         value.wirelessConnection = try reader["WirelessConnection"].readIfPresent(with: SnowballClientTypes.WirelessConnection.read(from:))
@@ -4598,13 +4598,13 @@ extension SnowballClientTypes.SnowconeDeviceConfiguration {
 
 extension SnowballClientTypes.TargetOnDeviceService {
 
-    static func write(value: SnowballClientTypes.TargetOnDeviceService?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.TargetOnDeviceService?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["ServiceName"].write(value.serviceName)
         try writer["TransferOption"].write(value.transferOption)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.TargetOnDeviceService {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.TargetOnDeviceService {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.TargetOnDeviceService()
         value.serviceName = try reader["ServiceName"].readIfPresent()
@@ -4615,12 +4615,12 @@ extension SnowballClientTypes.TargetOnDeviceService {
 
 extension SnowballClientTypes.TaxDocuments {
 
-    static func write(value: SnowballClientTypes.TaxDocuments?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.TaxDocuments?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["IND"].write(value.ind, with: SnowballClientTypes.INDTaxDocuments.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.TaxDocuments {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.TaxDocuments {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.TaxDocuments()
         value.ind = try reader["IND"].readIfPresent(with: SnowballClientTypes.INDTaxDocuments.read(from:))
@@ -4630,13 +4630,13 @@ extension SnowballClientTypes.TaxDocuments {
 
 extension SnowballClientTypes.TGWOnDeviceServiceConfiguration {
 
-    static func write(value: SnowballClientTypes.TGWOnDeviceServiceConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.TGWOnDeviceServiceConfiguration?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["StorageLimit"].write(value.storageLimit)
         try writer["StorageUnit"].write(value.storageUnit)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.TGWOnDeviceServiceConfiguration {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.TGWOnDeviceServiceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.TGWOnDeviceServiceConfiguration()
         value.storageLimit = try reader["StorageLimit"].readIfPresent() ?? 0
@@ -4647,12 +4647,12 @@ extension SnowballClientTypes.TGWOnDeviceServiceConfiguration {
 
 extension SnowballClientTypes.WirelessConnection {
 
-    static func write(value: SnowballClientTypes.WirelessConnection?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.WirelessConnection?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["IsWifiEnabled"].write(value.isWifiEnabled)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.WirelessConnection {
+    static func read(from reader: SmithyCBOR.Reader) throws -> SnowballClientTypes.WirelessConnection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.WirelessConnection()
         value.isWifiEnabled = try reader["IsWifiEnabled"].readIfPresent() ?? false
