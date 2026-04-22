@@ -9,19 +9,19 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+@_spi(SmithyReadWrite) import class SmithyCBOR.Reader
+@_spi(SmithyReadWrite) import class SmithyCBOR.Writer
 import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Reader
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
-import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
+import protocol ClientRuntime.ServiceError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
-@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RpcV2CborError
 
 extension ComprehendMedicalClientTypes {
 
@@ -450,7 +450,7 @@ extension ComprehendMedicalClientTypes {
 }
 
 /// An internal server error occurred. Retry your request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InternalServerException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -473,7 +473,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidRequestException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -496,7 +496,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -519,7 +519,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -834,7 +834,7 @@ public struct DescribeSNOMEDCTInferenceJobOutput: Swift.Sendable {
 }
 
 /// The input text was not in valid UTF-8 character encoding. Check your text then retry your request.
-public struct InvalidEncodingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidEncodingException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -857,7 +857,7 @@ public struct InvalidEncodingException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The Amazon Comprehend Medical service is temporarily unavailable. Please wait and then retry your request.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -880,7 +880,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
-public struct TextSizeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct TextSizeLimitExceededException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -2136,7 +2136,7 @@ public struct InferSNOMEDCTOutput: Swift.Sendable {
 }
 
 /// The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ValidationException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -2723,188 +2723,188 @@ public struct StopSNOMEDCTInferenceJobOutput: Swift.Sendable {
 extension DescribeEntitiesDetectionV2JobInput {
 
     static func urlPathProvider(_ value: DescribeEntitiesDetectionV2JobInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/DescribeEntitiesDetectionV2Job"
     }
 }
 
 extension DescribeICD10CMInferenceJobInput {
 
     static func urlPathProvider(_ value: DescribeICD10CMInferenceJobInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/DescribeICD10CMInferenceJob"
     }
 }
 
 extension DescribePHIDetectionJobInput {
 
     static func urlPathProvider(_ value: DescribePHIDetectionJobInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/DescribePHIDetectionJob"
     }
 }
 
 extension DescribeRxNormInferenceJobInput {
 
     static func urlPathProvider(_ value: DescribeRxNormInferenceJobInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/DescribeRxNormInferenceJob"
     }
 }
 
 extension DescribeSNOMEDCTInferenceJobInput {
 
     static func urlPathProvider(_ value: DescribeSNOMEDCTInferenceJobInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/DescribeSNOMEDCTInferenceJob"
     }
 }
 
 extension DetectEntitiesInput {
 
     static func urlPathProvider(_ value: DetectEntitiesInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/DetectEntities"
     }
 }
 
 extension DetectEntitiesV2Input {
 
     static func urlPathProvider(_ value: DetectEntitiesV2Input) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/DetectEntitiesV2"
     }
 }
 
 extension DetectPHIInput {
 
     static func urlPathProvider(_ value: DetectPHIInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/DetectPHI"
     }
 }
 
 extension InferICD10CMInput {
 
     static func urlPathProvider(_ value: InferICD10CMInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/InferICD10CM"
     }
 }
 
 extension InferRxNormInput {
 
     static func urlPathProvider(_ value: InferRxNormInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/InferRxNorm"
     }
 }
 
 extension InferSNOMEDCTInput {
 
     static func urlPathProvider(_ value: InferSNOMEDCTInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/InferSNOMEDCT"
     }
 }
 
 extension ListEntitiesDetectionV2JobsInput {
 
     static func urlPathProvider(_ value: ListEntitiesDetectionV2JobsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/ListEntitiesDetectionV2Jobs"
     }
 }
 
 extension ListICD10CMInferenceJobsInput {
 
     static func urlPathProvider(_ value: ListICD10CMInferenceJobsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/ListICD10CMInferenceJobs"
     }
 }
 
 extension ListPHIDetectionJobsInput {
 
     static func urlPathProvider(_ value: ListPHIDetectionJobsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/ListPHIDetectionJobs"
     }
 }
 
 extension ListRxNormInferenceJobsInput {
 
     static func urlPathProvider(_ value: ListRxNormInferenceJobsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/ListRxNormInferenceJobs"
     }
 }
 
 extension ListSNOMEDCTInferenceJobsInput {
 
     static func urlPathProvider(_ value: ListSNOMEDCTInferenceJobsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/ListSNOMEDCTInferenceJobs"
     }
 }
 
 extension StartEntitiesDetectionV2JobInput {
 
     static func urlPathProvider(_ value: StartEntitiesDetectionV2JobInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/StartEntitiesDetectionV2Job"
     }
 }
 
 extension StartICD10CMInferenceJobInput {
 
     static func urlPathProvider(_ value: StartICD10CMInferenceJobInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/StartICD10CMInferenceJob"
     }
 }
 
 extension StartPHIDetectionJobInput {
 
     static func urlPathProvider(_ value: StartPHIDetectionJobInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/StartPHIDetectionJob"
     }
 }
 
 extension StartRxNormInferenceJobInput {
 
     static func urlPathProvider(_ value: StartRxNormInferenceJobInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/StartRxNormInferenceJob"
     }
 }
 
 extension StartSNOMEDCTInferenceJobInput {
 
     static func urlPathProvider(_ value: StartSNOMEDCTInferenceJobInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/StartSNOMEDCTInferenceJob"
     }
 }
 
 extension StopEntitiesDetectionV2JobInput {
 
     static func urlPathProvider(_ value: StopEntitiesDetectionV2JobInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/StopEntitiesDetectionV2Job"
     }
 }
 
 extension StopICD10CMInferenceJobInput {
 
     static func urlPathProvider(_ value: StopICD10CMInferenceJobInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/StopICD10CMInferenceJob"
     }
 }
 
 extension StopPHIDetectionJobInput {
 
     static func urlPathProvider(_ value: StopPHIDetectionJobInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/StopPHIDetectionJob"
     }
 }
 
 extension StopRxNormInferenceJobInput {
 
     static func urlPathProvider(_ value: StopRxNormInferenceJobInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/StopRxNormInferenceJob"
     }
 }
 
 extension StopSNOMEDCTInferenceJobInput {
 
     static func urlPathProvider(_ value: StopSNOMEDCTInferenceJobInput) -> Swift.String? {
-        return "/"
+        return "/service/ComprehendMedical_20181030/operation/StopSNOMEDCTInferenceJob"
     }
 }
 
 extension DescribeEntitiesDetectionV2JobInput {
 
-    static func write(value: DescribeEntitiesDetectionV2JobInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DescribeEntitiesDetectionV2JobInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["JobId"].write(value.jobId)
     }
@@ -2912,7 +2912,7 @@ extension DescribeEntitiesDetectionV2JobInput {
 
 extension DescribeICD10CMInferenceJobInput {
 
-    static func write(value: DescribeICD10CMInferenceJobInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DescribeICD10CMInferenceJobInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["JobId"].write(value.jobId)
     }
@@ -2920,7 +2920,7 @@ extension DescribeICD10CMInferenceJobInput {
 
 extension DescribePHIDetectionJobInput {
 
-    static func write(value: DescribePHIDetectionJobInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DescribePHIDetectionJobInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["JobId"].write(value.jobId)
     }
@@ -2928,7 +2928,7 @@ extension DescribePHIDetectionJobInput {
 
 extension DescribeRxNormInferenceJobInput {
 
-    static func write(value: DescribeRxNormInferenceJobInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DescribeRxNormInferenceJobInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["JobId"].write(value.jobId)
     }
@@ -2936,7 +2936,7 @@ extension DescribeRxNormInferenceJobInput {
 
 extension DescribeSNOMEDCTInferenceJobInput {
 
-    static func write(value: DescribeSNOMEDCTInferenceJobInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DescribeSNOMEDCTInferenceJobInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["JobId"].write(value.jobId)
     }
@@ -2944,7 +2944,7 @@ extension DescribeSNOMEDCTInferenceJobInput {
 
 extension DetectEntitiesInput {
 
-    static func write(value: DetectEntitiesInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DetectEntitiesInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["Text"].write(value.text)
     }
@@ -2952,7 +2952,7 @@ extension DetectEntitiesInput {
 
 extension DetectEntitiesV2Input {
 
-    static func write(value: DetectEntitiesV2Input?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DetectEntitiesV2Input?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["Text"].write(value.text)
     }
@@ -2960,7 +2960,7 @@ extension DetectEntitiesV2Input {
 
 extension DetectPHIInput {
 
-    static func write(value: DetectPHIInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DetectPHIInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["Text"].write(value.text)
     }
@@ -2968,7 +2968,7 @@ extension DetectPHIInput {
 
 extension InferICD10CMInput {
 
-    static func write(value: InferICD10CMInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: InferICD10CMInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["Text"].write(value.text)
     }
@@ -2976,7 +2976,7 @@ extension InferICD10CMInput {
 
 extension InferRxNormInput {
 
-    static func write(value: InferRxNormInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: InferRxNormInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["Text"].write(value.text)
     }
@@ -2984,7 +2984,7 @@ extension InferRxNormInput {
 
 extension InferSNOMEDCTInput {
 
-    static func write(value: InferSNOMEDCTInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: InferSNOMEDCTInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["Text"].write(value.text)
     }
@@ -2992,7 +2992,7 @@ extension InferSNOMEDCTInput {
 
 extension ListEntitiesDetectionV2JobsInput {
 
-    static func write(value: ListEntitiesDetectionV2JobsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListEntitiesDetectionV2JobsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["Filter"].write(value.filter, with: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter.write(value:to:))
         try writer["MaxResults"].write(value.maxResults)
@@ -3002,7 +3002,7 @@ extension ListEntitiesDetectionV2JobsInput {
 
 extension ListICD10CMInferenceJobsInput {
 
-    static func write(value: ListICD10CMInferenceJobsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListICD10CMInferenceJobsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["Filter"].write(value.filter, with: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter.write(value:to:))
         try writer["MaxResults"].write(value.maxResults)
@@ -3012,7 +3012,7 @@ extension ListICD10CMInferenceJobsInput {
 
 extension ListPHIDetectionJobsInput {
 
-    static func write(value: ListPHIDetectionJobsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListPHIDetectionJobsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["Filter"].write(value.filter, with: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter.write(value:to:))
         try writer["MaxResults"].write(value.maxResults)
@@ -3022,7 +3022,7 @@ extension ListPHIDetectionJobsInput {
 
 extension ListRxNormInferenceJobsInput {
 
-    static func write(value: ListRxNormInferenceJobsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListRxNormInferenceJobsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["Filter"].write(value.filter, with: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter.write(value:to:))
         try writer["MaxResults"].write(value.maxResults)
@@ -3032,7 +3032,7 @@ extension ListRxNormInferenceJobsInput {
 
 extension ListSNOMEDCTInferenceJobsInput {
 
-    static func write(value: ListSNOMEDCTInferenceJobsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListSNOMEDCTInferenceJobsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["Filter"].write(value.filter, with: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter.write(value:to:))
         try writer["MaxResults"].write(value.maxResults)
@@ -3042,7 +3042,7 @@ extension ListSNOMEDCTInferenceJobsInput {
 
 extension StartEntitiesDetectionV2JobInput {
 
-    static func write(value: StartEntitiesDetectionV2JobInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: StartEntitiesDetectionV2JobInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["ClientRequestToken"].write(value.clientRequestToken)
         try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
@@ -3056,7 +3056,7 @@ extension StartEntitiesDetectionV2JobInput {
 
 extension StartICD10CMInferenceJobInput {
 
-    static func write(value: StartICD10CMInferenceJobInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: StartICD10CMInferenceJobInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["ClientRequestToken"].write(value.clientRequestToken)
         try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
@@ -3070,7 +3070,7 @@ extension StartICD10CMInferenceJobInput {
 
 extension StartPHIDetectionJobInput {
 
-    static func write(value: StartPHIDetectionJobInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: StartPHIDetectionJobInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["ClientRequestToken"].write(value.clientRequestToken)
         try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
@@ -3084,7 +3084,7 @@ extension StartPHIDetectionJobInput {
 
 extension StartRxNormInferenceJobInput {
 
-    static func write(value: StartRxNormInferenceJobInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: StartRxNormInferenceJobInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["ClientRequestToken"].write(value.clientRequestToken)
         try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
@@ -3098,7 +3098,7 @@ extension StartRxNormInferenceJobInput {
 
 extension StartSNOMEDCTInferenceJobInput {
 
-    static func write(value: StartSNOMEDCTInferenceJobInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: StartSNOMEDCTInferenceJobInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["ClientRequestToken"].write(value.clientRequestToken)
         try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
@@ -3112,7 +3112,7 @@ extension StartSNOMEDCTInferenceJobInput {
 
 extension StopEntitiesDetectionV2JobInput {
 
-    static func write(value: StopEntitiesDetectionV2JobInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: StopEntitiesDetectionV2JobInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["JobId"].write(value.jobId)
     }
@@ -3120,7 +3120,7 @@ extension StopEntitiesDetectionV2JobInput {
 
 extension StopICD10CMInferenceJobInput {
 
-    static func write(value: StopICD10CMInferenceJobInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: StopICD10CMInferenceJobInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["JobId"].write(value.jobId)
     }
@@ -3128,7 +3128,7 @@ extension StopICD10CMInferenceJobInput {
 
 extension StopPHIDetectionJobInput {
 
-    static func write(value: StopPHIDetectionJobInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: StopPHIDetectionJobInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["JobId"].write(value.jobId)
     }
@@ -3136,7 +3136,7 @@ extension StopPHIDetectionJobInput {
 
 extension StopRxNormInferenceJobInput {
 
-    static func write(value: StopRxNormInferenceJobInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: StopRxNormInferenceJobInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["JobId"].write(value.jobId)
     }
@@ -3144,7 +3144,7 @@ extension StopRxNormInferenceJobInput {
 
 extension StopSNOMEDCTInferenceJobInput {
 
-    static func write(value: StopSNOMEDCTInferenceJobInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: StopSNOMEDCTInferenceJobInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["JobId"].write(value.jobId)
     }
@@ -3154,7 +3154,7 @@ extension DescribeEntitiesDetectionV2JobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeEntitiesDetectionV2JobOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeEntitiesDetectionV2JobOutput()
         value.comprehendMedicalAsyncJobProperties = try reader["ComprehendMedicalAsyncJobProperties"].readIfPresent(with: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties.read(from:))
@@ -3166,7 +3166,7 @@ extension DescribeICD10CMInferenceJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeICD10CMInferenceJobOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeICD10CMInferenceJobOutput()
         value.comprehendMedicalAsyncJobProperties = try reader["ComprehendMedicalAsyncJobProperties"].readIfPresent(with: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties.read(from:))
@@ -3178,7 +3178,7 @@ extension DescribePHIDetectionJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribePHIDetectionJobOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = DescribePHIDetectionJobOutput()
         value.comprehendMedicalAsyncJobProperties = try reader["ComprehendMedicalAsyncJobProperties"].readIfPresent(with: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties.read(from:))
@@ -3190,7 +3190,7 @@ extension DescribeRxNormInferenceJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeRxNormInferenceJobOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeRxNormInferenceJobOutput()
         value.comprehendMedicalAsyncJobProperties = try reader["ComprehendMedicalAsyncJobProperties"].readIfPresent(with: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties.read(from:))
@@ -3202,7 +3202,7 @@ extension DescribeSNOMEDCTInferenceJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeSNOMEDCTInferenceJobOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeSNOMEDCTInferenceJobOutput()
         value.comprehendMedicalAsyncJobProperties = try reader["ComprehendMedicalAsyncJobProperties"].readIfPresent(with: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties.read(from:))
@@ -3214,7 +3214,7 @@ extension DetectEntitiesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DetectEntitiesOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = DetectEntitiesOutput()
         value.entities = try reader["Entities"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.Entity.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -3229,7 +3229,7 @@ extension DetectEntitiesV2Output {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DetectEntitiesV2Output {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = DetectEntitiesV2Output()
         value.entities = try reader["Entities"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.Entity.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -3244,7 +3244,7 @@ extension DetectPHIOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DetectPHIOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = DetectPHIOutput()
         value.entities = try reader["Entities"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.Entity.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -3258,7 +3258,7 @@ extension InferICD10CMOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> InferICD10CMOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = InferICD10CMOutput()
         value.entities = try reader["Entities"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.ICD10CMEntity.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -3272,7 +3272,7 @@ extension InferRxNormOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> InferRxNormOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = InferRxNormOutput()
         value.entities = try reader["Entities"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.RxNormEntity.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -3286,7 +3286,7 @@ extension InferSNOMEDCTOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> InferSNOMEDCTOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = InferSNOMEDCTOutput()
         value.characters = try reader["Characters"].readIfPresent(with: ComprehendMedicalClientTypes.Characters.read(from:))
@@ -3302,7 +3302,7 @@ extension ListEntitiesDetectionV2JobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEntitiesDetectionV2JobsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListEntitiesDetectionV2JobsOutput()
         value.comprehendMedicalAsyncJobPropertiesList = try reader["ComprehendMedicalAsyncJobPropertiesList"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3315,7 +3315,7 @@ extension ListICD10CMInferenceJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListICD10CMInferenceJobsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListICD10CMInferenceJobsOutput()
         value.comprehendMedicalAsyncJobPropertiesList = try reader["ComprehendMedicalAsyncJobPropertiesList"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3328,7 +3328,7 @@ extension ListPHIDetectionJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPHIDetectionJobsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListPHIDetectionJobsOutput()
         value.comprehendMedicalAsyncJobPropertiesList = try reader["ComprehendMedicalAsyncJobPropertiesList"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3341,7 +3341,7 @@ extension ListRxNormInferenceJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRxNormInferenceJobsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListRxNormInferenceJobsOutput()
         value.comprehendMedicalAsyncJobPropertiesList = try reader["ComprehendMedicalAsyncJobPropertiesList"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3354,7 +3354,7 @@ extension ListSNOMEDCTInferenceJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSNOMEDCTInferenceJobsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListSNOMEDCTInferenceJobsOutput()
         value.comprehendMedicalAsyncJobPropertiesList = try reader["ComprehendMedicalAsyncJobPropertiesList"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3367,7 +3367,7 @@ extension StartEntitiesDetectionV2JobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartEntitiesDetectionV2JobOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = StartEntitiesDetectionV2JobOutput()
         value.jobId = try reader["JobId"].readIfPresent()
@@ -3379,7 +3379,7 @@ extension StartICD10CMInferenceJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartICD10CMInferenceJobOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = StartICD10CMInferenceJobOutput()
         value.jobId = try reader["JobId"].readIfPresent()
@@ -3391,7 +3391,7 @@ extension StartPHIDetectionJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartPHIDetectionJobOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = StartPHIDetectionJobOutput()
         value.jobId = try reader["JobId"].readIfPresent()
@@ -3403,7 +3403,7 @@ extension StartRxNormInferenceJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartRxNormInferenceJobOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = StartRxNormInferenceJobOutput()
         value.jobId = try reader["JobId"].readIfPresent()
@@ -3415,7 +3415,7 @@ extension StartSNOMEDCTInferenceJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartSNOMEDCTInferenceJobOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = StartSNOMEDCTInferenceJobOutput()
         value.jobId = try reader["JobId"].readIfPresent()
@@ -3427,7 +3427,7 @@ extension StopEntitiesDetectionV2JobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopEntitiesDetectionV2JobOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = StopEntitiesDetectionV2JobOutput()
         value.jobId = try reader["JobId"].readIfPresent()
@@ -3439,7 +3439,7 @@ extension StopICD10CMInferenceJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopICD10CMInferenceJobOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = StopICD10CMInferenceJobOutput()
         value.jobId = try reader["JobId"].readIfPresent()
@@ -3451,7 +3451,7 @@ extension StopPHIDetectionJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopPHIDetectionJobOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = StopPHIDetectionJobOutput()
         value.jobId = try reader["JobId"].readIfPresent()
@@ -3463,7 +3463,7 @@ extension StopRxNormInferenceJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopRxNormInferenceJobOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = StopRxNormInferenceJobOutput()
         value.jobId = try reader["JobId"].readIfPresent()
@@ -3475,7 +3475,7 @@ extension StopSNOMEDCTInferenceJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopSNOMEDCTInferenceJobOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = StopSNOMEDCTInferenceJobOutput()
         value.jobId = try reader["JobId"].readIfPresent()
@@ -3487,8 +3487,8 @@ enum DescribeEntitiesDetectionV2JobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3504,8 +3504,8 @@ enum DescribeICD10CMInferenceJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3521,8 +3521,8 @@ enum DescribePHIDetectionJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3538,8 +3538,8 @@ enum DescribeRxNormInferenceJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3555,8 +3555,8 @@ enum DescribeSNOMEDCTInferenceJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3572,8 +3572,8 @@ enum DetectEntitiesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3591,8 +3591,8 @@ enum DetectEntitiesV2OutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3610,8 +3610,8 @@ enum DetectPHIOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3629,8 +3629,8 @@ enum InferICD10CMOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3648,8 +3648,8 @@ enum InferRxNormOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3667,8 +3667,8 @@ enum InferSNOMEDCTOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3686,8 +3686,8 @@ enum ListEntitiesDetectionV2JobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3703,8 +3703,8 @@ enum ListICD10CMInferenceJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3720,8 +3720,8 @@ enum ListPHIDetectionJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3737,8 +3737,8 @@ enum ListRxNormInferenceJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3754,8 +3754,8 @@ enum ListSNOMEDCTInferenceJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3771,8 +3771,8 @@ enum StartEntitiesDetectionV2JobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3788,8 +3788,8 @@ enum StartICD10CMInferenceJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3805,8 +3805,8 @@ enum StartPHIDetectionJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3822,8 +3822,8 @@ enum StartRxNormInferenceJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3839,8 +3839,8 @@ enum StartSNOMEDCTInferenceJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3856,8 +3856,8 @@ enum StopEntitiesDetectionV2JobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3872,8 +3872,8 @@ enum StopICD10CMInferenceJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3888,8 +3888,8 @@ enum StopPHIDetectionJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3904,8 +3904,8 @@ enum StopRxNormInferenceJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3920,8 +3920,8 @@ enum StopSNOMEDCTInferenceJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3935,7 +3935,7 @@ enum StopSNOMEDCTInferenceJobOutputError {
 
 extension InternalServerException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3948,7 +3948,7 @@ extension InternalServerException {
 
 extension InvalidRequestException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidRequestException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
         var value = InvalidRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3961,7 +3961,7 @@ extension InvalidRequestException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3974,7 +3974,7 @@ extension ResourceNotFoundException {
 
 extension TooManyRequestsException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3987,7 +3987,7 @@ extension TooManyRequestsException {
 
 extension InvalidEncodingException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidEncodingException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InvalidEncodingException {
         let reader = baseError.errorBodyReader
         var value = InvalidEncodingException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4000,7 +4000,7 @@ extension InvalidEncodingException {
 
 extension ServiceUnavailableException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4013,7 +4013,7 @@ extension ServiceUnavailableException {
 
 extension TextSizeLimitExceededException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TextSizeLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> TextSizeLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = TextSizeLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4026,7 +4026,7 @@ extension TextSizeLimitExceededException {
 
 extension ValidationException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4039,7 +4039,7 @@ extension ValidationException {
 
 extension ComprehendMedicalClientTypes.Attribute {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.Attribute {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComprehendMedicalClientTypes.Attribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.Attribute()
         value.type = try reader["Type"].readIfPresent()
@@ -4058,7 +4058,7 @@ extension ComprehendMedicalClientTypes.Attribute {
 
 extension ComprehendMedicalClientTypes.Characters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.Characters {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComprehendMedicalClientTypes.Characters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.Characters()
         value.originalTextCharacters = try reader["OriginalTextCharacters"].readIfPresent()
@@ -4068,7 +4068,7 @@ extension ComprehendMedicalClientTypes.Characters {
 
 extension ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter {
 
-    static func write(value: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["JobName"].write(value.jobName)
         try writer["JobStatus"].write(value.jobStatus)
@@ -4079,7 +4079,7 @@ extension ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter {
 
 extension ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties()
         value.jobId = try reader["JobId"].readIfPresent()
@@ -4102,7 +4102,7 @@ extension ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties {
 
 extension ComprehendMedicalClientTypes.Entity {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.Entity {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComprehendMedicalClientTypes.Entity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.Entity()
         value.id = try reader["Id"].readIfPresent()
@@ -4120,7 +4120,7 @@ extension ComprehendMedicalClientTypes.Entity {
 
 extension ComprehendMedicalClientTypes.ICD10CMAttribute {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.ICD10CMAttribute {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComprehendMedicalClientTypes.ICD10CMAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.ICD10CMAttribute()
         value.type = try reader["Type"].readIfPresent()
@@ -4139,7 +4139,7 @@ extension ComprehendMedicalClientTypes.ICD10CMAttribute {
 
 extension ComprehendMedicalClientTypes.ICD10CMConcept {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.ICD10CMConcept {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComprehendMedicalClientTypes.ICD10CMConcept {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.ICD10CMConcept()
         value.description = try reader["Description"].readIfPresent()
@@ -4151,7 +4151,7 @@ extension ComprehendMedicalClientTypes.ICD10CMConcept {
 
 extension ComprehendMedicalClientTypes.ICD10CMEntity {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.ICD10CMEntity {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComprehendMedicalClientTypes.ICD10CMEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.ICD10CMEntity()
         value.id = try reader["Id"].readIfPresent()
@@ -4170,7 +4170,7 @@ extension ComprehendMedicalClientTypes.ICD10CMEntity {
 
 extension ComprehendMedicalClientTypes.ICD10CMTrait {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.ICD10CMTrait {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComprehendMedicalClientTypes.ICD10CMTrait {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.ICD10CMTrait()
         value.name = try reader["Name"].readIfPresent()
@@ -4181,13 +4181,13 @@ extension ComprehendMedicalClientTypes.ICD10CMTrait {
 
 extension ComprehendMedicalClientTypes.InputDataConfig {
 
-    static func write(value: ComprehendMedicalClientTypes.InputDataConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComprehendMedicalClientTypes.InputDataConfig?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["S3Bucket"].write(value.s3Bucket)
         try writer["S3Key"].write(value.s3Key)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.InputDataConfig {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComprehendMedicalClientTypes.InputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.InputDataConfig()
         value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
@@ -4198,13 +4198,13 @@ extension ComprehendMedicalClientTypes.InputDataConfig {
 
 extension ComprehendMedicalClientTypes.OutputDataConfig {
 
-    static func write(value: ComprehendMedicalClientTypes.OutputDataConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComprehendMedicalClientTypes.OutputDataConfig?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["S3Bucket"].write(value.s3Bucket)
         try writer["S3Key"].write(value.s3Key)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.OutputDataConfig {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComprehendMedicalClientTypes.OutputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.OutputDataConfig()
         value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
@@ -4215,7 +4215,7 @@ extension ComprehendMedicalClientTypes.OutputDataConfig {
 
 extension ComprehendMedicalClientTypes.RxNormAttribute {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.RxNormAttribute {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComprehendMedicalClientTypes.RxNormAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.RxNormAttribute()
         value.type = try reader["Type"].readIfPresent()
@@ -4232,7 +4232,7 @@ extension ComprehendMedicalClientTypes.RxNormAttribute {
 
 extension ComprehendMedicalClientTypes.RxNormConcept {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.RxNormConcept {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComprehendMedicalClientTypes.RxNormConcept {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.RxNormConcept()
         value.description = try reader["Description"].readIfPresent()
@@ -4244,7 +4244,7 @@ extension ComprehendMedicalClientTypes.RxNormConcept {
 
 extension ComprehendMedicalClientTypes.RxNormEntity {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.RxNormEntity {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComprehendMedicalClientTypes.RxNormEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.RxNormEntity()
         value.id = try reader["Id"].readIfPresent()
@@ -4263,7 +4263,7 @@ extension ComprehendMedicalClientTypes.RxNormEntity {
 
 extension ComprehendMedicalClientTypes.RxNormTrait {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.RxNormTrait {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComprehendMedicalClientTypes.RxNormTrait {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.RxNormTrait()
         value.name = try reader["Name"].readIfPresent()
@@ -4274,7 +4274,7 @@ extension ComprehendMedicalClientTypes.RxNormTrait {
 
 extension ComprehendMedicalClientTypes.SNOMEDCTAttribute {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTAttribute {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.SNOMEDCTAttribute()
         value.category = try reader["Category"].readIfPresent()
@@ -4294,7 +4294,7 @@ extension ComprehendMedicalClientTypes.SNOMEDCTAttribute {
 
 extension ComprehendMedicalClientTypes.SNOMEDCTConcept {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTConcept {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTConcept {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.SNOMEDCTConcept()
         value.description = try reader["Description"].readIfPresent()
@@ -4306,7 +4306,7 @@ extension ComprehendMedicalClientTypes.SNOMEDCTConcept {
 
 extension ComprehendMedicalClientTypes.SNOMEDCTDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTDetails {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.SNOMEDCTDetails()
         value.edition = try reader["Edition"].readIfPresent()
@@ -4318,7 +4318,7 @@ extension ComprehendMedicalClientTypes.SNOMEDCTDetails {
 
 extension ComprehendMedicalClientTypes.SNOMEDCTEntity {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTEntity {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.SNOMEDCTEntity()
         value.id = try reader["Id"].readIfPresent()
@@ -4337,7 +4337,7 @@ extension ComprehendMedicalClientTypes.SNOMEDCTEntity {
 
 extension ComprehendMedicalClientTypes.SNOMEDCTTrait {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTTrait {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTTrait {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.SNOMEDCTTrait()
         value.name = try reader["Name"].readIfPresent()
@@ -4348,7 +4348,7 @@ extension ComprehendMedicalClientTypes.SNOMEDCTTrait {
 
 extension ComprehendMedicalClientTypes.Trait {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.Trait {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComprehendMedicalClientTypes.Trait {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.Trait()
         value.name = try reader["Name"].readIfPresent()
@@ -4359,7 +4359,7 @@ extension ComprehendMedicalClientTypes.Trait {
 
 extension ComprehendMedicalClientTypes.UnmappedAttribute {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.UnmappedAttribute {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComprehendMedicalClientTypes.UnmappedAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.UnmappedAttribute()
         value.type = try reader["Type"].readIfPresent()

@@ -9,24 +9,24 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+@_spi(SmithyReadWrite) import class SmithyCBOR.Reader
+@_spi(SmithyReadWrite) import class SmithyCBOR.Writer
 import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Reader
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
 @_spi(SmithyReadWrite) import func SmithyReadWrite.listWritingClosure
-import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
+import protocol ClientRuntime.ServiceError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
-@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RpcV2CborError
 
 /// An internal error has occurred. Retry your request. If the problem persists, post a message with details on the AWS forums.
-public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InternalServiceErrorException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -49,7 +49,7 @@ public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// One or more parameters in your request was invalid.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidParameterException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -72,7 +72,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The calls to the GetEntitlements API are throttled.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ThrottlingException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -239,13 +239,13 @@ public struct GetEntitlementsOutput: Swift.Sendable {
 extension GetEntitlementsInput {
 
     static func urlPathProvider(_ value: GetEntitlementsInput) -> Swift.String? {
-        return "/"
+        return "/service/AWSMPEntitlementService/operation/GetEntitlements"
     }
 }
 
 extension GetEntitlementsInput {
 
-    static func write(value: GetEntitlementsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetEntitlementsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["Filter"].writeMap(value.filter, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["MaxResults"].write(value.maxResults)
@@ -258,7 +258,7 @@ extension GetEntitlementsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEntitlementsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetEntitlementsOutput()
         value.entitlements = try reader["Entitlements"].readListIfPresent(memberReadingClosure: MarketplaceEntitlementClientTypes.Entitlement.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -271,8 +271,8 @@ enum GetEntitlementsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
@@ -285,7 +285,7 @@ enum GetEntitlementsOutputError {
 
 extension InternalServiceErrorException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServiceErrorException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InternalServiceErrorException {
         let reader = baseError.errorBodyReader
         var value = InternalServiceErrorException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -298,7 +298,7 @@ extension InternalServiceErrorException {
 
 extension InvalidParameterException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidParameterException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -311,7 +311,7 @@ extension InvalidParameterException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -324,7 +324,7 @@ extension ThrottlingException {
 
 extension MarketplaceEntitlementClientTypes.Entitlement {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceEntitlementClientTypes.Entitlement {
+    static func read(from reader: SmithyCBOR.Reader) throws -> MarketplaceEntitlementClientTypes.Entitlement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceEntitlementClientTypes.Entitlement()
         value.productCode = try reader["ProductCode"].readIfPresent()
@@ -340,7 +340,7 @@ extension MarketplaceEntitlementClientTypes.Entitlement {
 
 extension MarketplaceEntitlementClientTypes.EntitlementValue {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceEntitlementClientTypes.EntitlementValue {
+    static func read(from reader: SmithyCBOR.Reader) throws -> MarketplaceEntitlementClientTypes.EntitlementValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceEntitlementClientTypes.EntitlementValue()
         value.integerValue = try reader["IntegerValue"].readIfPresent()
